@@ -301,14 +301,14 @@ Public Class frmGeneralWeighment
             If (deleteConfirm()) Then
 
                 If (ClsGeneralWeighment.DeleteData(fndWeighmentcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data deleted successfully ")
                     Reset()
                 End If
 
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -390,7 +390,7 @@ Public Class frmGeneralWeighment
                     SaveData(True)
                     If (ClsGeneralWeighment.PostData(MyBase.Form_ID, fndWeighmentcode.Value)) Then
                         msg = "Successfully Posted"
-                        common.clsCommon.MyMessageBoxShow(msg)
+                        common.clsCommon.MyMessageBoxShow(Me, msg)
                         LoadData(fndWeighmentcode.Value, NavigatorType.Current)
                     End If
                 End If
@@ -399,7 +399,7 @@ Public Class frmGeneralWeighment
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isFlag = False
             msg = Nothing
@@ -514,12 +514,12 @@ Public Class frmGeneralWeighment
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If ClsGeneralWeighment.ReverseAndUnpost(fndWeighmentcode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndWeighmentcode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

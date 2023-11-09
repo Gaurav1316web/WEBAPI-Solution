@@ -180,7 +180,7 @@ Public Class frmBITopVendor
             dt = clsDBFuncationality.GetDataTable(GetQry())
             SnDUtility.GenerateExcelChart(dt, cboType.SelectedValue, "", "Customer_Name", "Amount")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

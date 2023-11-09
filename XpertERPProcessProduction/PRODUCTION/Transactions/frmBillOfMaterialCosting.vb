@@ -1094,8 +1094,9 @@ Public Class frmBillOfMaterialCosting
                 Return True
             End If
 
-            Return False
+            'Return False
         End If
+        Return False
     End Function
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtProducedItem.Value) <= 0 Then
@@ -2632,7 +2633,7 @@ Public Class frmBillOfMaterialCosting
 
         End If
         Me.Controls.Remove(gv)
-
+        Return False
     End Function
     Function ImportBOMComponents() As Boolean
         Dim gv As New RadGridView()
@@ -2754,7 +2755,7 @@ Public Class frmBillOfMaterialCosting
 
         End If
         Me.Controls.Remove(gv)
-
+        Return False
     End Function
 
     Private Sub btnImportBOMHead_Click(sender As Object, e As EventArgs) Handles btnImportBOMHead.Click

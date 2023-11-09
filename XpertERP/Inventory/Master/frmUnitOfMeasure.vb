@@ -208,7 +208,7 @@ Public Class frmUnitOfCode
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Function
     Sub SaveData()
@@ -422,7 +422,7 @@ Public Class frmUnitOfCode
                     If row.Index <> MasterTemplate.CurrentRow.Index Then
 
                         If (row.Cells(0).Value = MasterTemplate.CurrentRow.Cells(0).Value) Then
-                            common.clsCommon.MyMessageBoxShow(" Unit of Measure is already exist.")
+                            common.clsCommon.MyMessageBoxShow(Me, " Unit of Measure is already exist.")
                             MasterTemplate.CurrentRow.Cells(0).Value = String.Empty
                             ' dgUnitofMasterDetails.CurrentRow.Cells(1).Value = String.Empty
                             'dgUnitofMasterDetails.CurrentRow.Cells(2).Value = ""
@@ -610,7 +610,7 @@ Public Class frmUnitOfCode
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -673,7 +673,7 @@ Public Class frmUnitOfCode
         UomCode1 = clsDBFuncationality.getSingleValue("select UOM_Code  from TSPL_ITEM_UOM_DETAIL where UOM_Code ='" & UomCode & "'")
 
         If clsCommon.myLen(UomCode1) > 0 Then
-            common.clsCommon.MyMessageBoxShow(" This record can't be deleted.It is used in another process.")
+            common.clsCommon.MyMessageBoxShow(Me, " This record can't be deleted.It is used in another process.")
             GridData()
             Exit Sub
         Else

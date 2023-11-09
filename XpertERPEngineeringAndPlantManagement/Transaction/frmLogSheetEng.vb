@@ -350,9 +350,12 @@ Public Class frmLogSheetEng
             Next
 
             Return ArrParamDetail
+
         Catch ex As Exception
             myMessages.myExceptions(ex)
+            Return New List(Of clsEngLogSheetDeatil)
         End Try
+
     End Function
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click

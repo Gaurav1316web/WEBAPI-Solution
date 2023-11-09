@@ -872,14 +872,14 @@ Public Class FrmDocumentVersionReport
             If dt Is Nothing OrElse dt.Rows.Count = 0 Then
                 gv1.DataSource = Nothing
 
-                common.clsCommon.MyMessageBoxShow("There Is No  Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "There Is No  Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", Me.Text)
 
                 Return
             End If
             IsPostBack = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3027,7 +3027,7 @@ Public Class FrmDocumentVersionReport
 
     Private Sub btnShow_Click(sender As Object, e As EventArgs) Handles btnShow.Click
         If dtpFromDate.Value > dtpToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("'From date' Cann't Be Greater Than 'To Date'")
+            common.clsCommon.MyMessageBoxShow(Me, "'From date' Cann't Be Greater Than 'To Date'")
         Else
             qry = Nothing
             ShowData()

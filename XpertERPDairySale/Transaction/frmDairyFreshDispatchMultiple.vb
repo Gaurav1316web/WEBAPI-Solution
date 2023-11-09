@@ -295,6 +295,16 @@ Public Class frmDairyFreshDispatchMultiple
     Const colMainIQty As String = "MainIQty"
     Const colMainIUOM As String = "MainIUOM"
 
+    Const ColDCApplicableDate As String = "ColDCApplicableDate"
+    Const ColDCUOM As String = "ColDCUOM"
+    Const ColDCRate As String = "ColDCRate"
+    Const ColDCRateWithTax As String = "ColDCRateWithTax"
+    Const ColDCUnitCF As String = "ColDCUnitCF"
+    Const ColDCQtyinSU As String = "ColDCQtyinSU"
+    Const ColDCCFUOM As String = "ColDCCFUOM"
+    Const ColDCAmt As String = "ColDCAmt"
+    Const ColDCPKID As String = "ColDCPKID"
+
     Private ConvFactMsg As Boolean = False
     Dim atchqry As String = ""
     Public IsDataImported As Boolean = False
@@ -322,6 +332,7 @@ Public Class frmDairyFreshDispatchMultiple
     Dim ShowMulMRPOfSameItemOnDairyBookingCustomer As Boolean = False
     Dim SeparateDairyDispatchTaxableNonTaxable As Integer = 0
     Dim GenerateInvoiceWithTaxableAndNonTaxableItems As Boolean = False
+    Dim dcRouteNo As String = String.Empty
 #End Region
 
     Public Sub SetUserMgmtNew()
@@ -2494,6 +2505,88 @@ Public Class frmDairyFreshDispatchMultiple
         repoShipToLocation.Width = 100
         gv1.MasterTemplate.Columns.Add(repoShipToLocation)
 
+        Dim DC_PKID As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_PKID.FormatString = ""
+        DC_PKID.HeaderText = "Distributor PKID"
+        DC_PKID.Name = ColDCPKID
+        DC_PKID.Width = 100
+        DC_PKID.ReadOnly = True
+        DC_PKID.IsVisible = True
+        DC_PKID.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_PKID)
+        Dim DC_ApplicableDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_ApplicableDate.FormatString = ""
+        DC_ApplicableDate.HeaderText = "Applicable Date"
+        DC_ApplicableDate.Name = ColDCApplicableDate
+        DC_ApplicableDate.Width = 100
+        DC_ApplicableDate.ReadOnly = True
+        DC_ApplicableDate.IsVisible = True
+        DC_ApplicableDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_ApplicableDate)
+        Dim DC_UOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_UOM.FormatString = ""
+        DC_UOM.HeaderText = "Commission UOM"
+        DC_UOM.Name = ColDCUOM
+        DC_UOM.Width = 100
+        DC_UOM.ReadOnly = True
+        DC_UOM.IsVisible = True
+        DC_UOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_UOM)
+        Dim DC_Rate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_Rate.FormatString = ""
+        DC_Rate.HeaderText = "Commission Rate"
+        DC_Rate.Name = ColDCRate
+        DC_Rate.Width = 100
+        DC_Rate.ReadOnly = True
+        DC_Rate.IsVisible = True
+        DC_Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_Rate)
+        Dim DC_RateWithTax As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_RateWithTax.FormatString = ""
+        DC_RateWithTax.HeaderText = "Commission Rate Wtih TAx"
+        DC_RateWithTax.Name = ColDCRateWithTax
+        DC_RateWithTax.Width = 100
+        DC_RateWithTax.ReadOnly = True
+        DC_RateWithTax.IsVisible = True
+        DC_RateWithTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_RateWithTax)
+        Dim DC_UnitCF As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_UnitCF.FormatString = ""
+        DC_UnitCF.HeaderText = "Conversion Factor"
+        DC_UnitCF.Name = ColDCUnitCF
+        DC_UnitCF.Width = 100
+        DC_UnitCF.ReadOnly = True
+        DC_UnitCF.IsVisible = True
+        DC_UnitCF.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_UnitCF)
+        Dim DC_QtyInSU As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_QtyInSU.FormatString = ""
+        DC_QtyInSU.HeaderText = "Qty in Stocking Unit"
+        DC_QtyInSU.Name = ColDCQtyinSU
+        DC_QtyInSU.Width = 100
+        DC_QtyInSU.ReadOnly = True
+        DC_QtyInSU.IsVisible = True
+        DC_QtyInSU.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_QtyInSU)
+        Dim DC_CFUOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_CFUOM.FormatString = ""
+        DC_CFUOM.HeaderText = "Commission Conversion Factor"
+        DC_CFUOM.Name = ColDCCFUOM
+        DC_CFUOM.Width = 100
+        DC_CFUOM.ReadOnly = True
+        DC_CFUOM.IsVisible = True
+        DC_CFUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_CFUOM)
+        Dim DC_Amt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_Amt.FormatString = ""
+        DC_Amt.HeaderText = "Distributor Commission Amt"
+        DC_Amt.Name = ColDCAmt
+        DC_Amt.Width = 100
+        DC_Amt.ReadOnly = True
+        DC_Amt.IsVisible = True
+        DC_Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_Amt)
+
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
 
         gv1.AllowAddNewRow = False
@@ -4438,7 +4531,6 @@ Public Class frmDairyFreshDispatchMultiple
             Dim arrCustomer As List(Of String) = New List(Of String)
             Dim blnStockExist As Boolean = True
             Dim blnDOCompeleted As Boolean = False
-
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / gv1.Rows.Count, " " & IIf(ChekPostBtn = True, "Posting", "Saving") & " Records " & (ii + 1) & " Of " & gv1.Rows.Count)
                 blnStockExist = True
@@ -4480,6 +4572,11 @@ Public Class frmDairyFreshDispatchMultiple
                             obj.Booking_Date = dtServerDate
                         Else
                             obj.Booking_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colDODate).Value)
+                        End If
+                        If rbtnMorning.IsChecked Then
+                            obj.Shift_Type = "M"
+                        ElseIf rbtnEvening.IsChecked Then
+                            obj.Shift_Type = "E"
                         End If
 
 
@@ -4647,6 +4744,7 @@ Public Class frmDairyFreshDispatchMultiple
                         obj.IsSampling = True
                         obj.Arr = New List(Of clsDispatchNoteFreshSaleDetail)
                         Dim intLineNo As Integer = 0
+                        Dim DCTotalAmt As Decimal = 0
 
                         For jj As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value) > 0 Then
@@ -4804,10 +4902,15 @@ Public Class frmDairyFreshDispatchMultiple
                                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colCustCode).Value)) > 0 Then
                                         common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
                                     End If
+                                    objTr.Distributor_Commission_PKID = clsCommon.myCstr(gv1.Rows(jj).Cells(ColDCPKID).Value)
+                                    objTr.Distributor_Commission_Rate = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCRate).Value)
+                                    objTr.Distributor_Commission_Amt = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCAmt).Value)
+                                    DCTotalAmt += objTr.Distributor_Commission_Amt
+                                    'objTr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCRateWithTax).Value)
                                 End If
                             End If
                         Next
-
+                        obj.Distributor_Commission_TotalAmt = DCTotalAmt
                         obj.ActualTCSBaseAmount = Math.Round(clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text), 3)
                         obj.ChangedTCSBaseAmount = Math.Round(clsCommon.myCdbl(txttcstaxbaseamount.Value), 3)
                         obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text) + clsCommon.myCdbl(lblDiscountAmt.Text)
@@ -7571,6 +7674,7 @@ Public Class frmDairyFreshDispatchMultiple
             txtVehicleCode.Value = clsCommon.ShowSelectForm("FSShipVehicle", qry, "vehicle_id", "vehicle_id in (select vehicle_code from tspl_booking_detail)", txtVehicleCode.Value, "vehicle_id", isButtonClicked)
             lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
             txtVehicleCapacity.Text = clsDBFuncationality.getSingleValue("Select Capacity  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
+            dcRouteNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select tspl_route_master.Route_No  from TSPL_VEHICLE_MASTER left join tspl_route_master on Tspl_route_master.vehicle_code=TSPL_VEHICLE_MASTER.vehicle_id where TSPL_VEHICLE_MASTER.Vehicle_Id= '" + Convert.ToString(txtVehicleCode.Value) + "'"))
             LoadBlankGrid()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
@@ -8211,19 +8315,19 @@ Public Class frmDairyFreshDispatchMultiple
             "Unit as Unit_Code,Sampling,MAX(Rate) as Rate,0 as Amount,max(IName) as Item_Desc,MAX(MRP) as MRP,MAX(Conv_Factor) as Conv_Factor, " &
             "MAX(final.Price_Code) as Price_Code,MAX(Price_Date) as Price_Date,MAX(Rate) as OrgRate,max(FOC_Item) as FOC_Item, " &
             "(scheme_item) as scheme_item,max(scheme_code) as scheme_code,max(Scheme_Item_Code) as Scheme_Item_Code,max(Scheme_Item_UOM) as Scheme_Item_UOM,max(Scheme_Type) as Scheme_Type,max(Structure_Code) as Structure_Code,max(Cust_PO_No) as Cust_PO_No,max(cust_po_date) as cust_po_date,max(Ship_To_Location) as Ship_To_Location from (  " &
-            "select TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ITEM_MASTER.HSN_Code as HSN_Code,Sku_Seq, (case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling else TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Sampling end) Sampling,Document_Date,TSPL_DELIVERY_NOTE_master_FRESHSALE.Lorry_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as Code, " &
+            "select TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ITEM_MASTER.HSN_Code as HSN_Code,Sku_Seq, (case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling else TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Sampling end) Sampling,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date,TSPL_DELIVERY_NOTE_master_FRESHSALE.Lorry_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as Code, " &
             "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code as Vendor, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code as ICode, " &
             "TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_ITEM_MASTER.Is_Batch_Item, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty  as Qty, 0 as Unapproved, " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_Code as Unit,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code as Location, " &
-            "1 as RI,case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then 0 else  TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Rate end  as Rate,1 as Chk,Document_Date as TransDate, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_code, " &
+            "1 as RI,case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then 0 else  TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Rate end  as Rate,1 as Chk,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date as TransDate, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_code, " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_Date,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Conv_Factor,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.MRP , " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.FOC_Item,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.scheme_item,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.scheme_code,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item_Code,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item_UOM,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Type,TSPL_ITEM_MASTER.Structure_Code " &
             " ,isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.CustPO_No,'') as Cust_PO_No,ISNULL(CONVERT(VARCHAR,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.custpo_date,103),'') as cust_po_date,isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Ship_To_Location,'') as Ship_To_Location " &
             " from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on " &
             "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No   left outer join  " &
             "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code " &
-            " left join TSPL_ROUTE_MASTER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No=TSPL_ROUTE_MASTER.Route_No where " &
-            "TSPL_DELIVERY_NOTE_master_FRESHSALE.Posted=1  and TSPL_DELIVERY_NOTE_master_FRESHSALE.Short_Close='N'  and  " &
+            " left join TSPL_ROUTE_MASTER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No=TSPL_ROUTE_MASTER.Route_No  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No where " &
+            "TSPL_DELIVERY_NOTE_master_FRESHSALE.Posted=1 and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "'  and TSPL_DELIVERY_NOTE_master_FRESHSALE.Short_Close='N'  and  " &
             "TSPL_DELIVERY_NOTE_master_FRESHSALE.OnHold='N' "
             If Not GenerateInvoiceWithTaxableAndNonTaxableItems Then
                 qry += " and isnull(tspl_item_master.IsTaxable,0)=" & IsTaxable & " And ISNULL(Is_FreshItem,0)=" & IsFreshItem & "  "
@@ -8239,7 +8343,7 @@ Public Class frmDairyFreshDispatchMultiple
             "from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_Head on TSPL_SD_SHIPMENT_Head.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code " &
             "left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code   " &
             "left join TSPL_ROUTE_MASTER on TSPL_SD_SHIPMENT_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No " &
-            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code where TSPL_SD_SHIPMENT_Head.Status=1 "
+            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No where TSPL_SD_SHIPMENT_Head.Status=1 and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "' "
 
             If CreateCommonDairyDispatchforFreshAmbient = False Then
                 qry += " and TSPL_SD_SHIPMENT_Head.Trans_Type='" & strTransType & "' "
@@ -8261,8 +8365,8 @@ Public Class frmDairyFreshDispatchMultiple
             "TSPL_SD_SHIPMENT_Head.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code " &
             "left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code   " &
             "left join TSPL_ROUTE_MASTER on TSPL_SD_SHIPMENT_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No " &
-            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code " &
-            "where TSPL_SD_SHIPMENT_Head.Status=0  "
+            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No " &
+            "where TSPL_SD_SHIPMENT_Head.Status=0  and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "' "
 
             If CreateCommonDairyDispatchforFreshAmbient = False Then
                 qry += " and TSPL_SD_SHIPMENT_Head.Trans_Type='" & strTransType & "' "
@@ -8312,6 +8416,7 @@ Public Class frmDairyFreshDispatchMultiple
                 For Each dr As DataRow In dtAllData.Rows
                     Dim strCode As String = clsCommon.myCstr(dr("Document_No"))
                     Dim strCustomerCode As String = clsCommon.myCstr(dr("vendor_code"))
+                    Dim TPTCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'"))
                     If clsCommon.myLen(strCode) > 0 Then
                         gv1.Rows.AddNew()
                         intRow += 1
@@ -8383,6 +8488,7 @@ Public Class frmDairyFreshDispatchMultiple
                         '    SetitemWiseTaxSetting(False, False)
                         '    SetTaxDetails()
                         'End If
+                        GetDCDetails(TPTCode, dcRouteNo, clsCommon.GetPrintDate(dr("Document_Date")))
                     End If
                 Next
 
@@ -8660,11 +8766,14 @@ Public Class frmDairyFreshDispatchMultiple
 
             Dim dtAllData As DataTable
             dtAllData = clsDBFuncationality.GetDataTable(qry)
+            Dim TotalCrateQty As Decimal = 0
             If dtAllData.Rows.Count > 0 Then
                 isInsideLoadData = True
                 For Each dr As DataRow In dtAllData.Rows
                     Dim strCode As String = clsCommon.myCstr(dr("Document_No"))
                     Dim strCustomerCode As String = clsCommon.myCstr(dr("vendor_code"))
+                    Dim TPTCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'"))
+
                     If clsCommon.myLen(strCode) > 0 Then
                         txtDriverName.Text = clsCommon.myCstr(dr("Manual_Driver_Name"))
                         txtSalesman.Text = clsCommon.myCstr(dr("Manual_Salesman_Name"))
@@ -8739,6 +8848,7 @@ Public Class frmDairyFreshDispatchMultiple
                         '    SetTaxDetails()
                         'End If
                     End If
+                    GetDCDetails(TPTCode, dcRouteNo, clsCommon.GetPrintDate(dr("Document_Date")))
                 Next
                 'isValid_CashVolumeScheme()
                 For ii As Integer = 0 To gv1.RowCount - 1
@@ -9219,7 +9329,7 @@ Public Class frmDairyFreshDispatchMultiple
                             obj.IsSampling = True
                             obj.Arr = New List(Of clsDispatchNoteFreshSaleDetail)
                             Dim intLineNo As Integer = 0
-
+                            Dim DCTotalAmt As Decimal = 0
                             For jj As Integer = 0 To gv1.Rows.Count - 1
                                 If clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value) > 0 Then
                                     'Dim strInnerCustomer As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value) + "SAMPLE" + clsCommon.myCstr(gv1.Rows(jj).Cells(colSampling).Value)
@@ -9376,10 +9486,14 @@ Public Class frmDairyFreshDispatchMultiple
                                         If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colCustCode).Value)) > 0 Then
                                             common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
                                         End If
+                                        objTr.Distributor_Commission_PKID = clsCommon.myCstr(gv1.Rows(jj).Cells(ColDCPKID).Value)
+                                        objTr.Distributor_Commission_Rate = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCRate).Value)
+                                        objTr.Distributor_Commission_Amt = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCAmt).Value)
+                                        DCTotalAmt += objTr.Distributor_Commission_Amt
                                     End If
                                 End If
                             Next
-
+                            obj.Distributor_Commission_TotalAmt = DCTotalAmt
                             obj.ActualTCSBaseAmount = Math.Round(clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text), 3)
                             obj.ChangedTCSBaseAmount = Math.Round(clsCommon.myCdbl(txttcstaxbaseamount.Value), 3)
                             obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text) + clsCommon.myCdbl(lblDiscountAmt.Text)
@@ -9501,6 +9615,31 @@ Public Class frmDairyFreshDispatchMultiple
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs)
 
+    End Sub
+
+    Private Sub txtCrateQty_TextChanged(sender As Object, e As EventArgs) Handles txtCrateQty.TextChanged
+
+    End Sub
+    Public Sub GetDCDetails(ByVal DistributorCode As String, ByVal RouteNo As String, ByVal docDate As DateTime)
+        Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
+left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
+left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
+where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintDate(docDate) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(DistributorCode) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(RouteNo) + "'  and IS_Transpotation=1
+order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
+        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry)
+        If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
+            gv1.CurrentRow.Cells(ColDCPKID).Value = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
+            gv1.CurrentRow.Cells(ColDCApplicableDate).Value = clsCommon.myCstr(dt1.Rows(0)("Applicable_Date"))
+            gv1.CurrentRow.Cells(ColDCUOM).Value = clsCommon.myCstr(dt1.Rows(0)("Commision_UOM"))
+            gv1.CurrentRow.Cells(ColDCRate).Value = clsCommon.myCstr(dt1.Rows(0)("Rate"))
+            'gv1.CurrentRow.Cells(ColDCRateWithTax).Value = Math.Round(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), 2)
+            gv1.CurrentRow.Cells(ColDCUnitCF).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
+            gv1.CurrentRow.Cells(ColDCCFUOM).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColDCUOM).Value) + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
+            gv1.CurrentRow.Cells(ColDCQtyinSU).Value = (gv1.CurrentRow.Cells(colQty).Value * gv1.CurrentRow.Cells(ColDCUnitCF).Value) / gv1.CurrentRow.Cells(ColDCCFUOM).Value
+            gv1.CurrentRow.Cells(ColDCAmt).Value = gv1.CurrentRow.Cells(ColDCQtyinSU).Value * gv1.CurrentRow.Cells(ColDCRate).Value
+            'dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
+
+        End If
     End Sub
 End Class
 

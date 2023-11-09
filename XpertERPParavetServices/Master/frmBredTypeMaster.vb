@@ -81,13 +81,14 @@ Public Class FrmBredTypeMaster
                 txtDesc.Focus()
                 txtDesc.Select()
                 Errorcontrol.SetError(txtDesc, "Description")
-                Return False
+                'Return False
             Else
                 Errorcontrol.ResetError(txtDesc)
             End If
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            Return False
         End Try
     End Function
 

@@ -215,7 +215,7 @@ Public Class FrmOverheadCostGroup
 
                 Next
                 If (clsOverheadCostGroupHead.SaveData(obj, isNewEntry, trans)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
 
                     btnSave.Text = "Update"
                     btnDelete.Enabled = True
@@ -254,24 +254,24 @@ Public Class FrmOverheadCostGroup
                     Dim strInnerCostCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colCost_Code).Value)
                     If clsCommon.CompairString(strCostCode, strInnerCostCode) = CompairStringResult.Equal Then
                         Dim Msg As String = "Same Cost Code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg)
                         Return False
                     End If
                 Next
                 If isIncludeRatePerHoursIn = True AndAlso clsCommon.myLen(strCostCode) > 0 Then
                     Dim strRatePerHours As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colRatePerHour).Value)
                     If String.IsNullOrEmpty(strRatePerHours) = True Then
-                        common.clsCommon.MyMessageBoxShow("Rate/Hour can not be blank for cost code " + strCostCode + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Rate/Hour can not be blank for cost code " + strCostCode + " ")
                         Return False
                     End If
                     Dim strHours As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colHours).Value)
                     If String.IsNullOrEmpty(strHours) = True Then
-                        common.clsCommon.MyMessageBoxShow("Hour can not be blank for cost code " + strCostCode + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Hour can not be blank for cost code " + strCostCode + " ")
                         Return False
                     End If
                     Dim strNO As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colNO).Value)
                     If String.IsNullOrEmpty(strHours) = True Then
-                        common.clsCommon.MyMessageBoxShow("No can not be blank for cost code " + strCostCode + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "No can not be blank for cost code " + strCostCode + " ")
                         Return False
                     End If
                 End If
@@ -303,7 +303,7 @@ Public Class FrmOverheadCostGroup
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try
@@ -332,7 +332,7 @@ Public Class FrmOverheadCostGroup
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
             Exit Sub
         End If
         funDelete()
@@ -341,7 +341,7 @@ Public Class FrmOverheadCostGroup
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsOverheadCostGroupHead.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     funReset()
                 End If
             End If
@@ -373,7 +373,7 @@ Public Class FrmOverheadCostGroup
         Try
             LoadData(txtCode.Value, NavType, Nothing)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -458,7 +458,7 @@ Public Class FrmOverheadCostGroup
             Dim query As String = " select * from (select TSPL_OVERHEAD_COST_GROUP_HEAD.GROUP_CODE,TSPL_OVERHEAD_COST_GROUP_HEAD.Description as Group_Desc ,TSPL_OVERHEAD_COST_GROUP_DETAILS.COST_CODE,TSPL_OVERHEAD_COST.Description as COST_DESC from TSPL_OVERHEAD_COST_GROUP_DETAILS left outer join TSPL_OVERHEAD_COST_GROUP_HEAD on TSPL_OVERHEAD_COST_GROUP_DETAILS.GROUP_CODE = TSPL_OVERHEAD_COST_GROUP_HEAD.GROUP_CODE left outer join TSPL_OVERHEAD_COST on TSPL_OVERHEAD_COST.COST_CODE = TSPL_OVERHEAD_COST_GROUP_DETAILS.COST_CODE) xx "
             transportSql.ExporttoExcel(query, "", " xx.GROUP_CODE", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Overhead Cost Group")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Overhead Cost Group")
         End Try
 
     End Sub
@@ -483,21 +483,21 @@ Public Class FrmOverheadCostGroup
                 For Each grow As GridViewRowInfo In dgv.Rows
                     lineNo = lineNo + 1
                     If clsCommon.myLen(grow.Cells("GROUP_CODE").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("CROUP CODE cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "CROUP CODE cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         Exit Sub
                     End If
                     If clsCommon.myLen(grow.Cells("Group_Desc").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("CROUP DESC cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "CROUP DESC cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         Exit Sub
                     End If
                     If clsCommon.myLen(grow.Cells("COST_CODE").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("COST CODE cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "COST CODE cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         Exit Sub
                     End If
                     If clsCommon.myLen(grow.Cells("COST_CODE").Value) > 0 Then
                         Dim chkCostCode As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count (*) from TSPL_OVERHEAD_COST where COST_CODE = '" + clsCommon.myCstr(grow.Cells("COST_CODE").Value) + "'", trans))
                         If chkCostCode <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(" Invalid [Cost Code]  at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, " Invalid [Cost Code]  at line :'" + clsCommon.myCstr(lineNo) + "'")
                             Exit Sub
                         End If
                     End If
@@ -525,10 +525,10 @@ Public Class FrmOverheadCostGroup
                 Next
             End If
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

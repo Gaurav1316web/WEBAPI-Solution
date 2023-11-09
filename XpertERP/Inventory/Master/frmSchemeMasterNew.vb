@@ -295,7 +295,7 @@ Public Class FrmSchemeMasterNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -315,7 +315,7 @@ Public Class FrmSchemeMasterNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -390,7 +390,7 @@ Public Class FrmSchemeMasterNew
             End If
             LoadData(fndScheme.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -465,7 +465,7 @@ Public Class FrmSchemeMasterNew
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -474,7 +474,7 @@ Public Class FrmSchemeMasterNew
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -484,35 +484,35 @@ Public Class FrmSchemeMasterNew
         Dim linno As Integer = 0
 
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Scheme Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Scheme Description")
             txtDesc.Focus()
             Return False
         ElseIf clsCommon.myLen(txtMainItem.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select main item.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select main item.")
             txtMainItem.Focus()
             Return False
         ElseIf clsCommon.myLen(txtUnitCode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select unit code.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select unit code.")
             txtUnitCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtQty.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Main Item Quantity.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Main Item Quantity.")
             txtQty.Focus()
             Return False
         ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Quantitive") = CompairStringResult.Equal Then
             If gvItem.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single item.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single item.")
                 gvItem.Focus()
                 Return False
             End If
         ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Cash") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(txtPercentage.Text) <= 0 And clsCommon.myCdbl(txtAmount.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter Percentage or Amount.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter Percentage or Amount.")
                 txtAmount.Focus()
                 Return False
             End If
         ElseIf dtpScheme.Value.Date < dtpInactive.Value.Date Then
-            common.clsCommon.MyMessageBoxShow("inactive date can not be before than scheme date.")
+            common.clsCommon.MyMessageBoxShow(Me, "inactive date can not be before than scheme date.")
             dtpInactive.Focus()
             Return False
         End If
@@ -520,7 +520,7 @@ Public Class FrmSchemeMasterNew
         If clsCommon.myLen(txtMainItem.Value) > 0 Then
             MainPriceCode = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) From TSPL_ITEM_PRICE_MASTER where Item_Code ='" & clsCommon.myCstr(txtMainItem.Value) & "'"))
             If MainPriceCode = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please make price code for main item ( " & clsCommon.myCstr(txtMainItem.Value) & " ).")
+                common.clsCommon.MyMessageBoxShow(Me, "Please make price code for main item ( " & clsCommon.myCstr(txtMainItem.Value) & " ).")
                 txtMainItem.Focus()
                 Return False
             End If
@@ -530,7 +530,7 @@ Public Class FrmSchemeMasterNew
                 linno += 1
                 GridPriceCode = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) From TSPL_ITEM_PRICE_MASTER where Item_Code ='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "'"))
                 If GridPriceCode = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please make price code for item ( " & clsCommon.myCstr(grow.Cells(colICode).Value) & " ) at line no. " + clsCommon.myCstr(linno) + ".")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please make price code for item ( " & clsCommon.myCstr(grow.Cells(colICode).Value) & " ) at line no. " + clsCommon.myCstr(linno) + ".")
                     Return False
                 End If
             End If
@@ -620,7 +620,7 @@ Public Class FrmSchemeMasterNew
                 obj.SaveData(obj, isNewEntry)
                 LoadData(obj.Scheme_Code, NavigatorType.Current)
                 isNewEntry = False
-                clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.")
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -635,11 +635,11 @@ Public Class FrmSchemeMasterNew
         Try
             If clsCommon.myLen(strSchemeCode) > 0 Then
                 If clsSchemeMaster.fundelete(strSchemeCode) Then
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.")
                     Reset()
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Scheme found to delete.")
+                clsCommon.MyMessageBoxShow(Me, "No Scheme found to delete.")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -1003,7 +1003,7 @@ Public Class FrmSchemeMasterNew
                     trans.Commit()
 
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -1012,7 +1012,7 @@ Public Class FrmSchemeMasterNew
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1114,7 +1114,7 @@ Public Class FrmSchemeMasterNew
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -1123,7 +1123,7 @@ Public Class FrmSchemeMasterNew
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1214,7 +1214,7 @@ Public Class FrmSchemeMasterNew
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -1223,7 +1223,7 @@ Public Class FrmSchemeMasterNew
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 End Class

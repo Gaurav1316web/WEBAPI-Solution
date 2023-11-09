@@ -252,12 +252,12 @@ Public Class FrmCatalogMaster
         Try
             If (deleteConfirm()) Then
                 If (ClsCatalogMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data deleted successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -364,7 +364,7 @@ Public Class FrmCatalogMaster
                     End Try
                     '=============================================
 
-                    clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     LoadData(obj.Catalog_Code, NavigatorType.Current)
 
                 End If
@@ -373,14 +373,14 @@ Public Class FrmCatalogMaster
             End If
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RDDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RDDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID & "gvBOM", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RDSaveLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles RDSaveLayout.Click
@@ -396,7 +396,7 @@ Public Class FrmCatalogMaster
             If obj.SaveData() Then
                 gvBOM.MasterTemplate.FilterDescriptors.Clear()
 
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -436,7 +436,7 @@ Public Class FrmCatalogMaster
 
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -469,7 +469,7 @@ Public Class FrmCatalogMaster
             frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptCatalogReport", "Catalog Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

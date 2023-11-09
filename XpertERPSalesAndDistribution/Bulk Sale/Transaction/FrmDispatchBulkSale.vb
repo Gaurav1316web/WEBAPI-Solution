@@ -2659,58 +2659,63 @@ Public Class FrmDispatchBulkSale
         Dim strSaleReturnNoAgainstinvoice = clsDBFuncationality.getSingleValue("Select Document_No  from TSPL_SALE_RETURN_MASTER_BULKSALE where InvoiceNo ='" & strInvoiceNo & "'")
 
         Dim strRemarks = " AR invoice for customer: " + fndCustomerNo.Value + " - " + lblCustomerName.Text + "  For Sale Invoice No " & strInvoiceNo & " "
-
-        If clsCommon.myLen(strReceiptNo) > 0 Then
-            clsCommon.MyMessageBoxShow("Customer cannot be updated because Receipt has been created for this invoice " & strInvoiceNo)
-            Exit Function
-        ElseIf clsCommon.myLen(strSaleReturnNoAgainstinvoice) > 0 Then
-            clsCommon.MyMessageBoxShow(" Customer cannot be updated because Sale Return has been created for this invoice " & strSaleReturnNoAgainstinvoice)
-            Exit Function
-        ElseIf clsCommon.myLen(strSaleReturnNoAgainstdispatch) > 0 Then
-            clsCommon.MyMessageBoxShow(" Customer cannot be updated because Sale Return has been created for this dispatch " & strSaleReturnNoAgainstdispatch)
-            Exit Function
-        End If
-
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                '' to update journal master ar invoice and invoice bulk sale table againt invoice
-                Dim qry = "update TSPL_JOURNAL_MASTER  set CustVend_Code= '" & fndCustomerNo.Value & "',CustVend_Name='" & lblCustomerName.Text & "',Remarks='" & strRemarks & "'  where Source_Doc_No='" + clsCommon.myCstr(strARInvoiceNo) + "'"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                qry = "update TSPL_Customer_Invoice_Head  set Customer_Code= '" & fndCustomerNo.Value & "',Customer_Name='" & lblCustomerName.Text & "'  where Document_No='" + clsCommon.myCstr(strARInvoiceNo) + "'"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                qry = "update TSPL_INVOICE_MASTER_BULKSALE  set Customer_Code= '" & fndCustomerNo.Value & "' where Document_No='" + clsCommon.myCstr(strInvoiceNo) + "'"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                '' to update journal master ,inventory and dispatch bulk sale table againt dispatch( multiple for one invoice)
-                qry = "update TSPL_JOURNAL_MASTER  set CustVend_Code= '" & fndCustomerNo.Value & "',CustVend_Name='" & lblCustomerName.Text & "'  where Source_Doc_No in ( Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                qry = "update TSPL_INVENTORY_MOVEMENT_NEW  set Cust_Code= '" & fndCustomerNo.Value & "',Cust_Name='" & lblCustomerName.Text & "'  where Source_Doc_No in ( Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                qry = "update TSPL_Dispatch_BulkSale  set Customer_Code= '" & fndCustomerNo.Value & "',Is_Update_Customer=1  where Document_No in ( Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                '' to update gate entry, qc,gate out  table againt dispatch( multiple for one invoice)
-
-                qry = "update TSPL_Quality_Check_BulkSale set Customer_Code ='" & fndCustomerNo.Value & "' where QC_No in (Select QC_Code  from TSPL_Dispatch_BulkSale  where Document_No in  (Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "')))"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                qry = "update TSPL_GATEENTRY_SALE set Customer_Code='" & fndCustomerNo.Value & "' where Document_No in (Select GateEntry_Document_No  from TSPL_Quality_Check_BulkSale where QC_No in (Select QC_Code  from TSPL_Dispatch_BulkSale  where Document_No in  (Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))))"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                qry = "update TSPL_GATEOUT_SALE set Customer_Code ='" & fndCustomerNo.Value & "' where GateEntryNo in  (Select GateEntry_Document_No  from TSPL_Quality_Check_BulkSale where QC_No in (Select QC_Code  from TSPL_Dispatch_BulkSale  where Document_No in  (Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))))"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                trans.Commit()
+            If clsCommon.myLen(strReceiptNo) > 0 Then
+                clsCommon.MyMessageBoxShow("Customer cannot be updated because Receipt has been created for this invoice " & strInvoiceNo)
+                'Exit Function
+            ElseIf clsCommon.myLen(strSaleReturnNoAgainstinvoice) > 0 Then
+                clsCommon.MyMessageBoxShow(" Customer cannot be updated because Sale Return has been created for this invoice " & strSaleReturnNoAgainstinvoice)
+                'Exit Function
+            ElseIf clsCommon.myLen(strSaleReturnNoAgainstdispatch) > 0 Then
+                clsCommon.MyMessageBoxShow(" Customer cannot be updated because Sale Return has been created for this dispatch " & strSaleReturnNoAgainstdispatch)
+                'Exit Function
             End If
-            'Return True
+
+            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Try
+                If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                    '' to update journal master ar invoice and invoice bulk sale table againt invoice
+                    Dim qry = "update TSPL_JOURNAL_MASTER  set CustVend_Code= '" & fndCustomerNo.Value & "',CustVend_Name='" & lblCustomerName.Text & "',Remarks='" & strRemarks & "'  where Source_Doc_No='" + clsCommon.myCstr(strARInvoiceNo) + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_Customer_Invoice_Head  set Customer_Code= '" & fndCustomerNo.Value & "',Customer_Name='" & lblCustomerName.Text & "'  where Document_No='" + clsCommon.myCstr(strARInvoiceNo) + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_INVOICE_MASTER_BULKSALE  set Customer_Code= '" & fndCustomerNo.Value & "' where Document_No='" + clsCommon.myCstr(strInvoiceNo) + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    '' to update journal master ,inventory and dispatch bulk sale table againt dispatch( multiple for one invoice)
+                    qry = "update TSPL_JOURNAL_MASTER  set CustVend_Code= '" & fndCustomerNo.Value & "',CustVend_Name='" & lblCustomerName.Text & "'  where Source_Doc_No in ( Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_INVENTORY_MOVEMENT_NEW  set Cust_Code= '" & fndCustomerNo.Value & "',Cust_Name='" & lblCustomerName.Text & "'  where Source_Doc_No in ( Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_Dispatch_BulkSale  set Customer_Code= '" & fndCustomerNo.Value & "',Is_Update_Customer=1  where Document_No in ( Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    '' to update gate entry, qc,gate out  table againt dispatch( multiple for one invoice)
+
+                    qry = "update TSPL_Quality_Check_BulkSale set Customer_Code ='" & fndCustomerNo.Value & "' where QC_No in (Select QC_Code  from TSPL_Dispatch_BulkSale  where Document_No in  (Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "')))"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_GATEENTRY_SALE set Customer_Code='" & fndCustomerNo.Value & "' where Document_No in (Select GateEntry_Document_No  from TSPL_Quality_Check_BulkSale where QC_No in (Select QC_Code  from TSPL_Dispatch_BulkSale  where Document_No in  (Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))))"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_GATEOUT_SALE set Customer_Code ='" & fndCustomerNo.Value & "' where GateEntryNo in  (Select GateEntry_Document_No  from TSPL_Quality_Check_BulkSale where QC_No in (Select QC_Code  from TSPL_Dispatch_BulkSale  where Document_No in  (Select distinct Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No=  (Select Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code ='" & txtDocNo.Value & "'))))"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    trans.Commit()
+                End If
+                'Return True
+            Catch ex As Exception
+                trans.Rollback()
+                Throw New Exception(ex.Message)
+            End Try
         Catch ex As Exception
-            trans.Rollback()
             Throw New Exception(ex.Message)
-            Return False
+
         End Try
         Return True
     End Function

@@ -107,7 +107,7 @@ Public Class frmItemGroup
             connectSql.RunSp("sp_TSPL_INV_CLASS_DETAILS_delete", New SqlParameter("@classname", ddlclassname.Text.ToString.Trim()))
             myMessages.delete()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
     ''To Reset all The field of screen
@@ -166,7 +166,7 @@ Public Class frmItemGroup
             Dim strclass As String = "select inv_class_name from TSPL_INV_CLASS"
             transportSql.FillComboBox(strclass, ddlclassname, "inv_class_name", "inv_class_name")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
     ''To Apply validation (Maximum Limit to Enter the character in the gridview cell according to the class name) whatever defined in Inventory setting screen
@@ -185,7 +185,7 @@ Public Class frmItemGroup
             Dim dt As GridViewTextBoxColumn = TryCast(dgvclassgroup.Columns(0), GridViewColumn)
             dt.MaxLength = length
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
 
@@ -220,7 +220,7 @@ Public Class frmItemGroup
     End Sub
     Sub SaveData()
         If ddlclassname.Text = "Select" Or ddlclassname.Text = "select" Then
-            common.clsCommon.MyMessageBoxShow("Please select the Class")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the Class", Me.Text)
             ddlclassname.Focus()
         Else
             If MyBase.isModifyonPasswordFlag Then
@@ -272,7 +272,7 @@ Public Class frmItemGroup
                     Next
                 End If
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
             End Try
         Else
             dgvclassgroup.AutoGenerateColumns = False
@@ -282,7 +282,7 @@ Public Class frmItemGroup
                 dgvclassgroup.Columns(0).FieldName = "inv_class_code"
                 dgvclassgroup.Columns(1).FieldName = "inv_class_desc"
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
             End Try
         End If
 
@@ -343,7 +343,7 @@ Public Class frmItemGroup
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -369,7 +369,7 @@ Public Class frmItemGroup
             If Not String.IsNullOrEmpty(e.Value) Then
                 Dim str As String = e.Value.ToString()
                 If str.Length <> length Then
-                    common.clsCommon.MyMessageBoxShow("Item Code should be " + Convert.ToString(length) + "")
+                    common.clsCommon.MyMessageBoxShow(Me, "Item Code should be " + Convert.ToString(length) + "")
                     e.Cancel = True
                 End If
             End If

@@ -741,8 +741,9 @@ Public Class frmProductionReceipt
                 Return True
             End If
 
-            Return False
+
         End If
+        Return False
     End Function
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -885,92 +886,97 @@ Public Class frmProductionReceipt
     End Sub
 
     Private Function SaveDataProductionEntry(ByVal trans As System.Data.SqlClient.SqlTransaction) As Boolean
-        'Try
-        'If (AllowToSave()) Then
-        Dim obj As New ClsAdjustments()
-        obj.Adjustment_No = ""
-        obj.Adjustment_Date = dtpDate.Value
-        'obj.Posting_Date
-        obj.Reference = txtComment.Text
-        obj.Description = txtDesc.Text
-        'obj.Posted()
-        obj.EMP_CODE = clsCommon.myCstr(txtReceivedBy.Value)
-        obj.EMP_NAME = lblEmpName.Text
-        obj.Unit_Code = "ALL"
-        obj.ItemType = "FM"
-        obj.Loc_Code = txtLocation.Value
-        obj.Loc_Desc = lblLocation.Text
-        obj.Trans_Type = "In"
-        obj.Stock_Type = "P"
-        obj.Reference_Document = strCostTransaction
-        obj.Document_No = txtCode.Value
-        obj.Arr = New List(Of ClsAdjustmentsDetails)()
+        Try
+            'If (AllowToSave()) Then
+            Dim obj As New ClsAdjustments()
+            obj.Adjustment_No = ""
+            obj.Adjustment_Date = dtpDate.Value
+            'obj.Posting_Date
+            obj.Reference = txtComment.Text
+            obj.Description = txtDesc.Text
+            'obj.Posted()
+            obj.EMP_CODE = clsCommon.myCstr(txtReceivedBy.Value)
+            obj.EMP_NAME = lblEmpName.Text
+            obj.Unit_Code = "ALL"
+            obj.ItemType = "FM"
+            obj.Loc_Code = txtLocation.Value
+            obj.Loc_Desc = lblLocation.Text
+            obj.Trans_Type = "In"
+            obj.Stock_Type = "P"
+            obj.Reference_Document = strCostTransaction
+            obj.Document_No = txtCode.Value
+            obj.Arr = New List(Of ClsAdjustmentsDetails)()
 
-        For Each grow As GridViewRowInfo In gv1.Rows
-            Dim objTr As New ClsAdjustmentsDetails()
-            'objTr.Adjustment_No=
-            objTr.Adjustment_Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
-            objTr.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
-            objTr.Item_Description = clsCommon.myCstr(grow.Cells(colItemDesc).Value)
-            objTr.Adjustment_Type = "BI"
-            'objTr.Location_Code=Pick in SaveData from header
-            objTr.Item_Quantity = clsCommon.myCdbl(grow.Cells(colReceiptQty).Value)
-            If grow.Cells(colCost_Method).Value = 0 Then
-                objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colFIFO_Cost).Value)
-            ElseIf grow.Cells(colCost_Method).Value = 1 Then
-                objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colLIFO_Cost).Value)
-            ElseIf grow.Cells(colCost_Method).Value = 2 Then
-                objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colAVG_Cost).Value)
+            For Each grow As GridViewRowInfo In gv1.Rows
+                Dim objTr As New ClsAdjustmentsDetails()
+                'objTr.Adjustment_No=
+                objTr.Adjustment_Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
+                objTr.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                objTr.Item_Description = clsCommon.myCstr(grow.Cells(colItemDesc).Value)
+                objTr.Adjustment_Type = "BI"
+                'objTr.Location_Code=Pick in SaveData from header
+                objTr.Item_Quantity = clsCommon.myCdbl(grow.Cells(colReceiptQty).Value)
+                If grow.Cells(colCost_Method).Value = 0 Then
+                    objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colFIFO_Cost).Value)
+                ElseIf grow.Cells(colCost_Method).Value = 1 Then
+                    objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colLIFO_Cost).Value)
+                ElseIf grow.Cells(colCost_Method).Value = 2 Then
+                    objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colAVG_Cost).Value)
+                Else
+                    objTr.Item_Cost = 0
+                End If
+
+                objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUOM).Value)
+                'objTr.Account_Code= Pick in SaveData
+                'objTr.Account_Description=Pick in SaveData
+                objTr.Remarks = clsCommon.myCstr(grow.Cells(colLabTesting).Value)
+                objTr.Comments = clsCommon.myCstr(grow.Cells(colLabTesting).Value)
+                objTr.mrp = objTr.Item_Cost ''Math.Max(clsCommon.myCdbl(grow.Cells(colFIFO_Cost).Value), Math.Max(clsCommon.myCdbl(grow.Cells(colLIFO_Cost).Value), clsCommon.myCdbl(grow.Cells(colAVG_Cost).Value))) 
+
+                objTr.BreakageType = clsCommon.myCstr(grow.Cells(colBreakageHead).Value)
+                objTr.Breakage = clsCommon.myCdbl(grow.Cells(colBreakageQty).Value)
+                objTr.Breakage_Cost = (objTr.Breakage * objTr.Item_Cost) / IIf(objTr.Item_Quantity = 0, 1, objTr.Item_Quantity) ''clsCommon.myCdbl(grow.Cells(colBreakCost).Value)
+                objTr.LeakageQty = 0 ''clsCommon.myCdbl(grow.Cells(colLeakQty).Value)
+
+                objTr.MFG_Date = clsCommon.myCDate(grow.Cells(colMfgDate).Value)
+                objTr.Batch_No = Me.txtBatchNo.Value ''clsCommon.myCstr(grow.Cells(colBatchNo).Value)
+                objTr.Expiry_Date = clsCommon.myCDate(grow.Cells(colExpDate).Value)
+
+                objTr.ItemType = "FM" ''clsCommon.myCstr(cboItemType.SelectedValue)
+                obj.ItemType = obj.ItemType
+                objTr.Basic_Price = clsItemBasicPrice.GetBasicPrice(objTr.Item_Code, objTr.mrp, trans)
+                If (clsCommon.myLen(objTr.Item_Code) > 0) Then
+                    obj.Arr.Add(objTr)
+                End If
+            Next
+            If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
+                Throw New Exception("Please Fill at list one Item")
+            End If
+
+            Dim isSaved As Boolean = obj.SaveData(obj, True, "", trans)
+            Dim strq As String = ""
+            strq = "select Adjustment_No  from TSPL_ADJUSTMENT_HEADER where document_no='" & Me.txtCode.Value & "' and reference_document='" & strCostTransaction & "' "
+            Dim dt As DataTable
+            dt = clsDBFuncationality.GetDataTable(strq, trans)
+            If dt.Rows.Count > 0 Then
+                ClsAdjustments.PostData(dt.Rows(0).Item("Adjustment_No"), strCostTransaction, trans)
             Else
-                objTr.Item_Cost = 0
+                clsCommon.MyMessageBoxShow("Document not found !")
+                Exit Function
             End If
 
-            objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUOM).Value)
-            'objTr.Account_Code= Pick in SaveData
-            'objTr.Account_Description=Pick in SaveData
-            objTr.Remarks = clsCommon.myCstr(grow.Cells(colLabTesting).Value)
-            objTr.Comments = clsCommon.myCstr(grow.Cells(colLabTesting).Value)
-            objTr.mrp = objTr.Item_Cost ''Math.Max(clsCommon.myCdbl(grow.Cells(colFIFO_Cost).Value), Math.Max(clsCommon.myCdbl(grow.Cells(colLIFO_Cost).Value), clsCommon.myCdbl(grow.Cells(colAVG_Cost).Value))) 
+            'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+            'LoadData(obj.Adjustment_No, NavigatorType.Current)
+            'Return isSaved
+            Return True
+            'End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
 
-            objTr.BreakageType = clsCommon.myCstr(grow.Cells(colBreakageHead).Value)
-            objTr.Breakage = clsCommon.myCdbl(grow.Cells(colBreakageQty).Value)
-            objTr.Breakage_Cost = (objTr.Breakage * objTr.Item_Cost) / IIf(objTr.Item_Quantity = 0, 1, objTr.Item_Quantity) ''clsCommon.myCdbl(grow.Cells(colBreakCost).Value)
-            objTr.LeakageQty = 0 ''clsCommon.myCdbl(grow.Cells(colLeakQty).Value)
-
-            objTr.MFG_Date = clsCommon.myCDate(grow.Cells(colMfgDate).Value)
-            objTr.Batch_No = Me.txtBatchNo.Value ''clsCommon.myCstr(grow.Cells(colBatchNo).Value)
-            objTr.Expiry_Date = clsCommon.myCDate(grow.Cells(colExpDate).Value)
-
-            objTr.ItemType = "FM" ''clsCommon.myCstr(cboItemType.SelectedValue)
-            obj.ItemType = obj.ItemType
-            objTr.Basic_Price = clsItemBasicPrice.GetBasicPrice(objTr.Item_Code, objTr.mrp, trans)
-            If (clsCommon.myLen(objTr.Item_Code) > 0) Then
-                obj.Arr.Add(objTr)
-            End If
-        Next
-        If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-            Throw New Exception("Please Fill at list one Item")
-        End If
-
-        Dim isSaved As Boolean = obj.SaveData(obj, True, "", trans)
-        Dim strq As String = ""
-        strq = "select Adjustment_No  from TSPL_ADJUSTMENT_HEADER where document_no='" & Me.txtCode.Value & "' and reference_document='" & strCostTransaction & "' "
-        Dim dt As DataTable
-        dt = clsDBFuncationality.GetDataTable(strq, trans)
-        If dt.Rows.Count > 0 Then
-            ClsAdjustments.PostData(dt.Rows(0).Item("Adjustment_No"), strCostTransaction, trans)
-        Else
-            clsCommon.MyMessageBoxShow("Document not found !")
-            Exit Function
-        End If
-
-        'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
-        'LoadData(obj.Adjustment_No, NavigatorType.Current)
-        Return isSaved
-        'End If
-        'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
-        'End Try
+        End Try
+        'Return False
+        Return True
     End Function
 
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click

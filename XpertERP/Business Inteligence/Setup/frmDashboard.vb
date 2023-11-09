@@ -15,7 +15,7 @@ Public Class frmDashboard
             txtFromDate.Value = txtToDate.Value.AddMonths(-1)
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -369,7 +369,7 @@ Public Class frmDashboard
                 'ReStoreGridLayout()
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try

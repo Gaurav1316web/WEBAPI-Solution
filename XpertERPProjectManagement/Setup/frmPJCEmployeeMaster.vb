@@ -183,6 +183,7 @@ Public Class frmPJCEmployeeMaster
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
     Private Sub DeleteData()

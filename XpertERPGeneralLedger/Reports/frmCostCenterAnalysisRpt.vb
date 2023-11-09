@@ -5,19 +5,6 @@
 '--Updation By-[Pankaj Kumar]--added a Filter (Accounts) --by--Amit Sir
 '--Updation By-[Pankaj Kumar]--against Ticket No--[BM00000001127]
 '' Anubhooti(2-July-2014) Added Export Permission Against BM00000003016 ''''''''
-Imports System.Data
-Imports System.Data.SqlClient
-Imports System.Windows.Forms
-Imports System.Collections
-Imports Telerik.WinControls.UI
-Imports Telerik.WinControls.Data
-Imports Microsoft.Office.Interop
-Imports Telerik.Data
-Imports Telerik.WinControls.Enumerations
-Imports Telerik.WinControls
-Imports System.Text.RegularExpressions
-Imports CrystalDecisions.CrystalReports.Engine
-Imports CrystalDecisions.ReportSource
 Imports common
 
 Public Class FrmCostCenterAnalysisRpt
@@ -895,6 +882,7 @@ Public Class FrmCostCenterAnalysisRpt
                 Return False
             End Try
         End If
+        Return True
     End Function
 
     Private Sub exporter_ExcelCellFormatting(ByVal sender As Object, ByVal e As ExcelML.ExcelCellFormattingEventArgs)

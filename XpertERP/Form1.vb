@@ -35,7 +35,7 @@ Public Class frmChangeCaption
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.myLen(txtCustomiseSno.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Customise Sno can't be blank.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Customise Sno can't be blank.", Me.Text)
             End If
             If clsCommon.myLen(txtCustomiseSno.Text) = 1 Then
                 txtCustomiseSno.Text = "0" + clsCommon.myCstr(txtCustomiseSno.Text)
@@ -96,13 +96,13 @@ Public Class frmChangeCaption
                 clsDBFuncationality.ExecuteNonQuery(qry, tran)
             End If
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Data Successfully Saved")
+            clsCommon.MyMessageBoxShow(Me, "Data Successfully Saved", Me.Text)
             MDI.IsOriginalName = False
             Me.isCancel_Flag = False
             Me.Close()
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

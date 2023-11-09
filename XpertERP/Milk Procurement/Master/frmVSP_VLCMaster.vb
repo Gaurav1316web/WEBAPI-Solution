@@ -1033,7 +1033,7 @@ Public Class frmVSP_VLCMaster
                     HeadLoadBasis = "L"
                 End If
             End If
-            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked = True, "T", "F") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
 
             updateMultipleIncentive(fndvendorNo.Value, trans)
@@ -1423,7 +1423,7 @@ Public Class frmVSP_VLCMaster
         Catch ex As Exception
             'isNewEntry = True
             'isLoadData = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1907,7 +1907,7 @@ Public Class frmVSP_VLCMaster
                     HeadLoadBasis = "L"
                 End If
             End If
-            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "T", "F") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
             'VLC 
             If clsCommon.myLen(fndvlccode.Text) > 0 Then
@@ -3537,7 +3537,7 @@ Public Class frmVSP_VLCMaster
             'End If
 
             If clsCommon.myLen(txtcountrycode) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Country", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 txtcountrycode.Select()
                 txtcountrycode.Focus()
@@ -3548,7 +3548,7 @@ Public Class frmVSP_VLCMaster
             End If
 
             If clsCommon.myLen(txtstatecode) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select State", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select State", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 txtstatecode.Select()
                 txtstatecode.Focus()
@@ -3559,7 +3559,7 @@ Public Class frmVSP_VLCMaster
             End If
 
             If clsCommon.myLen(txtCity) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select City", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select City", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 txtCity.Select()
                 txtCity.Focus()
@@ -3572,7 +3572,7 @@ Public Class frmVSP_VLCMaster
             If clsCommon.myLen(TxtPinCode.Text) > 0 Then
                 If clsCommon.myLen(TxtPinCode.Text) <> 6 Then
                     pageCus.SelectedPage = RadPageViewPage5
-                    clsCommon.MyMessageBoxShow("Invalid Pin Code.Please Enter Pin Code 6 Digit", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invalid Pin Code.Please Enter Pin Code 6 Digit", Me.Text)
                     Errorcontrol.SetError(TxtPinCode, "Invalid Pin Code.Please Enter Pin Code 6 Digit")
                     Return
                 Else
@@ -3585,7 +3585,7 @@ Public Class frmVSP_VLCMaster
 
 
             If cmbvsppayment.SelectedValue = "" Then
-                clsCommon.MyMessageBoxShow("Please Select VSP Payment Value", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select VSP Payment Value", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 cmbvsppayment.Select()
                 Errorcontrol.SetError(cmbvsppayment, "Please Select VSP Payment Value")
@@ -3658,12 +3658,12 @@ Public Class frmVSP_VLCMaster
                 Else
                     Errorcontrol.ResetError(TxtIFSCCode)
                 End If
-                '''richa agarwal 27/03/2015
+                'richa agarwal 27/03/2015
                 ''--------------------
             End If
 
             If clsCommon.CompairString(cmbincentive.SelectedValue, "Qty") = CompairStringResult.Equal AndAlso (clsCommon.myLen(txtno_days.Text) <= 0 Or clsCommon.myCdbl(txtno_days.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Please Enter No.Of Days For Incentive", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter No.Of Days For Incentive", Me.Text)
                 txtno_days.Focus()
                 txtno_days.Select()
                 Errorcontrol.SetError(txtno_days, "Please Enter No.Of Days For Incentive")
@@ -3673,7 +3673,7 @@ Public Class frmVSP_VLCMaster
             End If
 
             If clsCommon.CompairString(cmbvsppayment.SelectedValue, "Different") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtpayeename.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter VSP Payment Payee Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter VSP Payment Payee Name", Me.Text)
                 txtpayeename.Focus()
                 txtpayeename.Select()
                 Errorcontrol.SetError(txtpayeename, "Please Enter VSP Payment Payee Name")
@@ -3687,7 +3687,7 @@ Public Class frmVSP_VLCMaster
                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal AndAlso check > 0 Then
-                    clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage1
                     txtpan.Focus()
                     txtpan.Select()
@@ -3698,7 +3698,7 @@ Public Class frmVSP_VLCMaster
                 End If
 
                 If clsCommon.CompairString(btnsave.Text, "Save") <> CompairStringResult.Equal AndAlso check > 1 Then
-                    clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage1
                     txtpan.Focus()
                     txtpan.Select()
@@ -3718,7 +3718,7 @@ Public Class frmVSP_VLCMaster
                 Errorcontrol.ResetError(txtpan)
             End If
             If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Country", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 txtcountrycode.Focus()
                 txtcountrycode.Select()
@@ -3729,7 +3729,7 @@ Public Class frmVSP_VLCMaster
             End If
 
             If clsCommon.myLen(txtstatecode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select State", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select State", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 txtstatecode.Focus()
                 txtstatecode.Select()
@@ -3741,7 +3741,7 @@ Public Class frmVSP_VLCMaster
 
 
             If clsCommon.myLen(fndCity.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select City", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select City", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 fndCity.Focus()
                 fndCity.Select()
@@ -3765,7 +3765,7 @@ Public Class frmVSP_VLCMaster
                 Errorcontrol.ResetError(txtvendorname)
             End If
             If clsCommon.myLen(txtjointname.Text) <= 0 And clsCommon.myCstr(cmbvsppayment.Text) = "Different" Then
-                clsCommon.MyMessageBoxShow("Please Fill Joint Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Joint Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 txtjointname.Focus()
                 txtjointname.Select()
@@ -4028,24 +4028,24 @@ Public Class frmVSP_VLCMaster
                             obj.mainvillcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Village_Code from TSPL_VILLAGE_MASTER where Village_Name='" + obj.mainvillname + "'", trans))
                         End If
                         'End If
-                        obj.SaveData(Nothing, True, obj, arr, trans)
+                        clsfrmVLCMaster.SaveData(Nothing, True, obj, arr, trans)
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     If clsCommon.myLen(duplicateUploader) > 0 Then
-                        clsCommon.MyMessageBoxShow("Duplicate DCS Uploader Code !" + Environment.NewLine + duplicateUploader + "", Me.Text, MessageBoxButtons.OK)
+                        clsCommon.MyMessageBoxShow(Me, "Duplicate DCS Uploader Code !" + Environment.NewLine + duplicateUploader + "", Me.Text, MessageBoxButtons.OK)
                     End If
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message)
                 End Try
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
             'myMessages.myExceptions(ex)
         End Try
     End Sub
@@ -4131,7 +4131,7 @@ Public Class frmVSP_VLCMaster
             End If
             '----------------------------
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -4346,13 +4346,13 @@ Public Class frmVSP_VLCMaster
                 txtstatecode.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
     Private Sub txtstatecode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtstatecode._MYValidating
         If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Country First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Country First", Me.Text)
             txtcountrycode.Focus()
             txtcountrycode.Select()
             Return
@@ -4374,7 +4374,7 @@ Public Class frmVSP_VLCMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -4386,7 +4386,7 @@ Public Class frmVSP_VLCMaster
             Convert.ToDecimal(txtno_days.Text)
             Errorcontrol.ResetError(txtno_days)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("No. Of Days Should Be Numeric", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No. Of Days Should Be Numeric", Me.Text)
             txtno_days.Text = "0"
             txtno_days.Focus()
             txtno_days.Select()
@@ -4465,7 +4465,7 @@ Public Class frmVSP_VLCMaster
         Try
             If clsCommon.myLen(txtWeb.Text) > 0 Then
                 If Not txtWeb.Text.ToUpper().Contains("WWW.") Then
-                    clsCommon.MyMessageBoxShow("Please Enter Web Site In Proper Format.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Enter Web Site In Proper Format.", Me.Text)
                     txtWeb.Focus()
                     txtWeb.Select()
                     txtWeb.Text = ""
@@ -4476,7 +4476,7 @@ Public Class frmVSP_VLCMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Please Enter Web Site In Proper Format.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Web Site In Proper Format.", Me.Text)
             txtWeb.Focus()
             txtWeb.Select()
             txtWeb.Text = ""
@@ -4524,7 +4524,7 @@ Public Class frmVSP_VLCMaster
     Private Sub txtjointname_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtjointname.Leave
         'If Not A Matching Format Entered
         If Not Regex.Match(txtjointname.Text, "^[a-zA-Z ]*$", RegexOptions.IgnorePatternWhitespace).Success Then 'Only Letters
-            clsCommon.MyMessageBoxShow("Please Enter Alphabetic Characters Only!") 'Inform User
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Alphabetic Characters Only!") 'Inform User
             txtjointname.Focus() 'Return Focus
             txtjointname.Clear() 'Clear TextBox
             txtpayeename.Text = txtvendorname.Text
@@ -4610,7 +4610,7 @@ Public Class frmVSP_VLCMaster
         Try
             GetPaymentCycleData(isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try
     End Sub
 
@@ -4693,7 +4693,7 @@ Public Class frmVSP_VLCMaster
         Try
             'ImportChargeDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -4762,7 +4762,7 @@ Public Class frmVSP_VLCMaster
             frm.WindowState = FormWindowState.Maximized
             frm.Show()
         Else
-            clsCommon.MyMessageBoxShow("Please select bank Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select bank Code")
         End If
 
     End Sub
@@ -4775,7 +4775,7 @@ Public Class frmVSP_VLCMaster
             frm.WindowState = FormWindowState.Maximized
             frm.Show()
         Else
-            clsCommon.MyMessageBoxShow("Please select bank Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select bank Code")
         End If
 
     End Sub
@@ -4828,7 +4828,7 @@ Public Class frmVSP_VLCMaster
         Try
             ImportIncentiveDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub ImportIncentiveDetails()
@@ -4917,7 +4917,7 @@ Public Class frmVSP_VLCMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -4929,7 +4929,7 @@ Public Class frmVSP_VLCMaster
             qry = "select CURRENCY_CODE from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='" & clsCommon.myCstr(strVendorAccountSet) & "' "
             Dim accCurrCode As String = clsDBFuncationality.getSingleValue(qry, trans).ToString
             If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(strVendorCurrency)) <> CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Account Set Currency and Vendor Currency must be same in case of Multicurrency. See At Line No :" + strlineNo) ',See At Line No.
+                clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Vendor Currency must be same in case of Multicurrency. See At Line No :" + strlineNo) ',See At Line No.
                 Return False
             End If
             '' match tax Group currency with vendor currency
@@ -4948,7 +4948,7 @@ Public Class frmVSP_VLCMaster
                 End If
             Next
             If clsCommon.myLen(taxCode) > 0 Then
-                clsCommon.MyMessageBoxShow("Tax Code '" & taxCode & "' in Tax Group " & clsCommon.myCstr(strTaxGroup) & " are created for currency other than " & clsCommon.myCstr(strVendorCurrency) & " .See At Line No :" + strlineNo)
+                clsCommon.MyMessageBoxShow(Me, "Tax Code '" & taxCode & "' in Tax Group " & clsCommon.myCstr(strTaxGroup) & " are created for currency other than " & clsCommon.myCstr(strVendorCurrency) & " .See At Line No :" + strlineNo)
                 Return False
             End If
             'End If
@@ -4978,7 +4978,7 @@ Public Class frmVSP_VLCMaster
             findTxtIFSCCode.Value = clsCommon.ShowSelectForm("FormIFSCCode", qry, "IFSCCode", " Bank_Code ='" & findfndbankcode.Value & "' ", findTxtIFSCCode.Value, "", isButtonClicked)
             TxtBankBranch.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & findfndbankcode.Value & "' and Bank_IFSC_Code='" & findTxtIFSCCode.Value & "' ")
         Else
-            clsCommon.MyMessageBoxShow("Please select Bank Code first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first")
         End If
     End Sub
 
@@ -4988,7 +4988,7 @@ Public Class frmVSP_VLCMaster
             findTxtIFSCCode2.Value = clsCommon.ShowSelectForm("FormIFSCCode", qry, "IFSCCode", " Bank_Code ='" & findfndbankcode2.Value & "' ", findTxtIFSCCode2.Value, "", isButtonClicked)
             txtBankBranch2.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & findfndbankcode2.Value & "' and Bank_IFSC_Code='" & findTxtIFSCCode2.Value & "' ")
         Else
-            clsCommon.MyMessageBoxShow("Please select Bank Code first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first")
         End If
     End Sub
 
@@ -5034,14 +5034,14 @@ Public Class frmVSP_VLCMaster
                 Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
     Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(txtvlcname.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill VLC Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill VLC Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 txtvlcname.Focus()
                 txtvlcname.Select()
@@ -5052,7 +5052,7 @@ Public Class frmVSP_VLCMaster
             End If
             If txtVLCCodeVlcUploader.Enabled = True Then
                 If clsCommon.myLen(txtVLCCodeVlcUploader.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Fill VLC Code For VLC Uploader ", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill VLC Code For VLC Uploader ", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage1
                     txtVLCCodeVlcUploader.Focus()
                     txtVLCCodeVlcUploader.Select()
@@ -5064,7 +5064,7 @@ Public Class frmVSP_VLCMaster
             End If
 
             If isDuplicateVLCCode(IIf(clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal, False, True)) Then
-                clsCommon.MyMessageBoxShow("Duplicate DCS Code for DCS Uploader")
+                clsCommon.MyMessageBoxShow(Me, "Duplicate DCS Code for DCS Uploader")
                 pageCus.SelectedPage = RadPageViewPage1
                 txtVLCCodeVlcUploader.Focus()
                 Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate DCS Code for DCS Uploader")
@@ -5075,7 +5075,7 @@ Public Class frmVSP_VLCMaster
 
             If objCommonVar.ApplyDefaultsInMaster = False OrElse (objCommonVar.ApplyDefaultsInMaster = True AndAlso clsCommon.CompairString(btnsave.Text, "Update") = CompairStringResult.Equal) Then
                 If clsCommon.myLen(txtvillcode.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select Village Code/Name", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Village Code/Name", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage5
                     txtvillcode.Focus()
                     txtvillcode.Select()
@@ -5125,7 +5125,7 @@ Public Class frmVSP_VLCMaster
             'End If
 
             If clsCommon.myLen(fndMcc.Value) <= 0 AndAlso chkOwnBMC.Checked = False Then
-                clsCommon.MyMessageBoxShow("Please Select MCC", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select MCC", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 fndMcc.Focus()
                 fndMcc.Select()
@@ -5162,7 +5162,7 @@ Public Class frmVSP_VLCMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Function
     Function isDuplicateVLCCode(ByVal isUpdate As Boolean) As Boolean
@@ -5198,7 +5198,7 @@ Public Class frmVSP_VLCMaster
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count = 0 Then
-                clsCommon.MyMessageBoxShow("Before Doing VLC Master Entry,Make MCC Master", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Before Doing VLC Master Entry,Make MCC Master", Me.Text)
                 Reset()
             End If
 
@@ -5225,7 +5225,7 @@ Public Class frmVSP_VLCMaster
 
     Private Sub txtroutecode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtroutecode._MYValidating
         If clsCommon.myLen(fndMcc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select MCC", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select MCC", Me.Text)
             fndMcc.Focus()
             fndMcc.Select()
             Exit Sub
@@ -5285,7 +5285,7 @@ Public Class frmVSP_VLCMaster
                 MyTextBox2.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message())
         End Try
     End Sub
 
@@ -6475,7 +6475,7 @@ Public Class frmVSP_VLCMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndvendorNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select VSP Code")
+                clsCommon.MyMessageBoxShow(ME,"Select VSP Code")
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_Vendor_MASTER")

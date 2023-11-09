@@ -22,8 +22,8 @@ Partial Class FrmQualityCheckForSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmQualityCheckForSRN))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -84,7 +84,6 @@ Partial Class FrmQualityCheckForSRN
         Me.rmiEnglish = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiHindi = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnAnalysisPrintVertical = New Telerik.WinControls.UI.RadButton()
-        Me.btnAnalysisPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSendEmail = New Telerik.WinControls.UI.RadButton()
         Me.btnreverse = New Telerik.WinControls.UI.RadButton()
@@ -93,6 +92,9 @@ Partial Class FrmQualityCheckForSRN
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnAnalysisPrint = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnPrintA4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrintA5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -150,7 +152,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnRALWiseAnaysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAnalysisPrintVertical, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSendEmail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -159,6 +160,7 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -178,10 +180,10 @@ Partial Class FrmQualityCheckForSRN
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnAnalysisPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRALWiseAnaysisPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRejected)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAnalysisPrintVertical)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnAnalysisPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSendEmail)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreverse)
@@ -268,7 +270,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv_MRN.MasterTemplate.AllowDeleteRow = False
         Me.gv_MRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MRN.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_MRN.Name = "gv_MRN"
         Me.gv_MRN.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_MRN.ShowGroupPanel = False
@@ -306,7 +308,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -1054,7 +1056,7 @@ Partial Class FrmQualityCheckForSRN
         'btnRALWiseAnaysisPrint
         '
         Me.btnRALWiseAnaysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRALWiseAnaysisPrint.Location = New System.Drawing.Point(642, 5)
+        Me.btnRALWiseAnaysisPrint.Location = New System.Drawing.Point(652, 5)
         Me.btnRALWiseAnaysisPrint.Name = "btnRALWiseAnaysisPrint"
         Me.btnRALWiseAnaysisPrint.Size = New System.Drawing.Size(120, 22)
         Me.btnRALWiseAnaysisPrint.TabIndex = 64
@@ -1064,7 +1066,7 @@ Partial Class FrmQualityCheckForSRN
         '
         Me.btnRejected.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRejected.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiEnglish, Me.rmiHindi})
-        Me.btnRejected.Location = New System.Drawing.Point(764, 5)
+        Me.btnRejected.Location = New System.Drawing.Point(776, 5)
         Me.btnRejected.Name = "btnRejected"
         Me.btnRejected.Size = New System.Drawing.Size(83, 22)
         Me.btnRejected.TabIndex = 158
@@ -1085,20 +1087,11 @@ Partial Class FrmQualityCheckForSRN
         'btnAnalysisPrintVertical
         '
         Me.btnAnalysisPrintVertical.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAnalysisPrintVertical.Location = New System.Drawing.Point(524, 5)
+        Me.btnAnalysisPrintVertical.Location = New System.Drawing.Point(532, 5)
         Me.btnAnalysisPrintVertical.Name = "btnAnalysisPrintVertical"
         Me.btnAnalysisPrintVertical.Size = New System.Drawing.Size(116, 22)
         Me.btnAnalysisPrintVertical.TabIndex = 9
         Me.btnAnalysisPrintVertical.Text = "Analysis Print Vertical"
-        '
-        'btnAnalysisPrint
-        '
-        Me.btnAnalysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAnalysisPrint.Location = New System.Drawing.Point(439, 5)
-        Me.btnAnalysisPrint.Name = "btnAnalysisPrint"
-        Me.btnAnalysisPrint.Size = New System.Drawing.Size(83, 22)
-        Me.btnAnalysisPrint.TabIndex = 8
-        Me.btnAnalysisPrint.Text = "Analysis Print"
         '
         'btnPrint
         '
@@ -1121,7 +1114,7 @@ Partial Class FrmQualityCheckForSRN
         'btnreverse
         '
         Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreverse.Location = New System.Drawing.Point(849, 5)
+        Me.btnreverse.Location = New System.Drawing.Point(862, 5)
         Me.btnreverse.Name = "btnreverse"
         Me.btnreverse.Size = New System.Drawing.Size(53, 22)
         Me.btnreverse.TabIndex = 5
@@ -1172,6 +1165,28 @@ Partial Class FrmQualityCheckForSRN
         Me.btnsave.Size = New System.Drawing.Size(75, 22)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
+        '
+        'btnAnalysisPrint
+        '
+        Me.btnAnalysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAnalysisPrint.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnPrintA4, Me.btnPrintA5})
+        Me.btnAnalysisPrint.Location = New System.Drawing.Point(439, 6)
+        Me.btnAnalysisPrint.Name = "btnAnalysisPrint"
+        Me.btnAnalysisPrint.Size = New System.Drawing.Size(92, 20)
+        Me.btnAnalysisPrint.TabIndex = 159
+        Me.btnAnalysisPrint.Text = "Analysis Print"
+        '
+        'btnPrintA4
+        '
+        Me.btnPrintA4.Name = "btnPrintA4"
+        Me.btnPrintA4.Text = "Print A4 Size"
+        Me.btnPrintA4.UseCompatibleTextRendering = False
+        '
+        'btnPrintA5
+        '
+        Me.btnPrintA5.Name = "btnPrintA5"
+        Me.btnPrintA5.Text = "Print A5 Size"
+        Me.btnPrintA5.UseCompatibleTextRendering = False
         '
         'FrmQualityCheckForSRN
         '
@@ -1245,7 +1260,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnRALWiseAnaysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAnalysisPrintVertical, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSendEmail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1254,6 +1268,7 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1303,7 +1318,6 @@ Partial Class FrmQualityCheckForSRN
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents fnd_PendingMRN As common.UserControls.txtFinder
-    Friend WithEvents btnAnalysisPrint As RadButton
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
@@ -1326,5 +1340,8 @@ Partial Class FrmQualityCheckForSRN
     Friend WithEvents lblRalPrint As common.Controls.MyLabel
     Friend WithEvents TxtFinderRalPrint As common.UserControls.txtFinder
     Friend WithEvents btnRALWiseAnaysisPrint As RadButton
+    Friend WithEvents btnAnalysisPrint As RadSplitButton
+    Friend WithEvents btnPrintA4 As RadMenuItem
+    Friend WithEvents btnPrintA5 As RadMenuItem
 End Class
 

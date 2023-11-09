@@ -94,7 +94,7 @@ Public Class RptMilkBillMCC
     End Sub
     Public Sub Load_Report()
         Try
-            Dim sQuery, qry As String
+            Dim sQuery As String
             Dim companyADD, CompName, CompCode As String
             Dim arrMCC As ArrayList = Nothing
             Dim arrRoute As ArrayList = Nothing
