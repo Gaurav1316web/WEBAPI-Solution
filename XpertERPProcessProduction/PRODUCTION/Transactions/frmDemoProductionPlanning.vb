@@ -398,8 +398,10 @@ Public Class frmDemoProductionPlanning
                 LoadData(obj.Document_No, NavigatorType.Current)
                 Return isSaved
             End If
+            Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)

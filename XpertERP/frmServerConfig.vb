@@ -8,10 +8,10 @@ Public Class FrmServerConfig
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
             If AllowToSave() Then
-                clsCommon.MyMessageBoxShow("Connection is working", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Connection is working", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -36,7 +36,7 @@ Public Class FrmServerConfig
             If ex.Message.Contains("Access to the path") Then
                 clsCommon.MyMessageBoxShow("Please give the modify permission" + Environment.NewLine + "Go to - " + Application.StartupPath + Environment.NewLine + "Right click on folder and select properties" + Environment.NewLine + "Select security Tab and click on Edit button" + Environment.NewLine + "Select login 'Group or user names' and give modify permission")
             Else
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -59,7 +59,7 @@ Public Class FrmServerConfig
             dInfo.SetAccessControl(dSecurity)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

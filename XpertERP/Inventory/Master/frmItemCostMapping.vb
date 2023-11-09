@@ -283,7 +283,7 @@ Public Class FrmItemCostMapping
             If clsCommon.myLen(txtItemCode.Value) > 0 Then
                 Dim chkItem As Double = clsDBFuncationality.getSingleValue("  select Count(*) from TSPL_ITEM_MASTER where item_code = '" + txtItemCode.Value + "'")
                 If chkItem <= 0 Then
-                    clsCommon.MyMessageBoxShow("Invalid Item Code", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invalid Item Code", Me.Text)
                     txtItemCode.Focus()
                     Return False
                 End If
@@ -292,7 +292,7 @@ Public Class FrmItemCostMapping
                 If clsCommon.myLen(txtItemCode.Value) > 0 Then
                     Dim chkItem As Double = clsDBFuncationality.getSingleValue("  select Count(*) from TSPL_ITEM_COST_MAPPING_HEADS where item_code = '" + txtItemCode.Value + "'")
                     If chkItem > 0 Then
-                        clsCommon.MyMessageBoxShow("Record Exist against Item Code : '" + txtItemCode.Value + "' ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Record Exist against Item Code : '" + txtItemCode.Value + "' ", Me.Text)
                         txtItemCode.Focus()
                         Return False
                     End If
@@ -302,7 +302,7 @@ Public Class FrmItemCostMapping
             If clsCommon.myLen(txtUOM.Value) > 0 Then
                 Dim chkItem As Double = clsDBFuncationality.getSingleValue("    select count(*) from TSPL_ITEM_UOM_DETAIL where Item_Code = '" + txtItemCode.Value + "' and UOM_Code = '" + txtUOM.Value + "' ")
                 If chkItem <= 0 Then
-                    clsCommon.MyMessageBoxShow("Invalid UOM", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invalid UOM", Me.Text)
                     txtItemCode.Focus()
                     Return False
                 End If
@@ -310,7 +310,7 @@ Public Class FrmItemCostMapping
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -396,7 +396,7 @@ Public Class FrmItemCostMapping
                 Next
                 If obj.SaveData(obj, isNewEntry) Then
                     If chkPostClick = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.HCODE, NavigatorType.Current)
                     btnAdd.Text = "Update"
@@ -406,7 +406,7 @@ Public Class FrmItemCostMapping
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -462,11 +462,11 @@ Public Class FrmItemCostMapping
             End If
             If clsCommon.MyMessageBoxShow("Delete the current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsItemCostMapping.DeleteData(fndCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -519,7 +519,7 @@ Public Class FrmItemCostMapping
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -551,7 +551,7 @@ Public Class FrmItemCostMapping
             LoadDetailData(obj.ArrDetails, False)
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
 
@@ -600,14 +600,14 @@ Public Class FrmItemCostMapping
             If (myMessages.postConfirm()) Then
                 SaveData()
                 If clsItemCostMapping.PostData(fndCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(fndCode.Value, NavigatorType.Current)
                 End If
 
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
         Finally
             chkPostClick = False
         End Try
@@ -636,7 +636,7 @@ Public Class FrmItemCostMapping
         Try
             If isButtonClicked Then
                 If clsCommon.myLen(txtItemCode.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please select Item Code First.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please select Item Code First.", Me.Text)
                     Return
                 End If
                 txtUOM.Value = clsItemCostMapping.getUOMFinder("item_code='" + txtItemCode.Value + "'", txtUOM.Value, isButtonClicked)
@@ -657,7 +657,7 @@ Public Class FrmItemCostMapping
                 LoadBlankGrid1()
                 LoadBlankGrid2()
                 If clsCommon.myLen(txtUOM.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please select UOM First.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please select UOM First.", Me.Text)
                     Return
                 End If
                 txtCostGroup.Value = clsItemCostMapping.getGroupFinder("", txtCostGroup.Value, isButtonClicked)
@@ -715,7 +715,7 @@ Public Class FrmItemCostMapping
             Dim wher As String = " "
             transportSql.ExporttoExcel(query, wher, "xx.DOC_CODE", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Item Cost Mapping")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Item Cost Mapping")
         End Try
 
     End Sub
@@ -747,20 +747,20 @@ Public Class FrmItemCostMapping
                 For Each grow As GridViewRowInfo In dgv.Rows
                     lineNo = lineNo + 1
                     If clsCommon.myLen(grow.Cells("DOC_CODE").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Document Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Document Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
 
                     If clsCommon.myLen(grow.Cells("DOC_CODE").Value) > 30 Then
-                        common.clsCommon.MyMessageBoxShow("Document Code Length cannot be greater than 30 at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Document Code Length cannot be greater than 30 at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
                     If clsCommon.myLen(grow.Cells("DOC_CODE").Value) > 0 Then
                         Dim chkPostDocCode As Double = clsDBFuncationality.getSingleValue("select Count(*) from TSPL_ITEM_COST_MAPPING_HEADS where HCODE='" + clsCommon.myCstr(grow.Cells("DOC_CODE").Value) + "' and status =1 ", trans)
                         If chkPostDocCode > 0 Then
-                            common.clsCommon.MyMessageBoxShow("Document already Poasted,You Can't update Posted document at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Document already Poasted,You Can't update Posted document at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
@@ -770,26 +770,26 @@ Public Class FrmItemCostMapping
                 For Each grow As GridViewRowInfo In dgv.Rows
                     lineNo = lineNo + 1
                     If clsCommon.myLen(grow.Cells("DOC_CODE").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Document Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Document Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
 
                     If clsCommon.myLen(grow.Cells("DOC_CODE").Value) > 30 Then
-                        common.clsCommon.MyMessageBoxShow("Document Code Length cannot be greater than 30 at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Document Code Length cannot be greater than 30 at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
                     DOC_CODE = clsCommon.myCstr(grow.Cells("DOC_CODE").Value)
                     If clsCommon.myLen(grow.Cells("Item_Code").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Item Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Item Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
                     If clsCommon.myLen(grow.Cells("Item_Code").Value) > 0 Then
                         Dim chkItemCode As Double = clsDBFuncationality.getSingleValue("select count(*) from tspl_item_master where item_code= '" + clsCommon.myCstr(grow.Cells("Item_Code").Value) + "'", trans)
                         If chkItemCode <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(" Invalid Item Code not at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, " Invalid Item Code not at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
@@ -803,7 +803,7 @@ Public Class FrmItemCostMapping
 
 
                     If clsCommon.myLen(grow.Cells("UOM").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Item Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Item Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -811,14 +811,14 @@ Public Class FrmItemCostMapping
                     If clsCommon.myLen(grow.Cells("UOM").Value) > 0 Then
                         Dim chkUOMCode As Double = clsDBFuncationality.getSingleValue("select count( *)  from TSPL_ITEM_UOM_DETAIL where Item_Code = '" + clsCommon.myCstr(grow.Cells("Item_Code").Value) + "' and UOM_Code = '" + clsCommon.myCstr(grow.Cells("UOM").Value) + "' ", trans)
                         If chkUOMCode <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Invalid UOM Code at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Invalid UOM Code at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
                     End If
                     UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
                     If clsCommon.myLen(grow.Cells("GROUP_CODE").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Group Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Group Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -826,7 +826,7 @@ Public Class FrmItemCostMapping
                     If clsCommon.myLen(grow.Cells("GROUP_CODE").Value) <= 0 Then
                         Dim chkGroupCode As Double = clsDBFuncationality.getSingleValue("select count (*) from TSPL_OVERHEAD_COST_GROUP_HEAD where GROUP_CODE = '" + clsCommon.myCstr(grow.Cells("GROUP_CODE").Value) + "' ", trans)
                         If chkGroupCode <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Invalid Group Code at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Invalid Group Code at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
@@ -848,21 +848,21 @@ Public Class FrmItemCostMapping
 
 
                     If clsCommon.myLen(grow.Cells("COST_CODE").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Cost Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Cost Code cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
                     If clsCommon.myLen(grow.Cells("COST_CODE").Value) > 0 Then
                         Dim chkCostCode As Double = clsDBFuncationality.getSingleValue("select count(*) from TSPL_OVERHEAD_COST where COST_CODE = '" + clsCommon.myCstr(grow.Cells("COST_CODE").Value) + "' ", trans)
                         If chkCostCode <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Invalid Cost Code at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Invalid Cost Code at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
                     End If
                     COST_CODE = clsCommon.myCstr(grow.Cells("COST_CODE").Value)
                     If clsCommon.myLen(grow.Cells("COST").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Cost  cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Cost  cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -871,13 +871,13 @@ Public Class FrmItemCostMapping
                     If clsCommon.myLen(GROUP_CODE) > 0 AndAlso clsCommon.myLen(COST_CODE) > 0 Then
                         Dim chkGroupCodeCostCode As Double = clsDBFuncationality.getSingleValue(" select count(*) from TSPL_OVERHEAD_COST_GROUP_DETAILS where Group_Code = '" + GROUP_CODE + "' and COST_CODE = '" + COST_CODE + "'", trans)
                         If chkGroupCodeCostCode <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Cost Code not mapped under Group Code  at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Cost Code not mapped under Group Code  at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
                     End If
                     If clsCommon.myLen(grow.Cells("Approved").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Approved  cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Approved  cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                         Exit Sub
                     End If
                     Approved = clsCommon.myCstr(grow.Cells("Approved").Value)
@@ -894,14 +894,14 @@ Public Class FrmItemCostMapping
                     If CheckDocExist > 0 Then
                         Dim chkUOMCodeSameOrDiff As Double = clsDBFuncationality.getSingleValue("select count(*) from TSPL_ITEM_COST_MAPPING_HEADS where HCODE = '" + DOC_CODE + "' and UOM = '" + UOM + "' ", trans)
                         If chkUOMCodeSameOrDiff <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("More then one UOM Code can't use same document at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "More then one UOM Code can't use same document at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
 
                         Dim chkGroupCodeSameOrDiff As Double = clsDBFuncationality.getSingleValue("select count (*)from TSPL_ITEM_COST_MAPPING_HEADS where HCODE = '" + DOC_CODE + "'  and GROUP_CODE = '" + GROUP_CODE + "' ", trans)
                         If chkGroupCodeSameOrDiff <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("More then one Group Code can't use same document at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "More then one Group Code can't use same document at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
@@ -915,7 +915,7 @@ Public Class FrmItemCostMapping
 
                         Dim chkItemCodeSameOrDiff As Double = clsDBFuncationality.getSingleValue("select count (*)from TSPL_ITEM_COST_MAPPING_HEADS where HCODE = '" + DOC_CODE + "'  and Item_Code = '" + Item_Code + "' ", trans)
                         If chkItemCodeSameOrDiff <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Item Code should be same for For every [Cost Code] in Same Document at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Item Code should be same for For every [Cost Code] in Same Document at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
@@ -975,7 +975,7 @@ Public Class FrmItemCostMapping
 
                         Dim chkItemCode As Double = clsDBFuncationality.getSingleValue("select count (*) from TSPL_ITEM_COST_MAPPING_HEADS where Item_Code = '" + clsCommon.myCstr(grow.Cells("Item_Code").Value) + "'", trans)
                         If chkItemCode > 0 Then
-                            common.clsCommon.MyMessageBoxShow("Duplicate entry not possible, Already Item Code Exist another document  at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Duplicate entry not possible, Already Item Code Exist another document  at line :'" + clsCommon.myCstr(lineNo) + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
@@ -1008,10 +1008,10 @@ Public Class FrmItemCostMapping
                 Next
             End If
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function UOMConveter(ByVal strItem As String, ByVal strUOM As String, ByVal strCost As Double, ByVal trans As SqlTransaction) As Double

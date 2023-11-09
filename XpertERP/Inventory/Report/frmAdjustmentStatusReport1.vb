@@ -101,16 +101,16 @@ Public Class FrmAdjustmentStatusReport1
         Dim fromdate As String = clsCommon.GetPrintDate(dtpstart.Value, "dd/MMM/yyyy hh:mm tt")
         Dim enddate As String = clsCommon.GetPrintDate(dtpend.Value, "dd/MMM/yyyy hh:mm tt")
         If chktypeSelect.IsChecked AndAlso cbgtype.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Type")
             Return
         End If
 
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location")
             Return
         End If
         If (dtpstart.Value > dtpend.Value) Then
-            common.clsCommon.MyMessageBoxShow("'Start Date' Cann't be more than 'End date'")
+            common.clsCommon.MyMessageBoxShow(Me, "'Start Date' Cann't be more than 'End date'")
             'ElseIf (dtpStarttime.Value > dtpendtime.Value) Then
             '    common.clsCommon.MyMessageBoxShow("'Start Time' Cann't be more than 'End Time'")
         Else
@@ -167,7 +167,7 @@ Public Class FrmAdjustmentStatusReport1
                     " order By Created_Date "
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("No Record Found")
+                        common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
                     Else
                         dt = clsDBFuncationality.GetDataTable(qry)
                         frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptAdjustmentStatusReport", "Adjustment Status Report")
@@ -175,7 +175,7 @@ Public Class FrmAdjustmentStatusReport1
                 End If
                 frmCRV = Nothing
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message)
             End Try
         End If
     End Sub

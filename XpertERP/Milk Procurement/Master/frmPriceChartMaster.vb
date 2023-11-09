@@ -291,7 +291,7 @@ Public Class FrmPriceChartMaster
             CalculateSNFFromCLR()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Function
 
@@ -345,9 +345,9 @@ Public Class FrmPriceChartMaster
 
             If clsfrmPriceChartMaster.SaveData(obj.code, isNewEntry, obj) Then
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 fndcode.Value = obj.code
                 fndcode.MyReadOnly = True
@@ -360,7 +360,7 @@ Public Class FrmPriceChartMaster
                 End If
 
                 If clsfrmPriceChartMaster.HistoryData(obj.code, formtype) Then
-                    clsCommon.MyMessageBoxShow("History Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "History Saved Successfully", Me.Text)
                 End If
 
             Else
@@ -370,7 +370,7 @@ Public Class FrmPriceChartMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -400,7 +400,7 @@ Public Class FrmPriceChartMaster
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -447,7 +447,7 @@ Public Class FrmPriceChartMaster
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         Dim qry As String = ""
         If clsCommon.myLen(fndcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select First Price Code For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select First Price Code For Deletion", Me.Text)
             fndcode.Focus()
             fndcode.Select()
             Return
@@ -456,7 +456,7 @@ Public Class FrmPriceChartMaster
             Dim check As Integer = CInt(clsDBFuncationality.getSingleValue(qry))
 
             If check <= 0 Then
-                clsCommon.MyMessageBoxShow("Filled Price Code Not Found For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Filled Price Code Not Found For Deletion", Me.Text)
                 fndcode.Focus()
                 fndcode.Select()
                 Return
@@ -471,10 +471,10 @@ Public Class FrmPriceChartMaster
             qry = "delete from TSPL_MILK_PRICE_MASTER where price_code='" + clsCommon.myCstr(fndcode.Value) + "' and Price_Type='" + formtype + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -573,7 +573,7 @@ Public Class FrmPriceChartMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -730,11 +730,11 @@ Public Class FrmPriceChartMaster
 
             clsCommon.ProgressBarHide()
             Reset()
-            clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
-            End Try
+                    clsCommon.MyMessageBoxShow(Me, ex.Message)
+                End Try
         End If
         End If
 
@@ -795,10 +795,10 @@ Public Class FrmPriceChartMaster
 
                     clsCommon.ProgressBarHide()
                     Reset()
-                    clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 Catch ex As Exception
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message)
                 End Try
             End If
         End If
@@ -819,7 +819,7 @@ Public Class FrmPriceChartMaster
             txtratio.Focus()
             txtratio.Select()
             txtratio.Text = "0"
-            clsCommon.MyMessageBoxShow("Fill numeric value only.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Fill numeric value only.", Me.Text)
         End Try
         Try
             txtsnf_ratio.Text = 100 - clsCommon.myCdbl(txtratio.Text)
@@ -828,7 +828,7 @@ Public Class FrmPriceChartMaster
                 Throw New Exception("Please Fill Ratio Of SNF And FAT." + Environment.NewLine + "There Sum Should be Equal To 100")
             End If
         Catch exx As Exception
-            clsCommon.MyMessageBoxShow(exx.Message)
+            clsCommon.MyMessageBoxShow(Me, exx.Message)
         End Try
     End Sub
 
@@ -841,7 +841,7 @@ Public Class FrmPriceChartMaster
             txtsnf_ratio.Focus()
             txtsnf_ratio.Select()
             txtsnf_ratio.Text = "0"
-            clsCommon.MyMessageBoxShow("Fill numeric value only.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Fill numeric value only.", Me.Text)
         End Try
         Try
             txtratio.Text = 100 - clsCommon.myCdbl(txtsnf_ratio.Text)
@@ -868,7 +868,7 @@ Public Class FrmPriceChartMaster
                 clsCommon.MyMessageBoxShow("No document for print")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
@@ -889,7 +889,7 @@ Public Class FrmPriceChartMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Price Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Price Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndcode.Value, "Price_Code", "TSPL_MILK_PRICE_MASTER")
@@ -938,7 +938,7 @@ Public Class FrmPriceChartMaster
             gv.AllowRowReorder = True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

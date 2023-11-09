@@ -72,6 +72,7 @@ Public Class FrmProjectStatus
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            Return False
         End Try
     End Function
     Private Function CurrentStatus() As String

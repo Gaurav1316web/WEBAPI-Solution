@@ -34,7 +34,7 @@ Public Class clsDistributorCommission
             clsCommon.AddColumnsForChange(coll, "Applicable_Date", clsCommon.GetPrintDate(obj.Applicable_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Commision_UOM", obj.Commision_UOM)
             clsCommon.AddColumnsForChange(coll, "Distributor_Tagging_Code", obj.Distributor_Tagging_Code, True)
-            clsCommon.AddColumnsForChange(coll, "IS_Transpotation", IIf(obj.IS_Transpotation, 1, 0), True)
+            clsCommon.AddColumnsForChange(coll, "IS_Transpotation", IIf(obj.IS_Transpotation, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then

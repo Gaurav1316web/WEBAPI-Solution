@@ -59,7 +59,7 @@ Public Class FrmItemSerialTrackingReport
             cbgSerialNo.DisplayMember = "Item"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -70,7 +70,7 @@ Public Class FrmItemSerialTrackingReport
             cbgItem.ValueMember = "Item_Code"
             cbgItem.DisplayMember = "Item_Desc"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -107,7 +107,7 @@ Public Class FrmItemSerialTrackingReport
             PageSetupReport_ID = MyBase.Form_ID
             LoadData()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub CommentedCode()
@@ -375,7 +375,7 @@ Public Class FrmItemSerialTrackingReport
                 gv1.ShowGroupPanel = False
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     'Throw New Exception("No Data Found to Display")
-                    clsCommon.MyMessageBoxShow("No Data found to display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to display")
                 Else
                     gv1.DataSource = dt
                     SetGridFormationOFGV1()
@@ -505,7 +505,7 @@ Public Class FrmItemSerialTrackingReport
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub SetGridFormationOfGVSummary()
@@ -520,7 +520,7 @@ Public Class FrmItemSerialTrackingReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -623,10 +623,10 @@ Public Class FrmItemSerialTrackingReport
                     clsCommon.MyExportToPDF("Item Serial Tracking Report (" + cboType.Text + ")", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -683,7 +683,7 @@ Public Class FrmItemSerialTrackingReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub RadButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton3.Click
@@ -725,7 +725,7 @@ Public Class FrmItemSerialTrackingReport
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -745,7 +745,7 @@ Public Class FrmItemSerialTrackingReport
             Reset()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -785,7 +785,7 @@ Public Class FrmItemSerialTrackingReport
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -795,7 +795,7 @@ Public Class FrmItemSerialTrackingReport
         If gvSerial.Rows.Count > 0 Then
             printSerialDetails(EnumExportTo.Excel)
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
         End If
 
     End Sub
@@ -858,10 +858,10 @@ Public Class FrmItemSerialTrackingReport
                     clsCommon.MyExportToPDF("Item Serial Details Tracking Report", gvSerial, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -870,7 +870,7 @@ Public Class FrmItemSerialTrackingReport
         If gvSerial.Rows.Count > 0 Then
             printSerialDetails(EnumExportTo.PDF)
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
         End If
 
     End Sub

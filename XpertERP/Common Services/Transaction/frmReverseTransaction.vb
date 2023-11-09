@@ -312,7 +312,7 @@ Public Class frmReverseTransaction
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -347,7 +347,7 @@ Public Class frmReverseTransaction
                             Dim strchk As String = "select Post from TSPL_BANK_REVERSE where Reverse_Code='" + fndreversecode.Value + "'"
                             Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                             If chkpost = "P" Then
-                                clsCommon.MyMessageBoxShow("Transaction already posted")
+                                clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                                 Exit Sub
                             End If
                         End If
@@ -359,7 +359,7 @@ Public Class frmReverseTransaction
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa agarwal create function to check bank balance on save
@@ -533,7 +533,7 @@ Public Class frmReverseTransaction
                     myMessages.blankValue("Payment Amount")
                     txt_paymentAmount.Focus()
                 ElseIf clsCommon.GetDateWithStartTime(clsCommon.myCDate(obj.Payment_Date)) >= clsCommon.GetDateWithEndTime(dtp_reversaldate.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Reversal Date should be greator than or equal to Payment Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "Reversal Date should be greator than or equal to Payment Date", Me.Text)
                     dtp_reversaldate.Focus()
                 Else
                     'Dim tpd As String = Format(dtp_transferpostingdate.Value.ToString(), "dd/MM/yyyy")
@@ -795,7 +795,7 @@ Public Class frmReverseTransaction
                     '    common.clsCommon.MyMessageBoxShow("Reversal Date should be greator than Receipt Date")
                     '    dtp_reversaldate.Focus()
                 ElseIf clsCommon.myCDate(dtp_reversaldate.Value) < clsCommon.myCDate(dtp_PayRecDate.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Reversal Date should be greator than or equal to Receipt Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "Reversal Date should be greator than or equal to Receipt Date", Me.Text)
                     dtp_reversaldate.Focus()
                 Else
                     'Dim tpd As String = Format(dtp_transferpostingdate.Value, "dd/MM/yyyy")
@@ -813,7 +813,7 @@ Public Class frmReverseTransaction
                     ''richa 23 june,2017
 
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select TAX1_Amt from TSPL_RECEIPT_HEADER  where Receipt_No ='" + fndcheckReceiptNo.Value + "'", Nothing)) > 0 Then
-                        If clsCommon.MyMessageBoxShow("Do you want to reverse Tax Amount also ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
+                        If clsCommon.MyMessageBoxShow(Me, "Do you want to reverse Tax Amount also ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
                             isTaxReverse = False
                         Else
                             isTaxReverse = True
@@ -1320,7 +1320,7 @@ Public Class frmReverseTransaction
                 '    Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub postdata()
@@ -1337,7 +1337,7 @@ Public Class frmReverseTransaction
             Else
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -1770,7 +1770,7 @@ Public Class frmReverseTransaction
                 myMessages.myExceptions(ex)
             End Try
         Else
-            common.clsCommon.MyMessageBoxShow("Select Bank Code !")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Bank Code !", Me.Text)
         End If
     End Sub
 
@@ -1803,7 +1803,7 @@ Public Class frmReverseTransaction
                 myMessages.myExceptions(ex)
             End Try
         Else
-            common.clsCommon.MyMessageBoxShow("Select Bank Code !")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Bank Code !", Me.Text)
         End If
     End Sub
 
@@ -1881,7 +1881,7 @@ Public Class frmReverseTransaction
 
             'btn_post.Enabled = True
         Else
-            common.clsCommon.MyMessageBoxShow("Select Bank Code !")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Bank Code !", Me.Text)
         End If
     End Sub
 
@@ -1950,7 +1950,7 @@ Public Class frmReverseTransaction
                 myMessages.myExceptions(ex)
             End Try
         Else
-            common.clsCommon.MyMessageBoxShow("Select Bank Code !")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Bank Code !", Me.Text)
         End If
     End Sub
     'Edited By Abhishek
@@ -2175,7 +2175,7 @@ Public Class frmReverseTransaction
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndCheckPaymentNo.Value, "TSPL_PAYMENT_HEADER", "Payment_No", trans)
 
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Revese and unposted successfully")
+            clsCommon.MyMessageBoxShow(Me, "Revese and unposted successfully", Me.Text)
             funFill4()
 
             'Dim qry As String = "select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='RV-TA' and Source_Doc_No='" + fndreversecode.Value + "'"
@@ -2212,7 +2212,7 @@ Public Class frmReverseTransaction
             'End If
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

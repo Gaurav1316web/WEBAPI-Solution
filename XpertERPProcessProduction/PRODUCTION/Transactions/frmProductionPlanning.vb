@@ -615,14 +615,14 @@ Public Class frmProductionPlanning
                     Return True
                 End If
 
-                Return False
+                'Return False
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         Finally
             obj = Nothing
         End Try
-        
+        Return False
     End Function
 
     Function AllowToSave(Optional ByVal chk_post As Boolean = False) As Boolean
@@ -1252,7 +1252,7 @@ Public Class frmProductionPlanning
 
         End If
         Me.Controls.Remove(gv)
-
+        Return False
     End Function
     Function ImportDetail() As Boolean
         Dim gv As New RadGridView()
@@ -1271,7 +1271,7 @@ Public Class frmProductionPlanning
                     obj = New clsProductionPlanning
                     Dim Location_Code As String = ""
 
-                    Dim strCode As String = clsCommon.myCstr(grow.Cells("Plan Code").Value)                    
+                    Dim strCode As String = clsCommon.myCstr(grow.Cells("Plan Code").Value)
                     If clsProductionPlanning.CheckCode(strCode, Nothing) = False Then
                         Throw New Exception("Plan Code " & strCode & " at row no-" & (grow.Index + 1) & " is invalid.")
                     Else
@@ -1280,9 +1280,9 @@ Public Class frmProductionPlanning
                     obj1.PROD_PLAN_CODE = strCode
 
 
-                    strCode=clsCommon.myCstr(grow.Cells("BOM Code").Value)
+                    strCode = clsCommon.myCstr(grow.Cells("BOM Code").Value)
                     If clsBillOfMaterial.CheckBOMCode(strCode, Nothing) = False Then
-                        Throw New Exception("BOM Code " & strCode & " at row no-" & (grow.Index + 1) & " is invalid.")                    
+                        Throw New Exception("BOM Code " & strCode & " at row no-" & (grow.Index + 1) & " is invalid.")
                     End If
                     obj1.BOM_CODE = strCode
 
@@ -1291,7 +1291,7 @@ Public Class frmProductionPlanning
                         If clsSalesOrder.CheckCode(strCode, Nothing) = False Then
                             Throw New Exception("SO Code " & strCode & " at row no-" & (grow.Index + 1) & " is invalid.")
                         End If
-                    End If                   
+                    End If
                     obj1.SO_Id = strCode
 
                     Dim Line_No As Integer = clsCommon.myCdbl(grow.Cells("Line No").Value)
@@ -1299,7 +1299,7 @@ Public Class frmProductionPlanning
                         Throw New Exception("Line No at row no-" & (grow.Index + 1) & " is invalid.")
                     End If
                     obj1.Line_No = Line_No
-                    Dim BOM_Field As String = ""                                     
+                    Dim BOM_Field As String = ""
                     BOM_Field = clsCommon.myCstr(grow.Cells("Item Code").Value)
                     If BOM_Field.Length > 50 Or BOM_Field.Length = 0 Then
                         Throw New Exception("Item Code at row no-" & (grow.Index + 1) & " can not be blank or incorrect.")
@@ -1344,6 +1344,7 @@ Public Class frmProductionPlanning
 
         End If
         Me.Controls.Remove(gv)
-
+        Return False
     End Function
+
 End Class

@@ -113,6 +113,7 @@ Public Class frmPriceChartPlanMasterJPR
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
+        Return True
     End Function
 
     Sub SaveData()
@@ -599,7 +600,7 @@ Public Class frmPriceChartPlanMasterJPR
                 '    Throw New Exception("Error in Code Generation")
                 'End If
                 'Dim coll As New Hashtable()
-                '''---------------------FAT SNF
+                '---------------------FAT SNF
                 'For RowFAT As Integer = 0 To 150
                 '    For ColSNF As Integer = 0 To 150
                 '        coll = New Hashtable()
@@ -622,7 +623,7 @@ Public Class frmPriceChartPlanMasterJPR
                 '        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FAT_SNF_UPLOADER_MASTER", OMInsertOrUpdate.Insert, "", trans)
                 '    Next
                 'Next
-                '''---------------------End of FAT SNF
+                '---------------------End of FAT SNF
 
 
 

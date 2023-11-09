@@ -145,10 +145,10 @@ Public Class frmBOMImport
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
             End Try
-
+            Return True
         End If
         Me.Controls.Remove(gv)
-
+        Return False
     End Function
 
     Function ImportBOMComponents(ByVal gv As RadGridView) As Boolean
@@ -241,7 +241,7 @@ Public Class frmBOMImport
 
         End If
         Me.Controls.Remove(gv)
-
+        Return False
     End Function
 
 

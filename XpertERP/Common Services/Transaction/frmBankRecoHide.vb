@@ -51,7 +51,7 @@ Public Class FrmBankRecoHide
                 gv1.Columns(ii).ReadOnly = True
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Me.Close()
         End Try
     End Sub
@@ -76,10 +76,10 @@ Public Class FrmBankRecoHide
                 Throw New Exception("Please Hide/Unhide at least one transaction")
             End If
             clsBankReco.SetHideEntry(Arr)
-            clsCommon.MyMessageBoxShow("Successfully applied", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully applied", Me.Text)
             Me.Close()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -91,7 +91,7 @@ Public Class FrmBankRecoHide
         Try
             clsCommon.MyExportToExcelGrid("", gv1, Nothing, Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -122,14 +122,14 @@ Public Class FrmBankRecoHide
                         Next
                     Next
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data imported successfully", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
                     Throw New Exception(ex.Message)
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -149,7 +149,7 @@ Public Class FrmBankRecoHide
                 gv1.Rows(ii).Cells("Sel").Value = val
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -201,7 +201,7 @@ Public Class FrmBankRecoHide
                 clsCommon.MyMessageBoxShow("Verification is ok", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

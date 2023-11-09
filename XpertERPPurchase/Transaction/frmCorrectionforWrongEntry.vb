@@ -52,7 +52,7 @@ Public Class frmCorrectionforWrongEntry
                     txtInvoiceDate.Value = obj.InvoiceDate
                 End If
                 txtGENo.Text = obj.GENo
-                If Not obj.GEDate = Nothing Then
+                If Not obj.GEDate Is Nothing Then
                     txtGEDate.Value = obj.GEDate
                     txtGEDate.Checked = True
                 End If

@@ -251,14 +251,14 @@ Public Class frmChapterHead
                         trans.Rollback()
                         Exit Sub
                     ElseIf grow.Cells(0).Value.ToString().Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Code cannot be greater than 12 length.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Code cannot be greater than 12 length.", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     Else
                         strchapterhead = grow.Cells(0).Value.ToString().ToUpper()
                     End If
                     If grow.Cells(1).Value.ToString().Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow("Description cannot be greater than 50 length")
+                        common.clsCommon.MyMessageBoxShow(Me, "Description cannot be greater than 50 length", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     Else
@@ -279,7 +279,7 @@ Public Class frmChapterHead
 
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()

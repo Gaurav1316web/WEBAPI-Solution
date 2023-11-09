@@ -12,7 +12,7 @@ Public Class frmInventorySourceCode
         Try
             LoadData(fndaccgp.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -184,12 +184,12 @@ Public Class frmInventorySourceCode
         Try
             If (deleteConfirm()) Then
                 If (clsInventorySourceCode.DeleteData(fndaccgp.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funReset()
@@ -244,7 +244,7 @@ Public Class frmInventorySourceCode
             obj.Out_Category = clsCommon.myCstr(cboOutCatg.SelectedValue)
             obj.Sequence = clsCommon.myCdbl(txtSequence.Text)
             If (clsInventorySourceCode.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
             End If
         End If

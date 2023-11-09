@@ -1256,7 +1256,7 @@ Public Class frmPOSBookingDairyMultipleDistributor
                 End If
                 If (BlankData <= 0) Then
                     trans.Rollback()
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Booking", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Booking", Me.Text)
                     Return
                 End If
 
