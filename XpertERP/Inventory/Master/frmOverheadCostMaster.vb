@@ -77,7 +77,7 @@ Public Class frmOverheadCostMaster
                 obj.RatePerHour = txtRatePerHour.Text
             End If
             If (clsOverheadCost.SaveData(obj, isNewEntry, Nothing)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                 LoadData(obj.COST_CODE, NavigatorType.Current)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
@@ -132,7 +132,7 @@ Public Class frmOverheadCostMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
             Exit Sub
         End If
         funDelete()
@@ -142,7 +142,7 @@ Public Class frmOverheadCostMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsOverheadCost.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     funReset()
                 End If
             End If
@@ -156,7 +156,7 @@ Public Class frmOverheadCostMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -254,7 +254,7 @@ Public Class frmOverheadCostMaster
                 End Try
                 tran.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

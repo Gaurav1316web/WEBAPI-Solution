@@ -84,7 +84,7 @@ Public Class FrmCSADeliveryOrder
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -203,14 +203,14 @@ Public Class FrmCSADeliveryOrder
             'clsCommon.ProgressBarShow()
             If clsCSADeliveryOrder.DeleteData(txtCode.Value) Then
                 'clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
 
                 FunReset()
             End If
             'clsCommon.ProgressBarHide()
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -414,7 +414,7 @@ Public Class FrmCSADeliveryOrder
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -519,7 +519,7 @@ Public Class FrmCSADeliveryOrder
             If clsCSADeliveryOrder.SaveData(obj, xvalue, isNewentry) Then
                 'clsCommon.ProgressBarHide()
                 If Not isPost AndAlso Not isDOAmended Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
 
                 txtCode.Value = obj.docno
@@ -543,7 +543,7 @@ Public Class FrmCSADeliveryOrder
             'clsCommon.ProgressBarHide()
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -603,7 +603,7 @@ Public Class FrmCSADeliveryOrder
 
 
                     If clsCSADeliveryOrder.PostData(txtCode.Value) Then
-                        clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
 
                         LoadData(txtCode.Value, NavigatorType.Current)
                         'If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
@@ -615,7 +615,7 @@ Public Class FrmCSADeliveryOrder
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -669,7 +669,7 @@ Public Class FrmCSADeliveryOrder
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1054,7 +1054,7 @@ Public Class FrmCSADeliveryOrder
 
         If clsCommon.myLen(txtfrmloc_code.Value) > 0 Then
             If clsCommon.CompairString(txtfrmloc_code.Value, txttoloc_code.Value) = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("From Location and To Location can not be same.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "From Location and To Location can not be same.", Me.Text)
                 txtfrmloc_code.Value = ""
                 txtfrmloc_name.Text = ""
                 Return
@@ -1074,7 +1074,7 @@ Public Class FrmCSADeliveryOrder
 
         If clsCommon.myLen(txttoloc_code.Value) > 0 Then
             If clsCommon.CompairString(txtfrmloc_code.Value, txttoloc_code.Value) = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("From Location and To Location can not be same.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "From Location and To Location can not be same.", Me.Text)
                 txttoloc_code.Value = ""
                 txttoloc_name.Text = ""
                 Return
@@ -1225,7 +1225,7 @@ Public Class FrmCSADeliveryOrder
         Catch ex As Exception
             isNewentry = True
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         isInsideLoadData = False
     End Sub
@@ -1374,7 +1374,7 @@ Public Class FrmCSADeliveryOrder
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1779,7 +1779,7 @@ Public Class FrmCSADeliveryOrder
             If Not ForUDLOnly AndAlso clsCommon.myCdbl(txtrate.Text) <= 0 AndAlso clsCommon.CompairString(csatype, "CPD-DESI GHEE") = CompairStringResult.Equal Then
                 txtrate.Focus()
                 txtrate.Select()
-                clsCommon.MyMessageBoxShow("Fill Rate For RT")
+                clsCommon.MyMessageBoxShow(Me, "Fill Rate For RT", Me.Text)
                 ClearCurrentRow()
                 Exit Sub
             End If
@@ -1851,7 +1851,7 @@ Public Class FrmCSADeliveryOrder
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1867,7 +1867,7 @@ Public Class FrmCSADeliveryOrder
             CalDiffrate(0, False)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1882,7 +1882,7 @@ Public Class FrmCSADeliveryOrder
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1912,7 +1912,7 @@ Public Class FrmCSADeliveryOrder
 
     Private Sub btndeletelayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndeletelayout.Click
         clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Delete layout successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Delete layout successfully", "Information", Me.Text)
     End Sub
 
     '' ====updated by Preeti Gupta Ticket No[]
@@ -1975,7 +1975,7 @@ Public Class FrmCSADeliveryOrder
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return dt
     End Function
@@ -1989,7 +1989,7 @@ Public Class FrmCSADeliveryOrder
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptCSADeliverySale", "CSA Delivery Sale", clsCommon.myCstr(dt.Rows(0)("Doc_Date")))
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found.")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found.", Me.Text)
         End If
         'clsCommon.ProgressBarHide()
     End Sub
@@ -2018,7 +2018,7 @@ Public Class FrmCSADeliveryOrder
     Private Sub btnSend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSend.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtCode.Focus()
                 txtCode.Select()
                 Return
@@ -2032,7 +2032,7 @@ Public Class FrmCSADeliveryOrder
             lstUsers.Add(txtcustcode.Value)
             'SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2147,13 +2147,13 @@ Public Class FrmCSADeliveryOrder
     Private Sub btnSend_Approval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSend_Approval.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtCode.Focus()
                 txtCode.Select()
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send for Approval Of Respective Delivery Order No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send for Approval Of Respective Delivery Order No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             Dim qry As String = "Select * from TSPL_APPROVAL_LEVEL_SCREEN where 1=1 and Trans_Code='" + MyBase.Form_ID + "' "
@@ -2171,7 +2171,7 @@ Public Class FrmCSADeliveryOrder
             End If
             'SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -2337,7 +2337,7 @@ Public Class FrmCSADeliveryOrder
                 FunReset()
             End If ''end frm if cond
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -2349,7 +2349,7 @@ Public Class FrmCSADeliveryOrder
             Dim isAmendmentNo As Boolean = False
             Dim Reason As String = ""
             If UsLock1.Status = ERPTransactionStatus.Approved Then
-                If common.clsCommon.MyMessageBoxShow("Do you want to make Amendment", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Do you want to make Amendment", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     isAmendmentNo = True
                 Else
                     Exit Sub
@@ -2370,16 +2370,16 @@ Public Class FrmCSADeliveryOrder
 
                 If AllowToSave() AndAlso SaveData(False, isAmendmentNo) Then
                     clsCSADeliveryOrder.PostData(clsCommon.myCstr(txtCode.Value))
-                    common.clsCommon.MyMessageBoxShow("Record Successfully Amendmented.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Record Successfully Amendmented.", Me.Text)
 
                     LoadData(clsCommon.myCstr(txtCode.Value), NavigatorType.Current)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Post record first.")
+                clsCommon.MyMessageBoxShow(Me, "Post record first.", Me.Text)
             End If ''approved cond. check
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

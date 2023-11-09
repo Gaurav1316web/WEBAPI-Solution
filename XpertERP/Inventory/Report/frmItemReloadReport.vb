@@ -30,7 +30,7 @@ Public Class FrmItemReloadReport
 
             'ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -163,10 +163,10 @@ Public Class FrmItemReloadReport
                     ReStoreGridLayout()
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ReStoreGridLayout()
@@ -185,7 +185,7 @@ Public Class FrmItemReloadReport
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message)
         End Try
     End Sub
     Sub FormatGrid()
@@ -221,7 +221,7 @@ Public Class FrmItemReloadReport
                 PrintData() ' // Keep old function as it is.
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("No data found to display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             Exit Sub
         End If
     End Sub
@@ -244,10 +244,10 @@ Public Class FrmItemReloadReport
                 frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemReorderLevel1", "crptItemReorderLevel1")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -270,10 +270,10 @@ Public Class FrmItemReloadReport
                 frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemReorderLevel1", "crptItemReorderLevel1")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -329,7 +329,7 @@ Public Class FrmItemReloadReport
             End If
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -379,7 +379,7 @@ Public Class FrmItemReloadReport
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -388,6 +388,6 @@ Public Class FrmItemReloadReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 End Class

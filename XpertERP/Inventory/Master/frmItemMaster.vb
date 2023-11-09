@@ -53,7 +53,7 @@ Public Class frmItemMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.itemMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -204,7 +204,7 @@ Public Class frmItemMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtcatdesc.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Categoy does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Categoy does not exist in Master Table", Me.Text)
                     fndcategory.Value = ""
                 End If
             Catch ex As Exception
@@ -277,7 +277,7 @@ Public Class frmItemMaster
                 dt.DisplayMember = "inv_class_code"
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
     ''To insert The data into the table(TSPL_ITEM_MASTER) and table(TSPL_ITEM_DETAILS)
@@ -507,7 +507,7 @@ Public Class frmItemMaster
 
         Catch ex As Exception
             If (ex.Message.Contains("Violation of PRIMARY KEY constraint")) Then
-                common.clsCommon.MyMessageBoxShow("Record already Exist")
+                common.clsCommon.MyMessageBoxShow(Me, "Record already Exist", Me.Text)
                 myMessages.myExceptions(ex)
                 trans.Rollback()
 
@@ -590,28 +590,28 @@ Public Class frmItemMaster
             qst = "select Item_Code from TSPL_ADJUSTMENT_DETAIL where Item_Code='" + frmitemcode1.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst, trans)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
                 trans.Rollback()
                 Return
             End If
             qst = "select Item_Code from TSPL_SCRAPINVOICE_DETAIL where Item_Code='" + frmitemcode1.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst, trans)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
                 trans.Rollback()
                 Return
             End If
             qst = "select Item_Code from TSPL_SRN_DETAIL where Item_Code='" + frmitemcode1.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst, trans)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
                 trans.Rollback()
                 Return
             End If
             qst = "select Item_Code from TSPL_PR_DETAIL where Item_Code='" + frmitemcode1.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst, trans)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
                 trans.Rollback()
                 Return
             End If
@@ -989,7 +989,7 @@ Public Class frmItemMaster
             btnsave1.Text = "Update"
             btndelete1.Enabled = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
     '' To Reset all the field on the screen
@@ -1110,7 +1110,7 @@ Public Class frmItemMaster
 
             dgvclass1.AllowAddNewRow = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
     ''To call fungridfill() to retrieve the class
@@ -1207,7 +1207,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
             End If
         Next
         If checkyes > 1 Then
-            common.clsCommon.MyMessageBoxShow("Stocking Unit Yes use only one time")
+            common.clsCommon.MyMessageBoxShow(Me, "Stocking Unit Yes use only one time")
         Else
             Dim check As String = connectSql.RunScalar("select Inv_Class_Name  from TSPL_INV_CLASS  where Class_Type ='Pack Type' ")
             Dim classcode As String = ""
@@ -1248,14 +1248,14 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
             ElseIf father = "N" And child = "Y" Then
                 mothercode = connectSql.RunScalar("select Mother_Code  from TSPL_PACKTYPE_MASTER  where Class_Type = '" + check + "' and Finished_Goods = '" + classcode + "'")
                 If String.IsNullOrEmpty(mothercode) Then
-                    common.clsCommon.MyMessageBoxShow("Please make before child code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please make before child code")
                 Else
                     funbtninsertupdate()
                 End If
             ElseIf father = "Y" And child = "N" Then
                 fathercode = connectSql.RunScalar("select father_code  from TSPL_PACKTYPE_MASTER  where Class_Type = '" + check + "' and Finished_Goods = '" + classcode + "'")
                 If String.IsNullOrEmpty(fathercode) Then
-                    common.clsCommon.MyMessageBoxShow("Please make before parent code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please make before parent code")
                 Else
                     funbtninsertupdate()
                 End If
@@ -1283,7 +1283,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
                 '    mothercode = dr(0)
                 'End If
                 If String.IsNullOrEmpty(fathercode) Or String.IsNullOrEmpty(mothercode) Then
-                    common.clsCommon.MyMessageBoxShow("Parent and child code for this pack type is not defined")
+                    common.clsCommon.MyMessageBoxShow(Me, "Parent and child code for this pack type is not defined")
                 Else
                     funbtninsertupdate()
                 End If
@@ -1307,16 +1307,16 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
         End If
         Dim check As String = ""
         If fndstructurecode1.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please Select the structure code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select the structure code")
             fndstructurecode1.Focus()
         ElseIf fndpurchaseaccountset1.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please select the Purchase Account Set")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the Purchase Account Set")
             fndpurchaseaccountset1.Focus()
         ElseIf fndsaleaccountset1.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please select the Sale Account set")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the Sale Account set")
             fndsaleaccountset1.Focus()
         ElseIf fndunitofmeasure.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please select the Unit Of Measure")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the Unit Of Measure")
             fndunitofmeasure.Focus()
             'ElseIf txtflavourseq.Text = "" And ddlitemtype.Text <> "Finished Goods" Then
             '    myMessages.blankValue("Flavour Sequence")
@@ -1343,7 +1343,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
                     End If
                 Next
                 If Not String.IsNullOrEmpty(check) Then
-                    common.clsCommon.MyMessageBoxShow("Please select all the class Code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select all the class Code")
                 Else
                     funinsert()
                     funfill()
@@ -1356,7 +1356,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
                     End If
                 Next
                 If Not String.IsNullOrEmpty(check) Then
-                    common.clsCommon.MyMessageBoxShow("Please select all the class Code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select all the class Code")
                 Else
 
                     funupdate()
@@ -1787,7 +1787,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
         Else
             Exit Sub
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow("No Data Found")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found")
         End If
 
         'xlWorkSheet.Cells(1, 1) = dataGrd.Item(1, 0).Value 
@@ -1921,7 +1921,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
             releaseObject(xlWorkSheetBiLLS)
 
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow("Data Exported Successfully ...")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Exported Successfully ...")
         Else
             MsgBox("No Record")
         End If
@@ -2344,7 +2344,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
             If isSaved Then
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Imported Successfully ...")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Imported Successfully ...")
             Else
                 trans.Rollback()
                 Throw New Exception("Error in Import")
@@ -2352,7 +2352,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             Me.Controls.Remove(gv)
             Me.Controls.Remove(gv1)
@@ -2430,12 +2430,12 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
             ElseIf father = "N" And child = "Y" Then
                 mothercode = connectSql.RunScalar("select Mother_Code  from TSPL_PACKTYPE_MASTER  where Class_Type = '" + check + "' and Finished_Goods = '" + classcode + "'")
                 If String.IsNullOrEmpty(mothercode) Then
-                    common.clsCommon.MyMessageBoxShow("Please make before child code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please make before child code")
                 End If
             ElseIf father = "Y" And child = "N" Then
                 fathercode = connectSql.RunScalar("select father_code  from TSPL_PACKTYPE_MASTER  where Class_Type = '" + check + "' and Finished_Goods = '" + classcode + "'")
                 If String.IsNullOrEmpty(fathercode) Then
-                    common.clsCommon.MyMessageBoxShow("Please make before parent code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please make before parent code")
                 End If
             ElseIf father = "Y" And child = "Y" Then
 
@@ -2457,7 +2457,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
                 '    fathercode = dr(1)
                 'End If
                 If String.IsNullOrEmpty(fathercode) Or String.IsNullOrEmpty(mothercode) Then
-                    common.clsCommon.MyMessageBoxShow("Parent and child code for this pack type is not defined")
+                    common.clsCommon.MyMessageBoxShow(Me, "Parent and child code for this pack type is not defined")
                 End If
                 Else
 
@@ -2642,7 +2642,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
 
     Private Sub fndItemSubCategory__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndItemSubCategory._MYValidating
         If clsCommon.myLen(fndcategory.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select 'Item Category' ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select 'Item Category' ")
         Else
             Dim Qry As String = "select Sub_Category_Code as [Code], Description  from TSPL_ITEM_SUB_CATEGORY "
             fndItemSubCategory.Value = clsCommon.ShowSelectForm("SubCategorySel", Qry, "Code", "Category_Code='" + fndcategory.Value + "'", fndItemSubCategory.Value, "Code", isButtonClicked)
@@ -2671,7 +2671,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
         If txttolerence.Text <> "" Then
             Dim num As Decimal = CDec(txttolerence.Text)
             If num > 100 Then
-                common.clsCommon.MyMessageBoxShow("Percentage can not be greater then 100")
+                common.clsCommon.MyMessageBoxShow(Me, "Percentage can not be greater then 100")
 
                 txttolerence.Focus()
                 'txttolerence.Text = ""
@@ -2824,7 +2824,7 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
         Dim ShipUomCode As String = clsDBFuncationality.getSingleValue("select Unit_code  from TSPL_SHIPMENT_DETAILS where Unit_code ='" & UomCode & "'")
         Dim TransUomCode As String = clsDBFuncationality.getSingleValue("select Uom  from TSPL_TRANSFER_DETAIL where  Uom  ='" & UomCode & "'")
         If clsCommon.myLen(ShipUomCode) > 0 Or clsCommon.myLen(TransUomCode) > 0 Then
-            common.clsCommon.MyMessageBoxShow(" This record can't be deleted.It is used in another process.")
+            common.clsCommon.MyMessageBoxShow(Me, " This record can't be deleted.It is used in another process.")
             funfill()
             dgvclass1.ReadOnly = True
             Exit Sub

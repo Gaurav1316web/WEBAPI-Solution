@@ -470,7 +470,7 @@ Public Class FrmStockReco
             TemplateGridview = gv1
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -624,7 +624,7 @@ Public Class FrmStockReco
             clsCommon.ProgressBarHide()
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -801,7 +801,7 @@ goAlreadyAdded:
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1504,7 +1504,7 @@ goAlreadyAdded:
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
 
@@ -5606,7 +5606,7 @@ goAlreadyAdded:
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message)
         End Try
     End Sub
 
@@ -5648,7 +5648,7 @@ goAlreadyAdded:
                 clsCommon.MyExportToPDF("Stock Reco (" + cboType.Text + ")", gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -5746,7 +5746,7 @@ goAlreadyAdded:
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -5923,7 +5923,7 @@ goAlreadyAdded:
             End If
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6175,7 +6175,7 @@ goAlreadyAdded:
             End If
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6213,7 +6213,7 @@ goAlreadyAdded:
             End If
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -6222,7 +6222,7 @@ goAlreadyAdded:
         Try
             LoadData(1)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6230,7 +6230,7 @@ goAlreadyAdded:
         Try
             LoadData(2)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6495,7 +6495,7 @@ goAlreadyAdded:
             transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -6507,7 +6507,7 @@ goAlreadyAdded:
             End If
             ExportCSV(gv1, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
         
     End Sub
@@ -6533,10 +6533,10 @@ goAlreadyAdded:
             IO.File.WriteAllLines(filePath, transportSql.ExportCSV(sender, AddHeader))
             clsCommon.ProgressBarHide()
             If OpenInExcel Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully")
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported successfully but can not open through excel, use other utility to open the file.")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully but can not open through excel, use other utility to open the file.")
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -6574,7 +6574,7 @@ goAlreadyAdded:
             clsCommon.MyExportToPDF("Stock Reco (" + cboType.Text + ")", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -6626,7 +6626,7 @@ goAlreadyAdded:
         
             clsCommon.MyExportToExcelGrid("Stock Reco (" + cboType.Text + ")", gv1, arrHeader, Me.Text, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -6645,7 +6645,7 @@ goAlreadyAdded:
             pdfExporter.RunExport(FilePath)
             System.Diagnostics.Process.Start(FilePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

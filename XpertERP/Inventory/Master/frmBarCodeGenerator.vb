@@ -282,7 +282,7 @@ Public Class FrmBarCodeGenerator
                     End If
                 Next
                 If (clsBarCodeGenerator.SaveData(Arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     '    ShowBarCode()
 
                     '    PrintBarcode()
@@ -293,7 +293,7 @@ Public Class FrmBarCodeGenerator
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -500,13 +500,13 @@ Public Class FrmBarCodeGenerator
                     gv1.Columns(colBarCode).IsVisible = True
                     'btnPrintBarCode.Enabled = True
                 Else
-                    clsCommon.MyMessageBoxShow("No Bar Code Found")
+                    clsCommon.MyMessageBoxShow(Me, "No Bar Code Found", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Select Atleast Single Row")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Row", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -541,13 +541,13 @@ Public Class FrmBarCodeGenerator
                     gv1.Columns(colBarCode).IsVisible = True
                     'btnPrintBarCode.Enabled = True
                 Else
-                    clsCommon.MyMessageBoxShow("No Bar Code Found")
+                    clsCommon.MyMessageBoxShow(Me, "No Bar Code Found", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Select Atleast Single Row")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Row", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -606,7 +606,7 @@ Public Class FrmBarCodeGenerator
                 gvDetail.Columns("Item_MRP").HeaderText = "MRP"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -662,7 +662,7 @@ Public Class FrmBarCodeGenerator
 
                 If (clsBarCodeGenerator.SaveData(Arr)) Then
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed", Me.Text)
                 End If
 
             Catch ex As Exception

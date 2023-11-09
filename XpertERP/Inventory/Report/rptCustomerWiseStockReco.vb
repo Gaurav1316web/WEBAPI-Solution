@@ -456,7 +456,7 @@ Public Class rptCustomerWiseStockReco
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         Try
             If clsCommon.myLen(txtItem.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Item Code First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Item Code First", Me.Text)
                 Exit Sub
             End If
             gv1.EnableFiltering = True
@@ -469,7 +469,7 @@ Public Class rptCustomerWiseStockReco
             TemplateGridview = gv1
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -627,7 +627,7 @@ Public Class rptCustomerWiseStockReco
             clsCommon.ProgressBarHide()
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -804,7 +804,7 @@ goAlreadyAdded:
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -842,7 +842,7 @@ goAlreadyAdded:
             gv1.EnableFiltering = True
             gv1.AllowAddNewRow = False
             If clsCommon.GetDateWithEndTime(txtToDate.Value) < clsCommon.GetDateWithStartTime(txtFromDate.Value) Then
-                clsCommon.MyMessageBoxShow("To Date cant be less than from date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "To Date cant be less than from date", Me.Text)
                 Exit Sub
             End If
             clsCommon.ProgressBarShow()
@@ -992,7 +992,7 @@ goAlreadyAdded:
             If clsCommon.myLen(txtItem.Value) > 0 Then
                 qry += " and Item_Code in ('" + txtItem.Value + "') " + Environment.NewLine
             Else
-                clsCommon.MyMessageBoxShow("Please select Item First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Item First", Me.Text)
                 Exit Sub
             End If
             If txtTransaction.arrValueMember IsNot Nothing AndAlso txtTransaction.arrValueMember.Count > 0 Then
@@ -1276,7 +1276,7 @@ goAlreadyAdded:
                 If clsCommon.myLen(txtItem.Value) > 0 Then
                     strFinalQry += " and TSPL_ITEM_MASTER.Item_Code in ('" + txtItem.Value + "') "
                 Else
-                    clsCommon.MyMessageBoxShow("Please Select Item First", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Item First", Me.Text)
                     Exit Sub
                 End If
                 If rbtnLocationSelect.IsChecked Then
@@ -1509,7 +1509,7 @@ goAlreadyAdded:
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
 
@@ -5426,7 +5426,7 @@ goAlreadyAdded:
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message)
         End Try
     End Sub
 
@@ -5468,7 +5468,7 @@ goAlreadyAdded:
                 clsCommon.MyExportToPDF("Stock Reco (" + cboType.Text + ")", gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -5567,7 +5567,7 @@ goAlreadyAdded:
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -6031,7 +6031,7 @@ goAlreadyAdded:
             End If
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -6040,7 +6040,7 @@ goAlreadyAdded:
         Try
             LoadData(1)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6048,7 +6048,7 @@ goAlreadyAdded:
         Try
             LoadData(2)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6306,7 +6306,7 @@ goAlreadyAdded:
             transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -6385,7 +6385,7 @@ goAlreadyAdded:
             clsCommon.MyExportToPDF("Customer Stock Reco", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -6437,7 +6437,7 @@ goAlreadyAdded:
 
             clsCommon.MyExportToExcelGrid("Customer Stock Reco", gv1, arrHeader, Me.Text, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -6456,7 +6456,7 @@ goAlreadyAdded:
             pdfExporter.RunExport(FilePath)
             System.Diagnostics.Process.Start(FilePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

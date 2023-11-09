@@ -80,7 +80,7 @@ Public Class frmGraphicalBatchOrder
             dtMst = clsBatchOrder.GetBatchOrderStatusDT(dtpFromdate1.Value, dtpToDate.Value, cmbFigure.SelectedValue).Copy()
             SnDUtility.GenerateExcelChart(dtMst, cboType.SelectedValue, "", "Status", "Status")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -168,7 +168,7 @@ Public Class frmGraphicalBatchOrder
                 clsCommon.MyExportToPDF(str, gv, arr, "Batch Order Report", False)
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("No Record Found to print.")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found to print.", Me.Text)
         End If
     End Sub
 

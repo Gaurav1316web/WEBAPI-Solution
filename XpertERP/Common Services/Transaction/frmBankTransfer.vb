@@ -306,7 +306,7 @@ Public Class FrmBankTransfer
                 Dim strchk As String = "select Post from TSPL_BANK_TRANSFER where Transfer_No='" + Fnd_Transfernumber.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk, trans)
                 If chkpost = "p" Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                     Exit Sub
                 End If
             End If
@@ -321,7 +321,7 @@ Public Class FrmBankTransfer
             If clsCommon.CompairString(InTransitSettings, "1") = CompairStringResult.Equal AndAlso CmbTransType.Visible = True Then
                 If clsCommon.CompairString(CmbTransType.SelectedValue, "R") = CompairStringResult.Equal AndAlso txtwithdrawal.Visible = True Then
                     If clsCommon.myLen(txtwithdrawal.Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please check withdrawal no.can not be left blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please check withdrawal no.can not be left blank.", Me.Text)
                         txtwithdrawal.Focus()
                         Exit Sub
                     End If
@@ -358,7 +358,7 @@ Public Class FrmBankTransfer
                 Dim strcheckcode As String = connectSql.RunScalar(trans, "select Payment_Type  from TSPL_PAYMENT_CODE  where Payment_Code ='" + fndPayType.Value + "'")
                 If Not String.IsNullOrEmpty(strcheckcode) Then
                     If strcheckcode.Trim() = "Cheque" Then
-                        common.clsCommon.MyMessageBoxShow("Please enter a valid cheque number")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter a valid cheque number", Me.Text)
                         txtchkno.Focus()
                         Exit Sub
                     End If
@@ -507,7 +507,7 @@ Public Class FrmBankTransfer
     End Function
     Private Sub savebutton(Optional ByVal trans As SqlTransaction = Nothing)
         If Txt_frombankCode.Value = Txt_toBankCode.Value Then
-            common.clsCommon.MyMessageBoxShow("From bank code and To bank code should not be same")
+            common.clsCommon.MyMessageBoxShow(Me, "From bank code and To bank code should not be same", Me.Text)
             Exit Sub
         End If
         Dim OuterTrans As Boolean = False
@@ -1321,7 +1321,7 @@ Public Class FrmBankTransfer
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -1619,7 +1619,7 @@ Public Class FrmBankTransfer
             frmCRV.funreport(CrystalReportFolder.CommonServices, dt, "CashVoucher", "Cash Voucher Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1631,7 +1631,7 @@ Public Class FrmBankTransfer
     Private Sub btnBlankForReCreateJE_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBlankForReCreateJE.Click
         Dim qry As String = "insert into TEMP_Delete_BankTransfer select Transfer_No from TSPL_BANK_TRANSFER where  Post='P' and Transfer_No not in(select TransferNo from TEMP_Delete_BankTransfer union all select TransferNo from TEMP_Created_BankTransfer)"
         clsDBFuncationality.ExecuteNonQuery(qry)
-        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
     End Sub
 
     Private Sub btnReCreateJE_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReCreateJE.Click
@@ -1666,10 +1666,10 @@ Public Class FrmBankTransfer
 
                     Catch ex As Exception
                         trans.Rollback()
-                        common.clsCommon.MyMessageBoxShow(ex.Message)
+                        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                 Next
-                common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         End If
     End Sub
@@ -1741,7 +1741,7 @@ Public Class FrmBankTransfer
             qry += " CASE WHEN Post='P' Then 'Posted' Else 'Pending' End as [Status] from TSPL_BANK_TRANSFER"
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1944,11 +1944,11 @@ Public Class FrmBankTransfer
                     clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
                     trans.Commit()
 
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     funfill()
                 Catch ex As Exception
                     trans.Rollback()
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If
@@ -2054,20 +2054,20 @@ Public Class FrmBankTransfer
 
     Private Sub btnVoidCheck_Click(sender As Object, e As EventArgs) Handles btnVoidCheck.Click
         If clsCommon.myLen(Fnd_Transfernumber.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select document no to void check.")
+            clsCommon.MyMessageBoxShow(Me, "Select document no to void check.", Me.Text)
             Exit Sub
         End If
         Dim obj As New clsPaymentHeader()
         obj = clsPaymentHeader.GetData(Me.Fnd_Transfernumber.Value, NavigatorType.Current)
         If clsCommon.myLen(obj.Bank_Code) <= 0 Then
-            clsCommon.MyMessageBoxShow("Bank Code not found for selected document.")
+            clsCommon.MyMessageBoxShow(Me, "Bank Code not found for selected document.", Me.Text)
             Exit Sub
             'ElseIf clsCommon.myLen(obj.CHECK_CODE) <= 0 Then
             '    clsCommon.MyMessageBoxShow("Check Code not found for selected document.")
             '    Exit Sub
         End If
         If clsPrintCheck.VoidCheck(obj.Bank_Code, obj.CHECK_CODE, "Bank Transfer", obj.Payment_No) Then
-            clsCommon.MyMessageBoxShow("done successfully")
+            clsCommon.MyMessageBoxShow(Me, "done successfully", Me.Text)
         End If
         ''or  clscommon.myLen(obj.Bank_Code )<=0
     End Sub
@@ -2145,13 +2145,13 @@ Public Class FrmBankTransfer
             ' If Not isLoad Then
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
             Else
-                clsCommon.MyMessageBoxShow("Please select the MCC first")
+                clsCommon.MyMessageBoxShow(Me, "Please select the MCC first", Me.Text)
                 Exit Sub
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select top 1 TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -2162,7 +2162,7 @@ Public Class FrmBankTransfer
             If totalCountMCC = NoOfMCCExistSamePaymentCycle Then
             Else
                 txtMCC.arrValueMember = Nothing
-                clsCommon.MyMessageBoxShow("Payment Cycle of selected MCC should be same")
+                clsCommon.MyMessageBoxShow(Me, "Payment Cycle of selected MCC should be same", Me.Text)
                 Exit Sub
             End If
             '=======================

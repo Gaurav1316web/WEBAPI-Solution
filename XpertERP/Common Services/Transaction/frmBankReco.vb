@@ -595,7 +595,7 @@ Public Class FrmBankReco
     Private Sub btnCalculate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCalculate.Click
         Try
             If clsCommon.myCdbl(txtStatementBalance.Text) = 0 Then
-                clsCommon.MyMessageBoxShow("Please enter statement balance", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please enter statement balance", Me.Text)
                 txtStatementBalance.Focus()
                 Exit Sub
             End If
@@ -651,7 +651,7 @@ Public Class FrmBankReco
                 LoadBookBalalnce()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -740,7 +740,7 @@ Public Class FrmBankReco
             funSave()
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -750,14 +750,14 @@ Public Class FrmBankReco
             Dim strchk As String = "select Post from tspl_BankReco_Head where Reconciliation_Id='" + fndRecoId.Value + "'"
             Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
             If chkpost = "Y" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Exit Sub
             End If
         End If
         ''BM00000008166 By Balwinder on 18/10/2016
 
         If clsCommon.GetDateWithStartTime(dtStatementDate.Value) > clsCommon.GetDateWithStartTime(dtRecoDate.Value) Then
-            clsCommon.MyMessageBoxShow("Statement Date Should be Less than or equla to Reco Date")
+            clsCommon.MyMessageBoxShow(Me, "Statement Date Should be Less than or equla to Reco Date", Me.Text)
             Exit Sub
         End If
         'ERO/07/05/18-000299 system stoping due to above setting.
@@ -850,7 +850,7 @@ Public Class FrmBankReco
 
         If (clsBankReco.funSave(obj, isNewEntry)) Then
             If clicked = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
 
             funFill(obj.Reconciliation_Id)
@@ -950,7 +950,7 @@ Public Class FrmBankReco
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isValueChangingOccored = False
             IsFillDetails = False
@@ -1102,12 +1102,12 @@ Public Class FrmBankReco
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsBankReco.DeleteData(fndRecoId.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1116,13 +1116,13 @@ Public Class FrmBankReco
             If (myMessages.postConfirm()) Then
                 If savedata(clicked) Then
                     If (clsBankReco.PostData(fndRecoId.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                         funFill(fndRecoId.Value)
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clicked = False
     End Sub
@@ -1147,7 +1147,7 @@ Public Class FrmBankReco
             frm.ShowDialog()
             RefreshAfter_Withdraw_Deposit()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1158,7 +1158,7 @@ Public Class FrmBankReco
             frm.ShowDialog()
             RefreshAfter_Withdraw_Deposit()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1214,7 +1214,7 @@ Public Class FrmBankReco
         Try
             LoadBookBalalnce()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1322,7 +1322,7 @@ Public Class FrmBankReco
 
             LoadCombo()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1558,7 +1558,7 @@ Public Class FrmBankReco
                 clsCommon.MyMessageBoxShow("No Document reconciled", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1571,7 +1571,7 @@ Public Class FrmBankReco
             clsCommon.MyExportToExcelGrid("BankReco", gvImport, Nothing, Me.Text, True)
             gvImport.Columns("IsOK").IsVisible = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1662,7 +1662,7 @@ Public Class FrmBankReco
                         saveCancelLog(Reason, "Reverse And Recreate", trans)
                         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRecoId.Value, "tspl_BankReco_Head", "Reconciliation_Id", trans)
                         trans.Commit()
-                        clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
                         funFill(fndRecoId.Value)
                     Catch ex As Exception
                         trans.Rollback()
@@ -1671,7 +1671,7 @@ Public Class FrmBankReco
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1695,7 +1695,7 @@ Public Class FrmBankReco
             frm.strBankName = txtBankName.Text
             frm.ShowDialog()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

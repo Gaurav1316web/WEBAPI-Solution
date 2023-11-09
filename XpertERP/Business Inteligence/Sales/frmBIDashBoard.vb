@@ -205,7 +205,7 @@ Public Class frmBIDashBoard
             LoadData()
             IsGenerateExcelChart = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsGenerateExcelChart = False
         End Try

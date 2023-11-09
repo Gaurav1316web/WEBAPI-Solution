@@ -1488,6 +1488,7 @@ Public Class frmRCDFStandardization
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
     Function ValidateFatSNFQuantityControl() As Boolean
@@ -2481,6 +2482,7 @@ Public Class frmRCDFStandardization
             FunReset()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
     Sub calculateALL()

@@ -59,7 +59,7 @@ Public Class FrmPartNoMaster
         Try
 
             If clsCommon.myLen(txtPartNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Fill part no.")
+                clsCommon.MyMessageBoxShow(Me, "Fill part no.")
                 txtPartNo.Focus()
                 txtPartNo.Select()
                 Errorcontrol.SetError(txtPartNo, "Fill part no.")
@@ -68,7 +68,7 @@ Public Class FrmPartNoMaster
                 Errorcontrol.ResetError(txtPartNo)
             End If
             If clsCommon.myLen(txtDesc.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Fill description for part no.")
+                clsCommon.MyMessageBoxShow(Me, "Fill description for part no.")
                 txtDesc.Focus()
                 txtDesc.Select()
                 Errorcontrol.SetError(txtDesc, "Fill description for part no.")
@@ -79,7 +79,7 @@ Public Class FrmPartNoMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Function
 
@@ -113,7 +113,7 @@ Public Class FrmPartNoMaster
                 obj.Sub_Part = clsCommon.myCstr(txtSubPart.Text)
                 If obj IsNot Nothing Then
                     If clsPartNoMaster.SaveData(obj, isNewEntry) Then
-                        clsCommon.MyMessageBoxShow("Data saved successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully.")
 
                         LoadData(obj.Code, NavigatorType.Current)
                     End If
@@ -121,7 +121,7 @@ Public Class FrmPartNoMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             obj = Nothing
         End Try
@@ -149,7 +149,7 @@ Public Class FrmPartNoMaster
                 btndelete.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             obj = Nothing
         End Try
@@ -166,7 +166,7 @@ Public Class FrmPartNoMaster
     Private Sub btndelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btndelete.Click
         Try
             If clsCommon.myLen(txtPartNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select part no. for deletion.")
+                clsCommon.MyMessageBoxShow(Me, "Select part no. for deletion.")
                 txtPartNo.Focus()
                 txtPartNo.Select()
                 Errorcontrol.SetError(txtPartNo, "Select part no. for deletion.")
@@ -183,7 +183,7 @@ Public Class FrmPartNoMaster
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -237,7 +237,7 @@ Public Class FrmPartNoMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             Me.Controls.Remove(gv)
             clsCommon.ProgressBarHide()

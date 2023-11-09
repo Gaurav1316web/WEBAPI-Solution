@@ -67,7 +67,7 @@ Public Class FrmPrimaryTransporterMaster
             gvDeductionRange.MasterTemplate.ShowRowHeaderColumn = False
             gvDeductionRange.AutoSizeRows = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -101,7 +101,7 @@ Public Class FrmPrimaryTransporterMaster
             gvCheque.AllowAutoSizeColumns = False
             gvCheque.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadBlankPaymentEntry()
@@ -145,7 +145,7 @@ Public Class FrmPrimaryTransporterMaster
             GVPaymentEntry.AllowAutoSizeColumns = True
             GVPaymentEntry.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -443,7 +443,7 @@ Public Class FrmPrimaryTransporterMaster
             gvMCC.AllowAutoSizeColumns = True
             gvMCC.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1613,7 +1613,7 @@ Public Class FrmPrimaryTransporterMaster
             myMessages.update()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2322,7 +2322,7 @@ Public Class FrmPrimaryTransporterMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -3217,7 +3217,7 @@ Public Class FrmPrimaryTransporterMaster
                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal AndAlso check > 0 Then
-                    clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
                     '   pageCus.SelectedPage = RadPageViewPage1
                     txtpan.Focus()
                     txtpan.Select()
@@ -3228,7 +3228,7 @@ Public Class FrmPrimaryTransporterMaster
                 End If
 
                 If clsCommon.CompairString(btnsave.Text, "Save") <> CompairStringResult.Equal AndAlso check > 1 Then
-                    clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
                     '  pageCus.SelectedPage = RadPageViewPage1
                     txtpan.Focus()
                     txtpan.Select()
@@ -3298,7 +3298,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If clsCommon.myLen(fndbankcode.Value) > 0 AndAlso clsCommon.myLen(txtbranchcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select branch detail", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select branch detail", Me.Text)
                 txtbranchcode.Focus()
                 txtbranchcode.Select()
                 Errorcontrol.SetError(txtbranchcode, "Please select branch detail")
@@ -3308,7 +3308,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If rbtnpartnership.IsChecked = False AndAlso rbtnprop.IsChecked = False AndAlso rbtnpublic.IsChecked = False AndAlso rbtnpvt.IsChecked = False Then
-                clsCommon.MyMessageBoxShow("Please Select Nature of Industry", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Nature of Industry", Me.Text)
                 Errorcontrol.SetError(RadGroupBox6, "Please Select Nature of Industry")
                 Exit Sub
             Else
@@ -3316,7 +3316,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If rbtnprop.IsChecked AndAlso clsCommon.myLen(txtprop_name.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Prop. Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Prop. Name", Me.Text)
                 txtprop_name.Focus()
                 txtprop_name.Select()
                 Errorcontrol.SetError(txtprop_name, "Please Fill Prop. Name")
@@ -3326,7 +3326,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If rbtnpartnership.IsChecked AndAlso clsCommon.myLen(txtpartner_name.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Partner Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Partner Name", Me.Text)
                 txtpartner_name.Focus()
                 txtpartner_name.Select()
                 Errorcontrol.SetError(txtpartner_name, "Please Fill Partner Name")
@@ -3336,7 +3336,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If (rbtnpublic.IsChecked Or rbtnpvt.IsChecked) AndAlso clsCommon.myLen(txtdirectr_name.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Director Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Director Name", Me.Text)
                 txtdirectr_name.Focus()
                 txtdirectr_name.Select()
                 Errorcontrol.SetError(txtdirectr_name, "Please Fill Director Name")
@@ -3346,7 +3346,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If (clsCommon.CompairString(cmbagreemnt.SelectedValue, "YES") = CompairStringResult.Equal Or clsCommon.CompairString(cmbsecurity.Text, "YES") = CompairStringResult.Equal) AndAlso UcAttachment1.gv1.Rows.Count < 1 Then
-                clsCommon.MyMessageBoxShow("Please Attached Document For Agreement/Security", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Attached Document For Agreement/Security", Me.Text)
                 UcAttachment1.gv1.Focus()
                 UcAttachment1.gv1.Select()
                 Errorcontrol.SetError(UcAttachment1.btnaddNewAttachment, "Please Attached Document For Agreement/Security")
@@ -3371,7 +3371,7 @@ Public Class FrmPrimaryTransporterMaster
                 clsERPFuncationality.ValidationGSTNO(txtGSTStateCode.Text, txtpan.Text, GSTFinal, Nothing)
             End If
             If txtSecurityDeductedAmountEditable.Value > TxtSecurityAmountEditable.Value Then
-                clsCommon.MyMessageBoxShow("Security Monthly Deduction amount can't be more than Total security amount", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Security Monthly Deduction amount can't be more than Total security amount", Me.Text)
                 Exit Sub
             End If
             If btnsave.Text = "Save" Then
@@ -3714,7 +3714,7 @@ Public Class FrmPrimaryTransporterMaster
                 txtcountrycode.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3723,7 +3723,7 @@ Public Class FrmPrimaryTransporterMaster
         Try
             If clsCommon.myLen(txtWeb.Text) > 0 Then
                 If Not txtWeb.Text.ToUpper().Contains("WWW.") Then
-                    clsCommon.MyMessageBoxShow("Please Enter Valid Web Site Name", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Enter Valid Web Site Name", Me.Text)
                     'txtWeb.Focus()
                     'txtWeb.Select()
                     txtWeb.Text = ""
@@ -3734,7 +3734,7 @@ Public Class FrmPrimaryTransporterMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Please Enter Valid Web Site Name", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Valid Web Site Name", Me.Text)
             'txtWeb.Focus()
             'txtWeb.Select()
             txtWeb.Text = ""
@@ -3930,7 +3930,7 @@ Public Class FrmPrimaryTransporterMaster
                 Errorcontrol.ResetError(txtpan)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4035,7 +4035,7 @@ Public Class FrmPrimaryTransporterMaster
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
             common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
         End If
@@ -4213,7 +4213,7 @@ Public Class FrmPrimaryTransporterMaster
         Try
             ImportIncentiveDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4237,7 +4237,7 @@ Public Class FrmPrimaryTransporterMaster
                 MyTextBox2.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message())
         End Try
     End Sub
 
@@ -4298,7 +4298,7 @@ Public Class FrmPrimaryTransporterMaster
             btnsave.Text = "Save"
             btndelete.Enabled = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Public Sub LoadVisiDetail()

@@ -160,19 +160,19 @@ Public Class rptVendorReco
         Dim qry As String = String.Empty
         Try
             If chkVndrSelect.IsChecked AndAlso cbgVndrGroup.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Vendor Group.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor Group.", Me.Text)
                 Return
             End If
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor", Me.Text)
                 Return
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location", Me.Text)
                 Return
             End If
             If rbtnchildslct.IsChecked AndAlso cbgchild.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Child Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Child Vendor", Me.Text)
                 Return
             End If
             If rbtnchildall.IsChecked AndAlso chkVendorSelect.IsChecked Then
@@ -389,7 +389,7 @@ Public Class rptVendorReco
             'dtOpening = clsDBFuncationality.GetDataTable(strQry)
 
             If chkNone.IsChecked = True AndAlso dtMain.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Data not found")
+                clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                 gv.DataSource = Nothing
                 gv.Columns.Clear()
                 gv.Rows.Clear()
@@ -475,7 +475,7 @@ Public Class rptVendorReco
             GC.Collect()
             GC.WaitForFullGCComplete()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -2674,19 +2674,19 @@ Public Class rptVendorReco
         Dim childvendrcode As String = ""
         Try
             If chkVndrSelect.IsChecked AndAlso cbgVndrGroup.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Vendor Group.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor Group.", Me.Text)
                 Return
             End If
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor", Me.Text)
                 Return
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location", Me.Text)
                 Return
             End If
             If rbtnchildslct.IsChecked AndAlso cbgchild.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Child Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Child Vendor", Me.Text)
                 Return
             End If
             If rbtnchildall.IsChecked AndAlso chkVendorSelect.IsChecked Then
@@ -2879,7 +2879,7 @@ Public Class rptVendorReco
             dtOpening = clsDBFuncationality.GetDataTable(strQry)
 
             If dtMain.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Data not found")
+                clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                 gv.DataSource = Nothing
                 gv.Columns.Clear()
                 gv.Rows.Clear()
@@ -2933,7 +2933,7 @@ Public Class rptVendorReco
             RadGroupBox1.Enabled = False
             GC.Collect()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3250,7 +3250,7 @@ Public Class rptVendorReco
                     btnBack.Enabled = True
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -3309,7 +3309,7 @@ Public Class rptVendorReco
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3514,7 +3514,7 @@ Public Class rptVendorReco
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3533,7 +3533,7 @@ Public Class rptVendorReco
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
 
                 ''richa agarwal regarding memory leakage
@@ -3553,7 +3553,7 @@ Public Class rptVendorReco
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 ''richa agarwal regarding memory leakage
                 obj = Nothing
@@ -3571,7 +3571,7 @@ Public Class rptVendorReco
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 ''richa agarwal regarding memory leakage
                 obj = Nothing
@@ -3668,7 +3668,7 @@ Public Class rptVendorReco
                 ReStoreGridDetail()
             End If
         End If
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rptVendorReco_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus

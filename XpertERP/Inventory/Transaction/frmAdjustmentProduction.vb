@@ -400,7 +400,7 @@ Public Class frmAdjustmentProduction
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -419,7 +419,7 @@ Public Class frmAdjustmentProduction
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
             Exit Sub
         End If
 
@@ -537,7 +537,7 @@ Public Class frmAdjustmentProduction
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -769,7 +769,7 @@ Public Class frmAdjustmentProduction
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try
@@ -791,12 +791,12 @@ Public Class frmAdjustmentProduction
         Try
             If (myMessages.postConfirm()) Then
                 If (ClsAdjustments.PostData(txtAdjustmentNo.Value, strCostTransaction)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
                     LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -821,7 +821,7 @@ Public Class frmAdjustmentProduction
                 End If
                 If (ClsAdjustments.DeleteData(txtAdjustmentNo.Value, strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     AddNew()
                 End If
             End If
@@ -849,7 +849,7 @@ Public Class frmAdjustmentProduction
             End If
             LoadData(txtAdjustmentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1389,7 +1389,7 @@ Public Class frmAdjustmentProduction
                 If ClsAdjustments.ReverseAndUnpost(txtAdjustmentNo.Value, trans) Then
                     saveCancelLog(Reason, "Reverse And Recreate", trans)
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                 End If
             End If

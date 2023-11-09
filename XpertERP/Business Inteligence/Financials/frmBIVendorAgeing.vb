@@ -98,7 +98,7 @@ Public Class FrmBIVendorAgeing
             dt = clsDBFuncationality.GetDataTable(qry)
             SnDUtility.GenerateExcelChart(dt, cboType.SelectedValue, "", "Bucket", "Amount")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -230,7 +230,7 @@ Public Class FrmBIVendorAgeing
         Try
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -267,7 +267,7 @@ Public Class FrmBIVendorAgeing
                 LoadDetails(strToDate, Bucket)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -277,7 +277,7 @@ Public Class FrmBIVendorAgeing
                 LoadData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

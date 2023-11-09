@@ -78,7 +78,7 @@ Public Class frmBIMonthWiseAsset
             dt = clsDBFuncationality.GetDataTable(qry)
             SnDUtility.GenerateExcelChart(dt, cboType.SelectedValue, "", "DateMonth", "Amount")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

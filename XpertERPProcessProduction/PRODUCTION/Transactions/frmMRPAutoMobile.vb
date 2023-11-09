@@ -535,6 +535,7 @@ Public Class frmMRPAutoMobile
         Finally
             obj = Nothing
         End Try
+        Return False
     End Function
 
     Function AllowToSave() As Boolean
@@ -573,6 +574,7 @@ Public Class frmMRPAutoMobile
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
 

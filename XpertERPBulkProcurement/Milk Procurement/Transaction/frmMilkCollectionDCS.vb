@@ -738,6 +738,8 @@ Public Class frmMilkCollectionDCS
                 End If
                 Dim countOwnBMC As Integer = 0
                 Dim isOwnBMC As String
+
+
                 For i As Integer = 0 To obj.Arr.Count - 1
                     Dim trans As SqlTransaction
                     isOwnBMC = clsfrmVLCMaster.IsOwnBMC(obj.Arr(i).VLC_Code, txtMCC.Tag, trans)

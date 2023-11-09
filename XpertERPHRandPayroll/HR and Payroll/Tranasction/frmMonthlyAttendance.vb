@@ -429,7 +429,7 @@ Public Class frmMonthlyAttendance
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -819,7 +819,7 @@ Public Class frmMonthlyAttendance
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -916,7 +916,7 @@ Public Class frmMonthlyAttendance
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -924,7 +924,7 @@ Public Class frmMonthlyAttendance
         Try
             ImportMonthlyAttendance()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1074,7 +1074,7 @@ Public Class frmMonthlyAttendance
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
             Return False
         End Try
 
@@ -1423,7 +1423,7 @@ Public Class frmMonthlyAttendance
                 gvMonthlyAttendance.Rows(irow).Cells(colPayDays).Value = clsCommon.myCdbl(gvMonthlyAttendance.Rows(irow).Cells(colPayPeriodDays).Value) - clsCommon.myCdbl(gvMonthlyAttendance.Rows(irow).Cells(colAbsentDays).Value)
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1616,7 +1616,7 @@ Public Class frmMonthlyAttendance
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try
@@ -1657,7 +1657,7 @@ Public Class frmMonthlyAttendance
                 dt = Nothing
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -1703,7 +1703,7 @@ Public Class frmMonthlyAttendance
             transportSql.ExporttoExcel(strq, "", Me)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub

@@ -185,7 +185,7 @@ Public Class FrmDeductionGroup1
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Sub SaveData()

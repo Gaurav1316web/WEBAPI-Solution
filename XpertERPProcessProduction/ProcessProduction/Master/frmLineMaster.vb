@@ -61,6 +61,7 @@ Public Class FrmLineMaster
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
 
