@@ -2017,6 +2017,33 @@ Public Class frmTender
             End If
         End If
     End Sub
+
+    Private Sub gv2_UserDeletedRow(sender As Object, e As GridViewRowEventArgs) Handles gv2.UserDeletedRow
+        For ii As Integer = 0 To gv2.Rows.Count - 1
+            Dim SNo As Integer = gv2.Rows(ii).Cells(colLineNo).Value
+            gv2.Rows(ii).Cells(colLineNo).Value = ii + 1
+            For index = gvSchedule.Rows.Count - 1 To 0 Step -1
+                If SNo = clsCommon.myCDecimal(gvSchedule.Rows(index).Cells(colScheduleParentSNo).Value) Then
+                    gvSchedule.Rows(index).Cells(colScheduleParentSNo).Value = ii + 1
+                End If
+            Next
+        Next
+    End Sub
+
+    Private Sub gv2_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv2.UserDeletingRow
+        If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+            e.Cancel = True
+        Else
+            Dim SNo As Integer = clsCommon.myCDecimal(gv2.CurrentRow.Cells(colLineNo).Value)
+            For index = gvSchedule.Rows.Count - 1 To 0 Step -1
+                If SNo = clsCommon.myCDecimal(gvSchedule.Rows(index).Cells(colScheduleParentSNo).Value) Then
+                    gvSchedule.Rows.RemoveAt(index)
+                End If
+            Next
+        End If
+
+    End Sub
+
     Sub closeRal()
         Try
             If (clsTenderHead.closeRaldata(txtDocNo.Value, True, closeyn, strRemarks)) Then

@@ -838,8 +838,8 @@ Partial Class FrmUtility
         CType(Me.txtBlankTransDataDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton143, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton271, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateEInvoiceHead, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnUpdateEInvoiceHead, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton234, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton79, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton136, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1911,7 +1911,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1103, 602)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -9779,8 +9779,8 @@ Partial Class FrmUtility
         CType(Me.txtBlankTransDataDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton143, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton271, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateEInvoiceHead, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnUpdateEInvoiceHead, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton234, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton79, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton136, System.ComponentModel.ISupportInitialize).EndInit
