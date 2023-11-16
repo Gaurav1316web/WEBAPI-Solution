@@ -102,7 +102,7 @@ Public Class FrmStockAdjustmentReport
         strSql = funPrint()
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Record Found")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
         Else
             dt = clsDBFuncationality.GetDataTable(strSql)
             Dim frmCRV As New frmCrystalReportViewer()
@@ -130,7 +130,7 @@ Public Class FrmStockAdjustmentReport
                 Throw New Exception("Please select at least one Location")
             End If
             If (dtpstart.Value > dtpend.Value) Then
-                common.clsCommon.MyMessageBoxShow("'Start Date' Cann't be more than 'End date'")
+                common.clsCommon.MyMessageBoxShow(Me, "'Start Date' Cann't be more than 'End date'")
                 'ElseIf (dtpStarttime.Value > dtpendtime.Value) Then
                 '    common.clsCommon.MyMessageBoxShow("'Start Time' Cann't be more than 'End Time'")
             Else
@@ -145,7 +145,7 @@ Public Class FrmStockAdjustmentReport
                 End If
 
                 If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location")
 
                     Return False
                     Exit Function
@@ -280,7 +280,7 @@ Public Class FrmStockAdjustmentReport
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
             qry = ""
         End Try
 
@@ -418,7 +418,7 @@ Public Class FrmStockAdjustmentReport
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 gv1.DataSource = dt
@@ -426,7 +426,7 @@ Public Class FrmStockAdjustmentReport
                 ReStoreGridLayout()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormationOFGV1()
@@ -690,7 +690,7 @@ Public Class FrmStockAdjustmentReport
                 clsCommon.MyExportToPDF("Stock adjustment", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -741,7 +741,7 @@ Public Class FrmStockAdjustmentReport
             Dim obj As New clsGridLayout()
             obj.ReportID = PageSetupReport_ID
             clsGridLayout.DeleteData(obj.ReportID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         Catch ex As Exception
         End Try
     End Sub

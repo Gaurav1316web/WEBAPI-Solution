@@ -124,7 +124,7 @@ Public Class FrmCFormReport
         Try
             LoadData(Exporter.Print)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -522,7 +522,7 @@ Public Class FrmCFormReport
             TemplateGridview = gv
             LoadData(Exporter.Refresh)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -530,7 +530,7 @@ Public Class FrmCFormReport
         Try
             LoadData(Exporter.Print)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -692,7 +692,7 @@ Public Class FrmCFormReport
                 clsCommon.MyExportToPDF("C - Form Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -712,7 +712,7 @@ Public Class FrmCFormReport
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
     Private Sub rmSaveLayout_Click(sender As Object, e As EventArgs) Handles rmSaveLayout.Click
@@ -726,7 +726,7 @@ Public Class FrmCFormReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -736,6 +736,6 @@ Public Class FrmCFormReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 End Class

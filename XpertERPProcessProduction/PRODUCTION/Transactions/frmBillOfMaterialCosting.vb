@@ -1094,8 +1094,9 @@ Public Class frmBillOfMaterialCosting
                 Return True
             End If
 
-            Return False
+            'Return False
         End If
+        Return False
     End Function
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtProducedItem.Value) <= 0 Then
@@ -1547,7 +1548,7 @@ Public Class frmBillOfMaterialCosting
             qry += " TSPL_MF_BOM_HEAD.MIN_BATCH_SIZE as MinBatchSize,TSPL_MF_BOM_DETAIL.LINE_NO as SL_No,TSPL_MF_BOM_DETAIL.CONSM_ITEM_CATEGORY_CODE as ItemCategory,"
             qry += " TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE as ItemCode,TSPL_MF_BOM_DETAIL.ITEM_DESCRIPTION as ItemDesc,TSPL_MF_BOM_DETAIL.CONSM_ITEM_UNIT_CODE as UOM,"
             qry += " TSPL_MF_BOM_DETAIL.CONSM_QUANTITY as Quantity,TSPL_MF_BOM_DETAIL.SCRAP_PERCENT as Scrap,TSPL_MF_BOM_DETAIL.WASTAGE_PERCENT as Wastage,"
-            qry += " TSPL_MF_BOM_DETAIL.REMARKS as Remarks from TSPL_MF_BOM_HEAD inner join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_MF_BOM_DETAIL.BOM_CODE"
+            qry += " TSPL_MF_BOM_DETAIL.REMARKS as Remarks ,TSPL_ITEM_MASTER.Item_Desc,TSPL_MF_BOM_DETAIL.Percentage,TSPL_ITEM_MASTER.Item_Type from TSPL_MF_BOM_HEAD inner join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_MF_BOM_DETAIL.BOM_CODE INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE"
             qry += " where 2=2 and trans_type='BOM'"
 
             If txtCode.Value <> "" Then
@@ -1557,9 +1558,9 @@ Public Class frmBillOfMaterialCosting
             Dim objn As New frmCrystalReportViewer
             objn.funreport(CrystalReportFolder.PRODUCTION, dt, "crptBOMPrint", "Bill Of Material")
 
-            If Not clsCommon.MyMessageBoxShow("Want to see tree structure?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            'If Not clsCommon.MyMessageBoxShow("Want to see tree structure?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
 
-            End If
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -2632,7 +2633,7 @@ Public Class frmBillOfMaterialCosting
 
         End If
         Me.Controls.Remove(gv)
-
+        Return False
     End Function
     Function ImportBOMComponents() As Boolean
         Dim gv As New RadGridView()
@@ -2754,7 +2755,7 @@ Public Class frmBillOfMaterialCosting
 
         End If
         Me.Controls.Remove(gv)
-
+        Return False
     End Function
 
     Private Sub btnImportBOMHead_Click(sender As Object, e As EventArgs) Handles btnImportBOMHead.Click

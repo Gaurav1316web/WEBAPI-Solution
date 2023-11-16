@@ -90,7 +90,7 @@ Public Class FrmBICustomerAgeing
             dt = clsDBFuncationality.GetDataTable(GetQry(strToDate, cmbFigure.SelectedValue, False, cbgCustomer.CheckedValue))
             SnDUtility.GenerateExcelChart(dt, cboType.SelectedValue, "", "Bucket", "Amount")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -225,7 +225,7 @@ Public Class FrmBICustomerAgeing
         Try
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -264,7 +264,7 @@ Public Class FrmBICustomerAgeing
                 LoadDetails(strToDate, Bucket)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -274,7 +274,7 @@ Public Class FrmBICustomerAgeing
                 LoadData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

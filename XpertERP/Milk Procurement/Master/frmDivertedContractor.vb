@@ -101,7 +101,7 @@ Public Class frmDivertedContractor
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Function
     Sub saveData()

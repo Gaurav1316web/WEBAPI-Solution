@@ -332,6 +332,7 @@ Public Class frmDairyFreshDispatchMultiple
     Dim ShowMulMRPOfSameItemOnDairyBookingCustomer As Boolean = False
     Dim SeparateDairyDispatchTaxableNonTaxable As Integer = 0
     Dim GenerateInvoiceWithTaxableAndNonTaxableItems As Boolean = False
+    Dim dcRouteNo As String = String.Empty
 #End Region
 
     Public Sub SetUserMgmtNew()
@@ -4530,7 +4531,6 @@ Public Class frmDairyFreshDispatchMultiple
             Dim arrCustomer As List(Of String) = New List(Of String)
             Dim blnStockExist As Boolean = True
             Dim blnDOCompeleted As Boolean = False
-
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / gv1.Rows.Count, " " & IIf(ChekPostBtn = True, "Posting", "Saving") & " Records " & (ii + 1) & " Of " & gv1.Rows.Count)
                 blnStockExist = True
@@ -4744,6 +4744,7 @@ Public Class frmDairyFreshDispatchMultiple
                         obj.IsSampling = True
                         obj.Arr = New List(Of clsDispatchNoteFreshSaleDetail)
                         Dim intLineNo As Integer = 0
+                        Dim DCTotalAmt As Decimal = 0
 
                         For jj As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value) > 0 Then
@@ -4901,10 +4902,15 @@ Public Class frmDairyFreshDispatchMultiple
                                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colCustCode).Value)) > 0 Then
                                         common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
                                     End If
+                                    objTr.Distributor_Commission_PKID = clsCommon.myCstr(gv1.Rows(jj).Cells(ColDCPKID).Value)
+                                    objTr.Distributor_Commission_Rate = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCRate).Value)
+                                    objTr.Distributor_Commission_Amt = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCAmt).Value)
+                                    DCTotalAmt += objTr.Distributor_Commission_Amt
+                                    'objTr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCRateWithTax).Value)
                                 End If
                             End If
                         Next
-
+                        obj.Distributor_Commission_TotalAmt = DCTotalAmt
                         obj.ActualTCSBaseAmount = Math.Round(clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text), 3)
                         obj.ChangedTCSBaseAmount = Math.Round(clsCommon.myCdbl(txttcstaxbaseamount.Value), 3)
                         obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text) + clsCommon.myCdbl(lblDiscountAmt.Text)
@@ -7668,6 +7674,7 @@ Public Class frmDairyFreshDispatchMultiple
             txtVehicleCode.Value = clsCommon.ShowSelectForm("FSShipVehicle", qry, "vehicle_id", "vehicle_id in (select vehicle_code from tspl_booking_detail)", txtVehicleCode.Value, "vehicle_id", isButtonClicked)
             lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
             txtVehicleCapacity.Text = clsDBFuncationality.getSingleValue("Select Capacity  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
+            dcRouteNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select tspl_route_master.Route_No  from TSPL_VEHICLE_MASTER left join tspl_route_master on Tspl_route_master.vehicle_code=TSPL_VEHICLE_MASTER.vehicle_id where TSPL_VEHICLE_MASTER.Vehicle_Id= '" + Convert.ToString(txtVehicleCode.Value) + "'"))
             LoadBlankGrid()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
@@ -8409,6 +8416,7 @@ Public Class frmDairyFreshDispatchMultiple
                 For Each dr As DataRow In dtAllData.Rows
                     Dim strCode As String = clsCommon.myCstr(dr("Document_No"))
                     Dim strCustomerCode As String = clsCommon.myCstr(dr("vendor_code"))
+                    Dim TPTCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'"))
                     If clsCommon.myLen(strCode) > 0 Then
                         gv1.Rows.AddNew()
                         intRow += 1
@@ -8480,6 +8488,7 @@ Public Class frmDairyFreshDispatchMultiple
                         '    SetitemWiseTaxSetting(False, False)
                         '    SetTaxDetails()
                         'End If
+                        GetDCDetails(TPTCode, dcRouteNo, clsCommon.GetPrintDate(dr("Document_Date")))
                     End If
                 Next
 
@@ -8763,6 +8772,8 @@ Public Class frmDairyFreshDispatchMultiple
                 For Each dr As DataRow In dtAllData.Rows
                     Dim strCode As String = clsCommon.myCstr(dr("Document_No"))
                     Dim strCustomerCode As String = clsCommon.myCstr(dr("vendor_code"))
+                    Dim TPTCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'"))
+
                     If clsCommon.myLen(strCode) > 0 Then
                         txtDriverName.Text = clsCommon.myCstr(dr("Manual_Driver_Name"))
                         txtSalesman.Text = clsCommon.myCstr(dr("Manual_Salesman_Name"))
@@ -8837,6 +8848,7 @@ Public Class frmDairyFreshDispatchMultiple
                         '    SetTaxDetails()
                         'End If
                     End If
+                    GetDCDetails(TPTCode, dcRouteNo, clsCommon.GetPrintDate(dr("Document_Date")))
                 Next
                 'isValid_CashVolumeScheme()
                 For ii As Integer = 0 To gv1.RowCount - 1
@@ -9317,7 +9329,7 @@ Public Class frmDairyFreshDispatchMultiple
                             obj.IsSampling = True
                             obj.Arr = New List(Of clsDispatchNoteFreshSaleDetail)
                             Dim intLineNo As Integer = 0
-
+                            Dim DCTotalAmt As Decimal = 0
                             For jj As Integer = 0 To gv1.Rows.Count - 1
                                 If clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value) > 0 Then
                                     'Dim strInnerCustomer As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value) + "SAMPLE" + clsCommon.myCstr(gv1.Rows(jj).Cells(colSampling).Value)
@@ -9474,10 +9486,14 @@ Public Class frmDairyFreshDispatchMultiple
                                         If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colCustCode).Value)) > 0 Then
                                             common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
                                         End If
+                                        objTr.Distributor_Commission_PKID = clsCommon.myCstr(gv1.Rows(jj).Cells(ColDCPKID).Value)
+                                        objTr.Distributor_Commission_Rate = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCRate).Value)
+                                        objTr.Distributor_Commission_Amt = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCAmt).Value)
+                                        DCTotalAmt += objTr.Distributor_Commission_Amt
                                     End If
                                 End If
                             Next
-
+                            obj.Distributor_Commission_TotalAmt = DCTotalAmt
                             obj.ActualTCSBaseAmount = Math.Round(clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text), 3)
                             obj.ChangedTCSBaseAmount = Math.Round(clsCommon.myCdbl(txttcstaxbaseamount.Value), 3)
                             obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text) + clsCommon.myCdbl(lblDiscountAmt.Text)
@@ -9603,6 +9619,27 @@ Public Class frmDairyFreshDispatchMultiple
 
     Private Sub txtCrateQty_TextChanged(sender As Object, e As EventArgs) Handles txtCrateQty.TextChanged
 
+    End Sub
+    Public Sub GetDCDetails(ByVal DistributorCode As String, ByVal RouteNo As String, ByVal docDate As DateTime)
+        Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
+left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
+left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
+where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintDate(docDate) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(DistributorCode) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(RouteNo) + "'  and IS_Transpotation=1
+order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
+        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry)
+        If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
+            gv1.CurrentRow.Cells(ColDCPKID).Value = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
+            gv1.CurrentRow.Cells(ColDCApplicableDate).Value = clsCommon.myCstr(dt1.Rows(0)("Applicable_Date"))
+            gv1.CurrentRow.Cells(ColDCUOM).Value = clsCommon.myCstr(dt1.Rows(0)("Commision_UOM"))
+            gv1.CurrentRow.Cells(ColDCRate).Value = clsCommon.myCstr(dt1.Rows(0)("Rate"))
+            'gv1.CurrentRow.Cells(ColDCRateWithTax).Value = Math.Round(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), 2)
+            gv1.CurrentRow.Cells(ColDCUnitCF).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
+            gv1.CurrentRow.Cells(ColDCCFUOM).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(ColDCUOM).Value) + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
+            gv1.CurrentRow.Cells(ColDCQtyinSU).Value = (gv1.CurrentRow.Cells(colQty).Value * gv1.CurrentRow.Cells(ColDCUnitCF).Value) / gv1.CurrentRow.Cells(ColDCCFUOM).Value
+            gv1.CurrentRow.Cells(ColDCAmt).Value = gv1.CurrentRow.Cells(ColDCQtyinSU).Value * gv1.CurrentRow.Cells(ColDCRate).Value
+            'dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
+
+        End If
     End Sub
 End Class
 

@@ -30,7 +30,7 @@ Public Class Frmsegmentcode
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.segmentCode)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
             Me.Close()
             Exit Sub
         End If
@@ -168,7 +168,7 @@ Public Class Frmsegmentcode
             PageSetupReport_ID = MyBase.Form_ID + rddrplstsegmentcode.Text
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -292,12 +292,12 @@ Public Class Frmsegmentcode
                     If clsCommon.myLen(grow.Cells(0).Value) > 0 Then
                         If clsCommon.myLen(clsCommon.myCstr(grow.Cells(1).Value)) > 0 Then
                             If clsCommon.myCstr(grow.Cells(1).Value.ToString().TrimEnd().Contains(" ")) = True Then
-                                clsCommon.MyMessageBoxShow("Please check ! description (" & clsCommon.myCstr(grow.Cells(1).Value) & ") should not contain space at line no " & clsCommon.myCstr(linno) & ".")
+                                clsCommon.MyMessageBoxShow(Me, "Please check ! description (" & clsCommon.myCstr(grow.Cells(1).Value) & ") should not contain space at line no " & clsCommon.myCstr(linno) & ".")
                                 Return False
                             End If
                         End If
                         If clsCommon.myCstr(grow.Cells(0).Value.ToString().TrimEnd().Contains(" ")) = True Then
-                            clsCommon.MyMessageBoxShow("Please check ! vehicle code (" & clsCommon.myCstr(grow.Cells(0).Value) & ") should not contain space at line no " & clsCommon.myCstr(linno) & ".")
+                            clsCommon.MyMessageBoxShow(Me, "Please check ! vehicle code (" & clsCommon.myCstr(grow.Cells(0).Value) & ") should not contain space at line no " & clsCommon.myCstr(linno) & ".")
                             Return False
                         End If
                         ''richa agarwal against ticket no. BM00000004358
@@ -306,7 +306,7 @@ Public Class Frmsegmentcode
                             index = clsCommon.myCstr(grow.Cells(0).Value).IndexOf(" ")
 
                             If index > 0 AndAlso index < clsCommon.myLen(grow.Cells(0).Value) Then
-                                clsCommon.MyMessageBoxShow("Please check ! vehicle code (" & clsCommon.myCstr(grow.Cells(0).Value) & ") should not contain space at line no " & clsCommon.myCstr(linno) & ".")
+                                clsCommon.MyMessageBoxShow(Me, "Please check ! vehicle code (" & clsCommon.myCstr(grow.Cells(0).Value) & ") should not contain space at line no " & clsCommon.myCstr(linno) & ".")
                                 Return False
                             End If
                         End If
@@ -315,7 +315,7 @@ Public Class Frmsegmentcode
                             index = clsCommon.myCstr(grow.Cells(1).Value).IndexOf(" ")
 
                             If index > 0 AndAlso index < clsCommon.myLen(grow.Cells(1).Value) Then
-                                clsCommon.MyMessageBoxShow("Please check ! despcription (" & clsCommon.myCstr(grow.Cells(1).Value) & ") should not contain space at line no " & clsCommon.myCstr(linno) & ".")
+                                clsCommon.MyMessageBoxShow(Me, "Please check ! despcription (" & clsCommon.myCstr(grow.Cells(1).Value) & ") should not contain space at line no " & clsCommon.myCstr(linno) & ".")
                                 Return False
                             End If
                         End If
@@ -323,7 +323,7 @@ Public Class Frmsegmentcode
                     Else
                         If clsCommon.myLen(grow.Cells(1).Value) > 0 Then
                             If clsCommon.myLen(grow.Cells(0).Value) <= 0 Then
-                                clsCommon.MyMessageBoxShow("Please check ! code should not be blank at line no " & clsCommon.myCstr(linno) & ".")
+                                clsCommon.MyMessageBoxShow(Me, "Please check ! code should not be blank at line no " & clsCommon.myCstr(linno) & ".")
                                 Return False
 
                             End If
@@ -342,7 +342,7 @@ Public Class Frmsegmentcode
                 rdgdvsegmentcode.CurrentColumn = rdgdvsegmentcode.Columns(0)
 
                 If clsCommon.myLen(rdgdvsegmentcode.Rows(ii).Cells(0).Value) <> intColumnLength Then
-                    clsCommon.MyMessageBoxShow("Segment code Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ] length should be " + clsCommon.myCstr(intColumnLength) + " characters")
+                    clsCommon.MyMessageBoxShow(Me, "Segment code Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ] length should be " + clsCommon.myCstr(intColumnLength) + " characters")
                     Return False
                 End If
 
@@ -354,34 +354,34 @@ Public Class Frmsegmentcode
                         qry = "select top 1 Vehicle_Id from tspl_vehicle_master where Vehicle_Id='" + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + "'"
                         dt = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            clsCommon.MyMessageBoxShow("Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in vehicle master")
+                            clsCommon.MyMessageBoxShow(Me, "Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in vehicle master")
                             Return False
                         End If
                     ElseIf SegNo = 3 Then ''Department master
                         qry = "select top 1 DEPARTMENT_CODE from TSPL_DEPARTMENT_MASTER where DEPARTMENT_CODE='" + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + "'"
                         dt = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            clsCommon.MyMessageBoxShow("Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in Department master")
+                            clsCommon.MyMessageBoxShow(Me, "Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in Department master")
                             Return False
                         End If
                     ElseIf SegNo = 4 Then ''Employee master
                         qry = "select top 1 EMP_CODE from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + "'"
                         dt = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            clsCommon.MyMessageBoxShow("Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in employee master")
+                            clsCommon.MyMessageBoxShow(Me, "Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in employee master")
                             Return False
                         End If
                     ElseIf SegNo = 7 Then ''Location master
                         qry = "select top 1 Loc_Segment_Code  from TSPL_LOCATION_MASTER where Loc_Segment_Code ='" + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + "'"
                         dt = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            clsCommon.MyMessageBoxShow("Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in location master")
+                            clsCommon.MyMessageBoxShow(Me, "Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in location master")
                             Return False
                         End If
                         qry = "select top 1 Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Seg_Code7 ='" + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + "'"
                         dt = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            clsCommon.MyMessageBoxShow("Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in GL Account")
+                            clsCommon.MyMessageBoxShow(Me, "Segment code New Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells(0).Value) + " ],Old Value [ " + clsCommon.myCstr(rdgdvsegmentcode.Rows(ii).Cells("SegmentCodeCheck").Value) + " ] Cannot change becuase segment is used in GL Account")
                             Return False
                         End If
                     End If
@@ -612,7 +612,7 @@ Public Class Frmsegmentcode
                         Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code2 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code2,'')<>''    union all select Vehicle_Id  as AA from TSPL_VEHICLE_MASTER)a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =2 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                         check = clsDBFuncationality.getSingleValue(qry)
                         If (str1 <> check) Then
-                            common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                            common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                             Exit Sub
                         End If
                     End If
@@ -620,7 +620,7 @@ Public Class Frmsegmentcode
                         Dim qry As String = " Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code3 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code3,'')<>'')a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =3 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                         check = clsDBFuncationality.getSingleValue(qry)
                         If (str1 <> check) Then
-                            common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                            common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                             Exit Sub
                         End If
                     End If
@@ -628,7 +628,7 @@ Public Class Frmsegmentcode
                         Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code4 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code4,'')<>''    union all select emp_code  as AA from TSPL_EMPLOYEE_MASTER)a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =4 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                         check = clsDBFuncationality.getSingleValue(qry)
                         If (str1 <> check) Then
-                            common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                            common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                             Exit Sub
                         End If
                     End If
@@ -636,7 +636,7 @@ Public Class Frmsegmentcode
                         Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code5 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code5,'')<>'')a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =5 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                         check = clsDBFuncationality.getSingleValue(qry)
                         If (str1 <> check) Then
-                            common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                            common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                             Exit Sub
                         End If
                     End If
@@ -644,7 +644,7 @@ Public Class Frmsegmentcode
                         Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code6 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code6,'')<>''    union all select Visi_Id    as AA from TSPL_VISI_MASTER)a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =6 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                         check = clsDBFuncationality.getSingleValue(qry)
                         If (str1 <> check) Then
-                            common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                            common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                             Exit Sub
                         End If
                     End If
@@ -652,7 +652,7 @@ Public Class Frmsegmentcode
                         Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code7 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code7,'')<>''    union all select Loc_Segment_Code   as AA from TSPL_LOCATION_MASTER)a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =7 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                         check = clsDBFuncationality.getSingleValue(qry)
                         If (str1 <> check) Then
-                            common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                            common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                             Exit Sub
                         End If
 
@@ -685,7 +685,7 @@ Public Class Frmsegmentcode
                     Dim qry As String = " Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code3 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code3,'')<>'')a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =3 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                     check = clsDBFuncationality.getSingleValue(qry)
                     If (str1 <> check) Then
-                        common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                        common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                         Exit Sub
                     End If
                 End If
@@ -693,7 +693,7 @@ Public Class Frmsegmentcode
                     Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code4 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code4,'')<>''    union all select emp_code  as AA from TSPL_EMPLOYEE_MASTER)a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =4 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                     check = clsDBFuncationality.getSingleValue(qry)
                     If (str1 <> check) Then
-                        common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                        common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                         Exit Sub
                     End If
                 End If
@@ -701,7 +701,7 @@ Public Class Frmsegmentcode
                     Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code5 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code5,'')<>'')a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =5 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                     check = clsDBFuncationality.getSingleValue(qry)
                     If (str1 <> check) Then
-                        common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                        common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                         Exit Sub
                     End If
                 End If
@@ -709,7 +709,7 @@ Public Class Frmsegmentcode
                     Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code6 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code6,'')<>''    union all select Visi_Id    as AA from TSPL_VISI_MASTER)a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =6 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                     check = clsDBFuncationality.getSingleValue(qry)
                     If (str1 <> check) Then
-                        common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                        common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                         Exit Sub
                     End If
                 End If
@@ -717,7 +717,7 @@ Public Class Frmsegmentcode
                     Dim qry As String = "Select Segment_code  from TSPL_GL_SEGMENT_CODE  where TSPL_GL_SEGMENT_CODE.Segment_code   not in(select * from(select Account_Seg_Code7 as AA  from TSPL_GL_ACCOUNTS where ISNULL(Account_Seg_Code7,'')<>''    union all select Location_Code   as AA from TSPL_LOCATION_MASTER)a where ISNULL(AA,'')<>''  ) and TSPL_GL_SEGMENT_CODE .Seg_No =7 and  TSPL_GL_SEGMENT_CODE.segment_code='" + str1 + "'"
                     check = clsDBFuncationality.getSingleValue(qry)
                     If (str1 <> check) Then
-                        common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used in another process")
+                        common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used in another process")
                         Exit Sub
                     End If
 
@@ -789,7 +789,7 @@ Public Class Frmsegmentcode
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -818,7 +818,7 @@ Public Class Frmsegmentcode
             If Not String.IsNullOrEmpty(e.Value) Then
                 Dim str As String = e.Value.ToString()
                 If str.Length <> length Then
-                    common.clsCommon.MyMessageBoxShow("Segment Code Length should be " + Convert.ToString(length) + "")
+                    common.clsCommon.MyMessageBoxShow(Me, "Segment Code Length should be " + Convert.ToString(length) + "")
                     e.Cancel = True
                 End If
             End If
@@ -934,7 +934,7 @@ Public Class Frmsegmentcode
     End Sub
 
     Private Sub rdgdvsegmentcode_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles rdgdvsegmentcode.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -965,7 +965,7 @@ Public Class Frmsegmentcode
            
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -1020,7 +1020,7 @@ Public Class Frmsegmentcode
             obj.GridColumns = rdgdvsegmentcode.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
 
             obj.GridLayout.Close()
@@ -1030,7 +1030,7 @@ Public Class Frmsegmentcode
 
     Private Sub rmiDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmiDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub ReStoreGridLayout()

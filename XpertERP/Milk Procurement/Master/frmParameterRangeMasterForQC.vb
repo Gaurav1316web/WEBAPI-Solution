@@ -511,7 +511,7 @@ Public Class frmParameterRangeMasterForQC
         Else
             
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from " + table_name + " where code='" & code & "' and nature='A'")) > 0 Then
-                clsCommon.MyMessageBoxShow("No record found.")
+                clsCommon.MyMessageBoxShow(Me, "No record found.")
             End If
         End If
         Return strRetValue
@@ -668,7 +668,7 @@ Public Class frmParameterRangeMasterForQC
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Function
 
@@ -736,7 +736,7 @@ Public Class frmParameterRangeMasterForQC
             Next
 
             If clsParameterRangeMasterForQC.SaveData(arr, trans_id) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
 
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -746,7 +746,7 @@ Public Class frmParameterRangeMasterForQC
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             arr = Nothing
             obj = Nothing
@@ -759,7 +759,7 @@ Public Class frmParameterRangeMasterForQC
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(gv.Rows(0).Cells(colCode).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select records for deletion.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select records for deletion.", Me.Text)
             Return
         End If
 
@@ -811,7 +811,7 @@ Public Class frmParameterRangeMasterForQC
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1031,16 +1031,16 @@ Public Class frmParameterRangeMasterForQC
                 clsCommon.ProgressBarHide()
 
                 If clsParameterRangeMasterForQC.SaveData(arr, trans_id) Then
-                    clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Transfer", Me.Text)
                 End If
                 'Reset()
                 LoadData(True)
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             obj = Nothing
             table_name = Nothing
@@ -1114,7 +1114,7 @@ Public Class frmParameterRangeMasterForQC
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1133,7 +1133,7 @@ Public Class frmParameterRangeMasterForQC
             End If
         Catch ex As Exception
             isValueChanged = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
         
     End Sub
@@ -1226,7 +1226,7 @@ Public Class frmParameterRangeMasterForQC
                 LoadData(True)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message())
         End Try
     End Sub
 

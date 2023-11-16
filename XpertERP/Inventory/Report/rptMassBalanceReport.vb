@@ -134,7 +134,7 @@ Public Class rptMassBalanceReport
     Public Sub Load_Data()
         Try
             If clsCommon.GetDateWithStartTime(fromDate.Value) > clsCommon.GetDateWithEndTime(ToDate.Value) Then
-                common.clsCommon.MyMessageBoxShow("From-Date cannot be Greater than To-Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From-Date cannot be Greater than To-Date")
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -390,7 +390,7 @@ Public Class rptMassBalanceReport
             obj.GridColumns = Gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ' stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -399,7 +399,7 @@ Public Class rptMassBalanceReport
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(GetReportID(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -440,7 +440,7 @@ Public Class rptMassBalanceReport
                 clsCommon.MyMessageBoxShow("No data found to export", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -633,7 +633,7 @@ Public Class rptMassBalanceReport
                 End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub Gv1_ViewCellFormatting(sender As Object, e As CellFormattingEventArgs) Handles Gv1.ViewCellFormatting

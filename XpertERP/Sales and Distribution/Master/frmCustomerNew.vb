@@ -33,6 +33,7 @@ Public Class frmCustomer
 
     Private isCellValueChangedOpen As Boolean = False
     Private isNewEntry As Boolean = True
+    Public Shared valueEntry As Boolean = False
     Dim userCode, companyCode As String
     Dim CustId As String
     Dim Custname As String
@@ -136,17 +137,17 @@ Public Class frmCustomer
                                 SaveDataFull()
                             End If
                         Else
-                            common.clsCommon.MyMessageBoxShow("Select Customer Account Set", "Customer", MessageBoxButtons.OK)
+                            common.clsCommon.MyMessageBoxShow(Me, "Select Customer Account Set", "Customer", MessageBoxButtons.OK)
                             pageCus.SelectedPage = RadPageViewPage4
                             fndAccntSet.Focus()
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow("Select Customer Group", "Customer", MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Select Customer Group", "Customer", MessageBoxButtons.OK)
                         pageCus.SelectedPage = RadPageViewPage1
                         fndCusgrp.Focus()
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Please fill customer name", "Customer", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please fill customer name", "Customer", MessageBoxButtons.OK)
                     pageCus.SelectedPage = RadPageViewPage1
                     txtCustomerName.Focus()
                 End If
@@ -199,7 +200,7 @@ Public Class frmCustomer
                 Else
                     gvCrate.CurrentRow.Cells(ColLocation).Value = ""
                     gvCrate.CurrentRow.Cells(colLocationName).Value = ""
-                    common.clsCommon.MyMessageBoxShow("Same Location exist at Row No " & clsCommon.myCstr(ii))
+                    common.clsCommon.MyMessageBoxShow(Me, "Same Location exist at Row No " & clsCommon.myCstr(ii))
                 End If
             End If
 
@@ -208,7 +209,7 @@ Public Class frmCustomer
     Function AllowToSave() As Boolean
         Try
             If CmbTransaction.SelectedValue = "T" AndAlso clsCommon.myLen(txtTinNo.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Fill the Tin No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Tin No")
                 pageCus.SelectedPage = RadPageViewPage4
                 txtTinNo.Focus()
                 Return False
@@ -236,7 +237,7 @@ Public Class frmCustomer
                 Dim dt1 As DataTable
                 dt1 = clsDBFuncationality.GetDataTable("Select * From TSPL_CUSTOMER_MASTER Where (((ISNULL( ECC,'')='" & txtecc.Text.Trim() & "' and LEN(ISNULL( ECC,'')) > 0))  or ((ISNULL(Email,'')='" & txtEmail.Text.Trim() & "' ANd ISNULL(Email,'')<>'' )) or ((ISNULL(Tin_No,'')='" & txtTinNo.Text.Trim() & "' AND ISNULL(Tin_No,'')<>'' )) or ((ISNULL(Contact_Person_Email,'')='" & txtContactEmail.Text.Trim() & "' ANd ISNULL(Contact_Person_Email,'')<>'' )) ) and (TSPL_CUSTOMER_MASTER.Cust_Code not in ('" & fndCustomer.Value.Trim() & "'))")
                 If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                    If common.clsCommon.MyMessageBoxShow("Customer exists with same customer description.Do you still want to continue ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    If common.clsCommon.MyMessageBoxShow(Me, "Customer exists with same customer description.Do you still want to continue ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     Else
                         Exit Function
                     End If
@@ -246,7 +247,7 @@ Public Class frmCustomer
             'richa agarwal 13 july,2017 to check customer exist with same name
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.CustomerNameUniqueOnCM & "' and Type ='" & clsFixedParameterType.CustomerNameUniqueOnCM & "'")), "1") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select count(*) from TSPL_CUSTOMER_MASTER where Customer_Name='" & clsCommon.myCstr(txtCustomerName.Text) & "' and Cust_Code<>'" & clsCommon.myCstr(fndCustomer.Value) & "'")) > 0 Then
-                    common.clsCommon.MyMessageBoxShow("Same Customer Name is exist with another customer so please change customer name because Customer Name is unique.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Same Customer Name is exist with another customer so please change customer name because Customer Name is unique.")
                     Return False
                 End If
             End If
@@ -259,14 +260,14 @@ Public Class frmCustomer
             Next
 
             If arrChecked Is Nothing OrElse arrChecked.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Company Under Additional Info Tab")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Company Under Additional Info Tab")
                 pageCus.SelectedPage = RadPageViewPage5
                 Return False
             End If
 
             If isCustomerOfRouteType() Then
                 If arrChecked.Count <> 1 Then
-                    common.clsCommon.MyMessageBoxShow("Please select only one Company (Under Additional Info. Tab).Because the Customer information type is Route")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select only one Company (Under Additional Info. Tab).Because the Customer information type is Route")
                     pageCus.SelectedPage = RadPageViewPage5
                     Return False
                 End If
@@ -278,14 +279,14 @@ Public Class frmCustomer
                 dblTotalChildLimit = dblTotalChildLimit + clsCommon.myCdbl(txtCredit.Text)
                 If dblTotalChildLimit > dblParentCreditLimit Then
                     dblTotalChildLimit = dblTotalChildLimit - clsCommon.myCdbl(txtCredit.Text)
-                    common.clsCommon.MyMessageBoxShow("Parent Credit Limit " + clsCommon.myCstr(dblParentCreditLimit) + " and Already used credit limit " + clsCommon.myCstr(dblTotalChildLimit))
+                    common.clsCommon.MyMessageBoxShow(Me, "Parent Credit Limit " + clsCommon.myCstr(dblParentCreditLimit) + " and Already used credit limit " + clsCommon.myCstr(dblTotalChildLimit))
                     Return False
                 End If
             End If
             ''richa  ERO/01/07/21-001425
             If chkITRfilledinLast2Years.Checked = True Then
                 If clsCommon.myLen(clsCommon.myCstr(txtpan.Text)) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("PAN No. can not be blank")
+                    common.clsCommon.MyMessageBoxShow(Me, "PAN No. can not be blank")
                     pageCus.SelectedPage = RadPageViewPage4
                     txtpan.Focus()
                     Return False
@@ -312,7 +313,7 @@ Public Class frmCustomer
 
                 If clsCommon.myLen(ValidUpto) > 0 Then
                     If sdate1 > ValidUpto1 Then
-                        common.clsCommon.MyMessageBoxShow("Start Date Can Not Be Greater Than ValidUpTo Date At LIne no " + clsCommon.myCstr(ii) + " Under Items Tab")
+                        common.clsCommon.MyMessageBoxShow(Me, "Start Date Can Not Be Greater Than ValidUpTo Date At LIne no " + clsCommon.myCstr(ii) + " Under Items Tab")
 
                         Return False
                     End If
@@ -342,31 +343,31 @@ Public Class frmCustomer
                     Dim Startdate As String = gvItems.Rows(jj - 1).Cells(ColItemStartDate).Value
                     Dim Startdate1 As Date = clsCommon.myCDate(gvItems.Rows(jj - 1).Cells(ColItemStartDate).Value)
                     If clsCommon.CompairString(Icode, gvItems.Rows(jj - 1).Cells(0).Value) = CompairStringResult.Equal AndAlso clsCommon.CompairString(uom, gvItems.Rows(jj - 1).Cells(2).Value) = CompairStringResult.Equal AndAlso ValidUpto Is Nothing Then
-                        common.clsCommon.MyMessageBoxShow("Same Item Combination Can Not be Saved At Line " + clsCommon.myCstr(jj) + " AS ValidUpTo Date is Blank At Line " + clsCommon.myCstr(ii) + " Under Items Tab")
+                        common.clsCommon.MyMessageBoxShow(Me, "Same Item Combination Can Not be Saved At Line " + clsCommon.myCstr(jj) + " AS ValidUpTo Date is Blank At Line " + clsCommon.myCstr(ii) + " Under Items Tab")
                         Return False
                     End If
                     If clsCommon.CompairString(Icode, gvItems.Rows(jj - 1).Cells(0).Value) = CompairStringResult.Equal AndAlso clsCommon.CompairString(uom, gvItems.Rows(jj - 1).Cells(2).Value) = CompairStringResult.Equal AndAlso Startdate1 = sdate Then
-                        common.clsCommon.MyMessageBoxShow("Same Record Exists at Line " + clsCommon.myCstr(ii) + " AND " + clsCommon.myCstr(jj) + " Under Items Tab")
+                        common.clsCommon.MyMessageBoxShow(Me, "Same Record Exists at Line " + clsCommon.myCstr(ii) + " AND " + clsCommon.myCstr(jj) + " Under Items Tab")
                         Return False
                     End If
                     If clsCommon.CompairString(Icode, gvItems.Rows(jj - 1).Cells(0).Value) = CompairStringResult.Equal AndAlso clsCommon.CompairString(uom, gvItems.Rows(jj - 1).Cells(2).Value) = CompairStringResult.Equal AndAlso Startdate1 <= ValidUpto1 Then
-                        common.clsCommon.MyMessageBoxShow("Start date At Line No " + clsCommon.myCstr(jj) + " Can Not Be Less/Equal To ValidUpTo Date At Line No " + clsCommon.myCstr(ii) + " For Same Item  Under Items Tab")
+                        common.clsCommon.MyMessageBoxShow(Me, "Start date At Line No " + clsCommon.myCstr(jj) + " Can Not Be Less/Equal To ValidUpTo Date At Line No " + clsCommon.myCstr(ii) + " For Same Item  Under Items Tab")
                         Return False
                     End If
                 Next
                 If clsCommon.myLen(Icode) <= 0 Then
                 Else
                     If clsCommon.myLen(uom) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Item's UOM can't be blank for '" + Icode + "' Item Under Items Tab")
+                        common.clsCommon.MyMessageBoxShow(Me, "Item's UOM can't be blank for '" + Icode + "' Item Under Items Tab")
                         Return False
                     End If
                     If clsCommon.myLen(sdate) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Item's Start Date can't be blank for '" + Icode + "' Item Under Items Tab")
+                        common.clsCommon.MyMessageBoxShow(Me, "Item's Start Date can't be blank for '" + Icode + "' Item Under Items Tab")
                         Return False
                     End If
 
                     If clsCommon.myLen(damt) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Item's Discount amount can't be blank for '" + Icode + "' Item Under Items Tab")
+                        common.clsCommon.MyMessageBoxShow(Me, "Item's Discount amount can't be blank for '" + Icode + "' Item Under Items Tab")
                         Return False
                     End If
 
@@ -388,7 +389,7 @@ Public Class frmCustomer
             '' validation for multicurrency
             If clsCommon.myLen(clsCommon.myCstr(fndCustCurrency.Value)) > 0 Then
                 If clsCommon.myLen(Me.fndAccntSet.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select Account Set. Under Process Tab")
+                    clsCommon.MyMessageBoxShow(Me, "Select Account Set. Under Process Tab")
                     Me.fndAccntSet.Focus()
                     Return False
                 End If
@@ -407,7 +408,7 @@ Public Class frmCustomer
                 qry = "select CURRENCY_CODE from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" & clsCommon.myCstr(Me.fndAccntSet.Value) & "' "
                 Dim accCurrCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
                 If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(Me.fndCustCurrency.Value)) <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Account Set Currency and Customer Currency must be same in case of Multicurrency.")
+                    clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Customer Currency must be same in case of Multicurrency.")
                     Return False
                 End If
                 '' match tax Group currency with vendor currency
@@ -435,7 +436,7 @@ Public Class frmCustomer
                 For Each rowvisi As GridViewRowInfo In dgvVisi.Rows
                     If rowvisi.Cells("Select").Value = 1 Then
                         If String.IsNullOrEmpty(rowvisi.Cells("Tag No").Value.ToString) Then
-                            clsCommon.MyMessageBoxShow("Please Enter Tag No For All Visi..")
+                            clsCommon.MyMessageBoxShow(Me, "Please Enter Tag No For All Visi..")
                             Return False
                         Else
                             Dim sQuery As String = "select COUNT(*) from TSPL_VISI_MASTER where Tag_No='" & rowvisi.Cells("Tag No").Value & "' and Visi_Id<>'" & rowvisi.Cells("Visi Id").Value & "'"
@@ -447,18 +448,18 @@ Public Class frmCustomer
                         End If
                         If clsCommon.myCstr(rowvisi.Cells("FOC").Value) = "" Or clsCommon.myCstr(rowvisi.Cells("FOC").Value) = "No" Then
                             If String.IsNullOrEmpty(rowvisi.Cells("Security Amount").Value.ToString) Then
-                                clsCommon.MyMessageBoxShow("Fill Security Amount of Serial No - [" & rowvisi.Cells("Visi Id").Value.ToString & "]")
+                                clsCommon.MyMessageBoxShow(Me, "Fill Security Amount of Serial No - [" & rowvisi.Cells("Visi Id").Value.ToString & "]")
                                 Return False
                             End If
                         End If
 
                         If String.IsNullOrEmpty(rowvisi.Cells("Agreement No").Value.ToString) Then
-                            clsCommon.MyMessageBoxShow("Fill Agreement No of Serial No - [" & rowvisi.Cells("Visi Id").Value.ToString & "]")
+                            clsCommon.MyMessageBoxShow(Me, "Fill Agreement No of Serial No - [" & rowvisi.Cells("Visi Id").Value.ToString & "]")
                             Return False
                         End If
 
                         If String.IsNullOrEmpty(rowvisi.Cells("Agreement Date").Value.ToString) Then
-                            clsCommon.MyMessageBoxShow("Fill Agreement Date of Serial No - [" & rowvisi.Cells("Visi Id").Value.ToString & "]")
+                            clsCommon.MyMessageBoxShow(Me, "Fill Agreement Date of Serial No - [" & rowvisi.Cells("Visi Id").Value.ToString & "]")
                             Return False
                         End If
                     End If
@@ -468,7 +469,7 @@ Public Class frmCustomer
             If clsCommon.myLen(txtCategoryStructureCode.Value) > 0 Then
                 If clsCommon.myLen(gvCategory.Rows(0).Cells(0).Value) <= 0 Then
                     pageCus.SelectedPage = RadPageViewPage7
-                    clsCommon.MyMessageBoxShow("First mapped Location category values with Location category structure", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "First mapped Location category values with Location category structure", Me.Text)
                     gvCategory.Focus()
                     gvCategory.Select()
                     Return False
@@ -477,7 +478,7 @@ Public Class frmCustomer
                 For Each grow As GridViewRowInfo In gvCategory.Rows
                     If clsCommon.myLen(grow.Cells(CatcolCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(CatcolValue).Value) <= 0 Then
                         pageCus.SelectedPage = RadPageViewPage7
-                        clsCommon.MyMessageBoxShow("Please select category values", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please select category values", Me.Text)
                         gvCategory.Focus()
                         gvCategory.Select()
                         Return False
@@ -488,7 +489,7 @@ Public Class frmCustomer
             ''richa ticket No. BM00000003109 on 19/08/2014
             If clsCommon.myCdbl(txtTempCreditLimit.Text) > 0 Then
                 If txttempCreditLimitTo.Value.Date < txttempCreditLimitFrom.Value.Date Then
-                    clsCommon.MyMessageBoxShow("Temp Credit Limit To can't be less than from Temp Credit Limit From", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Temp Credit Limit To can't be less than from Temp Credit Limit From", Me.Text)
                     txttempCreditLimitTo.Focus()
                     txttempCreditLimitTo.Select()
                     Return False
@@ -500,7 +501,7 @@ Public Class frmCustomer
 
             If clsCommon.myLen(txtpan.Text) > 0 Then
                 If clsCommon.myLen(txtpan.Text) < 10 Then
-                    clsCommon.MyMessageBoxShow("PAN number should have max. 10 characters.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "PAN number should have max. 10 characters.", Me.Text)
                     txtpan.Focus()
                     txtpan.Select()
                     Return False
@@ -508,7 +509,7 @@ Public Class frmCustomer
                 If ChkOther.Checked = False Then
                     Dim msg As String = clsERPFuncationality.CheckPanStructure(txtpan.Text.Trim(), txtCustomerName.Text)
                     If clsCommon.myLen(msg) > 10 Then
-                        clsCommon.MyMessageBoxShow(msg, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                         txtpan.Focus()
                         txtpan.Select()
                         Return False
@@ -519,7 +520,7 @@ Public Class frmCustomer
             If clsCommon.myLen(txtPinNo.Text) > 0 Then
                 If clsCommon.myLen(txtPinNo.Text) <> 6 Then
                     pageCus.SelectedPage = RadPageViewPage1
-                    clsCommon.MyMessageBoxShow("Invalid Pin Code.Please Enter Pin Code 6 Digit.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invalid Pin Code.Please Enter Pin Code 6 Digit.", Me.Text)
                     txtPinNo.Focus()
                     txtPinNo.Select()
                     Return False
@@ -582,7 +583,7 @@ Public Class frmCustomer
             If GstApplicable Then
                 If chkGstRegistered.Checked Then
                     If clsCommon.myLen(txtpan.Text) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please Enter Customer Pan No.")
+                        clsCommon.MyMessageBoxShow(Me, "Please Enter Customer Pan No.")
                         txtpan.Focus()
                         txtpan.Select()
                         Return False
@@ -601,7 +602,7 @@ Public Class frmCustomer
             Return True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
             Return False
         End Try
 
@@ -1321,17 +1322,18 @@ Public Class frmCustomer
                         AllowCustCode = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy"), clsDocType.CustomerMaster, "", "")
                         fndCustomer.Value = AllowCustCode
                     Else
+
                         If clsCommon.myLen(txtCustomerName.Text) > 0 Then
-                            CustName = txtCustomerName.Text.Substring(0, 1)
-                            AutoCustCode = clsERPFuncationality.GetVendorNextCode("TSPL_CUSTOMER_MASTER", "Customer_Name", CustName, Nothing)
-                            fndCustomer.Value = AutoCustCode
-                        Else
-                            CustName = ""
-                            AutoCustCode = clsERPFuncationality.GetVendorNextCode("TSPL_CUSTOMER_MASTER", "Customer_Name", CustName, Nothing)
-                            fndCustomer.Value = AutoCustCode
-                        End If
+                                CustName = txtCustomerName.Text.Substring(0, 1)
+                                AutoCustCode = clsERPFuncationality.GetVendorNextCode("TSPL_CUSTOMER_MASTER", "Customer_Name", CustName, Nothing)
+                                fndCustomer.Value = AutoCustCode
+                            Else
+                                CustName = ""
+                                AutoCustCode = clsERPFuncationality.GetVendorNextCode("TSPL_CUSTOMER_MASTER", "Customer_Name", CustName, Nothing)
+                                fndCustomer.Value = AutoCustCode
+                            End If
+
                     End If
-                Else
                     fndCustomer.Value = fndCustomer.Value
                 End If
             Else
@@ -1816,11 +1818,11 @@ Public Class frmCustomer
             End If
 
             If btnSave.Text = "Save" Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
             Else
-                common.clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully")
             End If
             isLoadCopy = False
             LoadData() '-Fills data
@@ -2506,7 +2508,7 @@ Public Class frmCustomer
             '    If funSetUserAccess() = False Then Exit Sub
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3173,16 +3175,16 @@ Public Class frmCustomer
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Error at row no:" + clsCommon.myCstr(intCounter) + Environment.NewLine + ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, "Error at row no:" + clsCommon.myCstr(intCounter) + Environment.NewLine + ex.Message)
                     '' myMessages.myExceptions(ex)
                 End Try
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -4005,7 +4007,7 @@ Public Class frmCustomer
                     End If
                 Next
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
                 myMessages.myExceptions(ex)
@@ -4144,7 +4146,7 @@ Public Class frmCustomer
             Dim check As Match = Regex.Match(txtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address")
                 txtEmail.Text = ""
                 txtEmail.Focus()
             End If
@@ -4159,7 +4161,7 @@ Public Class frmCustomer
             Dim check As Match = Regex.Match(txtContactEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address")
                 txtContactEmail.Text = ""
                 txtContactEmail.Focus()
             End If
@@ -4252,7 +4254,7 @@ Public Class frmCustomer
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message())
         End Try
     End Sub
 
@@ -6229,9 +6231,11 @@ Public Class frmCustomer
 
     Private Sub btnAddSecurity_Click(sender As Object, e As EventArgs) Handles btnAddSecurity.Click
         Dim ReceiptFormOpens As Boolean = True
+        'Dim valueEntry As Boolean = True
         Try
             Dim frm As New FrmReceipttNew()
-            frm.Check = fndCustomer.Value
+            valueEntry = True
+            'frm.Check = fndCustomer.Value
             frm.StringPass1 = fndCustomer.Value
             frm.StringPass = txtCustomerName.Text
             Dim strProgramName As String = ""
@@ -6244,10 +6248,11 @@ Public Class frmCustomer
                 End If
 
                 MDI.formShow(frm, strProgramCode, strProgramName, True, ReceiptFormOpens, True)
+                valueEntry = False
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub GetSecurityDetails(ByVal customer As String)
@@ -6293,6 +6298,43 @@ Public Class frmCustomer
 
     Private Sub UcAttachment1_Load(sender As Object, e As EventArgs) Handles UcAttachment1.Load
 
+    End Sub
+
+    'Private Sub txtCustomerName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCustomerName.KeyPress
+    '    If Not Char.IsLetter(e.KeyChar) AndAlso e.KeyChar <> " " Then
+    '        e.Handled = True ' Prevent the character from being entered.
+    '    End If
+    '    'If e.KeyChar = "  " Then
+    '    '    ' Check if the previous character in the TextBox is also a space.
+    '    '    Dim text As String = txtCustomerName.Text
+    '    '    Dim selectionStart As Integer = txtCustomerName.SelectionStart
+
+    '    '    If selectionStart > 0 AndAlso text(selectionStart - 1) = "  " Then
+    '    '        ' Prevent adding the double space by setting Handled to true.
+    '    '        e.Handled = True
+
+    '    '    Else
+    '    '        MessageBox.Show("Spaces are not allowed in the customer name.")
+    '    '        e.Handled = True
+    '    '    End If
+    '    'End If
+    'End Sub
+
+
+    Private Sub txtCustomerName_KeyDown(sender As Object, e As KeyEventArgs) Handles txtCustomerName.KeyDown
+        If (e.KeyCode = Keys.Space) Then
+            txtCustomerName.Text = txtCustomerName.Text.Replace("  ", " ")
+        End If
+        'txtCustomerName.Text = txtCustomerName.Text
+    End Sub
+
+    Private Sub txtCustomerName_TextChanged(sender As Object, e As EventArgs) Handles txtCustomerName.TextChanged
+        'Dim regex As New System.Text.RegularExpressions.Regex("[^a-zA-Z ]")
+        If clsCommon.myLen(txtCustomerName.Text) > 0 Then
+            txtCustomerName.Text = txtCustomerName.Text.Replace("  ", " ")
+        End If
+        ' Trim spaces from the beginning and end of the text.
+        'txtCustomerName.Text = txtCustomerName.Text
     End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

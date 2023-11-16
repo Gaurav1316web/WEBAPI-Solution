@@ -586,7 +586,7 @@ Public Class frmPurchaseRequistion
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
 
         End Try
@@ -605,7 +605,7 @@ Public Class frmPurchaseRequistion
         ''Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Item_Desc,Unit_Code from TSPL_ITEM_MASTER where Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
 
         If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type")
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
             gv1.CurrentRow.Cells(colHSN).Value = ""
@@ -738,7 +738,7 @@ Public Class frmPurchaseRequistion
                 Dim strchk As String = "select Status from TSPL_REQUISITION_HEAD where Requisition_Id='" + txtReqNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted")
                     Return False
                 End If
             End If
@@ -759,7 +759,7 @@ Public Class frmPurchaseRequistion
             If ShowCapex Then
                 If clsCommon.CompairString(clsCommon.myCstr(ddl_category.SelectedValue), "Capex") = CompairStringResult.Equal Then
                     If clsCommon.myLen(fndcapexsubcode.Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please select Capex SubCode")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please select Capex SubCode")
                         fndcapexsubcode.Focus()
                         Return False
                     End If
@@ -774,7 +774,7 @@ Public Class frmPurchaseRequistion
                             ' Return False
                         End If
                         If clsCommon.myCdbl(lbl_rebudgetamt.Text) < clsCommon.myCdbl(lblTotRAmt.Text) AndAlso clsCommon.myCdbl(lbl_rebudgetamtwithtolerence.Text) > clsCommon.myCdbl(lblTotRAmt.Text) Then
-                            clsCommon.MyMessageBoxShow("Warning: Document amount exceed budget amount but under tolerence limit.")
+                            clsCommon.MyMessageBoxShow(Me, "Warning: Document amount exceed budget amount but under tolerence limit.")
                         End If
                     End If
 
@@ -782,7 +782,7 @@ Public Class frmPurchaseRequistion
 
 
                 If clsCommon.myLen(ddl_category.SelectedValue) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Category")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Category")
                     ddl_category.Focus()
                     Return False
                 End If
@@ -790,24 +790,24 @@ Public Class frmPurchaseRequistion
             End If
 
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location")
                 txtLocation.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Item Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type")
                 cboItemType.Focus()
                 Return False
             End If
 
             If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsLocation.isLocatinExcisable(txtLocation.Value) Then
-                common.clsCommon.MyMessageBoxShow("Location Can't be excisable of finished goods")
+                common.clsCommon.MyMessageBoxShow(Me, "Location Can't be excisable of finished goods")
                 Return False
             End If
 
             If clsCommon.myLen(txtDept.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Department")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Department")
                 txtDept.Focus()
                 Return False
             End If
@@ -823,13 +823,13 @@ Public Class frmPurchaseRequistion
 
                 If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) <= 0 Then
                     gv1.CurrentRow = gv1.Rows(ii)
-                    clsCommon.MyMessageBoxShow("Quantity should not be 0(zero) at row no. " + clsCommon.myCstr(ii + 1) + ".")
+                    clsCommon.MyMessageBoxShow(Me, "Quantity should not be 0(zero) at row no. " + clsCommon.myCstr(ii + 1) + ".")
                     Return False
                 End If
                 '=====================added by Preeti Gupta [31/01/2017]
                 If clsCommon.myLen(gv1.Rows(ii).Cells(colUnit).Value) <= 0 Then
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter UOM for Item : " + strIName + " . At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter UOM for Item : " + strIName + " . At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                         RadPageView1.SelectedPage = RadPageViewPage1
                         Return False
                     End If
@@ -850,7 +850,7 @@ Public Class frmPurchaseRequistion
                             Continue For
                         End If
                         If (clsCommon.CompairString(strICode, clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)) = CompairStringResult.Equal) Then
-                            common.clsCommon.MyMessageBoxShow("Duplicate Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " and  " + clsCommon.myCstr(clsCommon.myCdbl(jj + 1)) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Duplicate Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " and  " + clsCommon.myCstr(clsCommon.myCdbl(jj + 1)) + "")
                             Return False
                         End If
                     Next
@@ -872,7 +872,7 @@ Public Class frmPurchaseRequistion
             ''--------------------------------------------------------------
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
             Return False
         End Try
         Return True
@@ -986,7 +986,7 @@ Public Class frmPurchaseRequistion
 
 
                 If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
                     Return
                 End If
 
@@ -1004,7 +1004,7 @@ Public Class frmPurchaseRequistion
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Requisition_Id)
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                     End If
 
                     'If objCommonVar.IsDemoERP Then
@@ -1033,7 +1033,7 @@ Public Class frmPurchaseRequistion
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     '--------------richa 09/07/2014 Ticket No BM00000003042---------
@@ -1112,10 +1112,10 @@ Public Class frmPurchaseRequistion
                 desc = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.NotificationSettingforReOrderInPurchaseRequisition, clsFixedParameterCode.NotificationSettingforReOrderInPurchaseRequisition, Nothing))
                 If clsCommon.CompairString(desc, "1") = CompairStringResult.Equal Then
                     StrMessage = StrMessage & " So you do not create/update Purchase Indent"
-                    clsCommon.MyMessageBoxShow(StrMessage)
+                    clsCommon.MyMessageBoxShow(Me, StrMessage)
                     Return False
                 ElseIf clsCommon.CompairString(desc, "2") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(StrMessage)
+                    clsCommon.MyMessageBoxShow(Me, StrMessage)
                     Return True
 
                 End If
@@ -1306,7 +1306,7 @@ Public Class frmPurchaseRequistion
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try
@@ -1338,21 +1338,21 @@ Public Class frmPurchaseRequistion
                 '=====================end here===================
 
                 If (clsRequistionHead.PostData(txtReqNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ")
                     LoadData(txtReqNo.Value, NavigatorType.Current)
                     '=send sms at post if setting is on===================
                     If clsSMSAtPost_Purchase.SMSATPOST_PUR() Then
                         SMSSendOnly(True)
                     End If
                     '====================================================
-                    If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes) Then
+                    If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes) Then
                         funPrint(txtReqNo.Value)
                     End If
 
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1379,12 +1379,12 @@ Public Class frmPurchaseRequistion
                 End If
                 If (clsRequistionHead.DeleteData(txtReqNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1462,7 +1462,7 @@ Public Class frmPurchaseRequistion
             LoadData(txtReqNo.Value, NavType)
         Catch ex As Exception
             vaddnew = "N"
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1512,7 +1512,7 @@ Public Class frmPurchaseRequistion
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1564,7 +1564,7 @@ Public Class frmPurchaseRequistion
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -1697,7 +1697,7 @@ Public Class frmPurchaseRequistion
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1711,14 +1711,14 @@ Public Class frmPurchaseRequistion
                 If clsCommon.myLen(txtReqNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "N") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsRequistionDetail.CompleteRequition(txtReqNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed")
                             LoadData(txtReqNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1746,7 +1746,7 @@ Public Class frmPurchaseRequistion
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1865,12 +1865,12 @@ Public Class frmPurchaseRequistion
 
                     qry = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_reverse=1 where document_code='" + txtReqNo.Value + "' and trans_code='" + clsCommon.myCstr(MyBase.Form_ID) + "' and is_reverse=0"
                     clsDBFuncationality.ExecuteNonQuery(qry)
-                    clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
                     LoadData(txtReqNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2005,14 +2005,14 @@ Public Class frmPurchaseRequistion
         Try
             If (clsRequistionHead.CloseprData(txtReqNo.Value, closeyn)) Then
                 If closeyn = "Y" Then
-                    common.clsCommon.MyMessageBoxShow("Data Closed Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Closed Successfully ")
                 ElseIf closeyn = "N" Then
-                    common.clsCommon.MyMessageBoxShow("Data Opened Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Opened Successfully ")
                 End If
                 LoadData(txtReqNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub chkprclose_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkprclose.CheckedChanged
@@ -2042,7 +2042,7 @@ Public Class frmPurchaseRequistion
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2052,7 +2052,7 @@ Public Class frmPurchaseRequistion
 
     Private Sub DeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub RadPageView1_SelectedPageChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadPageView1.SelectedPageChanged
@@ -2075,7 +2075,7 @@ Public Class frmPurchaseRequistion
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try
@@ -2256,10 +2256,10 @@ Public Class frmPurchaseRequistion
 
                     objEmailH.SaveData(clsUserMgtCode.mbtnPurchaseRequistion, objEmailH, Nothing)
                     objEmailH = Nothing
-                    clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("First do email and sms setting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
 
             End If
 
@@ -2334,7 +2334,7 @@ Public Class frmPurchaseRequistion
                 If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
                     objSMSH.SaveData(clsUserMgtCode.mbtnPurchaseRequistion, objSMSH, Nothing)
                     objSMSH = Nothing
-                    clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
                 End If
             End If
             'Sanjay
@@ -2365,7 +2365,7 @@ Public Class frmPurchaseRequistion
     End Function
     Private Sub BtnMailPreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMailPreview.Click
         If clsCommon.myLen(txtReqNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select First Document No.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select First Document No.", Me.Text)
             txtReqNo.Focus()
             txtReqNo.Select()
             Return
@@ -2393,7 +2393,7 @@ Public Class frmPurchaseRequistion
 
         Try
             If clsCommon.myLen(txtReqNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -2415,7 +2415,7 @@ Public Class frmPurchaseRequistion
             lstUsers.Add(strEmail)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -2450,7 +2450,7 @@ Public Class frmPurchaseRequistion
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

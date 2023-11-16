@@ -274,10 +274,10 @@ Public Class frmItemReorder
             Next
 
             If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("Please select at list one Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at list one Item")
                 Exit Sub
             Else
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                 ''===Sanjeet(03/01/2017) for notifiaction====
                 'Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.mbtnPurchaseRequistion + "'", trans))
                 'If clsCommon.CompairString(strNotificationOn, "S") = CompairStringResult.Equal Then
@@ -297,7 +297,7 @@ Public Class frmItemReorder
             loadReorderLevel()
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

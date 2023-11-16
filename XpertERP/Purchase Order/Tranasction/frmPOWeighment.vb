@@ -562,38 +562,43 @@ Public Class frmPOWeighment
                             End If
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNQty).Value = objtr.GRN_Qty
 
-                            If chkSave Then
-                                'If clsCommon.myLen(objtr.Unload_By) <= 0 Then
-                                '    If clsCommon.MyMessageBoxShow("Do You Want To Edit the Gross weight", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                                '        objtr.Unload_SNo = 0
-                                '        objtr.Is_Unload_Item = 0
-                                '        objtr.Unload_By = ""
-                                '        objtr.Unload_Date = Nothing
-                                '        clsPOWeighmentDetail.SaveUnloadItem(txtCode.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colTRNo).Value), objtr)
-                                '        'LoadData(txtCode.Value, NavigatorType.Current)
-                                '    Else
-                                '        gv1.CurrentRow.Cells(colTareWeight).Value = 0
-                                '    End If
-                                'End If
-                                'chkSave = False
-                                Dim Is_Unload_Item As Integer = clsDBFuncationality.getSingleValue("select Is_Unload_Item  from TSPL_PO_WEIGHTMENT_DETAIL  where  Weighment_Code='" & txtCode.Value & "'")
-                                If Is_Unload_Item = 0 Then
-                                    If clsCommon.MyMessageBoxShow("Do You Want To Edit the Gross weight", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                            If obj.Status = ERPTransactionStatus.Approved Then
+                            Else
+
+                                If chkSave Then
+                                    'If clsCommon.myLen(objtr.Unload_By) <= 0 Then
+                                    '    If clsCommon.MyMessageBoxShow("Do You Want To Edit the Gross weight", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                                    '        objtr.Unload_SNo = 0
+                                    '        objtr.Is_Unload_Item = 0
+                                    '        objtr.Unload_By = ""
+                                    '        objtr.Unload_Date = Nothing
+                                    '        clsPOWeighmentDetail.SaveUnloadItem(txtCode.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colTRNo).Value), objtr)
+                                    '        'LoadData(txtCode.Value, NavigatorType.Current)
+                                    '    Else
+                                    '        gv1.CurrentRow.Cells(colTareWeight).Value = 0
+                                    '    End If
+                                    'End If
+                                    'chkSave = False
+                                    Dim Is_Unload_Item As Integer = clsDBFuncationality.getSingleValue("select Is_Unload_Item  from TSPL_PO_WEIGHTMENT_DETAIL  where  Weighment_Code='" & txtCode.Value & "'")
+                                    If Is_Unload_Item = 0 Then
+                                        If clsCommon.MyMessageBoxShow("Do You Want To Edit the Gross weight", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
 
 
-                                        'objtr.Unload_SNo = 0
-                                        'objtr.Is_Unload_Item = 0
-                                        'objtr.Unload_By = ""
-                                        'objtr.Unload_Date = Nothing
-                                        'clsPOWeighmentDetail.SaveUnloadItem(txtCode.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colTRNo).Value), objtr)
-                                        'LoadData(txtCode.Value, NavigatorType.Current)
-                                    Else
-                                        Dim qry As String = "Update TSPL_PO_WEIGHTMENT_DETAIL set Is_Unload_Item = 1 , Unload_By = '" & objCommonVar.CurrentUserCode & "' ,Unload_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "'  where  Weighment_Code='" & txtCode.Value & "'"
-                                        clsDBFuncationality.ExecuteNonQuery(qry)
-                                        'gv1.CurrentRow.Cells(colTareWeight).Value = 0
-                                        LoadData(txtCode.Value, NavigatorType.Current)
+                                            'objtr.Unload_SNo = 0
+                                            'objtr.Is_Unload_Item = 0
+                                            'objtr.Unload_By = ""
+                                            'objtr.Unload_Date = Nothing
+                                            'clsPOWeighmentDetail.SaveUnloadItem(txtCode.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colTRNo).Value), objtr)
+                                            'LoadData(txtCode.Value, NavigatorType.Current)
+                                        Else
+                                            Dim qry As String = "Update TSPL_PO_WEIGHTMENT_DETAIL set Is_Unload_Item = 1 , Unload_By = '" & objCommonVar.CurrentUserCode & "' ,Unload_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "'  where  Weighment_Code='" & txtCode.Value & "'"
+                                            clsDBFuncationality.ExecuteNonQuery(qry)
+                                            'gv1.CurrentRow.Cells(colTareWeight).Value = 0
+                                            LoadData(txtCode.Value, NavigatorType.Current)
+                                        End If
                                     End If
                                 End If
+
                             End If
 
                         Next

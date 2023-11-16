@@ -64,12 +64,12 @@ Public Class frmWarrentyMaster
                 End If
                 obj.Effective_Days = txtEffectiveDays.Value
                 If obj.SaveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -92,7 +92,7 @@ Public Class frmWarrentyMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -137,11 +137,11 @@ Public Class frmWarrentyMaster
             If clsCommon.MyMessageBoxShow("Delete the current warranty code." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.OK Then
                 Dim qry As String = "delete from TSPL_TASK_MASTER where Task_Id='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

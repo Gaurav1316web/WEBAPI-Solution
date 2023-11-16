@@ -320,7 +320,7 @@ Public Class frmPriceChartBulkProc
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Public Function GetRowType() As DataTable
@@ -420,17 +420,17 @@ Public Class frmPriceChartBulkProc
                 End If
                 If (clsPriceChartBulkProc.SaveData(obj, isNewEntry, trans)) Then
                     If isNewEntry Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         LoadData(obj.Price_Code, NavigatorType.Current)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                         LoadData(obj.Price_Code, NavigatorType.Current)
                     End If
                 End If
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -455,7 +455,7 @@ Public Class frmPriceChartBulkProc
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -478,7 +478,7 @@ Public Class frmPriceChartBulkProc
                 ' clsCommon.MyMessageBoxShow("No data found to Print")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -721,7 +721,7 @@ Public Class frmPriceChartBulkProc
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -761,7 +761,7 @@ Public Class frmPriceChartBulkProc
 
             LoadData(fndcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -906,7 +906,7 @@ Public Class frmPriceChartBulkProc
                         End If
                     Next
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     myMessages.myExceptions(ex)
@@ -985,7 +985,7 @@ Public Class frmPriceChartBulkProc
                         End If
                     Next
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     myMessages.myExceptions(ex)
@@ -1104,7 +1104,7 @@ Public Class frmPriceChartBulkProc
                         End If
                     Next
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     myMessages.myExceptions(ex)
@@ -1298,7 +1298,7 @@ Public Class frmPriceChartBulkProc
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1393,7 +1393,7 @@ Public Class frmPriceChartBulkProc
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -1402,7 +1402,7 @@ Public Class frmPriceChartBulkProc
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
