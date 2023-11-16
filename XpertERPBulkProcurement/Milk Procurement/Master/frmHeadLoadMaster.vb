@@ -511,18 +511,18 @@ Public Class frmHeadLoadMaster
     End Sub
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-        If gv1.Rows.Count >= 0 Then
+        If gv1.Rows.Count > 1 Then
 
             clsCommon.MyExportToExcelGrid("", gv1, Nothing, "Head Load Master")
         Else
-            Throw New Exception("no record found.")
+            clsCommon.MyMessageBoxShow(Me, "No record found", Me.Text)
         End If
     End Sub
 
     Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
         Try
             Addnew()
-            Dim qry As String = "select Document_No as DocumentNo ,Description,Start_Date AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
+            Dim qry As String = "select Document_No as DocumentNo ,Description,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
             Dim strCode As String = clsCommon.ShowSelectForm("HeadLoad", qry, "DocumentNo", "", "DocumentNo")
             If clsCommon.myLen(strCode) > 0 Then
                 LoadData(strCode, NavigatorType.Current)
@@ -573,6 +573,26 @@ Public Class frmHeadLoadMaster
         Me.Controls.Remove(gvImport)
     End Sub
 
+    Public Function getDcsData(ByVal vlc_code As String, ByVal StartDate As Date) As ArrayList
+        Dim arr As New ArrayList
+        Dim NextDate As Date = clsDBFuncationality.getSingleValue("SELECT min(Start_Date)as Start_Date FROM TSPL_HEAD_LOAD WHERE  CONVERT(date, Start_Date , 103) > CONVERT(date, '" & StartDate & "' , 105)")
+        Dim qry As String = ""
+        If NextDate = "Null" Then
+            qry = "select PK_Id, Head_Load_Basis , Head_Load_Rate from TSPL_HEAD_LOAD left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No
+        where VLC_CODE = '" & vlc_code & "'  and Start_Date  >= CONVERT(date, '" & StartDate & "' , 105)"
+        Else
+            qry += "select PK_Id, Head_Load_Basis , Head_Load_Rate from TSPL_HEAD_LOAD left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No
+        where VLC_CODE = '" & vlc_code & "'  and Start_Date  >= CONVERT(date, '" & StartDate & "' , 105)   And  Start_Date < CONVERT(date, '" & NextDate & "' , 105)"
+        End If
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            arr.Add(dt.Rows(0)("PK_Id"))
+            arr.Add(dt.Rows(0)("Head_Load_Basis"))
+            arr.Add(dt.Rows(0)("Head_Load_Rate"))
+        End If
+        Return arr
+    End Function
 
 
 End Class

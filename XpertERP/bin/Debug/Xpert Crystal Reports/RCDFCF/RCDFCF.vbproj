@@ -611,6 +611,7 @@
     <None Include="Crystal Reports GST\Purchase Order\rptPurchaseInvoice_UT_2.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptPurchaseInvoice_WithMandiTax.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptQCAnalysisReport.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\rptQCAnalysisReportA5.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptQCAnalysisReportMultiple.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptQCAnalysisReportVertical.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptQCEntry.rpt" />
