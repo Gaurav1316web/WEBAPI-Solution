@@ -29,11 +29,6 @@ Public Class frmHeadLoadMaster
         If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
             LoadData(clsCommon.myCstr(txtDocumentNo.Value), NavigatorType.Current)
         End If
-        Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
-        If isRecordExist = 0 Then
-            Dim obj As New clsHeadLoadMaster
-            obj.SaveAutoData()
-        End If
     End Sub
 
 
@@ -107,12 +102,15 @@ Public Class frmHeadLoadMaster
 
         gv1.MasterTemplate.Columns.Add(repoBMCName)
 
-        Dim repoHeadLoadBasis As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        Dim repoHeadLoadBasis As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         repoHeadLoadBasis.FormatString = ""
         repoHeadLoadBasis.HeaderText = "Head Load Basis"
-        repoHeadLoadBasis.Name = colHeadLoadBasis
+        repoHeadLoadBasis.Name = "Head Load Basis"
         repoHeadLoadBasis.Width = 130
-        repoHeadLoadBasis.ReadOnly = True
+        repoHeadLoadBasis.DataSource = loadHeadLoadBasis()
+        repoHeadLoadBasis.DisplayMember = "Name"
+        repoHeadLoadBasis.ValueMember = "Name"
+        repoHeadLoadBasis.ReadOnly = False
 
         gv1.MasterTemplate.Columns.Add(repoHeadLoadBasis)
 
@@ -176,7 +174,7 @@ Public Class frmHeadLoadMaster
                 obj.Document_No = txtDocumentNo.Value
                 obj.Description = txtDescription.Text
                 obj.Document_date = clsCommon.myCDate(txtDate.Value)
-                obj.Start_Date = clsCommon.myCDate(txtDate.Value)
+                obj.Start_Date = clsCommon.myCDate(txtstartDate.Value)
                 obj.Arr = New List(Of clsHeadLoadDCS)
 
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -188,10 +186,13 @@ Public Class frmHeadLoadMaster
                     Else
                         objTr.Head_Load_Basis = "L"
                     End If
-
                     objTr.Head_Load_Rate = clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value))
 
-                    obj.Arr.Add(objTr)
+                    If clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value)) > 0 Then
+                        obj.Arr.Add(objTr)
+
+                    End If
+
                 Next
 
                 If (obj.SaveData(obj, isNewEntry, Nothing)) Then
@@ -353,7 +354,7 @@ Public Class frmHeadLoadMaster
 
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        If HeadLoadBasis Is Nothing Then
+        If cmbHeadLoadBasis.Text = "" Then
             clsCommon.MyMessageBoxShow(Me, "Please Select Head Load Basis", Me.Text)
             Exit Sub
         End If
@@ -370,14 +371,27 @@ Public Class frmHeadLoadMaster
         gv1.ShowGroupPanel = False
         gv1.EnableFiltering = True
         Dim str As String = ""
+
         If isLoadData = True Then
-            str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] ,
+            If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                LoadBlankGrid()
+                Addnew()
+                Exit Sub
+            End If
+            If txtDocumentNo.Value = "Default" Then
+                str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] ,
+        TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_HEAD_LOAD_DCS.Head_Load_Basis as [Head Load Basis] , TSPL_HEAD_LOAD_DCS.Head_Load_Rate as [Head Load Rate]
+          from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
+         left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
+            Else
+                str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] ,
         TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name]
           from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
          left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
+            End If
         Else
 
-            str = "Select  TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_Code As [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],
+            str = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_Code As [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],
     TSPL_MCC_MASTER.MCC_Code_VLC_Uploader As [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code As [BMC Code] , TSPL_MCC_MASTER.MCC_NAME As [BMC Name]  From TSPL_VLC_MASTER_HEAD
      Left  Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_VLC_MASTER_HEAD.isOwnBMC = 0"
         End If
@@ -407,51 +421,62 @@ Public Class frmHeadLoadMaster
         End If
         gv1.Columns("BMC Code").IsVisible = False
 
-        For ii As Integer = 0 To gv1.Columns.Count - 2
+        For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).Width = 140
         Next
 
-        Dim repoHeadLoadBasis As GridViewComboBoxColumn = New GridViewComboBoxColumn()
-        repoHeadLoadBasis.FormatString = ""
-        repoHeadLoadBasis.HeaderText = "Head Load Basis"
-        repoHeadLoadBasis.Name = "Head Load Basis"
-        repoHeadLoadBasis.Width = 130
-        repoHeadLoadBasis.DataSource = loadHeadLoadBasis()
-        repoHeadLoadBasis.DisplayMember = "Name"
-        repoHeadLoadBasis.ValueMember = "Name"
-        repoHeadLoadBasis.ReadOnly = False
+        If txtDocumentNo.Value <> "Default" Then
+            Dim repoHeadLoadBasis As GridViewComboBoxColumn = New GridViewComboBoxColumn()
+            repoHeadLoadBasis.FormatString = ""
+            repoHeadLoadBasis.HeaderText = "Head Load Basis"
+            repoHeadLoadBasis.Name = "Head Load Basis"
+            repoHeadLoadBasis.Width = 130
+            repoHeadLoadBasis.DataSource = loadHeadLoadBasis()
+            repoHeadLoadBasis.DisplayMember = "Name"
+            repoHeadLoadBasis.ValueMember = "Name"
+            repoHeadLoadBasis.ReadOnly = False
 
-        Dim repoHeadLoadRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoHeadLoadRate.HeaderText = "Head Load Rate"
-        repoHeadLoadRate.Name = "Head Load Rate"
-        repoHeadLoadRate.Width = 130
-        repoHeadLoadRate.ReadOnly = False
-        repoHeadLoadRate.ShowUpDownButtons = False
-        repoHeadLoadRate.FormatString = ""
+            Dim repoHeadLoadRate As GridViewDecimalColumn = New GridViewDecimalColumn()
+            repoHeadLoadRate.HeaderText = "Head Load Rate"
+            repoHeadLoadRate.Name = "Head Load Rate"
+            repoHeadLoadRate.Width = 130
+            repoHeadLoadRate.ReadOnly = False
+            repoHeadLoadRate.ShowUpDownButtons = False
+            repoHeadLoadRate.FormatString = ""
 
-        If isLoadData = False Then
-            gv1.MasterTemplate.Columns.Insert(6, repoHeadLoadBasis)
+            If isLoadData = False Then
+                gv1.MasterTemplate.Columns.Insert(6, repoHeadLoadBasis)
 
-            gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadRate)
-        Else
-            gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadBasis)
-            gv1.MasterTemplate.Columns.Insert(8, repoHeadLoadRate)
-        End If
+                gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadRate)
+            Else
+                gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadBasis)
+                gv1.MasterTemplate.Columns.Insert(8, repoHeadLoadRate)
+            End If
 
 
-        If isLoadData = True Then
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select case when Head_Load_Basis = 'K' then 'Rate/Kg' else 'Rate/Ltr' end as Head_Load_Basis, Head_Load_Rate as [Head Load Rate] from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
-            For ii As Integer = 0 To gv1.Rows.Count - 1
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select case when Head_Load_Basis = 'K' then 'Rate/Kg' else 'Rate/Ltr' end as Head_Load_Basis, Head_Load_Rate as [Head Load Rate] ,VLC_CODE from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For ii As Integer = 0 To gv1.Rows.Count - 1
+                    For jj As Integer = 0 To dt.Rows.Count - 1
+                        If clsCommon.CompairString(gv1.Rows(ii).Cells("DCS Code").Value, dt.Rows(jj)("VLC_CODE")) = CompairStringResult.Equal Then
+                            gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(jj)("Head_Load_Basis"))
+                            gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCstr(dt.Rows(jj)("Head Load Rate"))
+                            Exit For
+                        Else
 
-                gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(ii)("Head_Load_Basis"))
-                gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCstr(dt.Rows(ii)("Head Load Rate"))
-            Next
-        Else
-            For ii As Integer = 0 To gv1.Rows.Count - 1
+                            gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.Text
+                            gv1.Rows(ii).Cells("Head Load Rate").Value = "0.00"
 
-                gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.Text
-            Next
+                        End If
+                    Next
+                Next
+            Else
+                For ii As Integer = 0 To gv1.Rows.Count - 1
+
+                    gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.Text
+                Next
+            End If
         End If
         ReStoreGridLayout()
     End Sub
@@ -486,18 +511,18 @@ Public Class frmHeadLoadMaster
     End Sub
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-        If gv1.Rows.Count >= 0 Then
+        If gv1.Rows.Count > 1 Then
 
             clsCommon.MyExportToExcelGrid("", gv1, Nothing, "Head Load Master")
         Else
-            Throw New Exception("no record found.")
+            clsCommon.MyMessageBoxShow(Me, "No record found", Me.Text)
         End If
     End Sub
 
     Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
         Try
             Addnew()
-            Dim qry As String = "select Document_No as DocumentNo ,Description,Start_Date AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
+            Dim qry As String = "select Document_No as DocumentNo ,Description,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
             Dim strCode As String = clsCommon.ShowSelectForm("HeadLoad", qry, "DocumentNo", "", "DocumentNo")
             If clsCommon.myLen(strCode) > 0 Then
                 LoadData(strCode, NavigatorType.Current)
@@ -548,8 +573,30 @@ Public Class frmHeadLoadMaster
         Me.Controls.Remove(gvImport)
     End Sub
 
+    Public Function getDcsData(ByVal vlc_code As String, ByVal StartDate As Date) As ArrayList
+        Dim arr As New ArrayList
+        Dim NextDate As Date = clsDBFuncationality.getSingleValue("SELECT min(Start_Date)as Start_Date FROM TSPL_HEAD_LOAD WHERE  CONVERT(date, Start_Date , 103) > CONVERT(date, '" & StartDate & "' , 105)")
+        Dim qry As String = ""
+        If NextDate = "Null" Then
+            qry = "select PK_Id, Head_Load_Basis , Head_Load_Rate from TSPL_HEAD_LOAD left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No
+        where VLC_CODE = '" & vlc_code & "'  and Start_Date  >= CONVERT(date, '" & StartDate & "' , 105)"
+        Else
+            qry += "select PK_Id, Head_Load_Basis , Head_Load_Rate from TSPL_HEAD_LOAD left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No
+        where VLC_CODE = '" & vlc_code & "'  and Start_Date  >= CONVERT(date, '" & StartDate & "' , 105)   And  Start_Date < CONVERT(date, '" & NextDate & "' , 105)"
+        End If
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            arr.Add(dt.Rows(0)("PK_Id"))
+            arr.Add(dt.Rows(0)("Head_Load_Basis"))
+            arr.Add(dt.Rows(0)("Head_Load_Rate"))
+        End If
+        Return arr
+    End Function
+
 
 End Class
+
 
 
 

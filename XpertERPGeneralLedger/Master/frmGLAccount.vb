@@ -1631,6 +1631,7 @@ Public Class frmGLAccount
         Catch ex As Exception
         Finally
         End Try
+        Return True
     End Function
 
     Private Sub dgvsubledger_CellEditorInitialized(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles dgvsubledger.CellEditorInitialized

@@ -9186,30 +9186,47 @@ Public Class FrmUtility
                 Dim msg As String = str
                 If msg.Length > 0 Then
                     Try
+                        'Dim strReading As String = ""
+                        'For ii As Integer = 0 To msg.Length - 1
+                        '    strReading += msg(ii).ToString("X") + " "
+                        'Next
+                        OldReading += msg
+                        Dim strBreak As String() = clsCommon.myCstr(OldReading).Split(New String() {" "}, StringSplitOptions.None)
+                        If strBreak.Length = 25 Then
+                            _fat = clsCommon.myCstr(clsCommon.myCdbl(strBreak(0))) + "." + strBreak(1).Substring(0, 1)
+                            _snf = clsCommon.myCstr(clsCommon.myCdbl(strBreak(2))) + "." + strBreak(3).Substring(0, 1)
 
-                        OldReading += msg.Replace(" ", "")
-
-                        If clsCommon.myLen(OldReading) = 11 Then
-                            'Reading
-                            '#00.00 07.90 Result- FAT 00.00,SNF 07.90
-                            Try
-                                _fat = Microsoft.VisualBasic.Mid(OldReading, 2, 4)
-                            Catch ex As Exception
-                            End Try
-                            Try
-                                _snf = Microsoft.VisualBasic.Mid(OldReading, 7, 4)
-                            Catch ex As Exception
-                            End Try
-                            If clsCommon.myCdbl(_fat) > 12 OrElse clsCommon.myCdbl(_snf) > 12 Then
-                                Exit Sub
-                            End If
+                            _fat = Math.Round(clsCommon.myCdbl(_fat), 1, MidpointRounding.ToEven)
+                            _snf = Math.Round(clsCommon.myCdbl(_snf), 1, MidpointRounding.ToEven)
                             If IsNumeric(_fat) AndAlso IsNumeric(_snf) Then
-                                'DisplayFATData(_fat)
-                                'DisplaySNFData(_snf)
                                 clsCommon.MyMessageBoxShow(Me, "FAT " + clsCommon.myCstr(_fat) + " and SNF " + clsCommon.myCstr(_snf))
                             End If
                             OldReading = ""
                         End If
+
+
+                        'OldReading += msg.Replace(" ", "")
+                        'If clsCommon.myLen(OldReading) = 11 Then
+                        '    'Reading
+                        '    '#00.00 07.90 Result- FAT 00.00,SNF 07.90
+                        '    Try
+                        '        _fat = Microsoft.VisualBasic.Mid(OldReading, 2, 4)
+                        '    Catch ex As Exception
+                        '    End Try
+                        '    Try
+                        '        _snf = Microsoft.VisualBasic.Mid(OldReading, 7, 4)
+                        '    Catch ex As Exception
+                        '    End Try
+                        '    If clsCommon.myCdbl(_fat) > 12 OrElse clsCommon.myCdbl(_snf) > 12 Then
+                        '        Exit Sub
+                        '    End If
+                        '    If IsNumeric(_fat) AndAlso IsNumeric(_snf) Then
+                        '        'DisplayFATData(_fat)
+                        '        'DisplaySNFData(_snf)
+                        '        clsCommon.MyMessageBoxShow(Me, "FAT " + clsCommon.myCstr(_fat) + " and SNF " + clsCommon.myCstr(_snf))
+                        '    End If
+                        '    OldReading = ""
+                        'End If
                         'If OldReading.EndsWith(ChrW(3) + "0") Then
                         '    Dim reading As String = System.Text.RegularExpressions.Regex.Replace(OldReading.Trim(), "[^0-9.]", "")
                         '    _weight = clsCommon.myCdbl(reading)
@@ -17475,7 +17492,7 @@ line1:
             " left join TSPL_JOURNAL_MASTER as ShipJVNo on ShipJVNo.Source_Doc_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" + Environment.NewLine +
             " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" + Environment.NewLine +
             " left join TSPL_JOURNAL_MASTER as ARJVNo on ARJVNo.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No" + Environment.NewLine +
-            " where TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='' and TSPL_SD_SHIPMENT_HEAD.Status=1" + Environment.NewLine +
+            " where TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('PS','ALL') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='' and TSPL_SD_SHIPMENT_HEAD.Status=1" + Environment.NewLine +
             " and not exists(select 1 from TSPL_RECEIPT_DETAIL where TSPL_RECEIPT_DETAIL.Document_No=TSPL_Customer_Invoice_Head.Document_No) "
             Dim QryInsert As String = ""
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm(False, "tcrdashi", qry, "ShipmentNo", "", Nothing, Nothing)

@@ -338,8 +338,10 @@ Public Class FrmLabourWorkingSheet
                 strDocumentNo = arr.Item(0).Document_No
                 LoadData(strDocumentNo, NavigatorType.Current)
             End If
+            Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
 

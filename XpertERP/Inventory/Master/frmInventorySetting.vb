@@ -399,7 +399,7 @@ Public Class frmInventorySetting
         Next
         Dim total2 As Decimal = total
         If total2 > 50 Then
-            common.clsCommon.MyMessageBoxShow("Not More Than 50")
+            common.clsCommon.MyMessageBoxShow(Me, "Not More Than 50", Me.Text)
         Else
             For i As Integer = 0 To dgvclasss.Rows.Count - 1
                 If String.IsNullOrEmpty(dgvclasss.Rows(i).Cells(2).Value.ToString()) Or String.IsNullOrEmpty(dgvclasss.Rows(i).Cells(3).Value.ToString()) Then
@@ -407,7 +407,7 @@ Public Class frmInventorySetting
                 End If
             Next
             If Not String.IsNullOrEmpty(check) Then
-                common.clsCommon.MyMessageBoxShow("Please enter the class length and Class Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter the class length and Class Type", Me.Text)
             Else
                 funinsert()
                 btnsave.Text = "Update"
@@ -437,7 +437,7 @@ Public Class frmInventorySetting
                 Dim check As Match = Regex.Match(strclassname, "^[a-zA-Z ]*$")
                 If check.Success Then
                 Else
-                    common.clsCommon.MyMessageBoxShow("Enter only Alphabetics")
+                    common.clsCommon.MyMessageBoxShow(Me, "Enter only Alphabetics", Me.Text)
                     e.Cancel = True
                 End If
             End If
@@ -658,7 +658,7 @@ Public Class frmInventorySetting
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 'trans.Commit()
             Catch ex As Exception
                 trans.Rollback()
@@ -710,7 +710,7 @@ Public Class frmInventorySetting
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

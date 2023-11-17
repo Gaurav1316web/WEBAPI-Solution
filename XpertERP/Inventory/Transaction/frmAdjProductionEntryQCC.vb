@@ -915,7 +915,7 @@ Public Class frmAdjProductionEntryQCC
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1115,7 +1115,7 @@ Public Class frmAdjProductionEntryQCC
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
             Exit Sub
         End If
 
@@ -2153,7 +2153,7 @@ Public Class frmAdjProductionEntryQCC
                 chkJobWork.Enabled = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try
@@ -2318,7 +2318,7 @@ Public Class frmAdjProductionEntryQCC
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isFlag = False
         End Try
@@ -2345,7 +2345,7 @@ Public Class frmAdjProductionEntryQCC
                 End If
                 If (ClsAdjustmentsQCC.DeleteData(txtAdjustmentNo.Value, AdjustmentEnum.strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     'AddNew()
                     btnAddNew.PerformClick()
                 End If
@@ -2375,7 +2375,7 @@ Public Class frmAdjProductionEntryQCC
             End If
             LoadData(txtAdjustmentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -2738,7 +2738,7 @@ Public Class frmAdjProductionEntryQCC
         Dim frmCrystalReportViewer As New frmCrystalReportViewer()
         Try
             If clsCommon.myLen(txtAdjustmentNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(" QC  No Not Available for Print .", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, " QC  No Not Available for Print .", Me.Text)
                 Return
             End If
             'Dim qry As String = "  select TSPL_ADJUSTMENT_Detail_QC.REMARKS,TSPL_ADJUSTMENT_HEADER.Description as Production_Entry_Desc , TSPL_LOCATION_MASTER_From_loc.Location_Desc,TSPL_COMPANY_MASTER.Logo_Img,TSPL_LOCATION_MASTER_From_loc.Location_Desc as FromLoaction,TSPL_LOCATION_MASTER_From_loc.GSTNO as From_location_GSTIN,TSPL_STATE_MASTER_From_loc.GST_STATE_Code as From_Loc_GST_STATE_Code,TSPL_COMPANY_MASTER.Comp_Name as Comp_Name, '' as Company_Address ,TSPL_ADJUSTMENT_Detail_QC.Adjustment_No as Transfer_No,convert(datetime,TSPL_ADJUSTMENT_HEADER_QC.Adjustment_Date,103) as  Date_And_Time,TSPL_ADJUSTMENT_Detail_QC.Adjustment_Line_No as SNO,TSPL_ADJUSTMENT_Detail_QC.Item_Code,TSPL_ITEM_MASTER.Item_Desc as itemdesc,TSPL_ITEM_MASTER.HSN_Code, " &
@@ -2989,7 +2989,7 @@ Public Class frmAdjProductionEntryQCC
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Dim trans As SqlTransaction = Nothing
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR Reverse 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -3004,7 +3004,7 @@ Public Class frmAdjProductionEntryQCC
                 If ClsAdjustmentsQCC.ReverseAndUnpost(txtAdjustmentNo.Value, trans) Then
                     saveCancelLog(Reason, "Reverse And Recreate", trans)
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -5841,7 +5841,7 @@ Public Class frmAdjProductionEntryQCC
                 chkJobWork.Enabled = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try

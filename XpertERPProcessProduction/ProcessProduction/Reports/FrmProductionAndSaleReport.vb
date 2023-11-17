@@ -50,7 +50,7 @@ Public Class FrmProductionAndSaleReport
 
     Public Sub fillGridReport()
         Try
-            Dim dtBreakDownCode As DataTable
+            'Dim dtBreakDownCode As DataTable
             Dim queryStock As String
             Dim query As String
             gv1.ViewDefinition = New TableViewDefinition

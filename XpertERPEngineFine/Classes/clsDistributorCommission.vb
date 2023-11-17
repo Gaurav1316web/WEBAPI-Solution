@@ -6,6 +6,7 @@ Public Class clsDistributorCommission
     Public Items As ArrayList = Nothing
     Public Applicable_Date As DateTime = Nothing
     Public Commision_UOM As String = Nothing
+    Public IS_Transpotation As Boolean = False
     Public IsPosted As Integer = 0
     Public Posted_Date As DateTime = Nothing
     Public Distributor_Tagging_Code As String = Nothing
@@ -33,6 +34,7 @@ Public Class clsDistributorCommission
             clsCommon.AddColumnsForChange(coll, "Applicable_Date", clsCommon.GetPrintDate(obj.Applicable_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Commision_UOM", obj.Commision_UOM)
             clsCommon.AddColumnsForChange(coll, "Distributor_Tagging_Code", obj.Distributor_Tagging_Code, True)
+            clsCommon.AddColumnsForChange(coll, "IS_Transpotation", IIf(obj.IS_Transpotation, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -61,7 +63,7 @@ Public Class clsDistributorCommission
 
         Try
             Dim Whrcls As String = ""
-            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date from TSPL_Distributor_Commission_Head  where 2=2"
+            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date,IS_Transpotation from TSPL_Distributor_Commission_Head  where 2=2"
 
             Select Case NavType
                 Case NavigatorType.First
@@ -86,6 +88,7 @@ Public Class clsDistributorCommission
                 obj.Applicable_Date = clsCommon.GetPrintDate(dt.Rows(0)("Applicable_Date"), "dd/MMM/yyyy")
                 obj.Commision_UOM = clsCommon.myCstr(dt.Rows(0)("Commision_UOM"))
                 obj.Distributor_Tagging_Code = clsCommon.myCstr(dt.Rows(0)("Distributor_Tagging_Code"))
+                obj.IS_Transpotation = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Transpotation")) = 1, True, False))
                 obj.IsPosted = IIf(clsCommon.myCDecimal(dt.Rows(0)("IsPosted")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                     obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))

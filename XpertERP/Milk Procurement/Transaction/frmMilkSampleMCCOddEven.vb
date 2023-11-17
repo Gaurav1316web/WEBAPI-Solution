@@ -2682,7 +2682,7 @@ Public Class frmMilkSampleMCCOddEven
                     'Dim strVLCCode As String = Nothing
                     Dim strMCCCode As String = Nothing
                     Dim ii As Integer = 0
-                    Dim qry As String
+                    'Dim qry As String
                     Dim dtMasterData As DataTable = Nothing
                     Dim totqty As Double = 0
                     Dim totsnf As Double = 0

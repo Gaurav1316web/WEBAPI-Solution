@@ -878,7 +878,7 @@ Public Class frmIndent
         If count > 0 Then
             gv1.Rows.RemoveAt(count)
         Else
-            common.clsCommon.MyMessageBoxShow("No Shell Item Apply")
+            common.clsCommon.MyMessageBoxShow(Me, "No Shell Item Apply")
         End If
     End Sub
 
@@ -887,7 +887,7 @@ Public Class frmIndent
         For Each gro As GridViewRowInfo In gv1.Rows
             count = count + 1
             If gro.Cells(colItemCode).Value = "PC300BSH" Then
-                common.clsCommon.MyMessageBoxShow("Shell Item Applied")
+                common.clsCommon.MyMessageBoxShow(Me, "Shell Item Applied")
                 Exit Sub
             End If
         Next
@@ -925,7 +925,7 @@ Public Class frmIndent
                 gv1.Rows.Insert(count, grow)
             Next
         Else
-            common.clsCommon.MyMessageBoxShow("Shell Item Does Not Exist")
+            common.clsCommon.MyMessageBoxShow(Me, "Shell Item Does Not Exist")
         End If
     End Sub
 
@@ -940,7 +940,7 @@ Public Class frmIndent
     Public Sub RouteNo_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If txtRouteNo.Value <> "" Then
             If txtFromLoaction.Value = "" Then
-                common.clsCommon.MyMessageBoxShow("Please choose location first.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please choose location first.")
                 txtRouteNo.Value = String.Empty
                 'txtFromLoaction.Focus()
                 txtRouteNo.Value = ""
@@ -1084,7 +1084,7 @@ Public Class frmIndent
                             AppliedQty = FunTotalApply()
                             PendingQty = clsCommon.myCdbl(connectSql.RunScalar("select isnull(SUM(Item_Qty),0) from TSPL_INDENT_DETAIL where Item_Code='" + gv1.CurrentRow.Cells(colItemCode).Value + "' and  Indent_No = '" + Convert.ToString(txtLoadoutNo.Value) + "'"))
                             If total1 > PendingQty And Not (clsCommon.CompairString(cmbitemtype.Text, "Empty") = CompairStringResult.Equal) Then
-                                common.clsCommon.MyMessageBoxShow("Shell Qty Cann't more than Pending Qty")
+                                common.clsCommon.MyMessageBoxShow(Me, "Shell Qty Cann't more than Pending Qty")
                                 grow.Cells(colLoadInQty).Value = "0.00"
                                 FunFillEmptyvalue(grow)
                             Else
@@ -1092,7 +1092,7 @@ Public Class frmIndent
                             End If
                         Else
                             If total1 > (clsCommon.myCdbl(grow.Cells(colPensingBalanceInBottle).Value) + clsCommon.myCdbl(grow.Cells(colApplyTotalInBottle).Value)) Then
-                                common.clsCommon.MyMessageBoxShow("Load in Qty Cann't more than Pending Qty")
+                                common.clsCommon.MyMessageBoxShow(Me, "Load in Qty Cann't more than Pending Qty")
                                 grow.Cells(colLoadInQty).Value = "0.00"
                                 FunFillEmptyvalue(grow)
                             Else
@@ -1104,7 +1104,7 @@ Public Class frmIndent
                             AppliedQty = FunTotalApply()
                             PendingQty = clsCommon.myCdbl(connectSql.RunScalar("select sum(isnull(Item_Qty ,0)) from TSPL_INDENT_DETAIL where Item_Code='" + gv1.CurrentRow.Cells(colItemCode).Value + "' and  Indent_No = '" + Convert.ToString(txtLoadoutNo.Value) + "'"))
                             If total1 > PendingQty Then 'And Not (clsCommon.CompairString(cmbitemtype.Text, "Empty") = CompairStringResult.Equal) Then
-                                common.clsCommon.MyMessageBoxShow("Shell Qty Cann't more than Pending Qty")
+                                common.clsCommon.MyMessageBoxShow(Me, "Shell Qty Cann't more than Pending Qty")
                                 grow.Cells(colBreakage).Value = "0.00"
                                 FunFillEmptyvalue(grow)
                             Else
@@ -1112,7 +1112,7 @@ Public Class frmIndent
                             End If
                         Else
                             If total1 > (clsCommon.myCdbl(grow.Cells(colPensingBalanceInBottle).Value) + clsCommon.myCdbl(grow.Cells(colApplyTotalInBottle).Value)) Then
-                                common.clsCommon.MyMessageBoxShow("Breakage Qty Cann't more than Pending Qty")
+                                common.clsCommon.MyMessageBoxShow(Me, "Breakage Qty Cann't more than Pending Qty")
                                 grow.Cells(colBreakage).Value = "0.00"
                                 FunFillEmptyvalue(grow)
                             End If
@@ -1125,7 +1125,7 @@ Public Class frmIndent
                             PendingQty = clsCommon.myCdbl(grow.Cells(colPensingBalanceInBottle).Value) + clsCommon.myCdbl(grow.Cells(colApplyTotalInBottle).Value)
                         End If
                         If total1 > PendingQty Then 'And Not (clsCommon.CompairString(cmbitemtype.Text, "Empty") = CompairStringResult.Equal) Then ' clsCommon.myCdbl(grow.Cells(colPensingBalanceInBottle).Value) + clsCommon.myCdbl(grow.Cells(colApplyTotalInBottle).Value) Then
-                            common.clsCommon.MyMessageBoxShow("Leak Qty Cann't more than Pending Qty")
+                            common.clsCommon.MyMessageBoxShow(Me, "Leak Qty Cann't more than Pending Qty")
                             grow.Cells(colLeak).Value = "0.00"
                             FunFillEmptyvalue(grow)
                         Else
@@ -1138,7 +1138,7 @@ Public Class frmIndent
                             PendingQty = clsCommon.myCdbl(grow.Cells(colPensingBalanceInBottle).Value) + clsCommon.myCdbl(grow.Cells(colApplyTotalInBottle).Value)
                         End If
                         If total1 > PendingQty Then 'And Not (clsCommon.CompairString(cmbitemtype.Text, "Empty") = CompairStringResult.Equal) Then ' clsCommon.myCdbl(grow.Cells(colPensingBalanceInBottle).Value) + clsCommon.myCdbl(grow.Cells(colApplyTotalInBottle).Value) Then
-                            common.clsCommon.MyMessageBoxShow("Shortage Qty Cann't more than Pending Qty")
+                            common.clsCommon.MyMessageBoxShow(Me, "Shortage Qty Cann't more than Pending Qty")
                             grow.Cells(colShortage).Value = "0.00"
                             FunFillEmptyvalue(grow)
 
@@ -1390,7 +1390,7 @@ Public Class frmIndent
         Dim sql2 As String = "Select Excisable from TSPL_location_master where location_code ='" + txtToLocation.Value.Trim() + "'"
         Dim tolocExcise As String = connectSql.RunScalar(sql2)
         If tolocExcise = "T" And cmbitemtype.SelectedIndex <> 2 Then
-            common.clsCommon.MyMessageBoxShow("To Location Cann't be Excisable")
+            common.clsCommon.MyMessageBoxShow(Me, "To Location Cann't be Excisable")
             txtToLocation.Value = ""
             Exit Sub
         End If
@@ -1503,10 +1503,10 @@ Public Class frmIndent
     Public Sub PostData()
         Try
             clsIndentHead.PostData(txtTransferNo.Value)
-            common.clsCommon.MyMessageBoxShow("Successfully Posted")
+            common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
             LoadData(txtTransferNo.Value)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -3710,11 +3710,11 @@ Public Class frmIndent
                 frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptIndentDetail", "Indent Details")
                 frmCRV = Nothing
             Else
-                common.clsCommon.MyMessageBoxShow("Please select Transfer no")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Transfer no")
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -3736,14 +3736,14 @@ Public Class frmIndent
                     arr.Add(txtTransferNo.Value)
                     frmRptTransfer.funTransfer("", "", strType, arr)
                 Else
-                    common.clsCommon.MyMessageBoxShow("No Data found to Print")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data found to Print")
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("Please select Transfer no")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Transfer no")
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     'Private Function funSetUserAccess() As Boolean
@@ -4150,7 +4150,7 @@ Public Class frmIndent
 
             If txtRouteNo.Value <> "" Then
                 If txtFromLoaction.Value = "" Then
-                    common.clsCommon.MyMessageBoxShow("Please choose location first.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please choose location first.")
                     txtRouteNo.Value = String.Empty
                     txtFromLoaction.Focus()
                     txtRouteNo.Value = ""
@@ -4310,7 +4310,7 @@ Public Class frmIndent
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -5345,11 +5345,11 @@ Public Class frmIndent
                     frmCRV.funreport(CrystalReportFolder.InventoryReport, clsDBFuncationality.GetDataTable(strQuery), "crptCheckSlipIndentReport", "Check Slip")
                     frmCRV = Nothing
                 Else
-                    common.clsCommon.MyMessageBoxShow("No Data Found", "Transfer Indent Report", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found", "Transfer Indent Report", MessageBoxButtons.OK)
                 End If
 
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message, "Transfer Indent Report", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Transfer Indent Report", MessageBoxButtons.OK)
             End Try
         End If
     End Sub

@@ -347,7 +347,7 @@ Public Class FrmMilkTransferIn
                     End If
                     If clsCommon.myLen(obj.Receipt_Challan_No) <= 0 Then
                         clsCommon.MyMessageBoxShow("Error in Receipt Challan  No genertion")
-                        Exit Function
+                        'Exit Function
                     End If
                 Else
                     obj.Receipt_Challan_No = clsCommon.myCstr(fndRcptChalanNo.Value)
@@ -448,7 +448,7 @@ Public Class FrmMilkTransferIn
                     btnDelete.Enabled = True
                     btnPost.Enabled = True
                     Return True
-                    Exit Function
+                    'Exit Function
                 End If
                 clsCommon.MyMessageBoxShow("Data Not Saved ")
                 btnSave.Text = "Save"
@@ -464,7 +464,7 @@ Public Class FrmMilkTransferIn
         Catch ex As Exception
 
             clsCommon.MyMessageBoxShow(ex.Message)
-
+            'Return False
         End Try
         Return True
     End Function

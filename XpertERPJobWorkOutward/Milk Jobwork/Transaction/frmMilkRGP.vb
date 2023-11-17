@@ -1928,10 +1928,12 @@ a:
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
+            Return False
         Finally
             obj = Nothing
             objRGP = Nothing
         End Try
+        Return True
     End Function
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType, ByVal IsRefDoc As Boolean)
@@ -3378,6 +3380,7 @@ a:
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
     Sub FunRGPChallanPrint()

@@ -1,6 +1,5 @@
-﻿Imports common
-Imports System.ComponentModel
-Imports System.IO
+﻿Imports System.IO
+Imports common
 
 'by Sanjay - Create new report 
 Public Class rptTruckSheetDailySummaryReport
@@ -191,7 +190,7 @@ Public Class rptTruckSheetDailySummaryReport
             'End If
             'qry += " ) as s pivot (  sum(Quantity) for doc_date in (" + strDate + " ) ) as zpivot group by zpivot.[Plant],zpivot.[Mcc],zpivot.[Shift],zpivot.[Shift1] order by [Plant],[Mcc],[Shift1]"
 
-            Dim dtREJECT As DataTable
+            'Dim dtREJECT As DataTable
             Dim dt1 As New DataTable
             Dim qry As String = Nothing
             Dim FinalQuery As String = Nothing

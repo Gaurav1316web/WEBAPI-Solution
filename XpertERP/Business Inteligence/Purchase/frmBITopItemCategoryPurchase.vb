@@ -187,7 +187,7 @@ Public Class frmBITopItemCategoryPurchase
             dt = clsDBFuncationality.GetDataTable(GetQry())
             SnDUtility.GenerateExcelChart(dt, cboType.SelectedValue, "", "Category", strQtyOrAmt)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

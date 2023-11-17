@@ -1473,16 +1473,19 @@ Public Class frmStanderdProductionEntry
                     Return True
                 End If
 
-                Return False
+                'Return False
             End If
+            Return True
         Catch ex As Exception
             If Import Then
                 Throw New Exception(ex.Message)
             Else
                 clsCommon.MyMessageBoxShow(ex.Message)
+                Return False
             End If
 
         End Try
+        Return True
     End Function
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         funReset()

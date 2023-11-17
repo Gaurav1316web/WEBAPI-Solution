@@ -1349,6 +1349,7 @@ Public Class clsRCDFStanardizationTemp
                         objIMMilk.Batch_No = "Remove"
                         objIMMilk.MFG_Date = Nothing
                         objIMMilk.Expiry_Date = Nothing
+                        objIMMilk.CalculateAvgCost = False
                         ArrInventoryMovementNew.Add(objIMMilk)
 
                         InFATPart -= objIMMilk.Fat_Amt
@@ -1408,6 +1409,7 @@ Public Class clsRCDFStanardizationTemp
                         objIM.Add_Cost = 0
                         objIM.MRP = 0
                         objIM.MFG_Date = obj.Doc_Date
+                        objIM.CalculateAvgCost = False
                         ArrInventoryMovement.Add(objIM)
 
                         InFATPart -= objIM.Fat_Amt

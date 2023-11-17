@@ -1379,7 +1379,7 @@ Public Class frmTempleteImportMP
                                         'End If
 
 
-                                        '''----------- end of Primary Transporter Vehicle Master
+                                        '----------- end of Primary Transporter Vehicle Master
 
 
                                         '' Milk Route Master
@@ -1466,7 +1466,7 @@ Public Class frmTempleteImportMP
                                         '        objMRM.Effective_Start_Date = clsCommon.GetPrintDate(gv1.Rows(ii).Cells(colDCSRouteEffectiveStartDate).Value, "dd/MMM/yyyy")
                                         '    End If
                                         'End If
-                                        ''' Dim isNewEntry As Boolean = True
+                                        ' Dim isNewEntry As Boolean = True
                                         'If check <= 0 Then
                                         '    isNewEntry = True
                                         'Else

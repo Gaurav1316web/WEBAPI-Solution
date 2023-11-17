@@ -80,7 +80,7 @@ Partial Class frmDeletionForEntry
         Me.MyLabel22 = New common.Controls.MyLabel()
         Me.txttMRN = New common.Controls.MyTextBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadButton16 = New Telerik.WinControls.UI.RadButton()
+        Me.btnweighmentopen = New Telerik.WinControls.UI.RadButton()
         Me.btnUnpostW = New Telerik.WinControls.UI.RadButton()
         Me.btnDeleteW = New Telerik.WinControls.UI.RadButton()
         Me.WeighmetDate = New common.Controls.MyDateTimePicker()
@@ -187,7 +187,7 @@ Partial Class frmDeletionForEntry
         CType(Me.txttMRN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
-        CType(Me.RadButton16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnweighmentopen, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUnpostW, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDeleteW, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.WeighmetDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1031,7 +1031,7 @@ Partial Class frmDeletionForEntry
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.RadButton16)
+        Me.RadGroupBox2.Controls.Add(Me.btnweighmentopen)
         Me.RadGroupBox2.Controls.Add(Me.btnUnpostW)
         Me.RadGroupBox2.Controls.Add(Me.btnDeleteW)
         Me.RadGroupBox2.Controls.Add(Me.WeighmetDate)
@@ -1045,15 +1045,14 @@ Partial Class frmDeletionForEntry
         Me.RadGroupBox2.TabIndex = 145
         Me.RadGroupBox2.Text = "Weighment"
         '
-        'RadButton16
+        'btnweighmentopen
         '
-        Me.RadButton16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton16.Location = New System.Drawing.Point(129, 76)
-        Me.RadButton16.Name = "RadButton16"
-        Me.RadButton16.Size = New System.Drawing.Size(69, 22)
-        Me.RadButton16.TabIndex = 110
-        Me.RadButton16.Text = "Open"
-        Me.RadButton16.Visible = False
+        Me.btnweighmentopen.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnweighmentopen.Location = New System.Drawing.Point(129, 76)
+        Me.btnweighmentopen.Name = "btnweighmentopen"
+        Me.btnweighmentopen.Size = New System.Drawing.Size(69, 22)
+        Me.btnweighmentopen.TabIndex = 110
+        Me.btnweighmentopen.Text = "Open"
         '
         'btnUnpostW
         '
@@ -1766,7 +1765,7 @@ Partial Class frmDeletionForEntry
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
-        CType(Me.RadButton16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnweighmentopen, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUnpostW, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDeleteW, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.WeighmetDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1839,7 +1838,7 @@ Partial Class frmDeletionForEntry
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents txtDocNo As common.UserControls.txtNavigator
     Friend WithEvents RadGroupBox2 As RadGroupBox
-    Friend WithEvents RadButton16 As RadButton
+    Friend WithEvents btnweighmentopen As RadButton
     Friend WithEvents btnUnpostW As RadButton
     Friend WithEvents btnDeleteW As RadButton
     Friend WithEvents WeighmetDate As common.Controls.MyDateTimePicker
