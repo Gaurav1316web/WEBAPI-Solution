@@ -148,7 +148,7 @@ Public Class ucAttachment
         Return True
     End Function
 
-    Private Function UploadWithHttpRequest(ByVal url As String, ByVal filePath As String, ByVal fileName As String) As String
+    Public Shared Function UploadWithHttpRequest(ByVal url As String, ByVal filePath As String, ByVal fileName As String) As String
         Try
             Dim fileByteArray As Byte() = File.ReadAllBytes(filePath)
             Dim formDataBoundary As String = $"----------{Guid.NewGuid()}"
@@ -178,7 +178,7 @@ Public Class ucAttachment
         End Try
     End Function
 
-    Private Function GetMultipartFormDataForUpload(ByVal byteArray As Byte(), ByVal fileName As String, ByVal contentType As String, ByVal Boundary As String) As Byte()
+    Private Shared Function GetMultipartFormDataForUpload(ByVal byteArray As Byte(), ByVal fileName As String, ByVal contentType As String, ByVal Boundary As String) As Byte()
         Dim FormDataStream As Stream = New MemoryStream()
         Dim Header As String = String.Format("--{0}" & Environment.NewLine & "Content-Disposition: form-data; name=""{1}""; filename=""{2}""" + Environment.NewLine + Environment.NewLine, Boundary, "file", fileName)
         FormDataStream.Write(System.Text.Encoding.UTF8.GetBytes(Header), 0, System.Text.Encoding.UTF8.GetByteCount(Header))
