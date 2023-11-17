@@ -2458,23 +2458,16 @@ Public Class clsEkoPro
                     Rate = GetRateCalculatedJPR(PriceCode, Doc_Date, Shift, vlcCode, strMilkType, qty, FatPer, SNFPer, tran, dclRefQATRate, dclRefNegativeRate)
                 Else
                     Dim settMilkCollectionPickBulkRoute As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, tran)) = 1)
-                    Dim strJoin As String = " inner "
+                    Dim qry As String = "select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.Rate,TSPL_FAT_SNF_UPLOADER_MASTER.Code,TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code ,TSPL_VLC_MASTER_HEAD.Apply_Price_Chart_Uploader,TSPL_FAT_SNF_UPLOADER_MASTER.Planning_Code from TSPL_FAT_SNF_UPLOADER_MASTER " + Environment.NewLine
                     If settMilkCollectionPickBulkRoute Then
-                        strJoin = " left "
+                        qry += " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code='" + vlcCode + "' "
+                    Else
+                        qry += " inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code and TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code='" & MccCode & "'
+inner Join TSPL_FAT_SNF_UPLOADER_VLC on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code  And TSPL_FAT_SNF_UPLOADER_VLC.VLC_Code='" & vlcCode & "'
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPLOADER_VLC.VLC_Code "
                     End If
-                    Dim qry As String = "select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.Rate,TSPL_FAT_SNF_UPLOADER_MASTER.Code,TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code ,TSPL_VLC_MASTER_HEAD.Apply_Price_Chart_Uploader,TSPL_FAT_SNF_UPLOADER_MASTER.Planning_Code
-                from TSPL_FAT_SNF_UPLOADER_MASTER 
-                " + strJoin + " join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code "
-                    If Not settMilkCollectionPickBulkRoute Then
-                        qry += " and TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code='" & MccCode & "'"
-                    End If
-                    qry += " " + strJoin + " join TSPL_FAT_SNF_UPLOADER_VLC on TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code "
-                    If Not settMilkCollectionPickBulkRoute Then
-                        qry += " and TSPL_FAT_SNF_UPLOADER_VLC.VLC_Code='" & vlcCode & "'"
-                    End If
-                    qry += " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPLOADER_VLC.VLC_Code
-left outer join  (select Code,max(FAT) as MaxFAT ,max(SNF) as MaxSNF from TSPL_FAT_SNF_UPLOADER_MASTER group by Code) as TabMAXFATSNF on TabMAXFATSNF.Code=TSPL_FAT_SNF_UPLOADER_MASTER.Code
-                where  posted='1'"
+                    qry += " left outer join  (select Code,max(FAT) as MaxFAT ,max(SNF) as MaxSNF from TSPL_FAT_SNF_UPLOADER_MASTER group by Code) as TabMAXFATSNF on TabMAXFATSNF.Code=TSPL_FAT_SNF_UPLOADER_MASTER.Code
+                where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1'"
                     If objCommonVar.DisplayTypeInMilkReceipt Then
                         qry += " and TSPL_FAT_SNF_UPLOADER_MASTER.Dock_Collection_Milk_Type='" + strMilkType + "' "
                     ElseIf objCommonVar.SepratePriceChartForCow AndAlso clsCommon.CompairString(strMilkType, "C") = CompairStringResult.Equal Then
@@ -2484,7 +2477,7 @@ left outer join  (select Code,max(FAT) as MaxFAT ,max(SNF) as MaxSNF from TSPL_F
                     End If
                     qry += "  and TSPL_FAT_SNF_UPLOADER_MASTER.fat= (case when " & FatPer & ">TabMAXFATSNF.MaxFAT then TabMAXFATSNF.MaxFAT else " & FatPer & " end ) 
  and  TSPL_FAT_SNF_UPLOADER_MASTER.SNF=(case when " & GetSNFForPrice(SNFPer) & ">TabMAXFATSNF.MaxSNF then TabMAXFATSNF.MaxSNF else " & GetSNFForPrice(SNFPer) & " end ) 
- and (date< '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' or (date= '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' and Price_code_shift>='" & Shift & "')) and ( TSPL_FAT_SNF_UPLOADER_MASTER.In_Active_From is null or TSPL_FAT_SNF_UPLOADER_MASTER.In_Active_From > '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' ) " + Environment.NewLine +
+ and (TSPL_FAT_SNF_UPLOADER_MASTER.Date< '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' or (TSPL_FAT_SNF_UPLOADER_MASTER.Date= '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' and Price_code_shift>='" & Shift & "')) and ( TSPL_FAT_SNF_UPLOADER_MASTER.In_Active_From is null or TSPL_FAT_SNF_UPLOADER_MASTER.In_Active_From > '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' ) " + Environment.NewLine +
                     " order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

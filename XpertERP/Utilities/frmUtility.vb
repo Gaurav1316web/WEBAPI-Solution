@@ -9186,30 +9186,47 @@ Public Class FrmUtility
                 Dim msg As String = str
                 If msg.Length > 0 Then
                     Try
+                        'Dim strReading As String = ""
+                        'For ii As Integer = 0 To msg.Length - 1
+                        '    strReading += msg(ii).ToString("X") + " "
+                        'Next
+                        OldReading += msg
+                        Dim strBreak As String() = clsCommon.myCstr(OldReading).Split(New String() {" "}, StringSplitOptions.None)
+                        If strBreak.Length = 25 Then
+                            _fat = clsCommon.myCstr(clsCommon.myCdbl(strBreak(0))) + "." + strBreak(1).Substring(0, 1)
+                            _snf = clsCommon.myCstr(clsCommon.myCdbl(strBreak(2))) + "." + strBreak(3).Substring(0, 1)
 
-                        OldReading += msg.Replace(" ", "")
-
-                        If clsCommon.myLen(OldReading) = 11 Then
-                            'Reading
-                            '#00.00 07.90 Result- FAT 00.00,SNF 07.90
-                            Try
-                                _fat = Microsoft.VisualBasic.Mid(OldReading, 2, 4)
-                            Catch ex As Exception
-                            End Try
-                            Try
-                                _snf = Microsoft.VisualBasic.Mid(OldReading, 7, 4)
-                            Catch ex As Exception
-                            End Try
-                            If clsCommon.myCdbl(_fat) > 12 OrElse clsCommon.myCdbl(_snf) > 12 Then
-                                Exit Sub
-                            End If
+                            _fat = Math.Round(clsCommon.myCdbl(_fat), 1, MidpointRounding.ToEven)
+                            _snf = Math.Round(clsCommon.myCdbl(_snf), 1, MidpointRounding.ToEven)
                             If IsNumeric(_fat) AndAlso IsNumeric(_snf) Then
-                                'DisplayFATData(_fat)
-                                'DisplaySNFData(_snf)
                                 clsCommon.MyMessageBoxShow(Me, "FAT " + clsCommon.myCstr(_fat) + " and SNF " + clsCommon.myCstr(_snf))
                             End If
                             OldReading = ""
                         End If
+
+
+                        'OldReading += msg.Replace(" ", "")
+                        'If clsCommon.myLen(OldReading) = 11 Then
+                        '    'Reading
+                        '    '#00.00 07.90 Result- FAT 00.00,SNF 07.90
+                        '    Try
+                        '        _fat = Microsoft.VisualBasic.Mid(OldReading, 2, 4)
+                        '    Catch ex As Exception
+                        '    End Try
+                        '    Try
+                        '        _snf = Microsoft.VisualBasic.Mid(OldReading, 7, 4)
+                        '    Catch ex As Exception
+                        '    End Try
+                        '    If clsCommon.myCdbl(_fat) > 12 OrElse clsCommon.myCdbl(_snf) > 12 Then
+                        '        Exit Sub
+                        '    End If
+                        '    If IsNumeric(_fat) AndAlso IsNumeric(_snf) Then
+                        '        'DisplayFATData(_fat)
+                        '        'DisplaySNFData(_snf)
+                        '        clsCommon.MyMessageBoxShow(Me, "FAT " + clsCommon.myCstr(_fat) + " and SNF " + clsCommon.myCstr(_snf))
+                        '    End If
+                        '    OldReading = ""
+                        'End If
                         'If OldReading.EndsWith(ChrW(3) + "0") Then
                         '    Dim reading As String = System.Text.RegularExpressions.Regex.Replace(OldReading.Trim(), "[^0-9.]", "")
                         '    _weight = clsCommon.myCdbl(reading)
