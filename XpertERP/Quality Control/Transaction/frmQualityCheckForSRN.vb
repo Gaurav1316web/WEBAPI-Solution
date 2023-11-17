@@ -2039,12 +2039,12 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
                     frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
                 Else
-                    '    If IsPrintVertical = True Then
-                    '        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
-                    '    Else
-                    '        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportA5", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                    'If IsPrintVertical = True Then
+                    '    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
+                    'Else
+                    '    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportA5", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
 
-                    '    End If
+                    'End If
                 End If
             End If
 
@@ -2114,11 +2114,14 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow("No Record Found")
             Else
-                If isA4Size = True Then
+                If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = True Then
                     frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
-                Else
+                ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = False Then
                     frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportA5", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
-
+                ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal AndAlso isA4Size = True Then
+                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
+                ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal AndAlso isA4Size = False Then
+                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportMultiple", "Analysis Report", clsCommon.myCDate(ToDate.Value))
                 End If
             End If
         Catch ex As Exception
@@ -2292,9 +2295,9 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
         End Try
     End Sub
 
-    'Private Sub btnAnalysisPrint_Click_1(sender As Object, e As EventArgs) Handles btnAnalysisPrint.Click
-    '    AnalysisPrint(False)
-    'End Sub
+    Private Sub btnAnalysisPrint_Click_1(sender As Object, e As EventArgs) Handles btnAnalysisPrint.Click
+        'AnalysisPrint(False)
+    End Sub
 
     Private Sub btnPrintA5_Click(sender As Object, e As EventArgs) Handles btnPrintA5.Click
         AnalysisPrintt(False)
