@@ -8235,29 +8235,34 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
 
     Private Sub btnPrintBillMobUser_Click(sender As Object, e As EventArgs) Handles btnPrintBillMobUser.Click
         Try
-            Dim qry As String = "select VSP_CODE  from TSPL_PAYMENT_PROCESS_DETAIL where Doc_No='" + fndDocNo.Value + "'"
+            Dim qry As String = "select TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL 
+left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null"
+
+            'Dim qry As String = "select top 2 TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL 
+            'left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+            'left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+            'where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='PPR/2324/000032' and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null"
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
-                    Dim PDFPath As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", "'" + clsCommon.myCstr(dr("VSP_CODE")) + "'", "", "", "", False, True)
-                    Dim x As String = "aaa"
+                    Dim PDFPath As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + clsCommon.myCstr(clsCommon.myCstr(dr("Doc_No"))) + "'", clsCommon.myCDate(clsCommon.myCstr(dr("From_Date"))), clsCommon.myCDate(clsCommon.myCstr(dr("To_Date"))), "", "'" + clsCommon.myCstr(dr("VSP_CODE")) + "'", "", "", "", False, True)
 
-                    ''Upload Document
-                    Dim FileNo As Integer = 0
-                    Dim str As String
-                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
-                        str = "http://172.21.80.251:7888/api/FileUploads/FileUpload"
-                    Else
-                        str = "http://103.122.38.34:7888/api/FileUploads/FileUpload"
-                    End If
 
-                    str = ucAttachment.UploadWithHttpRequest(str, PDFPath, Path.GetFileName(PDFPath))
+
+                    Str = clsAttachDocument.UploadWithHttpRequest(str, PDFPath, Path.GetFileName(PDFPath))
                     Dim jObj As JObject = JObject.Parse(str)
                     Dim ArrJ As JArray = Nothing
                     If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
                         ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
                         If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
-                            FileNo = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+                            Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+                            If FileNo > 0 Then
+                                str = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
+                                clsDBFuncationality.ExecuteNonQuery(str)
+                            End If
                         Else
                             Throw New Exception(ArrJ(0).SelectToken("Message"))
                         End If
@@ -8265,44 +8270,11 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
                         ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
                         Throw New Exception(ArrJ(0).SelectToken("Message"))
                     End If
-
-
-                    'Dim bData As Byte()
-                    'Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(PDFPath))
-                    'bData = br.ReadBytes(br.BaseStream.Length)
-
-                    Dim whrCls As String = " FILE_INFO Is Null And DOC_CODE = (Select TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE from TSPL_MILK_PURCHASE_INVOICE_HEAD
-                            Left Outer Join TSPL_PAYMENT_PROCESS_DETAIL ON TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE
-                            Left Outer Join TSPL_PAYMENT_PROCESS_Head ON TSPL_PAYMENT_PROCESS_Head.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
-                            where TSPL_PAYMENT_PROCESS_Head.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE  in ( '" + clsCommon.myCstr(dr("VSP_CODE")) + "')
-                            and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + dtpFromDate.Text + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + dtpToDate.Text + "'),103) )"
-
-
-                    If FileNo > 0 Then
-                        str = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + ""
-                        str += " where " + whrCls
-                        clsDBFuncationality.ExecuteNonQuery(str)
-                    End If
-
-
-
-
-                    'Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
-                    'Dim prm As New SqlParameter("@BLOBData", bData)
-                    ''cmd.Transaction = trans
-                    'cmd.Parameters.Add(prm)
-                    'cmd.ExecuteNonQuery()
-                    'br.Close()
-
                 Next
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    'Private Sub RadPageView1_PageIndexChanged(sender As Object, e As RadPageViewIndexChangedEventArgs) Handles RadPageView1.PageIndexChanged
-    '    activeTab = RadPageView1.PageIndexChanged + 1
-    'End Sub
 End Class
