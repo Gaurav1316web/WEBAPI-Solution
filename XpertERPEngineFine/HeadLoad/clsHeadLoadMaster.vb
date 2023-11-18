@@ -127,7 +127,7 @@ Public Class clsHeadLoadMaster
         Return obj
     End Function
 
-    Public Shared Function getFinder(ByVal whrcls As String, ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
+    Public Shared Function getFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim sql As String = "select Document_No as DocumentNo ,Description,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
         str = clsCommon.ShowSelectForm("HeadLoad", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
@@ -214,6 +214,7 @@ End Class
 Public Class clsHeadLoadDCS
 
 #Region "Variables"
+    Public PK_Id As Integer
     Public Document_No As String = Nothing
     Public Dcs_Uploader_No As String = Nothing
     Public VLC_CODE As String = Nothing
@@ -267,5 +268,27 @@ Public Class clsHeadLoadDCS
         Return arr
     End Function
 
+    Public Shared Function GetDcsData(ByVal VLC_CODE As String, ByVal DcsDate As Date, ByVal trans As SqlTransaction) As clsHeadLoadDCS
+        Dim obj As New clsHeadLoadDCS()
+        Try
+
+            Dim qry As String = "select top 1 TSPL_HEAD_LOAD.Start_Date ,TSPL_HEAD_LOAD_DCS .PK_Id, TSPL_HEAD_LOAD_DCS.Head_Load_Basis ,TSPL_HEAD_LOAD_DCS .Head_Load_Rate from TSPL_HEAD_LOAD 
+            left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No where TSPL_HEAD_LOAD_DCS.VLC_CODE  = '" & VLC_CODE & "'  
+            and TSPL_HEAD_LOAD.Start_Date <= '" & clsCommon.GetPrintDate(DcsDate, "dd/MMM/yyyy") & "' order by TSPL_HEAD_LOAD.Start_Date desc,PK_Id desc"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                obj.PK_Id = (dt.Rows(0)("PK_Id"))
+                obj.Head_Load_Basis = clsCommon.myCstr(dt.Rows(0)("Head_Load_Basis"))
+                obj.Head_Load_Rate = clsCommon.myCstr(dt.Rows(0)("Head_Load_Rate"))
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return obj
+    End Function
+
 End Class
+
+
 
