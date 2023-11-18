@@ -17,6 +17,7 @@ Public Class frmMilkCollectionMCC
     Const colMCCSiloCapacity As String = "colMCCSiloCapacity"
     Const colGazeReadingCode As String = "colGazeReadingCode"
     Const colGazeReading As String = "colGazeReading"
+    Const colGazeQty As String = "colGazeQty"
     Const colQty As String = "colQty"
     Const colFATPerNoDecimal As String = "colFATPerNoDecimal"
     Const colSNFPerNoDecimal As String = "colSNFPerNoDecimal"
@@ -54,7 +55,7 @@ Public Class frmMilkCollectionMCC
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
-        isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
+        isPickCLRInsteadOfSNF = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
         SettMilkCollectionFATSNFType = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
         SettFATSNFNoDecimalMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing)) = 1)
@@ -479,6 +480,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.IsVisible = SettApplyGaze
         repoNumBox.ReadOnly = Not SettApplyGaze
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoTextBox = New GridViewTextBoxColumn()
         repoTextBox.FormatString = ""
         repoTextBox.HeaderText = "Gaze Reading Code"
@@ -486,6 +488,7 @@ Public Class frmMilkCollectionMCC
         repoTextBox.IsVisible = False
         repoTextBox.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTextBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n1}"
         repoNumBox.HeaderText = "Gaze Reading"
@@ -496,6 +499,21 @@ Public Class frmMilkCollectionMCC
         repoNumBox.IsVisible = SettApplyGaze
         repoNumBox.ReadOnly = Not SettApplyGaze
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = "{0:n3}"
+        repoNumBox.HeaderText = "Gaze Qty"
+        repoNumBox.Name = colGazeQty
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 3
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.IsVisible = SettApplyGaze
+        repoNumBox.ReadOnly = SettApplyGaze
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
         repoNumBox.HeaderText = "Qty"
@@ -508,6 +526,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.ReadOnly = SettApplyGaze
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n0}"
         repoNumBox.HeaderText = "FAT"
@@ -655,7 +674,7 @@ Public Class frmMilkCollectionMCC
                 TotFATKG += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colFATKG).Value)
                 Dim dclCurrSNFKG As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSNFKG).Value)
                 If isPickCLRInsteadOfSNF Then
-                    Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNFPer).Value), corrFactor)
+                    Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCDecimal(gv1.Rows(ii).Cells(colFATPer).Value), clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSNFPer).Value), corrFactor)
                     dclCurrSNFKG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) * snfPer / 100
                     gv1.Rows(ii).Cells(colSNFKG).Value = dclCurrSNFKG
                 End If
@@ -764,6 +783,7 @@ Public Class frmMilkCollectionMCC
                             gv1.CurrentRow.Cells(colQty).Value = 0
                             Throw New Exception("No Gaze Reading found for Silo Capacity [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCSiloCapacity).Value) + "] and Gaze Reading Code [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colGazeReadingCode).Value) + "] Reading [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colGazeReading).Value) + "]")
                         Else
+                            gv1.CurrentRow.Cells(colGazeQty).Value = clsCommon.myCDecimal(dt.Rows(0)("Value"))
                             gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("Value"))
                         End If
                         UpdateCurrentRow(gv1.CurrentRow.Index)
@@ -904,6 +924,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         objTr.Gaze_Reading_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colGazeReadingCode).Value)
                         objTr.Gaze_Reading = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colGazeReading).Value)
                         objTr.Silo_Capacity = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMCCSiloCapacity).Value)
+                        objTr.Gaze_Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colGazeQty).Value)
                         Arr.Add(objTr)
                     End If
                 End If
@@ -971,6 +992,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPerNoDecimal).Value = clsCommon.myCstr(objTr.SNF).Replace(".", "")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGazeReadingCode).Value = objTr.Gaze_Reading_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGazeReading).Value = objTr.Gaze_Reading
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colGazeQty).Value = objTr.Gaze_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCSiloCapacity).Value = objTr.Silo_Capacity
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTemp).Value = objTr.Temp
                     Next
@@ -1033,7 +1055,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 e.Cancel = True
             Else
                 If UsLock1.Status = ERPTransactionStatus.Approved Then
-                    clsMilkCollectionMCCDetail.DeleteData(clsCommon.myCdbl(gv1.CurrentRow.Cells(ColPKID).Value))
+                    clsMilkCollectionMCCDetail.DeleteData(clsCommon.myCDecimal(gv1.CurrentRow.Cells(ColPKID).Value))
                 End If
             End If
         Catch ex As Exception
@@ -2445,6 +2467,9 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                         objTr.Silo_Capacity = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Silo_Capacity)
                         objTr.Sample_No = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Sample_No)
                         objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID)
+                        If clsCommon.myLen(objTr.Gaze_Reading_Code) > 0 Then
+                            objTr.Gaze_Qty = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty)
+                        End If
                         Arr.Add(objTr)
                     End If
                 End If
@@ -2475,7 +2500,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
             Dim chkdp As New List(Of String)
             Dim str As String = ""
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gv, "Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF") Then
+            If transportSql.importExcel(gv, "Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF", "TEMP.", "ACIDITY", "ORG.", "Remark") Then
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
                 Try
@@ -2511,19 +2536,21 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                             End If
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Trip No").Value))) Then
                                 Throw New Exception("Trip No is Blank at Line No" + clsCommon.myCstr(linno))
-
                             Else
-                                obj.Trip_No = clsCommon.myCdbl(grow.Cells("Trip No").Value)
+                                obj.Trip_No = clsCommon.myCDecimal(grow.Cells("Trip No").Value)
                             End If
 
-
+                            obj.Temp = clsCommon.myCDecimal(grow.Cells("TEMP.").Value)
+                            obj.Acidity = clsCommon.myCDecimal(grow.Cells("ACIDITY").Value)
+                            obj.ORG = clsCommon.myCstr(grow.Cells("ORG.").Value)
+                            obj.Description = clsCommon.myCstr(grow.Cells("Remark").Value)
 
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Qty").Value))) Then
                                 Throw New Exception("Qty is Blank at Line No" + clsCommon.myCstr(linno))
 
                             Else
                                 If (clsCommon.myCDecimal(grow.Cells("Qty").Value)) > 0 Then
-                                    obj.Entered_Qty = clsCommon.myCdbl(grow.Cells("Qty").Value)
+                                    obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Qty").Value)
                                 Else
                                     Throw New Exception("Qty is Zero at Line No" + clsCommon.myCstr(linno))
                                 End If
@@ -2537,7 +2564,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                                     If SettMilkCollectionFATSNFType = 0 Then
                                         obj.Entered_FATKg = obj.Entered_Qty * (clsCommon.myCstr(grow.Cells("FAT").Value) / 100)
                                     Else
-                                        obj.Entered_FATKg = clsCommon.myCdbl(grow.Cells("FAT").Value)
+                                        obj.Entered_FATKg = clsCommon.myCDecimal(grow.Cells("FAT").Value)
 
                                     End If
                                 Else
@@ -2546,15 +2573,15 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                                 End If
 
                             End If
-                            If (String.IsNullOrEmpty(clsCommon.myCdbl(grow.Cells("SNF").Value))) Then
+                            If (String.IsNullOrEmpty(clsCommon.myCDecimal(grow.Cells("SNF").Value))) Then
                                 Throw New Exception("SNF is Blank at Line No" + clsCommon.myCstr(linno))
 
                             Else
                                 If (clsCommon.myCDecimal(grow.Cells("SNF").Value)) > 0 Then
                                     If SettMilkCollectionFATSNFType = 0 Then
-                                        obj.Entered_SNFKg = obj.Entered_Qty * (clsCommon.myCdbl(grow.Cells("SNF").Value) / 100)
+                                        obj.Entered_SNFKg = obj.Entered_Qty * (clsCommon.myCDecimal(grow.Cells("SNF").Value) / 100)
                                     Else
-                                        obj.Entered_SNFKg = clsCommon.myCdbl(grow.Cells("SNF").Value)
+                                        obj.Entered_SNFKg = clsCommon.myCDecimal(grow.Cells("SNF").Value)
                                     End If
                                 Else
                                     Throw New Exception("SNF is Zero at Line No" + clsCommon.myCstr(linno))
@@ -2566,7 +2593,6 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
 
                             If clsCommon.myLen(Doc_No) <= 0 Then
                                 Throw New Exception("Data not exists for Line No" + clsCommon.myCstr(linno))
-
                             Else
                                 Dim qry As String = "select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
 from TSPL_MILK_COLLECTION_MCC_DETAIL
@@ -2607,31 +2633,21 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                     clsCommon.ProgressBarHide()
 
                     If clsCommon.MyMessageBoxShow(Me, "Total Valid Document [" + clsCommon.myCstr(Arr.Count) + "] and Invalid Document  [" + clsCommon.myCstr(linno - Arr.Count) + "] Are You Sure.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.OK Then
-
-
                         If DtError IsNot Nothing AndAlso DtError.Rows.Count > 0 Then
                             Dim frm As New FrmFreeGrid()
                             frm.strFormName = "Error In Import Tranker Data "
                             frm.dt = DtError
                             frm.ReportID = "BMC Truck Sheet"
                             frm.ShowDialog()
-
-
                         Else
                             If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
                                 For Each objMCC As clsMilkCollectionMCC In Arr
-
-
                                     clsMilkCollectionMCC.CorrectionData(objMCC)
                                     'clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
                                 Next
                                 common.clsCommon.MyMessageBoxShow("Data corrected sucessfully", Me.Text, MessageBoxButtons.OK)
-
                             End If
-
                         End If
-
-
                     Else
                         common.clsCommon.MyMessageBoxShow("Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
                     End If
@@ -2652,7 +2668,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select '' as [Document Date], '' as [Route No], '' as [Tanker No], '' as [Trip No], '' as [Qty], '' as [FAT], '' as [SNF]"
+            Dim str As String = "select '' as [Document Date], '' as [Route No], '' as [Tanker No], '' as [Trip No], '' as [Qty], '' as [FAT], '' as [SNF],'' as [TEMP.],'' as [ACIDITY],'' as [ORG.],'' as [Remark]"
             Dim whrCls As String = ""
 
             ListImpExpColumnsMandatory = New List(Of String)({"Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF"})

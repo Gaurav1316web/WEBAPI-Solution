@@ -23321,6 +23321,7 @@ Public Class clsCreateAllTable
             coll.Add("Slip_No", "Varchar(30) null")
             coll.Add("Trip_No", "Integer not NULL default 1")
             coll.Add("Against_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
+            coll.Add("ORG", "Varchar(10) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -23358,6 +23359,7 @@ Public Class clsCreateAllTable
             coll.Add("Retesting_OR_Correction", "integer null")
             coll.Add("Correction_FAT", "Decimal(18,2) null")
             coll.Add("Correction_SNF", "Decimal(18,2) null")
+            coll.Add("Gaze_Qty", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -25190,6 +25192,13 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Against_VSP_Asset_Issue", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
             coll.Add("Update_PR_APInvoice_Balance_Amt", "Integer not null default 0")
             coll.Add("Saving", "integer NULL")
+            coll.Add("IsEInvoice", "Integer not null default 0")
+            coll.Add("EInvoice_Type", "VARCHAR(2) NULL")
+            coll.Add("IRN_No", "VARCHAR(100) NULL")
+            coll.Add("QR_Code", "VARCHAR(MAX) NULL")
+            coll.Add("Ack_No", "VARCHAR(20) NULL")
+            coll.Add("Ack_Date", "Datetime NULL")
+            coll.Add("BarCode_Img", "image null")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, False, "", "Document_No", "Posting_Date", True)
 

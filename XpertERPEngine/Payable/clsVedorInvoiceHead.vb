@@ -296,6 +296,7 @@ Public Class clsVedorInvoiceHead
     Public ArrAdvanceInterest As List(Of clsAPInvoiceAdvanceInterest)
     Public RCM As Boolean = False
     Public TDS_Provision As Boolean = False
+    Public IsEInvoice As Boolean = False
 
 
     Public No_GST_Credit As Boolean = False
@@ -481,6 +482,7 @@ Public Class clsVedorInvoiceHead
         '------------
         clsCommon.AddColumnsForChange(coll, "RCM", IIf(obj.RCM, 1, 0))
         clsCommon.AddColumnsForChange(coll, "TDS_Provision", IIf(obj.TDS_Provision, 1, 0))
+        clsCommon.AddColumnsForChange(coll, "IsEInvoice", IIf(obj.IsEInvoice, 1, 0))
 
         'clsCommon.AddColumnsForChange(coll, "TDS_Provision", clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + obj.Vendor_Code + "'", trans)))
         clsCommon.AddColumnsForChange(coll, "MCC_Code", obj.MCC_Code, True)
@@ -1161,6 +1163,7 @@ Public Class clsVedorInvoiceHead
             obj.Against_MCC_Material_Sale = clsCommon.myCstr(dt.Rows(0)("Against_MCC_Material_Sale"))
             '--------------
             obj.RCM = IIf(clsCommon.myCdbl(dt.Rows(0)("RCM")) = 1, True, False)
+            obj.IsEInvoice = IIf(clsCommon.myCdbl(dt.Rows(0)("IsEInvoice")) = 1, True, False)
             obj.TDS_Provision = IIf(clsCommon.myCdbl(dt.Rows(0)("TDS_Provision")) = 1, True, False)
             obj.No_GST_Credit = IIf(clsCommon.myCdbl(dt.Rows(0)("No_GST_Credit")) = 1, True, False)
             ''======added by monika========================
@@ -1861,8 +1864,8 @@ Public Class clsVedorInvoiceHead
 
         End If
 
-        qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(strPostDate), "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(strPostDate), "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
+        'clsDBFuncationality.ExecuteNonQuery(qry, trans)
         If clsCommon.CompairString(obj.Is_ProRated, "Y") = CompairStringResult.Equal Then
             objCostAdj.SaveData(objCostAdj, True, "", trans)
             If clsCommon.CompairString(obj.RefDocType, "BS") = CompairStringResult.Equal Then
@@ -1983,9 +1986,75 @@ Public Class clsVedorInvoiceHead
         clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, strDocNo, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_REMITTANCE", "Document_No", "TSPL_AP_INVOICE_ADVANCE_INTEREST", "AP_Invoice_No", "TSPL_PROVISION_ENTRY_KNOCKOFF", "AP_Invoice_No", trans)
 
+        '' For EInvoice
+        Dim ECustomerType As String = ""
+        If obj.IsEInvoice = 1 Then
+            ECustomerType = clsERPFuncationality.GetVendorEInvoiceType(obj.Vendor_Code, trans)
+            ''richa agarwal 31 Dec,2020 check eInvoice Implementation
+            If clsCommon.myLen(clsCommon.myCstr(obj.Tax_Group)) > 0 Then
+                Dim isTaxTaxable As String = "N"
+                isTaxTaxable = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select 'Y' from TSPL_TAX_GROUP_MASTER where Tax_Group_Code ='" & obj.Tax_Group & "' and Is_Tax_Exempted =0 and Tax_Group_Type ='S'", trans))
+                ''If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Document_Type), "I") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+                If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Invoice_Entry_Date, trans) = True Then
+                    If clsVedorInvoiceHead.EInvoice_Implementation(obj.Document_No, obj.loc_code, trans) = True Then
+                    Else
+                        Throw New Exception("Invalid JSON Value")
+                    End If
+                End If
+            End If
+            ''------------------------------
+        End If
 
+        qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' ,EInvoice_Type='" + ECustomerType + "' where Document_No='" + strDocNo + "'"
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Return True
 
+    End Function
+    Public Shared Function EInvoice_Implementation(ByVal strDocNo As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim isSaved As Boolean = True
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Code not found to Post")
+            End If
+
+            Dim strtoken As String = ClsEInvoiceOFAPIs.IsGenerateAuthTokenNo_Required(objCommonVar.CurrentCompanyCode, strLocation, trans)
+            If clsCommon.myLen(strtoken) > 0 Then
+                Dim strQry As String = "select TSPL_VENDOR_master.Vendor_Code, TSPL_VENDOR_Invoice_Head.document_No as DocNo, convert( date, TSPL_VENDOR_Invoice_Head.Vendor_Invoice_Date, 103 ) as DocDate, case when TSPL_VENDOR_Invoice_Head.Document_Type = 'D' then 'DBN' when TSPL_VENDOR_Invoice_Head.Document_Type = 'C' then 'CRN' else 'INV' end as DocType, 'B2B' as SupTyp, 'N' as IgstOnIntra, TSPL_LOCATION_MASTER.GSTNO as SellerGSTINNo, TSPL_LOCATION_MASTER.location_desc as SellerLglNm, TSPL_COMPANY_MASTER.Comp_Name as SellerTrdNm, TSPL_LOCATION_MASTER.Add1 as SellerAdd1, TSPL_LOCATION_MASTER.Add2 as SellerAdd2, TSPL_LOCATION_MASTER.City_Code as SellerLoc, TSPL_LOCATION_MASTER.Pin_Code as SellerPincode, Location_State_Master.GST_STATE_Code as SellerStcd, TSPL_LOCATION_MASTER.Phone1 as SellerPhone, TSPL_LOCATION_MASTER.Email as SellerEmail, TSPL_VENDOR_master.GSTFinalNo as BuyerGSTINNo, TSPL_VENDOR_master.Vendor_Name as BuyerLglNm, TSPL_VENDOR_master.Alies_name as BuyerTrdNm, Customer_State_Master.GST_STATE_Code as BuyerPOS, TSPL_VENDOR_master.Add1 as BuyerAdd1, TSPL_VENDOR_master.Add2 as BuyerAdd2, tspl_city_master.City_Name as BuyerLoc, cast( TSPL_VENDOR_master.Pin_Code as int ) as BuyerPincode, Customer_State_Master.GST_STATE_Code as BuyerStcd, TSPL_VENDOR_master.Phone1 as BuyerPhone, TSPL_VENDOR_master.Email as BuyerEmail, TSPL_VENDOR_Invoice_Detail.Detail_Line_No as ItemSlNo, 'Y' as ItemIsServc, TSPL_ADDITIONAL_charges.Description AS ItemPrdDesc, TSPL_ADDITIONAL_charges.Sac_code AS ItemHsnCd, 0 as ItemQty, 'OTH' as ItemUnit, 0 as ItemUnitPrice, TSPL_VENDOR_Invoice_Detail.Amount as ItemTotAmt, TSPL_VENDOR_Invoice_Detail.Discount as ItemDiscount, TSPL_VENDOR_Invoice_Detail.Amount_Less_Discount as ItemAssAmt, case when ISNULL( TSPL_VENDOR_Invoice_Detail.tax1, '' ) = 'IGST' THEN TSPL_VENDOR_Invoice_Detail.TAX1_Rate when ISNULL( TSPL_VENDOR_Invoice_Detail.tax1, '' ) = 'CGST' AND ISNULL( TSPL_VENDOR_Invoice_Detail.tax2, '' ) = 'SGST' THEN TSPL_VENDOR_Invoice_Detail.TAX1_Rate + TSPL_VENDOR_Invoice_Detail.TAX2_Rate ELSE 0 end as ItemGstRt, case when TSPL_VENDOR_Invoice_Detail.TAX1 = 'SGST' AND TSPL_VENDOR_Invoice_Detail.TAX2 = 'CGST' then TSPL_VENDOR_Invoice_Detail.TAX1_Amt when TSPL_VENDOR_Invoice_Detail.TAX1 = 'CGST' AND TSPL_VENDOR_Invoice_Detail.TAX2 = 'SGST' then TSPL_VENDOR_Invoice_Detail.TAX2_Amt else 0 end ItemSgstAmt, case when TSPL_VENDOR_Invoice_Detail.TAX1 = 'IGST' then TSPL_VENDOR_Invoice_Detail.TAX1_Amt else 0 end ItemIgstAmt, case when TSPL_VENDOR_Invoice_Detail.TAX1 = 'CGST' AND TSPL_VENDOR_Invoice_Detail.TAX2 = 'SGST' then TSPL_VENDOR_Invoice_Detail.TAX1_Amt when TSPL_VENDOR_Invoice_Detail.TAX1 = 'SGST' AND TSPL_VENDOR_Invoice_Detail.TAX2 = 'CGST' then TSPL_VENDOR_Invoice_Detail.TAX2_Amt else 0 end ItemCgstAmt, 0 as ItemOthChrg, TSPL_VENDOR_Invoice_Detail.total_amount - case when isnull(TCS1.is_tcs, '')= 'Y' THEN TSPL_VENDOR_Invoice_Detail.TAX2_AMT when isnull(TCS2.is_tcs, '')= 'Y' THEN TSPL_VENDOR_Invoice_Detail.TAX3_AMT ELSE 0 END as ItemTotItemVal, TSPL_VENDOR_Invoice_Head.Discount_Base as ValDtlsAssVal, case when TSPL_VENDOR_Invoice_Head.TAX1 = 'CGST' AND TSPL_VENDOR_Invoice_Head.TAX2 = 'SGST' then TSPL_VENDOR_Invoice_Head.TAX1_Amt when TSPL_VENDOR_Invoice_Head.TAX1 = 'SGST' AND TSPL_VENDOR_Invoice_Head.TAX2 = 'CGST' then TSPL_VENDOR_Invoice_Head.TAX2_Amt else 0 end ValDtlsCgstVal, case when TSPL_VENDOR_Invoice_Head.TAX1 = 'SGST' AND TSPL_VENDOR_Invoice_Head.TAX2 = 'CGST' then TSPL_VENDOR_Invoice_Head.TAX1_Amt when TSPL_VENDOR_Invoice_Head.TAX1 = 'CGST' AND TSPL_VENDOR_Invoice_Head.TAX2 = 'SGST' then TSPL_VENDOR_Invoice_Head.TAX2_Amt else 0 end ValDtlsSgstVal, case when TSPL_VENDOR_Invoice_Head.TAX1 = 'IGST' then TSPL_VENDOR_Invoice_Head.TAX1_Amt else 0 end ValDtlsIgstVal, TSPL_VENDOR_Invoice_Head.Discount_Amount as ValDtlsDiscount, case when isnull(TCS1.is_tcs, '')= 'Y' THEN TSPL_VENDOR_Invoice_Head.TAX2_AMT when isnull(TCS2.is_tcs, '')= 'Y' THEN TSPL_VENDOR_Invoice_Head.TAX3_AMT ELSE 0 END as ValDtlsOthChrg, TSPL_VENDOR_Invoice_Head.document_total as ValDtlsTotInvVal, TSPL_VENDOR_Invoice_Head.RoundOffAmount as ValDtlsRndOffAmt 
+                from TSPL_VENDOR_Invoice_Head 
+                Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" & objCommonVar.CurrentCompanyCode & "' 
+                Left Outer Join TSPL_VENDOR_master on TSPL_VENDOR_master.Vendor_Code = TSPL_VENDOR_Invoice_Head.Vendor_Code
+                left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_VENDOR_Invoice_Head.Loc_code
+                left outer join TSPL_VENDOR_Invoice_Detail on TSPL_VENDOR_Invoice_Detail.document_No = TSPL_VENDOR_Invoice_Head.document_No 
+                left outer join TSPL_ADDITIONAL_charges on TSPL_ADDITIONAL_charges.Code = TSPL_VENDOR_Invoice_Detail.AddChargeCode 
+                left outer join TSPL_STATE_MASTER as LOCATION_State_Master on LOCATION_State_Master.STATE_CODE = TSPL_LOCATION_MASTER.State 
+                left outer join TSPL_STATE_MASTER as Customer_State_Master on Customer_State_Master.STATE_CODE = TSPL_VENDOR_master.State 
+                left outer join tspl_city_master on tspl_city_master.city_code = TSPL_VENDOR_master.City_Code 
+                left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code = TSPL_VENDOR_Invoice_Head.Tax2 left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code = TSPL_VENDOR_Invoice_Head.Tax3 where TSPL_VENDOR_Invoice_Head.document_No = '" & strDocNo & "'"
+
+                '               
+
+                Dim objResult As Object = ClsEInvoiceOFAPIs.PostAuthTokenNo_withInvoiceData(objCommonVar.CurrentCompanyCode, strtoken, strQry, strLocation, trans, True)
+                If objResult IsNot Nothing Then
+                    'assign to variable
+                    Dim AckNo As String = objResult.SelectToken("AckNo").ToString
+                    Dim AckDt As String = objResult.SelectToken("AckDt").ToString
+                    Dim Irn As String = objResult.SelectToken("Irn").ToString
+                    Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
+                    clsDBFuncationality.ExecuteNonQuery("update TSPL_VENDOR_Invoice_Head set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where document_No ='" & strDocNo & "'", trans)
+
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
+                    clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_VENDOR_Invoice_Head", "TSPL_VENDOR_Invoice_Head.document_No='" & strDocNo & "'", trans)
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
 
     Public Shared Function GetVendorRetention(ByVal rdbDetail As Boolean, ByVal fromDate As DateTime, ByVal ToDate As DateTime, ByVal cbgVendor As ArrayList, ByVal txtVendorGroupMult As ArrayList, ByVal txtLocationMult As ArrayList) As String
