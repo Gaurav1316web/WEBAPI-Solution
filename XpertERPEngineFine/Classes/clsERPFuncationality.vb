@@ -2838,6 +2838,10 @@ WHERE     (TC.TABLE_NAME = '" + strTableName + "') and COLUMN_NAME='" + strColum
         Dim qry As String = " select Case when GST_Registered =1 then 'BB' else 'BC' end as Type   from TSPL_CUSTOMER_MASTER where Cust_Code='" + strCustomerCode + "' "
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
     End Function
+    Public Shared Function GetVendorEInvoiceType(ByVal strCustomerCode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = " select Case when GSTRegistered =1 then 'BB' else 'BC' end as Type   from TSPL_VENDOR_MASTER where Vendor_Code='" + strCustomerCode + "' "
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+    End Function
     Public Shared Function GetCustomerEInvoiceTypeFromTransationTable(ByVal strTableName As String, ByVal strDocumentColumnName As String, ByVal strDocumentNo As String, ByVal trans As SqlTransaction) As String
         Dim qry As String = " select  EInvoice_Type  from " + strTableName + " where " + strDocumentColumnName + "='" + strDocumentNo + "' "
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))

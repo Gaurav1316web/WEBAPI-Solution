@@ -25190,6 +25190,13 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Against_VSP_Asset_Issue", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
             coll.Add("Update_PR_APInvoice_Balance_Amt", "Integer not null default 0")
             coll.Add("Saving", "integer NULL")
+            coll.Add("IsEInvoice", "Integer not null default 0")
+            coll.Add("EInvoice_Type", "VARCHAR(2) NULL")
+            coll.Add("IRN_No", "VARCHAR(100) NULL")
+            coll.Add("QR_Code", "VARCHAR(MAX) NULL")
+            coll.Add("Ack_No", "VARCHAR(20) NULL")
+            coll.Add("Ack_Date", "Datetime NULL")
+            coll.Add("BarCode_Img", "image null")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, False, "", "Document_No", "Posting_Date", True)
 
