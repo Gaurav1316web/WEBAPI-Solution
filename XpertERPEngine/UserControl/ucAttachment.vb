@@ -95,13 +95,7 @@ Public Class ucAttachment
                     If clsCommon.myLen(gv1.Rows(ii).Cells(ColPath).Value) > 0 Then
                         Dim str As String
                         If RunServiceForUploadFolder Then
-                            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
-                                str = "http://172.21.80.251:7888/api/FileUploads/FileUpload"
-                            Else
-                                str = "http://103.122.38.34:7888/api/FileUploads/FileUpload"
-                            End If
-
-                            str = UploadWithHttpRequest(str, clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName)
+                            str = clsAttachDocument.UploadWithHttpRequest(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName)
                             Dim jObj As JObject = JObject.Parse(str)
                             Dim ArrJ As JArray = Nothing
                             If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
@@ -148,49 +142,7 @@ Public Class ucAttachment
         Return True
     End Function
 
-    Private Function UploadWithHttpRequest(ByVal url As String, ByVal filePath As String, ByVal fileName As String) As String
-        Try
-            Dim fileByteArray As Byte() = File.ReadAllBytes(filePath)
-            Dim formDataBoundary As String = $"----------{Guid.NewGuid()}"
-            Dim contentType As String = "multipart/form-data; boundary=" & formDataBoundary
-            Dim formData As Byte() = GetMultipartFormDataForUpload(fileByteArray, fileName, contentType, formDataBoundary)
-            Dim request = TryCast(WebRequest.Create(url), HttpWebRequest)
-            request.Headers.Add("Key", "Tecxpert@MP#123$456%789^")
-            request.Method = "POST"
-            request.ContentType = contentType
-            'request.UserAgent = Credentials.UserName
-            request.CookieContainer = New CookieContainer()
-            request.ContentLength = formData.Length
-            'request.Credentials = Credentials
 
-            Using RequestStream As Stream = request.GetRequestStream()
-                RequestStream.Write(formData, 0, formData.Length)
-                RequestStream.Close()
-            End Using
-
-            Dim response = TryCast(request.GetResponse(), HttpWebResponse)
-            Dim ResponseReader = New StreamReader(response.GetResponseStream())
-            Dim FullResponse As String = ResponseReader.ReadToEnd()
-            response.Close()
-            Return FullResponse
-        Catch ex As Exception
-            Throw ex
-        End Try
-    End Function
-
-    Private Function GetMultipartFormDataForUpload(ByVal byteArray As Byte(), ByVal fileName As String, ByVal contentType As String, ByVal Boundary As String) As Byte()
-        Dim FormDataStream As Stream = New MemoryStream()
-        Dim Header As String = String.Format("--{0}" & Environment.NewLine & "Content-Disposition: form-data; name=""{1}""; filename=""{2}""" + Environment.NewLine + Environment.NewLine, Boundary, "file", fileName)
-        FormDataStream.Write(System.Text.Encoding.UTF8.GetBytes(Header), 0, System.Text.Encoding.UTF8.GetByteCount(Header))
-        FormDataStream.Write(byteArray, 0, byteArray.Length)
-        Dim Footer As String = Environment.NewLine & "--" & Boundary & "--" + Environment.NewLine
-        FormDataStream.Write(System.Text.Encoding.UTF8.GetBytes(Footer), 0, System.Text.Encoding.UTF8.GetByteCount(Footer))
-        FormDataStream.Position = 0L
-        Dim FormData = New Byte(CInt((FormDataStream.Length - 1L + 1)) - 1) {}
-        FormDataStream.Read(FormData, 0, FormData.Length)
-        FormDataStream.Close()
-        Return FormData
-    End Function
 
 
 

@@ -4561,7 +4561,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         End If
     End Sub
 
-    Sub Print(ByVal isPrint As Boolean)
+    Sub Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean)
         Try
             Dim frmCRV As New frmCrystalReportViewer()
             Dim IsMandiTax As Double = 0
@@ -4707,7 +4707,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                                         "TSPL_SCRAPINVOICE_HEAD.invoice_No,convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) as Invoice_Date,TSPL_SCRAPSALE_HEAD.Loc_Code as From_Location,FromLocation.Location_Desc as [From Location Desc],(FromLocation.Add1+FromLocation.Add2+FromLocation.Add3+FromLocation.Add4)as [From Address] ," &
                                         "FromLocation.Pin_Code,FromLocation.TIN_No,FromLocation.CST_No,FromLocation.State as From_State,FromState.State_Name as frm_State_name  ,TSPL_SCRAPSALE_HEAD.ToLoc_Code as To_Location,ToLocation.Location_Desc as To_Location_Desc,(ToLocation.Add1+ToLocation.Add2+ToLocation.Add3+ToLocation.Add4)as [To Address]," &
                                         "tspl_customer_master.Pin_Code as [To Pin Code],tspl_customer_master.TIN_No as [To TIN No],tspl_customer_master.CST as [To CST No],tspl_customer_master.Phone1 as [To phone],ToLocation.State as To_State,ToState.State_Name as To_state_name,TSPL_SCRAPSALE_DETAIL.Item_Code
-                                                                ,case when TSPL_SCRAPSALE_DETAIL.Row_Type='Item' then TSPL_ITEM_MASTER.Item_Desc else tspl_Additional_Charges.Description end as Item_Desc 
+                                                                ,case when TSPL_SCRAPSALE_DETAIL.Row_Type='Item' then TSPL_ITEM_MASTER.Item_Desc else tspl_Additional_Charges.Description end as Item_Desc ,FromLocation.Add1 as address1,FromLocation.Add2 as address2,FromLocation.Add3 as address3
                                                                 ,Shipped_Qty," &
                                         "TSPL_SCRAPSALE_DETAIL.Unit_Code, Price, ItemAmt, TSPL_SCRAPSALE_HEAD.Invoice_Type,TSPL_SCRAPSALE_HEAD.Total_Tax_Amt,TSPL_SCRAPSALE_HEAD.Doc_Amt,	TAX1 .Tax_Code As tax1name,isnull (TSPL_SCRAPSALE_HEAD.tax1_rate,0) As txt1Rate,isnull (TSPL_SCRAPSALE_HEAD.tax1_amt,0) As txt1amt, "
                         Qry1 += " tax2.Tax_Code As tax2name,isnull (TSPL_SCRAPSALE_HEAD.tax2_rate,0) As txt2Rate,isnull (TSPL_SCRAPSALE_HEAD.tax2_amt,0) As txt2amt,"
@@ -4817,9 +4817,11 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                                         '        frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState_WithMandi", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                         '    Else
                                         '        'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
-
-                                        '    End If
+                                        If ischallan = True Then
+                                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        Else
+                                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        End If
 
                                         'End If
                                         'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
@@ -5262,7 +5264,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
     Private Sub btnPrePrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         strPrintType = "Tax"
-        Print(False)
+        Print(False, False)
     End Sub
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
@@ -5777,12 +5779,13 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         strPrintType = "Excise"
-        Print(True)
+        Print(True, True)
 
     End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
-
+        strPrintType = "Excise"
+        Print(True, False)
 
     End Sub
 End Class

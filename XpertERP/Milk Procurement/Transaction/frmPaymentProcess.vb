@@ -1,6 +1,12 @@
 ﻿'===================BM00000007864,BM00000007337,BM00000007744===================
 Imports System.Data.SqlClient
 Imports common
+Imports System.IO
+Imports System.Net
+Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
+Imports System.Collections.Specialized
+
 
 Public Class FrmPaymentProcess
     Inherits FrmMainTranScreen
@@ -4263,11 +4269,13 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
 
             If obj.isPosted = 0 Then
                 lblPending.Status = ERPTransactionStatus.Pending
+                btnPrintBillMobUser.Enabled = False
             Else
                 btnSave.Enabled = False
                 btnProcess.Enabled = False
                 btnDelete.Enabled = False
                 lblPending.Status = ERPTransactionStatus.Approved
+                btnPrintBillMobUser.Enabled = True
             End If
             isLoad = True
             Dim i As Integer = 0
@@ -8225,7 +8233,45 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
         End Try
     End Sub
 
-    'Private Sub RadPageView1_PageIndexChanged(sender As Object, e As RadPageViewIndexChangedEventArgs) Handles RadPageView1.PageIndexChanged
-    '    activeTab = RadPageView1.PageIndexChanged + 1
-    'End Sub
+    Private Sub btnPrintBillMobUser_Click(sender As Object, e As EventArgs) Handles btnPrintBillMobUser.Click
+        Try
+            Dim qry As String = "select TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL 
+left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null"
+
+            'Dim qry As String = "select top 2 TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL 
+            'left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+            'left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+            'where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='PPR/2324/000032' and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    Dim PDFPath As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + clsCommon.myCstr(clsCommon.myCstr(dr("Doc_No"))) + "'", clsCommon.myCDate(clsCommon.myCstr(dr("From_Date"))), clsCommon.myCDate(clsCommon.myCstr(dr("To_Date"))), "", "'" + clsCommon.myCstr(dr("VSP_CODE")) + "'", "", "", "", False, True)
+                    Dim Str As String = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath))
+                    Dim jObj As JObject = JObject.Parse(str)
+                    Dim ArrJ As JArray = Nothing
+                    If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
+                        ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                        If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
+                            Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+                            If FileNo > 0 Then
+                                str = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
+                                clsDBFuncationality.ExecuteNonQuery(str)
+                            End If
+                        Else
+                            Throw New Exception(ArrJ(0).SelectToken("Message"))
+                        End If
+                    Else
+                        ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                        Throw New Exception(ArrJ(0).SelectToken("Message"))
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class
