@@ -1639,7 +1639,6 @@ Public Class clsMilkSRNMCC
             clsMilkSRNMCC.ObjList(0).Negative_Amount = clsMilkSRNMCC.ObjList(0).Negative_Rate * clsMilkSRNMCC.ObjList(0).MILK_Qty
             clsMilkSRNMCC.ObjList(0).AMOUNT = Math.Round(clsMilkSRNMCC.ObjList(0).RATE * clsMilkSRNMCC.ObjList(0).MILK_Qty, 2, MidpointRounding.AwayFromZero)
             clsMilkSRNMCC.ObjList(0).Commission = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("commision_pers"))
-            clsMilkSRNMCC.ObjList(0).Head_Load_Rate = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("Rate_Head_Load"))
             clsMilkSRNMCC.ObjList(0).Own_Asset_Rate = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("Rate_Own_Asset"))
             clsMilkSRNMCC.ObjList(0).Payment_Commission = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("payment_commision_pers"))
             If clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("EMP_Type")), "FP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
@@ -1742,27 +1741,31 @@ Public Class clsMilkSRNMCC
             If dclDistanceKM = 0 Then
                 dclDistanceKM = 1
             End If
+            Dim objHeadLoad As New clsHeadLoadDCS()
+            objHeadLoad = clsHeadLoadDCS.GetDcsData(objHead.VLC_CODE, objHead.DOC_DATE, Trans)
+            clsMilkSRNMCC.ObjList(0).Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
+
             clsMilkSRNMCC.ObjList(0).Head_Load_Amount = 0
-            If clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
                 If clsMilkSRNMCC.ObjList(0).ACC_Qty >= MinimumQtyForHeadLoad Then
-                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).Head_Load_Rate * dclDistanceKM, 2)
+                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
                 End If
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
                 If clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
-                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("ACC_WEIGHT_LTR")) * clsMilkSRNMCC.ObjList(0).Head_Load_Rate * dclDistanceKM, 2)
+                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("ACC_WEIGHT_LTR")) * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
                 End If
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "W") = CompairStringResult.Equal Then
-                qry = "select Ratio,SNF_Ratio,FAT_Pers,SNF_Pers from TSPL_MILK_PRICE_MASTER where Price_Code=(select top 1 Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + clsMilkSRNMCC.ObjList(0).Price_Code + "')"
-                Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)
-                If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
-                    clsMilkSRNMCC.ObjList(0).FAT_KG = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).FAT / 100, 3)
-                    clsMilkSRNMCC.ObjList(0).SNF_KG = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, 3)
-                    Dim dblFATRate As Decimal = clsMilkSRNMCC.ObjList(0).Head_Load_Rate * clsCommon.myCdbl(dtTemp.Rows(0)("Ratio")) / clsCommon.myCdbl(dtTemp.Rows(0)("FAT_Pers"))
-                    Dim dblSNFRate As Decimal = clsMilkSRNMCC.ObjList(0).Head_Load_Rate * clsCommon.myCdbl(dtTemp.Rows(0)("SNF_Ratio")) / clsCommon.myCdbl(dtTemp.Rows(0)("SNF_Pers"))
-                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(((clsMilkSRNMCC.ObjList(0).FAT_KG * dblFATRate) + (clsMilkSRNMCC.ObjList(0).SNF_KG * dblSNFRate)) * dclDistanceKM, 2)
-                End If
+                'ElseIf clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "W") = CompairStringResult.Equal Then
+                '    qry = "select Ratio,SNF_Ratio,FAT_Pers,SNF_Pers from TSPL_MILK_PRICE_MASTER where Price_Code=(select top 1 Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + clsMilkSRNMCC.ObjList(0).Price_Code + "')"
+                '    Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)
+                '    If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
+                '        clsMilkSRNMCC.ObjList(0).FAT_KG = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).FAT / 100, 3)
+                '        clsMilkSRNMCC.ObjList(0).SNF_KG = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, 3)
+                '        Dim dblFATRate As Decimal = clsMilkSRNMCC.ObjList(0).Head_Load_Rate * clsCommon.myCdbl(dtTemp.Rows(0)("Ratio")) / clsCommon.myCdbl(dtTemp.Rows(0)("FAT_Pers"))
+                '        Dim dblSNFRate As Decimal = clsMilkSRNMCC.ObjList(0).Head_Load_Rate * clsCommon.myCdbl(dtTemp.Rows(0)("SNF_Ratio")) / clsCommon.myCdbl(dtTemp.Rows(0)("SNF_Pers"))
+                '        clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(((clsMilkSRNMCC.ObjList(0).FAT_KG * dblFATRate) + (clsMilkSRNMCC.ObjList(0).SNF_KG * dblSNFRate)) * dclDistanceKM, 2)
+                '    End If
             End If
-            clsMilkSRNMCC.ObjList(0).Head_Load_Type = clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load"))
+            clsMilkSRNMCC.ObjList(0).Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
             '============================================
             '==================Own Asset==========================
             If clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
