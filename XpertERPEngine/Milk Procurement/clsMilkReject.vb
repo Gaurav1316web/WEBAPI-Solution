@@ -491,7 +491,6 @@ Public Class clsMilkRejectHead
                     obj1.UOM = objtr.UOM_Code
                     obj1.Price_Code = objtr.Price_Code
                     obj1.AMOUNT = objtr.Amount
-                    obj1.Head_Load_Rate = clsCommon.myCdbl(dtVendor.Rows(0)("Rate_Head_Load"))
                     obj1.Own_Asset_Rate = clsCommon.myCdbl(dtVendor.Rows(0)("Rate_Own_Asset"))
 
 
@@ -571,16 +570,21 @@ Public Class clsMilkRejectHead
                     obj1.Service_Charge_Type = clsCommon.myCstr(dtVendor.Rows(0)("Service_Charge_Type"))
                     Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
 
-                    If clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
+                    Dim objHeadLoad As New clsHeadLoadDCS()
+                    objHeadLoad = clsHeadLoadDCS.GetDcsData(obj1.VlC_Code, obj.DOC_DATE, trans)
+                    obj1.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
+
+
+                    If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
                         If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
-                            obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate, 2)
+                            obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * objHeadLoad.Head_Load_Rate, 2)
                         End If
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
                         If objtr.ACC_WEIGHT_LTR >= MinimumQtyForHeadLoad Then
-                            obj1.Head_Load_Amount = Math.Round(objtr.ACC_WEIGHT_LTR * obj1.Head_Load_Rate, 2)
+                            obj1.Head_Load_Amount = Math.Round(objtr.ACC_WEIGHT_LTR * objHeadLoad.Head_Load_Rate, 2)
                         End If
                     End If
-                    obj1.Head_Load_Type = clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Head_Load"))
+                    obj1.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
                     If clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
                         obj1.Own_Asset_Amount = Math.Round(obj1.ACC_Qty * obj1.Own_Asset_Rate, 2)
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Own_Asset")), "L") = CompairStringResult.Equal Then
