@@ -1181,7 +1181,7 @@ select max(UploaderNo) as UploaderNo,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tank
                 qry = "select Milk_Type as Code from ( " + Baseqry + " and TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader='" + txtMCC.Value + "' )xx group by Milk_Type"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    strMilkType = clsCommon.myCstr(dt.Rows(0)("Milk_Type"))
+                    strMilkType = clsCommon.myCstr(dt.Rows(0)("Code"))
                     If dt.Rows.Count > 1 Then
                         Dim frmFC As New FrmFreeComboBox
                         frmFC.ComboSource = dt
