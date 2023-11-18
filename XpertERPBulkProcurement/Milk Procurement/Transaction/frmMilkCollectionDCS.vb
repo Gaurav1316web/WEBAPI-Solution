@@ -1164,26 +1164,57 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
 
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
         Try
-            Dim qry As String = "select * from (
-select max(UploaderNo) as UploaderNo,Milk_Type,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tanker_No) as Tanker_No,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME from
-(select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type, TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME
+            Dim Baseqry As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type, TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME
 from  TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code 
-Where 2=2  and TSPL_MILK_COLLECTION_MCC.Status=1 and convert(Date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' 
-)xx group by MCC_Code,Milk_Type  )xxx"
-            'txtMCC.Value = clsCommon.ShowSelectForm("dd22ShUp", qry, "UploaderNo", "", txtMCC.Value, "UploaderNo", isButtonClicked)
-            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("dd22ShUp", qry)
-            If dr IsNot Nothing AndAlso dr.ItemArray.Count > 0 Then
-                txtMCC.Value = clsCommon.myCstr(dr("UploaderNo"))
+Where 2=2  and TSPL_MILK_COLLECTION_MCC.Status=1 and convert(Date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' "
+
+            Dim qry As String = "select * from (
+select max(UploaderNo) as UploaderNo,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tanker_No) as Tanker_No,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME from (
+" + Baseqry + "
+)xx group by MCC_Code )xxx"
+            txtMCC.Value = clsCommon.ShowSelectForm("dd22ShUp", qry, "UploaderNo", "", txtMCC.Value, "UploaderNo", isButtonClicked)
+            Dim strMilkType As String = ""
+            If clsCommon.myLen(txtMCC.Value) > 0 Then
+                qry = "select Milk_Type as Code from ( " + Baseqry + " and TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader='" + txtMCC.Value + "' )xx group by Milk_Type"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    strMilkType = clsCommon.myCstr(dt.Rows(0)("Milk_Type"))
+                    If dt.Rows.Count > 1 Then
+                        Dim frmFC As New FrmFreeComboBox
+                        frmFC.ComboSource = dt
+                        frmFC.ComboValueMember = "Code"
+                        frmFC.ComboDisplayMember = "Code"
+                        frmFC.LabelCaption = "Milk Type"
+                        frmFC.ShowDialog()
+                        strMilkType = frmFC.strRetValue
+                    End If
+                    If clsCommon.myLen(strMilkType) > 0 Then
+                        If clsCommon.myLen(txtMCC.Value) > 0 Then
+                            RefreshMCCCollectionDetail(txtMCC.Value, strMilkType, Nothing)
+                        End If
+                        LoadTransactionData(strMilkType)
+                    End If
+                End If
+            End If
+            If clsCommon.myLen(strMilkType) <= 0 Then
+                txtMCC.Value = ""
                 lblMCC.Text = ""
                 txtMCC.Tag = Nothing
-                If clsCommon.myLen(txtMCC.Value) > 0 Then
-                    RefreshMCCCollectionDetail(txtMCC.Value, clsCommon.myCstr(dr("Milk_Type")), Nothing)
-                End If
-                LoadTransactionData(clsCommon.myCstr(dr("Milk_Type")))
             End If
+
+            'Dim dr As DataRow = clsCommon.ShowSelectFormForRow("dd22ShUp", qry)
+            'If dr IsNot Nothing AndAlso dr.ItemArray.Count > 0 Then
+            '    txtMCC.Value = clsCommon.myCstr(dr("UploaderNo"))
+            '    lblMCC.Text = ""
+            '    txtMCC.Tag = Nothing
+            '    If clsCommon.myLen(txtMCC.Value) > 0 Then
+            '        RefreshMCCCollectionDetail(txtMCC.Value, clsCommon.myCstr(dr("Milk_Type")), Nothing)
+            '    End If
+            '    LoadTransactionData(clsCommon.myCstr(dr("Milk_Type")))
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1732,7 +1763,6 @@ where 2=2 "
 
     Private Sub LoadTransactionData(ByVal strMilkType As String)
         Try
-
             If clsCommon.myLen(txtMCC.Tag) > 0 AndAlso clsCommon.myLen(txtMCC.Value) > 0 Then
                 Dim qry As String = "select TSPL_MILK_COLLECTION_DCS.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type from tspl_milk_Collection_DCS_MCC_Detail
 left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=tspl_milk_Collection_DCS_MCC_Detail.Document_No
