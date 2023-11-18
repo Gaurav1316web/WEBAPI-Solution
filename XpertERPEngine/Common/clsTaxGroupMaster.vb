@@ -68,8 +68,9 @@ Public Class clsTaxGroupMaster
         Return obj
     End Function
 
-    Public Shared Function GetTaxDetailsByLocation(ByVal GrpCode As String, ByVal strTaxType As String, ByVal strVendorCustomerCode As String, ByVal strLocation As String, Optional ByVal Without_State_Condition As Boolean = False) As DataTable
+    Public Shared Function GetTaxDetailsByLocation(ByVal GrpCode As String, ByVal strTaxType As String, ByVal strVendorCustomerCode As String, ByVal strLocation As String, Optional ByVal ItemCode As String = "", Optional ByVal Without_State_Condition As Boolean = False) As DataTable
         Dim openTaxcond As String = ""
+        Dim strjoin As String = String.Empty
         Dim whrCls As String = " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type='" + strTaxType + "' "
         Dim whrCls_taxgrp As String = " and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='" + strTaxType + "' "
         If Without_State_Condition Then
@@ -96,9 +97,12 @@ Public Class clsTaxGroupMaster
             End If
             qry += ")x)"
         End If
+        If clsCommon.myLen(ItemCode) > 0 Then
+            whrCls_taxgrp += "  and TSPL_ITEM_WISE_TAX_GROUP.Item_Code='" + ItemCode + "'"
+            strjoin = "  left join TSPL_ITEM_WISE_TAX_GROUP on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code   left join TSPL_ITEM_WISE_TAX on TSPL_ITEM_WISE_TAX_GROUP.HCODE= TSPL_ITEM_WISE_TAX.HCODE "
+        End If
 
-
-        qry += "),0) AS TaxRate,TSPL_TAX_GROUP_DETAILS.Taxable, TSPL_TAX_MASTER.Excisable , TSPL_TAX_MASTER.Tax_Recoverable,TSPL_TAX_MASTER.Type,TSPL_TAX_MASTER.IS_TCS from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" + GrpCode + "' " + whrCls_taxgrp + " order by Trans_Code"
+        qry += "),0) AS TaxRate,TSPL_TAX_GROUP_DETAILS.Taxable, TSPL_TAX_MASTER.Excisable , TSPL_TAX_MASTER.Tax_Recoverable,TSPL_TAX_MASTER.Type,TSPL_TAX_MASTER.IS_TCS from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code " + strjoin + "  where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" + GrpCode + "' " + whrCls_taxgrp + " order by Trans_Code"
 
         Return clsDBFuncationality.GetDataTable(qry)
     End Function
