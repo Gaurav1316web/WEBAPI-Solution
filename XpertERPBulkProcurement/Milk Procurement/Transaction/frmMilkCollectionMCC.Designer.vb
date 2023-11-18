@@ -44,6 +44,9 @@ Partial Class frmMilkCollectionMCC
         Me.gvTotal = New Telerik.WinControls.UI.RadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnTankerData = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.txtMDate = New common.Controls.MyDateTimePicker()
         Me.lblMDate = New common.Controls.MyLabel()
         Me.btnMGo = New Telerik.WinControls.UI.RadButton()
@@ -91,9 +94,6 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvParam = New Telerik.WinControls.UI.RadGridView()
-        Me.btnTankerData = New Telerik.WinControls.UI.RadSplitButton()
-        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel2.SuspendLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,6 +111,7 @@ Partial Class frmMilkCollectionMCC
         Me.Panel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.btnTankerData, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnMGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -160,7 +161,6 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.SuspendLayout()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnTankerData, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -180,14 +180,13 @@ Partial Class frmMilkCollectionMCC
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel2.Location = New System.Drawing.Point(0, 354)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1153, 31)
+        Me.Panel2.Size = New System.Drawing.Size(1018, 31)
         Me.Panel2.TabIndex = 1
         '
         'btnReverse
         '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(863, 5)
+        Me.btnReverse.Location = New System.Drawing.Point(802, 5)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(125, 22)
         Me.btnReverse.TabIndex = 42
@@ -277,7 +276,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1065, 5)
+        Me.btnClose.Location = New System.Drawing.Point(930, 5)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(78, 22)
         Me.btnClose.TabIndex = 6
@@ -361,7 +360,7 @@ Partial Class frmMilkCollectionMCC
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1153, 111)
+        Me.Panel1.Size = New System.Drawing.Size(1018, 111)
         Me.Panel1.TabIndex = 0
         '
         'RadGroupBox1
@@ -372,11 +371,30 @@ Partial Class frmMilkCollectionMCC
         Me.RadGroupBox1.Controls.Add(Me.btnMGo)
         Me.RadGroupBox1.Controls.Add(Me.lblMDate)
         Me.RadGroupBox1.HeaderText = "Generate DCS Data By Mobile"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(810, 12)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(798, 6)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(285, 76)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(178, 99)
         Me.RadGroupBox1.TabIndex = 46
         Me.RadGroupBox1.Text = "Generate DCS Data By Mobile"
+        '
+        'btnTankerData
+        '
+        Me.btnTankerData.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport, Me.btnExport})
+        Me.btnTankerData.Location = New System.Drawing.Point(18, 69)
+        Me.btnTankerData.Name = "btnTankerData"
+        Me.btnTankerData.Size = New System.Drawing.Size(154, 24)
+        Me.btnTankerData.TabIndex = 30
+        Me.btnTankerData.Text = "Tanker Data"
+        '
+        'btnImport
+        '
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Text = "Import"
+        '
+        'btnExport
+        '
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Text = "Export"
         '
         'txtMDate
         '
@@ -392,7 +410,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtMDate.IsSourceFromTable = False
         Me.txtMDate.IsSourceFromValueList = False
         Me.txtMDate.IsUnique = False
-        Me.txtMDate.Location = New System.Drawing.Point(56, 22)
+        Me.txtMDate.Location = New System.Drawing.Point(82, 16)
         Me.txtMDate.MendatroryField = True
         Me.txtMDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtMDate.MyLinkLable1 = Me.lblMDate
@@ -412,7 +430,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.lblMDate.FieldName = Nothing
         Me.lblMDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMDate.Location = New System.Drawing.Point(18, 23)
+        Me.lblMDate.Location = New System.Drawing.Point(18, 17)
         Me.lblMDate.Name = "lblMDate"
         Me.lblMDate.Size = New System.Drawing.Size(30, 16)
         Me.lblMDate.TabIndex = 29
@@ -421,9 +439,9 @@ Partial Class frmMilkCollectionMCC
         'btnMGo
         '
         Me.btnMGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMGo.Location = New System.Drawing.Point(18, 42)
+        Me.btnMGo.Location = New System.Drawing.Point(18, 35)
         Me.btnMGo.Name = "btnMGo"
-        Me.btnMGo.Size = New System.Drawing.Size(128, 18)
+        Me.btnMGo.Size = New System.Drawing.Size(154, 23)
         Me.btnMGo.TabIndex = 13
         Me.btnMGo.Text = "Get BMC by Mobile"
         '
@@ -1106,7 +1124,7 @@ Partial Class frmMilkCollectionMCC
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
-        Me.gv1.Size = New System.Drawing.Size(1153, 123)
+        Me.gv1.Size = New System.Drawing.Size(1018, 123)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
         '
@@ -1125,7 +1143,7 @@ Partial Class frmMilkCollectionMCC
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1153, 243)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1018, 243)
         Me.SplitContainer1.SplitterDistance = 123
         Me.SplitContainer1.TabIndex = 3
         '
@@ -1144,7 +1162,7 @@ Partial Class frmMilkCollectionMCC
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvParam)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1153, 116)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1018, 116)
         Me.SplitContainer2.SplitterDistance = 220
         Me.SplitContainer2.TabIndex = 3
         '
@@ -1166,34 +1184,15 @@ Partial Class frmMilkCollectionMCC
         Me.gvParam.Name = "gvParam"
         Me.gvParam.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvParam.ShowGroupPanel = False
-        Me.gvParam.Size = New System.Drawing.Size(929, 116)
+        Me.gvParam.Size = New System.Drawing.Size(794, 116)
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
-        '
-        'btnTankerData
-        '
-        Me.btnTankerData.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport, Me.btnExport})
-        Me.btnTankerData.Location = New System.Drawing.Point(164, 38)
-        Me.btnTankerData.Name = "btnTankerData"
-        Me.btnTankerData.Size = New System.Drawing.Size(110, 24)
-        Me.btnTankerData.TabIndex = 30
-        Me.btnTankerData.Text = "Tanker Data"
-        '
-        'btnImport
-        '
-        Me.btnImport.Name = "btnImport"
-        Me.btnImport.Text = "Import"
-        '
-        'btnExport
-        '
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Text = "Export"
         '
         'frmMilkCollectionMCC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1153, 385)
+        Me.ClientSize = New System.Drawing.Size(1018, 385)
         Me.ControlBox = False
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.Panel1)
@@ -1224,6 +1223,7 @@ Partial Class frmMilkCollectionMCC
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.btnTankerData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnMGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1273,7 +1273,6 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnTankerData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

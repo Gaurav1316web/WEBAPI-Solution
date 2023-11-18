@@ -64,27 +64,14 @@ Public Class frmMilkCollectionMCCQC
                 repoIsOK.IsVisible = False
                 gv1.MasterTemplate.Columns.Add(repoIsOK)
 
-                Dim MachineFat As GridViewDecimalColumn = New GridViewDecimalColumn()
-                MachineFat.FormatString = ""
-                MachineFat.DecimalPlaces = 0
-                MachineFat.HeaderText = "Machine Fat"
-                MachineFat.Name = "MachineFat"
-                MachineFat.Minimum = 0
-                MachineFat.Maximum = 2
-                MachineFat.ReadOnly = True
-                MachineFat.IsVisible = False
-                gv1.MasterTemplate.Columns.Add(MachineFat)
-
-                Dim MachineSNF As GridViewDecimalColumn = New GridViewDecimalColumn()
-                MachineSNF.FormatString = ""
-                MachineSNF.DecimalPlaces = 0
-                MachineSNF.HeaderText = "Machine SNF"
-                MachineSNF.Name = "MachineSNF"
-                MachineSNF.Minimum = 0
-                MachineSNF.Maximum = 2
-                MachineSNF.ReadOnly = True
-                MachineSNF.IsVisible = False
-                gv1.MasterTemplate.Columns.Add(MachineSNF)
+                repoIsOK = New GridViewDecimalColumn()
+                repoIsOK.FormatString = ""
+                repoIsOK.DecimalPlaces = 0
+                repoIsOK.HeaderText = "Gaze Qty"
+                repoIsOK.Name = "Gaze_Qty"
+                repoIsOK.ReadOnly = True
+                repoIsOK.IsVisible = False
+                gv1.MasterTemplate.Columns.Add(repoIsOK)
 
                 gv1.BestFitColumns()
                 For ii As Integer = 0 To gv1.Columns.Count - 1
@@ -108,12 +95,7 @@ Public Class frmMilkCollectionMCCQC
                 UcAttachment1.LoadData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"))
                 UcAttachment1.AddAttachment(FileName, SafeFileName)
 
-                If gv1.Rows.Count > 0 Then
-                    For ii As Integer = 0 To gv1.Rows.Count - 1
-                        gv1.Rows(ii).Cells("MachineFAT").Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells("FAT").Value)
-                        gv1.Rows(ii).Cells("MachineSNF").Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells("SNF").Value)
-                    Next
-                End If
+
             Else
                 gv1.Columns.Clear()
             End If
@@ -131,7 +113,7 @@ Public Class frmMilkCollectionMCCQC
         End Try
     End Sub
     Function GetQuery(ByVal TranDate As DateTime, ByVal PendingStatus As Integer) As String
-        Dim qry As String = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG 
+        Dim qry As String = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG 
 From tspl_Milk_collection_MCC_Detail 
 Left outer join tspl_Milk_collection_MCC on tspl_Milk_collection_MCC.Document_No=tspl_Milk_collection_MCC_Detail.Document_No
 Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection_MCC_Detail.MCC_Code
@@ -215,6 +197,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                     End If
                     gv1.Rows(ii).Cells("PKID").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("PK_Id"))
                     gv1.Rows(ii).Cells("Qty").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("Qty"))
+                    gv1.Rows(ii).Cells("Gaze_Qty").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("Gaze_Qty"))
                     gv1.Rows(ii).Cells("IsOK").Value = 1
                 Catch ex As Exception
                     gv1.Rows(ii).Cells("Error").Value = "Missing Sample"
@@ -245,11 +228,13 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                         If clsCommon.myCdbl(gv1.Rows(ii).Cells("IsOK").Value) = 1 Then
                             Dim obj As New clsMilkCollectionMCCDetail()
                             obj.PK_Id = clsCommon.myCDecimal(gv1.Rows(ii).Cells("PKID").Value)
-                            obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells("Qty").Value)
+                            If clsCommon.myCDecimal(gv1.Rows(ii).Cells("Gaze_Qty").Value) > 0 Then
+                                obj.Qty = (clsCommon.myCDecimal(gv1.Rows(ii).Cells("Gaze_Qty").Value) * (1.0 + ((clsCommon.myCDecimal(gv1.Rows(ii).Cells("CLR").Value)) / 1000)))
+                            Else
+                                obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells("Qty").Value)
+                            End If
                             obj.FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells("FAT").Value)
                             obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells("SNF").Value)
-                            obj.Machine_FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells("MachineFAT").Value)
-                            obj.Machine_SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells("MachineSNF").Value)
                             obj.FATKG = Math.Round(obj.Qty * obj.FAT / 100, 3, MidpointRounding.ToEven)
                             obj.SNFKG = Math.Round(obj.Qty * obj.SNF / 100, 3, MidpointRounding.ToEven)
                             dictionary.Add(obj)
@@ -265,14 +250,15 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                                 clsCommon.ProgressBarPercentUpdate(ii * 100 / dictionary.Count - 1, "Saving " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(dictionary.Count - 1))
 
                                 Dim coll As New Hashtable()
+                                clsCommon.AddColumnsForChange(coll, "Qty", dictionary(ii).Qty)
                                 clsCommon.AddColumnsForChange(coll, "FAT", dictionary(ii).FAT)
                                 clsCommon.AddColumnsForChange(coll, "SNF", dictionary(ii).SNF)
                                 clsCommon.AddColumnsForChange(coll, "FATKG", dictionary(ii).FATKG)
                                 clsCommon.AddColumnsForChange(coll, "SNFKG", dictionary(ii).SNFKG)
-                                Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Machine_Fat,Machine_SNF from TSPL_MILK_COLLECTION_MCC_DETAIL where PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "'", trans)
-                                If dt.Rows.Count <= 0 Then
-                                    clsCommon.AddColumnsForChange(coll, "Machine_FAT", dictionary(ii).Machine_FAT)
-                                    clsCommon.AddColumnsForChange(coll, "Machine_SNF", dictionary(ii).Machine_SNF)
+                                Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Machine_Fat,Machine_SNF from TSPL_MILK_COLLECTION_MCC_DETAIL where PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "' and Machine_FAT is null", trans)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    clsCommon.AddColumnsForChange(coll, "Machine_FAT", dictionary(ii).FAT)
+                                    clsCommon.AddColumnsForChange(coll, "Machine_SNF", dictionary(ii).SNF)
                                 End If
                                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "' ", trans)
                             Next
@@ -344,6 +330,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
             gv2.Columns("Route_Code").HeaderText = "Route No"
             gv2.Columns("Sample_No").HeaderText = "Sample No"
             gv2.Columns("Mcc_Code_VLC_Uploader").HeaderText = "BMC"
+            gv2.Columns("Gaze_Qty").HeaderText = "Gaze Qty"
             gv2.Columns("Qty").HeaderText = "Qty"
             gv2.Columns("FAT").HeaderText = "FAT"
             gv2.Columns("FATKG").HeaderText = "FAT Kg"

@@ -738,18 +738,14 @@ Public Class frmMilkCollectionDCS
                 If (obj.ArrMCC Is Nothing OrElse obj.ArrMCC.Count <= 0) Then
                     Throw New Exception("Please Fill at list one BMC Details")
                 End If
-                Dim countOwnBMC As Integer = 0
-                Dim isOwnBMC As String
-
-
+                Dim isOwnBMC As Boolean = False
                 For i As Integer = 0 To obj.Arr.Count - 1
-                    Dim trans As SqlTransaction
-                    isOwnBMC = clsfrmVLCMaster.IsOwnBMC(obj.Arr(i).VLC_Code, txtMCC.Tag, trans)
-                    If isOwnBMC = "True" Then
-                        countOwnBMC = 1
+                    If clsfrmVLCMaster.IsOwnBMC(obj.Arr(i).VLC_Code, txtMCC.Tag, Nothing) Then
+                        isOwnBMC = True
+                        Exit For
                     End If
                 Next
-                If countOwnBMC = 1 Then
+                If isOwnBMC Then
                     obj.SaveData(obj, isNewEntry)
                     clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 Else
@@ -758,8 +754,7 @@ Public Class frmMilkCollectionDCS
                         clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     End If
                 End If
-
-                    LoadData(obj.Document_No, NavigatorType.Current)
+                LoadData(obj.Document_No, NavigatorType.Current)
             End If
         Catch ex As Exception
             'frmSRN.IsPoSavedAuto = False
