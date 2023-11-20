@@ -8235,6 +8235,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmPaymentProcess
                         frm = New FrmPaymentProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmSendBillToDCS
+                        frm = New frmSendBillToDCS
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptTankerStatusReport
                         frm = New rptTankerStatusReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

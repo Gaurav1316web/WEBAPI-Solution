@@ -60,6 +60,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\14.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -506,6 +507,12 @@
     <Compile Include="Milk Procurement\Transaction\frmMPIncentiveEntrty.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmSendBillToDCS.Designer.vb">
+      <DependentUpon>frmSendBillToDCS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmSendBillToDCS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Visual Report\VisualReportProcurement.Designer.vb">
       <DependentUpon>VisualReportProcurement.vb</DependentUpon>
     </Compile>
@@ -827,6 +834,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMPIncentiveEntrty.resx">
       <DependentUpon>frmMPIncentiveEntrty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmSendBillToDCS.resx">
+      <DependentUpon>frmSendBillToDCS.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Visual Report\VisualReportProcurement.resx">
       <DependentUpon>VisualReportProcurement.vb</DependentUpon>
