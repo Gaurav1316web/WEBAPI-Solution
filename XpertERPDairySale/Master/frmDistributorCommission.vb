@@ -222,7 +222,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                                 Continue For
                             Else
                                 Dim str As String = String.Empty
-                                If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Is Transpotation").Value), "1") = CompairStringResult.Equal Then
+                                If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Is Transpotation").Value), "Y") = CompairStringResult.Equal Then
                                     str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and Form_Type='TPT'"))
 
                                 Else
@@ -290,10 +290,10 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],Rate as [Rate] from TSPL_Distributor_Commission_Detail"
+            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],'' as [Is Transpotation],Rate as [Rate] from TSPL_Distributor_Commission_Detail"
             Dim whrCls As String = ""
 
-            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Rate"})
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Is Transpotation", "Rate"})
             transportSql.ExporttoExcel(str, whrCls, Me)
 
         Catch ex As Exception
