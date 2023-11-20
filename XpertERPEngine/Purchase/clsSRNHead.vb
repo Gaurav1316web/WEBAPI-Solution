@@ -739,7 +739,9 @@ Public Class clsSRNHead
             If clsCommon.myLen(dt.Rows(0)("Posting_Date")) > 0 Then
                 obj.Posting_Date = clsCommon.myCstr(dt.Rows(0)("Posting_Date"))
             End If
-            obj.GRN_Date = clsCommon.myCDate(dt.Rows(0)("GRN_Date"))
+            If dt.Rows(0)("GRN_Date") IsNot DBNull.Value Then
+                obj.GRN_Date = clsCommon.myCDate(dt.Rows(0)("GRN_Date"))
+            End If
             obj.TotalUnit_Cost_Tax = clsCommon.myCdbl(dt.Rows(0)("TotalUnit_Cost_Tax"))
             obj.Carrier = clsCommon.myCstr(dt.Rows(0)("Carrier"))
             obj.VehicleNo = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
