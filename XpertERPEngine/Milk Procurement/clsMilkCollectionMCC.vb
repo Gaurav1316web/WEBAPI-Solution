@@ -14,20 +14,21 @@ Public Class clsMilkCollectionMCC
     Public Entered_Qty As Decimal
     Public Entered_FATKg As Decimal
     Public Entered_SNFKg As Decimal
-    Public Description As String
     Public Slip_No As String
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
     Public Against_DCS_Multiple_Days As String
-    'Public REF_PK_ID As Integer
-    Public Arr As List(Of clsMilkCollectionMCCDetail) = Nothing
-
-    Public Temp As Decimal
     Public Age As Decimal
     Public ALCOB As String
-    Public Acidity As Decimal
     Public txtDate As String
+
+    Public Description As String
+    Public Temp As Decimal
+    Public Acidity As Decimal
+
+    Public ORG As String
+    Public Arr As List(Of clsMilkCollectionMCCDetail) = Nothing
 
 
 
@@ -76,6 +77,7 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "Temp", obj.Temp)
             clsCommon.AddColumnsForChange(coll, "Age", obj.Age)
             clsCommon.AddColumnsForChange(coll, "ALCOB", obj.ALCOB)
+            clsCommon.AddColumnsForChange(coll, "ORG", obj.ORG)
             clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -142,6 +144,7 @@ where 2=2"
             obj.Temp = clsCommon.myCDecimal(dt.Rows(0)("Temp"))
             obj.Age = clsCommon.myCDecimal(dt.Rows(0)("Age"))
             obj.ALCOB = clsCommon.myCstr(dt.Rows(0)("ALCOB"))
+            obj.ORG = clsCommon.myCstr(dt.Rows(0)("ORG"))
             obj.Acidity = clsCommon.myCDecimal(dt.Rows(0)("Acidity"))
             obj.Against_DCS_Multiple_Days = clsCommon.myCstr(dt.Rows(0)("Against_DCS_Multiple_Days"))
             obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
@@ -298,6 +301,12 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
             clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+
+            clsCommon.AddColumnsForChange(coll, "Temp", obj.Temp)
+            clsCommon.AddColumnsForChange(coll, "ORG", obj.ORG)
+            clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
+            clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC.Document_No='" + obj.Document_No + "'", trans)
             trans.Commit()
         Catch err As Exception
@@ -334,6 +343,7 @@ Public Class clsMilkCollectionMCCDetail
     Public SNFKG As Decimal
     Public Temp As Decimal
     Public Gaze_Reading As Decimal
+    Public Gaze_Qty As Decimal
     Public Gaze_Reading_Code As String
     Public Silo_Capacity As Integer
     Public Against_Multiple_Days As Integer
@@ -347,6 +357,18 @@ Public Class clsMilkCollectionMCCDetail
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim dtDocDate As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_MILK_COLLECTION_MCC where Document_No='" + strDocNo + "'", trans))
+            SaveData(strDocNo, dtDocDate, Arr, False, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
             SaveData(strDocNo, dtDocDate, Arr, False, trans)
             trans.Commit()
         Catch ex As Exception
@@ -384,6 +406,7 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Retesting_OR_Correction", obj.Retesting_OR_Correction)
                 clsCommon.AddColumnsForChange(coll, "Temp", obj.Temp)
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading", obj.Gaze_Reading)
+                clsCommon.AddColumnsForChange(coll, "Gaze_Qty", obj.Gaze_Qty, True)
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading_Code", obj.Gaze_Reading_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days", obj.Against_Multiple_Days, True)
@@ -448,6 +471,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Milk_Type = clsCommon.myCstr(dr("Milk_Type"))
                 objTr.Temp = clsCommon.myCDecimal(dr("Temp"))
                 objTr.Gaze_Reading = clsCommon.myCDecimal(dr("Gaze_Reading"))
+                objTr.Gaze_Qty = clsCommon.myCDecimal(dr("Gaze_Qty"))
                 objTr.Gaze_Reading_Code = clsCommon.myCstr(dr("Gaze_Reading_Code"))
                 objTr.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
                 objTr.Against_Multiple_Days = clsCommon.myCDecimal(dr("Against_Multiple_Days"))
