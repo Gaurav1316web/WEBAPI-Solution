@@ -3340,14 +3340,14 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                                 AgainstDocCode = clsCommon.myCstr(dtTemp.Rows(0)("FindCode"))
                                 If clsCommon.myLen(AgainstDocCode) > 0 Then
                                     If clsCommon.myCDecimal(dr("DiffFATKG")) < 0 Then
-                                        FAT_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Gain_FAT_Rate"))
-                                    Else
                                         FAT_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Loss_FAT_Rate"))
+                                    Else
+                                        FAT_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Gain_FAT_Rate"))
                                     End If
                                     If clsCommon.myCDecimal(dr("DiffSNFKG")) < 0 Then
-                                        SNF_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Gain_SNF_Rate"))
-                                    Else
                                         SNF_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Loss_SNF_Rate"))
+                                    Else
+                                        SNF_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Gain_SNF_Rate"))
                                     End If
                                 End If
                             End If

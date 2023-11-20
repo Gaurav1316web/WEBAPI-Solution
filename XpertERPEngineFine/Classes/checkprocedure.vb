@@ -1541,6 +1541,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmProvisionEntry, "Provision Entry", "1.17.02.33", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.IncentiveEntry, "Incentive Entry", "1.17.02.34", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, "Payment Process", "1.17.02.35", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, "Send Bill To DCS", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.FrmMCCMilkTransPortorInvoice, "Milk Recurring Payable Invoice", "1.17.02.31", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, "MP Bills and Incentive Processing", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, "MCC Tanker Dispatch Return", "1.17.02.37", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
