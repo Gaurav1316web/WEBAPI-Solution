@@ -416,7 +416,7 @@ Public Class frmDistributorRouteTagging
                             Continue For
                         Else
                             Dim str As String = String.Empty
-                            If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IS Transpoter").Value), "True") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IS Transpoter").Value), "Y") = CompairStringResult.Equal Then
                                 str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and Form_Type='TPT'"))
                             Else
                                 str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and IsDistributor='Y'"))
@@ -482,7 +482,7 @@ Public Class frmDistributorRouteTagging
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select Route_No as [Route Code],Cust_Code as [Distributor Code],IS_Transpoter as [IS Transpoter] from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
+            Dim str As String = "select Route_No as [Route Code],Cust_Code as [Distributor Code],'' as [IS Transpoter] from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
             Dim whrCls As String = ""
             ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "IS Transpoter"})
             transportSql.ExporttoExcel(str, whrCls, Me)
