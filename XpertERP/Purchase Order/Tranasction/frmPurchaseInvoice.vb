@@ -8511,7 +8511,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                         left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
                         left outer join TSPL_GRN_HEAD GG on GG.GRN_No = TSPL_SRN_DETAIL.GRN_ID
                         where GG.ref_no=SS.Ref_No
-                        and TSPL_SRN_DETAIL.item_code=SS.Item_Code and GG.BILL_TO_LOCATION=SS.BILL_TO_LOCATION)as SRNQtyInQtl,
+                        and TSPL_SRN_DETAIL.item_code=SS.Item_Code and GG.BILL_TO_LOCATION=SS.BILL_TO_LOCATION and ss.vendor_code =TSPL_SRN_HEAD.vendor_code)as SRNQtyInQtl,
                            CONVERT(varchar(10), CONVERT(date, ss.schedule_from_date, 111), 105) as schedule_from_date,
                           CONVERT(varchar(10), CONVERT(date, ss.schedule_to_date, 111), 105) as schedule_to_date, ss.qc_no,ss.grn_date
                         FROM (select '' as RAL_Period,isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as Actual_Total_TDS,cast(case when isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0)>0 and isnull(TSPL_PI_DETAIL.Taxable_Amount,0)>0 then
