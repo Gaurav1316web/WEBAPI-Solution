@@ -20,7 +20,6 @@ Public Class frmDistributorRouteTagging
     Dim SettNoOFCustomerForImportExport As Integer
     Dim AllowFinishGoodAsBatchItem As Boolean = False
     Const colCode As String = "colCode"
-
 #End Region
     Private Sub frmDistributeRateTagging_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadBlankGrid()
