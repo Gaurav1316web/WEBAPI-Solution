@@ -169,7 +169,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(566, 404)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -509,7 +509,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txt_NotificationCaption.ReferenceFieldDesc = Nothing
         Me.txt_NotificationCaption.ReferenceFieldName = Nothing
         Me.txt_NotificationCaption.ReferenceTableName = Nothing
-        Me.txt_NotificationCaption.Size = New System.Drawing.Size(488, 18)
+        Me.txt_NotificationCaption.Size = New System.Drawing.Size(488, 0)
         Me.txt_NotificationCaption.TabIndex = 38
         '
         'MyLabel13

@@ -1013,7 +1013,7 @@ Public Class clsTenderDetail
 
     Public Shared Function GetFinder(ByVal strTenderNo As String, ByVal strVendorCode As String) As clsTenderDetail
         Dim obj As clsTenderDetail = Nothing
-        Dim qry As String = " select TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate from TSPL_TENDER_DETAIL
+        Dim qry As String = " select TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate,TSPL_TENDER_DETAIL.Discount from TSPL_TENDER_DETAIL
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAIL.Item_Code
  where DocumentCode='" + strTenderNo + "' and Vendor_Code='" + strVendorCode + "' "
         Dim dr As DataRow = clsCommon.ShowSelectFormForRow("TenVedItm", qry)
@@ -1023,6 +1023,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAI
             obj.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
             obj.Unit_code = clsCommon.myCstr(dr("Unit_code"))
             obj.Rate = clsCommon.myCdbl(dr("Rate"))
+            obj.Discount = clsCommon.myCdbl(dr("Discount"))
         End If
         Return obj
     End Function
