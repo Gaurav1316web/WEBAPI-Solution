@@ -7266,7 +7266,7 @@ Public Class frmPurchaseOrder
     End Sub
 
     Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean)
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), IIf(clsCommon.myLen(gv1.CurrentRow.Cells(colICode)) > 0, gv1.CurrentRow.Cells(colICode).Value, ""))
+        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), IIf(clsCommon.myLen(gv1.CurrentRow.Cells(colICode)) > 0, gv1.CurrentRow.Cells(colICode).Value, ""), False)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If isForCurrentRow Then
                 BlankTaxDetails(gv1.CurrentRow.Index)

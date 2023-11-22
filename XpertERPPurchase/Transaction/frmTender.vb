@@ -1452,10 +1452,13 @@ Public Class frmTender
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
-
                         ElseIf e.Column Is gv2.Columns(colQty) OrElse e.Column Is gv2.Columns(colRate) Then
-
                             gv2.CurrentRow.Cells(colAmt).Value = clsCommon.myCdbl(gv2.CurrentRow.Cells(colRate).Value) * clsCommon.myCdbl(gv2.CurrentRow.Cells(colQty).Value)
+                            For index = 0 To gvSchedule.Rows.Count - 1
+                                If clsCommon.myCDecimal(gv2.CurrentRow.Cells(colLineNo).Value) = clsCommon.myCDecimal(gvSchedule.Rows(index).Cells(colScheduleParentSNo).Value) Then
+                                    gvSchedule.Rows(index).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.CurrentRow.Cells(colQty).Value) * clsCommon.myCDecimal(gvSchedule.Rows(index).Cells(colScheduleQtyPer).Value)) / 100)
+                                End If
+                            Next
                         End If
                     End If
                 End If

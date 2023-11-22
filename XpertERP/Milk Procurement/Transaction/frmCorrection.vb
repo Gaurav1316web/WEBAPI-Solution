@@ -88,6 +88,8 @@ Public Class frmCorrection
                 btnImport.Visible = False
                 btnTankerMilkExport.Visible = False
                 btnTankerMilkImport.Visible = False
+                txtBMCTankerQty.ReadOnly = False
+                txtBMCCorrQty.ReadOnly = False
             ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
                 corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
                 isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)

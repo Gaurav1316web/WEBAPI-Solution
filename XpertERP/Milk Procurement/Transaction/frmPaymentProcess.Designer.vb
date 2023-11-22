@@ -1177,6 +1177,7 @@ Partial Class FrmPaymentProcess
         Me.btnPrintBillMobUser.Size = New System.Drawing.Size(105, 18)
         Me.btnPrintBillMobUser.TabIndex = 287
         Me.btnPrintBillMobUser.Text = "Print Bill Mob. User"
+        Me.btnPrintBillMobUser.Visible = False
         '
         'btnDCPrint
         '
