@@ -67,8 +67,41 @@ Public Class clsTaxGroupMaster
         End If
         Return obj
     End Function
+    Public Shared Function GetTaxDetailsByLocation(ByVal GrpCode As String, ByVal strTaxType As String, ByVal strVendorCustomerCode As String, ByVal strLocation As String) As DataTable
+        Dim openTaxcond As String = ""
+        Dim whrCls As String = " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type='" + strTaxType + "' "
+        Dim whrCls_taxgrp As String = " and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='" + strTaxType + "' "
+        'If Without_State_Condition Then
+        '    openTaxcond = " top 1 "
+        '    ''as discussed with ranjana mam only exact type used 
+        '    If clsCommon.CompairString(strTaxType, "S") = CompairStringResult.Equal OrElse clsCommon.CompairString(strTaxType, "T") = CompairStringResult.Equal Then
+        '        whrCls = " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type in ('" + strTaxType + "') "
+        '        whrCls_taxgrp = " and TSPL_TAX_GROUP_MASTER.Tax_Group_Type in ('" + strTaxType + "') and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type in ('" + strTaxType + "') "
+        '    End If
+        'End If
 
-    Public Shared Function GetTaxDetailsByLocation(ByVal GrpCode As String, ByVal strTaxType As String, ByVal strVendorCustomerCode As String, ByVal strLocation As String, Optional ByVal Without_State_Condition As Boolean = False) As DataTable
+        Dim qry As String = "select TSPL_TAX_GROUP_DETAILS.Tax_Group_Code ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_TAX_GROUP_DETAILS.Tax_Code,TSPL_TAX_GROUP_DETAILS.Tax_Code_Desc,Surtax,Surtax_Tax_Code,TSPL_TAX_GROUP_DETAILS.Tax_On_Base_Amount,isnull(("
+        qry += "select " + openTaxcond + " Tax_Rate from TSPL_LOCATION_WISE_TAX_MASTER WHERE TSPL_LOCATION_WISE_TAX_MASTER.Is_Default_Tax=1 AND Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code " + whrCls + " and TSPL_LOCATION_WISE_TAX_MASTER.Location_Code='" + strLocation + "' "
+
+        ' If Not Without_State_Condition Then
+        qry += " and Tax_Category in (select case when MIN(x.State)=MAX(x.State) then 'L' else 'I' end  from  (select State   from TSPL_LOCATION_MASTER where Location_Code='" + strLocation + "' union all   "
+
+            If clsCommon.CompairString("S", strTaxType) = CompairStringResult.Equal Then
+                qry += "  select   State from TSPL_CUSTOMER_MASTER where Cust_Code='" + strVendorCustomerCode + "' "
+            ElseIf clsCommon.CompairString("P", strTaxType) = CompairStringResult.Equal Then
+                qry += "   select  State_Code as State from TSPL_VENDOR_MASTER where Vendor_Code='" + strVendorCustomerCode + "' "
+            Else
+                Throw New Exception("Please enter valid Tax Type it should be 'P' or 'S'")
+            End If
+            qry += ")x)"
+        ' End If
+
+
+        qry += "),0) AS TaxRate,TSPL_TAX_GROUP_DETAILS.Taxable, TSPL_TAX_MASTER.Excisable , TSPL_TAX_MASTER.Tax_Recoverable,TSPL_TAX_MASTER.Type,TSPL_TAX_MASTER.IS_TCS from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code  where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" + GrpCode + "' " + whrCls_taxgrp + " order by Trans_Code"
+
+        Return clsDBFuncationality.GetDataTable(qry)
+    End Function
+    Public Shared Function GetTaxDetailsByLocation(ByVal GrpCode As String, ByVal strTaxType As String, ByVal strVendorCustomerCode As String, ByVal strLocation As String, ByVal Without_State_Condition As Boolean) As DataTable
         Dim openTaxcond As String = ""
         Dim whrCls As String = " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type='" + strTaxType + "' "
         Dim whrCls_taxgrp As String = " and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='" + strTaxType + "' "
@@ -102,7 +135,7 @@ Public Class clsTaxGroupMaster
 
         Return clsDBFuncationality.GetDataTable(qry)
     End Function
-    Public Shared Function GetTaxDetailsByLocation(ByVal GrpCode As String, ByVal strTaxType As String, ByVal strVendorCustomerCode As String, ByVal strLocation As String, ByVal ItemCode As String, Optional ByVal Without_State_Condition As Boolean = False) As DataTable
+    Public Shared Function GetTaxDetailsByLocation(ByVal GrpCode As String, ByVal strTaxType As String, ByVal strVendorCustomerCode As String, ByVal strLocation As String, ByVal ItemCode As String, ByVal Without_State_Condition As Boolean) As DataTable
         Dim openTaxcond As String = ""
         Dim strjoin As String = String.Empty
         Dim whrCls As String = " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type='" + strTaxType + "' "
