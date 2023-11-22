@@ -165,7 +165,7 @@ Public Class clsTaxGroupMaster
             qry += ")x)"
         End If
         If clsCommon.myLen(ItemCode) > 0 Then
-            whrCls_taxgrp += "  and TSPL_ITEM_WISE_TAX.HCODE in(select top 1 TSPL_ITEM_WISE_TAX.HCODE from TSPL_ITEM_WISE_TAX left join TSPL_ITEM_WISE_TAX_GROUP on TSPL_ITEM_WISE_TAX.HCODE=TSPL_ITEM_WISE_TAX_GROUP.HCODE where TSPL_ITEM_WISE_TAX_GROUP.Item_Code='" + ItemCode + "' order by TSPL_ITEM_WISE_TAX.DOC_DATE desc) "
+            whrCls_taxgrp += "  and TSPL_ITEM_WISE_TAX_GROUP.Item_Code IN(select top 1 TSPL_ITEM_WISE_TAX_GROUP.Item_Code from TSPL_ITEM_WISE_TAX left join TSPL_ITEM_WISE_TAX_GROUP on TSPL_ITEM_WISE_TAX.HCODE=TSPL_ITEM_WISE_TAX_GROUP.HCODE where TSPL_ITEM_WISE_TAX_GROUP.Item_Code='" + ItemCode + "' order by TSPL_ITEM_WISE_TAX.DOC_DATE desc) "
             strjoin = "  left join TSPL_ITEM_WISE_TAX_GROUP on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code   left join TSPL_ITEM_WISE_TAX on TSPL_ITEM_WISE_TAX_GROUP.HCODE= TSPL_ITEM_WISE_TAX.HCODE "
         End If
 
