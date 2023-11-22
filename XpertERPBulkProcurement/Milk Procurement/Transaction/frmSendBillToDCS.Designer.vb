@@ -91,6 +91,7 @@ Partial Class frmSendBillToDCS
         Me.btnSendBill.Size = New System.Drawing.Size(74, 20)
         Me.btnSendBill.TabIndex = 289
         Me.btnSendBill.Text = "Send Bill"
+        Me.btnSendBill.Visible = False
         '
         'btnPrintBillMobUser
         '
