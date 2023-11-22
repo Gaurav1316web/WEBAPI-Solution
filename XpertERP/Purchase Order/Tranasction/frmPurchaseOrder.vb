@@ -1169,6 +1169,7 @@ Public Class frmPurchaseOrder
 
         repoIName = New GridViewTextBoxColumn()
         repoIName.FormatString = ""
+
         repoIName.HeaderText = "HSN No/SAC Code"
         repoIName.Name = colHSNNo
         repoIName.Width = 150
@@ -3233,6 +3234,7 @@ Public Class frmPurchaseOrder
                     gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_code
                     gv1.CurrentRow.Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
                     gv1.CurrentRow.Cells(colRate).Value = obj.Rate
+                    gv1.CurrentRow.Cells(colDisPer).Value = obj.Discount
                 Else
                     SetBlankOfItemColumns()
                 End If
