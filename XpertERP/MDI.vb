@@ -7807,6 +7807,12 @@ Public Class MDI
                         objCommonVar.IsAutoTabOrdering = False
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         objCommonVar.IsAutoTabOrdering = x
+                    Case clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge
+                        Dim x As Boolean = objCommonVar.IsAutoTabOrdering
+                        frm = New frmMilkCollectionDCSMultipleDaysMerge
+                        objCommonVar.IsAutoTabOrdering = False
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        objCommonVar.IsAutoTabOrdering = x
                     Case clsUserMgtCode.MilkCollectionMCC
                         Dim x As Boolean = objCommonVar.IsAutoTabOrdering
                         frm = New frmMilkCollectionMCC
