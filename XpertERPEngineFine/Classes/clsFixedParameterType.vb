@@ -1296,6 +1296,7 @@ Public Class clsFixedParameterType
     Public Const ApplyDemandCustomerWise = "ApplyDemandCustomerWise"
     Public Const CheckCreditLimit = "CheckCreditLimit"
     Public Const ApplyTolerance = "ApplyTolerance"
+    Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2716,6 +2717,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyDemandCustomerWise = "ApplyDemandCustomerWise"
     Public Const CheckCreditLimit = "CheckCreditLimit"
     Public Const ApplyTolerance = "ApplyTolerance"
+    Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4410,6 +4412,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, "0", "Enter Tolerance Percentage")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
+
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6421,5 +6425,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPriceChartBulkProc, clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
+
     End Sub
 End Class
