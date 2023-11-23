@@ -321,6 +321,9 @@ Partial Class frmCustomer
         Me.txtRoute = New common.Controls.MyTextBox()
         Me.RadLabel17 = New common.Controls.MyLabel()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.TxtLocation = New common.UserControls.txtFinder()
+        Me.MyLabel43 = New common.Controls.MyLabel()
+        Me.lblLocation = New common.Controls.MyTextBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvDB = New common.UserControls.MyRadGridView()
         Me.RadLabel40 = New common.Controls.MyLabel()
@@ -344,7 +347,6 @@ Partial Class frmCustomer
         Me.txtCategoryStructureCode = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.CrateAccounting = New Telerik.WinControls.UI.RadPageViewPage()
@@ -389,6 +391,7 @@ Partial Class frmCustomer
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -595,6 +598,8 @@ Partial Class frmCustomer
         CType(Me.txtRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -797,8 +802,8 @@ Partial Class frmCustomer
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage4
-        Me.pageCus.Size = New System.Drawing.Size(1047, 472)
+        Me.pageCus.SelectedPage = Me.RadPageViewPage5
+        Me.pageCus.Size = New System.Drawing.Size(1047, 474)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -868,10 +873,10 @@ Partial Class frmCustomer
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.lblCusGrp)
         Me.RadPageViewPage1.Controls.Add(Me.txtCusgrp)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(52.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 424)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 430)
         Me.RadPageViewPage1.Text = "Address"
         '
         'chkIsRepeatOrder
@@ -2061,7 +2066,7 @@ Partial Class frmCustomer
         Me.RadPageViewPage2.Controls.Add(Me.txtContactEmail)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel13)
         Me.RadPageViewPage2.Controls.Add(Me.txtContactName)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(92.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(88.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1026, 424)
@@ -2773,7 +2778,7 @@ Partial Class frmCustomer
         Me.RadPageViewPage4.Controls.Add(Me.txtStaxNo)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel25)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel23)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(54.0!, 28.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(50.0!, 24.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1026, 424)
@@ -3856,7 +3861,7 @@ Partial Class frmCustomer
         Me.RadPageViewPage3.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage3.Controls.Add(Me.txtRoute)
         Me.RadPageViewPage3.Controls.Add(Me.RadLabel17)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(49.0!, 24.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1026, 424)
@@ -4920,6 +4925,9 @@ Partial Class frmCustomer
         '
         'RadPageViewPage5
         '
+        Me.RadPageViewPage5.Controls.Add(Me.TxtLocation)
+        Me.RadPageViewPage5.Controls.Add(Me.MyLabel43)
+        Me.RadPageViewPage5.Controls.Add(Me.lblLocation)
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage5.Controls.Add(Me.RadLabel40)
         Me.RadPageViewPage5.Controls.Add(Me.RadLabel36)
@@ -4931,23 +4939,84 @@ Partial Class frmCustomer
         Me.RadPageViewPage5.Controls.Add(Me.txtAddInfo1)
         Me.RadPageViewPage5.Controls.Add(Me.RadLabel39)
         Me.RadPageViewPage5.Controls.Add(Me.txtRemarks1)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(93.0!, 28.0!)
-        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(89.0!, 24.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1026, 424)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1026, 430)
         Me.RadPageViewPage5.Text = "Additional Info."
+        '
+        'TxtLocation
+        '
+        Me.TxtLocation.CalculationExpression = Nothing
+        Me.TxtLocation.FieldCode = Nothing
+        Me.TxtLocation.FieldDesc = Nothing
+        Me.TxtLocation.FieldMaxLength = 0
+        Me.TxtLocation.FieldName = Nothing
+        Me.TxtLocation.isCalculatedField = False
+        Me.TxtLocation.IsSourceFromTable = False
+        Me.TxtLocation.IsSourceFromValueList = False
+        Me.TxtLocation.IsUnique = False
+        Me.TxtLocation.Location = New System.Drawing.Point(137, 155)
+        Me.TxtLocation.MendatroryField = True
+        Me.TxtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtLocation.MyLinkLable1 = Me.MyLabel43
+        Me.TxtLocation.MyLinkLable2 = Nothing
+        Me.TxtLocation.MyReadOnly = False
+        Me.TxtLocation.MyShowMasterFormButton = False
+        Me.TxtLocation.Name = "TxtLocation"
+        Me.TxtLocation.ReferenceFieldDesc = Nothing
+        Me.TxtLocation.ReferenceFieldName = Nothing
+        Me.TxtLocation.ReferenceTableName = Nothing
+        Me.TxtLocation.Size = New System.Drawing.Size(143, 19)
+        Me.TxtLocation.TabIndex = 90
+        Me.TxtLocation.Value = ""
+        '
+        'MyLabel43
+        '
+        Me.MyLabel43.FieldName = Nothing
+        Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel43.Location = New System.Drawing.Point(9, 156)
+        Me.MyLabel43.Name = "MyLabel43"
+        Me.MyLabel43.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel43.TabIndex = 92
+        Me.MyLabel43.Text = "Location"
+        '
+        'lblLocation
+        '
+        Me.lblLocation.CalculationExpression = Nothing
+        Me.lblLocation.FieldCode = Nothing
+        Me.lblLocation.FieldDesc = Nothing
+        Me.lblLocation.FieldMaxLength = 0
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.isCalculatedField = False
+        Me.lblLocation.IsSourceFromTable = False
+        Me.lblLocation.IsSourceFromValueList = False
+        Me.lblLocation.IsUnique = False
+        Me.lblLocation.Location = New System.Drawing.Point(286, 154)
+        Me.lblLocation.MaxLength = 50
+        Me.lblLocation.MendatroryField = False
+        Me.lblLocation.MyLinkLable1 = Nothing
+        Me.lblLocation.MyLinkLable2 = Nothing
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.ReferenceFieldDesc = Nothing
+        Me.lblLocation.ReferenceFieldName = Nothing
+        Me.lblLocation.ReferenceTableName = Nothing
+        Me.lblLocation.Size = New System.Drawing.Size(401, 20)
+        Me.lblLocation.TabIndex = 91
+        Me.lblLocation.TabStop = False
         '
         'RadGroupBox4
         '
         Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox4.Controls.Add(Me.gvDB)
         Me.RadGroupBox4.HeaderText = "Replicate In Other Companies"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(137, 161)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(874, 21)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(499, 209)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(130, 72)
         Me.RadGroupBox4.TabIndex = 5
         Me.RadGroupBox4.Text = "Replicate In Other Companies"
+        Me.RadGroupBox4.Visible = False
         '
         'gvDB
         '
@@ -4963,7 +5032,7 @@ Partial Class frmCustomer
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
         Me.gvDB.ShowHeaderCellButtons = True
-        Me.gvDB.Size = New System.Drawing.Size(479, 179)
+        Me.gvDB.Size = New System.Drawing.Size(110, 42)
         Me.gvDB.TabIndex = 0
         Me.gvDB.TabStop = False
         '
@@ -4971,7 +5040,7 @@ Partial Class frmCustomer
         '
         Me.RadLabel40.FieldName = Nothing
         Me.RadLabel40.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel40.Location = New System.Drawing.Point(9, 127)
+        Me.RadLabel40.Location = New System.Drawing.Point(9, 129)
         Me.RadLabel40.Name = "RadLabel40"
         Me.RadLabel40.Size = New System.Drawing.Size(86, 16)
         Me.RadLabel40.TabIndex = 88
@@ -4981,7 +5050,7 @@ Partial Class frmCustomer
         '
         Me.RadLabel36.FieldName = Nothing
         Me.RadLabel36.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel36.Location = New System.Drawing.Point(9, 51)
+        Me.RadLabel36.Location = New System.Drawing.Point(9, 48)
         Me.RadLabel36.Name = "RadLabel36"
         Me.RadLabel36.Size = New System.Drawing.Size(58, 16)
         Me.RadLabel36.TabIndex = 89
@@ -4998,7 +5067,7 @@ Partial Class frmCustomer
         Me.txtAddInfo3.IsSourceFromTable = False
         Me.txtAddInfo3.IsSourceFromValueList = False
         Me.txtAddInfo3.IsUnique = False
-        Me.txtAddInfo3.Location = New System.Drawing.Point(137, 125)
+        Me.txtAddInfo3.Location = New System.Drawing.Point(137, 127)
         Me.txtAddInfo3.MaxLength = 75
         Me.txtAddInfo3.MendatroryField = False
         Me.txtAddInfo3.MyLinkLable1 = Nothing
@@ -5014,7 +5083,7 @@ Partial Class frmCustomer
         '
         Me.RadLabel37.FieldName = Nothing
         Me.RadLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel37.Location = New System.Drawing.Point(9, 101)
+        Me.RadLabel37.Location = New System.Drawing.Point(9, 102)
         Me.RadLabel37.Name = "RadLabel37"
         Me.RadLabel37.Size = New System.Drawing.Size(122, 16)
         Me.RadLabel37.TabIndex = 86
@@ -5031,7 +5100,7 @@ Partial Class frmCustomer
         Me.txtRemarks2.IsSourceFromTable = False
         Me.txtRemarks2.IsSourceFromValueList = False
         Me.txtRemarks2.IsUnique = False
-        Me.txtRemarks2.Location = New System.Drawing.Point(137, 47)
+        Me.txtRemarks2.Location = New System.Drawing.Point(137, 46)
         Me.txtRemarks2.MaxLength = 75
         Me.txtRemarks2.MendatroryField = False
         Me.txtRemarks2.MyLinkLable1 = Nothing
@@ -5047,7 +5116,7 @@ Partial Class frmCustomer
         '
         Me.RadLabel38.FieldName = Nothing
         Me.RadLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel38.Location = New System.Drawing.Point(9, 76)
+        Me.RadLabel38.Location = New System.Drawing.Point(9, 75)
         Me.RadLabel38.Name = "RadLabel38"
         Me.RadLabel38.Size = New System.Drawing.Size(122, 16)
         Me.RadLabel38.TabIndex = 87
@@ -5064,7 +5133,7 @@ Partial Class frmCustomer
         Me.txtAddInfo2.IsSourceFromTable = False
         Me.txtAddInfo2.IsSourceFromValueList = False
         Me.txtAddInfo2.IsUnique = False
-        Me.txtAddInfo2.Location = New System.Drawing.Point(137, 99)
+        Me.txtAddInfo2.Location = New System.Drawing.Point(137, 100)
         Me.txtAddInfo2.MaxLength = 75
         Me.txtAddInfo2.MendatroryField = False
         Me.txtAddInfo2.MyLinkLable1 = Nothing
@@ -5120,7 +5189,7 @@ Partial Class frmCustomer
         Me.txtRemarks1.IsSourceFromTable = False
         Me.txtRemarks1.IsSourceFromValueList = False
         Me.txtRemarks1.IsUnique = False
-        Me.txtRemarks1.Location = New System.Drawing.Point(137, 21)
+        Me.txtRemarks1.Location = New System.Drawing.Point(137, 19)
         Me.txtRemarks1.MaxLength = 75
         Me.txtRemarks1.MendatroryField = False
         Me.txtRemarks1.MyLinkLable1 = Nothing
@@ -5135,7 +5204,7 @@ Partial Class frmCustomer
         'pageItems
         '
         Me.pageItems.Controls.Add(Me.gvItems)
-        Me.pageItems.ItemSize = New System.Drawing.SizeF(44.0!, 28.0!)
+        Me.pageItems.ItemSize = New System.Drawing.SizeF(40.0!, 24.0!)
         Me.pageItems.Location = New System.Drawing.Point(10, 37)
         Me.pageItems.Name = "pageItems"
         Me.pageItems.Size = New System.Drawing.Size(1026, 424)
@@ -5185,7 +5254,7 @@ Partial Class frmCustomer
         'PageVisi
         '
         Me.PageVisi.Controls.Add(Me.dgvVisi)
-        Me.PageVisi.ItemSize = New System.Drawing.SizeF(91.0!, 28.0!)
+        Me.PageVisi.ItemSize = New System.Drawing.SizeF(87.0!, 24.0!)
         Me.PageVisi.Location = New System.Drawing.Point(10, 37)
         Me.PageVisi.Name = "PageVisi"
         Me.PageVisi.Size = New System.Drawing.Size(1026, 424)
@@ -5225,7 +5294,7 @@ Partial Class frmCustomer
         '
         Me.RadPageViewPage7.Controls.Add(Me.gvCategory)
         Me.RadPageViewPage7.Controls.Add(Me.Panel1)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(110.0!, 28.0!)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(106.0!, 24.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(1026, 424)
@@ -5306,24 +5375,16 @@ Partial Class frmCustomer
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1026, 424)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1026, 424)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1026, 424)
@@ -5340,7 +5401,7 @@ Partial Class frmCustomer
         'CrateAccounting
         '
         Me.CrateAccounting.Controls.Add(Me.gvCrate)
-        Me.CrateAccounting.ItemSize = New System.Drawing.SizeF(103.0!, 28.0!)
+        Me.CrateAccounting.ItemSize = New System.Drawing.SizeF(99.0!, 24.0!)
         Me.CrateAccounting.Location = New System.Drawing.Point(10, 37)
         Me.CrateAccounting.Name = "CrateAccounting"
         Me.CrateAccounting.Size = New System.Drawing.Size(1026, 424)
@@ -5374,7 +5435,7 @@ Partial Class frmCustomer
         'CanAccounting
         '
         Me.CanAccounting.Controls.Add(Me.gvCan)
-        Me.CanAccounting.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
+        Me.CanAccounting.ItemSize = New System.Drawing.SizeF(91.0!, 24.0!)
         Me.CanAccounting.Location = New System.Drawing.Point(10, 37)
         Me.CanAccounting.Name = "CanAccounting"
         Me.CanAccounting.Size = New System.Drawing.Size(1026, 424)
@@ -5409,7 +5470,7 @@ Partial Class frmCustomer
         '
         Me.RadPageViewPage8.Controls.Add(Me.btnAddSecurity)
         Me.RadPageViewPage8.Controls.Add(Me.gvSecurity)
-        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(80.0!, 28.0!)
+        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(76.0!, 24.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
         Me.RadPageViewPage8.Size = New System.Drawing.Size(1026, 424)
@@ -5728,7 +5789,7 @@ Partial Class frmCustomer
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1047, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1047, 18)
         Me.RadMenu1.TabIndex = 0
         '
         'lblAliesName
@@ -5769,7 +5830,7 @@ Partial Class frmCustomer
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer1.IsSplitterFixed = True
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 18)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -5806,7 +5867,7 @@ Partial Class frmCustomer
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1047, 599)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1047, 601)
         Me.SplitContainer1.SplitterDistance = 94
         Me.SplitContainer1.TabIndex = 79
         '
@@ -5959,8 +6020,8 @@ Partial Class frmCustomer
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1047, 501)
-        Me.SplitContainer2.SplitterDistance = 472
+        Me.SplitContainer2.Size = New System.Drawing.Size(1047, 503)
+        Me.SplitContainer2.SplitterDistance = 474
         Me.SplitContainer2.TabIndex = 0
         '
         'btnGetHistory
@@ -5971,6 +6032,14 @@ Partial Class frmCustomer
         Me.btnGetHistory.Size = New System.Drawing.Size(80, 18)
         Me.btnGetHistory.TabIndex = 16
         Me.btnGetHistory.Text = "Show History"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1026, 424)
+        Me.UcCustomFields1.TabIndex = 1
         '
         'frmCustomer
         '
@@ -6204,6 +6273,8 @@ Partial Class frmCustomer
         CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
         Me.RadPageViewPage5.PerformLayout()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         CType(Me.gvDB.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6607,5 +6678,8 @@ Partial Class frmCustomer
     Friend WithEvents RadPageViewPage8 As RadPageViewPage
     Friend WithEvents gvSecurity As common.UserControls.MyRadGridView
     Friend WithEvents btnAddSecurity As RadButton
+    Friend WithEvents TxtLocation As common.UserControls.txtFinder
+    Friend WithEvents MyLabel43 As common.Controls.MyLabel
+    Friend WithEvents lblLocation As common.Controls.MyTextBox
 End Class
 
