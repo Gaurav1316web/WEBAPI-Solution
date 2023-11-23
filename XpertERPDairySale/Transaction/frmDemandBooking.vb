@@ -985,6 +985,7 @@ Public Class frmDemandBooking
                 isInsideLoadData = True
                 isNewEntry = False
                 btn_TSCancel.Enabled = True
+                btn_Gatepass.Enabled = True
                 btnSave.Text = "Update"
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
@@ -3070,16 +3071,16 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             '    frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWise", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             '    frmCRV = Nothing
             'End If
-            btn_Gatepass.Enabled = False
-            btn_GPCancel.Enabled = True
+            'btn_Gatepass.Enabled = False
+            'btn_GPCancel.Enabled = True
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Shared Sub PrintGatePass(ByVal StrFormType As String, ByVal StrDocCode As String, ByVal StrShift As String)
         'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsGatePassGenerated='Y' where " + IIf(StrFormType = "DB", "TSPL_DEMAND_BOOKING_DETAIL.Document_No", "TSPL_DEMAND_BOOKING_DETAIL.GPCode") + "'='" & StrDocCode & "' and ShiftType='" & StrShift & "'")
-        Dim Qry As String = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin
-                  ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc
+        Dim Qry As String = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin,TSPL_COMPANY_MASTER.Access_Officer as FSSAI_LIC_NO
+                  ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,'" + objCommonVar.CurrentUser + "' as Currentuser
                   ,Main_Final.Distributor,'" & StrShift & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc ,Main_Final.Vehicle_Desc
                   ,Main_Final.Item_alies_name,Main_Final.Crate_Qty,Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount
                   ,Main_Final.Production_Remarks
