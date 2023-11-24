@@ -13079,6 +13079,9 @@ Public Class clsCreateAllTable
             coll.Add("ApplyCowPriceDate", "Date Default NULL")
             coll.Add("Loyalty_Rate", "decimal(18, 2) NULL")
             coll.Add("OwnBMCDate", "Date Default NULL")
+            coll.Add("Schedule_Time_Morning", "datetime NULL")
+            coll.Add("Schedule_Time_Evening", "datetime NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
             qry = "update TSPL_VLC_MASTER_HEAD set ApplyCowPriceDate='01/Jan/2022' where ApplyCowPriceDate is null and   Apply_Cow_Price=1 "
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -13492,6 +13495,7 @@ Public Class clsCreateAllTable
             coll.Add("CAST_CATEGORY_CODE", "VARCHAR(30) NULL REFERENCES TSPL_CAST_CATEGORY_MASTER(CAST_CATEGORY_CODE)")
             coll.Add("BLOCK_CODE", "Varchar(30) null references TSPL_BLOCK_MASTER (BLOCK_CODE)")
             coll.Add("Company_Bank", "Varchar(12) null references TSPL_BANK_MASTER (BANK_CODE)")
+            coll.Add("Company_Bank_Current", "Varchar(12) null references TSPL_BANK_MASTER (BANK_CODE)")
             coll.Add("REVENUE_VILLAGE_CODE", "Varchar(30) null references TSPL_REVENUE_VILLAGE_MASTER (REVENUE_VILLAGE_CODE)")
             coll.Add("GRAMPANCHAYAT_CODE", "Varchar(30) null references TSPL_GRAMPANCHAYAT_MASTER (GRAMPANCHAYAT_CODE)")
             coll.Add("PANCHAYAT_SAMITI_CODE", "Varchar(30) null references TSPL_PANCHAYAT_SAMITI_MASTER (PANCHAYAT_SAMITI_CODE)")
@@ -13774,6 +13778,7 @@ Public Class clsCreateAllTable
             coll.Add("NEFT_DBT_Default", "BIT NOT NULL DEFAULT 0")
             coll.Add("Email", "varchar(60) NULL")
             coll.Add("BANK_GROUP_CODE", "varchar(12) NULL References TSPL_BANK_GROUP_MASTER(BANK_GROUP_CODE)")
+            coll.Add("Unpaid", "BIT NOT NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -23759,6 +23764,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Modify_Date", "datetime  NOT NULL")
             coll.Add("Type", "Varchar(1) null")
             coll.Add("SNo", "int Null")
+            coll.Add("Prefix", "int Null")
             coll.Add("Applicable_On", "int Null")
             coll.Add("Include_In_DBT", "int Null")
             coll.Add("Exclude_Head", "int Null")

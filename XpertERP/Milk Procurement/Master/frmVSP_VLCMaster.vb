@@ -449,7 +449,7 @@ Public Class frmVSP_VLCMaster
                      "Contact_Person_Fax ,Contact_Person_Website ,Contact_Person_Email ,Terms_Code ,Terms_Code_Desc ,Vendor_Account ,Vendor_Account_Desc ," &
                      "Payment_Code,Payment_Code_Desc ,Ven_Type_Code ,Ven_Type_Desc ,Bank_Code ,Bank_Code_Desc ,Service_Tax_No ,Lst_No ,Tin_No ,	Credit_Limit ," &
                      "Tax_Group ,Tax_Group_Desc ,TAX1 ,TAX1_Rate ,TAX2,TAX2_Rate ,TAX3 ,TAX3_Rate ,TAX4 ,TAX4_Rate ,TAX5 ,TAX5_Rate ,TAX6 ,TAX6_Rate ," &
-                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,vsp_payment,incentive_days,incentive,commision_pers,payment_commision_pers,Service_charges,VSP_Payee_Name,Service_Charge_Type,Joint_Name,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Security_Amount,AMCU,Amc_Charge,Billing_date,Nature,Actual_charges,joint_bank_Code,Joint_Account_No,Agreement,Start_Date,End_Date,PC_Code,Is_Head_Load,Rate_Head_Load,Service_Basis_Head_Load,Is_Own_Asset,Rate_Own_Asset,Service_Basis_Own_Asset,joint_bank_code,Standard_security_Amount,MP_code,MP_Name,Cheque_In_Favour_Of,Pin_code,is_drip_saver,isnull(Joint_Branch_Name,'') as Joint_Branch_Name,isnull(Joint_IFSC_Code,'') as Joint_IFSC_Code,EMP_Type,EMP_Fixed_Amount,Actual_charges_Slab,Actual_charges_Slab2,Actual_charges2,Actual_charges_Slab3,Actual_charges3,Actual_charges_Slab4,Actual_charges4,Actual_charges_Slab5,Actual_charges5,Apply_Mult_Incentive,Security_Deduction_Amount,Interest_Per,Minimum_Interest,Is_Blacklist,Service_Charge_Per_Unit,is_Hold_Payment_Process,Is_Inactive_In_Milk_Procurement,GSTRegistered,GSTEntity,GSTLastEntity,GSTFinalNo,CorrectionFat,CorrectionSNF,Handling_Charges_Per,Credit_Limit_On_Milk_Receipt_Per,Monthly_Rent,TIP_Buffalo,TIP_Cow,TIP_Mix,case when Active_Date is null and tspl_vendor_master.Status = 'Y' then ''  when Active_Date is null and tspl_vendor_master.Status = 'N' then convert (varchar, Created_Date,103) else convert(varchar, Active_Date,103) end as Active_Date, isnull (Gender,'')  as Gender , BankCode2,BankName2,Credit2, IFSCCode2 ,AccNo2,AccountType2,BankBranch2,SecurityCharges2,Registered_PDCS_CLUSTER,StartDate,SupervisorOrRP, RegistrationNo,RegistrationDate, Vendor_name_Hindi, DISTRICT_Code, Zone_Code , CAST_CATEGORY_CODE , BLOCK_CODE,Company_Bank,REVENUE_VILLAGE_CODE,GRAMPANCHAYAT_CODE,PANCHAYAT_SAMITI_CODE,VIDHAN_SABHA_CODE  from tspl_vendor_master where vendor_code='" + fndvendorNo.Value + "' and form_type='VSP'"
+                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,vsp_payment,incentive_days,incentive,commision_pers,payment_commision_pers,Service_charges,VSP_Payee_Name,Service_Charge_Type,Joint_Name,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Security_Amount,AMCU,Amc_Charge,Billing_date,Nature,Actual_charges,joint_bank_Code,Joint_Account_No,Agreement,Start_Date,End_Date,PC_Code,Is_Head_Load,Rate_Head_Load,Service_Basis_Head_Load,Is_Own_Asset,Rate_Own_Asset,Service_Basis_Own_Asset,joint_bank_code,Standard_security_Amount,MP_code,MP_Name,Cheque_In_Favour_Of,Pin_code,is_drip_saver,isnull(Joint_Branch_Name,'') as Joint_Branch_Name,isnull(Joint_IFSC_Code,'') as Joint_IFSC_Code,EMP_Type,EMP_Fixed_Amount,Actual_charges_Slab,Actual_charges_Slab2,Actual_charges2,Actual_charges_Slab3,Actual_charges3,Actual_charges_Slab4,Actual_charges4,Actual_charges_Slab5,Actual_charges5,Apply_Mult_Incentive,Security_Deduction_Amount,Interest_Per,Minimum_Interest,Is_Blacklist,Service_Charge_Per_Unit,is_Hold_Payment_Process,Is_Inactive_In_Milk_Procurement,GSTRegistered,GSTEntity,GSTLastEntity,GSTFinalNo,CorrectionFat,CorrectionSNF,Handling_Charges_Per,Credit_Limit_On_Milk_Receipt_Per,Monthly_Rent,TIP_Buffalo,TIP_Cow,TIP_Mix,case when Active_Date is null and tspl_vendor_master.Status = 'Y' then ''  when Active_Date is null and tspl_vendor_master.Status = 'N' then convert (varchar, Created_Date,103) else convert(varchar, Active_Date,103) end as Active_Date, isnull (Gender,'')  as Gender , BankCode2,BankName2,Credit2, IFSCCode2 ,AccNo2,AccountType2,BankBranch2,SecurityCharges2,Registered_PDCS_CLUSTER,StartDate,SupervisorOrRP, RegistrationNo,RegistrationDate, Vendor_name_Hindi, DISTRICT_Code, Zone_Code , CAST_CATEGORY_CODE , BLOCK_CODE,Company_Bank,Company_Bank_Current, REVENUE_VILLAGE_CODE,GRAMPANCHAYAT_CODE,PANCHAYAT_SAMITI_CODE,VIDHAN_SABHA_CODE  from tspl_vendor_master where vendor_code='" + fndvendorNo.Value + "' and form_type='VSP'"
             myDs = connectSql.RunSQLReturnDS(strCmd)
             Dim myDr As DataRow
             For Each myDr In myDs.Tables(0).Rows
@@ -715,8 +715,10 @@ Public Class frmVSP_VLCMaster
                 txtZone.Value = clsCommon.myCstr(myDr("Zone_Code"))
                 lblZone.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_ZONE_MASTER where Zone_Code  = '" + clsCommon.myCstr(myDr("Zone_Code")) + "' "))
                 txtCastCategory.Value = clsCommon.myCstr(myDr("CAST_CATEGORY_CODE"))
-                txtCompanyBank.Value = clsCommon.myCstr(myDr("Company_Bank"))
-                lblCompanyBank.Text = clsBankMaster.GetName(clsCommon.myCstr(myDr("Company_Bank")))
+                txtSavingCompanyBank.Value = clsCommon.myCstr(myDr("Company_Bank"))
+                lblSavingCompanyBank.Text = clsBankMaster.GetName(clsCommon.myCstr(myDr("Company_Bank")))
+                txtCurrentCompanyBank.Value = clsCommon.myCstr(myDr("Company_Bank_Current"))
+                lblCurrentCompanyBank.Text = clsBankMaster.GetName(clsCommon.myCstr(myDr("Company_Bank_Current")))
                 txtVidhanSabha.Value = clsCommon.myCstr(myDr("VIDHAN_SABHA_CODE"))
                 lblVidhanSabha.Text = clsVidhanSabhaMaster.GetName(clsCommon.myCstr(myDr("VIDHAN_SABHA_CODE")))
                 txtPanchayatSamiti.Value = clsCommon.myCstr(myDr("PANCHAYAT_SAMITI_CODE"))
@@ -2545,16 +2547,22 @@ Public Class frmVSP_VLCMaster
             strbank = fndbankcode2.Text
         ElseIf clsCommon.myLen(findfndbankcode2.Value) > 0 Then
             strbank = findfndbankcode2.Value
-        Else
-            strbank = ""
+            Else
+                strbank = ""
         End If
 
 
         Dim qry As String = " update TSPL_VENDOR_MASTER set "
-        If clsCommon.myLen(txtCompanyBank.Value) > 0 Then
-            qry += " Company_Bank ='" + txtCompanyBank.Value + "'"
+        If clsCommon.myLen(txtSavingCompanyBank.Value) > 0 Then
+            qry += " Company_Bank ='" + txtSavingCompanyBank.Value + "' ,"
         Else
-            qry += " Company_Bank = null "
+            qry += " Company_Bank = null , "
+        End If
+
+        If clsCommon.myLen(txtCurrentCompanyBank.Value) > 0 Then
+            qry += " Company_Bank_Current ='" + txtCurrentCompanyBank.Value + "'"
+        Else
+            qry += " Company_Bank_Current = null "
         End If
         'qry += " , Registered_PDCS_CLUSTER = '" + strRegistered_PDCS_CLUSTER + "' , StartDate = '" + clsCommon.GetPrintDate(txtStartDate.Value, "dd/MMM/yyyy") + "' , isOwnBMC = '" + isOwnBMC + "' , MCCOwnBMC = '" + MCCOwnBMC + "' , BankCode2 = '" + strBankCode2 + "' ,  Credit2 =  '" + clsCommon.myCstr(clsCommon.myCdbl(txtCredit2.Text)) + "' , IFSCCode2 = '" + strIFSCCode + "', AccNo2 = '" + TxtAccNo2.Text + "' , AccountType2 = '" + cmbAccountType2.Text + "', BankBranch2 = '" + TxtBankName2.Text + "', SecurityCharges2 = '" + clsCommon.myCstr(clsCommon.myCdbl(TxtSecurityCharges2.Text)) + "' , SupervisorOrRP = '" + clsCommon.myCstr(txtSupervisiorRP.Value) + "' ,RegistrationNo = '" + txtRegistrationNo.Text + "' , RegistrationDate = '" + clsCommon.GetPrintDate(txtRegistrationDate.Value, "dd/MMM/yyyy") + "'  where Vendor_Code = '" + strVendorCode + "'  "
         qry += " , Registered_PDCS_CLUSTER = '" + strRegistered_PDCS_CLUSTER + "' , StartDate = '" + clsCommon.GetPrintDate(txtStartDate.Value, "dd/MMM/yyyy") + "' , BankCode2 = '" + strbank + "' ,  Credit2 =  '" + clsCommon.myCstr(clsCommon.myCdbl(txtCredit2.Text)) + "' , IFSCCode2 = '" + strIFSCCode + "', AccNo2 = '" + TxtAccNo2.Text + "' , AccountType2 = '" + cmbAccountType2.Text + "', BankBranch2 = '" + txtBankBranch2.Text + "', BankName2='" + TxtBankName2.Text + "',SecurityCharges2 = '" + clsCommon.myCstr(clsCommon.myCdbl(TxtSecurityCharges2.Text)) + "' , SupervisorOrRP = '" + clsCommon.myCstr(txtSupervisiorRP.Value) + "' ,RegistrationNo = '" + txtRegistrationNo.Text + "' , RegistrationDate = '" + clsCommon.GetPrintDate(txtRegistrationDate.Value, "dd/MMM/yyyy") + "'  where Vendor_Code = '" + strVendorCode + "'  "
@@ -2874,8 +2882,10 @@ Public Class frmVSP_VLCMaster
         txtZone.Value = ""
         lblZone.Text = ""
         txtCastCategory.Value = ""
-        txtCompanyBank.Value = ""
-        lblCompanyBank.Text = ""
+        txtSavingCompanyBank.Value = ""
+        lblSavingCompanyBank.Text = ""
+        txtCurrentCompanyBank.Value = ""
+        lblCurrentCompanyBank.Text = ""
         txtVidhanSabha.Value = ""
         lblVidhanSabha.Text = ""
         txtPanchayatSamiti.Value = ""
@@ -4586,6 +4596,7 @@ Public Class frmVSP_VLCMaster
                 txtbankcodedes2.Text = obj.Bank_Name
                 TxtBankName2.Text = obj.Bank_Name
                 txtBankBranch2.Text = obj.Branch_Name
+                fndbankcode2.Text = findfndbankcode2.Value
 
             End If
         Else
@@ -4987,6 +4998,7 @@ Public Class frmVSP_VLCMaster
             Dim qry As String = "Select Bank_IFSC_Code as IFSCCode,Branch_Name  from TSPL_Vendor_Bank_Branch_Details "
             findTxtIFSCCode2.Value = clsCommon.ShowSelectForm("FormIFSCCode", qry, "IFSCCode", " Bank_Code ='" & findfndbankcode2.Value & "' ", findTxtIFSCCode2.Value, "", isButtonClicked)
             txtBankBranch2.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & findfndbankcode2.Value & "' and Bank_IFSC_Code='" & findTxtIFSCCode2.Value & "' ")
+            txtIFSCCode2.Text = findTxtIFSCCode2.Value
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first")
         End If
@@ -6270,15 +6282,6 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    Private Sub txtCompanyBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCompanyBank._MYValidating
-        Try
-            txtCompanyBank.Value = clsBankMaster.getFinder("", txtCompanyBank.Value, isButtonClicked)
-            lblCompanyBank.Text = clsBankMaster.GetName(txtCompanyBank.Value)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
     Private Sub txtRevenueVillage__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRevenueVillage._MYValidating
         Try
             Dim qry As String = " select REVENUE_VILLAGE_CODE as Code, REVENUE_VILLAGE_NAME as Name from TSPL_REVENUE_VILLAGE_MASTER  "
@@ -6475,12 +6478,29 @@ Public Class frmVSP_VLCMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndvendorNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(ME,"Select VSP Code")
+                clsCommon.MyMessageBoxShow(Me, "Select VSP Code")
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_Vendor_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtSavingCompanyBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSavingCompanyBank._MYValidating
+        Try
+            txtSavingCompanyBank.Value = clsBankMaster.getFinder("", txtSavingCompanyBank.Value, isButtonClicked)
+            lblSavingCompanyBank.Text = clsBankMaster.GetName(txtSavingCompanyBank.Value)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub txtCurrentCompanyBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCurrentCompanyBank._MYValidating
+        Try
+            txtCurrentCompanyBank.Value = clsBankMaster.getFinder("", txtCurrentCompanyBank.Value, isButtonClicked)
+            lblCurrentCompanyBank.Text = clsBankMaster.GetName(txtCurrentCompanyBank.Value)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
