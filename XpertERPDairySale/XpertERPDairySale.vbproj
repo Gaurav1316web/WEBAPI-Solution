@@ -266,6 +266,12 @@
     <Compile Include="Report\FrmDairySaleSchemeReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\frmDemandHistory.Designer.vb">
+      <DependentUpon>frmDemandHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDemandHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\FrmZoneWiseSKUReport.Designer.vb">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
     </Compile>
@@ -787,6 +793,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmDairySaleSchemeReport.resx">
       <DependentUpon>FrmDairySaleSchemeReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDemandHistory.resx">
+      <DependentUpon>frmDemandHistory.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>

@@ -55,6 +55,8 @@ Partial Class frmMilkRejectType
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
+        Me.txtPrefix = New common.MyNumBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -83,6 +85,8 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,6 +139,8 @@ Partial Class frmMilkRejectType
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtPrefix)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel4)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkExcludeHead)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkIncludeInDBT)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDescription)
@@ -516,6 +522,45 @@ Partial Class frmMilkRejectType
         Me.rdbtndelete.TabIndex = 1
         Me.rdbtndelete.Text = "Delete"
         '
+        'txtPrefix
+        '
+        Me.txtPrefix.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtPrefix.CalculationExpression = Nothing
+        Me.txtPrefix.DecimalPlaces = 2
+        Me.txtPrefix.FieldCode = Nothing
+        Me.txtPrefix.FieldDesc = Nothing
+        Me.txtPrefix.FieldMaxLength = 0
+        Me.txtPrefix.FieldName = Nothing
+        Me.txtPrefix.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtPrefix.isCalculatedField = False
+        Me.txtPrefix.IsSourceFromTable = False
+        Me.txtPrefix.IsSourceFromValueList = False
+        Me.txtPrefix.IsUnique = False
+        Me.txtPrefix.Location = New System.Drawing.Point(102, 238)
+        Me.txtPrefix.MaxLength = 5
+        Me.txtPrefix.MendatroryField = True
+        Me.txtPrefix.MyLinkLable1 = Me.MyLabel4
+        Me.txtPrefix.MyLinkLable2 = Nothing
+        Me.txtPrefix.Name = "txtPrefix"
+        Me.txtPrefix.ReferenceFieldDesc = Nothing
+        Me.txtPrefix.ReferenceFieldName = Nothing
+        Me.txtPrefix.ReferenceTableName = Nothing
+        Me.txtPrefix.Size = New System.Drawing.Size(280, 21)
+        Me.txtPrefix.TabIndex = 1033
+        Me.txtPrefix.Text = "0"
+        Me.txtPrefix.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtPrefix.Value = 0R
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel4.Location = New System.Drawing.Point(8, 240)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(35, 16)
+        Me.MyLabel4.TabIndex = 1034
+        Me.MyLabel4.Text = "Prefix"
+        '
         'frmMilkRejectType
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -560,6 +605,8 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -598,5 +645,7 @@ Partial Class frmMilkRejectType
     Friend WithEvents rbtnFATKGRate As common.Controls.MyRadioButton
     Friend WithEvents chkIncludeInDBT As RadCheckBox
     Friend WithEvents chkExcludeHead As RadCheckBox
+    Friend WithEvents txtPrefix As common.MyNumBox
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
 End Class
 

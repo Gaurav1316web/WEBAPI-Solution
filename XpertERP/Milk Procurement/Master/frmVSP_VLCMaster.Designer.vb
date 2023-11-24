@@ -33,6 +33,17 @@ Partial Class frmVSP_VLCMaster
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadPrintWatermark1 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
+        Me.btnclear = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ToolTipvendor = New System.Windows.Forms.ToolTip(Me.components)
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.lblMCCName = New common.Controls.MyLabel()
@@ -85,8 +96,8 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkHold = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtCompanyBank = New common.UserControls.txtFinder()
-        Me.lblCompanyBank = New common.Controls.MyTextBox()
+        Me.txtSavingCompanyBank = New common.UserControls.txtFinder()
+        Me.lblSavingCompanyBank = New common.Controls.MyTextBox()
         Me.MyLabel44 = New common.Controls.MyLabel()
         Me.gbBank2Details = New System.Windows.Forms.GroupBox()
         Me.txtIFSCCode2 = New common.Controls.MyTextBox()
@@ -126,6 +137,9 @@ Partial Class frmVSP_VLCMaster
         Me.RadLabel30 = New common.Controls.MyLabel()
         Me.txtCredit = New common.Controls.MyTextBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.lblCurrentCompanyBank = New common.Controls.MyTextBox()
+        Me.txtCurrentCompanyBank = New common.UserControls.txtFinder()
+        Me.MyLabel58 = New common.Controls.MyLabel()
         Me.TxtIFSCCode = New common.Controls.MyTextBox()
         Me.findTxtIFSCCode = New common.UserControls.txtFinder()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -285,17 +299,6 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel22 = New common.Controls.MyLabel()
         Me.TxtPaymentCycle = New common.Controls.MyTextBox()
         Me.FndIncentive = New common.UserControls.txtFinder()
-        Me.btnclear = New Telerik.WinControls.UI.RadButton()
-        Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
-        Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.ToolTipvendor = New System.Windows.Forms.ToolTip(Me.components)
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.txtno_days = New common.Controls.MyTextBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
@@ -303,6 +306,12 @@ Partial Class frmVSP_VLCMaster
         Me.DtpBillingDate = New common.Controls.MyDateTimePicker()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.ClsMyPrintDocument1 = New XpertERPEngine.clsMyPrintDocument()
+        CType(Me.btnclear, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -350,7 +359,7 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.chkHold, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.lblCompanyBank, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSavingCompanyBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbBank2Details.SuspendLayout()
         CType(Me.txtIFSCCode2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -387,6 +396,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.RadLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCredit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox5.SuspendLayout()
+        CType(Me.lblCurrentCompanyBank, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtIFSCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
         CType(Me.lblVidhanSabha, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -529,12 +540,6 @@ Partial Class frmVSP_VLCMaster
         CType(Me.LblIncentive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtPaymentCycle, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclear, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtno_days, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -544,6 +549,96 @@ Partial Class frmVSP_VLCMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
+        '
+        'btnclear
+        '
+        Me.btnclear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclear.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclear.Location = New System.Drawing.Point(1006, 5)
+        Me.btnclear.Name = "btnclear"
+        Me.btnclear.Size = New System.Drawing.Size(66, 18)
+        Me.btnclear.TabIndex = 2
+        Me.btnclear.Text = "Close"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btndelete.Location = New System.Drawing.Point(74, 5)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(66, 18)
+        Me.btndelete.TabIndex = 1
+        Me.btndelete.Text = "Delete"
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnsave.Location = New System.Drawing.Point(3, 5)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(66, 18)
+        Me.btnsave.TabIndex = 0
+        Me.btnsave.Text = "Save"
+        '
+        'MenuClose
+        '
+        Me.MenuClose.DisplayStyle = Telerik.WinControls.DisplayStyle.Text
+        Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.MenuExport, Me.RadMenuItem4})
+        Me.MenuClose.Name = "MenuClose"
+        Me.MenuClose.Text = "File"
+        '
+        'MenuImport
+        '
+        Me.MenuImport.AccessibleDescription = "MenuImport"
+        Me.MenuImport.AccessibleName = "RadMenuItem2"
+        Me.MenuImport.Name = "MenuImport"
+        Me.MenuImport.Text = "Import"
+        '
+        'MenuExport
+        '
+        Me.MenuExport.AccessibleDescription = "MenuExport"
+        Me.MenuExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportData, Me.ExportBlankSheet})
+        Me.MenuExport.Name = "MenuExport"
+        Me.MenuExport.Text = "Export"
+        '
+        'ExportData
+        '
+        Me.ExportData.Name = "ExportData"
+        Me.ExportData.Text = "Export Data"
+        '
+        'ExportBlankSheet
+        '
+        Me.ExportBlankSheet.Name = "ExportBlankSheet"
+        Me.ExportBlankSheet.Text = "Export Blank Sheet"
+        '
+        'RadMenuItem4
+        '
+        Me.RadMenuItem4.AccessibleDescription = "RadMenuItem4"
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Close"
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.pageCus)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnclear)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1078, 477)
+        Me.SplitContainer1.SplitterDistance = 444
+        Me.SplitContainer1.TabIndex = 2
         '
         'pageCus
         '
@@ -557,7 +652,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage1
+        Me.pageCus.SelectedPage = Me.RadPageViewPage2
         Me.pageCus.Size = New System.Drawing.Size(1078, 444)
         Me.pageCus.TabIndex = 5
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1404,8 +1499,8 @@ Partial Class frmVSP_VLCMaster
         '
         'RadPageViewPage2
         '
-        Me.RadPageViewPage2.Controls.Add(Me.txtCompanyBank)
-        Me.RadPageViewPage2.Controls.Add(Me.lblCompanyBank)
+        Me.RadPageViewPage2.Controls.Add(Me.txtSavingCompanyBank)
+        Me.RadPageViewPage2.Controls.Add(Me.lblSavingCompanyBank)
         Me.RadPageViewPage2.Controls.Add(Me.MyLabel44)
         Me.RadPageViewPage2.Controls.Add(Me.gbBank2Details)
         Me.RadPageViewPage2.Controls.Add(Me.findfndbankcode)
@@ -1432,57 +1527,57 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1057, 398)
         Me.RadPageViewPage2.Text = "Bank Details"
         '
-        'txtCompanyBank
+        'txtSavingCompanyBank
         '
-        Me.txtCompanyBank.CalculationExpression = Nothing
-        Me.txtCompanyBank.FieldCode = Nothing
-        Me.txtCompanyBank.FieldDesc = Nothing
-        Me.txtCompanyBank.FieldMaxLength = 0
-        Me.txtCompanyBank.FieldName = Nothing
-        Me.txtCompanyBank.isCalculatedField = False
-        Me.txtCompanyBank.IsSourceFromTable = False
-        Me.txtCompanyBank.IsSourceFromValueList = False
-        Me.txtCompanyBank.IsUnique = False
-        Me.txtCompanyBank.Location = New System.Drawing.Point(114, 275)
-        Me.txtCompanyBank.MendatroryField = False
-        Me.txtCompanyBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCompanyBank.MyLinkLable1 = Nothing
-        Me.txtCompanyBank.MyLinkLable2 = Nothing
-        Me.txtCompanyBank.MyReadOnly = False
-        Me.txtCompanyBank.MyShowMasterFormButton = False
-        Me.txtCompanyBank.Name = "txtCompanyBank"
-        Me.txtCompanyBank.ReferenceFieldDesc = Nothing
-        Me.txtCompanyBank.ReferenceFieldName = Nothing
-        Me.txtCompanyBank.ReferenceTableName = Nothing
-        Me.txtCompanyBank.Size = New System.Drawing.Size(211, 19)
-        Me.txtCompanyBank.TabIndex = 319
-        Me.txtCompanyBank.Value = ""
+        Me.txtSavingCompanyBank.CalculationExpression = Nothing
+        Me.txtSavingCompanyBank.FieldCode = Nothing
+        Me.txtSavingCompanyBank.FieldDesc = Nothing
+        Me.txtSavingCompanyBank.FieldMaxLength = 0
+        Me.txtSavingCompanyBank.FieldName = Nothing
+        Me.txtSavingCompanyBank.isCalculatedField = False
+        Me.txtSavingCompanyBank.IsSourceFromTable = False
+        Me.txtSavingCompanyBank.IsSourceFromValueList = False
+        Me.txtSavingCompanyBank.IsUnique = False
+        Me.txtSavingCompanyBank.Location = New System.Drawing.Point(148, 275)
+        Me.txtSavingCompanyBank.MendatroryField = False
+        Me.txtSavingCompanyBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSavingCompanyBank.MyLinkLable1 = Nothing
+        Me.txtSavingCompanyBank.MyLinkLable2 = Nothing
+        Me.txtSavingCompanyBank.MyReadOnly = False
+        Me.txtSavingCompanyBank.MyShowMasterFormButton = False
+        Me.txtSavingCompanyBank.Name = "txtSavingCompanyBank"
+        Me.txtSavingCompanyBank.ReferenceFieldDesc = Nothing
+        Me.txtSavingCompanyBank.ReferenceFieldName = Nothing
+        Me.txtSavingCompanyBank.ReferenceTableName = Nothing
+        Me.txtSavingCompanyBank.Size = New System.Drawing.Size(211, 19)
+        Me.txtSavingCompanyBank.TabIndex = 319
+        Me.txtSavingCompanyBank.Value = ""
         '
-        'lblCompanyBank
+        'lblSavingCompanyBank
         '
-        Me.lblCompanyBank.CalculationExpression = Nothing
-        Me.lblCompanyBank.FieldCode = Nothing
-        Me.lblCompanyBank.FieldDesc = Nothing
-        Me.lblCompanyBank.FieldMaxLength = 0
-        Me.lblCompanyBank.FieldName = Nothing
-        Me.lblCompanyBank.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCompanyBank.isCalculatedField = False
-        Me.lblCompanyBank.IsSourceFromTable = False
-        Me.lblCompanyBank.IsSourceFromValueList = False
-        Me.lblCompanyBank.IsUnique = False
-        Me.lblCompanyBank.Location = New System.Drawing.Point(331, 277)
-        Me.lblCompanyBank.MaxLength = 50
-        Me.lblCompanyBank.MendatroryField = False
-        Me.lblCompanyBank.MyLinkLable1 = Me.MyLabel44
-        Me.lblCompanyBank.MyLinkLable2 = Nothing
-        Me.lblCompanyBank.Name = "lblCompanyBank"
-        Me.lblCompanyBank.ReadOnly = True
-        Me.lblCompanyBank.ReferenceFieldDesc = Nothing
-        Me.lblCompanyBank.ReferenceFieldName = Nothing
-        Me.lblCompanyBank.ReferenceTableName = Nothing
-        Me.lblCompanyBank.Size = New System.Drawing.Size(379, 18)
-        Me.lblCompanyBank.TabIndex = 317
-        Me.lblCompanyBank.TabStop = False
+        Me.lblSavingCompanyBank.CalculationExpression = Nothing
+        Me.lblSavingCompanyBank.FieldCode = Nothing
+        Me.lblSavingCompanyBank.FieldDesc = Nothing
+        Me.lblSavingCompanyBank.FieldMaxLength = 0
+        Me.lblSavingCompanyBank.FieldName = Nothing
+        Me.lblSavingCompanyBank.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSavingCompanyBank.isCalculatedField = False
+        Me.lblSavingCompanyBank.IsSourceFromTable = False
+        Me.lblSavingCompanyBank.IsSourceFromValueList = False
+        Me.lblSavingCompanyBank.IsUnique = False
+        Me.lblSavingCompanyBank.Location = New System.Drawing.Point(365, 277)
+        Me.lblSavingCompanyBank.MaxLength = 50
+        Me.lblSavingCompanyBank.MendatroryField = False
+        Me.lblSavingCompanyBank.MyLinkLable1 = Me.MyLabel44
+        Me.lblSavingCompanyBank.MyLinkLable2 = Nothing
+        Me.lblSavingCompanyBank.Name = "lblSavingCompanyBank"
+        Me.lblSavingCompanyBank.ReadOnly = True
+        Me.lblSavingCompanyBank.ReferenceFieldDesc = Nothing
+        Me.lblSavingCompanyBank.ReferenceFieldName = Nothing
+        Me.lblSavingCompanyBank.ReferenceTableName = Nothing
+        Me.lblSavingCompanyBank.Size = New System.Drawing.Size(346, 18)
+        Me.lblSavingCompanyBank.TabIndex = 317
+        Me.lblSavingCompanyBank.TabStop = False
         '
         'MyLabel44
         '
@@ -1490,9 +1585,9 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel44.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel44.Location = New System.Drawing.Point(21, 278)
         Me.MyLabel44.Name = "MyLabel44"
-        Me.MyLabel44.Size = New System.Drawing.Size(84, 16)
+        Me.MyLabel44.Size = New System.Drawing.Size(121, 16)
         Me.MyLabel44.TabIndex = 318
-        Me.MyLabel44.Text = "Company Bank"
+        Me.MyLabel44.Text = "Saving Company Bank"
         '
         'gbBank2Details
         '
@@ -1517,7 +1612,7 @@ Partial Class frmVSP_VLCMaster
         Me.gbBank2Details.Controls.Add(Me.txtCredit2)
         Me.gbBank2Details.Location = New System.Drawing.Point(3, 136)
         Me.gbBank2Details.Name = "gbBank2Details"
-        Me.gbBank2Details.Size = New System.Drawing.Size(916, 138)
+        Me.gbBank2Details.Size = New System.Drawing.Size(916, 171)
         Me.gbBank2Details.TabIndex = 316
         Me.gbBank2Details.TabStop = False
         Me.gbBank2Details.Text = "Bank 2 Details"
@@ -1961,7 +2056,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtSecurityCharges.IsSourceFromTable = False
         Me.TxtSecurityCharges.IsSourceFromValueList = False
         Me.TxtSecurityCharges.IsUnique = False
-        Me.TxtSecurityCharges.Location = New System.Drawing.Point(434, 81)
+        Me.TxtSecurityCharges.Location = New System.Drawing.Point(466, 81)
         Me.TxtSecurityCharges.MaxLength = 12
         Me.TxtSecurityCharges.MendatroryField = False
         Me.TxtSecurityCharges.MyLinkLable1 = Me.MyLabel16
@@ -2069,7 +2164,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtBankBranch.IsSourceFromTable = False
         Me.TxtBankBranch.IsSourceFromValueList = False
         Me.TxtBankBranch.IsUnique = False
-        Me.TxtBankBranch.Location = New System.Drawing.Point(434, 58)
+        Me.TxtBankBranch.Location = New System.Drawing.Point(466, 58)
         Me.TxtBankBranch.MaxLength = 50
         Me.TxtBankBranch.MendatroryField = False
         Me.TxtBankBranch.MyLinkLable1 = Me.MyLabel13
@@ -2103,7 +2198,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtBankName.IsSourceFromTable = False
         Me.TxtBankName.IsSourceFromValueList = False
         Me.TxtBankName.IsUnique = False
-        Me.TxtBankName.Location = New System.Drawing.Point(434, 34)
+        Me.TxtBankName.Location = New System.Drawing.Point(466, 34)
         Me.TxtBankName.MaxLength = 50
         Me.TxtBankName.MendatroryField = False
         Me.TxtBankName.MyLinkLable1 = Me.MyLabel15
@@ -2127,7 +2222,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtbankcodedes.IsSourceFromTable = False
         Me.txtbankcodedes.IsSourceFromValueList = False
         Me.txtbankcodedes.IsUnique = False
-        Me.txtbankcodedes.Location = New System.Drawing.Point(334, 10)
+        Me.txtbankcodedes.Location = New System.Drawing.Point(339, 10)
         Me.txtbankcodedes.MaxLength = 50
         Me.txtbankcodedes.MendatroryField = True
         Me.txtbankcodedes.MyLinkLable1 = Me.lblbankcode
@@ -2137,7 +2232,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtbankcodedes.ReferenceFieldDesc = Nothing
         Me.txtbankcodedes.ReferenceFieldName = Nothing
         Me.txtbankcodedes.ReferenceTableName = Nothing
-        Me.txtbankcodedes.Size = New System.Drawing.Size(379, 18)
+        Me.txtbankcodedes.Size = New System.Drawing.Size(405, 18)
         Me.txtbankcodedes.TabIndex = 16
         Me.txtbankcodedes.TabStop = False
         '
@@ -2188,6 +2283,9 @@ Partial Class frmVSP_VLCMaster
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.lblCurrentCompanyBank)
+        Me.GroupBox5.Controls.Add(Me.txtCurrentCompanyBank)
+        Me.GroupBox5.Controls.Add(Me.MyLabel58)
         Me.GroupBox5.Controls.Add(Me.TxtIFSCCode)
         Me.GroupBox5.Controls.Add(Me.findTxtIFSCCode)
         Me.GroupBox5.Location = New System.Drawing.Point(3, -3)
@@ -2196,6 +2294,68 @@ Partial Class frmVSP_VLCMaster
         Me.GroupBox5.TabIndex = 320
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Bank 1 Details"
+        '
+        'lblCurrentCompanyBank
+        '
+        Me.lblCurrentCompanyBank.CalculationExpression = Nothing
+        Me.lblCurrentCompanyBank.FieldCode = Nothing
+        Me.lblCurrentCompanyBank.FieldDesc = Nothing
+        Me.lblCurrentCompanyBank.FieldMaxLength = 0
+        Me.lblCurrentCompanyBank.FieldName = Nothing
+        Me.lblCurrentCompanyBank.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCurrentCompanyBank.isCalculatedField = False
+        Me.lblCurrentCompanyBank.IsSourceFromTable = False
+        Me.lblCurrentCompanyBank.IsSourceFromValueList = False
+        Me.lblCurrentCompanyBank.IsUnique = False
+        Me.lblCurrentCompanyBank.Location = New System.Drawing.Point(682, 110)
+        Me.lblCurrentCompanyBank.MaxLength = 50
+        Me.lblCurrentCompanyBank.MendatroryField = False
+        Me.lblCurrentCompanyBank.MyLinkLable1 = Me.MyLabel44
+        Me.lblCurrentCompanyBank.MyLinkLable2 = Nothing
+        Me.lblCurrentCompanyBank.Name = "lblCurrentCompanyBank"
+        Me.lblCurrentCompanyBank.ReadOnly = True
+        Me.lblCurrentCompanyBank.ReferenceFieldDesc = Nothing
+        Me.lblCurrentCompanyBank.ReferenceFieldName = Nothing
+        Me.lblCurrentCompanyBank.ReferenceTableName = Nothing
+        Me.lblCurrentCompanyBank.Size = New System.Drawing.Size(228, 18)
+        Me.lblCurrentCompanyBank.TabIndex = 321
+        Me.lblCurrentCompanyBank.TabStop = False
+        '
+        'txtCurrentCompanyBank
+        '
+        Me.txtCurrentCompanyBank.CalculationExpression = Nothing
+        Me.txtCurrentCompanyBank.FieldCode = Nothing
+        Me.txtCurrentCompanyBank.FieldDesc = Nothing
+        Me.txtCurrentCompanyBank.FieldMaxLength = 0
+        Me.txtCurrentCompanyBank.FieldName = Nothing
+        Me.txtCurrentCompanyBank.isCalculatedField = False
+        Me.txtCurrentCompanyBank.IsSourceFromTable = False
+        Me.txtCurrentCompanyBank.IsSourceFromValueList = False
+        Me.txtCurrentCompanyBank.IsUnique = False
+        Me.txtCurrentCompanyBank.Location = New System.Drawing.Point(463, 108)
+        Me.txtCurrentCompanyBank.MendatroryField = False
+        Me.txtCurrentCompanyBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCurrentCompanyBank.MyLinkLable1 = Nothing
+        Me.txtCurrentCompanyBank.MyLinkLable2 = Nothing
+        Me.txtCurrentCompanyBank.MyReadOnly = False
+        Me.txtCurrentCompanyBank.MyShowMasterFormButton = False
+        Me.txtCurrentCompanyBank.Name = "txtCurrentCompanyBank"
+        Me.txtCurrentCompanyBank.ReferenceFieldDesc = Nothing
+        Me.txtCurrentCompanyBank.ReferenceFieldName = Nothing
+        Me.txtCurrentCompanyBank.ReferenceTableName = Nothing
+        Me.txtCurrentCompanyBank.Size = New System.Drawing.Size(211, 19)
+        Me.txtCurrentCompanyBank.TabIndex = 320
+        Me.txtCurrentCompanyBank.Value = ""
+        '
+        'MyLabel58
+        '
+        Me.MyLabel58.FieldName = Nothing
+        Me.MyLabel58.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel58.Location = New System.Drawing.Point(333, 108)
+        Me.MyLabel58.Name = "MyLabel58"
+        Me.MyLabel58.Size = New System.Drawing.Size(125, 16)
+        Me.MyLabel58.TabIndex = 319
+        Me.MyLabel58.Text = "Current Company Bank"
         '
         'TxtIFSCCode
         '
@@ -4902,96 +5062,6 @@ Partial Class frmVSP_VLCMaster
         Me.FndIncentive.TabIndex = 405
         Me.FndIncentive.Value = ""
         '
-        'btnclear
-        '
-        Me.btnclear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclear.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclear.Location = New System.Drawing.Point(1006, 5)
-        Me.btnclear.Name = "btnclear"
-        Me.btnclear.Size = New System.Drawing.Size(66, 18)
-        Me.btnclear.TabIndex = 2
-        Me.btnclear.Text = "Close"
-        '
-        'btndelete
-        '
-        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(74, 5)
-        Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(66, 18)
-        Me.btndelete.TabIndex = 1
-        Me.btndelete.Text = "Delete"
-        '
-        'btnsave
-        '
-        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(3, 5)
-        Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(66, 18)
-        Me.btnsave.TabIndex = 0
-        Me.btnsave.Text = "Save"
-        '
-        'MenuClose
-        '
-        Me.MenuClose.DisplayStyle = Telerik.WinControls.DisplayStyle.Text
-        Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.MenuExport, Me.RadMenuItem4})
-        Me.MenuClose.Name = "MenuClose"
-        Me.MenuClose.Text = "File"
-        '
-        'MenuImport
-        '
-        Me.MenuImport.AccessibleDescription = "MenuImport"
-        Me.MenuImport.AccessibleName = "RadMenuItem2"
-        Me.MenuImport.Name = "MenuImport"
-        Me.MenuImport.Text = "Import"
-        '
-        'MenuExport
-        '
-        Me.MenuExport.AccessibleDescription = "MenuExport"
-        Me.MenuExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportData, Me.ExportBlankSheet})
-        Me.MenuExport.Name = "MenuExport"
-        Me.MenuExport.Text = "Export"
-        '
-        'ExportData
-        '
-        Me.ExportData.Name = "ExportData"
-        Me.ExportData.Text = "Export Data"
-        '
-        'ExportBlankSheet
-        '
-        Me.ExportBlankSheet.Name = "ExportBlankSheet"
-        Me.ExportBlankSheet.Text = "Export Blank Sheet"
-        '
-        'RadMenuItem4
-        '
-        Me.RadMenuItem4.AccessibleDescription = "RadMenuItem4"
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Close"
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainer1.IsSplitterFixed = True
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.pageCus)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnclear)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1078, 477)
-        Me.SplitContainer1.SplitterDistance = 444
-        Me.SplitContainer1.TabIndex = 2
-        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -5131,6 +5201,12 @@ Partial Class frmVSP_VLCMaster
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "VSP/VLC Master"
+        CType(Me.btnclear, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.ResumeLayout(False)
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageCus.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
@@ -5182,7 +5258,7 @@ Partial Class frmVSP_VLCMaster
         CType(Me.chkHold, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage2.PerformLayout()
-        CType(Me.lblCompanyBank, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSavingCompanyBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbBank2Details.ResumeLayout(False)
         Me.gbBank2Details.PerformLayout()
@@ -5221,6 +5297,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.txtCredit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        CType(Me.lblCurrentCompanyBank, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtIFSCCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
@@ -5375,12 +5453,6 @@ Partial Class frmVSP_VLCMaster
         CType(Me.LblIncentive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtPaymentCycle, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclear, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtno_days, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5394,93 +5466,81 @@ Partial Class frmVSP_VLCMaster
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents pageCus As Telerik.WinControls.UI.RadPageView
-    Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents chkInActive As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents chkHold As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents txtCredit As common.Controls.MyTextBox
     Friend WithEvents btnclear As Telerik.WinControls.UI.RadButton
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
-    Friend WithEvents txtvendorname As common.Controls.MyTextBox
-    Friend WithEvents btnnew As Telerik.WinControls.UI.RadButton
-    Friend WithEvents txtbankcodedes As common.Controls.MyTextBox
     Friend WithEvents ToolTipvendor As System.Windows.Forms.ToolTip
     Friend WithEvents MenuClose As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents txtpan As common.Controls.MyTextBox
-    Friend WithEvents chkInterBranch As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents RadLabel30 As common.Controls.MyLabel
-    Friend WithEvents lblbankcode As common.Controls.MyLabel
-    Friend WithEvents lblvendorname As common.Controls.MyLabel
-    Friend WithEvents lblvandorno As common.Controls.MyLabel
-    Friend WithEvents lblpan As common.Controls.MyLabel
-    Friend WithEvents fndvendorNo As common.UserControls.txtNavigator
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents fndVendorCurrency As common.UserControls.txtFinder
-    Friend WithEvents lblBaseCurrency As common.Controls.MyLabel
-    Friend WithEvents chkTagAsFranchise As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents cmbAccountType As common.Controls.MyComboBox
-    Friend WithEvents MyLabel11 As common.Controls.MyLabel
-    Friend WithEvents MyLabel12 As common.Controls.MyLabel
-    Friend WithEvents TxtAccNo As common.Controls.MyTextBox
-    Friend WithEvents MyLabel13 As common.Controls.MyLabel
-    Friend WithEvents TxtBankBranch As common.Controls.MyTextBox
-    Friend WithEvents MyLabel14 As common.Controls.MyLabel
-    Friend WithEvents MyLabel15 As common.Controls.MyLabel
-    Friend WithEvents TxtBankName As common.Controls.MyTextBox
-    Friend WithEvents MyLabel16 As common.Controls.MyLabel
-    Friend WithEvents TxtSecurityCharges As common.Controls.MyTextBox
-    Friend WithEvents txtAliesName As common.Controls.MyTextBox
-    Friend WithEvents MyLabel28 As common.Controls.MyLabel
-    Friend WithEvents ChkIsDripSaver As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents MyLabel19 As common.Controls.MyLabel
-    Friend WithEvents MyLabel17 As common.Controls.MyLabel
-    Friend WithEvents fndvendortype As common.UserControls.txtFinder
-    Friend WithEvents TxtAmCU As common.Controls.MyTextBox
-    Friend WithEvents lblvendortype As common.Controls.MyLabel
-    Friend WithEvents MyLabel45 As common.Controls.MyLabel
-    Friend WithEvents chkIsGrossReceipt As common.Controls.MyCheckBox
-    Friend WithEvents txtcollect As common.Controls.MyTextBox
-    Friend WithEvents lblcollectorate As common.Controls.MyLabel
-    Friend WithEvents txtpaymnt_cmsn As common.Controls.MyTextBox
-    Friend WithEvents MyLabel10 As common.Controls.MyLabel
-    Friend WithEvents cmbincentive As common.Controls.MyComboBox
-    Friend WithEvents MyLabel4 As common.Controls.MyLabel
-    Friend WithEvents MyLabel3 As common.Controls.MyLabel
-    Friend WithEvents txtcommpers As common.Controls.MyTextBox
-    Friend WithEvents txtvendortypedes As common.Controls.MyTextBox
-    Friend WithEvents MyLabel18 As common.Controls.MyLabel
-    Friend WithEvents TxtAmc_Charge As common.Controls.MyTextBox
     Friend WithEvents txtno_days As common.Controls.MyTextBox
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents DtpEndBillingDate As common.Controls.MyDateTimePicker
     Friend WithEvents DtpBillingDate As common.Controls.MyDateTimePicker
-    Friend WithEvents chk_isblacklist As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents chkHoldPaymentProcess As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents chkInactiveInMilkModule As Telerik.WinControls.UI.RadCheckBox
-    Friend WithEvents fndbankcode As common.Controls.MyTextBox
-    Friend WithEvents TxtIFSCCode As common.Controls.MyTextBox
-    Friend WithEvents findfndbankcode As common.UserControls.txtFinder
-    Friend WithEvents findTxtIFSCCode As common.UserControls.txtFinder
-    Friend WithEvents lblCopy As common.Controls.MyLabel
-    Friend WithEvents fndVSPCopy As common.UserControls.txtFinder
-    Friend WithEvents RadPageViewPage3 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
-    Friend WithEvents MyLabel27 As common.Controls.MyLabel
-    Friend WithEvents ddlGender As common.Controls.MyComboBox
+    Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents ExportData As RadMenuItem
+    Friend WithEvents ExportBlankSheet As RadMenuItem
+    Friend WithEvents ClsMyPrintDocument1 As clsMyPrintDocument
+    Friend WithEvents pageCus As RadPageView
+    Friend WithEvents RadPageViewPage1 As RadPageViewPage
+    Friend WithEvents lblMCCName As common.Controls.MyLabel
+    Friend WithEvents fndMcc As common.UserControls.txtFinder
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents txtvsp As common.Controls.MyLabel
+    Friend WithEvents MyLabel24 As common.Controls.MyLabel
+    Friend WithEvents MyLabel56 As common.Controls.MyLabel
+    Friend WithEvents txtOwnBMCDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtCowPriceDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel53 As common.Controls.MyLabel
+    Friend WithEvents txtRateHeadLoad As common.Controls.MyTextBox
+    Friend WithEvents MyLabel52 As common.Controls.MyLabel
+    Friend WithEvents ChkHeadLoad As RadCheckBox
+    Friend WithEvents CmbHeadLoadServiceBasis As common.Controls.MyComboBox
+    Friend WithEvents MyLabel54 As common.Controls.MyLabel
+    Friend WithEvents chkInActive As RadCheckBox
+    Friend WithEvents txtroutecode As common.UserControls.txtFinder
+    Friend WithEvents MyLabel20 As common.Controls.MyLabel
+    Friend WithEvents txtroutename As common.Controls.MyLabel
+    Friend WithEvents chkApplyCowPrice As RadCheckBox
+    Friend WithEvents MyLabel47 As common.Controls.MyLabel
+    Friend WithEvents txtLoyaltyPer As common.MyNumBox
+    Friend WithEvents MyLabel43 As common.Controls.MyLabel
+    Friend WithEvents txtVLCCodeVlcUploader As common.Controls.MyTextBox
+    Friend WithEvents txtvendornameHindi As common.Controls.MyTextBox
+    Friend WithEvents lblvendorname As common.Controls.MyLabel
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents chkCLUSTER As RadioButton
+    Friend WithEvents chkPDCS As RadioButton
+    Friend WithEvents chkRegistered As RadioButton
+    Friend WithEvents chkOwnBMC As RadCheckBox
+    Friend WithEvents fndvendorNo As common.UserControls.txtNavigator
+    Friend WithEvents lblvandorno As common.Controls.MyLabel
+    Friend WithEvents btnnew As RadButton
+    Friend WithEvents txtvendorname As common.Controls.MyTextBox
+    Friend WithEvents txtRegistrationDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtRegistrationNo As common.Controls.MyTextBox
+    Friend WithEvents lblRegistrationDate As common.Controls.MyLabel
+    Friend WithEvents lblRegistrationNo As common.Controls.MyLabel
+    Friend WithEvents lblMCCOwnBMC As common.Controls.MyLabel
+    Friend WithEvents lblOwnMCC As common.Controls.MyLabel
+    Friend WithEvents txtMCCOwnBMC As common.UserControls.txtFinder
     Friend WithEvents MyLabel29 As common.Controls.MyLabel
     Friend WithEvents cmbGender As common.Controls.MyComboBox
-    Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents MyLabel61 As common.Controls.MyLabel
-    Friend WithEvents btnExportMultipleMaster As RadButton
-    Friend WithEvents btnImportMultipleMaster As RadButton
+    Friend WithEvents MyLabel27 As common.Controls.MyLabel
+    Friend WithEvents ddlGender As common.Controls.MyComboBox
+    Friend WithEvents txtpan As common.Controls.MyTextBox
+    Friend WithEvents lblpan As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents chkHold As RadCheckBox
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents txtSavingCompanyBank As common.UserControls.txtFinder
+    Friend WithEvents lblSavingCompanyBank As common.Controls.MyTextBox
+    Friend WithEvents MyLabel44 As common.Controls.MyLabel
     Friend WithEvents gbBank2Details As GroupBox
+    Friend WithEvents txtIFSCCode2 As common.Controls.MyTextBox
     Friend WithEvents MyLabel26 As common.Controls.MyLabel
     Friend WithEvents findfndbankcode2 As common.UserControls.txtFinder
     Friend WithEvents findTxtIFSCCode2 As common.UserControls.txtFinder
@@ -5499,85 +5559,30 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents MyLabel36 As common.Controls.MyLabel
     Friend WithEvents MyLabel37 As common.Controls.MyLabel
     Friend WithEvents txtCredit2 As common.Controls.MyTextBox
-    Friend WithEvents chkOwnBMC As RadCheckBox
-    Friend WithEvents GroupBox3 As GroupBox
-    Friend WithEvents chkCLUSTER As RadioButton
-    Friend WithEvents chkPDCS As RadioButton
-    Friend WithEvents chkRegistered As RadioButton
-    Friend WithEvents RadPageViewPage4 As RadPageViewPage
-    Friend WithEvents UcAttachment1 As ucAttachment
-    Friend WithEvents txtRegistrationDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtRegistrationNo As common.Controls.MyTextBox
-    Friend WithEvents lblRegistrationDate As common.Controls.MyLabel
-    Friend WithEvents lblRegistrationNo As common.Controls.MyLabel
-    Friend WithEvents txtvendornameHindi As common.Controls.MyTextBox
-    Friend WithEvents txtCompanyBank As common.UserControls.txtFinder
-    Friend WithEvents lblCompanyBank As common.Controls.MyTextBox
-    Friend WithEvents MyLabel44 As common.Controls.MyLabel
+    Friend WithEvents findfndbankcode As common.UserControls.txtFinder
+    Friend WithEvents fndbankcode As common.Controls.MyTextBox
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents TxtSecurityCharges As common.Controls.MyTextBox
+    Friend WithEvents cmbAccountType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents TxtAccNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel13 As common.Controls.MyLabel
+    Friend WithEvents TxtBankBranch As common.Controls.MyTextBox
+    Friend WithEvents MyLabel14 As common.Controls.MyLabel
+    Friend WithEvents TxtBankName As common.Controls.MyTextBox
+    Friend WithEvents txtbankcodedes As common.Controls.MyTextBox
+    Friend WithEvents lblbankcode As common.Controls.MyLabel
+    Friend WithEvents RadLabel30 As common.Controls.MyLabel
+    Friend WithEvents txtCredit As common.Controls.MyTextBox
     Friend WithEvents GroupBox5 As GroupBox
-    Friend WithEvents RadPageViewPage5 As RadPageViewPage
-    Friend WithEvents txtCastCategory As common.UserControls.txtFinder
-    Friend WithEvents MyLabel42 As common.Controls.MyLabel
-    Friend WithEvents GroupBox4 As GroupBox
-    Friend WithEvents lblcustGcode As common.Controls.MyLabel
-    Friend WithEvents fndCusgrp As common.UserControls.txtFinder
-    Friend WithEvents lblCusGrp As common.Controls.MyLabel
-    Friend WithEvents chkCreateCustomerAlso As RadCheckBox
-    Friend WithEvents TxtCreditLimitBasedOnMilkReceipt As common.MyNumBox
-    Friend WithEvents chkCreditLimitBasedOnMilkReceipt As RadCheckBox
-    Friend WithEvents MyLabel41 As common.Controls.MyLabel
-    Friend WithEvents MyLabel40 As common.Controls.MyLabel
-    Friend WithEvents numCorrectionSNF As common.MyNumBox
-    Friend WithEvents numCorrectionFat As common.MyNumBox
-    Friend WithEvents TxtPinCode As common.Controls.MyTextBox
-    Friend WithEvents chkMultIncentive As RadCheckBox
-    Friend WithEvents MyLabel30 As common.Controls.MyLabel
-    Friend WithEvents LblIncentive As common.Controls.MyLabel
-    Friend WithEvents MyLabel22 As common.Controls.MyLabel
-    Friend WithEvents FndIncentive As common.UserControls.txtFinder
-    Friend WithEvents TxtPaymentCycle As common.Controls.MyTextBox
-    Friend WithEvents fndpaymentCycle As common.UserControls.txtFinder
-    Friend WithEvents lblpaymentCycle As common.Controls.MyLabel
-    Friend WithEvents txtPhone2 As RadMaskedEditBox
-    Friend WithEvents txtPhone1 As RadMaskedEditBox
-    Friend WithEvents txtCity As common.Controls.MyLabel
-    Friend WithEvents txtcountrycode As common.UserControls.txtFinder
-    Friend WithEvents RadLabel7 As common.Controls.MyLabel
-    Friend WithEvents txtCountry As common.Controls.MyLabel
-    Friend WithEvents txtState As common.Controls.MyLabel
-    Friend WithEvents txtstatecode As common.UserControls.txtFinder
-    Friend WithEvents RadLabel6 As common.Controls.MyLabel
-    Friend WithEvents txtvndrtype As common.Controls.MyTextBox
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents fndCity As common.UserControls.txtFinder
-    Friend WithEvents RadLabel5 As common.Controls.MyLabel
-    Friend WithEvents fndgroupcode As common.UserControls.txtFinder
-    Friend WithEvents chktrarns As RadCheckBox
-    Friend WithEvents RadLabel12 As common.Controls.MyLabel
-    Friend WithEvents RadLabel11 As common.Controls.MyLabel
-    Friend WithEvents RadLabel10 As common.Controls.MyLabel
-    Friend WithEvents RadLabel8 As common.Controls.MyLabel
-    Friend WithEvents RadLabel9 As common.Controls.MyLabel
-    Friend WithEvents RadLabel2 As common.Controls.MyLabel
-    Friend WithEvents txtWeb As common.Controls.MyTextBox
-    Friend WithEvents txtfax As common.Controls.MyTextBox
-    Friend WithEvents txtEmail As common.Controls.MyTextBox
-    Friend WithEvents txtAdd2 As common.Controls.MyTextBox
-    Friend WithEvents txtAdd1 As common.Controls.MyTextBox
-    Friend WithEvents txtAdd3 As common.Controls.MyTextBox
-    Friend WithEvents txtgroupdes As common.Controls.MyTextBox
-    Friend WithEvents txtIncentiveMult As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents cmbvsppayment As common.Controls.MyComboBox
-    Friend WithEvents MyLabel6 As common.Controls.MyLabel
-    Friend WithEvents txtjointname As common.Controls.MyTextBox
-    Friend WithEvents MyLabel8 As common.Controls.MyLabel
-    Friend WithEvents MyLabel7 As common.Controls.MyLabel
-    Friend WithEvents txtpayeename As common.Controls.MyTextBox
-    Friend WithEvents chkApplyCowPrice As RadCheckBox
-    Friend WithEvents MyLabel47 As common.Controls.MyLabel
-    Friend WithEvents txtLoyaltyPer As common.MyNumBox
-    Friend WithEvents MyLabel43 As common.Controls.MyLabel
-    Friend WithEvents txtVLCCodeVlcUploader As common.Controls.MyTextBox
+    Friend WithEvents lblCurrentCompanyBank As common.Controls.MyTextBox
+    Friend WithEvents txtCurrentCompanyBank As common.UserControls.txtFinder
+    Friend WithEvents MyLabel58 As common.Controls.MyLabel
+    Friend WithEvents TxtIFSCCode As common.Controls.MyTextBox
+    Friend WithEvents findTxtIFSCCode As common.UserControls.txtFinder
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents txtVidhanSabha As common.UserControls.txtFinder
     Friend WithEvents lblVidhanSabha As common.Controls.MyLabel
     Friend WithEvents MyLabel57 As common.Controls.MyLabel
@@ -5602,34 +5607,19 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents lblSupervisiorRPName As common.Controls.MyLabel
     Friend WithEvents lblSupervisiorRP As common.Controls.MyLabel
     Friend WithEvents txtSupervisiorRP As common.UserControls.txtFinder
-    Friend WithEvents chkSuspense As RadCheckBox
-    Friend WithEvents fndvlccode As common.Controls.MyTextBox
-    Friend WithEvents MyLabel21 As common.Controls.MyLabel
-    Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents txtvsp As common.Controls.MyLabel
-    Friend WithEvents lblMCCCode As common.Controls.MyLabel
-    Friend WithEvents fndPriceCode As common.UserControls.txtFinder
-    Friend WithEvents MyLabel9 As common.Controls.MyLabel
-    Friend WithEvents txtvlcname As common.Controls.MyTextBox
-    Friend WithEvents txtvillcode As common.UserControls.txtFinder
-    Friend WithEvents MyLabel23 As common.Controls.MyLabel
-    Friend WithEvents txtvillname As common.Controls.MyLabel
-    Friend WithEvents txtvspcode As common.UserControls.txtFinder
-    Friend WithEvents txtroutecode As common.UserControls.txtFinder
-    Friend WithEvents MyLabel20 As common.Controls.MyLabel
-    Friend WithEvents txtroutename As common.Controls.MyLabel
-    Friend WithEvents txtRateHeadLoad As common.Controls.MyTextBox
-    Friend WithEvents MyLabel52 As common.Controls.MyLabel
-    Friend WithEvents ChkHeadLoad As RadCheckBox
-    Friend WithEvents CmbHeadLoadServiceBasis As common.Controls.MyComboBox
-    Friend WithEvents MyLabel54 As common.Controls.MyLabel
-    Friend WithEvents RadGroupBox2 As RadGroupBox
-    Friend WithEvents lblActiveDate As common.Controls.MyLabel
-    Friend WithEvents MyLabel25 As common.Controls.MyLabel
-    Friend WithEvents dtClosing As common.Controls.MyDateTimePicker
-    Friend WithEvents RadLabel18 As common.Controls.MyLabel
-    Friend WithEvents RadLabel3 As common.Controls.MyLabel
-    Friend WithEvents MyCheckBox1 As common.Controls.MyCheckBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents btnImportMultipleMaster As RadButton
+    Friend WithEvents btnExportMultipleMaster As RadButton
+    Friend WithEvents MyLabel61 As common.Controls.MyLabel
+    Friend WithEvents RadPageViewPage4 As RadPageViewPage
+    Friend WithEvents UcAttachment1 As ucAttachment
+    Friend WithEvents RadPageViewPage5 As RadPageViewPage
+    Friend WithEvents RadScrollablePanel1 As RadScrollablePanel
+    Friend WithEvents chkInterBranch As RadCheckBox
+    Friend WithEvents lblStartDate As common.Controls.MyLabel
+    Friend WithEvents chkHoldPaymentProcess As RadCheckBox
+    Friend WithEvents txtStartDate As common.Controls.MyDateTimePicker
+    Friend WithEvents chk_isblacklist As RadCheckBox
     Friend WithEvents GroupBox6 As GroupBox
     Friend WithEvents txtTIPBuffalo As common.MyNumBox
     Friend WithEvents MyLabel51 As common.Controls.MyLabel
@@ -5637,7 +5627,9 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents MyLabel49 As common.Controls.MyLabel
     Friend WithEvents txtTIPCow As common.MyNumBox
     Friend WithEvents MyLabel46 As common.Controls.MyLabel
+    Friend WithEvents chkInactiveInMilkModule As RadCheckBox
     Friend WithEvents Rchkregistered As RadCheckBox
+    Friend WithEvents ChkIsDripSaver As RadCheckBox
     Friend WithEvents RadGroupBox6 As RadGroupBox
     Friend WithEvents txtGSTIN_No_final As common.Controls.MyTextBox
     Friend WithEvents MyLabel39 As common.Controls.MyLabel
@@ -5646,23 +5638,106 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents txtGST_PanCode As common.Controls.MyTextBox
     Friend WithEvents txtEntity As common.Controls.MyTextBox
     Friend WithEvents txtGSTStateCode As common.MyNumBox
-    Friend WithEvents txtCowPriceDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel53 As common.Controls.MyLabel
-    Friend WithEvents MyLabel56 As common.Controls.MyLabel
-    Friend WithEvents txtOwnBMCDate As common.Controls.MyDateTimePicker
-    Friend WithEvents lblStartDate As common.Controls.MyLabel
-    Friend WithEvents txtStartDate As common.Controls.MyDateTimePicker
-    Friend WithEvents RadMenu1 As RadMenu
-    Friend WithEvents lblMCCOwnBMC As common.Controls.MyLabel
-    Friend WithEvents lblOwnMCC As common.Controls.MyLabel
-    Friend WithEvents txtMCCOwnBMC As common.UserControls.txtFinder
-    Friend WithEvents fndMcc As common.UserControls.txtFinder
-    Friend WithEvents MyLabel24 As common.Controls.MyLabel
-    Friend WithEvents RadScrollablePanel1 As RadScrollablePanel
-    Friend WithEvents lblMCCName As common.Controls.MyLabel
-    Friend WithEvents ExportData As RadMenuItem
-    Friend WithEvents ExportBlankSheet As RadMenuItem
-    Friend WithEvents ClsMyPrintDocument1 As clsMyPrintDocument
-    Friend WithEvents txtIFSCCode2 As common.Controls.MyTextBox
+    Friend WithEvents lblCopy As common.Controls.MyLabel
+    Friend WithEvents MyCheckBox1 As common.Controls.MyCheckBox
+    Friend WithEvents txtAliesName As common.Controls.MyTextBox
+    Friend WithEvents MyLabel28 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents lblActiveDate As common.Controls.MyLabel
+    Friend WithEvents MyLabel25 As common.Controls.MyLabel
+    Friend WithEvents dtClosing As common.Controls.MyDateTimePicker
+    Friend WithEvents RadLabel18 As common.Controls.MyLabel
+    Friend WithEvents fndVSPCopy As common.UserControls.txtFinder
+    Friend WithEvents RadLabel3 As common.Controls.MyLabel
+    Friend WithEvents chkSuspense As RadCheckBox
+    Friend WithEvents chkTagAsFranchise As RadCheckBox
+    Friend WithEvents fndvlccode As common.Controls.MyTextBox
+    Friend WithEvents MyLabel21 As common.Controls.MyLabel
+    Friend WithEvents fndVendorCurrency As common.UserControls.txtFinder
+    Friend WithEvents lblBaseCurrency As common.Controls.MyLabel
+    Friend WithEvents lblMCCCode As common.Controls.MyLabel
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents fndvendortype As common.UserControls.txtFinder
+    Friend WithEvents TxtAmCU As common.Controls.MyTextBox
+    Friend WithEvents lblvendortype As common.Controls.MyLabel
+    Friend WithEvents MyLabel45 As common.Controls.MyLabel
+    Friend WithEvents chkIsGrossReceipt As common.Controls.MyCheckBox
+    Friend WithEvents txtcollect As common.Controls.MyTextBox
+    Friend WithEvents lblcollectorate As common.Controls.MyLabel
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtpaymnt_cmsn As common.Controls.MyTextBox
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents cmbincentive As common.Controls.MyComboBox
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtvendortypedes As common.Controls.MyTextBox
+    Friend WithEvents MyLabel18 As common.Controls.MyLabel
+    Friend WithEvents TxtAmc_Charge As common.Controls.MyTextBox
+    Friend WithEvents fndPriceCode As common.UserControls.txtFinder
+    Friend WithEvents txtAdd1 As common.Controls.MyTextBox
+    Friend WithEvents RadLabel2 As common.Controls.MyLabel
+    Friend WithEvents txtcommpers As common.Controls.MyTextBox
+    Friend WithEvents txtgroupdes As common.Controls.MyTextBox
+    Friend WithEvents lblCusGrp As common.Controls.MyLabel
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents txtAdd3 As common.Controls.MyTextBox
+    Friend WithEvents txtvlcname As common.Controls.MyTextBox
+    Friend WithEvents txtvillcode As common.UserControls.txtFinder
+    Friend WithEvents MyLabel23 As common.Controls.MyLabel
+    Friend WithEvents txtvillname As common.Controls.MyLabel
+    Friend WithEvents txtAdd2 As common.Controls.MyTextBox
+    Friend WithEvents txtEmail As common.Controls.MyTextBox
+    Friend WithEvents txtfax As common.Controls.MyTextBox
+    Friend WithEvents RadLabel10 As common.Controls.MyLabel
+    Friend WithEvents txtWeb As common.Controls.MyTextBox
+    Friend WithEvents RadLabel12 As common.Controls.MyLabel
+    Friend WithEvents txtvspcode As common.UserControls.txtFinder
+    Friend WithEvents RadLabel9 As common.Controls.MyLabel
+    Friend WithEvents RadLabel8 As common.Controls.MyLabel
+    Friend WithEvents txtIncentiveMult As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents cmbvsppayment As common.Controls.MyComboBox
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents RadLabel11 As common.Controls.MyLabel
+    Friend WithEvents txtjointname As common.Controls.MyTextBox
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents chktrarns As RadCheckBox
+    Friend WithEvents RadLabel5 As common.Controls.MyLabel
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents RadLabel6 As common.Controls.MyLabel
+    Friend WithEvents txtpayeename As common.Controls.MyTextBox
+    Friend WithEvents RadLabel7 As common.Controls.MyLabel
+    Friend WithEvents txtCastCategory As common.UserControls.txtFinder
+    Friend WithEvents MyLabel42 As common.Controls.MyLabel
+    Friend WithEvents fndgroupcode As common.UserControls.txtFinder
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents lblcustGcode As common.Controls.MyLabel
+    Friend WithEvents fndCusgrp As common.UserControls.txtFinder
+    Friend WithEvents fndCity As common.UserControls.txtFinder
+    Friend WithEvents txtCity As common.Controls.MyLabel
+    Friend WithEvents chkCreateCustomerAlso As RadCheckBox
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents TxtCreditLimitBasedOnMilkReceipt As common.MyNumBox
+    Friend WithEvents txtvndrtype As common.Controls.MyTextBox
+    Friend WithEvents chkCreditLimitBasedOnMilkReceipt As RadCheckBox
+    Friend WithEvents txtstatecode As common.UserControls.txtFinder
+    Friend WithEvents txtState As common.Controls.MyLabel
+    Friend WithEvents MyLabel41 As common.Controls.MyLabel
+    Friend WithEvents MyLabel40 As common.Controls.MyLabel
+    Friend WithEvents txtCountry As common.Controls.MyLabel
+    Friend WithEvents numCorrectionSNF As common.MyNumBox
+    Friend WithEvents txtcountrycode As common.UserControls.txtFinder
+    Friend WithEvents numCorrectionFat As common.MyNumBox
+    Friend WithEvents TxtPinCode As common.Controls.MyTextBox
+    Friend WithEvents txtPhone1 As RadMaskedEditBox
+    Friend WithEvents chkMultIncentive As RadCheckBox
+    Friend WithEvents txtPhone2 As RadMaskedEditBox
+    Friend WithEvents MyLabel30 As common.Controls.MyLabel
+    Friend WithEvents lblpaymentCycle As common.Controls.MyLabel
+    Friend WithEvents LblIncentive As common.Controls.MyLabel
+    Friend WithEvents fndpaymentCycle As common.UserControls.txtFinder
+    Friend WithEvents MyLabel22 As common.Controls.MyLabel
+    Friend WithEvents TxtPaymentCycle As common.Controls.MyTextBox
+    Friend WithEvents FndIncentive As common.UserControls.txtFinder
 End Class
 
