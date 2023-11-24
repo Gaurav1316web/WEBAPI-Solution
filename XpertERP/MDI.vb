@@ -8105,6 +8105,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptBookingWiseRegister
                         frm = New rptBookingWiseRegister()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDemandHistory
+                        frm = New frmDemandHistory()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptZoneWiseMSVisual
                         frm = New rptZoneWiseMilkSaleVisual()
