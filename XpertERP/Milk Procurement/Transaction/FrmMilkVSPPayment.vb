@@ -79,17 +79,17 @@ Public Class FrmMilkVSPPayment
 
     Sub UpdateSTDQtyOFSRN()
         Try
-            Dim qry As String = "update TSPL_MILK_SRN_DETAIL set Std_Qty=xxxx.STDQTY" + _
-            " from(" + _
-            " select xx.DOC_CODE,convert(decimal(18,2), (select  top 1 (  FATKG *CAST(Ratio as decimal)/FAT_Pers)+(SNFKg*SNF_Ratio/SNF_Pers) as Qty  " + _
-            " from TSPL_MILK_PRICE_MASTER " + _
-            " where Effective_Date<=xx.doc_date order by Effective_Date desc))  as STDQTY  from (" + _
-            " select TSPL_MILK_SRN_DETAIL.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.ACC_Qty,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER  " + _
-            " ,TSPL_MILK_SRN_DETAIL.ACC_Qty*TSPL_MILK_SRN_DETAIL.FAT_PER/100 as FATKG,TSPL_MILK_SRN_DETAIL.ACC_Qty*TSPL_MILK_SRN_DETAIL.SNF_PER/100 as SNFKg " + _
-            " from TSPL_MILK_SRN_DETAIL " + _
-            " left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE " + _
-            " where TSPL_MILK_SRN_DETAIL.Std_Qty = 0 " + _
-            " )xx " + _
+            Dim qry As String = "update TSPL_MILK_SRN_DETAIL set Std_Qty=xxxx.STDQTY" +
+            " from(" +
+            " select xx.DOC_CODE,convert(decimal(18,2), (select  top 1 (  FATKG *CAST(Ratio as decimal)/FAT_Pers)+(SNFKg*SNF_Ratio/SNF_Pers) as Qty  " +
+            " from TSPL_MILK_PRICE_MASTER " +
+            " where Effective_Date<=xx.doc_date order by Effective_Date desc))  as STDQTY  from (" +
+            " select TSPL_MILK_SRN_DETAIL.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.ACC_Qty,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER  " +
+            " ,TSPL_MILK_SRN_DETAIL.ACC_Qty*TSPL_MILK_SRN_DETAIL.FAT_PER/100 as FATKG,TSPL_MILK_SRN_DETAIL.ACC_Qty*TSPL_MILK_SRN_DETAIL.SNF_PER/100 as SNFKg " +
+            " from TSPL_MILK_SRN_DETAIL " +
+            " left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE " +
+            " where TSPL_MILK_SRN_DETAIL.Std_Qty = 0 " +
+            " )xx " +
             " )xxxx inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxxx.DOC_CODE"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
@@ -219,6 +219,39 @@ Public Class FrmMilkVSPPayment
 
     Private Sub btnGenerateBill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateBill.Click
         Try
+            Dim ChkQryUnpaidBank As String = "select count(*) from TSPL_BANK_MASTER where Unpaid='1' "
+            Dim count As Integer = clsDBFuncationality.getSingleValue(ChkQryUnpaidBank)
+            If count = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please Define Unpaid Bank in Bank Master", Me.Text)
+                Exit Sub
+            End If
+
+            Dim strVLC As String = clsCommon.GetMulcallString(txtVSP.arrValueMember)
+            Dim DCSCountBank1 As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_VENDOR_MASTER where Form_Type = 'VSP' and Bank_Code is null or Bank_Code = '' AND Vendor_Code IN (" & strVLC & ") ")
+            Dim DCSCountBank2 As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_VENDOR_MASTER where Form_Type = 'VSP' and BankCode2 is null or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ") ")
+            Dim TotalDcsCount As Integer = DCSCountBank1 + DCSCountBank2
+            If TotalDcsCount > 0 Then
+                clsCommon.MyMessageBoxShow(Me, "" & TotalDcsCount & " DCS have blank Bank Details", Me.Text)
+                If common.clsCommon.MyMessageBoxShow("We will update UNPAID Bank Details on these DCS. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET Bank_Code = 'UNPAID' ,  Bank_Name = 'UNPAID' , BankName2 = 'UNPAID' , IFSC_Code = 'UNPAID' , IFSCCode2 = 'UNPAID' , Account_No = 'UNPAID ' , AccNo2 = 'UNPAID'
+            where Form_Type = 'VSP' AND Bank_Code IS NULL or Bank_Code = '' AND Vendor_Code IN (" & strVLC & ")")
+                    clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET BankCode2 = 'UNPAID' ,  Bank_Name = 'UNPAID' , BankName2 = 'UNPAID' , IFSC_Code = 'UNPAID' , IFSCCode2 = 'UNPAID' , Account_No = 'UNPAID ' , AccNo2 = 'UNPAID'
+            where Form_Type = 'VSP' AND BankCode2 IS NULL or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ")")
+                    GenerateBill()
+                Else
+                    Exit Sub
+                End If
+            Else
+                GenerateBill()
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub GenerateBill()
+        Try
             Dim obj As New clsVSPBillAndIncentiveCalculation()
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkVSPPayment, txtMCC.Value, txtFromDate.Value, Nothing)
             If SettMultipleMCCFinder Then
@@ -231,6 +264,7 @@ Public Class FrmMilkVSPPayment
                             For Each dr As DataRow In dt.Rows
                                 arrVSP.Add(clsCommon.myCstr(dr("VSP_Code")))
                             Next
+
                             obj.BillGenerationMCCWise(Me, strMCC, txtFromDate.Value, txtToDate.Value, Formcode, arrVSP, lblPaymentType.Text, clsCommon.myCdbl(lblPaymentType.Tag))
                         End If
                     Else
@@ -246,6 +280,7 @@ Public Class FrmMilkVSPPayment
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+
     End Sub
 
     'Private Sub btnGenerateBill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateBill.Click
@@ -901,9 +936,9 @@ Public Class FrmMilkVSPPayment
     End Sub
 
     Public Shared Sub CreateVSPDebitNoteOfTIP(ByVal strVSPCode As String, ByVal dtDocDate As DateTime, ByVal strMCC As String, ByVal trans As SqlTransaction) ''VIJ/11/12/19-000118 by balwinder on 27/01/2019
-        Dim qry As String = "select max(TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE) as DOC_CODE, sum(TSPL_MILK_SRN_DETAIL.TIP_Amount) as TIP_Amount from TSPL_MILK_PURCHASE_INVOICE_DETAIL" + Environment.NewLine + _
-        "left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD  on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE" + Environment.NewLine + _
-        "left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE" + Environment.NewLine + _
+        Dim qry As String = "select max(TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE) as DOC_CODE, sum(TSPL_MILK_SRN_DETAIL.TIP_Amount) as TIP_Amount from TSPL_MILK_PURCHASE_INVOICE_DETAIL" + Environment.NewLine +
+        "left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD  on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE" + Environment.NewLine +
+        "left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE" + Environment.NewLine +
         "where TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + strVSPCode + "' and TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE='" + strMCC + "' and convert(date, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)='" + clsCommon.GetPrintDate(dtDocDate, "dd/MMM/yyyy") + "'"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then

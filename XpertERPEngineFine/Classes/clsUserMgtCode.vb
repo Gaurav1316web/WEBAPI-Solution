@@ -2078,6 +2078,7 @@ Public Class clsUserMgtCode
     Public Const MilkCollectionGenerate As String = "MLK-COL-GEN"
     Public Const MilkCollectionMCCMultipleDays As String = "MLK-COL-MLD"
     Public Const MilkCollectionDCSMultipleDays As String = "MLK-DCS-MLD"
+    Public Const MilkCollectionDCSMultipleDaysMerge As String = "MLK-MLD-MRG"
     Public Const MilkCollectionMCC As String = "MLK-COL-MCC"
     Public Const MilkCollectionMCCGateEntry As String = "MLK-COL-MCCG"
     Public Const MilkCollectionMCCSample As String = "MLK-COL-MCCS"

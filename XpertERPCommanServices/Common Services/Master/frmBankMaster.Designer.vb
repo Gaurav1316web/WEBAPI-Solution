@@ -23,14 +23,14 @@ Partial Class frmBankMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblbank = New common.Controls.MyLabel()
         Me.lbldes = New common.Controls.MyLabel()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
@@ -41,6 +41,7 @@ Partial Class frmBankMaster
         Me.banlclose = New Telerik.WinControls.UI.RadMenuItem()
         Me.bankstab = New Telerik.WinControls.UI.RadPageView()
         Me.bankstabprofile = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkUnpaid = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtBankGroup = New common.UserControls.txtFinder()
         Me.lblBankGroup = New common.Controls.MyLabel()
         Me.chkSettlementBankForAD = New Telerik.WinControls.UI.RadCheckBox()
@@ -138,6 +139,7 @@ Partial Class frmBankMaster
         CType(Me.bankstab, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.bankstab.SuspendLayout()
         Me.bankstabprofile.SuspendLayout()
+        CType(Me.chkUnpaid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSettlementBankForAD, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProvisionBank, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -295,13 +297,14 @@ Partial Class frmBankMaster
         Me.bankstab.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.bankstab.Location = New System.Drawing.Point(0, 24)
         Me.bankstab.Name = "bankstab"
-        Me.bankstab.SelectedPage = Me.bankstabprofile
+        Me.bankstab.SelectedPage = Me.RadPageViewPage1
         Me.bankstab.Size = New System.Drawing.Size(725, 387)
         Me.bankstab.TabIndex = 3
         CType(Me.bankstab.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'bankstabprofile
         '
+        Me.bankstabprofile.Controls.Add(Me.chkUnpaid)
         Me.bankstabprofile.Controls.Add(Me.txtBankGroup)
         Me.bankstabprofile.Controls.Add(Me.lblBankGroup)
         Me.bankstabprofile.Controls.Add(Me.chkSettlementBankForAD)
@@ -348,6 +351,15 @@ Partial Class frmBankMaster
         Me.bankstabprofile.Name = "bankstabprofile"
         Me.bankstabprofile.Size = New System.Drawing.Size(704, 341)
         Me.bankstabprofile.Text = "Profile"
+        '
+        'chkUnpaid
+        '
+        Me.chkUnpaid.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkUnpaid.Location = New System.Drawing.Point(607, 8)
+        Me.chkUnpaid.Name = "chkUnpaid"
+        Me.chkUnpaid.Size = New System.Drawing.Size(56, 16)
+        Me.chkUnpaid.TabIndex = 73
+        Me.chkUnpaid.Text = "Unpaid"
         '
         'txtBankGroup
         '
@@ -967,16 +979,16 @@ Partial Class frmBankMaster
         Me.ddlbanktype.IsSourceFromTable = False
         Me.ddlbanktype.IsSourceFromValueList = False
         Me.ddlbanktype.IsUnique = False
-        RadListDataItem1.Text = "Cash"
-        RadListDataItem2.Text = "Bank"
-        RadListDataItem3.Text = "Petty Cash"
-        RadListDataItem4.Text = "Other"
-        RadListDataItem5.Text = "Settlement"
-        Me.ddlbanktype.Items.Add(RadListDataItem1)
-        Me.ddlbanktype.Items.Add(RadListDataItem2)
-        Me.ddlbanktype.Items.Add(RadListDataItem3)
-        Me.ddlbanktype.Items.Add(RadListDataItem4)
-        Me.ddlbanktype.Items.Add(RadListDataItem5)
+        RadListDataItem6.Text = "Cash"
+        RadListDataItem7.Text = "Bank"
+        RadListDataItem8.Text = "Petty Cash"
+        RadListDataItem9.Text = "Other"
+        RadListDataItem10.Text = "Settlement"
+        Me.ddlbanktype.Items.Add(RadListDataItem6)
+        Me.ddlbanktype.Items.Add(RadListDataItem7)
+        Me.ddlbanktype.Items.Add(RadListDataItem8)
+        Me.ddlbanktype.Items.Add(RadListDataItem9)
+        Me.ddlbanktype.Items.Add(RadListDataItem10)
         Me.ddlbanktype.Location = New System.Drawing.Point(166, 227)
         Me.ddlbanktype.MendatroryField = True
         Me.ddlbanktype.MyLinkLable1 = Me.lblbanktype
@@ -1607,7 +1619,7 @@ Partial Class frmBankMaster
         Me.pageCheckPrinting.ItemSize = New System.Drawing.SizeF(90.0!, 26.0!)
         Me.pageCheckPrinting.Location = New System.Drawing.Point(10, 35)
         Me.pageCheckPrinting.Name = "pageCheckPrinting"
-        Me.pageCheckPrinting.Size = New System.Drawing.Size(722, 271)
+        Me.pageCheckPrinting.Size = New System.Drawing.Size(704, 341)
         Me.pageCheckPrinting.Text = "Check Printing"
         '
         'gv1
@@ -1628,11 +1640,11 @@ Partial Class frmBankMaster
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ShowRowHeaderColumn = False
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(722, 271)
+        Me.gv1.Size = New System.Drawing.Size(704, 341)
         Me.gv1.TabIndex = 19
         Me.gv1.TabStop = False
         '
@@ -1642,7 +1654,7 @@ Partial Class frmBankMaster
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(128.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(722, 336)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(704, 341)
         Me.RadPageViewPage1.Text = "Check Printing Setting"
         '
         'UcCheckSetting1
@@ -1652,7 +1664,7 @@ Partial Class frmBankMaster
         Me.UcCheckSetting1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.UcCheckSetting1.MinimumSize = New System.Drawing.Size(574, 305)
         Me.UcCheckSetting1.Name = "UcCheckSetting1"
-        Me.UcCheckSetting1.Size = New System.Drawing.Size(722, 336)
+        Me.UcCheckSetting1.Size = New System.Drawing.Size(704, 341)
         Me.UcCheckSetting1.TabIndex = 0
         '
         'RadPageViewPage2
@@ -1682,7 +1694,7 @@ Partial Class frmBankMaster
         Me.gvPP.MasterTemplate.EnableGrouping = False
         Me.gvPP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPP.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPP.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvPP.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvPP.Name = "gvPP"
         Me.gvPP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPP.ShowHeaderCellButtons = True
@@ -1709,7 +1721,7 @@ Partial Class frmBankMaster
         '
         Me.gvNEFTPerforma.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNEFTPerforma.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvNEFTPerforma.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvNEFTPerforma.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvNEFTPerforma.Name = "gvNEFTPerforma"
         Me.gvNEFTPerforma.ShowHeaderCellButtons = True
         Me.gvNEFTPerforma.Size = New System.Drawing.Size(704, 308)
@@ -1893,6 +1905,7 @@ Partial Class frmBankMaster
         Me.bankstab.ResumeLayout(False)
         Me.bankstabprofile.ResumeLayout(False)
         Me.bankstabprofile.PerformLayout()
+        CType(Me.chkUnpaid, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBankGroup, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSettlementBankForAD, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProvisionBank, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2085,5 +2098,6 @@ Partial Class frmBankMaster
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
     Friend WithEvents txtBankGroup As common.UserControls.txtFinder
     Friend WithEvents lblBankGroup As common.Controls.MyLabel
+    Friend WithEvents chkUnpaid As RadCheckBox
 End Class
 

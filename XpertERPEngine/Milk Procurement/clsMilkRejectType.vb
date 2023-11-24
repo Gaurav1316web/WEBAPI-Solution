@@ -11,6 +11,7 @@ Public Class clsMilkRejectType
     Public Item_Code As String = Nothing
     Public Type As String = Nothing
     Public SNo As Integer
+    Public Prefix As Integer
     Public Include_In_DBT As Boolean
     Public Exclude_Head As Boolean
 #End Region
@@ -33,6 +34,7 @@ Public Class clsMilkRejectType
             clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
             clsCommon.AddColumnsForChange(coll, "Type", obj.Type, True)
             clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
+            clsCommon.AddColumnsForChange(coll, "Prefix", obj.Prefix)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -83,6 +85,7 @@ Public Class clsMilkRejectType
             obj.Exclude_Head = (clsCommon.myCdbl(dt.Rows(0)("Exclude_Head")) = 1)
             obj.Type = clsCommon.myCstr(dt.Rows(0)("Type"))
             obj.SNo = clsCommon.myCdbl(dt.Rows(0)("SNo"))
+            obj.Prefix = clsCommon.myCdbl(dt.Rows(0)("Prefix"))
         End If
         Return obj
     End Function
@@ -114,7 +117,7 @@ Public Class clsMilkRejectType
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim qry As String = "select TSPL_MILK_REJECT_TYPE.Code,TSPL_MILK_REJECT_TYPE.Description,TSPL_MILK_REJECT_TYPE.Applicable_Per as [Applicable %],TSPL_MILK_REJECT_TYPE.Item_Code as [Item] from TSPL_MILK_REJECT_TYPE "
+        Dim qry As String = "select TSPL_MILK_REJECT_TYPE.Code,TSPL_MILK_REJECT_TYPE.Description,TSPL_MILK_REJECT_TYPE.Applicable_Per as [Applicable %],TSPL_MILK_REJECT_TYPE.Item_Code as [Item] , TSPL_MILK_REJECT_TYPE.Prefix as Prefix from TSPL_MILK_REJECT_TYPE "
         str = clsCommon.ShowSelectForm("canmasterFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
 

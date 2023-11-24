@@ -803,7 +803,12 @@ End if
         If chkDefaultNEFTDBT.Checked Then
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set NEFT_DBT_Default=0")
         End If
-        clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set NEFT_DBT_Default='" + IIf(chkDefaultNEFTDBT.Checked, "1", "0") + "' , IsSettlementBankForAD='" & IIf(chkSettlementBankForAD.Checked = True, "1", "0") & "', cheque_validity_in_days=" & clsCommon.myCdbl(txtChequeValidity.Text) & ",LCCreditLimit=" & clsCommon.myCdbl(txtLCCreditLimit.Value) & ",FDPercentage=" & clsCommon.myCdbl(txtFDPer.Value) & ",Transfer_Clearing_Account='" & fndtransferclearing.Value & "',  IBAN_No='" & TxtIbanno.Text & "',Swift_Code='" & txtswiftcode.Text & "',Is_Clearance_Bank='" & IIf(chkClearanceBank.Checked, "Y", "N") & "',Main_Bank_Code='" & clsCommon.myCstr(TxtMainBankCode.Value) & "' ,IsProvisionBank = '" + IIf(chkProvisionBank.Checked = True, "1", "0") + "' where bank_code='" & clsCommon.myCstr(fndbank.Value) & "'")
+
+        If chkUnpaid.Checked Then
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set Unpaid = 0")
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set Unpaid = 1 where bank_code='" & clsCommon.myCstr(fndbank.Value) & "'")
+        End If
+        clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set  Unpaid = 1  NEFT_DBT_Default='" + IIf(chkDefaultNEFTDBT.Checked, "1", "0") + "' , IsSettlementBankForAD='" & IIf(chkSettlementBankForAD.Checked = True, "1", "0") & "', cheque_validity_in_days=" & clsCommon.myCdbl(txtChequeValidity.Text) & ",LCCreditLimit=" & clsCommon.myCdbl(txtLCCreditLimit.Value) & ",FDPercentage=" & clsCommon.myCdbl(txtFDPer.Value) & ",Transfer_Clearing_Account='" & fndtransferclearing.Value & "',  IBAN_No='" & TxtIbanno.Text & "',Swift_Code='" & txtswiftcode.Text & "',Is_Clearance_Bank='" & IIf(chkClearanceBank.Checked, "Y", "N") & "',Main_Bank_Code='" & clsCommon.myCstr(TxtMainBankCode.Value) & "' ,IsProvisionBank = '" + IIf(chkProvisionBank.Checked = True, "1", "0") + "' where bank_code='" & clsCommon.myCstr(fndbank.Value) & "'")
     End Sub
 
     Function SaveBankCheckData(ByVal strDocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
@@ -885,7 +890,7 @@ End if
     'It will fill the all controls if value exist in database according to fndbank
     Public Sub funfill()
         Try
-            Dim strquery As String = "select bank_code,description,add1,add2,add3,add4,city,state,postal,country,contact,phone,fax,inactive,bankaccnumber,bankacc,writeoffacc,creditacc, Bank_Type ,cheque_validity_in_Days,LCCreditLimit,FDPercentage,Sub_Account,Transfer_Clearing_Account,IBAN_No,Swift_Code,Gateway_type,Default_Bank,Branch_Code,Is_Clearance_Bank,Main_Bank_Code, Bank_Opening_Clearing_Account,IsProvisionBank,IsSettlementBankForAD,TSPL_Bank_MASTER.NEFT_DBT_Default, TSPL_Bank_MASTER.Email, TSPL_Bank_MASTER.BANK_GROUP_CODE   from TSPL_Bank_MASTER where bank_code='" + fndbank.Value + "'"
+            Dim strquery As String = "select bank_code,description,add1,add2,add3,add4,city,state,postal,country,contact,phone,fax,inactive,bankaccnumber,bankacc,writeoffacc,creditacc, Bank_Type ,cheque_validity_in_Days,LCCreditLimit,FDPercentage,Sub_Account,Transfer_Clearing_Account,IBAN_No,Swift_Code,Gateway_type,Default_Bank,Unpaid,Branch_Code,Is_Clearance_Bank,Main_Bank_Code, Bank_Opening_Clearing_Account,IsProvisionBank,IsSettlementBankForAD,TSPL_Bank_MASTER.NEFT_DBT_Default, TSPL_Bank_MASTER.Email, TSPL_Bank_MASTER.BANK_GROUP_CODE   from TSPL_Bank_MASTER where bank_code='" + fndbank.Value + "'"
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(strquery)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -949,10 +954,15 @@ End if
                     ElseIf clsCommon.myCdbl(row("Default_Bank")) = 1 Then
                         chkDefaultBank.Checked = True
                     End If
+                    If clsCommon.myCdbl(row("Unpaid")) = 0 Then
+                        chkUnpaid.Checked = False
+                    ElseIf clsCommon.myCdbl(row("Unpaid")) = 1 Then
+                        chkUnpaid.Checked = True
+                    End If
                     If clsCommon.myCdbl(row("IsProvisionBank")) = 1 Then
                         chkProvisionBank.Checked = True
                     Else
-                        chkProvisionBank.Checked = False
+                        chkProvisionBank.Checked = False    
                     End If
                     fndBranchName.Value = row("Branch_Code").ToString()
                     chkSettlementBankForAD.Checked = IIf(clsCommon.myCdbl(row("IsSettlementBankForAD")) = 1, True, False)
