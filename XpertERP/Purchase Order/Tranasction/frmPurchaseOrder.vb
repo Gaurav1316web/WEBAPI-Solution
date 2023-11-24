@@ -4792,8 +4792,8 @@ Public Class frmPurchaseOrder
                         End If
                     End If
 
-                    If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myCDecimal(txtTenderNo.Tag) = 2 Then
-                        Dim qry As String = "select Item_Code,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate from TSPL_TENDER_DETAIL where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.Value + "' and Item_Code='" + strICode + "' and Rate=" + clsCommon.myCstr(dblRate) + " and Unit_code='" + strUOM + "'"
+                    If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myCDecimal(txtTenderNo.Tag) = 3 Then
+                        Dim qry As String = "select Item_Code,TSPL_TENDER_DETAIL.Unit_code,TSPL_TENDER_DETAIL.Rate,TSPL_TENDER_DETAIL.Discount from TSPL_TENDER_DETAIL where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.Value + "' and Item_Code='" + strICode + "' and Rate=" + clsCommon.myCstr(dblRate) + " and Unit_code='" + strUOM + "'"
                         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
                         If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
                             clsCommon.MyMessageBoxShow(Me, "item : " + strICode + " is not for vendor: " + txtVendorNo.Value + " and Tender: " + txtTenderNo.Value + " Rate: " + clsCommon.myCstr(dblRate) + " and UOM: " + strUOM + ". At Line No" + clsCommon.myCstr(ii + 1))
@@ -7266,7 +7266,7 @@ Public Class frmPurchaseOrder
     End Sub
 
     Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean)
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), IIf(clsCommon.myLen(gv1.CurrentRow.Cells(colICode)) > 0, gv1.CurrentRow.Cells(colICode).Value, ""), False)
+        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), IIf(clsCommon.myLen(gv1.CurrentRow.Cells(colICode)) > 0, gv1.CurrentRow.Cells(colICode).Value, ""), txtDate.Value)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If isForCurrentRow Then
                 BlankTaxDetails(gv1.CurrentRow.Index)

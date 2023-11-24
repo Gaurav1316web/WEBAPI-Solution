@@ -8,6 +8,7 @@ Public Class frmCustomerListRpt
     Inherits FrmMainTranScreen
     Dim trnsLst As New List(Of String)
     Dim ButtonToolTip As ToolTip = New ToolTip()
+    Public ApplyOrderByNumeric As Boolean = False
 
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.CustomersListReport)
@@ -21,7 +22,8 @@ Public Class frmCustomerListRpt
     End Sub
     Private Sub frmCustomerListRpt_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        
+        ApplyOrderByNumeric = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, Nothing)) = 1, True, False)
+
         chkcustomerAll.IsChecked = True
         chkRouteAll.IsChecked = True
         chkCustGrpAll.IsChecked = True
@@ -190,7 +192,15 @@ Public Class frmCustomerListRpt
             ''----------------Varsha 27-10-23--------For added security amount then group by all
             qry = "SELECT max(tabDistributor.Cust_Code) As [Distributor Code],max(tabDistributor.Customer_Name) As [Distributor Name],TSPL_CUSTOMER_MASTER.Cust_Code AS [Customer Code], max(TSPL_CUSTOMER_MASTER.Customer_Name) As [Customer Name],
                      sum(Receipt_Amount * (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then -1 ELSE 1 END))    AS [Security Amount] 	,
-                     max(tspl_customer_master.Add1 + case when len(tspl_customer_master.add2)> 0 then ', ' else '' end + tspl_customer_master.Add2 +case when len(tspl_customer_master.Add3)> 0 then ', 'else '' end + Case When Len(tspl_customer_master.City_Code)>0 THEN ', ' else '' end+ tspl_customer_master.City_Code +case when len(tspl_customer_master.State)> 0 then ', ' else '' end  +tspl_customer_master.State ) as [Customer Address], max(TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc) as [Customer Grpoup Description],max(TSPL_CUSTOMER_MASTER.PAN) as [PAN No],max(TSPL_CUSTOMER_MASTER.Tin_No) as [Tin No],max(case when  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Made_Date,103),'') ='01/01/1753' then '' else  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Made_Date,103),'') end) as [Agreement Made Date],max( case when  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Close_Date,103),'')='01/01/1753' then '' else isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Close_Date,103),'') end ) as [Agreement Close Date],max(TSPL_CUSTOMER_MASTER.Contact_Person_Name) AS [Contact Person Name],max(TSPL_CUSTOMER_MASTER.Contact_Person_Phone) as [Contact Person],max(TSPL_CUSTOMER_MASTER.Route_Desc) As [Route Description] ,max(TSPL_CUSTOMER_MASTER.Zone_Code) as [Zone Code],max(TSPL_ZONE_MASTER.Description) as [Zone Desc]  ,max(TSPL_CUSTOMER_MASTER.GSTNO) as GSTNO , max(TSPL_STATE_MASTER.GST_STATE_Code) as [GST STATE Code], max(TSPL_STATE_MASTER.STATE_NAME) as [State Name] , max(case when  TSPL_CUSTOMER_MASTER.GST_Registered =1 then 'Yes' else 'No' end) as Registered    FROM TSPL_CUSTOMER_MASTER  Left Outer JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Category_Code = TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_CUSTOMER_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_MASTER.Cust_Group_Code =TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code Left Outer Join TSPL_CUSTOMER_MASTER as tabDistributor on tabDistributor.Cust_Code=TSPL_CUSTOMER_MASTER.Distributor_Code  LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MASTER.Route_No 
+                     max(tspl_customer_master.Add1 + case when len(tspl_customer_master.add2)> 0 then ', ' else '' end + tspl_customer_master.Add2 +case when len(tspl_customer_master.Add3)> 0 then ', 'else '' end + Case When Len(tspl_customer_master.City_Code)>0 THEN ', ' else '' end+ tspl_customer_master.City_Code +case when len(tspl_customer_master.State)> 0 then ', ' else '' end  +tspl_customer_master.State ) as [Customer Address], max(TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc) as [Customer Grpoup Description],max(TSPL_CUSTOMER_MASTER.PAN) as [PAN No],max(TSPL_CUSTOMER_MASTER.Tin_No) as [Tin No],max(case when  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Made_Date,103),'') ='01/01/1753' then '' else  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Made_Date,103),'') end) as [Agreement Made Date],max( case when  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Close_Date,103),'')='01/01/1753' then '' else isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Close_Date,103),'') end ) as [Agreement Close Date],max(TSPL_CUSTOMER_MASTER.Contact_Person_Name) AS [Contact Person Name],max(TSPL_CUSTOMER_MASTER.Contact_Person_Phone) as [Contact Person], "
+            If ApplyOrderByNumeric Then
+                qry += " max(cast(TSPL_CUSTOMER_MASTER.Route_No as int)) As [Route No]"
+
+            Else
+                qry += " max(TSPL_CUSTOMER_MASTER.Route_No) As [Route No]"
+
+            End If
+            qry += ",max(TSPL_CUSTOMER_MASTER.Route_Desc) As [Route Description] ,max(TSPL_CUSTOMER_MASTER.Zone_Code) as [Zone Code],max(TSPL_ZONE_MASTER.Description) as [Zone Desc]  ,max(TSPL_CUSTOMER_MASTER.GSTNO) as GSTNO , max(TSPL_STATE_MASTER.GST_STATE_Code) as [GST STATE Code], max(TSPL_STATE_MASTER.STATE_NAME) as [State Name] , max(case when  TSPL_CUSTOMER_MASTER.GST_Registered =1 then 'Yes' else 'No' end) as Registered    FROM TSPL_CUSTOMER_MASTER  Left Outer JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Category_Code = TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_CUSTOMER_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_MASTER.Cust_Group_Code =TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code Left Outer Join TSPL_CUSTOMER_MASTER as tabDistributor on tabDistributor.Cust_Code=TSPL_CUSTOMER_MASTER.Distributor_Code  LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MASTER.Route_No 
                        Left OUTER join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
                        left outer join TSPL_STATE_MASTER  on TSPL_STATE_MASTER.STATE_CODE = TSPL_CUSTOMER_MASTER.State left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_CUSTOMER_MASTER.Zone_Code 
                      Where 2=2 And TSPL_CUSTOMER_MASTER.IsDistributor='N' 
@@ -228,7 +238,7 @@ Public Class frmCustomerListRpt
             ElseIf chkInactive.Checked Then
                 qry += " AND TSPL_CUSTOMER_MASTER.Status='Y'"
             End If
-            qry += "Group by TSPL_CUSTOMER_MASTER.Cust_Code"
+            qry += "Group by TSPL_CUSTOMER_MASTER.Cust_Code  order by [Route No]"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -312,6 +322,11 @@ Public Class frmCustomerListRpt
         gv.Columns("Contact Person").IsVisible = True
         gv.Columns("Contact Person").Width = 80
         gv.Columns("Contact Person").HeaderText = " Contact Person"
+
+        gv.Columns("Route No").IsVisible = True
+        gv.Columns("Route No").Width = 100
+        gv.Columns("Route No").HeaderText = " Route No"
+
 
         gv.Columns("Route Description").IsVisible = True
         gv.Columns("Route Description").Width = 100

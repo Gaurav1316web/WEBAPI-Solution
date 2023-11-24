@@ -65,16 +65,23 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.lblLocationPrint = New common.Controls.MyLabel()
+        Me.txtLoationPrintFinder = New common.UserControls.txtFinder()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.lblVendorPrint = New common.Controls.MyLabel()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnQCdate = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnWeighmentDate = New Telerik.WinControls.UI.RadRadioButton()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.lblRalPrint = New common.Controls.MyLabel()
         Me.TxtFinderRalPrint = New common.UserControls.txtFinder()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.lblVendorPrint = New common.Controls.MyLabel()
         Me.lblItemPrint = New common.Controls.MyLabel()
         Me.TxtFinderItemPrint = New common.UserControls.txtFinder()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.TxtFinderVendorPrint = New common.UserControls.txtFinder()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnNewPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
@@ -95,13 +102,6 @@ Partial Class FrmQualityCheckForSRN
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnQCdate = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnWeighmentDate = New Telerik.WinControls.UI.RadRadioButton()
-        Me.txtLoationPrintFinder = New common.UserControls.txtFinder()
-        Me.lblLocationPrint = New common.Controls.MyLabel()
-        Me.MyLabel10 = New common.Controls.MyLabel()
-        Me.btnNewPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -144,14 +144,21 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.rbtnQCdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnWeighmentDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
+        CType(Me.btnNewPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -168,13 +175,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
-        CType(Me.rbtnQCdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnWeighmentDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocationPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNewPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -218,7 +218,7 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1059, 458)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -869,6 +869,102 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1038, 410)
         Me.RadPageViewPage3.Text = "Multiple Doc Print"
         '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(8, 66)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel10.TabIndex = 67
+        Me.MyLabel10.Text = "Location"
+        '
+        'lblLocationPrint
+        '
+        Me.lblLocationPrint.AutoSize = False
+        Me.lblLocationPrint.BorderVisible = True
+        Me.lblLocationPrint.Enabled = False
+        Me.lblLocationPrint.FieldName = Nothing
+        Me.lblLocationPrint.Location = New System.Drawing.Point(213, 63)
+        Me.lblLocationPrint.Name = "lblLocationPrint"
+        Me.lblLocationPrint.Size = New System.Drawing.Size(243, 19)
+        Me.lblLocationPrint.TabIndex = 66
+        '
+        'txtLoationPrintFinder
+        '
+        Me.txtLoationPrintFinder.CalculationExpression = Nothing
+        Me.txtLoationPrintFinder.FieldCode = Nothing
+        Me.txtLoationPrintFinder.FieldDesc = Nothing
+        Me.txtLoationPrintFinder.FieldMaxLength = 0
+        Me.txtLoationPrintFinder.FieldName = Nothing
+        Me.txtLoationPrintFinder.isCalculatedField = False
+        Me.txtLoationPrintFinder.IsSourceFromTable = False
+        Me.txtLoationPrintFinder.IsSourceFromValueList = False
+        Me.txtLoationPrintFinder.IsUnique = False
+        Me.txtLoationPrintFinder.Location = New System.Drawing.Point(65, 63)
+        Me.txtLoationPrintFinder.MendatroryField = True
+        Me.txtLoationPrintFinder.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLoationPrintFinder.MyLinkLable1 = Me.MyLabel6
+        Me.txtLoationPrintFinder.MyLinkLable2 = Me.lblVendorPrint
+        Me.txtLoationPrintFinder.MyReadOnly = False
+        Me.txtLoationPrintFinder.MyShowMasterFormButton = False
+        Me.txtLoationPrintFinder.Name = "txtLoationPrintFinder"
+        Me.txtLoationPrintFinder.ReferenceFieldDesc = Nothing
+        Me.txtLoationPrintFinder.ReferenceFieldName = Nothing
+        Me.txtLoationPrintFinder.ReferenceTableName = Nothing
+        Me.txtLoationPrintFinder.Size = New System.Drawing.Size(142, 19)
+        Me.txtLoationPrintFinder.TabIndex = 65
+        Me.txtLoationPrintFinder.Value = ""
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(8, 88)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel6.TabIndex = 57
+        Me.MyLabel6.Text = "Vendor"
+        '
+        'lblVendorPrint
+        '
+        Me.lblVendorPrint.AutoSize = False
+        Me.lblVendorPrint.BorderVisible = True
+        Me.lblVendorPrint.Enabled = False
+        Me.lblVendorPrint.FieldName = Nothing
+        Me.lblVendorPrint.Location = New System.Drawing.Point(213, 87)
+        Me.lblVendorPrint.Name = "lblVendorPrint"
+        Me.lblVendorPrint.Size = New System.Drawing.Size(243, 19)
+        Me.lblVendorPrint.TabIndex = 56
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnQCdate)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnWeighmentDate)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(324, 18)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(196, 32)
+        Me.RadGroupBox4.TabIndex = 64
+        '
+        'rbtnQCdate
+        '
+        Me.rbtnQCdate.Location = New System.Drawing.Point(12, 7)
+        Me.rbtnQCdate.Name = "rbtnQCdate"
+        Me.rbtnQCdate.Size = New System.Drawing.Size(62, 18)
+        Me.rbtnQCdate.TabIndex = 1
+        Me.rbtnQCdate.Text = "QC Date"
+        '
+        'rbtnWeighmentDate
+        '
+        Me.rbtnWeighmentDate.Location = New System.Drawing.Point(80, 7)
+        Me.rbtnWeighmentDate.Name = "rbtnWeighmentDate"
+        Me.rbtnWeighmentDate.Size = New System.Drawing.Size(105, 18)
+        Me.rbtnWeighmentDate.TabIndex = 0
+        Me.rbtnWeighmentDate.Text = "Weighment Date"
+        '
         'MyLabel11
         '
         Me.MyLabel11.FieldName = Nothing
@@ -915,27 +1011,6 @@ Partial Class FrmQualityCheckForSRN
         Me.TxtFinderRalPrint.Size = New System.Drawing.Size(142, 19)
         Me.TxtFinderRalPrint.TabIndex = 61
         Me.TxtFinderRalPrint.Value = ""
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(8, 88)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(43, 16)
-        Me.MyLabel6.TabIndex = 57
-        Me.MyLabel6.Text = "Vendor"
-        '
-        'lblVendorPrint
-        '
-        Me.lblVendorPrint.AutoSize = False
-        Me.lblVendorPrint.BorderVisible = True
-        Me.lblVendorPrint.Enabled = False
-        Me.lblVendorPrint.FieldName = Nothing
-        Me.lblVendorPrint.Location = New System.Drawing.Point(213, 87)
-        Me.lblVendorPrint.Name = "lblVendorPrint"
-        Me.lblVendorPrint.Size = New System.Drawing.Size(243, 19)
-        Me.lblVendorPrint.TabIndex = 56
         '
         'lblItemPrint
         '
@@ -1025,6 +1100,16 @@ Partial Class FrmQualityCheckForSRN
         Me.RadGroupBox3.Size = New System.Drawing.Size(310, 42)
         Me.RadGroupBox3.TabIndex = 54
         Me.RadGroupBox3.Text = "Date Range"
+        '
+        'btnNewPrint
+        '
+        Me.btnNewPrint.Image = CType(resources.GetObject("btnNewPrint.Image"), System.Drawing.Image)
+        Me.btnNewPrint.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNewPrint.Location = New System.Drawing.Point(241, 15)
+        Me.btnNewPrint.Name = "btnNewPrint"
+        Me.btnNewPrint.Size = New System.Drawing.Size(20, 21)
+        Me.btnNewPrint.TabIndex = 68
+        Me.btnNewPrint.Text = " "
         '
         'RadLabel2
         '
@@ -1207,91 +1292,6 @@ Partial Class FrmQualityCheckForSRN
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'RadGroupBox4
-        '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.rbtnQCdate)
-        Me.RadGroupBox4.Controls.Add(Me.rbtnWeighmentDate)
-        Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(324, 18)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(196, 32)
-        Me.RadGroupBox4.TabIndex = 64
-        '
-        'rbtnQCdate
-        '
-        Me.rbtnQCdate.Location = New System.Drawing.Point(12, 7)
-        Me.rbtnQCdate.Name = "rbtnQCdate"
-        Me.rbtnQCdate.Size = New System.Drawing.Size(62, 18)
-        Me.rbtnQCdate.TabIndex = 1
-        Me.rbtnQCdate.Text = "QC Date"
-        '
-        'rbtnWeighmentDate
-        '
-        Me.rbtnWeighmentDate.Location = New System.Drawing.Point(80, 7)
-        Me.rbtnWeighmentDate.Name = "rbtnWeighmentDate"
-        Me.rbtnWeighmentDate.Size = New System.Drawing.Size(105, 18)
-        Me.rbtnWeighmentDate.TabIndex = 0
-        Me.rbtnWeighmentDate.Text = "Weighment Date"
-        '
-        'txtLoationPrintFinder
-        '
-        Me.txtLoationPrintFinder.CalculationExpression = Nothing
-        Me.txtLoationPrintFinder.FieldCode = Nothing
-        Me.txtLoationPrintFinder.FieldDesc = Nothing
-        Me.txtLoationPrintFinder.FieldMaxLength = 0
-        Me.txtLoationPrintFinder.FieldName = Nothing
-        Me.txtLoationPrintFinder.isCalculatedField = False
-        Me.txtLoationPrintFinder.IsSourceFromTable = False
-        Me.txtLoationPrintFinder.IsSourceFromValueList = False
-        Me.txtLoationPrintFinder.IsUnique = False
-        Me.txtLoationPrintFinder.Location = New System.Drawing.Point(65, 63)
-        Me.txtLoationPrintFinder.MendatroryField = True
-        Me.txtLoationPrintFinder.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLoationPrintFinder.MyLinkLable1 = Me.MyLabel6
-        Me.txtLoationPrintFinder.MyLinkLable2 = Me.lblVendorPrint
-        Me.txtLoationPrintFinder.MyReadOnly = False
-        Me.txtLoationPrintFinder.MyShowMasterFormButton = False
-        Me.txtLoationPrintFinder.Name = "txtLoationPrintFinder"
-        Me.txtLoationPrintFinder.ReferenceFieldDesc = Nothing
-        Me.txtLoationPrintFinder.ReferenceFieldName = Nothing
-        Me.txtLoationPrintFinder.ReferenceTableName = Nothing
-        Me.txtLoationPrintFinder.Size = New System.Drawing.Size(142, 19)
-        Me.txtLoationPrintFinder.TabIndex = 65
-        Me.txtLoationPrintFinder.Value = ""
-        '
-        'lblLocationPrint
-        '
-        Me.lblLocationPrint.AutoSize = False
-        Me.lblLocationPrint.BorderVisible = True
-        Me.lblLocationPrint.Enabled = False
-        Me.lblLocationPrint.FieldName = Nothing
-        Me.lblLocationPrint.Location = New System.Drawing.Point(213, 63)
-        Me.lblLocationPrint.Name = "lblLocationPrint"
-        Me.lblLocationPrint.Size = New System.Drawing.Size(243, 19)
-        Me.lblLocationPrint.TabIndex = 66
-        '
-        'MyLabel10
-        '
-        Me.MyLabel10.FieldName = Nothing
-        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(8, 66)
-        Me.MyLabel10.Name = "MyLabel10"
-        Me.MyLabel10.Size = New System.Drawing.Size(49, 16)
-        Me.MyLabel10.TabIndex = 67
-        Me.MyLabel10.Text = "Location"
-        '
-        'btnNewPrint
-        '
-        Me.btnNewPrint.Image = CType(resources.GetObject("btnNewPrint.Image"), System.Drawing.Image)
-        Me.btnNewPrint.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNewPrint.Location = New System.Drawing.Point(241, 15)
-        Me.btnNewPrint.Name = "btnNewPrint"
-        Me.btnNewPrint.Size = New System.Drawing.Size(20, 21)
-        Me.btnNewPrint.TabIndex = 68
-        Me.btnNewPrint.Text = " "
-        '
         'FrmQualityCheckForSRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1348,15 +1348,23 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.rbtnQCdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnWeighmentDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
+        CType(Me.btnNewPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1373,14 +1381,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout()
-        CType(Me.rbtnQCdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnWeighmentDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocationPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNewPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

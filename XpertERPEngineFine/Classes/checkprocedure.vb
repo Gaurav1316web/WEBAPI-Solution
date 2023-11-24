@@ -1769,9 +1769,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionGenerate, "Generate Milk Collection", "1.18.02.32", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCMultipleDays, "MCC Milk Collection Multiple Days", "1.18.02.33", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, "DCS Milk Collection Multiple Days", "1.18.02.34", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "MCC Milk Collection", "1.18.02.35", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.18.02.36", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.18.02.37", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, "DCS Milk Collection Multiple Days Merge", "1.18.02.35", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "MCC Milk Collection", "1.18.02.36", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.18.02.37", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.18.02.38", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
 
         '===========================Report Bulk========
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkMilkProcurementReport, "Report", "1.18.03", clsUserMgtCode.ModuleBulkMilkProcurement, "SM", 30)
@@ -2291,6 +2292,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmZoneWiseSKUReport, "Zone Wise SKU Report", "1.06.03.49", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmDairySaleSchemeReport, "Dairy Sale Scheme Report", "1.06.03.50", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBookingWiseRegister, "Booking Wise Register", "1.06.03.51", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDemandHistory, "Demand History", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         '-------------------------SERVICE MODULE END----------------------------------------
 
 

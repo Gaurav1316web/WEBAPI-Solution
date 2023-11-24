@@ -26,6 +26,8 @@ Partial Class frmDemandBooking
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+        Me.chkEveningPosted = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkMorningPosted = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtDocAmt = New common.Controls.MyLabel()
         Me.rgbMilk = New Telerik.WinControls.UI.RadGroupBox()
@@ -105,12 +107,12 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkMorningPosted = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkEveningPosted = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
+        CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbMilk, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -184,8 +186,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -260,6 +260,24 @@ Partial Class frmDemandBooking
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
         Me.SplitPanel1.Text = "SplitPanel1"
+        '
+        'chkEveningPosted
+        '
+        Me.chkEveningPosted.Location = New System.Drawing.Point(840, 140)
+        Me.chkEveningPosted.Name = "chkEveningPosted"
+        Me.chkEveningPosted.ReadOnly = True
+        Me.chkEveningPosted.Size = New System.Drawing.Size(97, 18)
+        Me.chkEveningPosted.TabIndex = 1470
+        Me.chkEveningPosted.Text = "Evening Posted"
+        '
+        'chkMorningPosted
+        '
+        Me.chkMorningPosted.Location = New System.Drawing.Point(840, 119)
+        Me.chkMorningPosted.Name = "chkMorningPosted"
+        Me.chkMorningPosted.ReadOnly = True
+        Me.chkMorningPosted.Size = New System.Drawing.Size(100, 18)
+        Me.chkMorningPosted.TabIndex = 1469
+        Me.chkMorningPosted.Text = "Morning Posted"
         '
         'MyLabel3
         '
@@ -1116,6 +1134,7 @@ Partial Class frmDemandBooking
         Me.btn_GPCancel.Size = New System.Drawing.Size(76, 20)
         Me.btn_GPCancel.TabIndex = 25
         Me.btn_GPCancel.Text = "GP Cancel"
+        Me.btn_GPCancel.Visible = False
         '
         'btn_Gatepass
         '
@@ -1177,7 +1196,6 @@ Partial Class frmDemandBooking
         Me.btnPrint.Size = New System.Drawing.Size(69, 20)
         Me.btnPrint.TabIndex = 14
         Me.btnPrint.Text = "Print"
-
         '
         'btnClose
         '
@@ -1249,24 +1267,6 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
-        'chkMorningPosted
-        '
-        Me.chkMorningPosted.Location = New System.Drawing.Point(840, 119)
-        Me.chkMorningPosted.Name = "chkMorningPosted"
-        Me.chkMorningPosted.ReadOnly = True
-        Me.chkMorningPosted.Size = New System.Drawing.Size(100, 18)
-        Me.chkMorningPosted.TabIndex = 1469
-        Me.chkMorningPosted.Text = "Morning Posted"
-        '
-        'chkEveningPosted
-        '
-        Me.chkEveningPosted.Location = New System.Drawing.Point(840, 140)
-        Me.chkEveningPosted.Name = "chkEveningPosted"
-        Me.chkEveningPosted.ReadOnly = True
-        Me.chkEveningPosted.Size = New System.Drawing.Size(97, 18)
-        Me.chkEveningPosted.TabIndex = 1470
-        Me.chkEveningPosted.Text = "Evening Posted"
-        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1287,6 +1287,8 @@ Partial Class frmDemandBooking
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel1.ResumeLayout(False)
         Me.SplitPanel1.PerformLayout()
+        CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbMilk, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1365,8 +1367,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

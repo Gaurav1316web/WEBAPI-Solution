@@ -7807,6 +7807,12 @@ Public Class MDI
                         objCommonVar.IsAutoTabOrdering = False
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         objCommonVar.IsAutoTabOrdering = x
+                    Case clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge
+                        Dim x As Boolean = objCommonVar.IsAutoTabOrdering
+                        frm = New frmMilkCollectionDCSMultipleDaysMerge
+                        objCommonVar.IsAutoTabOrdering = False
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        objCommonVar.IsAutoTabOrdering = x
                     Case clsUserMgtCode.MilkCollectionMCC
                         Dim x As Boolean = objCommonVar.IsAutoTabOrdering
                         frm = New frmMilkCollectionMCC
@@ -8098,6 +8104,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptBookingWiseRegister
                         frm = New rptBookingWiseRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDemandHistory
+                        frm = New frmDemandHistory()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptZoneWiseMSVisual
