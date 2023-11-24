@@ -117,7 +117,7 @@ Public Class clsMilkRejectType
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim qry As String = "select TSPL_MILK_REJECT_TYPE.Code,TSPL_MILK_REJECT_TYPE.Description,TSPL_MILK_REJECT_TYPE.Applicable_Per as [Applicable %],TSPL_MILK_REJECT_TYPE.Item_Code as [Item] from TSPL_MILK_REJECT_TYPE "
+        Dim qry As String = "select TSPL_MILK_REJECT_TYPE.Code,TSPL_MILK_REJECT_TYPE.Description,TSPL_MILK_REJECT_TYPE.Applicable_Per as [Applicable %],TSPL_MILK_REJECT_TYPE.Item_Code as [Item] , TSPL_MILK_REJECT_TYPE.Prefix as Prefix from TSPL_MILK_REJECT_TYPE "
         str = clsCommon.ShowSelectForm("canmasterFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
 

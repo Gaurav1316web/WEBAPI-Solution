@@ -195,6 +195,7 @@ Public Class frmMilkRejectType
         txtApplicablePer.Value = 0
         cboType.SelectedValue = ""
         txtSNo.Value = 0
+        txtPrefix.Value = 0
         txtSNo.MendatroryField = False
         rbtnPer.IsChecked = True
         chkIncludeInDBT.Checked = False
@@ -232,12 +233,12 @@ Public Class frmMilkRejectType
 
     Private Sub MenuItemExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Export.Click
         Dim str As String
-        str = "select Code,Description,Item_Code as [Item Code],Applicable_Per as [Applicable%]"
+        str = "select Code,Description,Item_Code as [Item Code],Applicable_Per as [Applicable%] , Prefix"
         If objCommonVar.DisplayTypeInMilkReceipt Then
             str += ",Type"
         End If
         str += " from TSPL_MILK_REJECT_TYPE"
-        ListImpExpColumnsMandatory = New List(Of String)({"Code", "Item Code", "Applicable%", "Description"})
+        ListImpExpColumnsMandatory = New List(Of String)({"Code", "Item Code", "Applicable%", "Description", "Prefix"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"Code"})
         transportSql.ExporttoExcel(str, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
     End Sub
@@ -248,9 +249,9 @@ Public Class frmMilkRejectType
         Dim currentdate As Date = Date.Today
         Dim flag As Boolean = False
         If objCommonVar.DisplayTypeInMilkReceipt Then
-            flag = transportSql.importExcel(gv, "Code", "Description", "Item Code", "Applicable%", "Type")
+            flag = transportSql.importExcel(gv, "Code", "Description", "Item Code", "Applicable%", "Type", "Prefix")
         Else
-            flag = transportSql.importExcel(gv, "Code", "Description", "Item Code", "Applicable%")
+            flag = transportSql.importExcel(gv, "Code", "Description", "Item Code", "Applicable%" , "Prefix")
         End If
 
         If flag Then
@@ -290,6 +291,8 @@ Public Class frmMilkRejectType
                                 Throw New Exception("Type Should be M/B/C.")
                             End If
                         End If
+                        obj.Prefix = clsCommon.myCdbl(grow.Cells("Prefix").Value)
+
                         clsMilkRejectType.SaveData(obj)
                     Next
                 Catch ex As Exception
