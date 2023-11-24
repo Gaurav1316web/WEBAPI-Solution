@@ -2270,6 +2270,7 @@ Public Class clsUserMgtCode
     Public Const MISCreditorReport As String = "MIS-CDTR-RPT"
     Public Const MISSaleRegister As String = "MIS-Sale-RPT"
     Public Const rptTCSLedger As String = "TCS-LEDGER"
+    Public Const rptDCSSaleRegister As String = "DCS-SAL-REG"
     Public Const MISSaleRegisterWithCSASalePatti As String = "MSCSAPATIREG"
     Public Const MISSaleRegisterWithCSASalePattiProductLocationWise As String = "MISPrdLocWis"
     Public Const MISSaleRegisterWithCSASalePattiProductPackWise As String = "MISPrdPckWis"
