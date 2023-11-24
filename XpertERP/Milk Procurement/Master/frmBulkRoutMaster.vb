@@ -1,6 +1,7 @@
 ﻿Imports common
 Imports System.Data
 Imports System.Data.SqlClient
+Imports System.Globalization
 
 ' Ticket No : BHA/21/06/18-000072
 Public Class FrmBulkRoutMaster
@@ -180,8 +181,96 @@ Public Class FrmBulkRoutMaster
             chkDefault.Checked = IIf(obj.IsDefault = 1, True, False)
             txtMCC.arrValueMember = obj.arrMCC
             txtcuttofftime.Value = obj.CuttOff_Time
+            LoadScheduleData(txtRouteNo.Value)
         End If
     End Sub
+
+    Private Sub LoadScheduleData(ByVal routeNo As String)
+        Dim qry As String = "select  VLC_CODE , TSPL_VLC_MASTER_HEAD.VLC_Name ,VLC_Code_VLC_Uploader from TSPL_VLC_MASTER_HEAD where Route_Code = '" & routeNo & "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+        GvSchedule.DataSource = Nothing
+        GvSchedule.Rows.Clear()
+        GvSchedule.Columns.Clear()
+        GvSchedule.GroupDescriptors.Clear()
+        GvSchedule.MasterTemplate.SummaryRowsBottom.Clear()
+        GvSchedule.MasterView.Refresh()
+
+        If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+            GvSchedule.DataSource = dt
+            setGridFormat()
+        End If
+    End Sub
+
+    Sub setGridFormat()
+        GvSchedule.GroupDescriptors.Clear()
+        GvSchedule.TableElement.TableHeaderHeight = 40
+        GvSchedule.MasterTemplate.ShowRowHeaderColumn = False
+        GvSchedule.AutoExpandGroups = True
+        GvSchedule.ShowGroupPanel = False
+        GvSchedule.ShowRowHeaderColumn = False
+        GvSchedule.AllowAddNewRow = False
+        GvSchedule.AllowDeleteRow = False
+        GvSchedule.BestFitColumns()
+        GvSchedule.EnableFiltering = True
+        For ii As Integer = 0 To GvSchedule.Columns.Count - 3
+            GvSchedule.Columns(ii).ReadOnly = True
+        Next
+        GvSchedule.Columns("VLC_CODE").IsVisible = True
+        GvSchedule.Columns("VLC_CODE").Width = 160
+        GvSchedule.Columns("VLC_CODE").HeaderText = "DCS Code"
+        GvSchedule.Columns("VLC_CODE").ReadOnly = True
+
+        GvSchedule.Columns("VLC_Name").IsVisible = True
+        GvSchedule.Columns("VLC_Name").Width = 150
+        GvSchedule.Columns("VLC_Name").HeaderText = "DCS Name"
+        GvSchedule.Columns("VLC_Name").ReadOnly = True
+
+        GvSchedule.Columns("VLC_Code_VLC_Uploader").IsVisible = True
+        GvSchedule.Columns("VLC_Code_VLC_Uploader").Width = 130
+        GvSchedule.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Uploader No"
+        GvSchedule.Columns("VLC_Code_VLC_Uploader").ReadOnly = True
+
+
+        Dim repoSTM As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+        repoSTM.Format = DateTimePickerFormat.Custom
+        repoSTM.HeaderText = "Schedule Time Morning "
+        repoSTM.CustomFormat = "hh:mm tt"
+        repoSTM.FormatString = "{0:hh:mm tt}"
+        repoSTM.Name = "Schedule_Time_Morning"
+        repoSTM.Width = 150
+        repoSTM.EditorType = GridViewDateTimeEditorType.TimePicker
+        repoSTM.ReadOnly = False
+        repoSTM.IsVisible = True
+        GvSchedule.MasterTemplate.Columns.Add(repoSTM)
+
+
+        Dim repoSTE As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+        repoSTE.Format = DateTimePickerFormat.Custom
+        repoSTE.HeaderText = "Schedule Time Evening"
+        repoSTE.CustomFormat = "hh:mm tt"
+        repoSTE.FormatString = "{0:hh:mm tt}"
+        repoSTE.Name = "Schedule_Time_Evening"
+        repoSTE.Width = 150
+        repoSTE.EditorType = GridViewDateTimeEditorType.TimePicker
+        repoSTE.ReadOnly = False
+        repoSTE.IsVisible = True
+        GvSchedule.MasterTemplate.Columns.Add(repoSTE)
+
+        Dim qry As String = "select Schedule_Time_Morning ,Schedule_Time_Evening from TSPL_VLC_MASTER_HEAD where Route_Code = '" & txtRouteNo.Value & "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+        For ii As Integer = 0 To dt.Rows.Count - 1
+            If clsCommon.myLen(dt.Rows(ii)("Schedule_Time_Morning")) > 0 Then
+                GvSchedule.Rows(ii).Cells("Schedule_Time_Morning").Value = clsCommon.myCDate(dt.Rows(ii)("Schedule_Time_Morning"))
+            End If
+            If clsCommon.myLen(dt.Rows(ii)("Schedule_Time_Evening")) > 0 Then
+                GvSchedule.Rows(ii).Cells("Schedule_Time_Evening").Value = clsCommon.myCDate(dt.Rows(ii)("Schedule_Time_Evening"))
+            End If
+        Next
+
+    End Sub
+
     'ROUTE_NAME as [Route Name],Distance,Rate,Amount 
 
     Private Sub rdbtnsave_Click(sender As Object, e As EventArgs) Handles rdbtnsave.Click
@@ -218,7 +307,7 @@ Public Class FrmBulkRoutMaster
                 obj.Tanker_No = txtTankerNo.Value
                 obj.arrMCC = txtMCC.arrValueMember
                 obj.CuttOff_Time = txtcuttofftime.Value
-                If (clsBulkRoutMaster.SaveData(obj)) Then
+                If (clsBulkRoutMaster.SaveData(obj) AndAlso SaveScheduleData()) Then
                     common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
                     LoadData(obj.ROUTE_NO, NavigatorType.Current)
                 End If
@@ -227,6 +316,22 @@ Public Class FrmBulkRoutMaster
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Public Function SaveScheduleData() As Boolean
+        If GvSchedule.Rows.Count > 0 Then
+            For Each grow As GridViewRowInfo In GvSchedule.Rows
+                If clsCommon.myLen((grow).Cells("Schedule_Time_Morning").Value) > 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("update TSPL_VLC_MASTER_HEAD set Schedule_Time_Morning = '" & clsCommon.GetPrintDate(clsCommon.myCDate(grow.Cells("Schedule_Time_Morning").Value), "dd/MMM/yyyy hh:mm tt") & "' where VLC_Code = '" & clsCommon.myCstr(grow.Cells("VLC_Code").Value) & "'")
+
+                End If
+                If clsCommon.myLen((grow).Cells("Schedule_Time_Evening").Value) > 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("update TSPL_VLC_MASTER_HEAD set Schedule_Time_Evening = '" & clsCommon.GetPrintDate(clsCommon.myCDate(grow.Cells("Schedule_Time_Evening").Value), "dd/MMM/yyyy hh:mm tt") & "' where VLC_Code = '" & clsCommon.myCstr(grow.Cells("VLC_Code").Value) & "'")
+
+                End If
+            Next
+        End If
+        Return True
+    End Function
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
@@ -380,6 +485,4 @@ Public Class FrmBulkRoutMaster
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
 End Class

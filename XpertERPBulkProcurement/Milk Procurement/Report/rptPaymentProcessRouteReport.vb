@@ -10,6 +10,7 @@ Public Class rptPaymentProcessRouteReport
     Dim strDocumentCodeDetails As String = Nothing
     Dim strVSPCodeDetails As String = Nothing
     Dim SettPickBulkRoute As Boolean = False
+    Dim ShowMixedMilk As Boolean = False
     Dim SettShowMultipleLegers As Boolean = False
     Dim isLoad As Boolean = False
     Private Sub SetUserMgmtNew()
@@ -1136,6 +1137,7 @@ Public Class rptPaymentProcessRouteReport
 
     Private Sub ChkPosted_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles ChkPosted.ToggleStateChanged
         Gv1.DataSource = Nothing
+
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
@@ -1306,7 +1308,15 @@ Public Class rptPaymentProcessRouteReport
         Dim dt As New DataTable
         sQuery = BaseQry '+ " order by vsp_code,convert(datetime,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103),shift desc"
 
-        Dim legerMainQuery As String = " select '" + strCompanyCityName + "' as strCompanyCityName , max(fromDate) as fromDate,max(Todate) as Todate,  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , sum(FATQTY) * 100 / sum( Qty)  as FAT_PER , sum(SNFQTY) * 100 / sum( Qty) as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount, CowBuffalo_Type,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE , CowBuffalo_Type "
+        ShowMixedMilk = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.LoadLedgerMixedMilk, clsFixedParameterCode.LoadLedgerMixedMilk, Nothing)) = 1)
+
+        Dim legerMainQuery As String = " select '" + strCompanyCityName + "' as strCompanyCityName , max(fromDate) as fromDate,max(Todate) as Todate,  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , sum(FATQTY) * 100 / sum( Qty)  as FAT_PER , sum(SNFQTY) * 100 / sum( Qty) as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,"
+        If ShowMixedMilk = True Then
+            legerMainQuery += "'Mixed Milk' as CowBuffalo_Type , max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE"
+        Else
+            legerMainQuery += "CowBuffalo_Type ,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE , CowBuffalo_Type"
+        End If
+
         dt = clsDBFuncationality.GetDataTable(legerMainQuery)
 
         '        sQuery = "select Vendor_CODE as VSP_Code,trans_type,round( (coalesce(Amount,0)*tab.FAT_Amount)/(tab.FAT_Amount+tab.SNF_Amount),0) as  FAT_Amount,Amount - round( (coalesce(Amount,0)*tab.FAT_Amount)/(tab.FAT_Amount+tab.SNF_Amount),0) as SNF_Amount,coalesce(Amount,0) as Amount from (" + Environment.NewLine +

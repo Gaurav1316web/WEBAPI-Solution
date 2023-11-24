@@ -59,6 +59,7 @@ Public Class frmMilkRejectType
             obj.Applicable_Per = txtApplicablePer.Value
             obj.Type = clsCommon.myCstr(cboType.SelectedValue)
             obj.SNo = txtSNo.Value
+            obj.Prefix = txtPrefix.Value
             If (clsMilkRejectType.SaveData(obj)) Then
                 common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
                 LoadData(obj.Code, NavigatorType.Current)
@@ -97,6 +98,7 @@ Public Class frmMilkRejectType
             lblItem.Text = clsItemMaster.GetItemName(obj.Item_Code, Nothing)
             cboType.SelectedValue = obj.Type
             txtSNo.Value = obj.SNo
+            txtPrefix.Value = obj.Prefix
         End If
     End Sub
 

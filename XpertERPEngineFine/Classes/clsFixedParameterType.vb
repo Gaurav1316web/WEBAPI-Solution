@@ -12,6 +12,7 @@ Public Class clsFixedParameterType
     Public Const StopSetting As String = "Stop Setting"
     Public Const PickBulkRoute As String = "Pick Bulk Route"
     Public Const ShowMultipleLegers As String = "Show Multiple Legers"
+    Public Const LoadLedgerMixedMilk As String = "Load Ledger Mixed Milk"
 
     Public Const HeadLoadRODecimalPlace As String = "Head Load RO Decimal Place"
     Public Const HeadLoadROIncreaseAfter As String = "Head Load RO Increase After"
@@ -1316,6 +1317,7 @@ Public Class clsFixedParameterCode
 
     Public Const PickBulkRoute As String = "Pick Bulk Route"
     Public Const ShowMultipleLegers As String = "Show Multiple Legers"
+    Public Const LoadLedgerMixedMilk As String = "Load Ledger Mixed Milk"
     Public Const HeadLoadRODecimalPlace As String = "Head Load RO Decimal Place"
     Public Const HeadLoadROIncreaseAfter As String = "Head Load RO Increase After"
     Public Const AllowZeroFATSNF As String = "Allow Zero FAT SNF"
@@ -1329,6 +1331,7 @@ Public Class clsFixedParameterCode
     Public Const PickMilkPurchaseInvoiceQtyOrRecoQty As String = "Pick Milk Purchase Invoice Qty Or Reco Qty"
     Public Const AllowMPIncetiveQtyAboveBilledQty As String = "Allow MP Incentive Qty Above Billed Qty"
     Public Const RepeatBMCSampleNo As String = "Repeat BMC Sample No"
+
     Public Const HeaderFATSNFKGDecimalPlaces = "Header FAT SNF KG Decimal Places"
     Public Const SNFDecimalPlaces = "SNF Decimal Places"
     Public Const AdjustFATSNFINOwnVSP = "Adjust FAT SNF IN Own VSP"
@@ -2820,6 +2823,7 @@ Public Class clsFixedParameter
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickBulkRoute, clsFixedParameterCode.PickBulkRoute, "1", "0:VLC Master Route;1:Bulk Route Master")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowMultipleLegers, clsFixedParameterCode.ShowMultipleLegers, "1", "0:Payment Cycle;1:Show Multiple Ledgers")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.LoadLedgerMixedMilk, clsFixedParameterCode.LoadLedgerMixedMilk, "0", "0:OFF:1 Show Mixed Milk Only")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.HeadLoadRODecimalPlace, clsFixedParameterCode.HeadLoadRODecimalPlace, "2", "Head Load Round Off Decimal Places")
         InsertDefaultValueFixedParameter(clsFixedParameterType.HeadLoadROIncreaseAfter, clsFixedParameterCode.HeadLoadROIncreaseAfter, "5", "Head Load Round off Increase Value After")
@@ -4451,6 +4455,7 @@ Public Class clsFixedParameterProgramMapping
 
         InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.PickBulkRoute, clsFixedParameterCode.PickBulkRoute, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.ShowMultipleLegers, clsFixedParameterCode.ShowMultipleLegers, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.LoadLedgerMixedMilk, clsFixedParameterCode.LoadLedgerMixedMilk, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.HeadLoadRODecimalPlace, clsFixedParameterCode.HeadLoadRODecimalPlace, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.HeadLoadROIncreaseAfter, clsFixedParameterCode.HeadLoadROIncreaseAfter, EnumControlType.NumericBox)
