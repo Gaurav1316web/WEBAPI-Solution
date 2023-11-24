@@ -38,6 +38,7 @@ Partial Class FrmFreeComboBox
         Me.cboFiscalYear.AutoCompleteDisplayMember = Nothing
         Me.cboFiscalYear.AutoCompleteValueMember = Nothing
         Me.cboFiscalYear.CalculationExpression = Nothing
+        Me.cboFiscalYear.DropDownAnimationEnabled = True
         Me.cboFiscalYear.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboFiscalYear.FieldCode = Nothing
         Me.cboFiscalYear.FieldDesc = Nothing
@@ -71,7 +72,7 @@ Partial Class FrmFreeComboBox
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(72, 47)
+        Me.btnSave.Location = New System.Drawing.Point(72, 53)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(81, 24)
         Me.btnSave.TabIndex = 1
@@ -80,7 +81,7 @@ Partial Class FrmFreeComboBox
         'RadButton1
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton1.Location = New System.Drawing.Point(159, 47)
+        Me.RadButton1.Location = New System.Drawing.Point(159, 53)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(81, 24)
         Me.RadButton1.TabIndex = 2
@@ -91,20 +92,20 @@ Partial Class FrmFreeComboBox
         Me.AcceptButton = Me.btnSave
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(313, 71)
+        Me.ClientSize = New System.Drawing.Size(313, 87)
         Me.ControlBox = False
         Me.Controls.Add(Me.RadButton1)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.cboFiscalYear)
         Me.Controls.Add(Me.RadLabel2)
-        Me.MaximumSize = New System.Drawing.Size(321, 101)
-        Me.MinimumSize = New System.Drawing.Size(321, 101)
+        Me.MaximumSize = New System.Drawing.Size(321, 117)
+        Me.MinimumSize = New System.Drawing.Size(321, 117)
         Me.Name = "FrmFreeComboBox"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.RootElement.MaxSize = New System.Drawing.Size(321, 101)
+        Me.RootElement.MaxSize = New System.Drawing.Size(321, 117)
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Please select ..."
         CType(Me.cboFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()

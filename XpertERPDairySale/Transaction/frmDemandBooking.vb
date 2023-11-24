@@ -400,7 +400,7 @@ Public Class frmDemandBooking
             intCurrRow = 0
             gv1.CurrentRow = gv1.Rows(intCurrRow)
         End If
-        If gv1.CurrentColumn Is gv1.Columns(gv1.Columns.Count - 8) Then
+        If gv1.CurrentColumn Is gv1.Columns(gv1.Columns.Count - 7) Then
         End If
     End Sub
     Private Sub setGridFocusHome()
@@ -415,9 +415,9 @@ Public Class frmDemandBooking
     Private Sub setGridFocusEnd()
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         If gv1.Rows.Count > 0 Then
-            gv1.Rows(intCurrRow).Cells(gv1.Columns.Count - 8).IsSelected = True
+            gv1.Rows(intCurrRow).Cells(gv1.Columns.Count - 7).IsSelected = True
             gv1.Rows(intCurrRow).IsCurrent = True
-            gv1.Columns(gv1.Columns.Count - 8).IsCurrent = True
+            gv1.Columns(gv1.Columns.Count - 7).IsCurrent = True
         End If
     End Sub
     Private Sub setPagedown()
@@ -463,7 +463,7 @@ Public Class frmDemandBooking
                 Dim TempColGroupCount As Integer = 1
                 Dim obj As ItemValueClass = New ItemValueClass()
                 Dim i As Integer = 1
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 8
+                For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
                         If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -495,6 +495,7 @@ Public Class frmDemandBooking
                 view.ColumnGroups(TempColGroupCount).PinPosition = PinnedColumnPosition.Right
                 'MergeHorizontally(gv1, 0, gv1.Rows.Count - 1)
                 gv1.ViewDefinition = view
+
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -815,7 +816,7 @@ Public Class frmDemandBooking
                             End If
                         End If
                         Dim k As Integer = 1
-                        For dblcolumns As Integer = 7 To gv1.Columns.Count - 8
+                        For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
                             If obj1 IsNot Nothing Then
@@ -983,6 +984,8 @@ Public Class frmDemandBooking
                 btnDelete.Enabled = True
                 isInsideLoadData = True
                 isNewEntry = False
+                btn_TSCancel.Enabled = True
+                btn_Gatepass.Enabled = True
                 btnSave.Text = "Update"
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
@@ -1047,7 +1050,7 @@ Public Class frmDemandBooking
                         For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), objTr.ShiftType) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
-                                For columns = 7 To gv1.Columns.Count - 8
+                                For columns = 7 To gv1.Columns.Count - 7
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.ShiftType, "Morning") = CompairStringResult.Equal Then
@@ -1111,7 +1114,7 @@ Public Class frmDemandBooking
             Dim qry As String = "select TSPL_DEMAND_BOOKING_MASTER.Document_No as DocumentNo,convert(varchar(12),TSPL_DEMAND_BOOKING_MASTER.Document_date,103) as DocumentDate,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code],TSPL_DEMAND_BOOKING_MASTER.City_Code as [City Code],TripNo AS [Trip No],case when Posted=1 then 'posted' else 'Unposted' end as Posted from TSPL_DEMAND_BOOKING_MASTER "
             'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
             Reset()
-            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", "", txtDocNo.Value, "Document_date", isButtonClicked), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", "", txtDocNo.Value, "Document_date DESC", isButtonClicked, " TSPL_DEMAND_BOOKING_MASTER.Document_date "), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1356,7 +1359,7 @@ Public Class frmDemandBooking
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "' ")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 8
+                For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
                         If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -1494,12 +1497,12 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 Throw New Exception(ex.Message)
                             End Try
                             Try
-                                For dblcolumns As Integer = 7 To gv1.Columns.Count - 8
+                                For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                                     If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code).ToUpper, "POUCH") = CompairStringResult.Equal Then
                                         gv1.Rows(n).Cells(dblcolumns).Style.DrawFill = True
                                         gv1.Rows(n).Cells(dblcolumns).Style.CustomizeFill = True
-                                        gv1.Rows(n).Cells(dblcolumns).Style.BackColor = Color.DarkOrange
+                                        gv1.Rows(n).Cells(dblcolumns).Style.BackColor = Color.LightGreen
                                     End If
                                 Next
                             Catch ex As Exception
@@ -1632,7 +1635,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     End If
                 End If
             Next
-            For dblcolumns As Integer = 7 To gv1.Columns.Count - 8
+            For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 If obj1 IsNot Nothing Then
                     If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
@@ -1824,7 +1827,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim dblTotalPCount As Double = 0
             Dim dblTotalPAmt As Double = 0
             Dim dblTotalMAmt As Double = 0
-            For dblrows As Integer = 0 To gv1.Rows.Count - 1
+
+            Dim colTotalQty As Double = 0
+            For dblrows As Integer = 0 To gv1.Rows.Count - 2
                 Dim k As Integer = 1
                 TotalCrate = 0
                 dblTotalCrateRowWise = 0
@@ -1836,7 +1841,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 8
+                For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                     k = k + 1
                     If obj1 IsNot Nothing Then
@@ -1845,6 +1850,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
                                     TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                     obj1.FreshItem_QtyInCrates = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                    'gv1.Rows(gv1.Rows.Count - 1).Cells(dblcolumns).Value = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                 Else
                                     Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
                                     If ItemCrateType = 1 Then
@@ -1945,8 +1951,29 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             lblDocumentAmt.Text = clsCommon.myCdbl(TotalMAmt)
             txtPCount.Text = clsCommon.myCdbl(TotalPCount)
             txtPAmt.Text = clsCommon.myCdbl(TotalPAmt)
+            UpdateColumnTotal()
+            gv1.Rows(gv1.Rows.Count - 1).IsPinned = True
+            gv1.Rows(gv1.Rows.Count - 1).PinPosition = PinnedRowPosition.Bottom
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Private Sub UpdateColumnTotal()
+        Try
+            Dim TotalQty As Double = 0
+            'For dbrows1 As Integer = 0 To gv1.Rows.Count - 1
+            For dblcolumns As Integer = 7 To gv1.Columns.Count - 1
+                TotalQty = 0
+                For dbrows As Integer = 0 To gv1.Rows.Count - 2
+                    TotalQty += clsCommon.myCdbl(gv1.Rows(dbrows).Cells(dblcolumns).Value)
+                Next
+                gv1.Rows(gv1.Rows.Count - 1).Cells(dblcolumns).Value = TotalQty
+            Next
+            'Next
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnUpdateCrateAndAmt_Click(sender As Object, e As EventArgs) Handles btnUpdateCrateAndAmt.Click
@@ -2104,7 +2131,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         End If
         If e.RowElement.RowInfo.IsCurrent Then
             e.RowElement.DrawFill = True
-            e.RowElement.BackColor = Color.Orange
+            e.RowElement.BackColor = Color.LightGreen
 
         Else
             e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
@@ -3044,16 +3071,16 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             '    frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWise", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             '    frmCRV = Nothing
             'End If
-            btn_Gatepass.Enabled = False
-            btn_GPCancel.Enabled = True
+            'btn_Gatepass.Enabled = False
+            'btn_GPCancel.Enabled = True
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Shared Sub PrintGatePass(ByVal StrFormType As String, ByVal StrDocCode As String, ByVal StrShift As String)
         'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsGatePassGenerated='Y' where " + IIf(StrFormType = "DB", "TSPL_DEMAND_BOOKING_DETAIL.Document_No", "TSPL_DEMAND_BOOKING_DETAIL.GPCode") + "'='" & StrDocCode & "' and ShiftType='" & StrShift & "'")
-        Dim Qry As String = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin
-                  ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc
+        Dim Qry As String = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin,TSPL_COMPANY_MASTER.Access_Officer as FSSAI_LIC_NO
+                  ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,'" + objCommonVar.CurrentUser + "' as Currentuser
                   ,Main_Final.Distributor,'" & StrShift & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc ,Main_Final.Vehicle_Desc
                   ,Main_Final.Item_alies_name,Main_Final.Crate_Qty,Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount
                   ,Main_Final.Production_Remarks
@@ -3116,7 +3143,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 End If
             End If
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Btn_TSCancel_Click(sender As Object, e As EventArgs) Handles btn_TSCancel.Click
@@ -3157,7 +3184,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
                 If e.Column.IsCurrent Then
                     e.CellElement.DrawFill = True
-                    e.CellElement.BackColor = Color.Orange
+                    e.CellElement.BackColor = Color.LightGreen
                 Else
                     e.CellElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
                     e.CellElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
@@ -3165,7 +3192,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 End If
 
                 If e.CellElement.RowInfo.IsCurrent Then
-                    e.CellElement.RowElement.BackColor = Color.Orange
+                    e.CellElement.RowElement.BackColor = Color.LightGreen
                     e.CellElement.RowElement.DrawFill = True
                 Else
                     e.CellElement.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
@@ -3206,7 +3233,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     firstCellText = (If(firstCell IsNot Nothing AndAlso firstCell.Value IsNot Nothing, firstCell.Value.ToString(), String.Empty))
                     secondCellText = (If(secondCell IsNot Nothing AndAlso secondCell.Value IsNot Nothing, secondCell.Value.ToString(), String.Empty))
                     setCellBorders(firstCell, Color.FromArgb(209, 225, 245))
-                    setCellBorders(secondCell, Color.FromArgb(209, 225, 245))
+                    setCellBorders(secondCell, Color.FromArgb(209, 225, 245)) '117, 230, 218
                     If rbtnMorningEveningBoth.IsChecked = True Then
                         If firstCellText = secondCellText Then
                             firstCell.Style.BorderBottomColor = Color.Transparent
@@ -3472,7 +3499,7 @@ Left join ( select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, sum(TSPL_DEMAND_BOOKING
                                     Dim code As String = clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value)
                                     If arrCustCodeExist.Contains(code) Then
                                         If clsCommon.CompairString(clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value)) = CompairStringResult.Equal Then
-                                            For kk As Integer = 4 To arrVisbleColumns.Count - 8
+                                            For kk As Integer = 4 To arrVisbleColumns.Count - 7
                                                 If clsCommon.myCDecimal(gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value) <> clsCommon.myCDecimal(gvImport.Rows(ii).Cells(kk).Value) Then
                                                     gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value = gvImport.Rows(ii).Cells(kk).Value
 

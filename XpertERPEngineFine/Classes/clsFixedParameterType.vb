@@ -1113,6 +1113,8 @@ Public Class clsFixedParameterType
 
     Public Const MaxFATPerLimit As String = "Max FAT Per"
     Public Const MaxSNFPerLimit As String = "Max SNF Per"
+    Public Const MinFATPerLimit As String = "Min FAT Per"
+    Public Const MinSNFPerLimit As String = "Min SNF Per"
 
     Public Const LockDate As String = "Lock Date"
     Public Const ApplyTransFATSNFRateForCalculateFATSNFRate As String = "Apply Trans FAT SNF Rate For Calculate FATSNF Rate"
@@ -1295,6 +1297,7 @@ Public Class clsFixedParameterType
     Public Const ApplyDemandCustomerWise = "ApplyDemandCustomerWise"
     Public Const CheckCreditLimit = "CheckCreditLimit"
     Public Const ApplyTolerance = "ApplyTolerance"
+    Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2537,6 +2540,10 @@ Public Class clsFixedParameterCode
 
     Public Const MaxFATPerLimit As String = "Max FAT Per Limit"
     Public Const MaxSNFPerLimit As String = "Max SNF Per Limit"
+    Public Const MinFATPerLimit As String = "Min FAT Per Limit"
+    Public Const MinSNFPerLimit As String = "Min SNF Per Limit"
+
+
     Public Const LockDate As String = "Lock Date"
     Public Const ApplyTransFATSNFRateForCalculateFATSNFRate As String = "Apply Trans FAT SNF Rate For Calculate FATSNF Rate"
     Public Const GrossWeightChangePWD As String = "Gross Weight Change PWD"
@@ -2713,6 +2720,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyDemandCustomerWise = "ApplyDemandCustomerWise"
     Public Const CheckCreditLimit = "CheckCreditLimit"
     Public Const ApplyTolerance = "ApplyTolerance"
+    Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4166,6 +4174,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk Sampling")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk Sampling")
 
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MinFATPerLimit, clsFixedParameterCode.MinFATPerLimit, "3.5", "0-OFF.Min FAT % limit on Milk Sampling")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MinSNFPerLimit, clsFixedParameterCode.MinSNFPerLimit, "8.1", "0-OFF.Min SNF % limit on Milk Sampling")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.LockDate, clsFixedParameterCode.LockDate, "", "Journal Entry will stop before this date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTransFATSNFRateForCalculateFATSNFRate, clsFixedParameterCode.ApplyTransFATSNFRateForCalculateFATSNFRate, "1", "0-OFF;1-ON Apply Trans FAT SNF Rate For Calculate FAT SNF Rate")
         InsertDefaultValueFixedParameter(clsFixedParameterType.GrossWeightChangePWD, clsFixedParameterCode.GrossWeightChangePWD, "mdlf@123", "Pwd To Change Gross Weighment PWD")
@@ -4405,6 +4416,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, "0", "Enter Tolerance Percentage")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
+
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -5961,9 +5974,13 @@ Public Class clsFixedParameterProgramMapping
 
         InsertDefaultValue(clsUserMgtCode.frmMilkSample, clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSample, clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmMilkSample, clsFixedParameterType.MinFATPerLimit, clsFixedParameterCode.MinFATPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmMilkSample, clsFixedParameterType.MinSNFPerLimit, clsFixedParameterCode.MinSNFPerLimit, EnumControlType.NumericBox)
 
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MinFATPerLimit, clsFixedParameterCode.MinFATPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MinSNFPerLimit, clsFixedParameterCode.MinSNFPerLimit, EnumControlType.NumericBox)
 
 
         'Jobwork Inward
@@ -6413,5 +6430,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPriceChartBulkProc, clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
+
     End Sub
 End Class

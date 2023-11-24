@@ -1169,6 +1169,7 @@ Public Class frmPurchaseOrder
 
         repoIName = New GridViewTextBoxColumn()
         repoIName.FormatString = ""
+
         repoIName.HeaderText = "HSN No/SAC Code"
         repoIName.Name = colHSNNo
         repoIName.Width = 150
@@ -3233,6 +3234,7 @@ Public Class frmPurchaseOrder
                     gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_code
                     gv1.CurrentRow.Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
                     gv1.CurrentRow.Cells(colRate).Value = obj.Rate
+                    gv1.CurrentRow.Cells(colDisPer).Value = obj.Discount
                 Else
                     SetBlankOfItemColumns()
                 End If
@@ -3497,7 +3499,7 @@ Public Class frmPurchaseOrder
             Dim Strii As String = clsCommon.myCstr(ii)
             If rbtnTaxCalAutomatic.IsChecked Then
                 Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
-                If clsCommon.myLen(strTaxCode) > 0 Then
+                If clsCommon.myLen(strTaxCode) > 0 AndAlso gv1.CurrentRow.Cells(colItemTaxable).Value Then
                     '' For abatement PO
                     Dim dtTax As DataTable = clsPurchaseOrderHead.GetTaxDetail(strTaxCode)
                     Dim IsExciseType As Boolean = False
@@ -7264,7 +7266,7 @@ Public Class frmPurchaseOrder
     End Sub
 
     Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean)
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value))
+        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), IIf(clsCommon.myLen(gv1.CurrentRow.Cells(colICode)) > 0, gv1.CurrentRow.Cells(colICode).Value, ""), txtDate.Value)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If isForCurrentRow Then
                 BlankTaxDetails(gv1.CurrentRow.Index)

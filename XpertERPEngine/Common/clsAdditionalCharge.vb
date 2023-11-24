@@ -726,7 +726,7 @@ Public Class clsCustomerMaster
                     isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_MASTER.Cust_Code='" + obj.Cust_Code + "'", trans)
-                    isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)
+                    'isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)
                 End If
                 clsCustomerMaster.CreatLoginIdOfCustomer(obj.Cust_Code, obj.Customer_Name, trans)
                 ''added by richa agarwal

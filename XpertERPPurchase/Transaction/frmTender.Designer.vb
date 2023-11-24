@@ -22,9 +22,9 @@ Partial Class frmTender
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -248,7 +248,7 @@ Partial Class frmTender
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(1098, 492)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -339,7 +339,7 @@ Partial Class frmTender
         Me.cboMode.IsSourceFromTable = False
         Me.cboMode.IsSourceFromValueList = False
         Me.cboMode.IsUnique = False
-        Me.cboMode.Location = New System.Drawing.Point(66, 72)
+        Me.cboMode.Location = New System.Drawing.Point(67, 72)
         Me.cboMode.MendatroryField = True
         Me.cboMode.MyLinkLable1 = Me.MyLabel17
         Me.cboMode.MyLinkLable2 = Nothing
@@ -347,7 +347,7 @@ Partial Class frmTender
         Me.cboMode.ReferenceFieldDesc = Nothing
         Me.cboMode.ReferenceFieldName = Nothing
         Me.cboMode.ReferenceTableName = Nothing
-        Me.cboMode.Size = New System.Drawing.Size(245, 20)
+        Me.cboMode.Size = New System.Drawing.Size(328, 20)
         Me.cboMode.TabIndex = 1522
         '
         'MyLabel16
@@ -383,7 +383,7 @@ Partial Class frmTender
         Me.cboTenderType.ReferenceFieldDesc = Nothing
         Me.cboTenderType.ReferenceFieldName = Nothing
         Me.cboTenderType.ReferenceTableName = Nothing
-        Me.cboTenderType.Size = New System.Drawing.Size(245, 20)
+        Me.cboTenderType.Size = New System.Drawing.Size(328, 20)
         Me.cboTenderType.TabIndex = 1520
         '
         'RadLabel29
@@ -419,7 +419,7 @@ Partial Class frmTender
         Me.cboItemType.ReferenceFieldDesc = Nothing
         Me.cboItemType.ReferenceFieldName = Nothing
         Me.cboItemType.ReferenceTableName = Nothing
-        Me.cboItemType.Size = New System.Drawing.Size(245, 20)
+        Me.cboItemType.Size = New System.Drawing.Size(328, 20)
         Me.cboItemType.TabIndex = 1518
         '
         'txtDate
@@ -503,7 +503,7 @@ Partial Class frmTender
         Me.txtItem.ReferenceFieldDesc = Nothing
         Me.txtItem.ReferenceFieldName = Nothing
         Me.txtItem.ReferenceTableName = Nothing
-        Me.txtItem.Size = New System.Drawing.Size(245, 18)
+        Me.txtItem.Size = New System.Drawing.Size(328, 18)
         Me.txtItem.TabIndex = 1514
         Me.txtItem.Value = ""
         '
@@ -547,7 +547,7 @@ Partial Class frmTender
         'btnSubmit
         '
         Me.btnSubmit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSubmit.Location = New System.Drawing.Point(312, 94)
+        Me.btnSubmit.Location = New System.Drawing.Point(402, 94)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(83, 18)
         Me.btnSubmit.TabIndex = 1512
@@ -847,7 +847,7 @@ Partial Class frmTender
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -885,7 +885,7 @@ Partial Class frmTender
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
@@ -1128,7 +1128,7 @@ Partial Class frmTender
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSchedule.ShowGroupPanel = False

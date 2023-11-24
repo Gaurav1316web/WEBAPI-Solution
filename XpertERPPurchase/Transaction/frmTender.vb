@@ -653,6 +653,7 @@ Public Class frmTender
                 Dim dblrate As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colRate).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colUnit).Value)
                 Dim dblAmount As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colAmt).Value)
+                Dim dblDiscount As Double = clsCommon.myCdbl(gv2.Rows(ii).Cells(colDiscount).Value)
 
 
                 dblTotalAmount = dblTotalAmount + dblAmount
@@ -683,7 +684,12 @@ Public Class frmTender
                     Return False
                 End If
 
-                If dblrate <= 0 Then
+                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblrate) <= 0 AndAlso clsCommon.myCdbl(dblDiscount) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please enter Rate or Discount for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                    Return False
+                End If
+
+                If clsCommon.myCdbl(dblrate) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 Then
                     clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
@@ -774,8 +780,9 @@ Public Class frmTender
                     Dim objTr As New clsTenderDetail()
                     objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     objTr.Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                    objTr.Discount = clsCommon.myCdbl(grow.Cells(colDiscount).Value)
                     'If clsCommon.myCdbl(grow.Cells(colQty).Value) > 0 Then
-                    If ((objTr.Qty) > 0 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) AndAlso clsCommon.myCdbl(objTr.Rate) > 0 Then
+                    If ((objTr.Qty) > 0 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) AndAlso clsCommon.myCdbl(objTr.Rate) OrElse clsCommon.myCdbl(grow.Cells(colDiscount).Value) > 0 Then
                         intLine += 1
                         objTr.Line_No = grow.Cells(colLineNo).Value
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
@@ -1211,7 +1218,7 @@ Public Class frmTender
             'gv2.Rows.Add(grow)
             'gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = intSerialNo
             For Each grow As GridViewRowInfo In gv1.Rows
-                If clsCommon.myLen(grow.Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colVCode).Value) > 0 AndAlso ((clsCommon.myCdbl(grow.Cells(colAmt).Value) > 0) OrElse (clsCommon.myCdbl(grow.Cells(colRate).Value) > 0 AndAlso (clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3))) Then
+                If clsCommon.myLen(grow.Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colVCode).Value) > 0 AndAlso ((clsCommon.myCdbl(grow.Cells(colAmt).Value) > 0) OrElse (clsCommon.myCdbl(grow.Cells(colRate).Value) > 0 AndAlso (clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) OrElse (clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 AndAlso (clsCommon.myCdbl(grow.Cells(colRate).Value) > 0 OrElse clsCommon.myCdbl(grow.Cells(colDiscount).Value) > 0)))) Then
 
                     gv2.Rows.AddNew()
 
@@ -1262,7 +1269,7 @@ Public Class frmTender
                 Dim dblrate As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
                 Dim dblAmount As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmt).Value)
-
+                Dim dblDiscount As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDiscount).Value)
 
                 If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myLen(strUOM) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Please enter Quantity UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
@@ -1274,7 +1281,12 @@ Public Class frmTender
                     Return False
                 End If
 
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblrate) <= 0 Then
+                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblrate) <= 0 AndAlso clsCommon.myCdbl(dblDiscount) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please enter Rate or Discount for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                    Return False
+                End If
+
+                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblrate) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 Then
                     clsCommon.MyMessageBoxShow(Me, "Please enter Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
@@ -1440,10 +1452,13 @@ Public Class frmTender
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
-
                         ElseIf e.Column Is gv2.Columns(colQty) OrElse e.Column Is gv2.Columns(colRate) Then
-
                             gv2.CurrentRow.Cells(colAmt).Value = clsCommon.myCdbl(gv2.CurrentRow.Cells(colRate).Value) * clsCommon.myCdbl(gv2.CurrentRow.Cells(colQty).Value)
+                            For index = 0 To gvSchedule.Rows.Count - 1
+                                If clsCommon.myCDecimal(gv2.CurrentRow.Cells(colLineNo).Value) = clsCommon.myCDecimal(gvSchedule.Rows(index).Cells(colScheduleParentSNo).Value) Then
+                                    gvSchedule.Rows(index).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.CurrentRow.Cells(colQty).Value) * clsCommon.myCDecimal(gvSchedule.Rows(index).Cells(colScheduleQtyPer).Value)) / 100)
+                                End If
+                            Next
                         End If
                     End If
                 End If

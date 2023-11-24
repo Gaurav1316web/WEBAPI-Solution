@@ -98,6 +98,9 @@ Partial Class frmCorrection
         Me.MyLabel41 = New common.Controls.MyLabel()
         Me.BulkDelete = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
+        Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel12 = New common.Controls.MyLabel()
@@ -133,6 +136,9 @@ Partial Class frmCorrection
         Me.MyLabel28 = New common.Controls.MyLabel()
         Me.txtBMCCorrFAT = New common.MyNumBox()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnTankerMilkImport = New Telerik.WinControls.UI.RadButton()
+        Me.btnTankerMilkExport = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton6 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel15 = New common.Controls.MyLabel()
@@ -227,6 +233,10 @@ Partial Class frmCorrection
         CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BulkDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -261,6 +271,10 @@ Partial Class frmCorrection
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBMCCorrFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage6.SuspendLayout()
+        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox8.SuspendLayout()
+        CType(Me.btnTankerMilkImport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnTankerMilkExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -321,7 +335,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1351,6 +1365,7 @@ Partial Class frmCorrection
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox7)
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(120.0!, 28.0!)
@@ -1358,6 +1373,39 @@ Partial Class frmCorrection
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(646, 376)
         Me.RadPageViewPage4.Text = "BMC Milk Correction"
+        '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.btnExport)
+        Me.RadGroupBox7.Controls.Add(Me.btnImport)
+        Me.RadGroupBox7.HeaderText = ""
+        Me.RadGroupBox7.Location = New System.Drawing.Point(3, 314)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Size = New System.Drawing.Size(459, 30)
+        Me.RadGroupBox7.TabIndex = 14
+        '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExport.Location = New System.Drawing.Point(100, 4)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(91, 21)
+        Me.btnExport.TabIndex = 12
+        Me.btnExport.Text = "Export"
+        Me.btnExport.Visible = False
+        '
+        'btnImport
+        '
+        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnImport.Location = New System.Drawing.Point(7, 4)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(88, 21)
+        Me.btnImport.TabIndex = 13
+        Me.btnImport.Text = "Import"
+        Me.btnImport.Visible = False
         '
         'RadGroupBox3
         '
@@ -1551,7 +1599,7 @@ Partial Class frmCorrection
         Me.RadGroupBox4.HeaderText = "Correction"
         Me.RadGroupBox4.Location = New System.Drawing.Point(3, 91)
         Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(459, 197)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(459, 208)
         Me.RadGroupBox4.TabIndex = 3
         Me.RadGroupBox4.Text = "Correction"
         '
@@ -1731,7 +1779,7 @@ Partial Class frmCorrection
         '
         Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadButton4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton4.Location = New System.Drawing.Point(218, 169)
+        Me.RadButton4.Location = New System.Drawing.Point(218, 175)
         Me.RadButton4.Name = "RadButton4"
         Me.RadButton4.Size = New System.Drawing.Size(91, 21)
         Me.RadButton4.TabIndex = 6
@@ -1751,7 +1799,7 @@ Partial Class frmCorrection
         '
         Me.RadButton5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton5.Location = New System.Drawing.Point(67, 169)
+        Me.RadButton5.Location = New System.Drawing.Point(71, 175)
         Me.RadButton5.Name = "RadButton5"
         Me.RadButton5.Size = New System.Drawing.Size(88, 21)
         Me.RadButton5.TabIndex = 5
@@ -1813,6 +1861,7 @@ Partial Class frmCorrection
         Me.txtBMCCorrQty.MyLinkLable1 = Me.MyLabel26
         Me.txtBMCCorrQty.MyLinkLable2 = Nothing
         Me.txtBMCCorrQty.Name = "txtBMCCorrQty"
+        Me.txtBMCCorrQty.ReadOnly = True
         Me.txtBMCCorrQty.ReferenceFieldDesc = Nothing
         Me.txtBMCCorrQty.ReferenceFieldName = Nothing
         Me.txtBMCCorrQty.ReferenceTableName = Nothing
@@ -1900,6 +1949,7 @@ Partial Class frmCorrection
         '
         'RadPageViewPage6
         '
+        Me.RadPageViewPage6.Controls.Add(Me.RadGroupBox8)
         Me.RadPageViewPage6.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage6.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(156.0!, 28.0!)
@@ -1907,6 +1957,39 @@ Partial Class frmCorrection
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(646, 376)
         Me.RadPageViewPage6.Text = "BMC Tanker Milk Correction "
+        '
+        'RadGroupBox8
+        '
+        Me.RadGroupBox8.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox8.Controls.Add(Me.btnTankerMilkImport)
+        Me.RadGroupBox8.Controls.Add(Me.btnTankerMilkExport)
+        Me.RadGroupBox8.HeaderText = ""
+        Me.RadGroupBox8.Location = New System.Drawing.Point(3, 239)
+        Me.RadGroupBox8.Name = "RadGroupBox8"
+        Me.RadGroupBox8.Size = New System.Drawing.Size(320, 33)
+        Me.RadGroupBox8.TabIndex = 24
+        '
+        'btnTankerMilkImport
+        '
+        Me.btnTankerMilkImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnTankerMilkImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnTankerMilkImport.Location = New System.Drawing.Point(6, 7)
+        Me.btnTankerMilkImport.Name = "btnTankerMilkImport"
+        Me.btnTankerMilkImport.Size = New System.Drawing.Size(88, 21)
+        Me.btnTankerMilkImport.TabIndex = 23
+        Me.btnTankerMilkImport.Text = "Import"
+        Me.btnTankerMilkImport.Visible = False
+        '
+        'btnTankerMilkExport
+        '
+        Me.btnTankerMilkExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnTankerMilkExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnTankerMilkExport.Location = New System.Drawing.Point(100, 7)
+        Me.btnTankerMilkExport.Name = "btnTankerMilkExport"
+        Me.btnTankerMilkExport.Size = New System.Drawing.Size(91, 21)
+        Me.btnTankerMilkExport.TabIndex = 22
+        Me.btnTankerMilkExport.Text = "Export"
+        Me.btnTankerMilkExport.Visible = False
         '
         'RadGroupBox5
         '
@@ -2043,7 +2126,7 @@ Partial Class frmCorrection
         Me.RadGroupBox6.HeaderText = "Correction"
         Me.RadGroupBox6.Location = New System.Drawing.Point(3, 73)
         Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Size = New System.Drawing.Size(320, 149)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(320, 148)
         Me.RadGroupBox6.TabIndex = 5
         Me.RadGroupBox6.Text = "Correction"
         '
@@ -2134,7 +2217,7 @@ Partial Class frmCorrection
         '
         Me.RadButton7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadButton7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton7.Location = New System.Drawing.Point(166, 121)
+        Me.RadButton7.Location = New System.Drawing.Point(166, 119)
         Me.RadButton7.Name = "RadButton7"
         Me.RadButton7.Size = New System.Drawing.Size(91, 21)
         Me.RadButton7.TabIndex = 6
@@ -2144,7 +2227,7 @@ Partial Class frmCorrection
         '
         Me.RadButton8.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton8.Location = New System.Drawing.Point(74, 121)
+        Me.RadButton8.Location = New System.Drawing.Point(74, 119)
         Me.RadButton8.Name = "RadButton8"
         Me.RadButton8.Size = New System.Drawing.Size(88, 21)
         Me.RadButton8.TabIndex = 5
@@ -2179,6 +2262,7 @@ Partial Class frmCorrection
         Me.txtBMCTankerQty.MyLinkLable1 = Me.MyLabel43
         Me.txtBMCTankerQty.MyLinkLable2 = Nothing
         Me.txtBMCTankerQty.Name = "txtBMCTankerQty"
+        Me.txtBMCTankerQty.ReadOnly = True
         Me.txtBMCTankerQty.ReferenceFieldDesc = Nothing
         Me.txtBMCTankerQty.ReferenceFieldName = Nothing
         Me.txtBMCTankerQty.ReferenceTableName = Nothing
@@ -2360,6 +2444,10 @@ Partial Class frmCorrection
         CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BulkDelete, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -2396,6 +2484,10 @@ Partial Class frmCorrection
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBMCCorrFAT, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage6.ResumeLayout(False)
+        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox8.ResumeLayout(False)
+        CType(Me.btnTankerMilkImport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnTankerMilkExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -2558,4 +2650,10 @@ Partial Class frmCorrection
     Friend WithEvents chkCorrection As common.Controls.MyCheckBox
     Friend WithEvents txtRetestingCLR As common.MyNumBox
     Friend WithEvents MyLabel22 As common.Controls.MyLabel
+    Friend WithEvents btnExport As RadButton
+    Friend WithEvents btnImport As RadButton
+    Friend WithEvents btnTankerMilkImport As RadButton
+    Friend WithEvents btnTankerMilkExport As RadButton
+    Friend WithEvents RadGroupBox7 As RadGroupBox
+    Friend WithEvents RadGroupBox8 As RadGroupBox
 End Class

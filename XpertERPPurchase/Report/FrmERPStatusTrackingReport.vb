@@ -110,24 +110,29 @@ Public Class FrmERPStatusTrackingReport
                     gv1.DataSource = Nothing
                     Exit Sub
                 End If
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_ERP_STATUS].Location_Name,[TSPL_ERP_STATUS].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_ERP_STATUS] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_ERP_STATUS].Location_Name")
                 query = ""
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
                         query += " UNION ALL "
                     End If
                     query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
-                    query += ",(select FORMAT(max(Indent_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_INDENT_HEAD where Post=1) as [Indent Date]"
-                    query += ",(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Purchase order Date]"
-                    query += ",(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where Status=1) as [Stock Received (SRN) Date]"
-                    query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Stock Issue Date]"
-                    query += ",(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Stock Adjustment Date]"
-                    query += ",(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SPP_PRODUCTION_ENTRY where POSTED=1) as [Production Entry Date]"
-                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER where Posted=1) as [Demand Date]"
-                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Dispatch Date]"
-                    query += ",(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PI_head where Status=1) as [Stock Voucher Date]"
-                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Sales Voucher Date]"
-                    query += ",(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Receipt Date]"
+                    'query += ",(select FORMAT(max(Indent_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_INDENT_HEAD where Post=1) as [Indent Date]"
+                    query += ",(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date]"
+                    query += ",(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date]"
+                    query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date]"
+                    query += ",(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date]"
+                    query += ",(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date]"
+                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date]"
+                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal Then
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale where Posted=1) as [Last Dispatch Date]"
+                    Else
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date]"
+
+                    End If
+                    query += ",(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date]"
+                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date]"
+                    query += ",(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]"
                     If chkDBT.Checked Then
                         query += ",(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD) as [Last DBT Entry]
                     ,(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT) as [Last DBT Advice]
@@ -164,35 +169,35 @@ Public Class FrmERPStatusTrackingReport
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SNo").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Union Name").Name)
-                view.ColumnGroups.Add(New GridViewColumnGroup("Purchase"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Purchase & Store"))
                 view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Indent Date").Name)
-                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Purchase order Date").Name)
-                view.ColumnGroups.Add(New GridViewColumnGroup("Store"))
-                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Stock Received (SRN) Date").Name)
-                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Stock Issue Date").Name)
+                'view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Indent Date").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Last Purchase order Date").Name)
+                'view.ColumnGroups.Add(New GridViewColumnGroup("Store"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Last Stock Received (SRN) Date").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Last Stock Issue Date").Name)
                 view.ColumnGroups.Add(New GridViewColumnGroup("Production"))
-                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Stock Adjustment Date").Name)
-                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Production Entry Date").Name)
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Last Stock Adjustment Date").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Last Production Entry Date").Name)
                 view.ColumnGroups.Add(New GridViewColumnGroup("Sales & Marketing"))
-                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Demand Date").Name)
-                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Dispatch Date").Name)
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Last Demand Date").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Last Dispatch Date").Name)
                 view.ColumnGroups.Add(New GridViewColumnGroup("Accounts"))
-                view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Stock Voucher Date").Name)
-                view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Sales Voucher Date").Name)
-                view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Receipt Date").Name)
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Last Stock Voucher Date").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Last Sales Voucher Date").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Last Receipt Date").Name)
                 If chkDBT.Checked Then
                     view.ColumnGroups.Add(New GridViewColumnGroup("DBT Status"))
-                    view.ColumnGroups(6).Rows.Add(New GridViewColumnGroupRow())
-                    view.ColumnGroups(6).Rows(0).ColumnNames.Add(gv1.Columns("Last DBT Entry").Name)
-                    view.ColumnGroups(6).Rows(0).ColumnNames.Add(gv1.Columns("Last DBT Advice").Name)
-                    view.ColumnGroups(6).Rows(0).ColumnNames.Add(gv1.Columns("Last BMC Truck Sheet").Name)
-                    view.ColumnGroups(6).Rows(0).ColumnNames.Add(gv1.Columns("Last DCS Truck Sheet Date").Name)
-                    view.ColumnGroups(6).Rows(0).ColumnNames.Add(gv1.Columns("Last Milk Bill Generation Date").Name)
+                    view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+                    view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Last DBT Entry").Name)
+                    view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Last DBT Advice").Name)
+                    view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Last BMC Truck Sheet").Name)
+                    view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Last DCS Truck Sheet Date").Name)
+                    view.ColumnGroups(5).Rows(0).ColumnNames.Add(gv1.Columns("Last Milk Bill Generation Date").Name)
                 End If
                 gv1.ViewDefinition = view
             End If

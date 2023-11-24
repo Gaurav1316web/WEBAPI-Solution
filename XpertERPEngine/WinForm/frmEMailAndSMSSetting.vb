@@ -985,7 +985,16 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(Doc_Date)
             ContextMenuStrip1.Items.Add(TankerNo)
             ContextMenuStrip1.Items.Add(Cleaner)
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSendBillToDCS) = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(clsEmailSMSConstants.DOC_NO)
+            ContextMenuStrip1.Items.Add(clsEmailSMSConstants.DOC_Date)
+            ContextMenuStrip1.Items.Add(clsEmailSMSConstants.VLCCode)
+            ContextMenuStrip1.Items.Add(clsEmailSMSConstants.VLCName)
+            ContextMenuStrip1.Items.Add(clsEmailSMSConstants.VLCUploaderCode)
+            ContextMenuStrip1.Items.Add(clsEmailSMSConstants.FromDate)
+            ContextMenuStrip1.Items.Add(clsEmailSMSConstants.ToDate)
         End If
+
 
         Dim obj As clsESConfig = clsESConfig.GetData()
         If obj IsNot Nothing Then

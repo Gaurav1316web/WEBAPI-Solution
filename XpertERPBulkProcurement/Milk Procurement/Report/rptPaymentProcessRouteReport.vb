@@ -3756,8 +3756,13 @@ TSPL_MILK_COLLECTION_MCC
     Private Sub btnYearlySummary_Click(sender As Object, e As EventArgs) Handles btnYearlySummary.Click
         Try
             If clsCommon.myLen(fndFinacialYear.Value) > 0 Then
+                Dim MCCName As String
+                If fndMultMCC.arrValueMember.Count = 1 Then
+                    MCCName = clsDBFuncationality.getSingleValue("Select ', '+MCC_NAME from TSPL_MCC_MASTER Where MCC_Code IN ('" + clsCommon.myCstr(fndMultMCC.arrValueMember(0)) + "')")
+                End If
+
                 Dim Qry As String = "; with CTE as (select 1 Number  union all  select Number +1 from CTE where Number<31 ) 
-                                     select  Max([DCS Code])[DCS Code],'" + objCommonVar.CurrentCompanyName + "'  as CompName,'" + txtDateFrom.Value + "' as fromDate ,'" + txtDateTo.Value + "' as Todate,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
+                                     select  Max([DCS Code])[DCS Code],'" + objCommonVar.CurrentCompanyName + MCCName + "'  as CompName,'" + txtDateFrom.Value + "' as fromDate ,'" + txtDateTo.Value + "' as Todate,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
                                      ((sum(FATKG)* 100)/(sum(TotalSweetQty)+sum(TotalSoreQty))) as FATPer,((Sum(SNFKG)* 100)/(sum(TotalSweetQty)+sum(TotalSoreQty))) as SNFPer,
                                      Count(Distinct Doc_Date)DAYS_Total, 
                                      (sum(TotalSweetQty)+sum(TotalSoreQty)+sum(TotalCurdQty))/max(FYDays)as AVG_QTY,(sum(TotalSweetQty)+sum(TotalSoreQty)+sum(TotalCurdQty))as TotalQty  
@@ -3880,20 +3885,19 @@ TSPL_MILK_COLLECTION_MCC
                 End If
 
                 Qry = Nothing
-                Qry = "Select '" + objCommonVar.CurrentCompanyName + "'  as CompName,'" + txtDateFrom.Value + "' as fromDate ,'" + txtDateTo.Value + "' as Todate,[<51Qty],([<51Qty]/[<51DCS]/[Days]) As [<51AVG/DCS/DAY],
-[<51DCS],(Convert(Decimal(18,2), [<51DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 As [<51DCS%],	
-[51-150Qty],([51-150Qty]/[51-150DCS]/[Days]) As [51-150AVG/DCS/DAY],	
-[51-150DCS],(Convert(Decimal(18,2), [51-150DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 As [51-150DCS%],
-[151-300Qty],([151-300Qty]/[151-300DCS]/[Days]) As [151-300AVG/DCS/DAY],	
-[151-300DCS],(Convert(Decimal(18,2), [151-300DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 As [151-300DCS%],	
-[301-500Qty],([301-500Qty]/[301-500DCS]/[Days]) As [301-500AVG/DCS/DAY],	
-[301-500DCS],(Convert(Decimal(18,2), [301-500DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 As [301-500DCS%],	
-[>500Qty],	([>500Qty]/[>500DCS]/[Days]) As [>500AVG/DCS/DAY],
-[>500DCS],(Convert(Decimal(18,2), [>500DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 As [>500DCS%],
-[Total_Qty],	
-[Total_DCS],	
-[Days],	[CompName],	[fromDate],	[Todate],	[City_Code] 
-from (Select convert(int,SUM([<51Qty]))AS [<51Qty], SUM([<51DCS])AS [<51DCS], convert(int,SUM([51-150Qty])) AS [51-150Qty] , SUM([51-150DCS])AS [51-150DCS],convert(int,SUM([151-300Qty]) )AS [151-300Qty],SUM([151-300DCS])AS [151-300DCS], convert(int,Sum([301-500Qty])) As [301-500Qty], Sum([301-500DCS]) As [301-500DCS],convert(int,Sum([>500Qty])) As [>500Qty] , Sum([>500DCS]) As [>500DCS] , sum ([<51Qty]+ [51-150Qty] + [151-300Qty] + [301-500Qty] + [>500Qty]) as Total_Qty,sum ([<51DCS]+ [51-150DCS] + [151-300DCS] + [301-500DCS] + [>500DCS]) as Total_DCS ,15 as Days,''  as CompName,''  as fromDate ,''  as Todate,'' as City_Code
+                Qry = "Select '" + objCommonVar.CurrentCompanyName + "'  as CompName,'" + txtDateFrom.Value + "' as fromDate ,'" + txtDateTo.Value + "' as Todate,
+                        [<51Qty],Case When ([<51DCS]> 0 And [Days]>0) Then ([<51Qty]/[<51DCS]/[Days]) Else 0 End As [<51AVG/DCS/DAY],
+                        [<51DCS],Case When (Convert(Decimal(18,2), [Total_DCS]))>0 Then ((Convert(Decimal(18,2), [<51DCS])/Convert(Decimal(18,2), [Total_DCS]))*100) Else 0 End As [<51DCS%],	
+                        [51-150Qty],Case When ([51-150DCS]>0 And [Days]>0) Then  ([51-150Qty]/[51-150DCS]/[Days]) Else 0 End As [51-150AVG/DCS/DAY],	
+                        [51-150DCS],Case When (Convert(Decimal(18,2), [Total_DCS]))>0 Then (Convert(Decimal(18,2), [51-150DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 Else 0 End As [51-150DCS%],
+                        [151-300Qty],Case When ([151-300DCS]>0 And [Days]>0) Then ([151-300Qty]/[151-300DCS]/[Days]) Else 0 End As [151-300AVG/DCS/DAY],	
+                        [151-300DCS],Case When (Convert(Decimal(18,2), [Total_DCS]))>0 Then (Convert(Decimal(18,2), [151-300DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 Else 0 End As [151-300DCS%],
+                        [301-500Qty],Case When ([301-500DCS]>0 And [Days]>0) Then ([301-500Qty]/[301-500DCS]/[Days]) Else 0 End As [301-500AVG/DCS/DAY],	
+                        [301-500DCS],Case When (Convert(Decimal(18,2), [Total_DCS]))>0 Then (Convert(Decimal(18,2), [301-500DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 Else 0 End As [301-500DCS%],
+                        [>500Qty],Case When ([>500DCS]>0 And [Days]>0) Then ([>500Qty]/[>500DCS]/[Days]) Else 0 End As [>500AVG/DCS/DAY],
+                        [>500DCS],Case When (Convert(Decimal(18,2), [Total_DCS]))>0 Then (Convert(Decimal(18,2), [>500DCS])/Convert(Decimal(18,2), [Total_DCS]))*100 Else 0 End As [>500DCS%],
+                        [Total_Qty],[Total_DCS],[Days],[CompName],[fromDate],[Todate],[City_Code] 
+                        from (Select convert(int,SUM([<51Qty]))AS [<51Qty], SUM([<51DCS])AS [<51DCS], convert(int,SUM([51-150Qty])) AS [51-150Qty] , SUM([51-150DCS])AS [51-150DCS],convert(int,SUM([151-300Qty]) )AS [151-300Qty],SUM([151-300DCS])AS [151-300DCS], convert(int,Sum([301-500Qty])) As [301-500Qty], Sum([301-500DCS]) As [301-500DCS],convert(int,Sum([>500Qty])) As [>500Qty] , Sum([>500DCS]) As [>500DCS] , sum ([<51Qty]+ [51-150Qty] + [151-300Qty] + [301-500Qty] + [>500Qty]) as Total_Qty,sum ([<51DCS]+ [51-150DCS] + [151-300DCS] + [301-500DCS] + [>500DCS]) as Total_DCS ,15 as Days,''  as CompName,''  as fromDate ,''  as Todate,'' as City_Code
                         from(
                         select   SUM(Milk_Weight)As [<51Qty] , count(DCS) AS [<51DCS] ,0 AS [51-150Qty] , 0 AS [51-150DCS],
                         0 AS [151-300Qty] ,0 AS [151-300DCS],0 AS [301-500Qty] , 0 AS [301-500DCS],0 AS [>500Qty], 0 AS [>500DCS]  

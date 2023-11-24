@@ -2888,6 +2888,7 @@ Public Class FrmVendorService
         btnPrintJV.Visible = True
         btnPrintInvoice.Visible = True
         chkRCM.Checked = False
+        chkEInvoice.Checked = False
         chkTDSProvision.Checked = False
         chkNoGSTCredit.Checked = False
         If ApplyNoGSTCreditIndependentlyOnVendorServiceCharge = True Then
@@ -3167,6 +3168,7 @@ Public Class FrmVendorService
                 '---------added by  usha
                 obj.loc_code = txtlocation.Value
                 obj.RCM = chkRCM.Checked
+                obj.IsEInvoice = chkEInvoice.Checked
                 obj.TDS_Provision = chkTDSProvision.Checked
                 obj.No_GST_Credit = chkNoGSTCredit.Checked
                 '---------end
@@ -3639,6 +3641,7 @@ Public Class FrmVendorService
                 arrProvDocNo = obj.arrProvDocNo
                 ''---------------------
                 chkRCM.Checked = obj.RCM
+                chkEInvoice.Checked = obj.IsEInvoice
                 chkTDSProvision.Checked = obj.TDS_Provision
                 obj.GSTRegistered = chkGSTRegistered.Checked
                 chkNoGSTCredit.Checked = obj.No_GST_Credit
