@@ -8105,6 +8105,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptBookingWiseRegister
                         frm = New rptBookingWiseRegister()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDemandHistory
+                        frm = New frmDemandHistory()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptZoneWiseMSVisual
                         frm = New rptZoneWiseMilkSaleVisual()
@@ -8661,6 +8664,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTCSLedger
                         frm = New rptTCSLedger(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.rptDCSSaleRegister
+                    '    frm = New rptDCSSaleRegister()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MISCreditorReport
                         frm = New frmRptVendorLedger(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9467,6 +9473,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.AuditTrailSaleAndDistribution
                         frm = New rptAuditTrailReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptDCSSaleRegister
+                        frm = New rptDCSSaleRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptSalesReport
                         frm = New rptSalesReport
