@@ -122,8 +122,8 @@ Public Class FrmBulkRoutMaster
                                 Throw New Exception("Invalid Tanker No " + clsCommon.myCstr(obj.Tanker_No))
                             End If
                         End If
-                        obj.Schedule_Time_Morning = clsCommon.myCDate(grow.Cells("Schedule_Time_Morning").Value)
-                        obj.Schedule_Time_Evening = clsCommon.myCDate(grow.Cells("Schedule_Time_Evening").Value)
+                        obj.Schedule_Time_Morning = clsCommon.myCDate(grow.Cells("Schedule Time Morning").Value)
+                        obj.Schedule_Time_Evening = clsCommon.myCDate(grow.Cells("Schedule Time Evening").Value)
                         clsBulkRoutMaster.SaveData(obj)
                     Next
                 Catch ex As Exception
