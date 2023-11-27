@@ -6416,6 +6416,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtManualCustomer.Text = ""
         showSavedMessage = True
         cmbShift.SelectedValue = ""
+        cmbShift.Enabled = True
         TxtTransportorMName.MendatroryField = True
         TxtTransportorMName.Visible = False
         btnUpdateCustomer.Enabled = False
