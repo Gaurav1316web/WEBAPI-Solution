@@ -16,6 +16,9 @@ Public Class clsBulkRoutMaster
     Public Tanker_No As String = Nothing
     Public arrMCC As ArrayList
     Public CuttOff_Time As DateTime
+    Public Schedule_Time_Morning As DateTime?
+    Public Schedule_Time_Evening As DateTime?
+
 #End Region
     Public Shared Function SaveData(ByVal obj As clsBulkRoutMaster) As Boolean
         Dim qry As String = ""
@@ -50,6 +53,13 @@ Public Class clsBulkRoutMaster
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "CuttOff_Time", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            If clsCommon.myLen(obj.Schedule_Time_Morning) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Schedule_Time_Morning", clsCommon.GetPrintDate(obj.Schedule_Time_Morning, "dd/MMM/yyyy hh:mm tt"))
+            End If
+            If clsCommon.myLen(obj.Schedule_Time_Evening) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Schedule_Time_Evening", clsCommon.GetPrintDate(obj.Schedule_Time_Evening, "dd/MMM/yyyy hh:mm tt"))
+            End If
+
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -103,6 +113,13 @@ Public Class clsBulkRoutMaster
             obj.IsDefault = clsCommon.myCdbl(dt.Rows(0)("IsDefault"))
             obj.arrMCC = clsBulkRoutMasterMCC.GetData(obj.ROUTE_NO)
             obj.CuttOff_Time = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt")
+            If dt.Rows(0)("Schedule_Time_Morning") IsNot DBNull.Value Then
+                obj.Schedule_Time_Morning = clsCommon.myCDate(dt.Rows(0)("Schedule_Time_Morning"))
+            End If
+            If dt.Rows(0)("Schedule_Time_Evening") IsNot DBNull.Value Then
+                obj.Schedule_Time_Evening = clsCommon.myCDate(dt.Rows(0)("Schedule_Time_Evening"))
+            End If
+
         End If
         Return obj
     End Function

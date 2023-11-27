@@ -13079,8 +13079,6 @@ Public Class clsCreateAllTable
             coll.Add("ApplyCowPriceDate", "Date Default NULL")
             coll.Add("Loyalty_Rate", "decimal(18, 2) NULL")
             coll.Add("OwnBMCDate", "Date Default NULL")
-            coll.Add("Schedule_Time_Morning", "datetime NULL")
-            coll.Add("Schedule_Time_Evening", "datetime NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
             qry = "update TSPL_VLC_MASTER_HEAD set ApplyCowPriceDate='01/Jan/2022' where ApplyCowPriceDate is null and   Apply_Cow_Price=1 "
@@ -13258,6 +13256,8 @@ Public Class clsCreateAllTable
             coll.Add("IsDefault", "integer not null default 0")
             coll.Add("Tanker_No", "varchar(20) NULL  References TSPL_TANKER_MASTER(Tanker_No)")
             coll.Add("CuttOff_Time", "dateTime Null")
+            coll.Add("Schedule_Time_Morning", "datetime NULL")
+            coll.Add("Schedule_Time_Evening", "datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
