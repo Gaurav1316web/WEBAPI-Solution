@@ -238,6 +238,7 @@ Public Class clsUserMgtCode
     Public Const FrmZoneWiseSKUReport As String = "ZW_SKU_REP"
     Public Const FrmDairySaleSchemeReport As String = "DS_SCH_REP"
     Public Const rptBookingWiseRegister As String = "DS_BW_RPT"
+    Public Const frmDemandHistory As String = "DS_DEM_HIS"
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"
     Public Const rptUnpostedDocumentReport As String = "UNPOST_DOC"
@@ -2269,6 +2270,7 @@ Public Class clsUserMgtCode
     Public Const MISCreditorReport As String = "MIS-CDTR-RPT"
     Public Const MISSaleRegister As String = "MIS-Sale-RPT"
     Public Const rptTCSLedger As String = "TCS-LEDGER"
+    Public Const rptDCSSaleRegister As String = "DCS-SAL-REG"
     Public Const MISSaleRegisterWithCSASalePatti As String = "MSCSAPATIREG"
     Public Const MISSaleRegisterWithCSASalePattiProductLocationWise As String = "MISPrdLocWis"
     Public Const MISSaleRegisterWithCSASalePattiProductPackWise As String = "MISPrdPckWis"
@@ -2515,6 +2517,7 @@ Public Class clsUserMgtCode
     Public Const frmDemandBooking As String = "DEM_BOO_TRN"
     Public Const frmDemandAdjustment As String = "DEM-ADJ-TRN"
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
+    Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean

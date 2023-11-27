@@ -561,6 +561,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptSaleRegisterForAdv, "Sales Register Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailSaleAndDistribution, "Sale And Distribution Audit Trail Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.06.03.30", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.06.03.31", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
@@ -1291,6 +1292,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptMonthWiseSaleAnalysis, "Month Wise Analysis Report", "1.31.01.14", clsUserMgtCode.SubModuleMISReports, "", 37)
         InsertDefaultValue(clsUserMgtCode.MISMassBalanceReport, "Mass Balance Report", "1.31.01.15", clsUserMgtCode.SubModuleMISReports, "", 37)
         InsertDefaultValue(clsUserMgtCode.rptTCSLedger, "TCS Ledger", "1.31.01.16", clsUserMgtCode.SubModuleMISReports, "", 37)
+        ' InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.31.01.17", clsUserMgtCode.SubModuleMISReports, "", 37)
         '----------------------------MIS REPORTS----------------------------------------ENDS HERE
 
         '--------------Business Intelligence----------------------------------
@@ -2247,6 +2249,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, "Demand", "1.36.02.25", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandAdjustment, "Demand Adjustment", "1.36.02.26", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandApproval, "Demand Approval", "1.36.02.27", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, "Demand Sheet", "1.36.02.28", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+
         '' end of transaction
 
         '--Reports
@@ -2292,6 +2296,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmZoneWiseSKUReport, "Zone Wise SKU Report", "1.06.03.49", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmDairySaleSchemeReport, "Dairy Sale Scheme Report", "1.06.03.50", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBookingWiseRegister, "Booking Wise Register", "1.06.03.51", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDemandHistory, "Demand History", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         '-------------------------SERVICE MODULE END----------------------------------------
 
 
