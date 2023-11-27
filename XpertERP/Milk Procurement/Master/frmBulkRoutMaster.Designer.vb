@@ -213,7 +213,8 @@ Partial Class FrmBulkRoutMaster
         Me.txtScheduleTimeE.Size = New System.Drawing.Size(153, 20)
         Me.txtScheduleTimeE.TabIndex = 12151
         Me.txtScheduleTimeE.TabStop = False
-        Me.txtScheduleTimeE.Value = New Date(CType(0, Long))
+        Me.txtScheduleTimeE.Text = "02:13 PM"
+        Me.txtScheduleTimeE.Value = New Date(2023, 11, 27, 14, 13, 0, 0)
         '
         'txtScheduleTimeM
         '
@@ -240,7 +241,8 @@ Partial Class FrmBulkRoutMaster
         Me.txtScheduleTimeM.Size = New System.Drawing.Size(154, 20)
         Me.txtScheduleTimeM.TabIndex = 12150
         Me.txtScheduleTimeM.TabStop = False
-        Me.txtScheduleTimeM.Value = New Date(CType(0, Long))
+        Me.txtScheduleTimeM.Text = "02:13 PM"
+        Me.txtScheduleTimeM.Value = New Date(2023, 11, 27, 14, 13, 0, 0)
         '
         'MyLabel8
         '

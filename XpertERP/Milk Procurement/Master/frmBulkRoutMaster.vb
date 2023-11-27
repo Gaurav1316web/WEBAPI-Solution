@@ -54,6 +54,9 @@ Public Class FrmBulkRoutMaster
         chkDefault.Checked = False
         txtTankerNo.Value = ""
         txtVehicleNo.Text = ""
+
+        txtScheduleTimeM.Value = clsCommon.GETSERVERDATE()
+        txtScheduleTimeE.Value = txtScheduleTimeM.Value
     End Sub
 
 
@@ -68,7 +71,7 @@ Public Class FrmBulkRoutMaster
         Dim gv As New RadGridView()
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gv, "Route No", "Route Name", "Distance", "Rate", "Weight", "Amount", "TankerNo", "Schedule_Time_Morning", "Schedule_Time_Evening") Then
+        If transportSql.importExcel(gv, "Route No", "Route Name", "Distance", "Rate", "Weight", "Amount", "TankerNo", "Schedule Time Morning", "Schedule Time Evening") Then
             Try
                 clsCommon.ProgressBarShow()
                 Dim ii As Integer = 0
@@ -182,8 +185,12 @@ Public Class FrmBulkRoutMaster
             chkDefault.Checked = IIf(obj.IsDefault = 1, True, False)
             txtMCC.arrValueMember = obj.arrMCC
             txtcuttofftime.Value = obj.CuttOff_Time
-            txtScheduleTimeM.Value = obj.Schedule_Time_Morning
-            txtScheduleTimeE.Value = obj.Schedule_Time_Evening
+            If obj.Schedule_Time_Morning IsNot Nothing Then
+                txtScheduleTimeM.Value = obj.Schedule_Time_Morning
+            End If
+            If obj.Schedule_Time_Evening IsNot Nothing Then
+                txtScheduleTimeE.Value = obj.Schedule_Time_Evening
+            End If
         End If
     End Sub
     'ROUTE_NAME as [Route Name],Distance,Rate,Amount 

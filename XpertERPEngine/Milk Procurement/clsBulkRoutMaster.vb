@@ -16,8 +16,8 @@ Public Class clsBulkRoutMaster
     Public Tanker_No As String = Nothing
     Public arrMCC As ArrayList
     Public CuttOff_Time As DateTime
-    Public Schedule_Time_Morning As DateTime
-    Public Schedule_Time_Evening As DateTime
+    Public Schedule_Time_Morning As DateTime?
+    Public Schedule_Time_Evening As DateTime?
 
 #End Region
     Public Shared Function SaveData(ByVal obj As clsBulkRoutMaster) As Boolean
@@ -53,8 +53,12 @@ Public Class clsBulkRoutMaster
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "CuttOff_Time", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-            clsCommon.AddColumnsForChange(coll, "Schedule_Time_Morning", clsCommon.GetPrintDate(obj.Schedule_Time_Morning, "dd/MMM/yyyy hh:mm tt"))
-            clsCommon.AddColumnsForChange(coll, "Schedule_Time_Evening", clsCommon.GetPrintDate(obj.Schedule_Time_Evening, "dd/MMM/yyyy hh:mm tt"))
+            If clsCommon.myLen(obj.Schedule_Time_Morning) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Schedule_Time_Morning", clsCommon.GetPrintDate(obj.Schedule_Time_Morning, "dd/MMM/yyyy hh:mm tt"))
+            End If
+            If clsCommon.myLen(obj.Schedule_Time_Evening) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Schedule_Time_Evening", clsCommon.GetPrintDate(obj.Schedule_Time_Evening, "dd/MMM/yyyy hh:mm tt"))
+            End If
 
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
