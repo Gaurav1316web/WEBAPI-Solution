@@ -48,6 +48,7 @@ Public Class frmMilkCollectionDCS
     Dim settMaxSNFPerLimit As Decimal = 0
     Dim corrFactor As Decimal = 0
     Public Shared IsViewBalance As Boolean = False
+    Dim SettAdjQty As Boolean = False
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
@@ -60,6 +61,7 @@ Public Class frmMilkCollectionDCS
         SettHideShiftCollection = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, Nothing))
         settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, Nothing))
         SettHeaderFATSNFKGDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HeaderFATSNFKGDecimalPlaces, clsFixedParameterCode.HeaderFATSNFKGDecimalPlaces, Nothing))
+        SettAdjQty = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustQtyINOwnVSP, Nothing)) = 1)
         'If isPickCLRInsteadOfSNF Then
         '    MyLabel23.Text = "CLR KG"
         '    MyLabel5.Text = "CLR %"
@@ -738,13 +740,15 @@ Public Class frmMilkCollectionDCS
                 If (obj.ArrMCC Is Nothing OrElse obj.ArrMCC.Count <= 0) Then
                     Throw New Exception("Please Fill at list one BMC Details")
                 End If
-                Dim isOwnBMC As Boolean = False
-                For i As Integer = 0 To obj.Arr.Count - 1
-                    If clsfrmVLCMaster.IsOwnBMC(obj.Arr(i).VLC_Code, txtMCC.Tag, Nothing) Then
-                        isOwnBMC = True
-                        Exit For
-                    End If
-                Next
+                Dim isOwnBMC As Boolean = SettAdjQty
+                If Not isOwnBMC Then
+                    For i As Integer = 0 To obj.Arr.Count - 1
+                        If clsfrmVLCMaster.IsOwnBMC(obj.Arr(i).VLC_Code, txtMCC.Tag, Nothing) Then
+                            isOwnBMC = True
+                            Exit For
+                        End If
+                    Next
+                End If
                 If isOwnBMC Then
                     obj.SaveData(obj, isNewEntry)
                     clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
