@@ -68,7 +68,7 @@ Public Class frmDemand_Sheet
         repoCustPhone.HeaderText = "Phone No"
         repoCustPhone.Name = colCustPhone
         repoCustPhone.HeaderImage = My.Resources.search4
-        repoCustPhone.TextImageRelation = TextImageRelation.TextBeforeImage
+        'repoCustPhone.TextImageRelation = TextImageRelation.TextBeforeImage
         repoCustPhone.Width = 150
         repoCustPhone.IsVisible = True
         repoCustPhone.IsPinned = True
@@ -162,6 +162,7 @@ Public Class frmDemand_Sheet
                 End If
                 isInsideLoadData = False
             End If
+            'SetGridFocus()
         Catch ex As Exception
             isInsideLoadData = False
             isCellValueChangedOpen = False
@@ -265,10 +266,11 @@ Public Class frmDemand_Sheet
                     gv1.Rows(IntRowNo).Cells(colLineNo).Value = IntRowNo + 1
                     gv1.Rows(IntRowNo).Cells(colCustCode).Value = obj.Cust_Code
                     gv1.Rows(IntRowNo).Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Cust_Code + "'"))
-                    gv1.Rows(IntRowNo).Cells(colSetZero).Value = obj.Set_Zero
+                    'gv1.Rows(IntRowNo).Cells(colSetZero).Value = obj.Set_Zero
 
                     If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                         For Each objTr As clsDemandSheetDetails In obj.Arr
+                            gv1.Rows(IntRowNo).Cells(colSetZero).Value = objTr.Set_Zero
                             'For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
@@ -408,9 +410,11 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
             Dim k As Integer = gv1.CurrentColumn.Index
             Dim r As Integer = 0
             If gv1.CurrentCell.ColumnInfo.Name = colCustCode Then
-                gv1.CurrentColumn = gv1.Columns(colSetZero)
+                gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(1))
+            ElseIf gv1.CurrentCell.ColumnInfo.Name = colCustPhone Then
+                gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(1))
             ElseIf gv1.CurrentCell.ColumnInfo.Name = colSetZero Then
-                gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(k - 3))
+                gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(1))
             End If
             If k >= 4 Then
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k - 3)).Tag, ItemValueClass)
@@ -420,7 +424,7 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
                     If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso r <= gv1.Columns.Count - 4 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                         If gv1.CurrentCell.ColumnInfo.Name = colItemCode + clsCommon.myCstr(k - 1) Then
                             Dim obj2 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(r)).Tag, ItemValueClass)
-                            If obj1 IsNot Nothing Then
+                            If obj2 IsNot Nothing Then
                                 gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(r))
                                 Exit Sub
                             Else
@@ -440,11 +444,24 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
             End If
         End If
     End Sub
-    Private Sub gv1_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gv1.CellValidated
+
+    Private Sub frmDemand_Sheet_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Try
-            SetGridFocus()
+            If e.KeyCode = Keys.Enter Then
+                SetGridFocus()
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+
     End Sub
+    'Private Sub gv1_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gv1.CellValidated
+    '    Try
+    '        SetGridFocus()
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
+
+
 End Class
