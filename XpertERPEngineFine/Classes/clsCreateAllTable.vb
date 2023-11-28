@@ -39,6 +39,7 @@ Public Class clsCreateAllTable
             coll.Add("Zone", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
             coll.Add("Location", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Customer", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
+            coll.Add("Active", "Bit not null default 0")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
             coll.Add("Modify_By", "varchar(12)  Not NULL")

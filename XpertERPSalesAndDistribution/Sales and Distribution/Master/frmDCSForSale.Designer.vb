@@ -48,6 +48,7 @@ Partial Class frmDCSforSale
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
+        Me.chkActive = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -67,6 +68,7 @@ Partial Class frmDCSforSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkActive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -81,6 +83,7 @@ Partial Class frmDCSforSale
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkActive)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblCustomerDesc)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblCustomer)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblZoneDesc)
@@ -427,6 +430,17 @@ Partial Class frmDCSforSale
         Me.rdmenufile.Size = New System.Drawing.Size(636, 20)
         Me.rdmenufile.TabIndex = 8
         '
+        'chkActive
+        '
+        Me.chkActive.Location = New System.Drawing.Point(410, 13)
+        Me.chkActive.MyLinkLable1 = Nothing
+        Me.chkActive.MyLinkLable2 = Nothing
+        Me.chkActive.Name = "chkActive"
+        Me.chkActive.Size = New System.Drawing.Size(51, 18)
+        Me.chkActive.TabIndex = 60
+        Me.chkActive.Tag1 = Nothing
+        Me.chkActive.Text = "Active"
+        '
         'frmDCSforSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -460,6 +474,7 @@ Partial Class frmDCSforSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkActive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -490,4 +505,5 @@ Partial Class frmDCSforSale
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents lblDescription As common.Controls.MyLabel
     Friend WithEvents lblZone As common.Controls.MyLabel
+    Friend WithEvents chkActive As common.Controls.MyCheckBox
 End Class
