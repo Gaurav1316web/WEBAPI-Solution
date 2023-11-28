@@ -11,6 +11,7 @@ Public Class frmDemand_Sheet
     Const colLineNo As String = "colLineNo"
     Const colCustCode As String = "colCustCode"
     Const colCustPhone As String = "colCustPhone"
+    Const colRouteNo As String = "colRouteNo"
     Const colSetZero As String = "colSetZero"
     Const colItemCode As String = "colItemCode"
 #End Region
@@ -67,13 +68,20 @@ Public Class frmDemand_Sheet
         repoCustPhone.FormatString = ""
         repoCustPhone.HeaderText = "Phone No"
         repoCustPhone.Name = colCustPhone
-        repoCustPhone.HeaderImage = My.Resources.search4
-        'repoCustPhone.TextImageRelation = TextImageRelation.TextBeforeImage
         repoCustPhone.Width = 150
         repoCustPhone.IsVisible = True
         repoCustPhone.IsPinned = True
-        repoCustPhone.ReadOnly = False
+        repoCustPhone.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoCustPhone)
+        Dim repoRouteNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoRouteNo.FormatString = ""
+        repoRouteNo.HeaderText = "Route No"
+        repoRouteNo.Name = colRouteNo
+        repoRouteNo.Width = 150
+        repoRouteNo.IsVisible = True
+        repoRouteNo.IsPinned = True
+        repoRouteNo.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoRouteNo)
         Dim repoSetZero As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoSetZero = New GridViewDecimalColumn()
         repoSetZero.FormatString = ""
@@ -122,6 +130,7 @@ Public Class frmDemand_Sheet
                 gv1.MasterTemplate.Columns.Add(repoIName)
             Next
         End If
+        gv1.BestFitColumns()
     End Sub
     Sub AddNew()
         LoadBlankGrid()
@@ -147,6 +156,7 @@ Public Class frmDemand_Sheet
                     If e.Column.Name = colCustCode Then
                         gv1.CurrentRow.Cells(colCustCode).Value = clsDistributorRouteTagging.getFinder(" IsDistributor='N' and form_type not in('TPT','VSP') ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False)
                         gv1.CurrentRow.Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
+                        gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
                         gv1.CurrentRow.Cells(colSetZero).Value = 1
 
                         UpdateCurrentRow(gv1.CurrentRow.Index)
@@ -182,7 +192,7 @@ Public Class frmDemand_Sheet
                 obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
                 obj.ShiftType = txtShift.Text
                 Dim k As Integer = 1
-                For dblcolumns As Integer = 4 To gv1.Columns.Count - 1
+                For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                     k = k + 1
                     If obj1 IsNot Nothing Then
@@ -266,6 +276,7 @@ Public Class frmDemand_Sheet
                     gv1.Rows(IntRowNo).Cells(colLineNo).Value = IntRowNo + 1
                     gv1.Rows(IntRowNo).Cells(colCustCode).Value = obj.Cust_Code
                     gv1.Rows(IntRowNo).Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Cust_Code + "'"))
+                    gv1.Rows(IntRowNo).Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Cust_Code + "'"))
                     'gv1.Rows(IntRowNo).Cells(colSetZero).Value = obj.Set_Zero
 
                     If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -274,7 +285,7 @@ Public Class frmDemand_Sheet
                             'For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
-                                For columns = 4 To gv1.Columns.Count - 1
+                                For columns = 5 To gv1.Columns.Count - 1
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal Then
@@ -323,7 +334,7 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
                                 For Each objTr As clsDemandBookingSaleDetail In obj.Arr
                                     If clsCommon.CompairString(grow.Cells(colCustCode).Value, objTr.Cust_Code) = CompairStringResult.Equal Then
                                         Dim k As Integer = 1
-                                        For columns = 4 To gv1.Columns.Count - 1
+                                        For columns = 5 To gv1.Columns.Count - 1
                                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                             k = k + 1
                                             If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal Then
@@ -416,12 +427,12 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
             ElseIf gv1.CurrentCell.ColumnInfo.Name = colSetZero Then
                 gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(1))
             End If
-            If k >= 4 Then
-                Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k - 3)).Tag, ItemValueClass)
-                k = k - 2
+            If k >= 5 Then
+                Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k - 4)).Tag, ItemValueClass)
+                k = k - 3
                 r = k
                 If obj1 IsNot Nothing Then
-                    If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso r <= gv1.Columns.Count - 4 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
+                    If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso r <= gv1.Columns.Count - 5 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                         If gv1.CurrentCell.ColumnInfo.Name = colItemCode + clsCommon.myCstr(k - 1) Then
                             Dim obj2 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(r)).Tag, ItemValueClass)
                             If obj2 IsNot Nothing Then
