@@ -438,62 +438,89 @@ Public Class clsMilkCollectionDCSDetail
                             Continue For
                         End If
                     End If
-                    Dim coll As New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
-                    clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
-                    clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
-                    clsCommon.AddColumnsForChange(coll, "Shift", obj.Shift)
-                    If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal Then
-                        obj.Milk_Type = "Good" ''To Handle Case sensitivity
-                    End If
-                    clsCommon.AddColumnsForChange(coll, "Milk_Type", obj.Milk_Type)
-                    clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", obj.Dock_Collection_Milk_Type)
-                    clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-                    clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
-                    clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
-                    clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
-                    clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
-                    If intPKID > 0 Then
-                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(intPKID) + "", trans)
-                    Else
-                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-                    End If
+                    SaveDataTRData(strDocNo, obj, intPKID, trans)
                 End If
             Next
+            Dim SettAdjQty As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustQtyINOwnVSP, trans)) = 1)
+            If SettAdjQty Then
+                Dim qry As String = "select * from (
+select case when isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC=Tab.MCC_Code then 1 else 0 end as isOwnBMC 
+from TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS on  TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+left outer join (select Document_No,max(MCC_Code) as MCC_Code from (select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail )xx group by Document_No )Tab on Tab.Document_No= TSPL_MILK_COLLECTION_DCS.Document_No
+where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strDocNo + "' 
+)x where isOwnBMC=1"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    qry = "(select Document_No,max(MCC_Code) as MCC_Code from (
+select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail 
+where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "' 
+)xx group by Document_No )"
+                    dt = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                        Throw New Exception("No mcc detail found")
+                    End If
+                    Dim obj As New clsMilkCollectionDCSDetail
+                    obj.VLC_Code = clsfrmVLCMaster.OwnBMCCodeByMCC(clsCommon.myCstr(dt.Rows(0)("MCC_Code")), trans)
+                    If clsCommon.myLen(obj.VLC_Code) <= 0 Then
+                        Throw New Exception("Please defince own BMC for BMC [" + clsCommon.myCstr(dt.Rows(0)("MCC_Code")) + "]")
+                    End If
+                    obj.SNo = (Arr(Arr.Count - 1).SNo + 1)
+                    obj.Shift = Arr(Arr.Count - 1).Shift
+                    obj.Milk_Type = Arr(Arr.Count - 1).Milk_Type
+                    obj.Dock_Collection_Milk_Type = Arr(Arr.Count - 1).Dock_Collection_Milk_Type
+                    obj.Qty = 0
+                    obj.FAT = 0
+                    obj.SNF = 0
+                    obj.FATKG = 0
+                    obj.SNFKG = 0
+                    SaveDataTRData(strDocNo, obj, 0, trans)
+                End If
+            End If
+
             If Not isMissingOnly Then
-                If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, trans)) = 1) Then
+                If SettAdjQty OrElse (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, trans)) = 1) Then
                     Dim settSNFDecimalPlace As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, trans))
                     Dim qry As String = "select max(isOwnBMC) as isOwnBMC, 
+sum(MCCQty) as MCCQty,sum(Qty) as TotQty,sum(Qty)-sum(MCCQty) as DiffQty,
 sum(MCCFATKG) as MCCFATKG,sum(FATKG) as TotFATKG,sum(FATKG)-sum(MCCFATKG) as DiffFATKG,
 sum(MCCSNFKG) as MCCSNFKG,sum(SNFKG) as TotSNFKG,sum(SNFKG)-sum(MCCSNFKG) as DiffSNFKG,
 max(case when isOwnBMC=1 then VLC_Code else '' end ) as VLC_Code
 from (
-select case when isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC=Tab.MCC_Code then 1 else 0 end as isOwnBMC,0.00 as MCCFATKG,0.00 as MCCSNFKG, TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG, TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+select case when isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1 and TSPL_VLC_MASTER_HEAD.MCC=Tab.MCC_Code then 1 else 0 end as isOwnBMC,0.00 as MCCQty,0.00 as MCCFATKG,0.00 as MCCSNFKG,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty, TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG, TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
 from TSPL_MILK_COLLECTION_DCS_DETAIL
 left outer join TSPL_MILK_COLLECTION_DCS on  TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
 left outer join (select Document_No,max(MCC_Code) as MCC_Code from (select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail )xx group by Document_No )Tab on Tab.Document_No= TSPL_MILK_COLLECTION_DCS.Document_No
 where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strDocNo + "' 
 union all
-select 0 as isOwnBMC,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCCFATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCCSNFKG,0.00 as FATKG,0.00 as SNFKG,'' as VLC_Code from
-  TSPL_MILK_COLLECTION_DCS_MCC_DETAIL  
+select 0 as isOwnBMC,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCCQty, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCCFATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCCSNFKG,0.00 as Qty,0.00 as FATKG,0.00 as SNFKG,'' as VLC_Code 
+from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL  
 left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
 where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "' 
 )x"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         If clsCommon.myCdbl(dt.Rows(0)("isOwnBMC")) = 1 Then
-                            If Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffSNFKG"))) > 0 Then
+                            If (SettAdjQty AndAlso Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffQty"))) > 0) OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffSNFKG"))) > 0 Then
                                 qry = "select PK_Id,Qty,FATKG,SNFKG from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'  and VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' order by Shift desc,FATKG,SNFKG"
                                 Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                                 If dtDetail IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    Dim coll As New Hashtable()
                                     Dim ii As Integer
-                                    Dim Qty As Decimal = clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty"))
+                                    Dim Qty As Decimal = 0
+                                    If SettAdjQty Then
+                                        Qty = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty")) - clsCommon.myCDecimal(dt.Rows(0)("DiffQty")))
+                                        clsCommon.AddColumnsForChange(coll, "Qty", Qty)
+                                    Else
+                                        Qty = clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty"))
+                                    End If
                                     Dim FATKG As Decimal = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG")))
                                     Dim SNFKG As Decimal = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG")))
                                     Dim FAT As Decimal = Math.Round((100 * FATKG) / Qty, 1, MidpointRounding.ToEven)
                                     Dim SNF As Decimal = Math.Round((100 * SNFKG) / Qty, settSNFDecimalPlace, MidpointRounding.ToEven)
-                                    Dim coll As New Hashtable()
+
                                     clsCommon.AddColumnsForChange(coll, "FAT", FAT)
                                     clsCommon.AddColumnsForChange(coll, "SNF", SNF)
                                     clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
@@ -508,6 +535,29 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         End If
         Return True
     End Function
+
+    Private Shared Sub SaveDataTRData(strDocNo As String, obj As clsMilkCollectionDCSDetail, ByVal intPKID As Integer, trans As SqlTransaction)
+        Dim coll As New Hashtable()
+        clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
+        clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
+        clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
+        clsCommon.AddColumnsForChange(coll, "Shift", obj.Shift)
+        If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal Then
+            obj.Milk_Type = "Good" ''To Handle Case sensitivity
+        End If
+        clsCommon.AddColumnsForChange(coll, "Milk_Type", obj.Milk_Type)
+        clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", obj.Dock_Collection_Milk_Type)
+        clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+        clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
+        clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
+        clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
+        clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
+        If intPKID > 0 Then
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(intPKID) + "", trans)
+        Else
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+        End If
+    End Sub
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsMilkCollectionDCSDetail)
         Dim arr As List(Of clsMilkCollectionDCSDetail) = Nothing

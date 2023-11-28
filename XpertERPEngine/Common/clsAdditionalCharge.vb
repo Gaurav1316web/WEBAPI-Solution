@@ -723,7 +723,7 @@ Public Class clsCustomerMaster
                     clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
                     clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Insert, "", trans)
-                    isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)
+                    isSaved = isSaved AndAlso clsLocationCustomerMappings.SaveData(obj2, obj.Arr, trans)
                 Else
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_MASTER.Cust_Code='" + obj.Cust_Code + "'", trans)
                     'isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)

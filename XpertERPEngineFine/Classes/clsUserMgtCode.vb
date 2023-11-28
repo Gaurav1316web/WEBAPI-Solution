@@ -2093,6 +2093,7 @@ Public Class clsUserMgtCode
     Public Const frmBulkPurchaseUploader As String = "B-P-UP"
     Public Const rptTemporaryPaymentDeductionSummary As String = "TPDS_R"
     Public Const rptAutoMultipleAdditionDeduction As String = "AMAD-R"
+    Public Const rptDBTMilkPayment As String = "DBT-MPAYM"
     Public Const rptDBTSummaryMonthlyWise As String = "DBT-Monthly"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
     'Public Const frmTranReverse As String = "M-TRN-R"

@@ -230,6 +230,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                             obj.PK_Id = clsCommon.myCDecimal(gv1.Rows(ii).Cells("PKID").Value)
                             If clsCommon.myCDecimal(gv1.Rows(ii).Cells("Gaze_Qty").Value) > 0 Then
                                 obj.Qty = (clsCommon.myCDecimal(gv1.Rows(ii).Cells("Gaze_Qty").Value) * (1.0 + ((clsCommon.myCDecimal(gv1.Rows(ii).Cells("CLR").Value)) / 1000)))
+                                obj.Qty = Math.Round(obj.Qty, 0, MidpointRounding.AwayFromZero)
                             Else
                                 obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells("Qty").Value)
                             End If
