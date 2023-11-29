@@ -168,18 +168,18 @@ Public Class FrmCustomerLocationMapping
         End If
 
 
-        For i As Integer = 0 To GvCustomer.Rows.Count - 1
-            dblsequenceno = clsCommon.myCdbl(GvCustomer.Rows(i).Cells("SequenceNo").Value)
-            If dblsequenceno <> 0 Then
-                For j As Integer = i + 1 To GvCustomer.Rows.Count - 1
-                    dblsequencenoInter = clsCommon.myCdbl(GvCustomer.Rows(j).Cells("SequenceNo").Value)
-                    If dblsequenceno = dblsequencenoInter Then
-                        clsCommon.MyMessageBoxShow("Sequence no should not be same for two customers.")
-                        Return False
-                    End If
-                Next
-            End If
-        Next
+        'For i As Integer = 0 To GvCustomer.Rows.Count - 1
+        '    dblsequenceno = clsCommon.myCdbl(GvCustomer.Rows(i).Cells("SequenceNo").Value)
+        '    If dblsequenceno <> 0 Then
+        '        For j As Integer = i + 1 To GvCustomer.Rows.Count - 1
+        '            dblsequencenoInter = clsCommon.myCdbl(GvCustomer.Rows(j).Cells("SequenceNo").Value)
+        '            If dblsequenceno = dblsequencenoInter Then
+        '                clsCommon.MyMessageBoxShow("Sequence no should not be same for two customers.")
+        '                Return False
+        '            End If
+        '        Next
+        '    End If
+        'Next
         Return True
     End Function
 

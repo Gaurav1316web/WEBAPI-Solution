@@ -2093,6 +2093,7 @@ Public Class clsUserMgtCode
     Public Const frmBulkPurchaseUploader As String = "B-P-UP"
     Public Const rptTemporaryPaymentDeductionSummary As String = "TPDS_R"
     Public Const rptAutoMultipleAdditionDeduction As String = "AMAD-R"
+    Public Const rptDBTMilkPayment As String = "DBT-MPAYM"
     Public Const rptDBTSummaryMonthlyWise As String = "DBT-Monthly"
     Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
@@ -2518,6 +2519,7 @@ Public Class clsUserMgtCode
     Public Const frmDemandBooking As String = "DEM_BOO_TRN"
     Public Const frmDemandAdjustment As String = "DEM-ADJ-TRN"
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
+    Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean

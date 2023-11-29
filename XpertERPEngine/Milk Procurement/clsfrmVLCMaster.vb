@@ -118,6 +118,11 @@ Public Class clsfrmVLCMaster
         Return strOwnBMCCode
     End Function
 
+    Public Shared Function OwnBMCCodeByMCC(ByVal MCCCode As String, ByVal trans As SqlTransaction) As String
+        Dim strOwnBMCCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Code  from TSPL_VLC_MASTER_HEAD  where isOwnBMC=1 and MCC='" & MCCCode & "'", trans))
+        Return strOwnBMCCode
+    End Function
+
     'Public Shared Function getRouteNoOnVLcCodeForVLCUplader(ByVal VLcCode As String, ByVal trans As SqlTransaction) As String
     '    Dim RouteNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_code  from TSPL_VLC_MASTER_HEAD  where VLc_Code_vlc_uploader='" & VLcCode & "'", trans))
     '    Return RouteNo

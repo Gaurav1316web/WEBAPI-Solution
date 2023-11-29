@@ -8108,7 +8108,6 @@ Public Class MDI
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-
                     Case clsUserMgtCode.rptZoneWiseMSVisual
                         frm = New rptZoneWiseMilkSaleVisual()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8282,6 +8281,9 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDBTMilkPayment
+                        frm = New rptDBTMilkPayment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
                     Case clsUserMgtCode.frmPaymentProcessFarmer
@@ -8909,6 +8911,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandApproval
                         frm = New frmDemandApproval
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDemand_Sheet
+                        frm = New frmDemand_Sheet()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCashIndentBookingMobApp
                         frm = New frmCashIndentBookingMobApp

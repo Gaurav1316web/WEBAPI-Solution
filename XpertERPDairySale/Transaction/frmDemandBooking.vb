@@ -757,12 +757,15 @@ Public Class frmDemandBooking
                 Dim obj As New clsDemandBookingSale()
                 If IsRepeatOrder = 1 Then
                     obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
-                    If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
-                        obj.Document_No = ""
-                        isNewEntry = True
-                    Else
+                    obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No=" + clsCommon.myCstr(txtRouteNo.Value) + " and Document_Date ='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "' and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' ")
+                    If clsCommon.myLen(obj.Document_No) > 0 Then
                         isNewEntry = False
-                        obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No=" + clsCommon.myCstr(txtRouteNo.Value) + " and Document_Date ='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "' and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' ")
+                    Else
+                        If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
+                            obj.Document_No = ""
+                            isNewEntry = True
+
+                        End If
                     End If
                 Else
                     obj.Document_No = txtDocNo.Value

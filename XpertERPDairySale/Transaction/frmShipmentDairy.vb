@@ -6416,6 +6416,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtManualCustomer.Text = ""
         showSavedMessage = True
         cmbShift.SelectedValue = ""
+        cmbShift.Enabled = True
         TxtTransportorMName.MendatroryField = True
         TxtTransportorMName.Visible = False
         btnUpdateCustomer.Enabled = False
@@ -14457,7 +14458,7 @@ from TSPL_BOOKING_MATSER
 left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DETAIL.Item_Code 
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_BOOKING_DETAIL.Cust_Code 
-where TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbShift.SelectedValue) + "'  and TSPL_BOOKING_MATSER.Document_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_BOOKING_MATSER.Document_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' 
+where TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbShift.SelectedValue) + "'  and TSPL_BOOKING_MATSER.Document_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_BOOKING_MATSER.Document_Date<'" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "' 
    and TSPL_BOOKING_MATSER.Posted=1
 and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MATSER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'
  "
