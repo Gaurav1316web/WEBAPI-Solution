@@ -33,10 +33,10 @@ Public Class frmVLCMappingForMPAmount
                 End If
 
                 clsVLCMappingForMPMilkAmount.SaveData(txtMCC.Value, txtVLC.arrValueMember)
-                clsCommon.MyMessageBoxShow("Data saved successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -51,7 +51,7 @@ Public Class frmVLCMappingForMPAmount
         Try
             LoadData(txtMCC.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -79,7 +79,7 @@ Public Class frmVLCMappingForMPAmount
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -105,7 +105,7 @@ Public Class frmVLCMappingForMPAmount
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -118,7 +118,7 @@ Public Class frmVLCMappingForMPAmount
             Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code where TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
             txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("VLCMAVLC", qry, "VLC_Code", "VLC_Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -143,10 +143,10 @@ Public Class frmVLCMappingForMPAmount
                 Throw New Exception("Please select MCC")
             End If
             clsVLCMappingForMPMilkAmount.DeleteData(txtMCC.Value)
-            clsCommon.MyMessageBoxShow("Data Deleted successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted successfully", Me.Text)
             LoadData("", NavigatorType.Current)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

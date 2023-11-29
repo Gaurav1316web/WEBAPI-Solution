@@ -335,7 +335,7 @@ Public Class frmIncentiveMaster
                 End If
             End If
         Catch err As Exception
-            MessageBox.Show(err.Message)
+            MessageBox.Show(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -343,7 +343,7 @@ Public Class frmIncentiveMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -699,17 +699,17 @@ Public Class frmIncentiveMaster
             Return False
         End If
         If clsCommon.myLen(CmbSTartingShift.SelectedValue) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Starting Shift", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Starting Shift", Me.Text)
             CmbSTartingShift.Focus()
             Return False
         End If
         If clsCommon.myLen(CmbEndingShift.SelectedValue) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Ending Shift", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Ending Shift", Me.Text)
             CmbEndingShift.Focus()
             Return False
         End If
         If clsCommon.myLen(CmbCalculationFlatorAvg.SelectedValue) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Calculation Type", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Calculation Type", Me.Text)
             CmbCalculationFlatorAvg.Focus()
             Return False
         End If
@@ -752,32 +752,32 @@ Public Class frmIncentiveMaster
                             If gvPP.Columns(colTS_TO).IsVisible Then
                                 If clsCommon.myLen(clsCommon.myCstr(growIn.Cells(colINCENTIVE_TYPE).Value)) > 0 And ParamType1 = ParamType2 And Operater1 = Operater2 And clsCommon.myCdbl(grow.Cells(colTS_FROM).Value) <= clsCommon.myCdbl(growIn.Cells(colTS_FROM).Value) And clsCommon.myCdbl(grow.Cells(colTS_TO).Value) >= clsCommon.myCdbl(growIn.Cells(colTS_FROM).Value) And clsCommon.myCstr(grow.Cells(colRATE_UOM).Value) = clsCommon.myCstr(growIn.Cells(colRATE_UOM).Value) Then
                                     If clsCommon.myLen(clsCommon.myCstr(growIn.Cells(colINCENTIVE_TYPE).Value)) > 0 And clsCommon.myCdbl(grow.Cells(colSLAB_FROM).Value) <= clsCommon.myCdbl(growIn.Cells(colSLAB_FROM).Value) And clsCommon.myCdbl(grow.Cells(colSLAB_TO).Value) > clsCommon.myCdbl(growIn.Cells(colSLAB_FROM).Value) And clsCommon.myCstr(grow.Cells(colRATE_UOM).Value) = clsCommon.myCstr(growIn.Cells(colRATE_UOM).Value) Then
-                                        clsCommon.MyMessageBoxShow("Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
+                                        clsCommon.MyMessageBoxShow(Me, "Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
                                         Return False
                                     End If
                                     If clsCommon.myLen(clsCommon.myCstr(growIn.Cells(colINCENTIVE_TYPE).Value)) > 0 And ParamType1 = ParamType2 And Operater1 = Operater2 And clsCommon.myCdbl(grow.Cells(colSLAB_FROM).Value) <= clsCommon.myCdbl(growIn.Cells(colSLAB_TO).Value) And clsCommon.myCdbl(grow.Cells(colSLAB_TO).Value) >= clsCommon.myCdbl(growIn.Cells(colSLAB_TO).Value) And gvPP.Columns(colSLAB_TO).IsVisible And clsCommon.myCstr(grow.Cells(colRATE_UOM).Value) = clsCommon.myCstr(growIn.Cells(colRATE_UOM).Value) Then
-                                        clsCommon.MyMessageBoxShow("Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
+                                        clsCommon.MyMessageBoxShow(Me, "Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
                                         Return False
                                     End If
                                 End If
                                 If clsCommon.myLen(clsCommon.myCstr(growIn.Cells(colINCENTIVE_TYPE).Value)) > 0 And ParamType1 = ParamType2 And Operater1 = Operater2 And clsCommon.myCdbl(grow.Cells(colTS_FROM).Value) <= clsCommon.myCdbl(growIn.Cells(colTS_TO).Value) And clsCommon.myCdbl(grow.Cells(colTS_TO).Value) >= clsCommon.myCdbl(growIn.Cells(colTS_TO).Value) And gvPP.Columns(colTS_TO).IsVisible And clsCommon.myCstr(grow.Cells(colRATE_UOM).Value) = clsCommon.myCstr(growIn.Cells(colRATE_UOM).Value) Then
                                     If clsCommon.myLen(clsCommon.myCstr(growIn.Cells(colINCENTIVE_TYPE).Value)) > 0 And clsCommon.myCdbl(grow.Cells(colSLAB_FROM).Value) <= clsCommon.myCdbl(growIn.Cells(colSLAB_FROM).Value) And clsCommon.myCdbl(grow.Cells(colSLAB_TO).Value) > clsCommon.myCdbl(growIn.Cells(colSLAB_FROM).Value) And clsCommon.myCstr(grow.Cells(colRATE_UOM).Value) = clsCommon.myCstr(growIn.Cells(colRATE_UOM).Value) Then
-                                        clsCommon.MyMessageBoxShow("Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
+                                        clsCommon.MyMessageBoxShow(Me, "Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
                                         Return False
                                     End If
                                     If clsCommon.myLen(clsCommon.myCstr(growIn.Cells(colINCENTIVE_TYPE).Value)) > 0 And ParamType1 = ParamType2 And Operater1 = Operater2 And clsCommon.myCdbl(grow.Cells(colSLAB_FROM).Value) <= clsCommon.myCdbl(growIn.Cells(colSLAB_TO).Value) And clsCommon.myCdbl(grow.Cells(colSLAB_TO).Value) >= clsCommon.myCdbl(growIn.Cells(colSLAB_TO).Value) And gvPP.Columns(colSLAB_TO).IsVisible And clsCommon.myCstr(grow.Cells(colRATE_UOM).Value) = clsCommon.myCstr(growIn.Cells(colRATE_UOM).Value) Then
-                                        clsCommon.MyMessageBoxShow("Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
+                                        clsCommon.MyMessageBoxShow(Me, "Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
                                         Return False
                                     End If
                                 End If
                                 'End If
                             Else
                                 If clsCommon.myLen(clsCommon.myCstr(growIn.Cells(colINCENTIVE_TYPE).Value)) > 0 And ParamType1 = ParamType2 And Operater1 = Operater2 And ((clsCommon.myCdbl(grow.Cells(colSLAB_FROM).Value) <= clsCommon.myCdbl(growIn.Cells(colSLAB_FROM).Value) And clsCommon.myCdbl(grow.Cells(colSLAB_TO).Value) > clsCommon.myCdbl(growIn.Cells(colSLAB_FROM).Value)) Or clsCommon.myCdbl(grow.Cells(colSLAB_FROM).Value) = clsCommon.myCdbl(growIn.Cells(colSLAB_FROM).Value)) And clsCommon.myCstr(grow.Cells(colRATE_UOM).Value) = clsCommon.myCstr(growIn.Cells(colRATE_UOM).Value) Then
-                                    clsCommon.MyMessageBoxShow("Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
+                                    clsCommon.MyMessageBoxShow(Me, "Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
                                     Return False
                                 End If
                                 If clsCommon.myLen(clsCommon.myCstr(growIn.Cells(colINCENTIVE_TYPE).Value)) > 0 And ParamType1 = ParamType2 And Operater1 = Operater2 And clsCommon.myCdbl(grow.Cells(colSLAB_FROM).Value) < clsCommon.myCdbl(growIn.Cells(colSLAB_TO).Value) And clsCommon.myCdbl(grow.Cells(colSLAB_TO).Value) >= clsCommon.myCdbl(growIn.Cells(colSLAB_TO).Value) And gvPP.Columns(colSLAB_TO).IsVisible And clsCommon.myCstr(grow.Cells(colRATE_UOM).Value) = clsCommon.myCstr(growIn.Cells(colRATE_UOM).Value) Then
-                                    clsCommon.MyMessageBoxShow("Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
+                                    clsCommon.MyMessageBoxShow(Me, "Please Check Records in Row No [" & grow.Index + 1 & "] and [" & growIn.Index + 1 & "] . Both have Some Common Range")
                                     Return False
                                 End If
 
@@ -832,7 +832,7 @@ Public Class frmIncentiveMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
             Exit Sub
         End If
         funDelete()
@@ -855,7 +855,7 @@ Public Class frmIncentiveMaster
                 End If
                 If (clsIncentiveMaster.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     funReset()
                 End If
             End If
@@ -878,7 +878,7 @@ Public Class frmIncentiveMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -907,11 +907,11 @@ Public Class frmIncentiveMaster
         Try
             If (Save()) Then
                 If ChekBtnPost = False Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub
@@ -993,7 +993,7 @@ Public Class frmIncentiveMaster
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem3.Click
         clsGridLayout.DeleteData(Me.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Delete layout successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Delete layout successfully", "Information")
     End Sub
 
     Private Sub RadMenuItem1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem1.Click
@@ -1007,7 +1007,7 @@ Public Class frmIncentiveMaster
             obj.GridColumns = gvPP.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1102,7 +1102,7 @@ Public Class frmIncentiveMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString, "cboIncentiveType_SelectedIndexChanged")
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, "cboIncentiveType_SelectedIndexChanged")
         End Try
     End Sub
 
@@ -1330,10 +1330,10 @@ Public Class frmIncentiveMaster
 
                 clsCommon.ProgressBarHide()
                 Reset()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub

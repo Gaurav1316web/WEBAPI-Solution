@@ -38,12 +38,12 @@ Public Class frmVSPCommission
                 obj.Commission_Minimum_Qty_In_Shift = txtCommissionMinimumQtyInShift.Value
                 obj.Commission_No_Of_Payment_Cycle_For_New_VSP = txtCommissionNoOfPaymentCycleForNewVSP.Value
                 If (clsVSPCommission.SaveData(obj)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Commission_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -81,7 +81,7 @@ Public Class frmVSPCommission
             Return False
         End If
         If clsCommon.myLen(txtCode.Value) > 20 Then
-            clsCommon.MyMessageBoxShow("Length is greater then 20.")
+            clsCommon.MyMessageBoxShow(Me, "Length is greater then 20.", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -94,7 +94,7 @@ Public Class frmVSPCommission
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Commission_Code Ends 
@@ -105,7 +105,7 @@ Public Class frmVSPCommission
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsVSPCommission.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -144,7 +144,7 @@ Public Class frmVSPCommission
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -249,7 +249,7 @@ Public Class frmVSPCommission
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Commission_Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Commission_Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Commission_Code", "TSPL_VSP_COMMISSION_MASTER")

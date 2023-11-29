@@ -190,7 +190,7 @@ Public Class frmMachineIntegration
                 Dim intPart As String = Microsoft.VisualBasic.Mid(txtDataSample.Text, clsCommon.myCdbl(txtIntFromPos.Text), clsCommon.myCdbl(txtIntNoOfChar.Text))
                 Dim fracPart As String = Microsoft.VisualBasic.Mid(txtDataSample.Text, clsCommon.myCdbl(txtFracStartPos.Text), clsCommon.myCdbl(txtFracNoOfChar.Text))
                 PrevString = IIf(clsCommon.myCdbl(intPart) <= 9 And clsCommon.myCdbl(intPart) > 0, "0" & clsCommon.myCdbl(intPart), clsCommon.myCdbl(intPart)) & "." & IIf(clsCommon.myCdbl(fracPart) <= 9, clsCommon.myCdbl(fracPart) & "0", clsCommon.myCdbl(fracPart))
-                If clsCommon.MyMessageBoxShow("Preview according to Your Data and Specification is : " & PrevString, Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Preview according to Your Data and Specification is : " & PrevString, Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Return True
                 Else
                     Return False
@@ -199,7 +199,7 @@ Public Class frmMachineIntegration
                 Throw New Exception("This Part is Under-development Can't Save")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -224,9 +224,9 @@ Public Class frmMachineIntegration
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_MACHINE_INTEGRATION set DataSample = '" & txtDataSample.Text & "' where  Code='" & obj.Code & "' ", trans)
                 trans.Commit()
                 If isNewEntry Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 loadData(obj.Code, NavigatorType.Current)
             Else
@@ -241,7 +241,7 @@ Public Class frmMachineIntegration
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub loadData(strCode As String, nav As NavigatorType)
@@ -273,7 +273,7 @@ Public Class frmMachineIntegration
                 fndCode.MyReadOnly = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click

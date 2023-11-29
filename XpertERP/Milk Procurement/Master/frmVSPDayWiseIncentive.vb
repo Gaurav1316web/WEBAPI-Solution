@@ -54,7 +54,7 @@ Public Class frmVSPDayWiseIncentive
 
 
             If (clsVSSDayWiseIncentive.SaveData(obj)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Day_Wise_Incentive_Code, NavigatorType.Current)
             End If
         End If
@@ -105,7 +105,7 @@ Public Class frmVSPDayWiseIncentive
             Return False
         End If
         If clsCommon.myLen(txtCode.Value) > 20 Then
-            clsCommon.MyMessageBoxShow("Length is greater then 20.")
+            clsCommon.MyMessageBoxShow(Me, "Length is greater then 20.", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -118,7 +118,7 @@ Public Class frmVSPDayWiseIncentive
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Day_Wise_Incentive_Code Ends 
@@ -129,7 +129,7 @@ Public Class frmVSPDayWiseIncentive
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsVSSDayWiseIncentive.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -168,7 +168,7 @@ Public Class frmVSPDayWiseIncentive
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -300,7 +300,7 @@ Public Class frmVSPDayWiseIncentive
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Day_Wise_Incentive_Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Day_Wise_Incentive_Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Day_Wise_Incentive_Code", "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER")

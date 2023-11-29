@@ -63,7 +63,7 @@ Public Class FrmMCCFarmerMapping
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.FrmMCCFarmerMapping)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
         End If
         btnSave.Visible = MyBase.isModifyFlag
@@ -122,10 +122,10 @@ Public Class FrmMCCFarmerMapping
                 End If
             End If
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Data Map Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Map Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
@@ -206,7 +206,7 @@ Public Class FrmMCCFarmerMapping
     Private Sub cbgVSP__MyCheckChanged(sender As Object, e As EventArgs) Handles cbgVSP._MyCheckChanged
         If Is_Load = False Then
             If cbgVSP.CheckedValue.Count >= 1 And clsCommon.myLen(FndMCC.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please Uncheck All Selected Mcc First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Uncheck All Selected Mcc First.", Me.Text)
                 Exit Sub
             End If
             gv1.DataSource = Nothing
@@ -250,7 +250,7 @@ Public Class FrmMCCFarmerMapping
                 lblVLCName.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             FndMCC.Focus()
         End Try
     End Sub
@@ -271,7 +271,7 @@ Public Class FrmMCCFarmerMapping
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             fndRouteCode.Focus()
         End Try
             End Sub

@@ -81,7 +81,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
             gv.ShowGroupPanel = False
             gv.AddNewRowPosition = SystemRowPosition.Bottom
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -164,14 +164,14 @@ Public Class FrmPrimaryTransporterVehicalMaster
                 Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmPrimaryTransporterVehicalMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -373,7 +373,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Function
@@ -478,9 +478,9 @@ Public Class FrmPrimaryTransporterVehicalMaster
                         clsSlabRangeDetail.SaveData(arrObjSlab, Nothing)
                     End If
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
 
                     btnsave.Text = "Update"
@@ -498,7 +498,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -508,7 +508,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(fndcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Vehicle No. For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Vehicle No. For Deletion", Me.Text)
             'fndcode.Focus()
             'fndcode.Select()
             txtTankerNo.Focus()
@@ -523,7 +523,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found For Deletion", Me.Text)
             Return
         End If
 
@@ -536,12 +536,12 @@ Public Class FrmPrimaryTransporterVehicalMaster
             qry = "delete from TSPL_Primary_Vehicle_Master where vehicle_code='" + fndcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsSlabRangeDetail.deleteData(Me.Form_ID, fndcode.Value, trans)
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             trans.Commit()
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -671,7 +671,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -926,11 +926,11 @@ Public Class FrmPrimaryTransporterVehicalMaster
                 Next
                 clsCommon.ProgressBarHide()
                 'trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 'trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -1009,11 +1009,11 @@ Public Class FrmPrimaryTransporterVehicalMaster
                 End If
                 clsCommon.ProgressBarHide()
                 'trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 'trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -1062,7 +1062,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
             End If
         Catch ex As Exception
             Errorcontrol.SetError(fndcode, "No White Space Allowed In Vehicle No.,Please Remvoe All White Space")
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1308,7 +1308,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Vehicle Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Vehicle Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndcode.Value, "Vehicle_Code", "TSPL_Primary_Vehicle_Master")

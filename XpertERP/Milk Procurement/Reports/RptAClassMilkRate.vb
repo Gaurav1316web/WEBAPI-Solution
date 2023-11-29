@@ -34,7 +34,7 @@ Public Class RptAClassMilkRate
             Query = "select TSPL_Bulk_Price_MASTER.Price_Code as Code ,TSPL_Bulk_Price_MASTER.Price_Code as Name  From TSPL_Bulk_Price_MASTER "
             txtPriceCode.arrValueMember = clsCommon.ShowMultipleSelectForm("Price_Code", Query, "Code", "Name", txtPriceCode.arrValueMember, txtPriceCode.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

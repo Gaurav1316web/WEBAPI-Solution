@@ -67,7 +67,7 @@ Public Class FrmTransfer3rdDoc
             gv1.Columns("Route_Desc").HeaderText = "Route"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -122,7 +122,7 @@ Public Class FrmTransfer3rdDoc
         Try
             LoadTransfer()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -137,7 +137,7 @@ Public Class FrmTransfer3rdDoc
                 LoadTransfer()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -158,7 +158,7 @@ Public Class FrmTransfer3rdDoc
             LoadData()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

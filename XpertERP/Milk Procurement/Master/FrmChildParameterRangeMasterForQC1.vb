@@ -193,7 +193,7 @@ Public Class FrmChildParameterRangeMasterForQC1
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Sub SaveData()
@@ -251,7 +251,7 @@ Public Class FrmChildParameterRangeMasterForQC1
             '  Next
             ' If isNewEntry Then
             If clsParameterRangeMasterForQC.SaveData(arr, Trans_Id) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave.Text = "Update"
                 LoadDataSaveData()
             End If
@@ -264,7 +264,7 @@ Public Class FrmChildParameterRangeMasterForQC1
             ' trans.Commit()
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             arr = Nothing
             obj = Nothing
@@ -322,7 +322,7 @@ Public Class FrmChildParameterRangeMasterForQC1
         Dim isSaved As Boolean = False
         Try
             If clsCommon.myLen(FndParameterCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Parameter Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Parameter Code")
             End If
             Dim qry As String = "delete from tspl_parameter_range_master_qc where "
             If clsCommon.CompairString(clsUserMgtCode.frmQualityModuleParameterRangeMaster, FORMTYPE) = CompairStringResult.Equal Then
@@ -335,13 +335,13 @@ Public Class FrmChildParameterRangeMasterForQC1
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isSaved = True Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Delete Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Delete Successfully")
                 Me.Close()
             End If
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

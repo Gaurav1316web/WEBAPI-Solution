@@ -61,7 +61,7 @@ Public Class frmMilkRejectType
             obj.SNo = txtSNo.Value
             obj.Prefix = txtPrefix.Value
             If (clsMilkRejectType.SaveData(obj)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
             End If
         End If
@@ -114,7 +114,7 @@ Public Class frmMilkRejectType
             Return False
         End If
         If clsCommon.myLen(txtCode.Value) > 20 Then
-            clsCommon.MyMessageBoxShow("Length is greater then 20.")
+            clsCommon.MyMessageBoxShow(Me, "Length is greater then 20.", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -127,7 +127,7 @@ Public Class frmMilkRejectType
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
             Exit Sub
         End If
         ' Code Ends 
@@ -138,7 +138,7 @@ Public Class frmMilkRejectType
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsMilkRejectType.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     funReset()
                 End If
             End If
@@ -177,7 +177,7 @@ Public Class frmMilkRejectType
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -299,7 +299,7 @@ Public Class frmMilkRejectType
                     Throw New Exception("At Row No" + clsCommon.myCstr(ii) + " " + ex.Message)
                 End Try
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -311,7 +311,7 @@ Public Class frmMilkRejectType
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select code")
+                clsCommon.MyMessageBoxShow(Me, "Select code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_MILK_REJECT_TYPE")
