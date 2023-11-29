@@ -377,7 +377,7 @@ Public Class FrmForm16A
 
                     If chkLocSelect.IsChecked Then
                         If cbgLocation.CheckedValue.Count <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please select one location ")
+                            common.clsCommon.MyMessageBoxShow("Please select one location ", Me.Text)
                             Return
                         End If
                         qry += "and substring(TSPL_REMITTANCE.Branch_GL_AC ,LEN(TSPL_REMITTANCE.Branch_GL_AC )-2,3)  in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -399,7 +399,7 @@ Public Class FrmForm16A
                     qry += " where TSPL_REMITTANCE_ENTRY_DETAIL.Vendor_Code = '" + fndVendorNameNew.Value + "'"
                     If chkLocSelect.IsChecked Then
                         If cbgLocation.CheckedValue.Count <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please select one location ")
+                            common.clsCommon.MyMessageBoxShow("Please select one location ", Me.Text)
                             Return
                         End If
                         qry += "and substring(TSPL_REMITTANCE.Branch_GL_AC ,LEN(TSPL_REMITTANCE.Branch_GL_AC )-2,3)  in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -415,7 +415,7 @@ Public Class FrmForm16A
 
             Else
 
-                common.clsCommon.MyMessageBoxShow("Select the value of Vendor Code")
+                common.clsCommon.MyMessageBoxShow("Select the value of Vendor Code", Me.Text)
             End If
 
 
@@ -423,7 +423,7 @@ Public Class FrmForm16A
             'TDSReportViewer.funreport(dt, "Form16a04", "Form 16 Report")
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 

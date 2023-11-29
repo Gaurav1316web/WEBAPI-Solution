@@ -80,7 +80,7 @@ Public Class FrmSaleInvoiceSummary
 
             dt = clsDBFuncationality.GetDataTable(str)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             ElseIf IsPrint = Exporter.Print Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funreport(CrystalReportFolder.NewSalesReports, dt, "crptSaleInvoiceSummary", "Sale Invoice Summary Report")
@@ -242,7 +242,7 @@ Public Class FrmSaleInvoiceSummary
 
     Private Sub btnExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExcel.Click
         If (gv.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         LoadData(Exporter.Excel)
@@ -250,7 +250,7 @@ Public Class FrmSaleInvoiceSummary
 
     Private Sub btnPdf_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPdf.Click
         If (gv.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         LoadData(Exporter.PDF)

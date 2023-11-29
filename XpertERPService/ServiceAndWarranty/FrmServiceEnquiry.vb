@@ -798,14 +798,14 @@ Public Class FrmServiceEnquiry
                 LblItemPartNo.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub TxtVehicleName__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtVehicleName._MYValidating
         Try
             If clsCommon.myLen(TxtDealer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select dealer first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select dealer first", Me.Text)
                 TxtDealer.Focus()
                 TxtDealer.Select()
                 Return
@@ -841,7 +841,7 @@ Public Class FrmServiceEnquiry
                 Me.gvChildItem.Rows.AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -849,7 +849,7 @@ Public Class FrmServiceEnquiry
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -928,7 +928,7 @@ Public Class FrmServiceEnquiry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -942,7 +942,7 @@ Public Class FrmServiceEnquiry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -957,7 +957,7 @@ Public Class FrmServiceEnquiry
                 LblCallNo.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadServiceCallData(ByVal CallNo As String)

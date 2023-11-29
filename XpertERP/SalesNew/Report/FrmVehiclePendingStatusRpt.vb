@@ -40,7 +40,7 @@ Public Class FrmVehiclePendingStatusRpt
         Dim dt As DataTable
         Try
             If (chkCustomer_select.IsChecked And cbgCustomer.CheckedValue.Count <= 0) Then
-                clsCommon.MyMessageBoxShow("Select atleast One customer or Check All.")
+                clsCommon.MyMessageBoxShow(Me, "Select atleast One customer or Check All.", Me.Text)
                 'ElseIf (ChkVehicleIN.Checked = False And ChkReceiptIn.Checked = False) Then
                 '    clsCommon.MyMessageBoxShow("Select Either Check box value")
             Else
@@ -76,7 +76,7 @@ Public Class FrmVehiclePendingStatusRpt
                 gv1.Rows.Clear()
                 gv1.GroupDescriptors.Clear()
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 gv1.DataSource = dt

@@ -176,7 +176,7 @@ Public Class FrmTDSPayment
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -715,8 +715,8 @@ Public Class FrmTDSPayment
 
             If (ClsTDSPayment.SaveData(obj, isNewEntry)) Then
                 If Not isFlag Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
-                    LoadData(obj.Document_No, NavigatorType.Current)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
+                        LoadData(obj.Document_No, NavigatorType.Current)
                 End If
             End If
             End If
@@ -835,7 +835,7 @@ Public Class FrmTDSPayment
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             dt = Nothing
@@ -934,11 +934,11 @@ Public Class FrmTDSPayment
                 intCounter += 1
             Next
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Invoice created successfully")
+            clsCommon.MyMessageBoxShow(Me, "Invoice created successfully", Me.Text)
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             strcountno = Nothing
             obj = Nothing
@@ -985,7 +985,7 @@ Public Class FrmTDSPayment
                 Throw New Exception("Bank Master's Bank Account should be have location segment Type")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1017,7 +1017,7 @@ Public Class FrmTDSPayment
             'End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1039,13 +1039,13 @@ Public Class FrmTDSPayment
                 SaveData()
                 If (ClsTDSPayment.PostData(MyBase.Form_ID, arrLoc, txtDocNo.Value)) Then
 
-                    common.clsCommon.MyMessageBoxShow("Successfully posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -1054,12 +1054,12 @@ Public Class FrmTDSPayment
         Try
             If (deleteConfirm()) Then
                 If (ClsTDSPayment.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1076,7 +1076,7 @@ Public Class FrmTDSPayment
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -1096,10 +1096,10 @@ Public Class FrmTDSPayment
             If clsCommon.MyMessageBoxShow("Do you want to update BSR Code/Challan No/Challan Date after Posting.", "Update After Posting", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Qry = "update TSPL_TDS_PAYMENT_HEADER set TSPL_TDS_PAYMENT_HEADER.BSR_Code='" & clsCommon.myCstr(txtBSRCode.Text) & "',TSPL_TDS_PAYMENT_HEADER.Challan_No='" & clsCommon.myCstr(txtChallanNo.Text) & "',TSPL_TDS_PAYMENT_HEADER.Challan_Date='" & clsCommon.GetPrintDate(dtpChallanDate.Value, "dd/MMM/yyyy hh:mm tt") & "' where TSPL_TDS_PAYMENT_HEADER.Document_No='" & clsCommon.myCstr(txtDocNo.Value) & "' "
                 clsDBFuncationality.ExecuteNonQuery(Qry)
-                common.clsCommon.MyMessageBoxShow("Data updated Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data updated Successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
       
     End Sub
