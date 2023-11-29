@@ -509,18 +509,28 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                                 If dtDetail IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                     Dim coll As New Hashtable()
                                     Dim ii As Integer
-                                    Dim Qty As Decimal = 0
-                                    If SettAdjQty Then
-                                        Qty = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty")) - clsCommon.myCDecimal(dt.Rows(0)("DiffQty")))
+                                    Dim Qty As Decimal = (clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty")) - clsCommon.myCDecimal(dt.Rows(0)("DiffQty")))
+                                    Dim FATKG As Decimal = 0
+                                    Dim SNFKG As Decimal = 0
+                                    Dim FAT As Decimal = 0
+                                    Dim SNF As Decimal = 0
+                                    If SettAdjQty AndAlso Qty > 0 Then
                                         clsCommon.AddColumnsForChange(coll, "Qty", Qty)
+                                        FATKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG")))
+                                        SNFKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG")))
+                                        FAT = clsCommon.myRoundOFF((100 * FATKG) / Qty, 1, 6)
+                                        SNF = clsCommon.myRoundOFF((100 * SNFKG) / Qty, settSNFDecimalPlace, 6)
+                                        FATKG = ((Qty * FAT) / 100)
+                                        SNFKG = ((Qty * SNF) / 100)
                                     Else
                                         Qty = clsCommon.myCDecimal(dtDetail.Rows(ii)("Qty"))
+                                        If Qty > 0 Then
+                                            FATKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG")))
+                                            SNFKG = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG")))
+                                            FAT = Math.Round((100 * FATKG) / Qty, 1, MidpointRounding.ToEven)
+                                            SNF = Math.Round((100 * SNFKG) / Qty, settSNFDecimalPlace, MidpointRounding.ToEven)
+                                        End If
                                     End If
-                                    Dim FATKG As Decimal = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("FATKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffFATKG")))
-                                    Dim SNFKG As Decimal = Math.Abs(clsCommon.myCDecimal(dtDetail.Rows(ii)("SNFKG")) - clsCommon.myCDecimal(dt.Rows(0)("DiffSNFKG")))
-                                    Dim FAT As Decimal = Math.Round((100 * FATKG) / Qty, 1, MidpointRounding.ToEven)
-                                    Dim SNF As Decimal = Math.Round((100 * SNFKG) / Qty, settSNFDecimalPlace, MidpointRounding.ToEven)
-
                                     clsCommon.AddColumnsForChange(coll, "FAT", FAT)
                                     clsCommon.AddColumnsForChange(coll, "SNF", SNF)
                                     clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
