@@ -44,7 +44,6 @@ Public Class frmDCSforSale
 
     End Sub
 
-
     Public Sub SaveData()
         'Dim trans As SqlTransaction = Nothing
         Try
@@ -64,6 +63,12 @@ Public Class frmDCSforSale
                 obj.Zone = txtZone.Value
                 obj.Location = txtLocation.Value
                 obj.Customer = txtCustomer.Value
+                If chkActive.Checked = True Then
+                    obj.Active = 1
+                Else
+                    obj.Active = 0
+                End If
+
 
                 If (obj.SaveData(obj, isNewEntry)) Then
 
@@ -77,6 +82,7 @@ Public Class frmDCSforSale
             myMessages.myExceptions(ex)
         End Try
     End Sub
+
 
     Function AllowToSave() As Boolean
 
@@ -143,6 +149,7 @@ Public Class frmDCSforSale
         lblCustomerDesc.Text = ""
         btnSave.Enabled = True
         btnDelete.Enabled = True
+        chkActive.Checked = False
     End Sub
 
 
@@ -226,6 +233,12 @@ Public Class frmDCSforSale
                 lblLocationDesc.Text = obj.Location_Name
                 lblCustomerDesc.Text = obj.Customer_Name
                 lblZoneDesc.Text = obj.Zone_Name
+                If obj.Active = 1 Then
+                    chkActive.Checked = True
+                Else
+                    chkActive.Checked = False
+                End If
+
             End If
         Catch ex As Exception
             myMessages.myExceptions(ex)

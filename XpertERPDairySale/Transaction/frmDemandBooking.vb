@@ -757,12 +757,15 @@ Public Class frmDemandBooking
                 Dim obj As New clsDemandBookingSale()
                 If IsRepeatOrder = 1 Then
                     obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
-                    If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
-                        obj.Document_No = ""
-                        isNewEntry = True
-                    Else
+                    obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No=" + clsCommon.myCstr(txtRouteNo.Value) + " and Document_Date ='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "' and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' ")
+                    If clsCommon.myLen(obj.Document_No) > 0 Then
                         isNewEntry = False
-                        obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No=" + clsCommon.myCstr(txtRouteNo.Value) + " and Document_Date ='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "' and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' ")
+                    Else
+                        If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
+                            obj.Document_No = ""
+                            isNewEntry = True
+
+                        End If
                     End If
                 Else
                     obj.Document_No = txtDocNo.Value
@@ -2112,23 +2115,25 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 'and tspl_demand_booking_detail.Cust_Code='" & clsCommon.myCstr(e.RowElement.RowInfo.Cells(colCustCode).Value) & "' and TSPL_DEMAND_BOOKING_DETAIL .ShiftType ='" & clsCommon.myCstr(e.RowElement.RowInfo.Cells(colShiftName).Value) & "')Final 
                 'group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 '                Dim bookingcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strqry))
-                If clsCommon.CompairString(clsCommon.myCstr(e.RowElement.RowInfo.Cells(colBookingCreatedFor3Days).Value), "3") = CompairStringResult.Equal Then
-                    'End If
-                    'If bookingcount = 3 Then
-                    e.RowElement.DrawFill = True
-                    e.RowElement.GradientStyle = GradientStyles.Solid
-                    e.RowElement.BackColor = Color.LightGreen
-                    'e.RowElement.Font = font_Renamed
-                Else
-                    e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
-                    e.RowElement.ResetValue(LightVisualElement.GradientStyleProperty, ValueResetFlags.Local)
-                    'e.RowElement.ResetValue(LightVisualElement.ForeColorProperty, ValueResetFlags.Local)
-                    e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
-                    ' e.RowElement.ResetValue(LightVisualElement.FontProperty, font_Renamed)
-                    'e.RowElement.BackColor = Color.Black
+                If clsCommon.myLen(e.RowElement.RowInfo.Cells(colBookingCreatedFor3Days)) > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(e.RowElement.RowInfo.Cells(colBookingCreatedFor3Days).Value), "3") = CompairStringResult.Equal Then
+                        'End If
+                        'If bookingcount = 3 Then
+                        e.RowElement.DrawFill = True
+                        e.RowElement.GradientStyle = GradientStyles.Solid
+                        e.RowElement.BackColor = Color.LightGreen
+                        'e.RowElement.Font = font_Renamed
+                    Else
+                        e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+                        e.RowElement.ResetValue(LightVisualElement.GradientStyleProperty, ValueResetFlags.Local)
+                        'e.RowElement.ResetValue(LightVisualElement.ForeColorProperty, ValueResetFlags.Local)
+                        e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+                        ' e.RowElement.ResetValue(LightVisualElement.FontProperty, font_Renamed)
+                        'e.RowElement.BackColor = Color.Black
+                    End If
                 End If
             End If
-        End If
+            End If
         If e.RowElement.RowInfo.IsCurrent Then
             e.RowElement.DrawFill = True
             e.RowElement.BackColor = Color.LightGreen
@@ -3485,7 +3490,7 @@ Left join ( select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, sum(TSPL_DEMAND_BOOKING
 
             If clsDemandBookingImport.importExcel(gvImport) Then
                 If gvImport.Rows.Count > 0 Then
-                    If clsCommon.CompairString(gv1.Rows.Count - 1, gvImport.Rows.Count - 1) = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(gv1.Rows.Count - 1, gvImport.Rows.Count - 2) = CompairStringResult.Equal Then
                         Try
                             Dim arrCustCodeExist As New List(Of String)
                             For i As Integer = 0 To gv1.Rows.Count - 1
@@ -3493,7 +3498,7 @@ Left join ( select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, sum(TSPL_DEMAND_BOOKING
                             Next
                             isInsideLoadData = True
                             clsCommon.ProgressBarPercentShow()
-                            For ii As Integer = 1 To gvImport.Rows.Count - 1
+                            For ii As Integer = 1 To gvImport.Rows.Count - 2
                                 clsCommon.ProgressBarPercentUpdate(((ii + 1) * 100) / gvImport.RowCount, clsCommon.myCstr((ii + 1)) + "/" + clsCommon.myCstr(gvImport.RowCount))
                                 For jj As Integer = 0 To gv1.Rows.Count - 1
                                     Dim code As String = clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value)
@@ -3522,6 +3527,7 @@ Left join ( select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, sum(TSPL_DEMAND_BOOKING
                         End Try
                         isInsideLoadData = False
                         UpdateAllTotals()
+                        clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     Else
                         clsCommon.MyMessageBoxShow("You cannot import qunatity because both Import and Export Data is different", Me.Text)
                     End If

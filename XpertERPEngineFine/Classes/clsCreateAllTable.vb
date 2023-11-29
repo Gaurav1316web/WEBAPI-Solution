@@ -39,6 +39,7 @@ Public Class clsCreateAllTable
             coll.Add("Zone", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
             coll.Add("Location", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Customer", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
+            coll.Add("Active", "Bit not null default 0")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
             coll.Add("Modify_By", "varchar(12)  Not NULL")
@@ -10186,17 +10187,17 @@ Public Class clsCreateAllTable
             coll.Add("IsPosted", "integer NOT NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Gate_Out", coll, Nothing, True, False, "", "Doc_No", "Doc_Date")
 
-            Try
-                Dim chkValuesDetail5 As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_Gate_Out'"))
-                If chkValuesDetail5 = 1 Then
-                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_Gate_Out' and b.COLUMN_NAME='AllocateToMCC' ORDER BY A.TABLE_NAME")
-                    If clsCommon.myLen(QryForeign) > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_Gate_Out drop constraint " & QryForeign & "")
-                    End If
-                End If
-            Catch ex As Exception
+            'Try
+            '    Dim chkValuesDetail5 As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_Gate_Out'"))
+            '    If chkValuesDetail5 = 1 Then
+            '        Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_Gate_Out' and b.COLUMN_NAME='AllocateToMCC' ORDER BY A.TABLE_NAME")
+            '        If clsCommon.myLen(QryForeign) > 0 Then
+            '            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_Gate_Out drop constraint " & QryForeign & "")
+            '        End If
+            '    End If
+            'Catch ex As Exception
 
-            End Try
+            'End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null")
@@ -13078,15 +13079,12 @@ Public Class clsCreateAllTable
             coll.Add("IsSuspense", "integer not null default 0")
             coll.Add("ApplyCowPriceDate", "Date Default NULL")
             coll.Add("Loyalty_Rate", "decimal(18, 2) NULL")
-            coll.Add("OwnBMCDate", "Date Default NULL")
-            coll.Add("Schedule_Time_Morning", "datetime NULL")
-            coll.Add("Schedule_Time_Evening", "datetime NULL")
-
+            coll.Add("OwnBMCDate", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
+
             qry = "update TSPL_VLC_MASTER_HEAD set ApplyCowPriceDate='01/Jan/2022' where ApplyCowPriceDate is null and   Apply_Cow_Price=1 "
             clsDBFuncationality.ExecuteNonQuery(qry)
-            qry = " ALTER TABLE TSPL_VLC_MASTER_HEAD ALTER COLUMN OwnBMCDate date "
-            clsDBFuncationality.ExecuteNonQuery(qry)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("MP_Code", "Varchar(30) NOT NULL primary key")
@@ -13258,6 +13256,8 @@ Public Class clsCreateAllTable
             coll.Add("IsDefault", "integer not null default 0")
             coll.Add("Tanker_No", "varchar(20) NULL  References TSPL_TANKER_MASTER(Tanker_No)")
             coll.Add("CuttOff_Time", "dateTime Null")
+            coll.Add("Schedule_Time_Morning", "datetime NULL")
+            coll.Add("Schedule_Time_Evening", "datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -23145,6 +23145,8 @@ Public Class clsCreateAllTable
             coll.Add("Manual_Sample", "Integer NULL")
             coll.Add("Empty_Sample", "Integer NULL")
             coll.Add("Page_No", "Integer NULL")
+            coll.Add("Arrival_Time", "Datetime NULL")
+            coll.Add("Weighment_Time", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, False, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)

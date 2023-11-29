@@ -596,6 +596,12 @@
     <Compile Include="Transaction\frmDemandBooking.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmDemand_Sheet.Designer.vb">
+      <DependentUpon>frmDemand_Sheet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmDemand_Sheet.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmEInvoiceHead.Designer.vb">
       <DependentUpon>frmEInvoiceHead.vb</DependentUpon>
     </Compile>
@@ -958,6 +964,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDemandBooking.resx">
       <DependentUpon>frmDemandBooking.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmDemand_Sheet.resx">
+      <DependentUpon>frmDemand_Sheet.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmEInvoiceHead.resx">
       <DependentUpon>frmEInvoiceHead.vb</DependentUpon>
