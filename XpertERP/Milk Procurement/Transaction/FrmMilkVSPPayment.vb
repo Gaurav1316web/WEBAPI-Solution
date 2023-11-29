@@ -233,10 +233,13 @@ Public Class FrmMilkVSPPayment
             If TotalDcsCount > 0 Then
                 clsCommon.MyMessageBoxShow(Me, "" & TotalDcsCount & " DCS have blank Bank Details", Me.Text)
                 If common.clsCommon.MyMessageBoxShow("We will update UNPAID Bank Details on these DCS. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                    clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET Bank_Code = 'UNPAID' ,  Bank_Name = 'UNPAID' , BankName2 = 'UNPAID' , IFSC_Code = 'UNPAID' , IFSCCode2 = 'UNPAID' , Account_No = 'UNPAID ' , AccNo2 = 'UNPAID'
-            where Form_Type = 'VSP' AND Bank_Code IS NULL or Bank_Code = '' AND Vendor_Code IN (" & strVLC & ")")
-                    clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET BankCode2 = 'UNPAID' ,  Bank_Name = 'UNPAID' , BankName2 = 'UNPAID' , IFSC_Code = 'UNPAID' , IFSCCode2 = 'UNPAID' , Account_No = 'UNPAID ' , AccNo2 = 'UNPAID'
-            where Form_Type = 'VSP' AND BankCode2 IS NULL or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ")")
+                    If DCSCountBank1 > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET Bank_Code = 'UNPAID' , Bank_Name = 'UNPAID', IFSC_Code = 'UNPAID', Account_No = 'UNPAID ' where Form_Type = 'VSP' AND Bank_Code IS NULL or Bank_Code = '' AND Vendor_Code IN (" & strVLC & ")")
+                    End If
+                    If DCSCountBank2 > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET BankCode2 = 'UNPAID' ,BankName2 = 'UNPAID', IFSCCode2 = 'UNPAID', AccNo2 = 'UNPAID' where Form_Type = 'VSP' AND BankCode2 IS NULL or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ")")
+                    End If
+
                     GenerateBill()
                 Else
                     Exit Sub

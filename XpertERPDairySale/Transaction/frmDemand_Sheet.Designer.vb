@@ -133,7 +133,7 @@ Partial Class frmDemand_Sheet
         'txtDate
         '
         Me.txtDate.CalculationExpression = Nothing
-        Me.txtDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtDate.CustomFormat = "dd/MM/yyyy"
         Me.txtDate.FieldCode = Nothing
         Me.txtDate.FieldDesc = Nothing
         Me.txtDate.FieldMaxLength = 0
@@ -157,8 +157,8 @@ Partial Class frmDemand_Sheet
         Me.txtDate.Size = New System.Drawing.Size(136, 18)
         Me.txtDate.TabIndex = 58
         Me.txtDate.TabStop = False
-        Me.txtDate.Text = "13/06/2011 11:29 AM"
-        Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtDate.Text = "13/06/2011"
+        Me.txtDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
         '
         'lblDate
         '

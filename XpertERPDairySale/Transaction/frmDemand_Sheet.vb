@@ -5,6 +5,8 @@ Public Class frmDemand_Sheet
     Inherits FrmMainTranScreen
 #Region "Variables"
     Private isNewEntry As Boolean = False
+    Dim SetShiftTimeOut As String = ""
+
     Dim isInsideLoadData As Boolean = False
     Dim isLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
@@ -14,6 +16,7 @@ Public Class frmDemand_Sheet
     Const colRouteNo As String = "colRouteNo"
     Const colSetZero As String = "colSetZero"
     Const colItemCode As String = "colItemCode"
+
 #End Region
     'Public Sub SetUserMgmtNew()
     ''MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
@@ -31,11 +34,13 @@ Public Class frmDemand_Sheet
     'End If
     'End Sub
     Private Sub frmDemandSheet_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetShiftTimeOut = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, Nothing))
         AddNew()
         ' SetUserMgmtNew()
         DemandSheetTable()
         LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode)
         isInsideLoadData = False
+
     End Sub
     Sub LoadBlankGrid()
         Dim qry As String = String.Empty
@@ -135,8 +140,7 @@ Public Class frmDemand_Sheet
     Sub AddNew()
         LoadBlankGrid()
         Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
-        Dim EndTime As DateTime = # 10:06:00 AM#
-        'If (clsCommon.myCdbl(CurrDateTime.Hour) >= 7 AndAlso clsCommon.myCdbl(CurrDateTime.Hour) < 10) Then
+        Dim EndTime As DateTime = clsCommon.GetPrintDate(SetShiftTimeOut, "dd/MMM/yyyy hh:mm tt")
         If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
             txtDate.Value = clsCommon.GetPrintDate(CurrDateTime)
             txtShift.Text = "Evening"
@@ -166,7 +170,7 @@ Public Class frmDemand_Sheet
                     End If
                     If e.Column.Index >= 4 AndAlso gv1.Rows.Count > 0 Then
                         UpdateCurrentRow(gv1.CurrentRow.Index)
-                        'UpdateAllTotals()
+                        UpdateColumnTotal()
                     End If
                     isCellValueChangedOpen = False
                 End If
@@ -189,6 +193,7 @@ Public Class frmDemand_Sheet
                 Dim obj As New clsDemandSheet()
                 obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
                 obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
+                obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
                 obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
                 obj.ShiftType = txtShift.Text
                 Dim k As Integer = 1
@@ -226,16 +231,9 @@ Public Class frmDemand_Sheet
     End Sub
     Private Sub UpdateColumnTotal()
         Try
-            Dim TotalQty As Double = 0
-            'For dbrows1 As Integer = 0 To gv1.Rows.Count - 1
-            For dblcolumns As Integer = 4 To gv1.Columns.Count - 1
-                TotalQty = 0
-                For dbrows As Integer = 0 To gv1.Rows.Count - 1
-                    TotalQty += clsCommon.myCdbl(gv1.Rows(dbrows).Cells(dblcolumns).Value)
-                Next
-                gv1.Rows(gv1.Rows.Count - 1).Cells(dblcolumns).Value = clsCommon.myCstr(TotalQty)
-            Next
-            'Next
+            'Dim summaryRowItem As New GridViewSummaryRowItem()
+
+            ' gv1.BestFitColumns()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -256,6 +254,7 @@ Public Class frmDemand_Sheet
         coll.Add("DEMAND_Date", "datetime Not null")
         coll.Add("ShiftType", "VARCHAR(200)")
         coll.Add("Cust_Code", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
+        coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
         coll.Add("Set_Zero", "integer NOT NULL")
         coll.Add("Item_Code", "Varchar(50) Not NULL References TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Qty", "Decimal (18,2) NULL")
@@ -276,11 +275,11 @@ Public Class frmDemand_Sheet
                     gv1.Rows(IntRowNo).Cells(colLineNo).Value = IntRowNo + 1
                     gv1.Rows(IntRowNo).Cells(colCustCode).Value = obj.Cust_Code
                     gv1.Rows(IntRowNo).Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Cust_Code + "'"))
-                    gv1.Rows(IntRowNo).Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Cust_Code + "'"))
                     'gv1.Rows(IntRowNo).Cells(colSetZero).Value = obj.Set_Zero
 
                     If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                         For Each objTr As clsDemandSheetDetails In obj.Arr
+                            gv1.Rows(IntRowNo).Cells(colRouteNo).Value = objTr.Route_No
                             gv1.Rows(IntRowNo).Cells(colSetZero).Value = objTr.Set_Zero
                             'For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
@@ -300,6 +299,17 @@ Public Class frmDemand_Sheet
                     gv1.Rows.AddNew()
                 Next
             End If
+            GvRowFridge()
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            For colcount As Integer = 5 To gv1.Columns.Count - 1
+                gv1.Columns(colItemCode + clsCommon.myCstr(colcount - 4)).FormatString = "{0:n2}"
+            Next
+            For colcount As Integer = 5 To gv1.Columns.Count - 1
+                Dim TotalCount As New GridViewSummaryItem(colItemCode + clsCommon.myCstr(colcount - 4), "{0:n2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(TotalCount)
+            Next
+            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.AutoSizeRows = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -320,7 +330,7 @@ Public Class frmDemand_Sheet
                 If grow.Cells(colCustCode).Value <> "" Then
 
 
-                    Dim RouteNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_Customer_Master where cust_code='" + grow.Cells(colCustCode).Value + "'"))
+                    Dim RouteNo As String = clsCommon.myCstr(grow.Cells(colRouteNo).Value)
                     Dim strQry As String = "select TSPL_DEMAND_BOOKING_MASTER.Document_No from TSPL_DEMAND_BOOKING_MASTER
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 where TSPL_DEMAND_BOOKING_MASTER.Document_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "'
@@ -451,6 +461,7 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
                         gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
                     End If
                     gv1.CurrentColumn = gv1.Columns(colCustCode)
+                    GvRowFridge()
                 End If
             End If
         End If
@@ -466,13 +477,19 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
         End Try
 
     End Sub
-    'Private Sub gv1_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gv1.CellValidated
-    '    Try
-    '        SetGridFocus()
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '    End Try
-    'End Sub
+    Private Sub GvRowFridge()
+        Try
+            If gv1.Rows.Count > 2 Then
+                For rowcount As Integer = 0 To gv1.Rows.Count - 3
+                    For colcount As Integer = 0 To gv1.Columns.Count - 1
+                        gv1.Rows(rowcount).Cells(colcount).ReadOnly = True
+                    Next
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 
 
 End Class
