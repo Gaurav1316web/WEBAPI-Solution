@@ -23327,6 +23327,11 @@ Public Class clsCreateAllTable
             coll.Add("Trip_No", "Integer not NULL default 1")
             coll.Add("Against_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
             coll.Add("ORG", "Varchar(10) null")
+            coll.Add("Retesting_FAT", "Decimal(18,2) null")
+            coll.Add("Retesting_SNF", "Decimal(18,2) null")
+            coll.Add("Retesting_CLR", "Decimal(18,2) null")
+            coll.Add("Correction_FAT", "Decimal(18,2) null")
+            coll.Add("Correction_SNF", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

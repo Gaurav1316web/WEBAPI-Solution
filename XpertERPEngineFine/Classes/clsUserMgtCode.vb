@@ -2094,6 +2094,7 @@ Public Class clsUserMgtCode
     Public Const rptTemporaryPaymentDeductionSummary As String = "TPDS_R"
     Public Const rptAutoMultipleAdditionDeduction As String = "AMAD-R"
     Public Const rptDBTSummaryMonthlyWise As String = "DBT-Monthly"
+    Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
     'Public Const frmTranReverse As String = "M-TRN-R"
     'Public Const rptMDConversion As String = "MD_CONVERSIN"
