@@ -8,6 +8,7 @@ Public Class rptDCSSaleRegister
 
 
     Private Sub rptDCSSaleRegister_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtBilltoLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
@@ -29,7 +30,7 @@ Public Class rptDCSSaleRegister
     Sub Reset()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
-        txtBilltoLocation.Value = Nothing
+        txtBilltoLocation.Value = ""
         lblBilltoLocation.Text = ""
         txtDCS.Value = ""
         txtDocumentNo.Value = ""
@@ -46,90 +47,116 @@ Public Class rptDCSSaleRegister
         Reset()
     End Sub
     Sub FormatGrid()
+        If chkUploader.IsChecked = True Then
+            Gv1.TableElement.TableHeaderHeight = 40
+            Gv1.MasterTemplate.ShowRowHeaderColumn = False
+            For ii As Integer = 0 To Gv1.Columns.Count - 1
+                Gv1.Columns(ii).ReadOnly = True
+                Gv1.Columns(ii).IsVisible = False
+            Next
+            Gv1.Columns("Document_Date").Width = 100
+            Gv1.Columns("Document_Date").IsVisible = True
+            Gv1.Columns("Document_Date").HeaderText = "Document Date"
 
-        Gv1.TableElement.TableHeaderHeight = 40
-        Gv1.MasterTemplate.ShowRowHeaderColumn = False
-        For ii As Integer = 0 To Gv1.Columns.Count - 1
-            Gv1.Columns(ii).ReadOnly = True
-            Gv1.Columns(ii).IsVisible = False
-        Next
-        Gv1.Columns("SNo").Width = 50
-        Gv1.Columns("SNo").IsVisible = True
-        Gv1.Columns("SNo").HeaderText = "S.No"
+            Gv1.Columns("Uploader_No").Width = 100
+            Gv1.Columns("Uploader_No").IsVisible = True
+            Gv1.Columns("Uploader_No").HeaderText = "Uploader No"
 
-        Gv1.Columns("Bill_Date").Width = 100
-        Gv1.Columns("Bill_Date").IsVisible = True
-        Gv1.Columns("Bill_Date").HeaderText = "Bill Date"
+            Gv1.Columns("Item_Desc").Width = 150
+            Gv1.Columns("Item_Desc").IsVisible = True
+            Gv1.Columns("Item_Desc").HeaderText = "Item Name"
 
-        Gv1.Columns("Bill").Width = 100
-        Gv1.Columns("Bill").IsVisible = True
-        Gv1.Columns("Bill").HeaderText = "Bill No"
+            Gv1.Columns("Alies_Name").Width = 70
+            Gv1.Columns("Alies_Name").IsVisible = True
+            Gv1.Columns("Alies_Name").HeaderText = "Alies Name"
 
-        Gv1.Columns("Dispatch_Date").Width = 100
-        Gv1.Columns("Dispatch_Date").IsVisible = True
-        Gv1.Columns("Dispatch_Date").HeaderText = "Dispatch Date"
+            Gv1.Columns("Total_Amt").Width = 70
+            Gv1.Columns("Total_Amt").IsVisible = True
+            Gv1.Columns("Total_Amt").HeaderText = "Total Amt"
+        Else
+            Gv1.TableElement.TableHeaderHeight = 40
+            Gv1.MasterTemplate.ShowRowHeaderColumn = False
+            For ii As Integer = 0 To Gv1.Columns.Count - 1
+                Gv1.Columns(ii).ReadOnly = True
+                Gv1.Columns(ii).IsVisible = False
+            Next
+            Gv1.Columns("SNo").Width = 50
+            Gv1.Columns("SNo").IsVisible = True
+            Gv1.Columns("SNo").HeaderText = "S.No"
 
-        Gv1.Columns("DCS_Name").Width = 100
-        Gv1.Columns("DCS_Name").IsVisible = True
-        Gv1.Columns("DCS_Name").HeaderText = "DCS Name"
+            Gv1.Columns("Bill_Date").Width = 100
+            Gv1.Columns("Bill_Date").IsVisible = True
+            Gv1.Columns("Bill_Date").HeaderText = "Bill Date"
 
-        Gv1.Columns("C_No").Width = 100
-        Gv1.Columns("C_No").IsVisible = True
-        Gv1.Columns("C_No").HeaderText = "C No"
+            Gv1.Columns("Bill").Width = 100
+            Gv1.Columns("Bill").IsVisible = True
+            Gv1.Columns("Bill").HeaderText = "Bill No"
 
-        Gv1.Columns("GRNO").Width = 100
-        Gv1.Columns("GRNO").IsVisible = True
-        Gv1.Columns("GRNO").HeaderText = "GRNO"
+            Gv1.Columns("Dispatch_Date").Width = 100
+            Gv1.Columns("Dispatch_Date").IsVisible = True
+            Gv1.Columns("Dispatch_Date").HeaderText = "Dispatch Date"
 
-        Gv1.Columns("Zone").Width = 100
-        Gv1.Columns("Zone").IsVisible = True
-        Gv1.Columns("Zone").HeaderText = "Zone"
+            Gv1.Columns("DCS_Name").Width = 100
+            Gv1.Columns("DCS_Name").IsVisible = True
+            Gv1.Columns("DCS_Name").HeaderText = "DCS Name"
 
-        Gv1.Columns("SADA").Width = 80
-        Gv1.Columns("SADA").IsVisible = True
-        Gv1.Columns("SADA").HeaderText = "SADA"
+            Gv1.Columns("C_No").Width = 100
+            Gv1.Columns("C_No").IsVisible = True
+            Gv1.Columns("C_No").HeaderText = "C No"
 
-        Gv1.Columns("GOLD").Width = 80
-        Gv1.Columns("GOLD").IsVisible = True
-        Gv1.Columns("GOLD").HeaderText = "GOLD"
+            Gv1.Columns("GRNO").Width = 100
+            Gv1.Columns("GRNO").IsVisible = True
+            Gv1.Columns("GRNO").HeaderText = "GRNO"
 
-        Gv1.Columns("BPP").Width = 80
-        Gv1.Columns("BPP").IsVisible = True
-        Gv1.Columns("BPP").HeaderText = "BPP"
+            Gv1.Columns("Zone").Width = 100
+            Gv1.Columns("Zone").IsVisible = True
+            Gv1.Columns("Zone").HeaderText = "Zone"
 
-        Gv1.Columns("TruckNo").Width = 120
-        Gv1.Columns("TruckNo").IsVisible = True
-        Gv1.Columns("TruckNo").HeaderText = "Truck No"
+            Gv1.Columns("SADA").Width = 80
+            Gv1.Columns("SADA").IsVisible = True
+            Gv1.Columns("SADA").HeaderText = "SADA"
 
-        Gv1.Columns("ChallanNo").Width = 100
-        Gv1.Columns("ChallanNo").IsVisible = True
-        Gv1.Columns("ChallanNo").HeaderText = "Challan No"
+            Gv1.Columns("GOLD").Width = 80
+            Gv1.Columns("GOLD").IsVisible = True
+            Gv1.Columns("GOLD").HeaderText = "GOLD"
 
-        Gv1.Columns("Bags").Width = 100
-        Gv1.Columns("Bags").IsVisible = True
-        Gv1.Columns("Bags").HeaderText = "Bags"
+            Gv1.Columns("BPP").Width = 80
+            Gv1.Columns("BPP").IsVisible = True
+            Gv1.Columns("BPP").HeaderText = "BPP"
 
-        Gv1.Columns("MT").Width = 100
-        Gv1.Columns("MT").IsVisible = True
-        Gv1.Columns("MT").HeaderText = "MT"
+            Gv1.Columns("TruckNo").Width = 120
+            Gv1.Columns("TruckNo").IsVisible = True
+            Gv1.Columns("TruckNo").HeaderText = "Truck No"
 
-        Gv1.Columns("CF_AMT").Width = 150
-        Gv1.Columns("CF_AMT").IsVisible = True
-        Gv1.Columns("CF_AMT").HeaderText = "CF Amount"
+            Gv1.Columns("ChallanNo").Width = 100
+            Gv1.Columns("ChallanNo").IsVisible = True
+            Gv1.Columns("ChallanNo").HeaderText = "Challan No"
 
-        Gv1.Columns("Frieght").Width = 100
-        Gv1.Columns("Frieght").IsVisible = True
-        Gv1.Columns("Frieght").HeaderText = "Frieght"
+            Gv1.Columns("Bags").Width = 100
+            Gv1.Columns("Bags").IsVisible = True
+            Gv1.Columns("Bags").HeaderText = "Bags"
 
-        Gv1.Columns("Frieght_Amt").Width = 150
-        Gv1.Columns("Frieght_Amt").IsVisible = True
-        Gv1.Columns("Frieght_Amt").HeaderText = "Frieght Amt"
+            Gv1.Columns("MT").Width = 100
+            Gv1.Columns("MT").IsVisible = True
+            Gv1.Columns("MT").HeaderText = "MT"
 
-        Gv1.Columns("Total_Amt").Width = 150
-        Gv1.Columns("Total_Amt").IsVisible = True
-        Gv1.Columns("Total_Amt").HeaderText = "Total Amt"
+            Gv1.Columns("CF_AMT").Width = 150
+            Gv1.Columns("CF_AMT").IsVisible = True
+            Gv1.Columns("CF_AMT").HeaderText = "CF Amount"
 
+            Gv1.Columns("Frieght").Width = 100
+            Gv1.Columns("Frieght").IsVisible = True
+            Gv1.Columns("Frieght").HeaderText = "Frieght"
 
+            Gv1.Columns("Frieght_Amt").Width = 150
+            Gv1.Columns("Frieght_Amt").IsVisible = True
+            Gv1.Columns("Frieght_Amt").HeaderText = "Frieght Amt"
+
+            Gv1.Columns("Total_Amt").Width = 150
+            Gv1.Columns("Total_Amt").IsVisible = True
+            Gv1.Columns("Total_Amt").HeaderText = "Total Amt"
+
+        End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
@@ -162,6 +189,15 @@ Public Class rptDCSSaleRegister
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        Try
+            PageSetupReport_ID = MyBase.Form_ID + IIf(chkUploader.Checked = True, "Uploader", "")
+            TemplateGridview = Gv1
+            Dim FromDate As String = clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy")
+            Dim ToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
+            '  GridData(FromDate, ToDate, chkGRNNoSelect.IsChecked, cbgGRNNo.CheckedValue, chkVendorSelect.IsChecked, cbgVendor.CheckedValue, chkLocationSelect.IsChecked, cbgLocation.CheckedValue)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
         Load_DCS_Sale_Report()
     End Sub
     Private Sub Load_DCS_Sale_Report()
@@ -176,12 +212,23 @@ Public Class rptDCSSaleRegister
                 whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" + txtDocumentNo.Value + "'"
             End If
             If clsCommon.myLen(txtDCS.Value) > 0 Then
-                whr += "and TSPL_DCS_FOR_SALE.Name='" + txtDCS.Value + "'"
+                whr += "and TSPL_DCS_FOR_SALE.Code='" + txtDCS.Value + "'"
             End If
-
-            qry = " Select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo, XFinal.*,cast((XFinal.CF_AMT+XFinal.Frieght_Amt)as decimal(18,2)) as Total_Amt,TSPL_LOCATION_MASTER.Location_Desc as Location_Desc,TSPL_LOCATION_MASTER.Add1 as Add1
+            If chkUploader.IsChecked = True Then
+                qry = "select CONVERT(VARCHAR(10), TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) AS Document_Date,TSPL_DCS_FOR_SALE.Uploader_No ,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Alies_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.qty*TSPL_SD_SHIPMENT_DETAIL.Item_Cost as Total_Amt
+	                 from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL
+	                left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Document_Code AND
+				  TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+				  left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+	                left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code
+					left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Document_Code  and
+					TSPL_SD_SALE_INVOICE_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode 
+					 left join TSPL_SD_SALE_INVOICE_HEAD	on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code left join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code  where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' and 
+                     convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'" + whr + ""
+            Else
+                qry = "   Select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo, XFinal.*,cast((XFinal.CF_AMT+XFinal.Frieght_Amt)as decimal(18,2)) as Total_Amt,TSPL_LOCATION_MASTER.Location_Desc as Location_Desc,TSPL_LOCATION_MASTER.Add1 as Add1
                     from(
-                    select Convert(Varchar(10),XX.Document_Date,105)as Bill_Date,XX.Bill,Convert(Varchar(10),XX.Dispatch_Date,105) as Dispatch_Date,XX.DCS_Name,XX.C_No,XX.GRNO,xx.Zone,XX.SADA,XX.SADA_Cost,XX.GOLD,XX.GOLD_Cost,XX.BPP,XX.BPP_Cost,XX.TruckNo,XX.ChallanNo,
+                    select Convert(Varchar(10),XX.Document_Date,105)as Bill_Date,XX.Bill,Convert(Varchar(10),XX.Dispatch_Date,105) as Dispatch_Date,XX.DCS_Name,xx.DCS_Code,xx.Uploader_No,XX.C_No,XX.GRNO,xx.Zone,XX.Item_SADA,XX.SADA,XX.SADA_Cost,XX.ITEM_GOLD,XX.GOLD,XX.GOLD_Cost,XX.ITEM_BPP,XX.BPP,XX.BPP_Cost,XX.TruckNo,XX.ChallanNo,
                     cast((XX.SADA+XX.GOLD+XX.BPP) as decimal(18,2))as Bags,cast((((XX.SADA*XX.CF_Bag)+(XX.GOLD*XX.CF_Bag)+(XX.BPP*XX.CF_Bag))/XX.CF_MT) as decimal(18,2))as MT,
                     cast(((XX.SADA_Cost*XX.SADA)+(XX.GOLD_Cost*XX.GOLD)+(XX.BPP_Cost*XX.BPP))as decimal(18,2)) as CF_AMT,Cast(XX.Frieght_Rate as decimal(18,2)) as Frieght,
                     cast(((((XX.SADA*XX.CF_Bag)+(XX.GOLD*XX.CF_Bag)+(XX.BPP*XX.CF_Bag))/XX.CF_QTL)*XX.Frieght_Rate)as decimal(18,2))as Frieght_Amt,
@@ -189,13 +236,18 @@ Public Class rptDCSSaleRegister
                 from(
                 select 
                 min(TSPL_SD_SHIPMENT_HEAD.Document_Date)as Dispatch_Date,
-                TSPL_DCS_FOR_SALE.Name as DCS_Name,
-                max(TSPL_DCS_FOR_SALE.Uploader_No) as C_No,
+                TSPL_DCS_FOR_SALE.Name as DCS_Name
+				,TSPL_DCS_FOR_SALE.Code as DCS_Code ,
+				max(TSPL_DCS_FOR_SALE.Uploader_No) as Uploader_No
+                ,max(TSPL_DCS_FOR_SALE.Uploader_No) as C_No,
                 max(TSPL_SD_SHIPMENT_HEAD.LR_GR_NO) as GRNO,
                 max(TSPL_DCS_FOR_SALE.Zone) as Zone,
-                sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0002' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as SADA,
-                sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0003' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as GOLD,
-                sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0001' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as BPP,
+                max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0002' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode  end) as Item_SADA,
+				sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0002' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as SADA,  
+				max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0003' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode  end) as ITEM_GOLD,
+				 sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0003' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as GOLD,
+                max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0001' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode  end) as ITEM_BPP,  
+				  sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0001' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as BPP,
                 max(TSPL_SD_SHIPMENT_HEAD.Form_38_No) as TruckNo,
                 max(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID) as ChallanNo,
                 max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0002' then TSPL_SD_SHIPMENT_DETAIL.Item_Cost else '1' end ) as SADA_Cost,
@@ -227,16 +279,16 @@ Public Class rptDCSSaleRegister
                 left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAIL_BAG on TSPL_ITEM_UOM_DETAIL_BAG.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and
                 TSPL_ITEM_UOM_DETAIL_BAG.UOM_Code='BAG'
                 left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAIL_QTL on TSPL_ITEM_UOM_DETAIL_QTL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and
-                TSPL_ITEM_UOM_DETAIL_QTL.UOM_Code='QTL' WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Code >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "
-                    group by TSPL_DCS_FOR_SALE.Name,TSPL_SD_SALE_INVOICE_HEAD.Document_Date
+                TSPL_ITEM_UOM_DETAIL_QTL.UOM_Code='QTL' where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' and 
+                             convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' " + whr + "
+                    group by TSPL_DCS_FOR_SALE.Name,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,Code
                     )XX
                     )XFinal 
                     left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Location_code"
-
+            End If
             If clsCommon.myLen(qry) > 0 Then
                 dt = clsDBFuncationality.GetDataTable(qry)
             End If
-
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Gv1.DataSource = Nothing
                 Gv1.GroupDescriptors.Clear()
@@ -251,46 +303,12 @@ Public Class rptDCSSaleRegister
             Else
                 clsCommon.MyMessageBoxShow("No data found to display.", "Sales Report")
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
 
     End Sub
-
-    Private Sub txtDocumentNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
-        Dim qry As String = "SELECT DISTINCT TSPL_SD_SALE_INVOICE_HEAD.Document_Code as code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,tspl_customer_master.Customer_Name  FROM TSPL_SD_SALE_INVOICE_HEAD 
-                            inner join  tspl_customer_master on tspl_customer_master.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-							inner join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No  "
-        Dim whrcls As String = ""
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls += " TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
-        txtDocumentNo.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "code", whrcls, txtDocumentNo.Value, "code", isButtonClicked)
-        lblDocumentNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Document_Date FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code= '" + txtDocumentNo.Value + "'"))
-    End Sub
-    Private Sub txtBilltoLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBilltoLocation._MYValidating
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical'  "
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
-        txtBilltoLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtBilltoLocation.Value, "Code", isButtonClicked)
-        lblBilltoLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBilltoLocation.Value + "'"))
-
-    End Sub
-
-    Private Sub txtDCS__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDCS._MYValidating
-        Dim qry As String = "SELECT  TSPL_DCS_FOR_SALE.CODE as DCSCode,TSPL_DCS_FOR_SALE.Name as [DCS Name] FROM TSPL_DCS_FOR_SALE 
-                            INNER JOIN TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL  ON TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code=TSPL_DCS_FOR_SALE.Code "
-        Dim whrcls As String = ""
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls += "   TSPL_DCS_FOR_SALE.Location in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
-        txtDCS.Value = clsCommon.ShowSelectForm("dcscode", qry, "DCSCode", whrcls, txtDCS.Value, "DCSCode", isButtonClicked)
-        lblDCS.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TSPL_DCS_FOR_SALE.Name FROM TSPL_DCS_FOR_SALE INNER JOIN TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL  ON TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code=TSPL_DCS_FOR_SALE.Code where TSPL_DCS_FOR_SALE.CODE ='" + txtDCS.Value + "'"))
-
-    End Sub
-
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
             If Gv1.Rows.Count > 0 Then
@@ -309,9 +327,9 @@ Public Class rptDCSSaleRegister
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
 
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToExcelGrid("DCS Sale Register Report", Gv1, arrHeader, Me.Text)
+                clsCommon.MyExportToExcel("DCS Sale Register Report", Gv1, arrHeader, Me.Text)
                 ' transportSql.exportdataChilRows(gv1, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-                common.clsCommon.MyMessageBoxShow("Exported Successfully.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
                 'Process.Start(filePath)
 
             Else
@@ -322,7 +340,6 @@ Public Class rptDCSSaleRegister
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
         Try
 
@@ -342,8 +359,7 @@ Public Class rptDCSSaleRegister
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
 
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                Dim doc As New RadPrintDocument()
-                doc.Landscape = True
+                'transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
                 clsCommon.MyExportToPDF("DCS Sale Register Report", Gv1, arrHeader, "DCS Sale Register Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
                 common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
@@ -353,4 +369,85 @@ Public Class rptDCSSaleRegister
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub rmSaveLayout_Click_1(sender As Object, e As EventArgs) Handles rmSaveLayout.Click
+        If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
+            Dim obj As New clsGridLayout()
+            obj.ReportID = PageSetupReport_ID
+            obj.UserID = objCommonVar.CurrentUserCode
+            obj.GridLayout = New MemoryStream()
+            Gv1.SaveLayout(obj.GridLayout)
+            obj.GridColumns = Gv1.ColumnCount
+            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+            If obj.SaveData() Then
+                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            End If
+            ''stuti regarding memory leakage
+            obj.GridLayout.Close()
+            obj.GridLayout.Dispose()
+        End If
+    End Sub
+    Private Sub ReStoreGridLayout()
+        Try
+            If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+                Dim obj As clsGridLayout = New clsGridLayout()
+                obj = CType(obj.GetData(PageSetupReport_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                If Not obj Is Nothing AndAlso obj.GridColumns >= Gv1.ColumnCount Then
+                    Dim ii As Integer
+                    For ii = 0 To Gv1.Columns.Count - 1 Step ii + 1
+                        Gv1.Columns(ii).IsVisible = False
+                        Gv1.Columns(ii).VisibleInColumnChooser = True
+                    Next
+                    Gv1.LoadLayout(obj.GridLayout)
+                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                End If
+            End If
+        Catch err As Exception
+            MessageBox.Show(err.Message)
+        End Try
+    End Sub
+
+    Private Sub rmDeleteLayout_Click_1(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
+        clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
+        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+    End Sub
+
+
+
+    Private Sub txtDocumentNo__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
+        Dim qry As String = "SELECT DISTINCT TSPL_SD_SALE_INVOICE_HEAD.Document_Code as code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,tspl_customer_master.Customer_Name  FROM TSPL_SD_SALE_INVOICE_HEAD 
+                            inner join  tspl_customer_master on tspl_customer_master.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+							inner join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No  "
+        Dim whrcls As String = ""
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls += " TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+        txtDocumentNo.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "code", whrcls, txtDocumentNo.Value, "code", isButtonClicked)
+        lblDocumentNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Document_Date FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code= '" + txtDocumentNo.Value + "'"))
+
+    End Sub
+
+    Private Sub txtDCS__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDCS._MYValidating
+        Dim qry As String = "SELECT  TSPL_DCS_FOR_SALE.CODE as DCSCode,TSPL_DCS_FOR_SALE.Name as [DCS Name] FROM TSPL_DCS_FOR_SALE 
+                            INNER JOIN TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL  ON TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code=TSPL_DCS_FOR_SALE.Code "
+        Dim whrcls As String = ""
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls += "   TSPL_DCS_FOR_SALE.Location in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+        txtDCS.Value = clsCommon.ShowSelectForm("dcscode", qry, "DCSCode", whrcls, txtDCS.Value, "DCSCode", isButtonClicked)
+        lblDCS.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TSPL_DCS_FOR_SALE.Name FROM TSPL_DCS_FOR_SALE INNER JOIN TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL  ON TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code=TSPL_DCS_FOR_SALE.Code where TSPL_DCS_FOR_SALE.CODE ='" + txtDCS.Value + "'"))
+
+    End Sub
+
+    Private Sub txtBilltoLocation__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBilltoLocation._MYValidating
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+        Dim WhrCls As String = " Location_Type='Physical'  "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+        txtBilltoLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtBilltoLocation.Value, "Code", isButtonClicked)
+        lblBilltoLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBilltoLocation.Value + "'"))
+
+    End Sub
+
 End Class

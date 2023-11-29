@@ -806,9 +806,8 @@ End if
 
         If chkUnpaid.Checked Then
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set Unpaid = 0")
-            clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set Unpaid = 1 where bank_code='" & clsCommon.myCstr(fndbank.Value) & "'")
         End If
-        clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set  Unpaid = 1  NEFT_DBT_Default='" + IIf(chkDefaultNEFTDBT.Checked, "1", "0") + "' , IsSettlementBankForAD='" & IIf(chkSettlementBankForAD.Checked = True, "1", "0") & "', cheque_validity_in_days=" & clsCommon.myCdbl(txtChequeValidity.Text) & ",LCCreditLimit=" & clsCommon.myCdbl(txtLCCreditLimit.Value) & ",FDPercentage=" & clsCommon.myCdbl(txtFDPer.Value) & ",Transfer_Clearing_Account='" & fndtransferclearing.Value & "',  IBAN_No='" & TxtIbanno.Text & "',Swift_Code='" & txtswiftcode.Text & "',Is_Clearance_Bank='" & IIf(chkClearanceBank.Checked, "Y", "N") & "',Main_Bank_Code='" & clsCommon.myCstr(TxtMainBankCode.Value) & "' ,IsProvisionBank = '" + IIf(chkProvisionBank.Checked = True, "1", "0") + "' where bank_code='" & clsCommon.myCstr(fndbank.Value) & "'")
+        clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set  Unpaid = " + IIf(chkUnpaid.Checked, "1", "0") + " , NEFT_DBT_Default='" + IIf(chkDefaultNEFTDBT.Checked, "1", "0") + "' , IsSettlementBankForAD='" & IIf(chkSettlementBankForAD.Checked = True, "1", "0") & "', cheque_validity_in_days=" & clsCommon.myCdbl(txtChequeValidity.Text) & ",LCCreditLimit=" & clsCommon.myCdbl(txtLCCreditLimit.Value) & ",FDPercentage=" & clsCommon.myCdbl(txtFDPer.Value) & ",Transfer_Clearing_Account='" & fndtransferclearing.Value & "',  IBAN_No='" & TxtIbanno.Text & "',Swift_Code='" & txtswiftcode.Text & "',Is_Clearance_Bank='" & IIf(chkClearanceBank.Checked, "Y", "N") & "',Main_Bank_Code='" & clsCommon.myCstr(TxtMainBankCode.Value) & "' ,IsProvisionBank = '" + IIf(chkProvisionBank.Checked = True, "1", "0") + "' where bank_code='" & clsCommon.myCstr(fndbank.Value) & "'")
     End Sub
 
     Function SaveBankCheckData(ByVal strDocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean

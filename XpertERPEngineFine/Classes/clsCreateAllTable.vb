@@ -39,6 +39,7 @@ Public Class clsCreateAllTable
             coll.Add("Zone", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
             coll.Add("Location", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Customer", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
+            coll.Add("Active", "Bit not null default 0")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
             coll.Add("Modify_By", "varchar(12)  Not NULL")
@@ -23333,6 +23334,11 @@ Public Class clsCreateAllTable
             coll.Add("Trip_No", "Integer not NULL default 1")
             coll.Add("Against_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
             coll.Add("ORG", "Varchar(10) null")
+            coll.Add("Retesting_FAT", "Decimal(18,2) null")
+            coll.Add("Retesting_SNF", "Decimal(18,2) null")
+            coll.Add("Retesting_CLR", "Decimal(18,2) null")
+            coll.Add("Correction_FAT", "Decimal(18,2) null")
+            coll.Add("Correction_SNF", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

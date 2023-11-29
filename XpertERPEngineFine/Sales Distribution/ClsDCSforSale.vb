@@ -14,6 +14,7 @@ Public Class ClsDCSforSale
     Public Location_Name As String = Nothing
     Public Customer_Name As String = Nothing
     Public Zone_Name As String = Nothing
+    Public Active As Integer
 
 #End Region
 
@@ -43,6 +44,7 @@ Public Class ClsDCSforSale
             clsCommon.AddColumnsForChange(coll, "Uploader_No", obj.Uploader_No)
             clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
             clsCommon.AddColumnsForChange(coll, "Customer", obj.Customer)
+            clsCommon.AddColumnsForChange(coll, "Active", obj.Active)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
 
@@ -106,6 +108,7 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
             obj.Location_Name = clsCommon.myCstr(dt.Rows(0)("Location_Name"))
             obj.Customer_Name = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
             obj.Zone_Name = clsCommon.myCstr(dt.Rows(0)("Zone_Name"))
+            obj.Active = clsCommon.myCdbl(dt.Rows(0)("Active"))
         End If
 
         Return obj
@@ -161,7 +164,9 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
         Dim WhrCls As String = "2=2"
         If clsCommon.myLen(CustCode) > 0 Then
             WhrCls += " and Customer in('" + clsCommon.myCstr(CustCode) + "')"
-
+            '    WhrCls = " where  TSPL_DCS_FOR_SALE.Active=1 and  " + WhrCls
+            'Else
+            '    WhrCls = "  where  TSPL_DCS_FOR_SALE.Active=1 "
         End If
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location in (" + objCommonVar.strCurrUserLocations + ")"

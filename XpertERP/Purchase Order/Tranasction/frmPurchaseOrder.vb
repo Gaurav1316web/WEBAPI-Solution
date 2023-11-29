@@ -3225,7 +3225,7 @@ Public Class frmPurchaseOrder
                 Exit Sub
             End If
             If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso (clsCommon.myCDecimal(txtTenderNo.Tag) = 2 OrElse clsCommon.myCDecimal(txtTenderNo.Tag) = 3) Then
-                Dim obj As clsTenderDetail = clsTenderDetail.GetFinder(txtTenderNo.Value, txtVendorNo.Value)
+                Dim obj As clsTenderDetail = clsTenderDetail.GetFinder(txtTenderNo.Value, txtVendorNo.Value, txtBillToLocation.Value)
                 If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
                     gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
                     gv1.CurrentRow.Cells(colIName).Value = obj.Item_Name
