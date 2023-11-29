@@ -23178,6 +23178,11 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modify_By", "varchar(12) NULL")
             coll.Add("Modify_Date", "Datetime NULL")
+            coll.Add("Own_BMC_Qty", "Decimal(18,2) null")
+            coll.Add("Own_BMC_FAT", "Decimal(18,2) null")
+            coll.Add("Own_BMC_SNF", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_Qty", "Decimal(18,2) null")
+            coll.Add("Remarks", "Varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
