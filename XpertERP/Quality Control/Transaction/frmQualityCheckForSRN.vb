@@ -2316,7 +2316,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow("No Record Found")
-                Exit Sub
+                'Exit Sub
             Else
                 frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCRALWiseRMReportMultiple", "RL Wise Report")
                 frmCRV = Nothing
