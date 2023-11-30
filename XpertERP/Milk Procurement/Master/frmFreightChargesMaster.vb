@@ -56,14 +56,14 @@ Public Class frmFreightChargesMaster
             gv.ShowGroupPanel = False
             gv.AddNewRowPosition = SystemRowPosition.Bottom
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmPrimaryTransporterVehicalMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
             Me.Close()
             Exit Sub
         End If
@@ -226,7 +226,7 @@ Public Class frmFreightChargesMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Function
 
@@ -284,12 +284,12 @@ Public Class frmFreightChargesMaster
             End If
             If clsFreightChargesMaster.SaveData(obj) Then
                 fndcode.Value = obj.Freight_Code
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
             btndelete.Enabled = True
             fndcode.MyReadOnly = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -301,7 +301,7 @@ Public Class frmFreightChargesMaster
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(fndcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Vehicle No. For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Vehicle No. For Deletion", Me.Text)
             Errorcontrol.SetError(fndcode, "Please Select Vehicle No. For Deletion")
             Return
         Else
@@ -312,11 +312,11 @@ Public Class frmFreightChargesMaster
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found For Deletion", Me.Text)
             Return
         End If
 
-        If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Delete Primary Transporter Vehicle Master of Vehicle No. " + fndcode.Value + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+        If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Delete Primary Transporter Vehicle Master of Vehicle No. " + fndcode.Value + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
             Return
         End If
 
@@ -325,12 +325,12 @@ Public Class frmFreightChargesMaster
             qry = "delete from TSPL_FREIGHT_CHARGES_MASTER where vehicle_code='" + fndcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsSlabRangeDetail.deleteData(Me.Form_ID, fndcode.Value, trans)
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             trans.Commit()
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -394,7 +394,7 @@ Public Class frmFreightChargesMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -418,7 +418,7 @@ Public Class frmFreightChargesMaster
                 LoadData(fndcode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -784,11 +784,11 @@ Public Class frmFreightChargesMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -815,7 +815,7 @@ Public Class frmFreightChargesMaster
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -25,7 +25,7 @@ Public Class FrmSolutionKnowledgeBase
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmSolutionKnowledgeBase)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -86,7 +86,7 @@ Public Class FrmSolutionKnowledgeBase
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -113,7 +113,7 @@ Public Class FrmSolutionKnowledgeBase
                 End If
                 If (ClsSolutionKnowledgeBase.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(txtcode.Value)
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Document_Code, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -123,7 +123,7 @@ Public Class FrmSolutionKnowledgeBase
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -161,14 +161,14 @@ Public Class FrmSolutionKnowledgeBase
 
                 Dim qry As String = "DELETE FROM TSPL_SW_SOLUTION_KNOWLEDGE_BASE WHERE Document_Code='" + txtcode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -243,7 +243,7 @@ Public Class FrmSolutionKnowledgeBase
         Try
             LoadData(TxtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -289,7 +289,7 @@ Public Class FrmSolutionKnowledgeBase
                 LblItemName.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

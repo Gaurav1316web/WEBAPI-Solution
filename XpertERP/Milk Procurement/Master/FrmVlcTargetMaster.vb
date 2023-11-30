@@ -198,7 +198,7 @@ Public Class FrmVlcTargetMaster
             Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -617,7 +617,7 @@ Public Class FrmVlcTargetMaster
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -627,15 +627,15 @@ Public Class FrmVlcTargetMaster
                 Dim strchk As String = "select Posted from TSPL_MILK_truck_Sheet_HEAD where DOC_COde='" + fndDocCode.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
            
 
             If clsCommon.myLen(Me.fndMCCCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter MCC", Me.Text)
-                fndMCCCode.Focus()
+                clsCommon.MyMessageBoxShow(Me, "Please Enter MCC", Me.Text)
+                fndMccCode.Focus()
                 Return False
             End If
             'Dim objList As New List(Of ClsVlcTargetMaster)
@@ -670,7 +670,7 @@ Public Class FrmVlcTargetMaster
                 If row.Cells(colSno).Value = True Then
                     grid_vlc_Count += 1
                     If clsCommon.myCdbl(row.Cells(colDay_Target).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please Fill Day Target in Row No " & grid_vlc_Count & "", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill Day Target in Row No " & grid_vlc_Count & "", Me.Text)
                         gv1.Focus()
                         Return False
                     End If
@@ -687,7 +687,7 @@ Public Class FrmVlcTargetMaster
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -723,12 +723,12 @@ Public Class FrmVlcTargetMaster
                     End If
                 End If
                 If (ClsVlcTargetMaster.DeleteData(fndDocCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -756,7 +756,7 @@ Public Class FrmVlcTargetMaster
                 fndMccCode.MyReadOnly = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -813,7 +813,7 @@ Public Class FrmVlcTargetMaster
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -827,7 +827,7 @@ Public Class FrmVlcTargetMaster
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
         ''stuti regarding memory leakage
         obj.GridLayout.Close()
@@ -866,7 +866,7 @@ Public Class FrmVlcTargetMaster
                 If e.Column Is gv1.Columns(colMorning_Target) Then
                     If clsCommon.myCdbl(gv1.CurrentRow.Cells(colDay_Target).Value) > 0 Then
                         If clsCommon.myCdbl(gv1.CurrentRow.Cells(colDay_Target).Value) < clsCommon.myCdbl(gv1.CurrentRow.Cells(colMorning_Target).Value) Then
-                            clsCommon.MyMessageBoxShow("Please fill Morning Target Less then Day Target..")
+                            clsCommon.MyMessageBoxShow(Me, "Please fill Morning Target Less then Day Target..", Me.Text)
                             gv1.CurrentRow.Cells(colMorning_Target).Value = 0
                             isCellValueChangedOpen = False
                         End If
@@ -878,7 +878,7 @@ Public Class FrmVlcTargetMaster
                 If e.Column Is gv1.Columns(colEvening_Target) Then
                     If clsCommon.myCdbl(gv1.CurrentRow.Cells(colDay_Target).Value) > 0 Then
                         If clsCommon.myCdbl(gv1.CurrentRow.Cells(colDay_Target).Value) < clsCommon.myCdbl(gv1.CurrentRow.Cells(colEvening_Target).Value) Then
-                            clsCommon.MyMessageBoxShow("Please fill Morning Target Less then Day Target..")
+                            clsCommon.MyMessageBoxShow(Me, "Please fill Morning Target Less then Day Target..", Me.Text)
                             gv1.CurrentRow.Cells(colEvening_Target).Value = 0
                             isCellValueChangedOpen = False
                         End If
@@ -923,7 +923,7 @@ Public Class FrmVlcTargetMaster
     Private Sub fndVLCCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndVLCCode._MYValidating
         If chkMP.Checked Then
             If clsCommon.myLen(Me.fndRouteCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select route", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select route", Me.Text)
                 fndRouteCode.Focus()
                 Exit Sub
             End If

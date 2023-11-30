@@ -2001,6 +2001,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     TxtFinderItemPrint.Focus()
                     Exit Sub
                 End If
+                StrWhere += "and TSPL_QC_CHECK_HEAD.Posted=1 "
                 StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + TxtFinderVendorPrint.Value + "' 
                               and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'
                                and TSPL_LOCATION_MASTER.Location_Code='" + txtLoationPrintFinder.Value + "'"
@@ -2037,7 +2038,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                                   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location
                                   left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code
                                   left outer join TSPL_MRN_Head on TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_Head.MRN_No
-                                  where 1=1 and TSPL_QC_CHECK_HEAD.Posted=1  " + StrWhere + " order by TSPL_QC_CHECK_HEAD.Document_Code,TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
+                                  where 1=1  " + StrWhere + " order by TSPL_QC_CHECK_HEAD.Document_Code,TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -2096,7 +2097,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     TxtFinderItemPrint.Focus()
                     Exit Sub
                 End If
-
+                StrWhere += "and TSPL_QC_CHECK_HEAD.posted=1"
                 StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + TxtFinderVendorPrint.Value + "' 
                                   and  TSPL_QC_CHECK_SRN_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'
                                   and TSPL_LOCATION_MASTER.Location_Code='" + txtLoationPrintFinder.Value + "'"
@@ -2133,7 +2134,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                                       left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location
                                       left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code
                                       left outer join TSPL_MRN_Head on TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_Head.MRN_No
-                                      where 1=1 and TSPL_QC_CHECK_HEAD.Posted=1 " + StrWhere + " order by TSPL_QC_CHECK_HEAD.Document_Code,TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
+                                      where 1=1 " + StrWhere + " order by TSPL_QC_CHECK_HEAD.Document_Code,TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -2184,7 +2185,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     txtLoationPrintFinder.Focus()
                     Exit Sub
                 End If
-
+                StrWhere += "and TSPL_QC_CHECK_HEAD.Posted=1"
                 If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
@@ -2223,7 +2224,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                                   left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location
                                   left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code
                                   left outer join TSPL_MRN_Head on TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_Head.MRN_No
-                                  where 1=1 and TSPL_QC_CHECK_HEAD.Posted=1 And TSPL_QC_CHECK_HEAD.QC_Status='Rejected' " + StrWhere
+                                  where 1=1  And TSPL_QC_CHECK_HEAD.QC_Status='Rejected' " + StrWhere
             qry += "order by TSPL_QC_CHECK_HEAD.Document_Code"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -2287,6 +2288,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     TxtFinderRalPrint.Focus()
                     Exit Sub
                 End If
+                StrWhere += " and TSPL_QC_CHECK_HEAD.Posted = 1"
                 If clsCommon.myLen(TxtFinderVendorPrint.Value) > 0 Then
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + TxtFinderVendorPrint.Value + "'"
                 End If
@@ -2309,7 +2311,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
 
             Dim qry As String = " select  TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant,  TSPL_COMPANY_MASTER.Comp_Code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_MRN_Head.VehicleNo, TSPL_COMPANY_MASTER.Logo_Img as Comp_Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2 as Comp_Logo_Img2, TSPL_LOCATION_MASTER.Location_Code, TSPL_LOCATION_MASTER.Location_Desc, TSPL_QC_CHECK_HEAD.Document_Code, convert ( varchar, TSPL_QC_CHECK_HEAD.Document_Date, 103 ) as Document_Date, TSPL_QC_CHECK_HEAD.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name, TSPL_ITEM_MASTER.Item_Desc, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code, convert ( varchar, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date, 103 ) as Weighment_Date, TSPL_QC_CHECK_HEAD.Gate_Entry_No, TSPL_QC_CHECK_HEAD.Gate_Entry_Date, TSPL_QC_CHECK_HEAD.QC_Status, TSPL_GRN_HEAD.Ref_No as RAL_NO, TSPL_QC_CHECK_HEAD.Template_Remarks as [Template Remark], TSPL_GRN_HEAD.LR_No as [Bilty No], TSPL_GRN_HEAD.GRN_Date
                                 from TSPL_QC_CHECK_HEAD inner join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_DETAIL.Item_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_QC_CHECK_HEAD.Gate_Entry_No left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_QC_CHECK_HEAD.Gate_Entry_No left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.GRN_Id = TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No left outer join TSPL_MRN_Head on TSPL_MRN_Head.MRN_No = TSPL_MRN_DETAIL.MRN_No left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code where 1 = 1 
-                                and TSPL_QC_CHECK_HEAD.Posted = 1 " + StrWhere + " "
+                                " + StrWhere + " "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

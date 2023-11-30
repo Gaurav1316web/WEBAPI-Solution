@@ -108,7 +108,7 @@ Public Class FrmTankerMaster
             gvChamber.MasterTemplate.ShowRowHeaderColumn = False
             gvChamber.TableElement.TableHeaderHeight = 40
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -221,14 +221,14 @@ Public Class FrmTankerMaster
             gv.ShowGroupPanel = False
             gv.AddNewRowPosition = SystemRowPosition.Bottom
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmTankerMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -472,7 +472,7 @@ Public Class FrmTankerMaster
             If isImportClicked Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Function
@@ -573,9 +573,9 @@ Public Class FrmTankerMaster
                 trans.Commit()
                 If isImportClicked = False Then
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -593,7 +593,7 @@ Public Class FrmTankerMaster
             If isImportClicked Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
 
         End Try
@@ -607,7 +607,7 @@ Public Class FrmTankerMaster
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.myLen(fndNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Tanker No. For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Tanker No. For Deletion", Me.Text)
                 fndNo.Focus()
                 fndNo.Select()
                 trans.Commit()
@@ -618,7 +618,7 @@ Public Class FrmTankerMaster
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
 
             If check <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found For Deletion", Me.Text)
                 trans.Commit()
                 Return
             End If
@@ -636,11 +636,11 @@ Public Class FrmTankerMaster
 
             trans.Commit()
 
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -937,12 +937,12 @@ Public Class FrmTankerMaster
                 isImportClicked = False
                 clsCommon.ProgressBarHide()
                 Reset()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 isImportClicked = False
                 Reset()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -1067,7 +1067,7 @@ Public Class FrmTankerMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1105,7 +1105,7 @@ Public Class FrmTankerMaster
             End If
             Errorcontrol.ResetError(txtstorage)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Storage Capacity Should Be In Numeric", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Storage Capacity Should Be In Numeric", Me.Text)
             txtstorage.Value = 0
             txtstorage.Focus()
             txtstorage.Select()
@@ -1153,7 +1153,7 @@ Public Class FrmTankerMaster
         Catch ex As Exception
             fndNo.Focus()
             fndNo.Select()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1385,12 +1385,12 @@ Public Class FrmTankerMaster
     Private Sub btnGO_Click(sender As Object, e As EventArgs) Handles btnGO.Click
         Try
             If clsCommon.myCdbl(txtChamborNo.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please enter no chmber")
+                clsCommon.MyMessageBoxShow(Me, "Please enter no chmber", Me.Text)
                 txtChamborNo.Focus()
                 Exit Sub
             End If
             If clsCommon.myCdbl(txtChamborNo.Text) > 10 Then
-                clsCommon.MyMessageBoxShow("Please enter no chmber less than or equl to 10")
+                clsCommon.MyMessageBoxShow(Me, "Please enter no chmber less than or equl to 10", Me.Text)
                 txtChamborNo.Focus()
                 Exit Sub
             End If
@@ -1406,7 +1406,7 @@ Public Class FrmTankerMaster
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

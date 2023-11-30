@@ -21,7 +21,7 @@ Public Class FrmMCCVLCVarationReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -131,7 +131,7 @@ Public Class FrmMCCVLCVarationReport
 
         If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
 
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
 
@@ -188,7 +188,7 @@ Public Class FrmMCCVLCVarationReport
         gv.BestFitColumns()
         gv.Columns("Doc Date").IsVisible = False
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
 
@@ -287,7 +287,7 @@ Public Class FrmMCCVLCVarationReport
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -297,7 +297,7 @@ Public Class FrmMCCVLCVarationReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click

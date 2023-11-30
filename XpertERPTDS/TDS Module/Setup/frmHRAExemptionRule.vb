@@ -30,7 +30,7 @@ Public Class FrmHRAExemptionRule
     Public Function SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmHRAExemptionRule)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Return False
         End If
@@ -45,8 +45,8 @@ Public Class FrmHRAExemptionRule
         Attachment = clsDBFuncationality.getSingleValue("Select Count(*) From TSPL_ATTACHMENTS WHERE FormId ='" & MyBase.Form_ID & "' AND TransactionId ='" & txtCode.Value & "'")
 
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code can not be left blank")
-            txtCode.Focus()
+            common.clsCommon.MyMessageBoxShow(Me, "Code can not be left blank", Me.Text)
+            txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtSalStructure.Value) <= 0 Then
             myMessages.blankValue("Salary Structure Code")
@@ -219,7 +219,7 @@ Public Class FrmHRAExemptionRule
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 If (obj.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.HRA_Code, NavigatorType.Current, obj.SALARY_STRUCTURE_CODE)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -235,7 +235,7 @@ Public Class FrmHRAExemptionRule
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -244,7 +244,7 @@ Public Class FrmHRAExemptionRule
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsHRAExemptionRule.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

@@ -511,7 +511,7 @@ Public Class frmParameterRangeMasterForQC
         Else
             
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from " + table_name + " where code='" & code & "' and nature='A'")) > 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No record found.")
+                clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
             End If
         End If
         Return strRetValue
@@ -668,7 +668,7 @@ Public Class frmParameterRangeMasterForQC
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -746,7 +746,7 @@ Public Class frmParameterRangeMasterForQC
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             arr = Nothing
             obj = Nothing
@@ -811,7 +811,7 @@ Public Class frmParameterRangeMasterForQC
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1040,7 +1040,7 @@ Public Class frmParameterRangeMasterForQC
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             table_name = Nothing
@@ -1114,7 +1114,7 @@ Public Class frmParameterRangeMasterForQC
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1133,7 +1133,7 @@ Public Class frmParameterRangeMasterForQC
             End If
         Catch ex As Exception
             isValueChanged = True
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub
@@ -1179,7 +1179,7 @@ Public Class frmParameterRangeMasterForQC
     End Sub
 
     Private Sub gv_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
             Exit Sub
         End If
@@ -1226,14 +1226,14 @@ Public Class frmParameterRangeMasterForQC
                 LoadData(True)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
 
 
     Private Sub btnUpdateDeduction_Click(sender As Object, e As EventArgs) Handles btnUpdateDeduction.Click
         If clsCommon.myLen(fndParameterCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Select Parameter first.")
+            clsCommon.MyMessageBoxShow(Me, "Select Parameter first.", Me.Text)
             fndParameterCode.Focus()
             Exit Sub
         End If
@@ -1293,7 +1293,7 @@ Public Class frmParameterRangeMasterForQC
             LoadData(True)
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1347,14 +1347,14 @@ Public Class frmParameterRangeMasterForQC
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtParameterMapping__My_Click(sender As Object, e As EventArgs) Handles txtParameterMapping._My_Click
         Try
             If clsCommon.myLen(fndParameterCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select Parameter first.")
+                clsCommon.MyMessageBoxShow(Me, "Select Parameter first.", Me.Text)
                 fndParameterCode.Focus()
                 Exit Sub
             End If
@@ -1362,7 +1362,7 @@ Public Class frmParameterRangeMasterForQC
              from TSPL_QC_LOG_SHEET_MASTER where TSPL_QC_LOG_SHEET_MASTER.Code <>'" + fndParameterCode.Value + "'"
             txtParameterMapping.arrValueMember = clsCommon.ShowMultipleSelectForm("@ParamMap", qry, "Code", "Description", txtParameterMapping.arrValueMember, txtParameterMapping.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

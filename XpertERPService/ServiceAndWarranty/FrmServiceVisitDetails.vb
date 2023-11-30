@@ -325,7 +325,7 @@ Public Class FrmServiceVisitDetails
                 LblRoutedEng.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -338,7 +338,7 @@ Public Class FrmServiceVisitDetails
                 LblRoutedEng.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadEnqDetails(ByVal EnqNo As String)
@@ -398,13 +398,13 @@ Public Class FrmServiceVisitDetails
                     fs.Close()
                     System.Diagnostics.Process.Start(file_path + "\\" + filename + file_extn)
                 Else
-                    clsCommon.MyMessageBoxShow("No document found")
+                    clsCommon.MyMessageBoxShow(Me, "No document found", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No document found")
+                clsCommon.MyMessageBoxShow(Me, "No document found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -418,7 +418,7 @@ Public Class FrmServiceVisitDetails
             myMessages.blankValue("Applicant ID ")
             txtcode.Focus()
         ElseIf ClsApplicantEntry.DeleteDocData(txtcode.Value, txtcode.Value) Then
-            clsCommon.MyMessageBoxShow("Document Deleted Successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Document Deleted Successfully.", Me.Text)
             txtBrowse.Text = ""
             OpenFileDialog1.Reset()
         End If

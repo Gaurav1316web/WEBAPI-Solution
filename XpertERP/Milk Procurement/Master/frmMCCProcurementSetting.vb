@@ -582,7 +582,7 @@ Public Class frmMCCProcurementSetting
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 'trans.Commit()
             Catch ex As Exception
                 trans.Rollback()

@@ -188,7 +188,7 @@ Public Class frmSubLocationMaster
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * From TSPL_SUB_LOCATION_MASTER Where Sub_Location_code='" + fndSubLocid.Value + "'")
         If dt.Rows.Count > 0 And isNewEntry Then
-            common.clsCommon.MyMessageBoxShow(Me, "This Code has been already added")
+            common.clsCommon.MyMessageBoxShow(Me, "This Code has been already added", Me.Text)
             fndSubLocid.Focus()
             Return False
         End If
@@ -210,10 +210,10 @@ Public Class frmSubLocationMaster
                 obj.Description = txtSubLoc.Text
                 obj.Location_Code = txtLocation.Value
                 If (obj.SaveData(obj, isNewEntry)) And btnsave.Text = "Save" Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Sub_Location_code, NavigatorType.Current)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Record Updated Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Record Updated Successfully", Me.Text)
                     LoadData(obj.Sub_Location_code, NavigatorType.Current)
                 End If
             End If
@@ -226,12 +226,12 @@ Public Class frmSubLocationMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsSubLocation.DeleteData(fndSubLocid.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -256,7 +256,7 @@ Public Class frmSubLocationMaster
                 lblLoc.Visible = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try

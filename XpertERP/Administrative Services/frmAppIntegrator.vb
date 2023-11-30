@@ -161,7 +161,7 @@ Public Class frmAppIntegrator
                         End If
 
                     Next
-                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                     Reset()
                     MDI.LoadImageList()
                     MDI.LoadMenu()

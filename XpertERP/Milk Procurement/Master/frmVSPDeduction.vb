@@ -43,12 +43,12 @@ Public Class frmVSPDeduction
                 obj.Deduction_Minimum_SNF_Per = txtDeductionMinimumSNFPer.Value
                 obj.Deduction_No_Of_Payment_Cycle_For_New_VSP = txtDeductionNoOfPaymentCycleForNewVSP.Value
                 If (clsVSPDeduction.SaveData(obj)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Deduction_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -93,7 +93,7 @@ Public Class frmVSPDeduction
             Return False
         End If
         If clsCommon.myLen(txtCode.Value) > 20 Then
-            clsCommon.MyMessageBoxShow("Length is greater then 20.")
+            clsCommon.MyMessageBoxShow(Me, "Length is greater then 20.", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -106,7 +106,7 @@ Public Class frmVSPDeduction
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Deduction_Code Ends 
@@ -117,7 +117,7 @@ Public Class frmVSPDeduction
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsVSPDeduction.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -156,7 +156,7 @@ Public Class frmVSPDeduction
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -257,7 +257,7 @@ Public Class frmVSPDeduction
                     Throw New Exception("At Row No" + clsCommon.myCstr(ii) + " " + ex.Message)
                 End Try
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -269,7 +269,7 @@ Public Class frmVSPDeduction
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Deduction_Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Deduction_Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Deduction_Code", "TSPL_VSP_DEDUCTION_MASTER")

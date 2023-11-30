@@ -14,7 +14,7 @@ Public Class FrmVLCUploader
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVLCUploader)
         If Not (MyBase.isReadFlag) Then
             If MDI.blnShowAllMenu = False Then
-                common.clsCommon.MyMessageBoxShow("Permission Denied")
+                common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Else
                 Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
             End If
@@ -52,7 +52,7 @@ Public Class FrmVLCUploader
 
     Private Sub btnshow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnshow.Click
         If clsCommon.myLen(fndvlc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select VLC Code/Name First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select VLC Code/Name First", Me.Text)
             fndvlc.Focus()
             fndvlc.Select()
             Errorcontrol.SetError(fndvlc, "Please Select VLC Code/Name First")
@@ -62,7 +62,7 @@ Public Class FrmVLCUploader
         End If
 
         If clsCommon.myLen(txtdate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Fill Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Fill Date", Me.Text)
             txtdate.Focus()
             txtdate.Select()
             Errorcontrol.SetError(txtdate, "Please Fill Date")
@@ -103,7 +103,7 @@ Public Class FrmVLCUploader
             gv.Rows.Clear()
             gv.Columns.Clear()
 
-            clsCommon.MyMessageBoxShow("No Data Found For Selected VLC And Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found For Selected VLC And Date", Me.Text)
         End If
     End Sub
 
@@ -131,7 +131,7 @@ Public Class FrmVLCUploader
         Dim currentdate As Date = Date.Today
 
         If clsCommon.myLen(fndvlc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select VLC Code For Which The Data Is Being Uploaded/Showing", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select VLC Code For Which The Data Is Being Uploaded/Showing", Me.Text)
             fndvlc.Focus()
             fndvlc.Select()
             Errorcontrol.SetError(fndvlc, "Please Select VLC Code For Which The Data Is Being Uploaded/Showing")
@@ -141,7 +141,7 @@ Public Class FrmVLCUploader
         End If
 
         If clsCommon.myLen(txtdate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Fill Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Fill Date", Me.Text)
             txtdate.Focus()
             txtdate.Select()
             Errorcontrol.SetError(txtdate, "Please Fill Date")
@@ -286,12 +286,12 @@ Public Class FrmVLCUploader
 
                 clsCommon.ProgressBarHide()
                 UcAttachment1.SaveData(fndvlc.Value)
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 trans.Commit()
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Reset()

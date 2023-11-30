@@ -20,7 +20,7 @@ Public Class FrmLocationDistanceMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.LocationDistanceMapping)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -165,7 +165,7 @@ Public Class FrmLocationDistanceMaster
             For i As Integer = 0 To gv.Rows.Count - 2
                 For j As Integer = i + 1 To gv.Rows.Count - 1
                     If (clsCommon.CompairString(gv.Rows(i).Cells(colFromLocCode).Value, gv.Rows(j).Cells(colFromLocCode).Value) = CompairStringResult.Equal AndAlso clsCommon.CompairString(gv.Rows(i).Cells(colToLocCode).Value, gv.Rows(j).Cells(colToLocCode).Value) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(gv.Rows(i).Cells(colToLocCode).Value, gv.Rows(j).Cells(colFromLocCode).Value) = CompairStringResult.Equal AndAlso clsCommon.CompairString(gv.Rows(i).Cells(colFromLocCode).Value, gv.Rows(j).Cells(colToLocCode).Value) = CompairStringResult.Equal) Then
-                        clsCommon.MyMessageBoxShow("Duplicate Row Found At Row no: " & (j + 1))
+                        clsCommon.MyMessageBoxShow(Me, "Duplicate Row Found At Row no: " & (j + 1))
                         Return False
                     End If
                 Next
@@ -174,12 +174,12 @@ Public Class FrmLocationDistanceMaster
 
             For i As Integer = 0 To gv.Rows.Count - 1
                 If clsCommon.myCdbl(gv.Rows(i).Cells(colDistance).Value) < 0 AndAlso clsCommon.myLen(gv.Rows(i).Cells(colFromLocCode).Value) > 0 AndAlso clsCommon.myLen(gv.Rows(i).Cells(colToLocCode).Value) > 0 Then
-                    clsCommon.MyMessageBoxShow(" Distance can't be negative At Row No: " & (i + 1))
+                    clsCommon.MyMessageBoxShow(Me, " Distance can't be negative At Row No: " & (i + 1))
                     Return False
                 End If
 
                 If clsCommon.myCdbl(gv.Rows(i).Cells(colTollAmt).Value) < 0 AndAlso clsCommon.myLen(gv.Rows(i).Cells(colFromLocCode).Value) > 0 AndAlso clsCommon.myLen(gv.Rows(i).Cells(colToLocCode).Value) > 0 Then
-                    clsCommon.MyMessageBoxShow(" Toll Amount can't be negative At Row No: " & (i + 1))
+                    clsCommon.MyMessageBoxShow(Me, " Toll Amount can't be negative At Row No: " & (i + 1))
                     Return False
                 End If
             Next
@@ -192,26 +192,26 @@ Public Class FrmLocationDistanceMaster
             Next
 
             If rowCount = 0 Then
-                clsCommon.MyMessageBoxShow(" Please Fill data in atleast one Row")
+                clsCommon.MyMessageBoxShow(Me, " Please Fill data in atleast one Row", Me.Text)
                 Return False
             End If
 
             For i As Integer = 0 To gv.Rows.Count - 1
                 If clsCommon.myCdbl(gv.Rows(i).Cells(colDistance).Value) = 0 AndAlso clsCommon.myLen(gv.Rows(i).Cells(colFromLocCode).Value) > 0 AndAlso clsCommon.myLen(gv.Rows(i).Cells(colToLocCode).Value) > 0 Then
-                    clsCommon.MyMessageBoxShow("Please Fill Distance At Row No: " & (i + 1))
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill Distance At Row No: " & (i + 1))
                     Return False
                 End If
             Next
 
             For i As Integer = 0 To gv.Rows.Count - 1
                 If clsCommon.myLen(gv.Rows(i).Cells(colFromLocCode).Value) > 0 AndAlso clsCommon.myLen(gv.Rows(i).Cells(colToLocCode).Value) > 0 AndAlso clsCommon.CompairString(gv.Rows(i).Cells(colToLocCode).Value, gv.Rows(i).Cells(colFromLocCode).Value) = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(" From and To Location Can't Be Same At Row No: " & (i + 1))
+                    clsCommon.MyMessageBoxShow(Me, " From and To Location Can't Be Same At Row No: " & (i + 1))
                     Return False
                 End If
             Next
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -243,9 +243,9 @@ Public Class FrmLocationDistanceMaster
             If clsLocationDistanceMaster.SaveData(arr, trans) Then
                 trans.Commit()
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -256,7 +256,7 @@ Public Class FrmLocationDistanceMaster
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -266,7 +266,7 @@ Public Class FrmLocationDistanceMaster
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(gv.Rows(0).Cells(colFromLocCode).Value) <= 0 AndAlso clsCommon.myLen(gv.Rows(0).Cells(colToLocCode).Value) <= 0 AndAlso clsCommon.myCdbl(gv.Rows(0).Cells(colDistance).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Data For Deletion First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Data For Deletion First", Me.Text)
             Return
         End If
 
@@ -278,12 +278,12 @@ Public Class FrmLocationDistanceMaster
             Dim qry As String = "delete from tspl_location_distance_master "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
 
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

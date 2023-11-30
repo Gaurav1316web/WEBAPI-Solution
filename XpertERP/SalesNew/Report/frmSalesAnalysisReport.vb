@@ -150,10 +150,10 @@ Public Class frmSalesAnalysisReport
         Try
             Dim dt As DataTable
             If chkLocSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
                 Return
             ElseIf chkClassSelect.IsChecked = True AndAlso chkCustomer.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer or select ALL", Me.Text)
                 Return
             End If
             Dim strSql, strSettlement, strFOC, strLocAll, strClassAll As String
@@ -752,7 +752,7 @@ Public Class frmSalesAnalysisReport
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 gv1.DataSource = dt
@@ -761,7 +761,7 @@ Public Class frmSalesAnalysisReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1589,7 +1589,7 @@ Public Class frmSalesAnalysisReport
         If gv1.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
 
@@ -1656,7 +1656,7 @@ Public Class frmSalesAnalysisReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2360,7 +2360,7 @@ Public Class frmSalesAnalysisReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return dt
     End Function

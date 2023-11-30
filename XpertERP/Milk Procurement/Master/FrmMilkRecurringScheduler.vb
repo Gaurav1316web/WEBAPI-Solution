@@ -16,7 +16,7 @@ Public Class FrmMilkRecurringScheduler
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.FrmMilkRecurringScheduler)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -178,7 +178,7 @@ Public Class FrmMilkRecurringScheduler
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -353,9 +353,9 @@ Public Class FrmMilkRecurringScheduler
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsFrmMilkRecurringScheduler.SaveData(obj.code, trans, obj, isNewEntry) Then
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
                 btnsave.Text = "Update"
@@ -379,7 +379,7 @@ Public Class FrmMilkRecurringScheduler
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(fndcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Route Code For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Route Code For Deletion", Me.Text)
             fndcode.Focus()
             fndcode.Select()
             Errorcontrol.SetError(fndcode, "Please Select Route Code For Deletion")
@@ -392,11 +392,11 @@ Public Class FrmMilkRecurringScheduler
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found For Deletion", Me.Text)
             Return
         End If
 
-        If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Delete The Route Master Of Route Code " + fndcode.Value + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+        If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Delete The Route Master Of Route Code " + fndcode.Value + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
             Return
         End If
 
@@ -405,12 +405,12 @@ Public Class FrmMilkRecurringScheduler
             qry = "delete from tspl_mcc_route_master where route_code='" + fndcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             trans.Commit()
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -589,7 +589,7 @@ Public Class FrmMilkRecurringScheduler
                 IsInsieLoadData = False
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -711,11 +711,11 @@ Public Class FrmMilkRecurringScheduler
                 Next
 
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 Reset()
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)

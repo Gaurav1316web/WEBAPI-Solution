@@ -47,7 +47,7 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
                 gv.Rows.AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -102,7 +102,7 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
             gv.MasterTemplate.ShowRowHeaderColumn = False
             gv.TableElement.TableHeaderHeight = 40
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -125,7 +125,7 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -149,7 +149,7 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
                 SaveData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub
@@ -172,7 +172,7 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
             Throw New Exception("No data found to save")
         End If
         clsMCCVehicleFreightChargesMapping.SaveData(strMCCCode, arr)
-        clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
         btnclose.PerformClick()
     End Sub
 
@@ -180,7 +180,7 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv.UserDeletingRow
-        If clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -189,11 +189,11 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
         Try
             If clsCommon.MyMessageBoxShow("Delete The Current Mapping." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 clsMCCVehicleFreightChargesMapping.DeleteData(strMCCCode, Nothing)
-                clsCommon.MyMessageBoxShow("Data deleted successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data deleted successfully", Me.Text)
                 btnclose.PerformClick()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -218,7 +218,7 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -263,11 +263,11 @@ Public Class frmMCCWiseVehicleAndFreightChargesMapping
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Error at row no " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Error at row no " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)

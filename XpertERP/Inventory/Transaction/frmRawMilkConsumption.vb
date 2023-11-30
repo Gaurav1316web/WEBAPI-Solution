@@ -729,7 +729,7 @@ Public Class frmRawMilkConsumption
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isCellValueChangedOpen = False
         End Try
@@ -869,7 +869,7 @@ Public Class frmRawMilkConsumption
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
             Exit Sub
         End If
 
@@ -1427,10 +1427,10 @@ Public Class frmRawMilkConsumption
 
                 '=============preet Gupta Ticket no.[BM00000005981]========
                 If Not isFlag Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Adjustment_No, NavigatorType.Current)
                 Else
-                    clsCommon.MyMessageBoxShow("Data posted successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully")
                 End If
                 'End If
 
@@ -1439,7 +1439,7 @@ Public Class frmRawMilkConsumption
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -1568,7 +1568,7 @@ Public Class frmRawMilkConsumption
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1654,7 +1654,7 @@ Public Class frmRawMilkConsumption
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -1681,7 +1681,7 @@ Public Class frmRawMilkConsumption
                 End If
                 If (ClsJobWorkRMConsum.DeleteData(txtAdjustmentNo.Value, AdjustmentEnum.strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     AddNew()
                 End If
             End If
@@ -1710,7 +1710,7 @@ Public Class frmRawMilkConsumption
             End If
             LoadData(txtAdjustmentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1833,7 +1833,7 @@ Public Class frmRawMilkConsumption
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message)
+            RadMessageBox.Show(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Function chkDuplicateValue(gv As RadGridView, columnName As String) As Boolean
@@ -2013,7 +2013,7 @@ Public Class frmRawMilkConsumption
                 End If
 
                 Dim isSaved As Boolean = obj.SaveData(obj, True, "RM")
-                RadMessageBox.Show("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                RadMessageBox.Show(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
 
                 myMessages.myExceptions(ex)
@@ -2045,7 +2045,7 @@ Public Class frmRawMilkConsumption
             End If
             PrintData(txtAdjustmentNo.Value, False, False)
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message, Me.Text)
+            RadMessageBox.Show(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2216,7 +2216,7 @@ Public Class frmRawMilkConsumption
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message)
+            RadMessageBox.Show(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2238,13 +2238,13 @@ Public Class frmRawMilkConsumption
                 If ClsJobWorkRMConsum.ReverseAndUnpost(txtAdjustmentNo.Value, trans) Then
                     saveCancelLog(Reason, "Reverse And Recreate", trans)
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2295,7 +2295,7 @@ Public Class frmRawMilkConsumption
         If clsCommon.myLen(txtBarCode.Text) > 0 Then
             Dim obj As clsBarCodeGenerator = clsBarCodeGenerator.GetData(txtBarCode.Text)
             If obj Is Nothing Then
-                clsCommon.MyMessageBoxShow("Not a Valid Barcode", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Not a Valid Barcode", Me.Text)
                 txtBarCode.Text = ""
                 Exit Sub
             End If
@@ -2602,7 +2602,7 @@ Public Class frmRawMilkConsumption
                 Next
                 trans.Commit()
 
-                RadMessageBox.Show("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                RadMessageBox.Show(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()
@@ -2711,7 +2711,7 @@ Public Class frmRawMilkConsumption
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return obj
     End Function
@@ -2719,10 +2719,10 @@ Public Class frmRawMilkConsumption
     Private Sub cmdEditAndPost_Click(sender As Object, e As EventArgs) Handles cmdEditAndPost.Click
         '' added by Panch raj against Ticket No:BM00000008482
         If clsCommon.myLen(txtAdjustmentNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Posted Document.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Posted Document.")
             Exit Sub
         ElseIf UsLock1.Status <> ERPTransactionStatus.Posted And UsLock1.Status <> ERPTransactionStatus.Approved Then
-            clsCommon.MyMessageBoxShow("Document must be posted for Edit and Post.")
+            clsCommon.MyMessageBoxShow(Me, "Document must be posted for Edit and Post.")
             Exit Sub
         End If
         Dim objNew As New ClsJobWorkRMConsum
@@ -2744,7 +2744,7 @@ Public Class frmRawMilkConsumption
             isSaved = isSaved AndAlso objNew.SaveData(objNew, False, "", trans, "RM")
             isSaved = isSaved AndAlso ClsJobWorkRMConsum.PostData(objNew.Adjustment_No, "Store Adjustment", trans, True, VoucherNo)
             trans.Commit()
-            RadMessageBox.Show("Edit and Posted Completed!", Me.Text, MessageBoxButtons.OK)
+            RadMessageBox.Show(Me, "Edit and Posted Completed!", Me.Text, MessageBoxButtons.OK)
             Return isSaved
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -3207,11 +3207,11 @@ Public Class frmRawMilkConsumption
                 Next
 
                 clsCommon.ProgressBarHide()
-                RadMessageBox.Show("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                RadMessageBox.Show(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
         End If
@@ -3424,7 +3424,7 @@ Public Class frmRawMilkConsumption
                     Next
                 End If
                 Dim isSaved As Boolean = obj.SaveData(obj, True, "", Nothing, "RM")
-                RadMessageBox.Show("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                RadMessageBox.Show(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
             End Try
