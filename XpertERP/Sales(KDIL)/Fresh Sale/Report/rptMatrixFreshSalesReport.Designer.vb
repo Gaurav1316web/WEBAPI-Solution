@@ -22,20 +22,17 @@ Partial Class RptMatrixFreshSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -44,12 +41,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnBoths = New System.Windows.Forms.RadioButton()
-        Me.rbtnMrng = New System.Windows.Forms.RadioButton()
-        Me.rbtnEvng = New System.Windows.Forms.RadioButton()
-        Me.ddlReportType = New Telerik.WinControls.UI.RadDropDownList()
-        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.fndCustomer = New common.UserControls.txtFinder()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -140,10 +131,6 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox7.SuspendLayout()
-        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -277,9 +264,6 @@ Partial Class RptMatrixFreshSalesReport
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
-        Me.RadPageViewPage1.Controls.Add(Me.ddlReportType)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -319,75 +303,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(955, 424)
         Me.RadPageViewPage1.Text = "Filters"
-        '
-        'RadGroupBox7
-        '
-        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox7.Controls.Add(Me.rbtnBoths)
-        Me.RadGroupBox7.Controls.Add(Me.rbtnMrng)
-        Me.RadGroupBox7.Controls.Add(Me.rbtnEvng)
-        Me.RadGroupBox7.HeaderText = ""
-        Me.RadGroupBox7.Location = New System.Drawing.Point(292, 6)
-        Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(250, 26)
-        Me.RadGroupBox7.TabIndex = 439
-        '
-        'rbtnBoths
-        '
-        Me.rbtnBoths.AutoSize = True
-        Me.rbtnBoths.Location = New System.Drawing.Point(186, 4)
-        Me.rbtnBoths.Name = "rbtnBoths"
-        Me.rbtnBoths.Size = New System.Drawing.Size(49, 17)
-        Me.rbtnBoths.TabIndex = 442
-        Me.rbtnBoths.Text = "Both"
-        Me.rbtnBoths.UseVisualStyleBackColor = True
-        '
-        'rbtnMrng
-        '
-        Me.rbtnMrng.AutoSize = True
-        Me.rbtnMrng.Checked = True
-        Me.rbtnMrng.Location = New System.Drawing.Point(5, 4)
-        Me.rbtnMrng.Name = "rbtnMrng"
-        Me.rbtnMrng.Size = New System.Drawing.Size(70, 17)
-        Me.rbtnMrng.TabIndex = 440
-        Me.rbtnMrng.TabStop = True
-        Me.rbtnMrng.Text = "Morning"
-        Me.rbtnMrng.UseVisualStyleBackColor = True
-        '
-        'rbtnEvng
-        '
-        Me.rbtnEvng.AutoSize = True
-        Me.rbtnEvng.Location = New System.Drawing.Point(98, 4)
-        Me.rbtnEvng.Name = "rbtnEvng"
-        Me.rbtnEvng.Size = New System.Drawing.Size(66, 17)
-        Me.rbtnEvng.TabIndex = 441
-        Me.rbtnEvng.Text = "Evening"
-        Me.rbtnEvng.UseVisualStyleBackColor = True
-        '
-        'ddlReportType
-        '
-        Me.ddlReportType.AutoCompleteDisplayMember = Nothing
-        Me.ddlReportType.AutoCompleteValueMember = Nothing
-        Me.ddlReportType.DropDownAnimationEnabled = True
-        RadListDataItem15.Text = "Both"
-        RadListDataItem16.Text = "Sale Invoice"
-        RadListDataItem17.Text = "Sale Return"
-        Me.ddlReportType.Items.Add(RadListDataItem15)
-        Me.ddlReportType.Items.Add(RadListDataItem16)
-        Me.ddlReportType.Items.Add(RadListDataItem17)
-        Me.ddlReportType.Location = New System.Drawing.Point(128, 6)
-        Me.ddlReportType.Name = "ddlReportType"
-        Me.ddlReportType.Size = New System.Drawing.Size(121, 20)
-        Me.ddlReportType.TabIndex = 438
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Location = New System.Drawing.Point(16, 7)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(67, 18)
-        Me.MyLabel15.TabIndex = 437
-        Me.MyLabel15.Text = "Report Type"
         '
         'RadGroupBox5
         '
@@ -682,14 +597,14 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlPTSShift.AutoCompleteValueMember = Nothing
         Me.ddlPTSShift.DropDownAnimationEnabled = True
         Me.ddlPTSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "Both"
-        RadListDataItem2.Text = "Morning"
-        RadListDataItem3.Text = "Evening"
-        RadListDataItem18.Text = "Shift Wise"
-        Me.ddlPTSShift.Items.Add(RadListDataItem1)
-        Me.ddlPTSShift.Items.Add(RadListDataItem2)
-        Me.ddlPTSShift.Items.Add(RadListDataItem3)
-        Me.ddlPTSShift.Items.Add(RadListDataItem18)
+        RadListDataItem12.Text = "Both"
+        RadListDataItem13.Text = "Morning"
+        RadListDataItem14.Text = "Evening"
+        RadListDataItem15.Text = "Shift Wise"
+        Me.ddlPTSShift.Items.Add(RadListDataItem12)
+        Me.ddlPTSShift.Items.Add(RadListDataItem13)
+        Me.ddlPTSShift.Items.Add(RadListDataItem14)
+        Me.ddlPTSShift.Items.Add(RadListDataItem15)
         Me.ddlPTSShift.Location = New System.Drawing.Point(64, 40)
         Me.ddlPTSShift.Name = "ddlPTSShift"
         Me.ddlPTSShift.Size = New System.Drawing.Size(194, 20)
@@ -847,14 +762,14 @@ Partial Class RptMatrixFreshSalesReport
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem7.Text = "Both"
-        RadListDataItem12.Text = "Morning"
-        RadListDataItem13.Text = "Evening"
-        RadListDataItem14.Text = "Shift Wise"
-        Me.cboShift.Items.Add(RadListDataItem7)
-        Me.cboShift.Items.Add(RadListDataItem12)
-        Me.cboShift.Items.Add(RadListDataItem13)
-        Me.cboShift.Items.Add(RadListDataItem14)
+        RadListDataItem4.Text = "Both"
+        RadListDataItem9.Text = "Morning"
+        RadListDataItem10.Text = "Evening"
+        RadListDataItem11.Text = "Shift Wise"
+        Me.cboShift.Items.Add(RadListDataItem4)
+        Me.cboShift.Items.Add(RadListDataItem9)
+        Me.cboShift.Items.Add(RadListDataItem10)
+        Me.cboShift.Items.Add(RadListDataItem11)
         Me.cboShift.Location = New System.Drawing.Point(122, 25)
         Me.cboShift.Name = "cboShift"
         Me.cboShift.Size = New System.Drawing.Size(91, 20)
@@ -904,7 +819,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         'chkFirstAndSecondSpell
         '
-        Me.chkFirstAndSecondSpell.Location = New System.Drawing.Point(282, 111)
+        Me.chkFirstAndSecondSpell.Location = New System.Drawing.Point(282, 73)
         Me.chkFirstAndSecondSpell.Name = "chkFirstAndSecondSpell"
         Me.chkFirstAndSecondSpell.Size = New System.Drawing.Size(232, 18)
         Me.chkFirstAndSecondSpell.TabIndex = 421
@@ -913,7 +828,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         'chkFilterByCreatedDate
         '
-        Me.chkFilterByCreatedDate.Location = New System.Drawing.Point(268, 56)
+        Me.chkFilterByCreatedDate.Location = New System.Drawing.Point(268, 18)
         Me.chkFilterByCreatedDate.Name = "chkFilterByCreatedDate"
         Me.chkFilterByCreatedDate.Size = New System.Drawing.Size(129, 18)
         Me.chkFilterByCreatedDate.TabIndex = 420
@@ -923,7 +838,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.TxtMultiCustomerCategory.arrDispalyMember = Nothing
         Me.TxtMultiCustomerCategory.arrValueMember = Nothing
-        Me.TxtMultiCustomerCategory.Location = New System.Drawing.Point(133, 324)
+        Me.TxtMultiCustomerCategory.Location = New System.Drawing.Point(133, 282)
         Me.TxtMultiCustomerCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiCustomerCategory.MyLinkLable1 = Nothing
         Me.TxtMultiCustomerCategory.MyLinkLable2 = Nothing
@@ -936,7 +851,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(21, 324)
+        Me.MyLabel6.Location = New System.Drawing.Point(21, 282)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(103, 18)
         Me.MyLabel6.TabIndex = 418
@@ -946,7 +861,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtBookingType.arrDispalyMember = Nothing
         Me.txtBookingType.arrValueMember = Nothing
-        Me.txtBookingType.Location = New System.Drawing.Point(133, 303)
+        Me.txtBookingType.Location = New System.Drawing.Point(133, 261)
         Me.txtBookingType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBookingType.MyLinkLable1 = Me.MyLabel5
         Me.txtBookingType.MyLinkLable2 = Nothing
@@ -959,7 +874,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(21, 303)
+        Me.MyLabel5.Location = New System.Drawing.Point(21, 261)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(75, 18)
         Me.MyLabel5.TabIndex = 400
@@ -967,7 +882,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         'chkSummary
         '
-        Me.chkSummary.Location = New System.Drawing.Point(282, 87)
+        Me.chkSummary.Location = New System.Drawing.Point(282, 49)
         Me.chkSummary.Name = "chkSummary"
         Me.chkSummary.Size = New System.Drawing.Size(67, 18)
         Me.chkSummary.TabIndex = 398
@@ -979,13 +894,13 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlInvocieType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvocieType.AutoCompleteValueMember = Nothing
         Me.ddlInvocieType.DropDownAnimationEnabled = True
-        RadListDataItem4.Text = "Both"
-        RadListDataItem5.Text = "Sale Invoice"
-        RadListDataItem6.Text = "Sale Return"
-        Me.ddlInvocieType.Items.Add(RadListDataItem4)
-        Me.ddlInvocieType.Items.Add(RadListDataItem5)
-        Me.ddlInvocieType.Items.Add(RadListDataItem6)
-        Me.ddlInvocieType.Location = New System.Drawing.Point(133, 346)
+        RadListDataItem1.Text = "Both"
+        RadListDataItem2.Text = "Sale Invoice"
+        RadListDataItem3.Text = "Sale Return"
+        Me.ddlInvocieType.Items.Add(RadListDataItem1)
+        Me.ddlInvocieType.Items.Add(RadListDataItem2)
+        Me.ddlInvocieType.Items.Add(RadListDataItem3)
+        Me.ddlInvocieType.Location = New System.Drawing.Point(133, 304)
         Me.ddlInvocieType.Name = "ddlInvocieType"
         Me.ddlInvocieType.Size = New System.Drawing.Size(121, 20)
         Me.ddlInvocieType.TabIndex = 397
@@ -993,7 +908,7 @@ Partial Class RptMatrixFreshSalesReport
         'lblSubCategory
         '
         Me.lblSubCategory.FieldName = Nothing
-        Me.lblSubCategory.Location = New System.Drawing.Point(21, 347)
+        Me.lblSubCategory.Location = New System.Drawing.Point(21, 305)
         Me.lblSubCategory.Name = "lblSubCategory"
         Me.lblSubCategory.Size = New System.Drawing.Size(69, 18)
         Me.lblSubCategory.TabIndex = 396
@@ -1003,7 +918,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.chkSaleInvoiceWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkSaleInvoiceWise.Location = New System.Drawing.Point(21, 111)
+        Me.chkSaleInvoiceWise.Location = New System.Drawing.Point(21, 73)
         Me.chkSaleInvoiceWise.Name = "chkSaleInvoiceWise"
         Me.chkSaleInvoiceWise.Size = New System.Drawing.Size(106, 18)
         Me.chkSaleInvoiceWise.TabIndex = 395
@@ -1013,7 +928,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.TxtUOM.arrDispalyMember = Nothing
         Me.TxtUOM.arrValueMember = Nothing
-        Me.TxtUOM.Location = New System.Drawing.Point(133, 282)
+        Me.TxtUOM.Location = New System.Drawing.Point(133, 240)
         Me.TxtUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtUOM.MyLinkLable1 = Me.MyLabel4
         Me.TxtUOM.MyLinkLable2 = Nothing
@@ -1026,7 +941,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(21, 282)
+        Me.MyLabel4.Location = New System.Drawing.Point(21, 240)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(33, 18)
         Me.MyLabel4.TabIndex = 394
@@ -1036,7 +951,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.TxtRoute.arrDispalyMember = Nothing
         Me.TxtRoute.arrValueMember = Nothing
-        Me.TxtRoute.Location = New System.Drawing.Point(133, 261)
+        Me.TxtRoute.Location = New System.Drawing.Point(133, 219)
         Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtRoute.MyLinkLable1 = Me.MyLabel10
         Me.TxtRoute.MyLinkLable2 = Nothing
@@ -1049,7 +964,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(21, 261)
+        Me.MyLabel10.Location = New System.Drawing.Point(21, 219)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel10.TabIndex = 392
@@ -1059,7 +974,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.chkBookingWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkBookingWise.Location = New System.Drawing.Point(21, 87)
+        Me.chkBookingWise.Location = New System.Drawing.Point(21, 49)
         Me.chkBookingWise.Name = "chkBookingWise"
         Me.chkBookingWise.Size = New System.Drawing.Size(89, 18)
         Me.chkBookingWise.TabIndex = 390
@@ -1069,7 +984,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(21, 199)
+        Me.MyLabel3.Location = New System.Drawing.Point(21, 157)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(31, 18)
         Me.MyLabel3.TabIndex = 389
@@ -1079,7 +994,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtLorry.arrDispalyMember = Nothing
         Me.txtLorry.arrValueMember = Nothing
-        Me.txtLorry.Location = New System.Drawing.Point(133, 199)
+        Me.txtLorry.Location = New System.Drawing.Point(133, 157)
         Me.txtLorry.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLorry.MyLinkLable1 = Me.MyLabel3
         Me.txtLorry.MyLinkLable2 = Nothing
@@ -1092,7 +1007,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.lblCustomer.FieldName = Nothing
         Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomer.Location = New System.Drawing.Point(21, 158)
+        Me.lblCustomer.Location = New System.Drawing.Point(21, 116)
         Me.lblCustomer.Name = "lblCustomer"
         Me.lblCustomer.Size = New System.Drawing.Size(55, 18)
         Me.lblCustomer.TabIndex = 387
@@ -1102,7 +1017,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtCustomer.arrDispalyMember = Nothing
         Me.txtCustomer.arrValueMember = Nothing
-        Me.txtCustomer.Location = New System.Drawing.Point(133, 158)
+        Me.txtCustomer.Location = New System.Drawing.Point(133, 116)
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Nothing
         Me.txtCustomer.MyLinkLable2 = Nothing
@@ -1115,7 +1030,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(21, 178)
+        Me.MyLabel2.Location = New System.Drawing.Point(21, 136)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(58, 18)
         Me.MyLabel2.TabIndex = 385
@@ -1125,7 +1040,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtItemCode.arrDispalyMember = Nothing
         Me.txtItemCode.arrValueMember = Nothing
-        Me.txtItemCode.Location = New System.Drawing.Point(133, 178)
+        Me.txtItemCode.Location = New System.Drawing.Point(133, 136)
         Me.txtItemCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemCode.MyLinkLable1 = Me.MyLabel2
         Me.txtItemCode.MyLinkLable2 = Nothing
@@ -1138,7 +1053,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(21, 240)
+        Me.MyLabel1.Location = New System.Drawing.Point(21, 198)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(32, 18)
         Me.MyLabel1.TabIndex = 383
@@ -1148,7 +1063,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtZone.arrDispalyMember = Nothing
         Me.txtZone.arrValueMember = Nothing
-        Me.txtZone.Location = New System.Drawing.Point(133, 240)
+        Me.txtZone.Location = New System.Drawing.Point(133, 198)
         Me.txtZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtZone.MyLinkLable1 = Me.MyLabel1
         Me.txtZone.MyLinkLable2 = Nothing
@@ -1161,7 +1076,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.lblCustomerGroup.FieldName = Nothing
         Me.lblCustomerGroup.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomerGroup.Location = New System.Drawing.Point(21, 138)
+        Me.lblCustomerGroup.Location = New System.Drawing.Point(21, 96)
         Me.lblCustomerGroup.Name = "lblCustomerGroup"
         Me.lblCustomerGroup.Size = New System.Drawing.Size(89, 18)
         Me.lblCustomerGroup.TabIndex = 381
@@ -1171,7 +1086,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtCustomerGroup.arrDispalyMember = Nothing
         Me.txtCustomerGroup.arrValueMember = Nothing
-        Me.txtCustomerGroup.Location = New System.Drawing.Point(133, 138)
+        Me.txtCustomerGroup.Location = New System.Drawing.Point(133, 96)
         Me.txtCustomerGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomerGroup.MyLinkLable1 = Me.lblCustomerGroup
         Me.txtCustomerGroup.MyLinkLable2 = Nothing
@@ -1184,7 +1099,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(21, 220)
+        Me.lblLocation.Location = New System.Drawing.Point(21, 178)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(49, 18)
         Me.lblLocation.TabIndex = 379
@@ -1194,7 +1109,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtLocation.arrDispalyMember = Nothing
         Me.txtLocation.arrValueMember = Nothing
-        Me.txtLocation.Location = New System.Drawing.Point(133, 220)
+        Me.txtLocation.Location = New System.Drawing.Point(133, 178)
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Me.lblLocation
         Me.txtLocation.MyLinkLable2 = Nothing
@@ -1211,7 +1126,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadGroupBox3.Controls.Add(Me.ToDate)
         Me.RadGroupBox3.Controls.Add(Me.fromDate)
         Me.RadGroupBox3.HeaderText = "Date Range"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 39)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 1)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(246, 42)
@@ -1371,11 +1286,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox7.ResumeLayout(False)
-        Me.RadGroupBox7.PerformLayout()
-        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -1544,11 +1454,5 @@ Partial Class RptMatrixFreshSalesReport
     Friend WithEvents rbtnTaxable As RadioButton
     Friend WithEvents rbtnNonTaxable As RadioButton
     Friend WithEvents fndCustomer As common.UserControls.txtFinder
-    Friend WithEvents RadGroupBox7 As RadGroupBox
-    Friend WithEvents rbtnBoths As RadioButton
-    Friend WithEvents rbtnMrng As RadioButton
-    Friend WithEvents rbtnEvng As RadioButton
-    Friend WithEvents ddlReportType As RadDropDownList
-    Friend WithEvents MyLabel15 As common.Controls.MyLabel
 End Class
 
