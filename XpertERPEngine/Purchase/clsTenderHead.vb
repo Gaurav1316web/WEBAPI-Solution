@@ -950,6 +950,7 @@ select State_Code from TSPL_VENDOR_MASTER where Vendor_Code='" + objTender.Arr(i
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
+        whrcls = " TSPL_TENDER_HEADER.close_yn='N'"
         Dim qry As String = "select DocumentCode as TenderNo,DocumentDate as TenderDate from TSPL_TENDER_HEADER"
         str = clsCommon.ShowSelectForm("TenderFin", qry, "TenderNo", whrcls, curcode, "TenderNo", isButtonClicked)
         Return str
