@@ -76,7 +76,7 @@ Public Class ClsDCSforSale
         Dim obj As ClsDCSforSale = Nothing
         Dim qry As String = "SELECT TSPL_DCS_FOR_SALE.*,TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Name,TSPL_CUSTOMER_LOCATION_MAPPING.Location_Name,TSPL_ZONE_MASTER.Description as Zone_Name FROM TSPL_DCS_FOR_SALE
 left join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code=TSPL_DCS_FOR_SALE.Customer
-left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone where  2=2"
+left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone where  2=2 "
         Dim whrCls As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrCls += " AND Location in (" + objCommonVar.strCurrUserLocations + ")"
@@ -161,7 +161,7 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
         '    obj = ClsDCSforSale.GetData(strCode, NavigatorType.Current)
         'End If
         'Return obj
-        Dim WhrCls As String = "2=2"
+        Dim WhrCls As String = "2=2 and TSPL_DCS_FOR_SALE.active=1"
         If clsCommon.myLen(CustCode) > 0 Then
             WhrCls += " and Customer in('" + clsCommon.myCstr(CustCode) + "')"
             '    WhrCls = " where  TSPL_DCS_FOR_SALE.Active=1 and  " + WhrCls
