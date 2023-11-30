@@ -71,7 +71,7 @@ Public Class FrmMPMaster
                 Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -237,7 +237,7 @@ Public Class FrmMPMaster
                 UcCustomFields1.SetDefaultValues()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function loadAnimals() As DataTable
@@ -321,7 +321,7 @@ Public Class FrmMPMaster
             dgvNoofBuffaloes.ShowGroupPanel = False
             dgvNoofBuffaloes.AddNewRowPosition = SystemRowPosition.Bottom
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -356,7 +356,7 @@ Public Class FrmMPMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmMPMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
         End If
         btnSave.Visible = MyBase.isModifyFlag
@@ -366,13 +366,13 @@ Public Class FrmMPMaster
         Try
             If clsCommon.myLen(txtFAX.Text) > 0 Then
                 If clsCommon.myLen(txtFAX.Text) <> 12 Then
-                    clsCommon.MyMessageBoxShow("Invalid Aadhar No.Please Enter Aadhar No 12 Digit", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invalid Aadhar No.Please Enter Aadhar No 12 Digit", Me.Text)
                     errorControl.SetError(txtFAX, "Invalid Aadhar No.Please Enter Aadhar No 12 Digit")
                     Return False
                 Else
 
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select count(*) from tspl_mp_master where fax='" & clsCommon.myCstr(txtFAX.Text) & "' and MP_Code<>'" & clsCommon.myCstr(fndMPCode.Value) & "'")) > 0 Then
-                        common.clsCommon.MyMessageBoxShow("Same Aadhar No is exist with another MP so please change Aadhar No because Aadhar No is unique.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Same Aadhar No is exist with another MP so please change Aadhar No because Aadhar No is unique.")
                         Return False
                     End If
 
@@ -387,7 +387,7 @@ Public Class FrmMPMaster
             'End If
             If clsCommon.myLen(txtJanAadharNo.Text) > 0 Then
                 If clsCommon.myLen(txtJanAadharNo.Text) <> 10 Then
-                    clsCommon.MyMessageBoxShow("Invalid Jan Aadhar No.Please Enter 10 Digit Jan Aadhar No ", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invalid Jan Aadhar No.Please Enter 10 Digit Jan Aadhar No ", Me.Text)
                     errorControl.SetError(txtJanAadharNo, "Invalid Jan Aadhar No.Please Enter 10 Digit Jan Aadhar No")
                     Return False
                     'Else
@@ -399,7 +399,7 @@ Public Class FrmMPMaster
                 End If
             Else
                 If SettJanAadharNoMandatory Then
-                    clsCommon.MyMessageBoxShow("Please Fill Jan Aadhar No", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill Jan Aadhar No", Me.Text)
                     errorControl.ResetError(txtJanAadharNo)
                     Return False
                 End If
@@ -407,7 +407,7 @@ Public Class FrmMPMaster
 
             If IncentiveAccNoMandatoryInMPMaster = True Then
                 If clsCommon.myLen(txtIncentiveGLAccount.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(" Incentive GL Account Must Not be Blank (Under Bank Detail for Payments)")
+                    clsCommon.MyMessageBoxShow(Me, " Incentive GL Account Must Not be Blank (Under Bank Detail for Payments)", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage5
                     txtIncentiveGLAccount.Focus()
                     errorControl.SetError(txtIncentiveGLAccount, "Incentive GL Account Must Not be Blank ")
@@ -418,7 +418,7 @@ Public Class FrmMPMaster
             End If
 
             If clsCommon.myLen(fndVLCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(" VLC Code Must Not be Blank (Under General Tab)")
+                clsCommon.MyMessageBoxShow(Me, " VLC Code Must Not be Blank (Under General Tab)", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 fndVLCode.Focus()
                 errorControl.SetError(fndVLCode, "VLC Code Must Not be Blank ")
@@ -427,7 +427,7 @@ Public Class FrmMPMaster
                 errorControl.SetError(fndVLCode, "")
             End If
             If clsCommon.myLen(txtMPName.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow(" MP Name Must Not be Blank (Under General Tab)")
+                clsCommon.MyMessageBoxShow(Me, " MP Name Must Not be Blank (Under General Tab)")
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtMPName.Focus()
                 errorControl.SetError(txtMPName, "MP Name Must Not be Blank ")
@@ -505,7 +505,7 @@ Public Class FrmMPMaster
             'End If
             Dim check As Match = Regex.Match(txtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success = False AndAlso txtEmail.Text <> "" Then
-                clsCommon.MyMessageBoxShow(" Please Enter Valid Email, It is in Invalid Format (Under General Tab)")
+                clsCommon.MyMessageBoxShow(Me, " Please Enter Valid Email, It is in Invalid Format (Under General Tab)", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtEmail.Focus()
                 errorControl.SetError(txtEmail, "Please Enter Valid Email, It is in Invalid Format")
@@ -573,7 +573,7 @@ Public Class FrmMPMaster
                 TotCount = TotCount + clsCommon.myCdbl(dgvNoofBuffaloes.Rows(i).Cells(colCountOfAnimal).Value)
             Next
             If TotCount <> clsCommon.myCdbl(txtNoOfBreadableMilkAnimal.Text) Then
-                clsCommon.MyMessageBoxShow(" Total of Animals must be equals to total milch animal count")
+                clsCommon.MyMessageBoxShow(Me, " Total of Animals must be equals to total milch animal count", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage2
                 'dgvNoofBuffaloes.Rows(0).Cells(colDesc).ErrorText = "Total of Animals must be equals to total milch animal count"
                 Return False
@@ -625,7 +625,7 @@ Public Class FrmMPMaster
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -635,7 +635,7 @@ Public Class FrmMPMaster
             Me.Close()
             GC.Collect()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -643,7 +643,7 @@ Public Class FrmMPMaster
         Try
             reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmMPMaster_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -681,14 +681,14 @@ Public Class FrmMPMaster
                 save()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub save()
         Try
             If clsCommon.CompairString(btnSave.Text, "&Update") = CompairStringResult.Equal Then
                 If MyBase.isUpdateFlag = False Then
-                    clsCommon.MyMessageBoxShow("Don't have permission to update MP Master.")
+                    clsCommon.MyMessageBoxShow(Me, "Don't have permission to update MP Master.", Me.Text)
                     Return
                 End If
             End If
@@ -711,7 +711,7 @@ Public Class FrmMPMaster
             If obj.isNewEntry Then
                 obj.MP_Code = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.MPMaster, "", "")
                 If clsCommon.myLen(obj.MP_Code) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error In Document Code Genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error In Document Code Genertion", Me.Text)
                     Exit Sub
                 End If
             Else
@@ -870,7 +870,7 @@ Public Class FrmMPMaster
                         cmd.ExecuteNonQuery()
                         br.Close() ' done by stuti reagrding memory leakage
                     End If
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
                     File_Name = UcCamControl1.PicBox.Tag
                     If clsCommon.myLen(File_Name) > 0 Then
@@ -885,7 +885,7 @@ Public Class FrmMPMaster
                         cmd.ExecuteNonQuery()
                         br.Close() ' done by stuti reagrding memory leakage
                     End If
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
                 loadData(obj.MP_Code, NavigatorType.Current)
@@ -895,14 +895,14 @@ Public Class FrmMPMaster
                 Exit Sub
 
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "&Save"
             btnDelete.Enabled = False
             fndMPCode.MyReadOnly = False
             trans.Rollback()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -927,7 +927,7 @@ Public Class FrmMPMaster
                 fndMPCode.MyReadOnly = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub loadData(ByVal strCode As String, ByVal nav As NavigatorType)
@@ -1132,7 +1132,7 @@ Public Class FrmMPMaster
                 UcCustomFields1.LoadData(obj.MP_Code)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1416,17 +1416,17 @@ Public Class FrmMPMaster
         Try
             UpdateSLNo()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub dgvNoofBuffaloes_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles dgvNoofBuffaloes.UserDeletingRow
         Try
-            If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 e.Cancel = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1436,15 +1436,15 @@ Public Class FrmMPMaster
         Try
             trans = clsDBFuncationality.GetTransactin()
             If clsMpMaster.deleteData(fndMPCode.Value, Me.Form_ID, trans) Then
-                clsCommon.MyMessageBoxShow("Deleted Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 trans.Commit()
                 reset()
             Else
-                clsCommon.MyMessageBoxShow("Delete Unsuccessful.")
+                clsCommon.MyMessageBoxShow(Me, "Delete Unsuccessful.", Me.Text)
                 trans.Rollback()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -1483,7 +1483,7 @@ Public Class FrmMPMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1515,7 +1515,7 @@ Public Class FrmMPMaster
 
             txtVillegeName.Text = clsDBFuncationality.getSingleValue("select distinct village_name from tspl_village_master where village_code='" & fndVillegeCode.Value & "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1527,7 +1527,7 @@ Public Class FrmMPMaster
         '    txtIFCICode.Text = obj.IFSCCode
         'End If
         If clsCommon.myLen(txtBankCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please seclect Bank code First")
+            clsCommon.MyMessageBoxShow(Me, "Please seclect Bank code First", Me.Text)
             Return
         End If
         txtBankBranch.Value = clsVendorBankMaster.getFinderBranch("TSPL_Vendor_Bank_Branch_Details.Bank_Code= '" + txtBankCode.Value + "'", txtBankBranch.Value, isButtonClicked)
@@ -1569,7 +1569,7 @@ Public Class FrmMPMaster
             ListImpExpColumnsSuperMandatory = New List(Of String)({"MP Code"})
             transportSql.ExporttoExcel(str, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2069,17 +2069,17 @@ Public Class FrmMPMaster
                 If isSaved Then
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!, " + Environment.NewLine + " Only Data Regarding Animal Detail is Not Updated Please Import Respective Sheets ", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!, " + Environment.NewLine + " Only Data Regarding Animal Detail is Not Updated Please Import Respective Sheets ", Me.Text, MessageBoxButtons.OK)
                 Else
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow("Data Not Saved. Try again ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Not Saved. Try again ", Me.Text)
                 End If
 
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message & " At Line No : " & i)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i)
             End Try
 
         End If
@@ -2221,7 +2221,7 @@ Public Class FrmMPMaster
             ListImpExpColumnsSuperMandatory = New List(Of String)({"MP Code"})
             transportSql.ExporttoExcel(str, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "AnimalDetails")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2319,11 +2319,11 @@ Public Class FrmMPMaster
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!, ", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!, ", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message & " At Line No : " & i)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i)
             End Try
 
         End If
@@ -2357,10 +2357,10 @@ Public Class FrmMPMaster
                 ' fl.WriteAllText(sfd.FileName, strData)
                 File.WriteAllText(sfd.FileName, strData)
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Completed")
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed", Me.Text)
             End If
         Else
-            clsCommon.MyMessageBoxShow("No Data Found to export")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
         End If
 
     End Sub
@@ -2395,7 +2395,7 @@ Public Class FrmMPMaster
                 txtCustAccSetDesc.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2411,7 +2411,7 @@ Public Class FrmMPMaster
                 txtVendorAccDesc.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2448,7 +2448,7 @@ Public Class FrmMPMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndMPCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select MP Code")
+                clsCommon.MyMessageBoxShow(Me, "Select MP Code")
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndMPCode.Value, "MP_Code", "tspl_mp_master")

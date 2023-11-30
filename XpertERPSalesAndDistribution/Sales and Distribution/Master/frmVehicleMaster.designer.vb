@@ -56,13 +56,14 @@ Partial Class frmVehicleMaster
         Me.RadMenuItem_Close = New Telerik.WinControls.UI.RadMenuItem()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtOneColumnCrate = New common.MyNumBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txtVehicleWeight = New common.MyNumBox()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.pnlmt = New System.Windows.Forms.Panel()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtmtvalue = New common.MyNumBox()
-        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtmtcapacity = New common.MyNumBox()
         Me.fndemployee = New common.UserControls.txtFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -138,7 +139,8 @@ Partial Class frmVehicleMaster
         Me.rbtnratekm = New common.Controls.MyCheckBox()
         Me.rbtKmrange = New common.Controls.MyCheckBox()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.txtOneColumnCrate = New common.MyNumBox()
+        Me.txtDriverName = New common.Controls.MyTextBox()
+        Me.lblDriverName = New common.Controls.MyLabel()
         CType(Me.rlblVehicleID, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblModel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlbltype, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -159,13 +161,14 @@ Partial Class frmVehicleMaster
         CType(Me.rtxtvehicle_Chechis_No, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtOneColumnCrate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVehicleWeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlmt.SuspendLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtmtvalue, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtmtcapacity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSequenceNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -243,7 +246,8 @@ Partial Class frmVehicleMaster
         CType(Me.rbtnratekm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtKmrange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtOneColumnCrate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -523,6 +527,8 @@ Partial Class frmVehicleMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtDriverName)
+        Me.RadGroupBox1.Controls.Add(Me.lblDriverName)
         Me.RadGroupBox1.Controls.Add(Me.txtOneColumnCrate)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel12)
         Me.RadGroupBox1.Controls.Add(Me.txtVehicleWeight)
@@ -592,6 +598,43 @@ Partial Class frmVehicleMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(771, 369)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.ThemeName = "ControlDefault"
+        '
+        'txtOneColumnCrate
+        '
+        Me.txtOneColumnCrate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtOneColumnCrate.CalculationExpression = Nothing
+        Me.txtOneColumnCrate.DecimalPlaces = 2
+        Me.txtOneColumnCrate.FieldCode = Nothing
+        Me.txtOneColumnCrate.FieldDesc = Nothing
+        Me.txtOneColumnCrate.FieldMaxLength = 18
+        Me.txtOneColumnCrate.FieldName = Nothing
+        Me.txtOneColumnCrate.isCalculatedField = False
+        Me.txtOneColumnCrate.IsSourceFromTable = False
+        Me.txtOneColumnCrate.IsSourceFromValueList = False
+        Me.txtOneColumnCrate.IsUnique = False
+        Me.txtOneColumnCrate.Location = New System.Drawing.Point(160, 295)
+        Me.txtOneColumnCrate.MendatroryField = False
+        Me.txtOneColumnCrate.MyLinkLable1 = Me.MyLabel5
+        Me.txtOneColumnCrate.MyLinkLable2 = Nothing
+        Me.txtOneColumnCrate.Name = "txtOneColumnCrate"
+        Me.txtOneColumnCrate.ReferenceFieldDesc = Nothing
+        Me.txtOneColumnCrate.ReferenceFieldName = Nothing
+        Me.txtOneColumnCrate.ReferenceTableName = Nothing
+        Me.txtOneColumnCrate.Size = New System.Drawing.Size(200, 20)
+        Me.txtOneColumnCrate.TabIndex = 62
+        Me.txtOneColumnCrate.Text = "0"
+        Me.txtOneColumnCrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtOneColumnCrate.Value = 0R
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(3, 25)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel5.TabIndex = 56
+        Me.MyLabel5.Text = "MT Value"
         '
         'MyLabel12
         '
@@ -687,16 +730,6 @@ Partial Class frmVehicleMaster
         Me.txtmtvalue.Text = "0"
         Me.txtmtvalue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtmtvalue.Value = 0R
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(3, 25)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(55, 16)
-        Me.MyLabel5.TabIndex = 56
-        Me.MyLabel5.Text = "MT Value"
         '
         'txtmtcapacity
         '
@@ -2023,32 +2056,39 @@ Partial Class frmVehicleMaster
         Me.btnHistory.TabIndex = 37
         Me.btnHistory.Text = "&History"
         '
-        'txtOneColumnCrate
+        'txtDriverName
         '
-        Me.txtOneColumnCrate.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtOneColumnCrate.CalculationExpression = Nothing
-        Me.txtOneColumnCrate.DecimalPlaces = 2
-        Me.txtOneColumnCrate.FieldCode = Nothing
-        Me.txtOneColumnCrate.FieldDesc = Nothing
-        Me.txtOneColumnCrate.FieldMaxLength = 18
-        Me.txtOneColumnCrate.FieldName = Nothing
-        Me.txtOneColumnCrate.isCalculatedField = False
-        Me.txtOneColumnCrate.IsSourceFromTable = False
-        Me.txtOneColumnCrate.IsSourceFromValueList = False
-        Me.txtOneColumnCrate.IsUnique = False
-        Me.txtOneColumnCrate.Location = New System.Drawing.Point(160, 295)
-        Me.txtOneColumnCrate.MendatroryField = False
-        Me.txtOneColumnCrate.MyLinkLable1 = Me.MyLabel5
-        Me.txtOneColumnCrate.MyLinkLable2 = Nothing
-        Me.txtOneColumnCrate.Name = "txtOneColumnCrate"
-        Me.txtOneColumnCrate.ReferenceFieldDesc = Nothing
-        Me.txtOneColumnCrate.ReferenceFieldName = Nothing
-        Me.txtOneColumnCrate.ReferenceTableName = Nothing
-        Me.txtOneColumnCrate.Size = New System.Drawing.Size(200, 20)
-        Me.txtOneColumnCrate.TabIndex = 62
-        Me.txtOneColumnCrate.Text = "0"
-        Me.txtOneColumnCrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtOneColumnCrate.Value = 0R
+        Me.txtDriverName.CalculationExpression = Nothing
+        Me.txtDriverName.FieldCode = Nothing
+        Me.txtDriverName.FieldDesc = Nothing
+        Me.txtDriverName.FieldMaxLength = 0
+        Me.txtDriverName.FieldName = Nothing
+        Me.txtDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDriverName.isCalculatedField = False
+        Me.txtDriverName.IsSourceFromTable = False
+        Me.txtDriverName.IsSourceFromValueList = False
+        Me.txtDriverName.IsUnique = False
+        Me.txtDriverName.Location = New System.Drawing.Point(519, 339)
+        Me.txtDriverName.MaxLength = 11
+        Me.txtDriverName.MendatroryField = False
+        Me.txtDriverName.MyLinkLable1 = Me.lblDriverName
+        Me.txtDriverName.MyLinkLable2 = Nothing
+        Me.txtDriverName.Name = "txtDriverName"
+        Me.txtDriverName.ReferenceFieldDesc = Nothing
+        Me.txtDriverName.ReferenceFieldName = Nothing
+        Me.txtDriverName.ReferenceTableName = Nothing
+        Me.txtDriverName.Size = New System.Drawing.Size(200, 18)
+        Me.txtDriverName.TabIndex = 63
+        '
+        'lblDriverName
+        '
+        Me.lblDriverName.FieldName = Nothing
+        Me.lblDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDriverName.Location = New System.Drawing.Point(373, 340)
+        Me.lblDriverName.Name = "lblDriverName"
+        Me.lblDriverName.Size = New System.Drawing.Size(70, 16)
+        Me.lblDriverName.TabIndex = 64
+        Me.lblDriverName.Text = "Driver Name"
         '
         'frmVehicleMaster
         '
@@ -2084,6 +2124,8 @@ Partial Class frmVehicleMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtOneColumnCrate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVehicleWeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2091,7 +2133,6 @@ Partial Class frmVehicleMaster
         Me.pnlmt.PerformLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtmtvalue, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtmtcapacity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSequenceNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2174,7 +2215,8 @@ Partial Class frmVehicleMaster
         CType(Me.rbtnratekm, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtKmrange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtOneColumnCrate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDriverName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2288,5 +2330,7 @@ Partial Class frmVehicleMaster
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
     Friend WithEvents txtOneColumnCrate As common.MyNumBox
+    Friend WithEvents txtDriverName As common.Controls.MyTextBox
+    Friend WithEvents lblDriverName As common.Controls.MyLabel
 End Class
 

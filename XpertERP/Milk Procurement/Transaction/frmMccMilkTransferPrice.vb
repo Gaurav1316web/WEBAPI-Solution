@@ -134,7 +134,7 @@ Public Class FrmMccMilkTransferPrice
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
@@ -265,7 +265,7 @@ Public Class FrmMccMilkTransferPrice
             'End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -410,12 +410,12 @@ Public Class FrmMccMilkTransferPrice
         Try
             If (deleteConfirm()) Then
                 If (clsMccMilkTransferPrice.DeleteData(fndPriceCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -449,7 +449,7 @@ Public Class FrmMccMilkTransferPrice
 
             LoadData(fndPriceCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -497,7 +497,7 @@ Public Class FrmMccMilkTransferPrice
             CalculateHeadCost()
             CalculateTotalCost()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     

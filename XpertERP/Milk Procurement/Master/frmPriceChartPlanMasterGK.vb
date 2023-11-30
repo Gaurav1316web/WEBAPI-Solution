@@ -44,7 +44,7 @@ Public Class frmPriceChartPlanMasterGK
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.MilkPricePlanning)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
@@ -135,7 +135,7 @@ Public Class frmPriceChartPlanMasterGK
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -207,7 +207,7 @@ Public Class frmPriceChartPlanMasterGK
                 Next
 
                 If clsPriceChartPlanning.SaveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Planning_Code, NavigatorType.Current)
                 End If
             Else
@@ -215,7 +215,7 @@ Public Class frmPriceChartPlanMasterGK
                 btndelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -246,10 +246,10 @@ Public Class frmPriceChartPlanMasterGK
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         Try
             clsPriceChartPlanning.DeleteData(txtCode.Value)
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -327,7 +327,7 @@ Public Class frmPriceChartPlanMasterGK
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -363,7 +363,7 @@ Public Class frmPriceChartPlanMasterGK
             txtFatRatio.Focus()
             txtFatRatio.Select()
             txtFatRatio.Text = "0"
-            clsCommon.MyMessageBoxShow("Fill numeric value only.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Fill numeric value only.", Me.Text)
         End Try
         Try
             txtSNFRatio.Text = 100 - clsCommon.myCdbl(txtFatRatio.Text)
@@ -372,7 +372,7 @@ Public Class frmPriceChartPlanMasterGK
                 Throw New Exception("Please Fill Ratio Of SNF And FAT." + Environment.NewLine + "There Sum Should be Equal To 100")
             End If
         Catch exx As Exception
-            clsCommon.MyMessageBoxShow(exx.Message)
+            clsCommon.MyMessageBoxShow(Me, exx.Message, Me.Text)
         End Try
     End Sub
 
@@ -385,7 +385,7 @@ Public Class frmPriceChartPlanMasterGK
             txtSNFRatio.Focus()
             txtSNFRatio.Select()
             txtSNFRatio.Text = "0"
-            clsCommon.MyMessageBoxShow("Fill numeric value only.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Fill numeric value only.", Me.Text)
         End Try
         Try
             txtFatRatio.Text = 100 - clsCommon.myCdbl(txtSNFRatio.Text)
@@ -394,7 +394,7 @@ Public Class frmPriceChartPlanMasterGK
                 Throw New Exception("Please Fill Ratio Of SNF And FAT." + Environment.NewLine + "There Sum Should be Equal To 100")
             End If
         Catch exx As Exception
-            clsCommon.MyMessageBoxShow(exx.Message)
+            clsCommon.MyMessageBoxShow(Me, exx.Message, Me.Text)
         End Try
     End Sub
 
@@ -421,7 +421,7 @@ Public Class frmPriceChartPlanMasterGK
                 txtSNFRatio.Text = 0
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -558,7 +558,7 @@ Public Class frmPriceChartPlanMasterGK
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -635,7 +635,7 @@ Public Class frmPriceChartPlanMasterGK
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -720,14 +720,14 @@ Public Class frmPriceChartPlanMasterGK
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_CHART_PLANNING", OMInsertOrUpdate.Update, "Planning_Code='" + txtCode.Value + "'", trans)
 
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             Catch ex As Exception
                 trans.Rollback()
                 Throw New Exception(ex.Message)
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -740,7 +740,7 @@ Public Class frmPriceChartPlanMasterGK
 
     Private Sub txtVLC__My_Click(sender As Object, e As EventArgs) Handles txtVLC._My_Click
         If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select MCC", Me.Text)
             Exit Sub
         End If
 
@@ -805,7 +805,7 @@ Public Class frmPriceChartPlanMasterGK
             gv.AllowRowReorder = True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

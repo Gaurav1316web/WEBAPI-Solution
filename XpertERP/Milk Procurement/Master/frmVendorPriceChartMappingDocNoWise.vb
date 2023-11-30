@@ -21,7 +21,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVendorPriceChartMapping)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -291,7 +291,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
                     End If
                 Next
                 If strcount > 1 Then
-                    clsCommon.MyMessageBoxShow("Select only one location at a time.")
+                    clsCommon.MyMessageBoxShow(Me, "Select only one location at a time.", Me.Text)
                     Return False
                 End If
 
@@ -302,7 +302,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
                         For j As Integer = i + 1 To GvVendor.Rows.Count - 1
                             dblsequencenoInter = clsCommon.myCdbl(GvVendor.Rows(j).Cells("SequenceNo").Value)
                             If dblsequenceno = dblsequencenoInter Then
-                                clsCommon.MyMessageBoxShow("Sequence no should not be same for two customers.")
+                                clsCommon.MyMessageBoxShow(Me, "Sequence no should not be same for two customers.", Me.Text)
                                 Return False
                             End If
                         Next
@@ -311,7 +311,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -419,9 +419,9 @@ Public Class frmVendorPriceChartMappingDocNoWise
                 trans.Commit()
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
 
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -432,7 +432,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -448,12 +448,12 @@ Public Class frmVendorPriceChartMappingDocNoWise
 
             If (deleteConfirm()) Then
                 If (clsVendorPriceChartMappingDocNoWise.DeleteData(fndcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -518,7 +518,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
             '    End If
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -547,7 +547,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -580,7 +580,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
 
             LoadData(fndcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -619,7 +619,7 @@ Public Class frmVendorPriceChartMappingDocNoWise
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnnew_Click(sender As Object, e As EventArgs) Handles btnnew.Click

@@ -103,7 +103,7 @@ Public Class frmItemToItemStockConverion
             If obj.isNewEntry Then
                 obj.Doc_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(dtpDocDate.Value, "dd/MMM/yyyy"), clsDocType.ItemStockConversion, "", obj.Location_Code)
                 If clsCommon.myLen(obj.Doc_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error in Doc  No genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error in Doc  No genertion")
                     Exit Sub
                 End If
             Else
@@ -194,14 +194,14 @@ Public Class frmItemToItemStockConverion
                 btnPost.Enabled = True
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ")
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
             fndDocNo.MyReadOnly = False
             trans.Rollback()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -798,7 +798,7 @@ Public Class frmItemToItemStockConverion
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Function
@@ -824,7 +824,7 @@ Public Class frmItemToItemStockConverion
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -835,7 +835,7 @@ Public Class frmItemToItemStockConverion
 
     Private Sub btnDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         If clsCommon.myLen(fndDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Doc No To delete ")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Doc No To delete ", Me.Text)
         Else
             If myMessages.deleteConfirm() Then
                 If clsItemToItemStockConversion.deleteData(fndDocNo.Value, Nothing) Then
@@ -853,7 +853,7 @@ Public Class frmItemToItemStockConverion
             txtStructname.Text = clsCommon.myCstr(clsItemMaster.GetItemName(fndItemStructure.Value, Nothing))
             chkMRP.Checked = clsItemMaster.IsMRPItem(fndItemStructure.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndLocation__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndLocation._MYValidating
@@ -861,7 +861,7 @@ Public Class frmItemToItemStockConverion
             fndLocation.Value = clsLocation.getFinder("", fndLocation.Value, isButtonClicked)
             lblLocationDesc.Text = clsCommon.myCstr(clsLocation.GetName(fndLocation.Value, Nothing))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -877,13 +877,13 @@ Public Class frmItemToItemStockConverion
 
     Private Sub btnGo_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(fndItemStructure.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select The Item")
+            clsCommon.MyMessageBoxShow(Me, "Please Select The Item")
             fndItemStructure.Focus()
             Exit Sub
         End If
 
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select The Location")
+            clsCommon.MyMessageBoxShow(Me, "Please Select The Location")
             fndLocation.Focus()
             Exit Sub
         End If
@@ -939,7 +939,7 @@ Public Class frmItemToItemStockConverion
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -998,7 +998,7 @@ Public Class frmItemToItemStockConverion
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

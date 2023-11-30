@@ -71,7 +71,7 @@ Public Class RptBulkMilkRegister
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -111,20 +111,20 @@ Public Class RptBulkMilkRegister
     Public Sub Load_Report(Optional ByVal BulkExport As Integer = 0)
         Try
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
             If chkDocTypeSelect.IsChecked AndAlso cbgDocType.CheckedValue.Count = 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single Doc Type or select all.")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single Doc Type or select all.", Me.Text)
                 Exit Sub
             End If
             If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
                 Exit Sub
             End If
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor or select all.", Me.Text)
                 Exit Sub
             End If
             'KUNAL > TICKET : BM00000009895 > DATE : 18-NOV-2016
@@ -518,12 +518,12 @@ TSPL_MCC_Dispatch_Challan On TSPL_MCC_Dispatch_Challan.Chalan_NO = Tspl_Gate_Ent
 
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
             ReStoreGridLayout()
             'View()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' This function wrote by stuti and it is used for UDL and secondary qc work was done by kunal and for udl only 
@@ -1056,19 +1056,19 @@ TSPL_MCC_Dispatch_Challan On TSPL_MCC_Dispatch_Challan.Chalan_NO = Tspl_Gate_Ent
                 obj.GridColumns = gv.ColumnCount
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 ''stuti regarding memory leakage
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub chkDocTypeAll_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkDocTypeAll.ToggleStateChanged
         cbgDocType.Enabled = Not chkDocTypeAll.IsChecked
@@ -1312,7 +1312,7 @@ TSPL_MCC_Dispatch_Challan On TSPL_MCC_Dispatch_Challan.Chalan_NO = Tspl_Gate_Ent
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1384,7 +1384,7 @@ TSPL_MCC_Dispatch_Challan On TSPL_MCC_Dispatch_Challan.Chalan_NO = Tspl_Gate_Ent
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Bulk Milk Register Report", gv, arrHeader, "Bulk Milk Register Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

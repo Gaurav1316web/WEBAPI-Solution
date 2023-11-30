@@ -60,7 +60,7 @@ Public Class FrmVillageMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVillageMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -248,11 +248,11 @@ Public Class FrmVillageMaster
                     Next
                     tran.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     tran.Rollback()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -320,7 +320,7 @@ Public Class FrmVillageMaster
 
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -368,7 +368,7 @@ Public Class FrmVillageMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -395,7 +395,7 @@ Public Class FrmVillageMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -447,12 +447,12 @@ Public Class FrmVillageMaster
                     obj.Expected_Milk_Per_Day_Buffalo = txtExpectedMilkPerDayBuffalo.Value
                 End If
                 If clsfrmVillageMaster.SaveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(fndcode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -482,20 +482,20 @@ Public Class FrmVillageMaster
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(fndcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Village For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Village For Deletion", Me.Text)
             fndcode.Focus()
             fndcode.Select()
             Return
         End If
 
         If DeleteData() Then
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         End If
     End Sub
@@ -538,7 +538,7 @@ Public Class FrmVillageMaster
             End If
         Catch ex As Exception
             txtpin.Text = ""
-            clsCommon.MyMessageBoxShow("Enter Numeric Value.")
+            clsCommon.MyMessageBoxShow(Me, "Enter Numeric Value.", Me.Text)
         End Try
     End Sub
 

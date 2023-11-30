@@ -21,7 +21,7 @@ Public Class FrmInvestmentType
     Public Function SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmInvestmentType)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Return False
         End If
@@ -34,7 +34,7 @@ Public Class FrmInvestmentType
         Dim ITSec As Double = 0
 
         If clsCommon.myLen(txtcode.Value) <= 0 Or clsCommon.myLen(txtcode.Value) > 30 Then
-            common.clsCommon.MyMessageBoxShow("Code can not be left blank")
+            common.clsCommon.MyMessageBoxShow(Me, "Code can not be left blank", Me.Text)
             txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtITSec.Value) <= 0 Then
@@ -96,7 +96,7 @@ Public Class FrmInvestmentType
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (obj.SaveData(obj, isNewEntry, trans)) Then
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                 LoadData(obj.CODE, NavigatorType.Current)
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -110,7 +110,7 @@ Public Class FrmInvestmentType
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow("Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -119,7 +119,7 @@ Public Class FrmInvestmentType
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsInvestmentType.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -159,7 +159,7 @@ Public Class FrmInvestmentType
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 

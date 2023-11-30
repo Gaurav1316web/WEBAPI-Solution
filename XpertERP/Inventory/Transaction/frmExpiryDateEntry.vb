@@ -193,7 +193,7 @@ Public Class FrmExpiryDateEntry
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 Catch ex As Exception
                     trans.Rollback()
-                    common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If

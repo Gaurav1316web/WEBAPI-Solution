@@ -69,13 +69,13 @@ Public Class frmRptFormOfGuarntee
         Try
             Dim StrQuery As String = ""
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Location", Me.Text)
             End If
             If chkCustSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Customer", Me.Text)
             End If
             If chkInvoiceSelect.IsChecked AndAlso cbgInvoice.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Invoice")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Invoice", Me.Text)
             End If
 
 
@@ -120,7 +120,7 @@ Public Class frmRptFormOfGuarntee
             gv1.EnableFiltering = True
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 gv1.DataSource = dt
@@ -143,7 +143,7 @@ Public Class frmRptFormOfGuarntee
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

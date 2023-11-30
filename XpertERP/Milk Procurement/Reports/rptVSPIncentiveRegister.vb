@@ -22,7 +22,7 @@ Public Class rptVSPIncentiveRegister
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -915,7 +915,7 @@ Public Class rptVSPIncentiveRegister
 
         If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
 
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         ' KUNAL > TICKET : BM00000009937 > DATE : 05-0CT-2016 > TASK ADDED COLS : IS_MANUAL, MACHINE_NO
@@ -1088,7 +1088,7 @@ Public Class rptVSPIncentiveRegister
         FormatGrid()
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
             Exit Sub
         End If
 

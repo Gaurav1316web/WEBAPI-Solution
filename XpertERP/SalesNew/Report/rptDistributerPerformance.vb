@@ -131,10 +131,10 @@ Public Class rptDistributerPerformance
         Try
             Dim dt As DataTable
             If chkLocSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
                 Return
             ElseIf chkClassSelect.IsChecked = True AndAlso chkCustomer.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer or select ALL", Me.Text)
                 Return
             End If
             Dim from_date As Date
@@ -217,7 +217,7 @@ Public Class rptDistributerPerformance
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 gv1.DataSource = dt
@@ -391,7 +391,7 @@ Public Class rptDistributerPerformance
         If gv1.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
 
@@ -435,7 +435,7 @@ Public Class rptDistributerPerformance
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

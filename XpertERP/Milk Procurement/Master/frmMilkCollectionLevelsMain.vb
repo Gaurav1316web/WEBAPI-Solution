@@ -35,7 +35,7 @@ Public Class frmMilkCollectionLevelsMain
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
             If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
                 If isShowMsg Then
-                    clsCommon.MyMessageBoxShow("No Data found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to Display", Me.Text)
                 End If
 
             End If
@@ -63,7 +63,7 @@ Public Class frmMilkCollectionLevelsMain
             gv1.Columns(0).IsCurrent = True
             gv1.Focus()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ReStoreGridLayout()
@@ -83,7 +83,7 @@ Public Class frmMilkCollectionLevelsMain
                 End If
             End If
         Catch err As Exception
-            MessageBox.Show(err.Message)
+            MessageBox.Show(Me, err.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_CellDoubleClick(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellDoubleClick
@@ -105,7 +105,7 @@ Public Class frmMilkCollectionLevelsMain
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -115,7 +115,7 @@ Public Class frmMilkCollectionLevelsMain
 
     Private Sub mbtnDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mbtnDeleteLayout.Click
         If clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode) Then
-            clsCommon.MyMessageBoxShow("Layout deleted Successfully", "Information")
+            clsCommon.MyMessageBoxShow(Me, "Layout deleted Successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -184,16 +184,16 @@ Public Class frmMilkCollectionLevelsMain
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     LoadData(False)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try

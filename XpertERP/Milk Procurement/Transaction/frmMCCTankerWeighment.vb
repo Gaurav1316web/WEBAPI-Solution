@@ -28,7 +28,7 @@ Public Class frmMCCTankerWeighment
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -107,7 +107,7 @@ Public Class frmMCCTankerWeighment
                     txtGrossWeight.Value = UcWeighing1.LiveReading
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
             
         ElseIf e.Alt AndAlso e.KeyCode = Keys.N Then
@@ -155,7 +155,7 @@ Public Class frmMCCTankerWeighment
                 LoadData(obj.Document_No, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -222,7 +222,7 @@ Public Class frmMCCTankerWeighment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -265,12 +265,12 @@ Public Class frmMCCTankerWeighment
         Try
             If (deleteConfirm()) Then
                 If (clsMCCWeighment.DeleteData(txtDocumentNo.Value, arrLoc)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -303,7 +303,7 @@ Public Class frmMCCTankerWeighment
             LoadData(txtDocumentNo.Value, NavType)
              
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -341,12 +341,12 @@ Public Class frmMCCTankerWeighment
             If ucStatusTare.Status = ERPTransactionStatus.Pending OrElse ucStatusGros.Status = ERPTransactionStatus.Pending Then
                 If (myMessages.postConfirm()) Then
                     clsMCCWeighment.PostData(txtDocumentNo.Value, arrLoc)
-                    clsCommon.MyMessageBoxShow("Successfully posted")
+                    clsCommon.MyMessageBoxShow("Successfully posted", Me.Text)
                     LoadData(txtDocumentNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

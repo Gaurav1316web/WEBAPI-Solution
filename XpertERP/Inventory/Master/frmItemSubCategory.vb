@@ -79,7 +79,7 @@ Public Class FrmItemSubCategory
         Try
             LoadData(TxtSubCategoryCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -176,14 +176,14 @@ Public Class FrmItemSubCategory
         End If
 
         If clsCommon.myLen(txtCategory.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please Select Category Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Category Code", Me.Text)
             txtCategory.Focus()
             Return False
         End If
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * From TSPL_ITEM_SUB_CATEGORY Where Sub_Category_Code='" + TxtSubCategoryCode.Value + "'")
         If dt.Rows.Count > 0 And isNewEntry Then
-            common.clsCommon.MyMessageBoxShow(Me, "This Code has been already added")
+            common.clsCommon.MyMessageBoxShow(Me, "This Code has been already added", Me.Text)
             TxtSubCategoryCode.Focus()
             Return False
         End If
@@ -206,15 +206,15 @@ Public Class FrmItemSubCategory
                 obj.Description = tbDescription.Text
                 obj.Category_Code = txtCategory.Value
                 If (obj.SaveData(obj, isNewEntry)) And btnSave.Text = "Save" Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Sub_Category_Code, NavigatorType.Current)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Record Updated Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Record Updated Successfully", Me.Text)
                     LoadData(obj.Sub_Category_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -222,7 +222,7 @@ Public Class FrmItemSubCategory
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsItemSubCategory.DeleteData(TxtSubCategoryCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If

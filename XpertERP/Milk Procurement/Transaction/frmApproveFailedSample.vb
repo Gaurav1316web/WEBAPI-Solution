@@ -121,7 +121,7 @@ Public Class frmApproveFailedSample
                 gv1.DataSource = Nothing
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -245,7 +245,7 @@ Public Class frmApproveFailedSample
             gv1.AllowDeleteRow = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -258,10 +258,10 @@ Public Class frmApproveFailedSample
                 End If
             Next
             clsMilkSRNMCC.SaveFailedSampleApproveData(arrSRNNo, txtFromDate.Value, txtToDate.Value)
-            clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

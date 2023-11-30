@@ -302,7 +302,7 @@ Public Class frmIntimation
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvItemBulk_CellEndEdit(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvItemBulk.CellEndEdit
@@ -329,11 +329,11 @@ Public Class frmIntimation
     Private Sub btnDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Dim arr As List(Of String) = New List(Of String)
         If clsCommon.myLen(fndGateEntryNO.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Enter Intimation No To delete ")
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Intimation No To delete ", Me.Text)
         Else
             Dim isUsed As Integer = clsDBFuncationality.getSingleValue("select SUM(row_Count ) from (select COUNT(*) as row_Count from  TSPL_Weighment_Detail where gate_entry_no='" & fndGateEntryNO.Value & "' union all select COUNT(*) as row_Count from tspl_quality_check where gate_entry_no='" & fndGateEntryNO.Value & "') xx ")
             If isUsed > 0 Then
-                clsCommon.MyMessageBoxShow("Gate Entry No is in use")
+                clsCommon.MyMessageBoxShow("Gate Entry No is in use", Me.Text)
                 Exit Sub
             End If
             If myMessages.deleteConfirm() Then
@@ -461,7 +461,7 @@ Public Class frmIntimation
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -480,7 +480,7 @@ Public Class frmIntimation
             If obj.isNewEntry Then
                 obj.Intimation_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm:ss tt"), clsDocType.IntimationScreen, "", fndLocationBulk.Value)
                 If clsCommon.myLen(obj.Intimation_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error in Gate Intimation  No genertion")
+                    clsCommon.MyMessageBoxShow("Error in Gate Intimation  No genertion", Me.Text)
                     Exit Sub
                 End If
             Else
@@ -537,14 +537,14 @@ Public Class frmIntimation
 
             End If
             trans.Rollback()
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow("Data Not Saved ", Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
             fndGateEntryNO.MyReadOnly = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -591,7 +591,7 @@ Public Class frmIntimation
             End If
             dt = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadGrid(ByVal strTankerCode As String)

@@ -46,7 +46,7 @@ Public Class frmVSPMapping
                     Throw New Exception("Please Fill at least one VSP")
                 End If
                 If obj.SaveData(obj, isNewEntry) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
@@ -98,7 +98,7 @@ Public Class frmVSPMapping
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -124,7 +124,7 @@ Public Class frmVSPMapping
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -133,7 +133,7 @@ Public Class frmVSPMapping
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsVSPMapping.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -169,7 +169,7 @@ Public Class frmVSPMapping
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funReset()
@@ -234,7 +234,7 @@ Public Class frmVSPMapping
                     If clsCommon.myLen(txtCode.Value) > 0 Then
                         If clsCommon.MyMessageBoxShow("Current code [" + txtCode.Value + "] will be inactive" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             If (clsVSPMapping.InactiveData(txtCode.Value)) Then
-                                clsCommon.MyMessageBoxShow("Successfully Inactivated")
+                                clsCommon.MyMessageBoxShow(Me, "Successfully Inactivated", Me.Text)
                             End If
                         End If
                     End If
@@ -242,7 +242,7 @@ Public Class frmVSPMapping
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
@@ -262,7 +262,7 @@ Public Class frmVSPMapping
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, Nothing)
             RefreshVSP()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtVSP__My_Click(sender As Object, e As EventArgs) Handles txtVSP._My_Click
@@ -275,7 +275,7 @@ Public Class frmVSPMapping
             txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC", qry, "VSP Code", "VSP Name", txtVSP.arrValueMember, Nothing)
             FillVSPDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -352,12 +352,12 @@ Public Class frmVSPMapping
             End If
             If (myMessages.postConfirm()) Then
                 If (clsVSPMapping.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
@@ -389,7 +389,7 @@ Public Class frmVSPMapping
                         Try
                             clsVSPMappingVSP.SaveData(txtCode.Value, arr, trans)
                             trans.Commit()
-                            clsCommon.MyMessageBoxShow("VSP Added Surressfully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "VSP Added Surressfully", Me.Text)
                             LoadData(txtCode.Value, NavigatorType.Current)
                         Catch ex As Exception
                             trans.Rollback()
@@ -399,7 +399,7 @@ Public Class frmVSPMapping
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

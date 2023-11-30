@@ -316,7 +316,7 @@ Public Class Frmremittanceentry
             Dim strchk As String = "select Posted from TSPL_REMITTANCE_ENTRY where Remittance_Code='" + fndremittance.Value + "'"
             Dim chkpost As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strchk))
             If chkpost = "Y" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -449,12 +449,12 @@ Public Class Frmremittanceentry
                     funpostdata()
                     RemittanceChanged()
                 Else
-                    common.clsCommon.MyMessageBoxShow("Please save before then post the remittance entry")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please save before then post the remittance entry", Me.Text)
 
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -592,7 +592,7 @@ Public Class Frmremittanceentry
         If fndremittance.Value <> "" And btnsave.Text = "Update" Then
             query = "update TSPL_REMITTANCE set Remit_TDS = 'N',Remittance_Main_code=null  WHERE Remittance_Main_code = '" + fndremittance.Value + "'"
             connectSql.RunSql(query)
-            common.clsCommon.MyMessageBoxShow("Void Remittance Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Void Remittance Successfully", Me.Text)
             funpostdata()
         Else
             myMessages.blankValue("Remittance Code")
@@ -912,7 +912,7 @@ Public Class Frmremittanceentry
         Try
 
             If fndremittance.Value = "" Then
-                common.clsCommon.MyMessageBoxShow("Select the Remittance Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Select the Remittance Code", Me.Text)
                 Exit Sub
             End If
 
@@ -930,7 +930,7 @@ Public Class Frmremittanceentry
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -938,10 +938,10 @@ Public Class Frmremittanceentry
         Try
             Dim qry As String = "update TSPL_REMITTANCE_ENTRY set BSR_Code='" + txtbsrcode.Text + "',BSR_Name='" + txtbsrname.Text + "',Challan_No='" + txtchallanno.Text + "',Challan_Date='" + clsCommon.GetPrintDate(dtpchallan.Value, "dd/MMM/yyyy") + "' where Remittance_Code='" + fndremittance.Value + "'"
             If (clsDBFuncationality.ExecuteNonQuery(qry)) Then
-                common.clsCommon.MyMessageBoxShow("BSR and Challan Details Updated successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "BSR and Challan Details Updated successfully", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
         
     End Sub

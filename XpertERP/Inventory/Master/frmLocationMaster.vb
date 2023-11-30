@@ -575,14 +575,14 @@ Public Class frmLocationMaster
             'End If
             If gvItem.CheckedValue.Count <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage12
-                clsCommon.MyMessageBoxShow(Me, "Select Jobwork Item ")
+                clsCommon.MyMessageBoxShow(Me, "Select Jobwork Item ", Me.Text)
                 gvItem.Focus()
                 gvItem.Select()
                 Return False
             End If
             If clsCommon.myLen(clsCommon.myCstr(FndJobworkVendor.Value)) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage12
-                clsCommon.MyMessageBoxShow(Me, "Select Jobwork Vendor")
+                clsCommon.MyMessageBoxShow(Me, "Select Jobwork Vendor", Me.Text)
                 FndJobworkVendor.Focus()
                 FndJobworkVendor.Select()
                 Return False
@@ -592,7 +592,7 @@ Public Class frmLocationMaster
         If objCommonVar.GSTApplicable = True Then
             Dim GSTFinal As String = ""
             If chkregistered.Checked = True AndAlso clsCommon.myLen(txtGSTEntityNo.Text) = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Enter Valid GST No.")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Valid GST No.", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(txtGSTEntityNo.Text) > 0 Then

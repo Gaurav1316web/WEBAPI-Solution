@@ -125,7 +125,7 @@ Public Class FrmAutoSTN
 
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         If clsCommon.myLen(txtToLoc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Order Location")
+            clsCommon.MyMessageBoxShow(Me, "Please select Order Location", Me.Text)
             Exit Sub
         End If
         '-------richa 13/08/2014 Ticket No. BM00000003242---------

@@ -544,7 +544,7 @@ Public Class frmNatureOfDeduction
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -563,7 +563,7 @@ Public Class frmNatureOfDeduction
             Dim preMaxRange As Decimal = CDec(dgvdeduction.CurrentRow.Cells(3).Value)
             If ddldeduction.Text = "Percentage" Then
                 If preMaxRange > 100 Then
-                    common.clsCommon.MyMessageBoxShow("Percent  can not be greater then 100 ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Percent  can not be greater then 100 ", Me.Text)
                     dgvdeduction.CurrentRow.Cells(3).Value = 0
                 End If
             End If
@@ -572,7 +572,7 @@ Public Class frmNatureOfDeduction
             Dim preMaxRange1 As Decimal = CDec(dgvdeduction.CurrentRow.Cells(4).Value)
             If ddldeduction.Text = "Percentage" Then
                 If preMaxRange1 > 100 Then
-                    common.clsCommon.MyMessageBoxShow("Percent  can not be greater then 100 ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Percent  can not be greater then 100 ", Me.Text)
                     dgvdeduction.CurrentRow.Cells(4).Value = 0
                 End If
             End If
@@ -581,7 +581,7 @@ Public Class frmNatureOfDeduction
             Dim preMaxRange2 As Decimal = CDec(dgvdeduction.CurrentRow.Cells(5).Value)
             If ddldeduction.Text = "Percentage" Then
                 If preMaxRange2 > 100 Then
-                    common.clsCommon.MyMessageBoxShow("Percent  can not be greater then 100 ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Percent  can not be greater then 100 ", Me.Text)
                     dgvdeduction.CurrentRow.Cells(5).Value = 0
                 End If
             End If
@@ -589,7 +589,7 @@ Public Class frmNatureOfDeduction
             Dim preMaxRange3 As Decimal = CDec(dgvdeduction.CurrentRow.Cells(6).Value)
             If ddldeduction.Text = "Percentage" Then
                 If preMaxRange3 > 100 Then
-                    common.clsCommon.MyMessageBoxShow("Percent  can not be greater then 100 ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Percent  can not be greater then 100 ", Me.Text)
                     dgvdeduction.CurrentRow.Cells(6).Value = 0
                 End If
             End If
@@ -693,7 +693,7 @@ Public Class frmNatureOfDeduction
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(Fnd_DeductionNew.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Nature of Deduction")
+                clsCommon.MyMessageBoxShow(Me, "Select Nature of Deduction", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowTransHistoryData(Fnd_DeductionNew.Value, "Deduction_Code", "TSPL_TDS_DEDUCTION_HEAD", "TSPL_TDS_DEDUCTION_DETAIL")

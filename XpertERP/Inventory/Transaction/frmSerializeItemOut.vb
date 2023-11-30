@@ -152,7 +152,7 @@ Public Class frmSerializeItemOut
                 End If
             End If
         Catch err As Exception
-            MessageBox.Show(err.Message)
+            MessageBox.Show(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -217,7 +217,7 @@ Public Class frmSerializeItemOut
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -288,7 +288,7 @@ Public Class frmSerializeItemOut
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -303,7 +303,7 @@ Public Class frmSerializeItemOut
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(getQry() + " order by Document_Date ")
         Dim qry As String = getQry()
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Items serial number not found to fill")
+            clsCommon.MyMessageBoxShow(Me, "Items serial number not found to fill", Me.Text)
             isInsideLoadData = False
             Exit Sub
         End If
@@ -410,7 +410,7 @@ Public Class frmSerializeItemOut
             transportSql.ExporttoExcel(qry, Me)
             qry = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -463,7 +463,7 @@ Public Class frmSerializeItemOut
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

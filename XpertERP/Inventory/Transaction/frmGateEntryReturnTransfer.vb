@@ -56,9 +56,9 @@ Public Class frmGateEntryReturnTransfer
             If clsGateEntryReturnTransfer.SaveData(obj, isNewEntry, trans) Then
                 trans.Commit()
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
 
