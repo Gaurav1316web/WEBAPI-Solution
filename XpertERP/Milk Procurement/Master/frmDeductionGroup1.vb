@@ -73,7 +73,7 @@ Public Class FrmDeductionGroup1
         Try
             LoadData(fndCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -137,7 +137,7 @@ Public Class FrmDeductionGroup1
 
                 Next
 
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
 
                 myMessages.myExceptions(ex)
@@ -211,7 +211,7 @@ Public Class FrmDeductionGroup1
                 End If
                 If (clsDeductionGroup.SaveData(obj, isNewEntry)) Then
                     'trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                     btnSave.Text = "Update"
                     btnDelete.Enabled = True
@@ -221,7 +221,7 @@ Public Class FrmDeductionGroup1
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'trans.Rollback()
         End Try
     End Sub
@@ -247,14 +247,14 @@ Public Class FrmDeductionGroup1
 
                 Dim qry As String = "DELETE FROM TSPL_DEDUCTION_GROUP WHERE Ded_Code='" + fndCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub

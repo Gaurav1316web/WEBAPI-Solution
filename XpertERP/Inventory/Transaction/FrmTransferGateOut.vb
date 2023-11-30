@@ -30,7 +30,7 @@ Public Class FrmTransferGateOut
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Sub SaveData()
@@ -62,9 +62,9 @@ Public Class FrmTransferGateOut
             If clsTransferGateOut.saveData(obj, trans) Then
                 trans.Commit()
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully")
                 End If
 
 
@@ -75,7 +75,7 @@ Public Class FrmTransferGateOut
 
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ")
             btnSave.Text = "Update"
             btnDelete.Enabled = False
 
@@ -84,7 +84,7 @@ Public Class FrmTransferGateOut
 
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -175,16 +175,16 @@ Public Class FrmTransferGateOut
                     trans.Commit()
                     Reset()
                 Else
-                    clsCommon.MyMessageBoxShow("Can't delete the record")
+                    clsCommon.MyMessageBoxShow(Me, "Can't delete the record")
                     trans.Rollback()
                 End If
             Else
 
-                clsCommon.MyMessageBoxShow("Please Select a document to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a document to delete")
                 trans.Rollback()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub

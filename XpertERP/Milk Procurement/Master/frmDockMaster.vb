@@ -51,7 +51,7 @@ Public Class frmDockMaster
 
 
             If (clsDockMaster.SaveData(obj)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                 LoadData(obj.Code, NavigatorType.Current)
             End If
         End If
@@ -101,7 +101,7 @@ Public Class frmDockMaster
             Return False
         End If
         If clsCommon.myLen(txtCode.Value) > 20 Then
-            clsCommon.MyMessageBoxShow("Length is greater then 20.")
+            clsCommon.MyMessageBoxShow(Me, "Length is greater then 20.")
             txtCode.Focus()
             Return False
         End If
@@ -114,7 +114,7 @@ Public Class frmDockMaster
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
             Exit Sub
         End If
         ' Code Ends 
@@ -125,7 +125,7 @@ Public Class frmDockMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsDockMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     funReset()
                 End If
             End If
@@ -164,7 +164,7 @@ Public Class frmDockMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -260,7 +260,7 @@ Public Class frmDockMaster
                     Throw New Exception("At Row No" + clsCommon.myCstr(ii) + " " + ex.Message)
                 End Try
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -272,7 +272,7 @@ Public Class frmDockMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select code")
+                clsCommon.MyMessageBoxShow(Me, "Select code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_DOCK_MASTER")
@@ -286,7 +286,7 @@ Public Class frmDockMaster
             fndMCCMaster.Value = clsMccMaster.getFinder("", fndMCCMaster.Value, isButtonClicked)
             LblMccName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Mcc_Name from TSPL_Mcc_MASTER where MCC_Code='" + fndMCCMaster.Value + "' "))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

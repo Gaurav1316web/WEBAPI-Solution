@@ -112,11 +112,11 @@ Public Class FrmTruckSheetRouteWiseRpt
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
 
-                clsCommon.MyMessageBoxShow("No Data Found..")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found..", Me.Text)
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormationOFGV1()
@@ -418,7 +418,7 @@ Public Class FrmTruckSheetRouteWiseRpt
                     clsCommon.MyExportToPDF("TRUCK SHEET FORMAT ROUTE VISE", dgvreport, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -468,7 +468,7 @@ Public Class FrmTruckSheetRouteWiseRpt
             obj.GridColumns = dgvreport.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -478,7 +478,7 @@ Public Class FrmTruckSheetRouteWiseRpt
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         'ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click

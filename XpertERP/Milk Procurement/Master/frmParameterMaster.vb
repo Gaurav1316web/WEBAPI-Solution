@@ -183,7 +183,7 @@ Public Class FrmParameterMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmParameterMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -428,7 +428,7 @@ Public Class FrmParameterMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -497,9 +497,9 @@ Public Class FrmParameterMaster
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsfrmParameterMaster.SaveData(obj.code, isNewEntry, trans, obj) Then
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -514,7 +514,7 @@ Public Class FrmParameterMaster
                 btndelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
@@ -527,7 +527,7 @@ Public Class FrmParameterMaster
 
         Try
             If clsCommon.myLen(fndNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Code For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Code For Deletion", Me.Text)
                 fndNo.Focus()
                 fndNo.Select()
                 Return
@@ -550,12 +550,12 @@ Public Class FrmParameterMaster
             qry = "delete from TSPL_PARAMETER_MASTER where comp_code='" + objCommonVar.CurrentCompanyCode + "' and code='" + clsCommon.myCstr(fndNo.Value) + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             trans.Commit()
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -635,7 +635,7 @@ Public Class FrmParameterMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -889,14 +889,14 @@ Public Class FrmParameterMaster
                 Next
 
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
 
                 'trans.Commit()
                 Reset()
             Catch ex As Exception
                 'trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -920,7 +920,7 @@ Public Class FrmParameterMaster
                     isMMCollection = IIf(clsCommon.CompairString(clsCommon.myCstr(gv.CurrentRow.Cells(colMMCollection).Value), "YES") = CompairStringResult.Equal, 1, 0)
 
                     If clsCommon.CompairString(MccOrPalnt, "PLANT") = CompairStringResult.Equal AndAlso isDispatchPrint = 1 Then
-                        clsCommon.MyMessageBoxShow(" Parameter Applicable for Plant can not be printed on dispatch Challan ")
+                        clsCommon.MyMessageBoxShow(Me, " Parameter Applicable for Plant can not be printed on dispatch Challan ", Me.Text)
                         gv.CurrentRow.Cells(colDispatchPrint).Value = "No"
                         isLoadData = False
                         Exit Sub
@@ -933,7 +933,7 @@ Public Class FrmParameterMaster
                     Next
 
                     If DispCount >= 11 Then
-                        clsCommon.MyMessageBoxShow(" Maximum 10 Parameters Are allowed on Dispatch print ")
+                        clsCommon.MyMessageBoxShow(Me, " Maximum 10 Parameters Are allowed on Dispatch print ", Me.Text)
                         gv.CurrentRow.Cells(colDispatchPrint).Value = "No"
                         isLoadData = False
                         Exit Sub
@@ -949,7 +949,7 @@ Public Class FrmParameterMaster
                     Next
 
                     If (Not clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal) AndAlso (QCCount >= 11) Then
-                        clsCommon.MyMessageBoxShow(" Maximum 10 Parameters Are allowed on QC print ")
+                        clsCommon.MyMessageBoxShow(Me, " Maximum 10 Parameters Are allowed on QC print ", Me.Text)
                         gv.CurrentRow.Cells(colQCPrint).Value = "No"
                         isLoadData = False
                         Exit Sub

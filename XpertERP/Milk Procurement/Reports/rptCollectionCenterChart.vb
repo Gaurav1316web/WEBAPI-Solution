@@ -12,11 +12,11 @@ Public Class rptCollectionCenterChart
         Try
 
             If Me.cboRootDesg.SelectedValue Is Nothing Then
-                clsCommon.MyMessageBoxShow("Please select any Root Collection Center")
+                clsCommon.MyMessageBoxShow(Me, "Please select any Root Collection Center", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(Me.cboRootDesg.SelectedValue.ToString) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select any Root Collection Center")
+                clsCommon.MyMessageBoxShow(Me, "Please select any Root Collection Center", Me.Text)
                 Exit Sub
             End If
             Dim myOrgData As OrgChartGenerator.OrgData.OrgDetailsDataTable = New OrgChartGenerator.OrgData.OrgDetailsDataTable()

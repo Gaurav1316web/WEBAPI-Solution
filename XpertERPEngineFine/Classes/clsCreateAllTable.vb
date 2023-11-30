@@ -23179,6 +23179,11 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modify_By", "varchar(12) NULL")
             coll.Add("Modify_Date", "Datetime NULL")
+            coll.Add("Own_BMC_Qty", "Decimal(18,2) null")
+            coll.Add("Own_BMC_FAT", "Decimal(18,2) null")
+            coll.Add("Own_BMC_SNF", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_Qty", "Decimal(18,2) null")
+            coll.Add("Remarks", "Varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
@@ -23329,6 +23334,11 @@ Public Class clsCreateAllTable
             coll.Add("Trip_No", "Integer not NULL default 1")
             coll.Add("Against_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
             coll.Add("ORG", "Varchar(10) null")
+            coll.Add("Retesting_FAT", "Decimal(18,2) null")
+            coll.Add("Retesting_SNF", "Decimal(18,2) null")
+            coll.Add("Retesting_CLR", "Decimal(18,2) null")
+            coll.Add("Correction_FAT", "Decimal(18,2) null")
+            coll.Add("Correction_SNF", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

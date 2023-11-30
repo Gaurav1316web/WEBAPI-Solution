@@ -346,7 +346,7 @@ Public Class frmPendingTransfer
 
         If ArrReturn.Count <= 0 Then
             ' common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Transfer item.")
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Transfer item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Transfer item")
         Else
             Me.Close()
         End If
@@ -360,7 +360,7 @@ Public Class frmPendingTransfer
             End If
         Next
         If strheaddatacount > 1 Then
-            clsCommon.MyMessageBoxShow("Select only one Transfer at a time.")
+            clsCommon.MyMessageBoxShow(Me, "Select only one Transfer at a time.")
             Return False
         End If
         Return True
@@ -450,7 +450,7 @@ Public Class frmPendingTransfer
                     Dim strToLocCode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colDToLoc).Value)
 
                     If Not clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colDToLoc).Value), ToLocCode) = CompairStringResult.Equal Then
-                        common.clsCommon.MyMessageBoxShow("Can't select Current Transfer.It is For Location:" + strToLocCode)
+                        common.clsCommon.MyMessageBoxShow(Me, "Can't select Current Transfer.It is For Location:" + strToLocCode)
                         e.Cancel = True
                     End If
                 End If
@@ -608,13 +608,13 @@ Public Class frmPendingTransfer
 
 
             If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Pending item found ")
+                common.clsCommon.MyMessageBoxShow(Me, "No Pending item found ")
                 'Me.Close()
             End If
             LoadHeadData()
             LoadBlankGridDetail()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

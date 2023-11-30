@@ -21,7 +21,7 @@ Public Class FrmHouseRentDeclaration
     Public Function SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmHouseRentDeclaration)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Return False
         End If
@@ -35,8 +35,8 @@ Public Class FrmHouseRentDeclaration
         Dim PayPer As Double
         Dim EmpCode As Double
         If clsCommon.myLen(txtCode.Value) <= 0 Or clsCommon.myLen(txtCode.Value) > 30 Then
-            common.clsCommon.MyMessageBoxShow("Code can not be left blank")
-            txtCode.Focus()
+            common.clsCommon.MyMessageBoxShow(Me, "Code can not be left blank", Me.Text)
+            txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtFinYear.Value) <= 0 Then
             myMessages.blankValue("Financial year entry code")
@@ -51,7 +51,7 @@ Public Class FrmHouseRentDeclaration
             TxtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myCdbl(txtHouseRentAmt.Text) < 0 Then
-            clsCommon.MyMessageBoxShow("House rent amount can not be negative")
+            clsCommon.MyMessageBoxShow(Me, "House rent amount can not be negative", Me.Text)
             txtHouseRentAmt.Focus()
             Return False
         End If
@@ -145,7 +145,7 @@ Public Class FrmHouseRentDeclaration
             If (obj.SaveData(obj, isNewEntry, trans)) Then
                 trans.Commit()
                 UcAttachment1.SaveData(obj.CODE)
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.CODE, NavigatorType.Current)
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -159,7 +159,7 @@ Public Class FrmHouseRentDeclaration
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -168,7 +168,7 @@ Public Class FrmHouseRentDeclaration
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsHouseRentDeclaration.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -215,7 +215,7 @@ Public Class FrmHouseRentDeclaration
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -354,7 +354,7 @@ Public Class FrmHouseRentDeclaration
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

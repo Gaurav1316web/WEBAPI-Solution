@@ -65,11 +65,11 @@ Public Class frmMilkCollectionLevels
             If clsCommon.MyMessageBoxShow("Delete the Current User." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim qry As String = "delete from TSPL_MilkCollectionLevels where LEVEL_CODE='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -106,7 +106,7 @@ Public Class frmMilkCollectionLevels
                 Try
                     If clsMilkCollectionLevels.SaveData(obj, isNewEntry, trans) Then
                         trans.Commit()
-                        clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                         LoadData(obj.LEVEL_CODE, NavigatorType.Current)
                     End If
                 Catch ex As Exception
@@ -116,18 +116,18 @@ Public Class frmMilkCollectionLevels
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Function AllowToSave() As Boolean
 
         If (clsCommon.myLen(txtCode.Value) <= 0) Then
-            clsCommon.MyMessageBoxShow("Please select Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select Code", Me.Text)
             Return False
         End If
         If (clsCommon.myLen(txtAccdescription.Text) <= 0) Then
-            clsCommon.MyMessageBoxShow("Description is blank.")
+            clsCommon.MyMessageBoxShow(Me, "Description is blank.", Me.Text)
             Return False
         End If
 

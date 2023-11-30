@@ -110,7 +110,7 @@ Public Class frmPhysicalStockMultipleLocation
             End If
         Catch ex As Exception
             isCellvaluechanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -755,11 +755,11 @@ Public Class frmPhysicalStockMultipleLocation
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
         Try
             If SaveData() Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.")
                 LoadData(txtCode.Value, "", "", NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -889,7 +889,7 @@ Public Class frmPhysicalStockMultipleLocation
             End If
         Catch ex As Exception
             isCellvaluechanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -984,7 +984,7 @@ Public Class frmPhysicalStockMultipleLocation
         Dim whrcls As String
         Dim arr As New ArrayList()
         If txtLocation.arrValueMember Is Nothing OrElse txtLocation.arrValueMember.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please first select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location")
             Return
         End If
 
@@ -1342,7 +1342,7 @@ Public Class frmPhysicalStockMultipleLocation
                 For Each obj As clsBatchInventory In arr
                     strBatchunion += " Batch No - " & clsCommon.myCstr(obj.Batch_No) & "         Qty - " & clsCommon.myCstr(obj.Qty) + Environment.NewLine
                 Next
-                clsCommon.MyMessageBoxShow(strBatchunion, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, strBatchunion, Me.Text)
             End If
         End If
     End Sub
@@ -1387,12 +1387,12 @@ Public Class frmPhysicalStockMultipleLocation
             If (myMessages.postConfirm()) Then
                 If SaveData(True) Then
                     clsPhysicalstock.PostData(txtCode.Value, chkMilk.Checked)
-                    clsCommon.MyMessageBoxShow("Data posted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully.")
                     LoadData(txtCode.Value, "", "", NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1401,11 +1401,11 @@ Public Class frmPhysicalStockMultipleLocation
         isGoClick = True
 
         If txtLocation.arrValueMember Is Nothing OrElse txtLocation.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location.")
             Exit Sub
         End If
         If txtItem.arrValueMember Is Nothing OrElse txtItem.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Item.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Item.")
             Exit Sub
         End If
 
@@ -1422,7 +1422,7 @@ Public Class frmPhysicalStockMultipleLocation
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If clsPhysicalstock.DeleteData(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     reset()
                 End If
             End If
@@ -1435,12 +1435,12 @@ Public Class frmPhysicalStockMultipleLocation
         Try
             If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 If clsPhysicalstock.ReverseAndUnpost(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
                     LoadData(txtCode.Value, "", "", NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1467,7 +1467,7 @@ Public Class frmPhysicalStockMultipleLocation
             End If
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1518,7 +1518,7 @@ Public Class frmPhysicalStockMultipleLocation
                 Next
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gvImport)
             isImport = False

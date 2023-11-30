@@ -138,7 +138,7 @@ Public Class frmIncetiveEntryBySRN
             " order by xx.VSP_CODE"
             txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "PPfPVisrn", qry, "Code", "", txtVSP.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -459,7 +459,7 @@ Public Class frmIncetiveEntryBySRN
             LoadDetailData(clsIncentiveEntryBySRNDetail.GetCalculateIncentive(txtCode.Value, txtMCC.Value, txtMonth.Value, txtVSP.arrValueMember))
             EnableDisableFilter(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -522,10 +522,10 @@ Public Class frmIncetiveEntryBySRN
                 obj.arr.Add(objtr)
             Next
             obj.SaveData(obj, IsNewEntry)
-            clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
             LoadData(obj.Doc_Code, NavigatorType.Current)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -556,7 +556,7 @@ Public Class frmIncetiveEntryBySRN
                 EnableDisableFilter(False)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -608,7 +608,7 @@ Public Class frmIncetiveEntryBySRN
 
             If (myMessages.deleteConfirm()) Then
                 If clsIncentiveEntryBySRNHead.DeleteData(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -625,12 +625,12 @@ Public Class frmIncetiveEntryBySRN
         Try
             If (clsCommon.myLen(txtCode.Value) > 0 AndAlso myMessages.postConfirm()) Then
                 If (clsIncentiveEntryBySRNHead.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -645,7 +645,7 @@ Public Class frmIncetiveEntryBySRN
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -661,7 +661,7 @@ Public Class frmIncetiveEntryBySRN
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document No found.")
+                clsCommon.MyMessageBoxShow("Document No found.", Me.Text)
                 Return
             End If
             Dim frmCRV As New frmCrystalReportViewer()
@@ -685,7 +685,7 @@ Public Class frmIncetiveEntryBySRN
                 frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptIncentiveEntryBySRN", "Incentive")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub
@@ -767,7 +767,7 @@ Public Class frmIncetiveEntryBySRN
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -784,7 +784,7 @@ Public Class frmIncetiveEntryBySRN
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -802,14 +802,14 @@ Public Class frmIncetiveEntryBySRN
             Dim dblAmt As Decimal = dblIncetiveAmt + dblRentAmt + dblArrear - dblDeduction
             gv1.Rows(IntRowNo).Cells(colAmount).Value = dblAmt
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnPrint_VSP_Click(sender As Object, e As EventArgs) Handles btnPrint_VSP.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document No found.")
+                clsCommon.MyMessageBoxShow("Document No found.", Me.Text)
                 Return
             End If
             Dim frmCRV As New frmCrystalReportViewer()
@@ -838,7 +838,7 @@ Public Class frmIncetiveEntryBySRN
                 frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptIncentiveEntryBySRNVSPWise", "Incentive")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 

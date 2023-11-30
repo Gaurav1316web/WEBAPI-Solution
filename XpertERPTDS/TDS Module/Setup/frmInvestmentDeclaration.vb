@@ -22,7 +22,7 @@ Public Class FrmInvestmentDeclaration
     Public Function SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmInvestmentDeclaration)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Return False
         End If
@@ -41,8 +41,8 @@ Public Class FrmInvestmentDeclaration
         Attachment = clsDBFuncationality.getSingleValue("Select Count(*) From TSPL_ATTACHMENTS WHERE FormId ='" & MyBase.Form_ID & "' AND TransactionId ='" & txtCode.Value & "'")
 
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code can not be left blank")
-            txtCode.Focus()
+            common.clsCommon.MyMessageBoxShow("Code can not be left blank", Me.Text)
+            txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtFinYear.Value) <= 0 Then
             myMessages.blankValue("Financial year entry code")
@@ -57,11 +57,11 @@ Public Class FrmInvestmentDeclaration
             TxtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myCdbl(TxtProvAmt.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Provisional amount can not be left blank or negative")
+            clsCommon.MyMessageBoxShow("Provisional amount can not be left blank or negative", Me.Text)
             TxtProvAmt.Focus()
             Return False
         ElseIf clsCommon.myLen(TxtActualAmt.Text) > 0 AndAlso (clsCommon.myCdbl(TxtActualAmt.Text) < 0 Or Not IsNumeric(TxtActualAmt.Text)) Then
-            clsCommon.MyMessageBoxShow("Actual amount can should be in correct format.")
+            clsCommon.MyMessageBoxShow("Actual amount can should be in correct format.", Me.Text)
             TxtActualAmt.Focus()
             Return False
             'ElseIf clsCommon.CompairString(cmbStatus.Text, "Approved") = CompairStringResult.Equal AndAlso Attachment <= 0 Then
@@ -100,7 +100,7 @@ Public Class FrmInvestmentDeclaration
             End If
         Next
         If cmbStatus.Text = "Approved" AndAlso Rows <= 0 Then
-            clsCommon.MyMessageBoxShow("Please make at least one attachment.")
+            clsCommon.MyMessageBoxShow(Me, "Please make at least one attachment.", Me.Text)
             Return False
         End If
         Return True
@@ -210,12 +210,12 @@ Public Class FrmInvestmentDeclaration
                     trans.Commit()
                     UcAttachment1.SaveData(obj.CODE)
                     If IsPost Then
-                        common.clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                         btndelete.Enabled = False
                         btnPost.Enabled = False
                         btnsave.Enabled = False
                     Else
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.CODE, NavigatorType.Current)
                     btnsave.Text = "Update"
@@ -238,7 +238,7 @@ Public Class FrmInvestmentDeclaration
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -247,7 +247,7 @@ Public Class FrmInvestmentDeclaration
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsInvestmentDeclaration.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -270,7 +270,7 @@ Public Class FrmInvestmentDeclaration
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -279,7 +279,7 @@ Public Class FrmInvestmentDeclaration
 
         If (SaveData(True)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
             End If
         End If
 
@@ -327,7 +327,7 @@ Public Class FrmInvestmentDeclaration
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

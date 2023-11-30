@@ -2641,8 +2641,9 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                             frm.ShowDialog()
                         Else
                             If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                                Dim isCorrection As Integer = 0
                                 For Each objMCC As clsMilkCollectionMCC In Arr
-                                    clsMilkCollectionMCC.CorrectionData(objMCC)
+                                    clsMilkCollectionMCC.CorrectionData(objMCC, isCorrection)
                                     'clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
                                 Next
                                 common.clsCommon.MyMessageBoxShow("Data corrected sucessfully", Me.Text, MessageBoxButtons.OK)

@@ -14,6 +14,11 @@ Public Class clsMilkCollectionMCC
     Public Entered_Qty As Decimal
     Public Entered_FATKg As Decimal
     Public Entered_SNFKg As Decimal
+    Public Retesting_FAT As Decimal
+    Public Retesting_SNF As Decimal
+    Public Retesting_CLR As Decimal
+    Public Correction_FAT As Decimal
+    Public Correction_SNF As Decimal
     Public Slip_No As String
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
@@ -290,15 +295,27 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
         Return True
     End Function
 
-    Public Shared Function CorrectionData(ByVal obj As clsMilkCollectionMCC) As Boolean
+    Public Shared Function CorrectionData(ByVal obj As clsMilkCollectionMCC, ByVal isCorrection As Integer) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             HistoryUpdate(obj.Document_No, trans)
 
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
-            clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
-            clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+            If isCorrection = 0 Then
+                clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
+                clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
+                clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+            ElseIf isCorrection = 1 Then
+                clsCommon.AddColumnsForChange(coll, "Correction_FAT", obj.Correction_FAT)
+                clsCommon.AddColumnsForChange(coll, "Correction_SNF", obj.Correction_SNF)
+
+            ElseIf isCorrection = 2 Then
+                clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
+                clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
+                clsCommon.AddColumnsForChange(coll, "Retesting_CLR", obj.Retesting_CLR)
+            End If
+
+
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 

@@ -28,7 +28,7 @@ Public Class rptPTPBill
 
     Private Sub fndSingleMCCCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
         If clsCommon.myLen(txtShed.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("First Select Shed")
+            clsCommon.MyMessageBoxShow(Me, "First Select Shed", Me.Text)
             Return
         End If
         Dim qry As String = " Select MCC_Code , MCC_NAME  from TSPL_MCC_MASTER  "
@@ -38,7 +38,7 @@ Public Class rptPTPBill
 
     Private Sub txtRoute__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRoute._MYValidating
         If clsCommon.myLen(txtMCC.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("First Select MCC")
+            clsCommon.MyMessageBoxShow(Me, "First Select MCC", Me.Text)
             Return
         End If
         Dim qry As String = " select Route_Code as Code,Route_Name as Name from TSPL_MCC_ROUTE_MASTER  "

@@ -22,7 +22,7 @@ Public Class RptMPWiseMilkCollection
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -202,11 +202,11 @@ Public Class RptMPWiseMilkCollection
     Private Sub LoadData()
         If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
             txtFromDate.Focus()
-            clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
             Exit Sub
         End If
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         Dim companyADD, CompName, CompCode As String
@@ -334,7 +334,7 @@ Public Class RptMPWiseMilkCollection
             frmCRV = Nothing
         End If
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
             Exit Sub
         End If
         gv.BestFitColumns()
@@ -501,7 +501,7 @@ Public Class RptMPWiseMilkCollection
 
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -525,7 +525,7 @@ Public Class RptMPWiseMilkCollection
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -534,7 +534,7 @@ Public Class RptMPWiseMilkCollection
     End Sub
     Private Sub rmdeleteLayout_Click(sender As Object, e As EventArgs) Handles rmdeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
         Dim qry As String = " SELECT  DISTINCT RT.Route_Code as Code,RT.Route_Name as Name FROM TSPL_MCC_ROUTE_MASTER RT LEFT JOIN TSPL_VLC_MASTER_HEAD VLC ON RT.Route_Code=VLC.Route_Code where 2=2 "
@@ -567,10 +567,10 @@ Public Class RptMPWiseMilkCollection
             clsCommon.ProgressBarPercentUpdate(10, "Query generated..starting bulk export..")
             transportSql.BulkExport(StrReportName, qry, "order by convert(date,Doc_Date,103)", "xls")
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, "Data exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data exported successfully", Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try

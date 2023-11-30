@@ -115,7 +115,7 @@ Public Class FrmrptTDSLedger
                 " where 2=2  and (Posted is not null) "
         If chkLocSelect.IsChecked Then
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select one location ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select one location ", Me.Text)
                 Return
             End If
             qry += "and TSPL_GL_ACCOUNTS.Account_Seg_Code7 in (" + clsCommon.GetMulcallString(locationArr) + ") "
@@ -169,7 +169,7 @@ Public Class FrmrptTDSLedger
         End If
         If chkLocSelect.IsChecked Then
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select one location ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select one location ", Me.Text)
                 Return
             End If
             qry += " and final.Account_Seg_Code7 in (" + clsCommon.GetMulcallString(locationArr) + ") "
@@ -179,7 +179,7 @@ Public Class FrmrptTDSLedger
             gvReport.DataSource = clsDBFuncationality.GetDataTable(qry)
             FormatGrid()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -386,7 +386,7 @@ Public Class FrmrptTDSLedger
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -411,7 +411,7 @@ Public Class FrmrptTDSLedger
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gvReport.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -482,7 +482,7 @@ Public Class FrmrptTDSLedger
                 clsCommon.MyExportToPDF("TDS Ledger", gvReport, arrHeader, "TDS Ledger", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -497,7 +497,7 @@ Public Class FrmrptTDSLedger
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gvReport.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -509,6 +509,6 @@ Public Class FrmrptTDSLedger
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 End Class

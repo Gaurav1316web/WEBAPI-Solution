@@ -106,7 +106,7 @@ Public Class frmIncetiveEntry
             SetToDate()
             SetIncentiveColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -160,7 +160,7 @@ Public Class frmIncetiveEntry
                 gv1.DataSource = Nothing
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -198,7 +198,7 @@ Public Class frmIncetiveEntry
             " order by xx.VSP_CODE"
             txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "PPfPVie", qry, "Code", "", txtVSP.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -548,7 +548,7 @@ Public Class frmIncetiveEntry
                 Throw New Exception("No data found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -614,10 +614,10 @@ Public Class frmIncetiveEntry
             Next
 
             obj.SaveData(obj, IsNewEntry)
-            clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
             LoadData(obj.Doc_Code, NavigatorType.Current)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -677,7 +677,7 @@ Public Class frmIncetiveEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -695,7 +695,7 @@ Public Class frmIncetiveEntry
 
             If (myMessages.deleteConfirm()) Then
                 If clsIncentiveEntryHead.DeleteData(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -712,12 +712,12 @@ Public Class frmIncetiveEntry
         Try
             If (clsCommon.myLen(txtCode.Value) > 0 AndAlso myMessages.postConfirm()) Then
                 If (clsIncentiveEntryHead.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -733,7 +733,7 @@ Public Class frmIncetiveEntry
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

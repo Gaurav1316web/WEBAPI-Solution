@@ -208,7 +208,7 @@ Public Class FrmMilkCollectionCenters
                 Addnew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Addnew()

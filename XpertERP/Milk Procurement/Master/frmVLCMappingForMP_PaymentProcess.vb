@@ -25,10 +25,10 @@ Public Class frmVLCMappingForMP_PaymentProcess
         Try
             If AllowToSave() Then
                 clsVLCMappingForMP_PaymentProcess.SaveData(txtMCC.Value, txtVLC.arrValueMember)
-                clsCommon.MyMessageBoxShow("Data saved successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -43,7 +43,7 @@ Public Class frmVLCMappingForMP_PaymentProcess
         Try
             LoadData(txtMCC.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -71,7 +71,7 @@ Public Class frmVLCMappingForMP_PaymentProcess
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -97,7 +97,7 @@ Public Class frmVLCMappingForMP_PaymentProcess
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -110,7 +110,7 @@ Public Class frmVLCMappingForMP_PaymentProcess
             Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code where TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
             txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("VLCMAVLC_PaymentProcess", qry, "VLC_Code", "VLC_Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -137,7 +137,7 @@ Public Class frmVLCMappingForMP_PaymentProcess
             Dim qry As String = "select Route_Code,Route_Name from TSPL_MCC_ROUTE_MASTER where MCC_Code='" + txtMCC.Value + "'"
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("VLCMARoute", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

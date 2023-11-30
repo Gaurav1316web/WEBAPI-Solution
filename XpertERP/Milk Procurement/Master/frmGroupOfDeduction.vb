@@ -38,7 +38,7 @@ Public Class FrmGroupOfDeduction
             fndDedGrp.Value = clsCommon.ShowSelectForm("User", qry, "Code", "", fndDedGrp.Value, "Ded_Code", isButtonClicked)
             Refreshsub()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -76,12 +76,12 @@ Public Class FrmGroupOfDeduction
         Dim i As Integer = 0
         Dim j As Integer = 0
         If (clsCommon.myLen(fndDedGrp.Value) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select Deduction Group ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Deduction Group ")
             fndDedGrp.Focus()
             Return
         End If
         If ((cbgMCC.CheckedValue.Count) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select atlist one MCC ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atlist one MCC ")
             cbgMCC.Focus()
             Return
         End If
@@ -93,14 +93,14 @@ Public Class FrmGroupOfDeduction
                 arrMCC.Add(obj)
             Next
             obj.SaveData(DedCode, arrMCC)
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
 
         End If
     End Sub
 
     Public Sub Refreshsub()
         If (clsCommon.myLen(fndDedGrp.Value) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select Deduction Group ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Deduction Group ")
             fndDedGrp.Focus()
             Return
         End If
@@ -140,16 +140,16 @@ Public Class FrmGroupOfDeduction
             If (clsCommon.myLen(fndDedGrp.Value) > 0) Then
                 Dim qry As String = "delete from TSPL_MCC_GROUP_OF_DEDUCTION where Ded_Code='" + fndDedGrp.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Delete Successfuly")
+                clsCommon.MyMessageBoxShow(Me, "Delete Successfuly")
                 Reset()
             Else
-                clsCommon.MyMessageBoxShow(" No data found to be Delete ")
+                clsCommon.MyMessageBoxShow(Me, " No data found to be Delete ")
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use")
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub

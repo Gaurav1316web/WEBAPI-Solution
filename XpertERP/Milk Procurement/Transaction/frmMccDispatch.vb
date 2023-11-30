@@ -788,7 +788,7 @@ Public Class FrmMccDispatch
         Dim qry As String = String.Empty
         Dim TaxType As String = ""
         If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC Name from which dispatch is being made, First")
+            clsCommon.MyMessageBoxShow("Please select MCC Name from which dispatch is being made, First", Me.Text)
             Exit Sub
         End If
         If clsCommon.myLen(fndChalanNo.Value) > 0 Then
@@ -817,7 +817,7 @@ Public Class FrmMccDispatch
                 txtPlantOrMccName.Text = clsDBFuncationality.getSingleValue("select Location_desc from tspl_location_master where Location_code='" & fndPlantOrMCCCode.Value & "'")
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select ' Tanker Dispatch To  ' type First ")
+            clsCommon.MyMessageBoxShow("Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
         End If
     End Sub
 
@@ -955,7 +955,7 @@ Public Class FrmMccDispatch
     Private Sub FrmMccDispatch_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         If clsCommon.CompairString(BtnStart.Text, "Stop") = CompairStringResult.Equal Then
             e.Cancel = True
-            clsCommon.MyMessageBoxShow("Please stop the port before application close")
+            clsCommon.MyMessageBoxShow("Please stop the port before application close", Me.Text)
         End If
     End Sub
 
@@ -1567,7 +1567,7 @@ Public Class FrmMccDispatch
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1586,7 +1586,7 @@ Public Class FrmMccDispatch
                     End If
                 Next
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
         End If
@@ -1607,7 +1607,7 @@ Public Class FrmMccDispatch
                     End If
                 Next
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
         End If
@@ -1800,9 +1800,9 @@ Public Class FrmMccDispatch
                 trans.Commit()
                 If Not isPostbtnClick Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
                     End If
                 End If
                 btnSave.Text = "Update"
@@ -1825,9 +1825,9 @@ Public Class FrmMccDispatch
             'End If
             'Reset()
             If isPostbtnClick Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
 
         End Try
@@ -1841,7 +1841,7 @@ Public Class FrmMccDispatch
                     If clsCommon.MyMessageBoxShow("Want To Delete The Challan No : " & fndChalanNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         If clsMccDispatch.deleteData(fndChalanNo.Value, tran) Then
                             tran.Commit()
-                            clsCommon.MyMessageBoxShow("Deleted successFully")
+                            clsCommon.MyMessageBoxShow("Deleted successFully", Me.Text)
                             Reset()
                         End If
                     End If
@@ -1853,7 +1853,7 @@ Public Class FrmMccDispatch
             End If
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2107,7 +2107,7 @@ Public Class FrmMccDispatch
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isLoad = False
         End Try
@@ -2166,7 +2166,7 @@ Public Class FrmMccDispatch
             End If
             ' txtTareWeight.Text = clsCommon.myFormat(txtTareWeight.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Exit Sub
         End Try
 
@@ -2188,7 +2188,7 @@ Public Class FrmMccDispatch
             End If
             ' txtGrossWeight.Text = clsCommon.myFormat(txtGrossWeight.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Exit Sub
         End Try
 
@@ -2279,7 +2279,7 @@ Public Class FrmMccDispatch
             End If
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -2814,7 +2814,7 @@ Public Class FrmMccDispatch
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2867,7 +2867,7 @@ Public Class FrmMccDispatch
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2949,7 +2949,7 @@ Public Class FrmMccDispatch
                 gv.Rows(0).Cells(SNFColName).Value = clsCommon.myFormat(gv.Rows(0).Cells(SNFColName).Value)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3038,7 +3038,7 @@ Public Class FrmMccDispatch
         If clsCommon.myLen(strItemCode) > 0 Then
         Else
             gvManualSeal.CurrentRow.Cells(colSealNo).Value = ""
-            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found")
+            clsCommon.MyMessageBoxShow(Me, "No Item Of Seal Type Found", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -3067,7 +3067,7 @@ Public Class FrmMccDispatch
         If clsCommon.myLen(strItemCode) > 0 Then
         Else
             gvManualSeal.CurrentRow.Cells(colSealNo).Value = ""
-            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found")
+            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -3125,7 +3125,7 @@ Public Class FrmMccDispatch
             LblFAT.Text = "00.00"
             LblSnf.Text = "00.00"
             objSr.ClosePort()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3196,13 +3196,13 @@ Public Class FrmMccDispatch
         Try
             getProvisionBooking()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub fndUOM__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndUOM._MYValidating
         If clsCommon.myLen(fndItemCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Item Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             fndItemCode.Focus()
             Exit Sub
         End If
@@ -3230,7 +3230,7 @@ Public Class FrmMccDispatch
                 txtControlSampleFAT.Focus()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3276,7 +3276,7 @@ Public Class FrmMccDispatch
                 txtTareWeight.Focus()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -3373,10 +3373,10 @@ Public Class FrmMccDispatch
                 Throw New Exception("Update of tanker is Not allowed Due to its Gate-In is Done")
             End If
             If updateTanker() Then
-                clsCommon.MyMessageBoxShow("Tanker Updated Successfully")
+                clsCommon.MyMessageBoxShow("Tanker Updated Successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3412,13 +3412,13 @@ Public Class FrmMccDispatch
                 End If
                 obj.Electronic_Ref_No = txtElectronicRefNo.Text
                 If clsMccDispatch.UpdateAfterPosting(obj, fndChalanNo.Value) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow("Information updated successfully.", Me.Text)
                 End If
             Else
                 Throw New Exception("Document no not found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShowme, (ex.Message, Me.Text
         End Try
     End Sub
 
