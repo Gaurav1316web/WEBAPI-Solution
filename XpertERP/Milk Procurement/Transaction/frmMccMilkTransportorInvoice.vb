@@ -1832,7 +1832,7 @@ Public Class frmMccMilkTransportorInvoice
                                     Dim cellPrice As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colRate).Value)
                                     Dim vendorPrice As Double = clsDBFuncationality.getSingleValue("select item_rate from TSPL_VENDOR_ITEM_DETAIL where vendor_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' and item_no='" & strCode & "'")
                                     If cellPrice > vendorPrice Then
-                                        clsCommon.MyMessageBoxShow("The Larger Price Of Item is not Allowed then the Vendor Item Price ")
+                                        clsCommon.MyMessageBoxShow("The Larger Price Of Item is not Allowed then the Vendor Item Price ", Me.Text)
                                         gv1.CurrentRow.Cells(colRate).Value = vendorPrice
                                     End If
 
@@ -1880,7 +1880,7 @@ Public Class frmMccMilkTransportorInvoice
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1930,7 +1930,7 @@ Public Class frmMccMilkTransportorInvoice
             ''    End If
             ''End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2267,7 +2267,7 @@ Public Class frmMccMilkTransportorInvoice
                 Dim strchk As String = "select Status from TSPL_Mcc_Milk_Transport_Invoice_HEAD where Doc_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -2281,7 +2281,7 @@ Public Class frmMccMilkTransportorInvoice
                 UpdateTDSAmount()
             End If
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
                 txtVendorNo.Focus()
                 Return False
             End If
@@ -5869,7 +5869,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5947,7 +5947,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
             lstUsers.Add(txtVendorNo.Value)
             'SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5978,7 +5978,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
             End If
             'SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5986,7 +5986,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
         Try
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6134,7 +6134,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
         Dim strwherecls As String = ""
         strwherecls = MyBase.Cust_CustomerVendorMapping()
         If clsCommon.myLen(strwherecls) <= 0 Then
-            clsCommon.MyMessageBoxShow("No Customer Found")
+            clsCommon.MyMessageBoxShow("No Customer Found", Me.Text)
             Exit Sub
         End If
         '-----------------------------------------------------
@@ -6266,7 +6266,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
         'If clsCommon.myLen(fndReqNo.Value) <= 0 Then
         If clsCommon.myLen(fndBillToLocation.Value) = 0 Then
 
-            common.clsCommon.MyMessageBoxShow("Select the from location")
+            common.clsCommon.MyMessageBoxShow("Select the from location", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
             gv1.CurrentRow.Cells(colUnit).Value = ""

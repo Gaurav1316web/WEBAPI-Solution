@@ -33,7 +33,7 @@ Public Class FrmParameterValueMaster
             gv.AllowAutoSizeColumns = False
             gv.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -115,7 +115,7 @@ Public Class FrmParameterValueMaster
                 Throw New Exception("No value Found To save")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub deleteData()
@@ -129,7 +129,7 @@ Public Class FrmParameterValueMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -71,7 +71,7 @@ Public Class FrmPriceChartMaster
 
         If Not (MyBase.isReadFlag) Then
             If MDI.blnShowAllMenu = False Then
-                common.clsCommon.MyMessageBoxShow("Permission Denied")
+                common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Else
                 Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
             End If
@@ -291,7 +291,7 @@ Public Class FrmPriceChartMaster
             CalculateSNFFromCLR()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -400,7 +400,7 @@ Public Class FrmPriceChartMaster
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -474,7 +474,7 @@ Public Class FrmPriceChartMaster
             clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -573,7 +573,7 @@ Public Class FrmPriceChartMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -733,7 +733,7 @@ Public Class FrmPriceChartMaster
                     clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(Me, ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
         End If
         End If
@@ -798,7 +798,7 @@ Public Class FrmPriceChartMaster
                     clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 Catch ex As Exception
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(Me, ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If
@@ -828,7 +828,7 @@ Public Class FrmPriceChartMaster
                 Throw New Exception("Please Fill Ratio Of SNF And FAT." + Environment.NewLine + "There Sum Should be Equal To 100")
             End If
         Catch exx As Exception
-            clsCommon.MyMessageBoxShow(Me, exx.Message)
+            clsCommon.MyMessageBoxShow(Me, exx.Message, Me.Text)
         End Try
     End Sub
 
@@ -865,10 +865,10 @@ Public Class FrmPriceChartMaster
                 frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptMilkPriceChartMaster", "Milk Price Chart")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No document for print")
+                clsCommon.MyMessageBoxShow(Me, "No document for print", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
@@ -938,7 +938,7 @@ Public Class FrmPriceChartMaster
             gv.AllowRowReorder = True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

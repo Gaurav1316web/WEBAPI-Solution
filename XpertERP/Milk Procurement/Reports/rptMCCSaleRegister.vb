@@ -25,7 +25,7 @@ Public Class RptMCCsaleRegister
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #Region "Functions"
@@ -412,7 +412,7 @@ Public Class RptMCCsaleRegister
             End If
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt
@@ -450,7 +450,7 @@ Public Class RptMCCsaleRegister
                 clsCommon.MyExportToPDF("MCC Sale Register" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, "Sale Register", True)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -900,7 +900,7 @@ Public Class RptMCCsaleRegister
 
     Private Sub rmExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmExcel.Click
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Print(Exporter.Excel)
@@ -908,7 +908,7 @@ Public Class RptMCCsaleRegister
 
     Private Sub rmPDF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmPDF.Click
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Print(Exporter.PDF)
@@ -952,7 +952,7 @@ Public Class RptMCCsaleRegister
             obj.GridColumns = Gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -962,12 +962,12 @@ Public Class RptMCCsaleRegister
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnExportToExcel_Click(sender As Object, e As EventArgs) Handles btnExportToExcel.Click
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Print(Exporter.Excel)
@@ -1084,7 +1084,7 @@ Public Class RptMCCsaleRegister
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

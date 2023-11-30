@@ -23,7 +23,7 @@ Public Class Rptmemberpaymentslip3
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -261,12 +261,12 @@ Public Class Rptmemberpaymentslip3
     Private Sub LoadData()
         If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
             txtFromDate.Focus()
-            clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
             Exit Sub
         End If
 
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         Dim companyADD, CompName, CompCode As String
@@ -407,7 +407,7 @@ Public Class Rptmemberpaymentslip3
 
         End If
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
             Exit Sub
         End If
         gv.BestFitColumns()
@@ -567,7 +567,7 @@ Public Class Rptmemberpaymentslip3
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()

@@ -60,7 +60,7 @@ Public Class FrmPriceChartUploader
         ''MyBase.SetUserMgmt(clsUserMgtCode.FrmPriceChartUploader)
         If Not (MyBase.isReadFlag) Then
             If MDI.blnShowAllMenu = False Then
-                common.clsCommon.MyMessageBoxShow("Permission Denied")
+                common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Else
                 Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
             End If
@@ -103,7 +103,7 @@ Public Class FrmPriceChartUploader
 
     Sub LoadData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Code Of Price Chart Uploader", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Code Of Price Chart Uploader", Me.Text)
             txtDocNo.Focus()
             txtDocNo.Select()
             ErrorControl.SetError(txtDocNo, "Please Select Code Of Price Chart Uploader")
@@ -120,7 +120,7 @@ Public Class FrmPriceChartUploader
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Return
         End If
 
@@ -273,7 +273,7 @@ Public Class FrmPriceChartUploader
                 btnUpdates.Enabled = True
             End If
         Else
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Return
         End If
     End Sub
@@ -289,7 +289,7 @@ Public Class FrmPriceChartUploader
 
     Private Sub btnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport.Click
         If clsCommon.myLen(txtdate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Fill Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Fill Date", Me.Text)
             txtdate.Focus()
             txtdate.Select()
             Return
@@ -297,26 +297,26 @@ Public Class FrmPriceChartUploader
 
         If Not settMilkCollectionPickBulkRoute Then
             If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select at least one MCC or VLC", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select at least one MCC or VLC", Me.Text)
                 Return
             End If
             If txtRoute.arrValueMember Is Nothing OrElse txtRoute.arrValueMember.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select at least one Route", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select at least one Route", Me.Text)
                 Return
             End If
             If txtVLC.arrValueMember Is Nothing OrElse txtVLC.arrValueMember.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select at least one VLC", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select at least one VLC", Me.Text)
                 Return
             End If
         End If
 
         If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Price Code", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Price Code", Me.Text)
             FndPriceCode.Focus()
             Return
         End If
         If clsCommon.myLen(CmbShift.SelectedValue) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Shift", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Shift", Me.Text)
             CmbShift.Focus()
             Return
         End If
@@ -354,7 +354,7 @@ Public Class FrmPriceChartUploader
             compr_rate = clsCommon.myCdbl(cmbrate.Text)
 
             If clsCommon.myCstr(cmbrate.Text) = "None" AndAlso clsCommon.CompairString(cmbmatrix.Text, "None") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(cmbaxis.Text, "None") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(cmbratetype.Text, "None") <> CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Please Select Rate First Before Upload", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Rate First Before Upload", Me.Text)
                 cmbrate.Select()
                 ErrorControl.SetError(cmbrate, "Please Select Rate First Before Upload")
                 Return
@@ -485,12 +485,12 @@ Public Class FrmPriceChartUploader
 
             UcAttachment1.AddAttachment(OFDFileName, OFDSafeFileName)
             UcAttachment1.SaveData(Code)
-            clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             LoadData()
             btnUpdate.Enabled = True
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Me.Controls.Remove(gv1)
     End Sub
@@ -518,7 +518,7 @@ Public Class FrmPriceChartUploader
             gvCharges.AllowAutoSizeColumns = False
             gvCharges.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -590,7 +590,7 @@ Public Class FrmPriceChartUploader
     Private Sub BtnSaveCharge_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSaveCharge.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Price Code First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Price Code First.", Me.Text)
                 Exit Sub
             End If
             '============Check Total Charge Rate==============
@@ -624,7 +624,7 @@ Public Class FrmPriceChartUploader
             End If
             '======================================================================
             funInsertCharges(txtDocNo.Value, Nothing)
-            clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
@@ -666,13 +666,13 @@ Public Class FrmPriceChartUploader
         Dim arrHeader As New List(Of String)
         arrHeader.Add(txtDocNo.Value)
         clsCommon.MyExportToExcelGrid("Price Chart Uploader", gv, arrHeader, Me.Text)
-        clsCommon.MyMessageBoxShow("Sheet Exported Successfully..")
+        clsCommon.MyMessageBoxShow(Me, "Sheet Exported Successfully..", Me.Text)
     End Sub
 
     Private Sub BtnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnGo.Click
         Try
             If clsCommon.myCdbl(TxtFindFAT.Text) > 0 And clsCommon.myCdbl(TxtFindSNF.Text) > 0 And clsCommon.myCdbl(TxtFindRate.Text) > 0 Then
-                clsCommon.MyMessageBoxShow("Please either select FAT & SNF or Rate to Find.")
+                clsCommon.MyMessageBoxShow(Me, "Please either select FAT & SNF or Rate to Find.", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myCdbl(TxtFindFAT.Text) > 0 And clsCommon.myCdbl(TxtFindSNF.Text) > 0 Then
@@ -707,7 +707,7 @@ Public Class FrmPriceChartUploader
         Try
             Dim str As String = "update tspl_fat_snf_Uploader_master set posted='1' where code='" & clsCommon.myCstr(txtDocNo.Value) & "'"
             clsDBFuncationality.ExecuteNonQuery(str)
-            clsCommon.MyMessageBoxShow("Price Chart Posted Successfully...")
+            clsCommon.MyMessageBoxShow(Me, "Price Chart Posted Successfully...", Me.Text)
             BtnPost.Enabled = False
             BtnSaveCharge.Enabled = False
         Catch ex As Exception
@@ -727,7 +727,7 @@ Public Class FrmPriceChartUploader
                 End If
                 Dim str As String = "update TSPL_FAT_SNF_UPLOADER_MASTER set Is_InActive=1,In_Active_From='" + clsCommon.GetPrintDate(txtInactiveFrom.Value, "dd/MMM/yyyy") + "' where code='" & clsCommon.myCstr(txtDocNo.Value) & "'"
                 clsDBFuncationality.ExecuteNonQuery(str)
-                clsCommon.MyMessageBoxShow("Price In-Actived Successfully...")
+                clsCommon.MyMessageBoxShow(Me, "Price In-Actived Successfully...", Me.Text)
                 BtnSaveCharge.Enabled = False
             End If
         Catch ex As Exception
@@ -753,7 +753,7 @@ Public Class FrmPriceChartUploader
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, Nothing)
             RefreshVLC()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -766,7 +766,7 @@ Public Class FrmPriceChartUploader
             Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VENDOR_MASTER.Vendor_Group_Code as [Group Code],TSPL_VENDOR_GROUP.Group_Desc as [Group Name],TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_VLC_MASTER_HEAD.MCC as MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.MCC left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_GROUP.Ven_Group_Code=TSPL_VENDOR_MASTER.Vendor_Group_Code where TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") and TSPL_VLC_MASTER_HEAD.Active='1' "
             txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC", qry, "VLC_Code", "VLC_Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -884,7 +884,7 @@ Public Class FrmPriceChartUploader
                             Next
                             End If
                         trans.Commit()
-                        clsCommon.MyMessageBoxShow("VLC Added Surressfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "VLC Added Surressfully", Me.Text)
                         LoadData()
                     Catch ex As Exception
                         trans.Rollback()
@@ -918,7 +918,7 @@ Public Class FrmPriceChartUploader
             txtDocNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             LoadNew()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -963,7 +963,7 @@ Public Class FrmPriceChartUploader
             Dim frm As New FrmFreeGrid
             frm.dt = clsDBFuncationality.GetDataTable(qry)
             If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No data Found")
+                clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                 Exit Sub
             End If
             frm.strFormName = "Add More VLC History"
@@ -971,7 +971,7 @@ Public Class FrmPriceChartUploader
             frm.ReportID = "AddMoreVLCH"
             frm.Show()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

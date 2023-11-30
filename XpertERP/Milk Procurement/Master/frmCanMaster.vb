@@ -33,7 +33,7 @@ Public Class frmCanMaster
             obj.Description = txtDescription.Text
             obj.Tare_Weight = txtTareWeight.Value
             If (clsCanMaster.SaveData(obj)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                 LoadData(obj.Code, NavigatorType.Current)
             End If
         End If
@@ -70,7 +70,7 @@ Public Class frmCanMaster
             Return False
         End If
         If clsCommon.myLen(txtCode.Value) > 20 Then
-            clsCommon.MyMessageBoxShow("Length is greater then 20.")
+            clsCommon.MyMessageBoxShow(Me, "Length is greater then 20.")
             txtCode.Focus()
             Return False
         End If
@@ -83,7 +83,7 @@ Public Class frmCanMaster
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
             Exit Sub
         End If
         ' Code Ends 
@@ -94,7 +94,7 @@ Public Class frmCanMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsCanMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     funReset()
                 End If
             End If
@@ -133,7 +133,7 @@ Public Class frmCanMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -218,7 +218,7 @@ Public Class frmCanMaster
                     Throw New Exception("At Row No" + clsCommon.myCstr(ii) + " " + ex.Message)
                 End Try
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -230,7 +230,7 @@ Public Class frmCanMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select code")
+                clsCommon.MyMessageBoxShow(Me, "Select code")
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_CAN_MASTER")

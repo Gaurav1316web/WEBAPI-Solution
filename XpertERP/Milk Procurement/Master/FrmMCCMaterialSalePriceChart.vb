@@ -73,7 +73,7 @@ Public Class FrmMCCMaterialSalePriceChart
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.FrmMCCMaterialSalePriceChart)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -113,7 +113,7 @@ Public Class FrmMCCMaterialSalePriceChart
 
     Sub LoadData()
         If clsCommon.myLen(fndno.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Code Of Price Chart Uploader", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Code Of Price Chart Uploader", Me.Text)
             fndno.Focus()
             fndno.Select()
             ErrorControl.SetError(fndno, "Please Select Code Of Price Chart Uploader")
@@ -139,7 +139,7 @@ Public Class FrmMCCMaterialSalePriceChart
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Return
         End If
 
@@ -219,13 +219,13 @@ Public Class FrmMCCMaterialSalePriceChart
 
     Private Sub btnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport.Click
         If clsCommon.myLen(txtdate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Fill Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Fill Date", Me.Text)
             txtdate.Focus()
             txtdate.Select()
             Return
         End If
         If clsCommon.myCDate(txtdate.Value) > clsCommon.myCDate(MyDateTimePicker1.Value) Then
-            clsCommon.MyMessageBoxShow("Document Date will be Less then Effective Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Document Date will be Less then Effective Date", Me.Text)
             txtdate.Focus()
             txtdate.Select()
             Return
@@ -307,7 +307,7 @@ Public Class FrmMCCMaterialSalePriceChart
                 Next
             End If
             '===============================================================
-            clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
 
             'UcAttachment1.SaveData(clsCommon.myCstr(fndno.Value))
             'Reset()
@@ -315,7 +315,7 @@ Public Class FrmMCCMaterialSalePriceChart
             LoadData()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Me.Controls.Remove(gv1)
     End Sub
@@ -344,13 +344,13 @@ Public Class FrmMCCMaterialSalePriceChart
 
     Sub Save()
         If clsCommon.myLen(txtdate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Fill Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Fill Date", Me.Text)
             txtdate.Focus()
             txtdate.Select()
             Return
         End If
         If clsCommon.myCDate(txtdate.Value) > clsCommon.myCDate(MyDateTimePicker1.Value) Then
-            clsCommon.MyMessageBoxShow("Document Date will be Less then Effective Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Document Date will be Less then Effective Date", Me.Text)
             txtdate.Focus()
             txtdate.Select()
             Return
@@ -445,7 +445,7 @@ Public Class FrmMCCMaterialSalePriceChart
                 Next
             End If
             '===============================================================
-            clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
 
             'UcAttachment1.SaveData(clsCommon.myCstr(fndno.Value))
             'Reset()
@@ -453,7 +453,7 @@ Public Class FrmMCCMaterialSalePriceChart
             LoadData()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -517,7 +517,7 @@ Public Class FrmMCCMaterialSalePriceChart
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndno.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Price Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Price Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(fndno.Value, "Code", "TSPL_MCC_RATE_UPLOADER_master", "TSPL_MCC_RATE_UPLOADER_Detail")

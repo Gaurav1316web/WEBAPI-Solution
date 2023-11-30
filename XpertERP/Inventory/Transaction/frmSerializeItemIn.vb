@@ -173,7 +173,7 @@ Public Class FrmSerializeItemIn
                 End If
             End If
         Catch err As Exception
-            MessageBox.Show(err.Message)
+            MessageBox.Show(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -220,7 +220,7 @@ Public Class FrmSerializeItemIn
             ShowBinMapping = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.ShowBinMapping, clsFixedParameterCode.ShowBinMapping, Nothing) = "1", True, False))
             If ShowBinMapping = True Then
                 If clsCommon.myLen(gv1.Rows(ii).Cells(COLBINNO).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please enter Bin Number at line number" + clsCommon.myCstr(ii + 1))
+                    clsCommon.MyMessageBoxShow(Me, "Please enter Bin Number at line number" + clsCommon.myCstr(ii + 1))
                     Return False
                 End If
             End If
@@ -240,7 +240,7 @@ Public Class FrmSerializeItemIn
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -283,7 +283,7 @@ Public Class FrmSerializeItemIn
             Exit Sub
         End If
 
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -367,7 +367,7 @@ Public Class FrmSerializeItemIn
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

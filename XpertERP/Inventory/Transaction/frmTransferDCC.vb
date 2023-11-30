@@ -1544,7 +1544,7 @@ Public Class frmTransferDCC
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2037,13 +2037,13 @@ Public Class frmTransferDCC
                 '' nothing to do
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                 If clsCommon.myLen(clsCommon.myCstr(txtTransferOutNo.Value)) = 0 Then
-                    clsCommon.MyMessageBoxShow("Transfer No is mandatory.")
+                    clsCommon.MyMessageBoxShow(Me, "Transfer No is mandatory.")
                     txtTransferOutNo.Focus()
                     Return False
                 End If
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "R") = CompairStringResult.Equal Then
                 If clsCommon.myLen(clsCommon.myCstr(txtRMDANo.Value)) = 0 Then
-                    clsCommon.MyMessageBoxShow("Rejected No is mandatory.")
+                    clsCommon.MyMessageBoxShow(Me, "Rejected No is mandatory.")
                     txtRMDANo.Focus()
                     Return False
                 End If
@@ -2158,7 +2158,7 @@ Public Class frmTransferDCC
                             ''If dblAssessableAmt > 0 Then
                             ''    Msg = Msg + Environment.NewLine + "Assessable Amount: " + clsCommon.myCstr(dblAssessableAmt)
                             ''End If
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     Next
@@ -2171,7 +2171,7 @@ Public Class frmTransferDCC
             
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2182,7 +2182,7 @@ Public Class frmTransferDCC
     Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (SaveData(False)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
             End If
             Return True
         Else
@@ -2383,7 +2383,7 @@ Public Class frmTransferDCC
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
                     Return False
                 End If
 
@@ -2421,7 +2421,7 @@ Public Class frmTransferDCC
                 Return isSaved
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2824,7 +2824,7 @@ Public Class frmTransferDCC
                 UcAttachment1.LoadData(obj.Document_No)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2856,7 +2856,7 @@ Public Class frmTransferDCC
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2873,13 +2873,13 @@ Public Class frmTransferDCC
                     '    Exit Sub
                     'End If
                     If (clsTransferDCC.postTransfer(txtDocNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2904,7 +2904,7 @@ Public Class frmTransferDCC
                 End If
                 If (clsTransferDCC.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     AddNew()
                 End If
             End If
@@ -2948,7 +2948,7 @@ Public Class frmTransferDCC
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3027,7 +3027,7 @@ Public Class frmTransferDCC
 
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If (dt.Rows.Count > 10) Then
-                MessageBox.Show("Can't Handle More than 10 Tax Types in a Group")
+                MessageBox.Show(Me, "Can't Handle More than 10 Tax Types in a Group")
                 Return
             End If
             lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
@@ -3119,7 +3119,7 @@ Public Class frmTransferDCC
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtFromLocation._MYValidating
         If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(cboType.SelectedValue)) <= 0 Then
             txtFromLocation.Value = ""
-            clsCommon.MyMessageBoxShow("Please select Type", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Type", Me.Text)
             cboType.Focus()
             Exit Sub
         End If
@@ -3330,7 +3330,7 @@ Public Class frmTransferDCC
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsTransferDCCDetail.CompletePO(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed")
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
@@ -3338,7 +3338,7 @@ Public Class frmTransferDCC
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3353,13 +3353,13 @@ Public Class frmTransferDCC
     Public Sub funprint(ByVal i As Integer)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Transfer Order No not found to Print")
+                common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
             End If
             Dim arr As New ArrayList()
             arr.Add(txtDocNo.Value)
             'FrmPurchaseOrderReport.PrintData("", "", True, arr, False, Nothing, False, "", i, txtReqNo.Value, cboTransferType.Text, lblAddCharges.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3385,7 +3385,7 @@ Public Class frmTransferDCC
             'txtVehicle.Text = txtVehicleCode.Value
             lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3552,7 +3552,7 @@ Public Class frmTransferDCC
     Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ''Printing the amendment
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
         Else
             FrmPurchaseOrderReport.PrintAbandoment(txtDocNo.Value)
         End If
@@ -3668,13 +3668,13 @@ Public Class frmTransferDCC
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
         Else
             i = 1
             funprint(i)
@@ -3684,7 +3684,7 @@ Public Class frmTransferDCC
 
     Private Sub btnpreprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
         Else
             i = 2
             funprint(i)
@@ -3890,7 +3890,7 @@ Public Class frmTransferDCC
             'End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4016,7 +4016,7 @@ Public Class frmTransferDCC
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -4053,12 +4053,12 @@ Public Class frmTransferDCC
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsTransferDCC.ReverseAndUnpost(txtDocNo.Value, False) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

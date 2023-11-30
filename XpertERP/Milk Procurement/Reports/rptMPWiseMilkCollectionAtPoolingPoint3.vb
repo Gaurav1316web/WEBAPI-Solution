@@ -21,7 +21,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -400,7 +400,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             gv.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             txtReportType.Text = "DateWise"
@@ -441,14 +441,14 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             ReStoreGridLayout()
             EnableDisableControl(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub LoadData()
         If clsCommon.GetDateWithStartTime(txtFromDate.Value) > clsCommon.GetDateWithStartTime(txtToDate.Value) Then
             txtFromDate.Focus()
-            clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             Exit Sub
         End If
         If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "Summary") = CompairStringResult.Equal Then
@@ -605,7 +605,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             qry += " as pp  ) as qq   ) as final) "
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return qry
     End Function
@@ -626,7 +626,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
                 End If
             End If
         Catch err As Exception
-            clsCommon.MyMessageBoxShow(Me, err.Message)
+            clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -657,7 +657,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
                     clsCommon.MyExportToPDF(Me.Text, gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -676,10 +676,10 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
                 gv.SaveLayout(obj.GridLayout)
                 obj.GridColumns = gv.ColumnCount
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
-                If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
-                End If
-                obj.GridLayout.Close()
+            If obj.SaveData() Then
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+            End If
+            obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
             End If
         'End If
@@ -687,7 +687,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
@@ -806,7 +806,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             gv.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             txtReportType.Text = "VLCWise"
@@ -825,7 +825,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
 
             gv.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -847,7 +847,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             gv.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             txtReportType.Text = "ShiftWise"
@@ -856,7 +856,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             gv.BestFitColumns()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv.CellDoubleClick
@@ -948,7 +948,7 @@ select [MCC Code],max([MCC Name]) as [MCC Name],[VLC Code],max([VLC Uploader]) a
             gv.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             txtReportType.Text = "MP Polling Count"
@@ -971,7 +971,7 @@ select [MCC Code],max([MCC Name]) as [MCC Name],[VLC Code],max([VLC Uploader]) a
             RadPageView1.SelectedPage = RadPageViewPage2
             EnableDisableControl(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1000,7 +1000,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
             gv.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             txtReportType.Text = "MP Detail"
@@ -1022,7 +1022,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
             gv.BestFitColumns()
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1097,7 +1097,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
                 frmCRV = Nothing
             End If
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
@@ -1106,7 +1106,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
             ReStoreGridLayout()
             EnableDisableControl(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

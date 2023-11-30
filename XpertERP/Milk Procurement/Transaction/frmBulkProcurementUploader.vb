@@ -619,7 +619,7 @@ Public Class frmBulkProcurementUploader
     Sub CheckAndValidate()
         Dim ValidateStatus As String = String.Empty
         If Gv1.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("There are no row is grid please select a sheet to import")
+            clsCommon.MyMessageBoxShow(Me, "There are no row is grid please select a sheet to import", Me.Text)
         End If
         'If ValidatedCount = Gv1.Rows.Count Then
         '    clsCommon.MyMessageBoxShow("All Rows are already validated")
@@ -1281,7 +1281,7 @@ Public Class frmBulkProcurementUploader
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -1381,7 +1381,7 @@ Public Class frmBulkProcurementUploader
                 btnSave.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 

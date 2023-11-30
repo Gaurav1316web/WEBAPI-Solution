@@ -37,7 +37,7 @@ Public Class frmMilkGateEntryIn
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             If clsCommon.CompairString(ex.Message, "Gate entry not required") = CompairStringResult.Equal Then
                 CloseForm()
             End If
@@ -194,7 +194,7 @@ Public Class frmMilkGateEntryIn
             If clsCommon.CompairString(ex.Message, "Gate entry not required") = CompairStringResult.Equal Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -310,11 +310,11 @@ Public Class frmMilkGateEntryIn
                 End If
 
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully")
+                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
                 LoadData(obj.Entry_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -376,7 +376,7 @@ Public Class frmMilkGateEntryIn
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -388,7 +388,7 @@ Public Class frmMilkGateEntryIn
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -405,7 +405,7 @@ Public Class frmMilkGateEntryIn
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 clsMilkGateEntryIn.DeleteData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
@@ -450,7 +450,7 @@ Public Class frmMilkGateEntryIn
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' added by shivani tyagi against ticket no [BM00000009842]
@@ -469,10 +469,10 @@ Public Class frmMilkGateEntryIn
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptGateEntryIn", "Milk Gate Entry In")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No document for print")
+                clsCommon.MyMessageBoxShow("No document for print", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click

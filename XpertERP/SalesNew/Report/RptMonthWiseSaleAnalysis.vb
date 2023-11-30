@@ -388,7 +388,7 @@ Public Class RptMonthWiseSaleAnalysis
                 ReStoreGridLayout()
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found..")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found..", Me.Text)
             End If
         Catch ex As Exception
 
@@ -461,10 +461,10 @@ Public Class RptMonthWiseSaleAnalysis
             transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
             Dim Export As New ExportToExcelML(gv1)
             Export.RunExport(filePath)
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
             Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -585,7 +585,7 @@ Public Class RptMonthWiseSaleAnalysis
         Try
             LoadData(2)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -809,7 +809,7 @@ Public Class RptMonthWiseSaleAnalysis
             gv1.EnableFiltering = True
             LoadData(0)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -898,7 +898,7 @@ Public Class RptMonthWiseSaleAnalysis
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()

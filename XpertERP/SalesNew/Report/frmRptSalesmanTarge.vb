@@ -88,7 +88,7 @@ Public Class frmRptSalesmanTarge
         Try
             RefreshData()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -144,7 +144,7 @@ Public Class frmRptSalesmanTarge
         dt = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count <= 0 Then
             gv1.DataSource = Nothing
-            common.clsCommon.MyMessageBoxShow("No Data Found")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Exit Sub
         End If
         SetGridFormation()
@@ -304,7 +304,7 @@ Public Class frmRptSalesmanTarge
             obj.GridColumns = gv1.ColumnCount
 
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

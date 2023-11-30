@@ -34,7 +34,7 @@ Public Class RptAClassMilkRate
             Query = "select TSPL_Bulk_Price_MASTER.Price_Code as Code ,TSPL_Bulk_Price_MASTER.Price_Code as Name  From TSPL_Bulk_Price_MASTER "
             txtPriceCode.arrValueMember = clsCommon.ShowMultipleSelectForm("Price_Code", Query, "Code", "Name", txtPriceCode.arrValueMember, txtPriceCode.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -45,7 +45,7 @@ Public Class RptAClassMilkRate
             Query = "select Vendor_Code as Code,Vendor_Name as Name from TSPL_VENDOR_MASTER Where Status='N' "
             txtVendorCode.arrValueMember = clsCommon.ShowMultipleSelectForm("Vendor_Code", Query, "Code", "Name", txtVendorCode.arrValueMember, txtVendorCode.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -55,7 +55,7 @@ Public Class RptAClassMilkRate
             Query = "select TSPL_MILK_TYPE_MASTER.MILK_TYPE_CODE as Code ,TSPL_MILK_TYPE_MASTER.DESCRIPTION as Name ,TSPL_MILK_TYPE_MASTER.MILK_TYPE as [MILK TYPE] ,TSPL_MILK_TYPE_MASTER.Created_By as [Created By] ,TSPL_MILK_TYPE_MASTER.Created_Date as [Created Date] ,TSPL_MILK_TYPE_MASTER.Modified_By as [Modified By] ,TSPL_MILK_TYPE_MASTER.Modified_Date as [Modified Date]  From TSPL_MILK_TYPE_MASTER "
             txtMilkTypeCode.arrValueMember = clsCommon.ShowMultipleSelectForm("Milk_Type_Code", Query, "Code", "Name", txtMilkTypeCode.arrValueMember, txtMilkTypeCode.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AClassPrint()
@@ -100,7 +100,7 @@ Public Class RptAClassMilkRate
             frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptAClass_MilkRate", "A Class Milk Rates")
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data to Print ..")
+            clsCommon.MyMessageBoxShow(Me, "No Data to Print ..", Me.Text)
         End If
 
     End Sub
@@ -112,17 +112,17 @@ Public Class RptAClassMilkRate
                 MccMilkRatePrint()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub MccMilkRatePrint()
         If clsCommon.myLen(fndPriceCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Price Code.")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Price Code.", Me.Text)
         ElseIf clsCommon.myLen(fndIncentiveCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Incentive Code.")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Incentive Code.", Me.Text)
         ElseIf clsCommon.myLen(txtDock.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Enter Dock.")
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Dock.", Me.Text)
         Else
             Dim strPriceQuery As String = Nothing
             Dim dtPrice As DataTable
@@ -153,7 +153,7 @@ Public Class RptAClassMilkRate
                 frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtPrice, dt, "rptMccMilkRate", "MCC Milk Rate", "RptIncentiveDetailForMccRate.rpt")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data to Print ..")
+                clsCommon.MyMessageBoxShow(Me, "No Data to Print ..", Me.Text)
             End If
         End If
     End Sub
@@ -181,7 +181,7 @@ Public Class RptAClassMilkRate
             Dim qry As String = "select Price_Code as Code,Description from tspl_milk_price_master "
             fndPriceCode.Value = clsCommon.ShowSelectForm("Group", qry, "Code", "", fndPriceCode.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
       
     End Sub
@@ -191,7 +191,7 @@ Public Class RptAClassMilkRate
             Dim qry As String = "select INCENTIVE_CODE as Code,DESCRIPTION from TSPL_INCENTIVE_MASTER_HEAD "
             fndIncentiveCode.Value = clsCommon.ShowSelectForm("Group", qry, "Code", "", fndIncentiveCode.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

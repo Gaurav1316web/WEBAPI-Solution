@@ -54,7 +54,7 @@ Public Class frmYearMonthWiseSaleComparison
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub rbtnFinAllSelectClick() Handles rbtnFinAll.ToggleStateChanged, rbtnFinSelect.ToggleStateChanged
@@ -68,7 +68,7 @@ Public Class frmYearMonthWiseSaleComparison
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub rbtnLocAllSelectClick() Handles rbtnLocAll.ToggleStateChanged, rbtnLocSelect.ToggleStateChanged
@@ -81,7 +81,7 @@ Public Class frmYearMonthWiseSaleComparison
                 cbgLocation.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadLocation()
@@ -91,7 +91,7 @@ Public Class frmYearMonthWiseSaleComparison
             cbgLocation.ValueMember = "Location"
             cbgLocation.DisplayMember = "Location Description"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -102,7 +102,7 @@ Public Class frmYearMonthWiseSaleComparison
             cbgCustomer.ValueMember = "Code"
             cbgCustomer.DisplayMember = "Customer Name"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadFinYear()
@@ -112,7 +112,7 @@ Public Class frmYearMonthWiseSaleComparison
             cbgFinancialYear.ValueMember = "Year"
             cbgFinancialYear.DisplayMember = "Year"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -223,7 +223,7 @@ Public Class frmYearMonthWiseSaleComparison
             Dim valNP As Double = 0
             Dim dt1 As DataTable
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
 
                 For i As Integer = 0 To dt.Rows.Count - 1
@@ -371,7 +371,7 @@ Public Class frmYearMonthWiseSaleComparison
             gv.DataSource = Nothing
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -380,13 +380,13 @@ Public Class frmYearMonthWiseSaleComparison
     End Sub
     Function checkSelection() As Boolean
         If cbgCustomer.CheckedValue.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Atleast One Customer")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Customer", Me.Text)
             Return False
         ElseIf cbgFinancialYear.CheckedValue.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Atlease one item from financial Year")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Atlease one item from financial Year", Me.Text)
             Return False
         ElseIf cbgLocation.CheckedValue.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Atleast One Location")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location", Me.Text)
             Return False
         Else
             Return True
@@ -402,7 +402,7 @@ Public Class frmYearMonthWiseSaleComparison
         If checkSelection() AndAlso gv IsNot Nothing Then
             LoadData(Exporter.Excel)
         Else
-            clsCommon.MyMessageBoxShow("No Data Found To Export")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found To Export", Me.Text)
         End If
     End Sub
 
@@ -411,7 +411,7 @@ Public Class frmYearMonthWiseSaleComparison
             LoadData(Exporter.PDF)
         Else
 
-            clsCommon.MyMessageBoxShow("No Data Found To Export")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found To Export", Me.Text)
         End If
     End Sub
 
@@ -434,7 +434,7 @@ Public Class frmYearMonthWiseSaleComparison
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Function
         Else
             gv1.DataSource = dt
@@ -492,7 +492,7 @@ Public Class frmYearMonthWiseSaleComparison
         gv2.MasterTemplate.SummaryRowsBottom.Clear()
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Function
         Else
             gv2.DataSource = dt

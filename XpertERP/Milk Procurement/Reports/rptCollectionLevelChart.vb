@@ -12,11 +12,11 @@ Public Class rptCollectionLevelChart
         Try
 
             If Me.cboRootDesg.SelectedValue Is Nothing Then
-                clsCommon.MyMessageBoxShow("Please select any Root Collection Level")
+                clsCommon.MyMessageBoxShow(Me, "Please select any Root Collection Level", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(Me.cboRootDesg.SelectedValue.ToString) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select any Root Collection Level")
+                clsCommon.MyMessageBoxShow(Me, "Please select any Root Collection Level", Me.Text)
                 Exit Sub
             End If
             Dim myOrgData As OrgChartGenerator.OrgData.OrgDetailsDataTable = New OrgChartGenerator.OrgData.OrgDetailsDataTable()
@@ -45,7 +45,7 @@ Public Class rptCollectionLevelChart
             Me.picOrgChart.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top) Or System.Windows.Forms.AnchorStyles.Left) Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Text)
         End Try
     End Sub
     Function GetMCCNameInMCCLevel(ByVal Level_Code As String) As String

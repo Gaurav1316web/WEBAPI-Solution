@@ -22,7 +22,7 @@ Public Class RptVSPItemIssue
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -117,17 +117,17 @@ Public Class RptVSPItemIssue
         Dim sQuery As String
         'Dim companyADD, CompName, CompCode As String
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         
         If chkVSPSelect.IsChecked AndAlso cbgVSP.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single VSP or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single VSP or select all.", Me.Text)
             Exit Sub
         End If
       
@@ -204,7 +204,7 @@ Public Class RptVSPItemIssue
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
             'tmpValLoad = False
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

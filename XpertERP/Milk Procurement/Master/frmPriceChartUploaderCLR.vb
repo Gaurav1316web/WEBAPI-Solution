@@ -83,7 +83,7 @@ Public Class frmPriceChartUploaderCLR
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             If MDI.blnShowAllMenu = False Then
-                common.clsCommon.MyMessageBoxShow("Permission Denied")
+                common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Else
                 Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
             End If
@@ -100,7 +100,7 @@ Public Class frmPriceChartUploaderCLR
 
     Sub LoadData()
         If clsCommon.myLen(fndno.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Code Of Price Chart Uploader", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Code Of Price Chart Uploader", Me.Text)
             fndno.Focus()
             fndno.Select()
             ErrorControl.SetError(fndno, "Please Select Code Of Price Chart Uploader")
@@ -117,7 +117,7 @@ Public Class frmPriceChartUploaderCLR
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Return
         End If
 
@@ -244,7 +244,7 @@ Public Class frmPriceChartUploaderCLR
                 'btnUpdates.Enabled = True
             End If
         Else
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Return
         End If
     End Sub
@@ -264,7 +264,7 @@ Public Class frmPriceChartUploaderCLR
 
     Private Sub btnimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport.Click
         If clsCommon.myLen(txtdate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Fill Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Fill Date", Me.Text)
             txtdate.Focus()
             txtdate.Select()
             Return
@@ -283,12 +283,12 @@ Public Class frmPriceChartUploaderCLR
         '    Return
         'End If
         If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Price Code", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Price Code", Me.Text)
             FndPriceCode.Focus()
             Return
         End If
         If clsCommon.myLen(CmbShift.SelectedValue) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Shift", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Shift", Me.Text)
             CmbShift.Focus()
             Return
         End If
@@ -328,7 +328,7 @@ Public Class frmPriceChartUploaderCLR
             compr_rate = clsCommon.myCdbl(cmbrate.Text)
 
             If clsCommon.myCstr(cmbrate.Text) = "None" AndAlso clsCommon.CompairString(cmbmatrix.Text, "None") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(cmbaxis.Text, "None") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(cmbratetype.Text, "None") <> CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Please Select Rate First Before Upload", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Rate First Before Upload", Me.Text)
                 cmbrate.Select()
                 ErrorControl.SetError(cmbrate, "Please Select Rate First Before Upload")
                 Return
@@ -456,13 +456,13 @@ Public Class frmPriceChartUploaderCLR
             UcAttachment1.AddAttachment(OFDFileName, OFDSafeFileName)
             UcAttachment1.SaveData(Code)
 
-            clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             fndno.Value = Code
             LoadData()
             btnUpdate.Enabled = True
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Me.Controls.Remove(gv1)
     End Sub
@@ -508,7 +508,7 @@ Public Class frmPriceChartUploaderCLR
             gvCharges.AllowAutoSizeColumns = False
             gvCharges.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -580,7 +580,7 @@ Public Class frmPriceChartUploaderCLR
     Private Sub BtnSaveCharge_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSaveCharge.Click
         Try
             If clsCommon.myLen(fndno.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Price Code First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Price Code First.", Me.Text)
                 Exit Sub
             End If
             '============Check Total Charge Rate==============
@@ -614,7 +614,7 @@ Public Class frmPriceChartUploaderCLR
             End If
             '======================================================================
             funInsertCharges(fndno.Value, Nothing)
-            clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
@@ -657,13 +657,13 @@ Public Class frmPriceChartUploaderCLR
         Dim arrHeader As New List(Of String)
         arrHeader.Add(fndno.Value)
         clsCommon.MyExportToExcelGrid("Price Chart Uploader", gv, arrHeader, Me.Text)
-        clsCommon.MyMessageBoxShow("Sheet Exported Successfully..")
+        clsCommon.MyMessageBoxShow(Me, "Sheet Exported Successfully..", Me.Text)
     End Sub
 
     Private Sub BtnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnGo.Click
         Try
             If clsCommon.myCdbl(TxtFindFAT.Text) > 0 And clsCommon.myCdbl(TxtFindSNF.Text) > 0 And clsCommon.myCdbl(TxtFindRate.Text) > 0 Then
-                clsCommon.MyMessageBoxShow("Please either select FAT & CLR or Rate to Find.")
+                clsCommon.MyMessageBoxShow(Me, "Please either select FAT & CLR or Rate to Find.", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myCdbl(TxtFindFAT.Text) > 0 And clsCommon.myCdbl(TxtFindSNF.Text) > 0 Then
@@ -698,7 +698,7 @@ Public Class frmPriceChartUploaderCLR
         Try
             Dim str As String = "update tspl_fat_snf_Uploader_master set posted='1' where code='" & clsCommon.myCstr(fndno.Value) & "'"
             clsDBFuncationality.ExecuteNonQuery(str)
-            clsCommon.MyMessageBoxShow("Price Chart Posted Successfully...")
+            clsCommon.MyMessageBoxShow(Me, "Price Chart Posted Successfully...", Me.Text)
             BtnPost.Enabled = False
             BtnSaveCharge.Enabled = False
         Catch ex As Exception
@@ -718,14 +718,14 @@ Public Class frmPriceChartUploaderCLR
                     End If
                     Dim str As String = "update tspl_fat_snf_Uploader_master set Is_InActive=" & dblInactive & " where code='" & clsCommon.myCstr(fndno.Value) & "'"
                     clsDBFuncationality.ExecuteNonQuery(str)
-                    clsCommon.MyMessageBoxShow("Price Chart updated Successfully...")
+                    clsCommon.MyMessageBoxShow(Me, "Price Chart updated Successfully...", Me.Text)
 
                     BtnSaveCharge.Enabled = False
                 Else
-                    clsCommon.MyMessageBoxShow(" Price Code cannot be in-active because it is used on VLC Master  ")
+                    clsCommon.MyMessageBoxShow(Me, " Price Code cannot be in-active because it is used on VLC Master  ", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow(" Please Post the document first  ")
+                clsCommon.MyMessageBoxShow(Me, " Please Post the document first  ", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)

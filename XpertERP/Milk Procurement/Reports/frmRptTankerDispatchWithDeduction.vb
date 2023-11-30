@@ -194,7 +194,7 @@ Public Class frmRptTankerDispatchWithDeduction
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -352,7 +352,7 @@ Public Class frmRptTankerDispatchWithDeduction
             Dim qry As String = "select MCC_CODE,MCC_NAME from TSPL_MCC_MASTER"
             txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("tdwdmcc", qry, "MCC_CODE", "MCC_NAME", txtMCC.arrValueMember, txtMCC.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -361,7 +361,7 @@ Public Class frmRptTankerDispatchWithDeduction
             Dim qry As String = "select Tanker_No,Tanker_Transporter_Code,Description from tspl_Tanker_master"
             txtTankerNo.arrValueMember = clsCommon.ShowMultipleSelectForm("tdwdtanker", qry, "Tanker_No", "", txtTankerNo.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -371,7 +371,7 @@ Public Class frmRptTankerDispatchWithDeduction
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where (Location_Category='MCC' or Type='PLANT')"
             ToMccORPlant.arrValueMember = clsCommon.ShowMultipleSelectForm("tdwdmcc", qry, "Code", "Name", ToMccORPlant.arrValueMember, ToMccORPlant.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -380,7 +380,7 @@ Public Class frmRptTankerDispatchWithDeduction
             Dim qry As String = "Select Vendor_Code as Code,Vendor_Name as Name from TSPL_VENDOR_MASTER where isnull(Form_Type,'') ='TTM' and Status='N' "
             txtVendorNo.arrValueMember = clsCommon.ShowMultipleSelectForm("tdwdvendor", qry, "Code", "", txtVendorNo.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -395,7 +395,7 @@ Public Class frmRptTankerDispatchWithDeduction
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -405,7 +405,7 @@ Public Class frmRptTankerDispatchWithDeduction
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
@@ -455,10 +455,10 @@ Public Class frmRptTankerDispatchWithDeduction
                     clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

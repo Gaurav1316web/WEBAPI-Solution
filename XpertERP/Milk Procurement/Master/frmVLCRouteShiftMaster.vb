@@ -30,7 +30,7 @@ Public Class FrmVLCRouteShiftMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVLCRouteShiftMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -380,7 +380,7 @@ Public Class FrmVLCRouteShiftMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -432,9 +432,9 @@ Public Class FrmVLCRouteShiftMaster
                 If clsfrmVLCRouteShiftMaster.SaveData(obj.docno, arr, trans) Then
                     fndcode.Value = arr(0).docno
                     If clsCommon.CompairString(btnsave.Text, "&Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                     btnsave.Text = "&Update"
                     btndelete.Enabled = True
@@ -459,7 +459,7 @@ Public Class FrmVLCRouteShiftMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -469,7 +469,7 @@ Public Class FrmVLCRouteShiftMaster
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(fndcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Route Id For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Route Id For Deletion", Me.Text)
             fndcode.Focus()
             fndcode.Select()
             Errorcontrol.SetError(fndcode, "Please Select Route Id For Deletion")
@@ -485,11 +485,11 @@ Public Class FrmVLCRouteShiftMaster
         Try
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsfrmVLCRouteShiftMaster.DeleteData(clsCommon.myCstr(fndcode.Value), trans) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -750,11 +750,11 @@ Public Class FrmVLCRouteShiftMaster
                 clsCommon.ProgressBarHide()
                 trans.Commit()
                 Reset()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv1)
@@ -787,7 +787,7 @@ Public Class FrmVLCRouteShiftMaster
 
     Sub OpenRouteMaster()
         If clsCommon.myLen(clsCommon.myCstr(gv.CurrentRow.Cells(colvlccode).Value)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select First VLC Code/Name", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select First VLC Code/Name", Me.Text)
             Return
         End If
 
@@ -847,7 +847,7 @@ Public Class FrmVLCRouteShiftMaster
 
     Private Sub gv_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv.UserDeletingRow
         If clsCommon.myLen(fndcode.Value) > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 e.Cancel = True
                 Exit Sub
             Else
@@ -908,7 +908,7 @@ Public Class FrmVLCRouteShiftMaster
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
