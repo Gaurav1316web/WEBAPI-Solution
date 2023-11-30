@@ -23,14 +23,14 @@ Public Class RptPriceRateDifferenceReport
         Dim variable1 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ', ['+Charge_CODE+']' from (Select Distinct Charge_CODE from TSPL_FAT_SNF_UPLOADER_Chart_Detail) XXX For XML Path('')),1,1,'')"))
         Dim variable2 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ((Select ',isnull(['+Charge_CODE+'],0) as ['+Charge_CODE+']' from (Select Distinct Charge_CODE from TSPL_FAT_SNF_UPLOADER_Chart_Detail  ) XXX For XML Path('')))"))
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
 
         'Ticket No-BHA/21/11/18-000690
         If clsCommon.myLen(variable1) = 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             Exit Sub
         End If
 
@@ -79,7 +79,7 @@ Public Class RptPriceRateDifferenceReport
             FormatGrid()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -216,7 +216,7 @@ Public Class RptPriceRateDifferenceReport
                     clsCommon.MyExportToPDF("Price Rate Difference Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -259,7 +259,7 @@ Public Class RptPriceRateDifferenceReport
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -269,7 +269,7 @@ Public Class RptPriceRateDifferenceReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click

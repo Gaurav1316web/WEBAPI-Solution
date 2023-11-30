@@ -25,7 +25,7 @@ Public Class frmMilkGateEntryOut
             End If
             txtGWDate.ReadOnly = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickServerDateWithNoChange, clsFixedParameterCode.PickServerDateWithNoChange, Nothing)) = 1
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             If clsCommon.CompairString(ex.Message, "Gate entry not required") = CompairStringResult.Equal Then
                 CloseForm()
             End If
@@ -112,7 +112,7 @@ Public Class frmMilkGateEntryOut
             If clsCommon.CompairString(ex.Message, "Gate entry not required") = CompairStringResult.Equal Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -179,7 +179,7 @@ Public Class frmMilkGateEntryOut
                 obj.Reason_Gateout_Without_Milk_Receipt = txtGateOutWithoutMilkReceipt.Text
 
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully")
+                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
                 LoadData(obj.Gate_Out_Code, NavigatorType.Current)
             End If
         Catch ex As Exception

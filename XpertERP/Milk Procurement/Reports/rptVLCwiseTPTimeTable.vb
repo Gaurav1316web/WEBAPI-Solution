@@ -47,7 +47,7 @@ Public Class RptVLCwiseTPTimeTable
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptVLCWiseTimeTable", "")
                 frmCRV = Nothing
             Else
-                common.clsCommon.MyMessageBoxShow("No Data To Print")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Print", Me.Text)
 
             End If
         Catch ex As Exception
@@ -102,11 +102,11 @@ Public Class RptVLCwiseTPTimeTable
                 ReStoreGridLayout()
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                common.clsCommon.MyMessageBoxShow("No data found to display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funreset()
@@ -165,7 +165,7 @@ Public Class RptVLCwiseTPTimeTable
             Catch ex As Exception
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Print(ByVal exporter As EnumExportTo)

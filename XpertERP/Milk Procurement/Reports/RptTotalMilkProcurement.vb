@@ -20,7 +20,7 @@ Public Class rpttotalMilkProcurement
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -36,7 +36,7 @@ Public Class rpttotalMilkProcurement
         Try
 
             If Year(txtFromDate.Value) <> Year(txtToDate.Value) OrElse Month(txtFromDate.Value) <> Month(txtToDate.Value) Then
-                common.clsCommon.MyMessageBoxShow("Year/Month must be same in From and To Date for deatil report!")
+                common.clsCommon.MyMessageBoxShow("Year/Month must be same in From and To Date for deatil report!", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
@@ -228,7 +228,7 @@ Public Class rpttotalMilkProcurement
 
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
 
         Catch ex As Exception
@@ -385,11 +385,11 @@ Public Class rpttotalMilkProcurement
 
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -441,7 +441,7 @@ Public Class rpttotalMilkProcurement
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -535,7 +535,7 @@ Public Class rpttotalMilkProcurement
                 obj.GridLayout.Dispose()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
@@ -677,7 +677,7 @@ Public Class rpttotalMilkProcurement
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -709,7 +709,7 @@ Public Class rpttotalMilkProcurement
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Total Milk Procurement Report", gv, arrHeader, "Total Milk Procurement Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

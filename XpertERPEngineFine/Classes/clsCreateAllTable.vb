@@ -3820,6 +3820,7 @@ Public Class clsCreateAllTable
             coll.Add("Model", "varchar(50) null")
             coll.Add("Number", "varchar(50) null")
             coll.Add("Description", "varchar(50) null")
+            coll.Add("DriverName", "varchar(50) null")
             coll.Add("Vehicle_Reg_No", "varchar(30) null")
             coll.Add("Vehicle_Chesis_No", "varchar(50) null")
             coll.Add("Capacity", "decimal(18,2) null")

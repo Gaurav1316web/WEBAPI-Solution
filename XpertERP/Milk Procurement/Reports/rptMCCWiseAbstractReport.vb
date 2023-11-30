@@ -19,12 +19,12 @@ Public Class rptMCCWiseAbstractReport
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
                 fndLoc.Focus()
-                clsCommon.MyMessageBoxShow("Please select the Shed first")
+                clsCommon.MyMessageBoxShow(Me, "Please select the Shed first", Me.Text)
                 Exit Sub
             End If
             If dtpFromDate.Value > dtpToDate.Value Then
                 dtpFromDate.Focus()
-                clsCommon.MyMessageBoxShow(" 'From Date' can't be larger than 'To Date'")
+                clsCommon.MyMessageBoxShow(Me, " 'From Date' can't be larger than 'To Date'", Me.Text)
                 Exit Sub
             End If
 
@@ -503,7 +503,7 @@ Public Class rptMCCWiseAbstractReport
                 RadPageView1.SelectedPage = RadPageViewPage2
 
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
             If rdbDetails.Checked = False And rdbSummary.Checked = False Then
@@ -802,7 +802,7 @@ Public Class rptMCCWiseAbstractReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Shared Function SetSpace(ByVal strValue As String) As String
@@ -940,10 +940,10 @@ Public Class rptMCCWiseAbstractReport
                 'transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -960,10 +960,10 @@ Public Class rptMCCWiseAbstractReport
                 'transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1005,12 +1005,12 @@ Public Class rptMCCWiseAbstractReport
         Dim PaymentCycleValue As Integer = 0
         ' If Not isLoad Then
         If clsCommon.myLen(fndLoc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select the Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
             Exit Sub
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.Plant_Code ='" & fndLoc.Value & "'")
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+            clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
             Exit Sub
         End If
         PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -1034,7 +1034,7 @@ Public Class rptMCCWiseAbstractReport
             End If
         ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                 dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 dtpToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 Exit Sub
@@ -1042,7 +1042,7 @@ Public Class rptMCCWiseAbstractReport
             dtpToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDate.Value)
         ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                 dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 dtpToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 Exit Sub
@@ -1069,12 +1069,12 @@ Public Class rptMCCWiseAbstractReport
             Dim PaymentCycleValue As Integer = 0
             ' If Not isLoad Then
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select the Location first")
+                clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
                 Exit Sub
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select isnull(TSPL_MCC_MASTER.empOnAmountOnly,0) as empOnAmountOnly,TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.Plant_Code ='" & fndLoc.Value & "'")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -1094,7 +1094,7 @@ Public Class rptMCCWiseAbstractReport
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                     dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                     dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                     Exit Sub
@@ -1102,7 +1102,7 @@ Public Class rptMCCWiseAbstractReport
                 dtpToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                     dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                     dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                     Exit Sub
@@ -1147,7 +1147,7 @@ Public Class rptMCCWiseAbstractReport
     Public Sub MilkRepiptPrint(ByVal isDotMaterixPrint As Boolean)
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 Return
             End If
             Dim strCorrectionFactor As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select  Description from TSPL_FIXED_PARAMETER where code = 'MCCdefaultCorrectionFactorBS'  and Type = 'MCCdefaultCorrectionFactorBS'"))
@@ -1278,22 +1278,22 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Landscap, "AddDash", "1")
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Public Sub CheckListPrint(ByVal isDotMaterixPrint As Boolean)
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 Return
             End If
             If clsCommon.myLen(fndSingleMCCCode.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC First.", Me.Text)
                 Return
             End If
             Dim strShift As String = ""
@@ -1494,22 +1494,22 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Landscap, "AddDash", "1")
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Public Sub UnitWiseTotal(ByVal isDotMaterixPrint As Boolean)
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 Return
             End If
             If clsCommon.myLen(fndSingleMCCCode.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC First.", Me.Text)
                 Return
             End If
             Dim strShift As String = ""
@@ -1665,11 +1665,11 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Landscap, "AddDash", "1")
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1677,11 +1677,11 @@ Public Class rptMCCWiseAbstractReport
     Public Sub UnitwiseAnalysis(ByVal isDotMaterixPrint As Boolean)
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Plant First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Plant First.", Me.Text)
                 Return
             End If
             If clsCommon.myLen(fndSingleMCCCode.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC First.", Me.Text)
                 Return
             End If
             Dim strShift As String = ""
@@ -1858,11 +1858,11 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Landscap, "AddDash", "1")
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2112,11 +2112,11 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Landscap, "AddDash", "1")
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2233,11 +2233,11 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Landscap)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2349,11 +2349,11 @@ Public Class rptMCCWiseAbstractReport
                     obj.Print(obj, dt, PageSetup.Potrate)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2675,10 +2675,10 @@ Public Class rptMCCWiseAbstractReport
                     Process.Start(subPath)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2733,7 +2733,7 @@ Public Class rptMCCWiseAbstractReport
             End If
             txtReciptMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUMCCAAA", qry, "Code", "NAME", txtReciptMCC.arrValueMember, txtReciptMCC.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2855,7 +2855,7 @@ Public Class rptMCCWiseAbstractReport
 
     Private Sub fndSingleMCCCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndSingleMCCCode._MYValidating
         If clsCommon.myLen(fndLoc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("First Select Shed")
+            clsCommon.MyMessageBoxShow(Me, "First Select Shed", Me.Text)
             Return
         End If
         Dim qry As String = " Select MCC_Code , MCC_NAME  from TSPL_MCC_MASTER  "
@@ -3077,7 +3077,7 @@ Public Class rptMCCWiseAbstractReport
                 SetToDate()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3090,7 +3090,7 @@ Public Class rptMCCWiseAbstractReport
                 SetToDate()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

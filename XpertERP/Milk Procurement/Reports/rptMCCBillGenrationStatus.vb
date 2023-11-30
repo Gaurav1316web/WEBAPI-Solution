@@ -61,7 +61,7 @@ Public Class rptMCCBillGenrationStatus
         '    End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TOP 1 TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   order by TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  desc ") ' where TSPL_MCC_MASTER.MCC_Code ='" & txtMCC.Value & "'")
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Payment Cycle found")
+            clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found", Me.Text)
             Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -86,16 +86,16 @@ Public Class rptMCCBillGenrationStatus
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
-                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
+                txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
                 End If
                 txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
-                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
+                txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
                 End If
@@ -114,7 +114,7 @@ Public Class rptMCCBillGenrationStatus
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -965,7 +965,7 @@ Public Class rptMCCBillGenrationStatus
 
             dt = clsDBFuncationality.GetDataTable(FinalQuery)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             gv.DataSource = Nothing
@@ -986,7 +986,7 @@ Public Class rptMCCBillGenrationStatus
             ReStoreGridLayout()
             gv.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1073,7 +1073,7 @@ Public Class rptMCCBillGenrationStatus
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1083,7 +1083,7 @@ Public Class rptMCCBillGenrationStatus
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rbtnMCCRouteVLCCAll_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
@@ -1172,7 +1172,7 @@ Public Class rptMCCBillGenrationStatus
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
             RefreshVLC()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1189,7 +1189,7 @@ Public Class rptMCCBillGenrationStatus
 
             txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC", qry, "VLC_Code", "VLC_Name", txtVLC.arrValueMember, txtVLC.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1273,7 +1273,7 @@ Public Class rptMCCBillGenrationStatus
             common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1302,7 +1302,7 @@ Public Class rptMCCBillGenrationStatus
 
             clsCommon.MyExportToPDF("MCC Bill Genration Status", gv, arrHeader, "MCC Bill Genration Status", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1340,7 +1340,7 @@ Public Class rptMCCBillGenrationStatus
         If fndPlant.arrValueMember IsNot Nothing AndAlso fndPlant.arrValueMember.Count > 0 Then
         Else
 
-            clsCommon.MyMessageBoxShow("Please first select Plant code.")
+            clsCommon.MyMessageBoxShow(Me, "Please first select Plant code.", Me.Text)
             Return
         End If
         Dim qry As String = "select distinct TSPL_Location_MASTER.Location_Code as Code, TSPL_Location_MASTER.Location_Desc as Name,Loc_Segment_Code as PlantCode, TSPL_GL_SEGMENT_CODE.description as [PlantName] from TSPL_Location_MASTER inner join TSPL_GL_SEGMENT_CODE on TSPL_Location_MASTER.Loc_Segment_Code = TSPL_GL_SEGMENT_CODE.Segment_code  and TSPL_Location_MASTER.Rejected_Type = 'N' and TSPL_Location_MASTER.Location_Category='MCC' and Loc_Segment_Code in (" + clsCommon.GetMulcallStringWithComma(fndPlant.arrValueMember) + ") "

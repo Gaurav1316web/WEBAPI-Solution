@@ -100,7 +100,7 @@ Public Class RptWeightment
             cbgLocations.ValueMember = "Code"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -118,7 +118,7 @@ Public Class RptWeightment
             rbLocationsAll.IsChecked = True
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RptWeightment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -134,7 +134,7 @@ Public Class RptWeightment
             Loadvendor()
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub print(ByVal exporter As EnumExportTo)
@@ -204,7 +204,7 @@ Public Class RptWeightment
                     clsCommon.MyExportToPDF("Weigment Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -290,24 +290,24 @@ Public Class RptWeightment
                 'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
                 'Process.Start(filePath)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.", Me.Text)
             Exit Sub
         End If
         If chkTankerSelect.IsChecked AndAlso cbgTanker.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Tanker or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Tanker or select all.", Me.Text)
             Exit Sub
         End If
 
@@ -343,7 +343,7 @@ Public Class RptWeightment
             RadPageView1.SelectedPage = RadPageViewPage2
             FormatGrid()
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -413,7 +413,7 @@ Public Class RptWeightment
             TemplateGridview = gv
             Load_Report()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -426,7 +426,7 @@ Public Class RptWeightment
         Try
             cbgLocations.Enabled = rbLocationsSelect.IsChecked
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

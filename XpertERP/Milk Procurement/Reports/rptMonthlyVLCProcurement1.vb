@@ -20,7 +20,7 @@ Public Class RptMonthlyVLCProcurement1
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -56,16 +56,16 @@ Public Class RptMonthlyVLCProcurement1
 
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can't be greater than to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can't be greater than to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
 
         If cboUnit.Text = "" Then
-            clsCommon.MyMessageBoxShow("Please select Unit")
+            clsCommon.MyMessageBoxShow("Please select Unit", Me.Text)
         End If
         If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         'Sanjay Ticket No-TEC/04/07/19-000928, case when sum(NewQty)>0
@@ -144,7 +144,7 @@ Public Class RptMonthlyVLCProcurement1
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
         End If
 
         ReStoreGridLayout()
@@ -333,7 +333,7 @@ Public Class RptMonthlyVLCProcurement1
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -342,7 +342,7 @@ Public Class RptMonthlyVLCProcurement1
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RptMonthlyVLCProcurement1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

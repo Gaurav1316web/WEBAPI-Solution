@@ -145,7 +145,7 @@ Public Class RptVSPAssetIssue1
                     clsCommon.MyExportToPDF("VSP ASSET ISSUE REPORT", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -153,7 +153,7 @@ Public Class RptVSPAssetIssue1
     End Sub
     Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
@@ -572,7 +572,7 @@ Public Class RptVSPAssetIssue1
                 FormatGrid2()
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
             ReStoreGridLayout()
             gv.BestFitColumns()
@@ -765,8 +765,8 @@ Public Class RptVSPAssetIssue1
             FormatGrid()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
-        End If
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
             ReStoreGridLayout()
         Else
             Dim strqry1 As String = " select Transaction_Type as [Transaction Type], InOut,Doc_No as [Document No] ,Doc_Date as [Document Date], MCC as [MCC Code], MCC_NAME as [MCC Name] , Vsp_Code as [Vendor Code],  Vendor_Name as [Vendor Name],Item_Code ,  Item_Desc as [Item Name] ,Issued_Qty as Qty,Return_Qty  ,UOM ,Route_Code as [Route Code], Route_Name as [Route Name], VLC_CODE as [VLC Code],VLC_Name as [VLC Name] , VLC_Code_VLC_Uploader as [VLC Data Code] from " + sQuery + " as dd"
@@ -784,7 +784,7 @@ Public Class RptVSPAssetIssue1
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
 
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 If FlagDrillDownNoData = False AndAlso cboType.SelectedIndex = 0 AndAlso rbtnSummary.IsChecked = True Then
                     FlagDrillDownNoData = True
                 End If
@@ -1379,7 +1379,7 @@ Public Class RptVSPAssetIssue1
             End If
             PageSetupReport_ID = MyBase.Form_ID + IIf(rbtnSummary.IsChecked = True, "S", "D")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
@@ -1395,7 +1395,7 @@ Public Class RptVSPAssetIssue1
                 RadPageView1.SelectedPage = RadPageViewPage1
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub TxtMultiMCC__My_Click(sender As Object, e As EventArgs) Handles TxtMultiMCC._My_Click

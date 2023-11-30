@@ -2359,7 +2359,7 @@ Public Class frmMCCMaterialSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -2580,7 +2580,7 @@ Public Class frmMCCMaterialSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2588,7 +2588,7 @@ Public Class frmMCCMaterialSale
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -3333,31 +3333,31 @@ Public Class frmMCCMaterialSale
         UpdateAllTotals()
         CalculateDiscountAmount()
         If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             txtVendorNo.Focus()
             Return False
         End If
         GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
         If GSTStatus = False OrElse (chkTaxable.Checked AndAlso GSTStatus = True) Then
             If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
                 txtTaxGroup.Focus()
                 Return False
             End If
         End If
         If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
             txtBillToLocation.Focus()
             Return False
         End If
         If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Shipment No Not found to save")
+            common.clsCommon.MyMessageBoxShow(Me, "Shipment No Not found to save", Me.Text)
             txtDocNo.Focus()
             Return False
         End If
         If AllowChangeInvoiceType Then
             If clsCommon.myLen(ddlInvoiceType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select invoice  Type for creating auto invoice")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select invoice  Type for creating auto invoice", Me.Text)
                 cboItemType.Focus()
                 Return False
             Else
@@ -3523,7 +3523,7 @@ Public Class frmMCCMaterialSale
             If clsLocation.isLocatinExcisable(txtBillToLocation.Value) Then
                 Dim qry As String = "select Type  from TSPL_TAX_MASTER where Tax_Code ='" + clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value) + "' "
                 If Not clsCommon.CompairString("E", clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))) = CompairStringResult.Equal Then
-                    common.clsCommon.MyMessageBoxShow("Tax should be excisable for excisable location")
+                    common.clsCommon.MyMessageBoxShow("Tax should be excisable for excisable location", Me.Text)
                     Return False
                 End If
             End If
@@ -3902,7 +3902,7 @@ Public Class frmMCCMaterialSale
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -3938,7 +3938,7 @@ Public Class frmMCCMaterialSale
                     If (obj.SaveData(obj, isNewEntry)) Then
                         UcAttachment1.SaveData(obj.Document_Code)
                         If ChekPostBtn = False And IsDataImported = False Then
-                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                         End If
                         LoadData(obj.Document_Code, NavigatorType.Current)
                     End If
@@ -3949,7 +3949,7 @@ Public Class frmMCCMaterialSale
             Return True
         Catch ex As Exception
             If ChekPostBtn = False Then
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Else
                 Throw New Exception(ex.Message)
             End If
@@ -4654,7 +4654,7 @@ Public Class frmMCCMaterialSale
             txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtBillToLocation.Value, txtDate.Value)
             txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtBillToLocation.Value, txtDate.Value)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4733,7 +4733,7 @@ Public Class frmMCCMaterialSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4745,7 +4745,7 @@ Public Class frmMCCMaterialSale
         Dim strGITLoc As String
         If chkAutoTransfer.Checked = True Then
             If clsCommon.myLen(txtFromLoc.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select From Location")
+                common.clsCommon.MyMessageBoxShow("Please select From Location", Me.Text)
                 txtFromLoc.Focus()
                 Return False
             End If
@@ -5015,7 +5015,7 @@ Public Class frmMCCMaterialSale
                             'End If
                         Next
                         If (objIn.Arr Is Nothing OrElse objIn.Arr.Count <= 0) Then
-                            common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                            common.clsCommon.MyMessageBoxShow("Please Fill at list one Item", Me.Text)
                             trans.Rollback()
 
                         End If
@@ -5032,7 +5032,7 @@ Public Class frmMCCMaterialSale
                 Catch ex As Exception
                     trans.Rollback()
 
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If
@@ -5091,7 +5091,7 @@ Public Class frmMCCMaterialSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5116,12 +5116,12 @@ Public Class frmMCCMaterialSale
                 End If
                 If (clsMCCMaterialSale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5171,7 +5171,7 @@ Public Class frmMCCMaterialSale
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5301,7 +5301,7 @@ Public Class frmMCCMaterialSale
                 Throw New Exception("Please select Location First")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -5449,11 +5449,11 @@ Public Class frmMCCMaterialSale
             End If
             If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
                 If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                    clsCommon.MyMessageBoxShow("Please Enter valid customer Code/VLC Uploader Code")
+                    clsCommon.MyMessageBoxShow("Please Enter valid customer Code/VLC Uploader Code", Me.Text)
                     txtVendorNo.Value = ""
                     txtVendorNo.Focus()
                 Else
-                    clsCommon.MyMessageBoxShow("Please select Location first")
+                    clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
                 End If
 
                 Exit Sub
@@ -5484,7 +5484,7 @@ Public Class frmMCCMaterialSale
             Dim strwherecls As String = ""
             strwherecls = MyBase.Cust_CustomerVendorMapping()
             If clsCommon.myLen(strwherecls) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Customer Found")
+                clsCommon.MyMessageBoxShow("No Customer Found", Me.Text)
                 Exit Sub
             End If
             '-----------------------------------------------------
@@ -5636,7 +5636,7 @@ Public Class frmMCCMaterialSale
                 'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return arrloc
     End Function
@@ -5679,7 +5679,7 @@ Public Class frmMCCMaterialSale
         Try
             SetTax()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6123,7 +6123,7 @@ Public Class frmMCCMaterialSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6333,7 +6333,7 @@ Public Class frmMCCMaterialSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6544,7 +6544,7 @@ Public Class frmMCCMaterialSale
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6574,7 +6574,7 @@ Public Class frmMCCMaterialSale
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6816,7 +6816,7 @@ Public Class frmMCCMaterialSale
             gv1.Rows(IntRowNo).Cells(colMRP).Value = Math.Round(dblMRP, 2)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6863,7 +6863,7 @@ Public Class frmMCCMaterialSale
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6875,7 +6875,7 @@ Public Class frmMCCMaterialSale
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6935,7 +6935,7 @@ Public Class frmMCCMaterialSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7009,7 +7009,7 @@ Public Class frmMCCMaterialSale
 
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -7023,7 +7023,7 @@ Public Class frmMCCMaterialSale
                 e.RowElement.ForeColor = Color.Black
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -7438,7 +7438,7 @@ Public Class frmMCCMaterialSale
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7559,7 +7559,7 @@ Public Class frmMCCMaterialSale
 
                 objEmailH.SaveData(MyBase.Form_ID, objEmailH, Nothing)
                 objEmailH = Nothing
-                clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                 'SMSSENDONLY(False)
                 Dim obj As clsMCCMaterialSale = clsMCCMaterialSale.GetData(txtDocNo.Value, NavigatorType.Current)
                 clsMCCMaterialSale.SMSSENDONLY(obj, Nothing, False)
@@ -7765,7 +7765,7 @@ Public Class frmMCCMaterialSale
             'SendEmail(lstUsers, False)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -7801,7 +7801,7 @@ Public Class frmMCCMaterialSale
 
             SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8690,7 +8690,7 @@ Public Class frmMCCMaterialSale
                 iswithouterror = True
 a:          End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             iswithouterror = False
         Finally
             isInsideLoadData = False
@@ -8742,7 +8742,7 @@ a:          End If
 
     Private Sub BtnDeleteLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnDeleteLayout.Click
         clsGridLayout.DeleteData("MilkMaterialGrid", objCommonVar.CurrentUserCode)
-        clsCommon.MyMessageBoxShow("Layout Deleted Successfully.")
+        clsCommon.MyMessageBoxShow("Layout Deleted Successfully.", Me.Text)
         LoadData(txtDocNo.Value, NavigatorType.Current)
     End Sub
 
@@ -8777,14 +8777,14 @@ a:          End If
                     obj.EWayBillDate = txtEWayBillDate.Value
                 End If
                 If clsMCCMaterialSale.UpdateAfterPosting(obj, txtDocNo.Value, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow("Information updated successfully.", Me.Text)
                 End If
 
             Else
                 Throw New Exception("Document no not found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating

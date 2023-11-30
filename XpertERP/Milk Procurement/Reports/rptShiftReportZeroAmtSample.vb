@@ -19,7 +19,7 @@ Public Class RptShiftReportZeroAmtSample
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -186,17 +186,17 @@ Public Class RptShiftReportZeroAmtSample
         Dim companyADD, CompName, CompCode As String
 
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
        
         If chkVSPSelect.IsChecked AndAlso cbgVSP.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single VSP or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single VSP or select all.", Me.Text)
             Exit Sub
         End If
         If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         Dim whrcls As String = " where 2=2 "
@@ -298,7 +298,7 @@ Public Class RptShiftReportZeroAmtSample
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -443,7 +443,7 @@ Public Class RptShiftReportZeroAmtSample
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -452,7 +452,7 @@ Public Class RptShiftReportZeroAmtSample
     End Sub
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         btnReferesh = False
