@@ -13343,7 +13343,7 @@ Public Class clsCreateAllTable
             coll.Add("TC_Certified", "varchar(50) null")
             coll.Add("MP_Code", "varchar(30) null REFERENCES TSPL_MP_MASTER (MP_Code)")
             coll.Add("MP_Name", "varchar(30) null ")
-            coll.Add("Cheque_In_Favour_Of", "varchar(100) null ")
+            coll.Add("Cheque_In_Favour_Of", "varchar(200) null ")
             coll.Add("is_Drip_Saver", "varchar(1) null ")
             coll.Add("Other_For_PAN", "int NOT NULL default 0")
             coll.Add("Joint_Branch_Name", "varchar(50) null ")
@@ -13505,6 +13505,8 @@ Public Class clsCreateAllTable
             coll.Add("Is_Provisional", "Integer not null default 0")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
+
+            clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Transpoter_Id", "varchar(12) NOT NULL References TSPL_VENDOR_MASTER(Vendor_Code)")

@@ -171,6 +171,50 @@ Public Class clsHeadLoadMaster
         Return True
     End Function
 
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim isResponse As Boolean = False
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If ReverseAndUnpost(strCode, trans) Then
+                isResponse = True
+            Else
+                isResponse = False
+            End If
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return isResponse
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Dim isResponse As Boolean = True
+        Try
+
+            Dim obj As clsHeadLoadMaster = clsHeadLoadMaster.GetData(strCode, NavigatorType.Current, Nothing, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
+                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+                isResponse = False
+            End If
+
+            If Not obj.Status = 1 Then
+                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+                isResponse = False
+            End If
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Status", 0)
+            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HEAD_LOAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return isResponse
+    End Function
+
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
