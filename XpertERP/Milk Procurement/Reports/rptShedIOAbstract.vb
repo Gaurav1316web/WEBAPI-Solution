@@ -75,7 +75,7 @@ Public Class rptShedIOAbstract
             PageSetupReport_ID = GetReportID()
             Load_Data()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub Load_Data()
@@ -532,7 +532,7 @@ Public Class rptShedIOAbstract
             Gv1.BestFitColumns()
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1051,7 +1051,7 @@ Public Class rptShedIOAbstract
             obj.GridColumns = Gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ' stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1060,7 +1060,7 @@ Public Class rptShedIOAbstract
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(GetReportID(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -1107,7 +1107,7 @@ Public Class rptShedIOAbstract
                 clsCommon.MyMessageBoxShow("No data found to export", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub PDF_Click(sender As Object, e As EventArgs) Handles PDF.Click
@@ -1119,11 +1119,11 @@ Public Class rptShedIOAbstract
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                clsCommon.MyMessageBoxShow("No data found to export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Gv1_ViewCellFormatting(sender As Object, e As CellFormattingEventArgs) Handles Gv1.ViewCellFormatting
@@ -1152,12 +1152,12 @@ Public Class rptShedIOAbstract
         Dim PaymentCycleValue As Integer = 0
         ' If Not isLoad Then
         If clsCommon.myLen(txtShed.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select the Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
             Exit Sub
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.Plant_Code ='" & txtShed.Value & "'")
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+            clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
             Exit Sub
         End If
         PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -1181,7 +1181,7 @@ Public Class rptShedIOAbstract
             End If
         ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                 txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 Exit Sub
@@ -1189,7 +1189,7 @@ Public Class rptShedIOAbstract
             txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
         ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                 txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 Exit Sub

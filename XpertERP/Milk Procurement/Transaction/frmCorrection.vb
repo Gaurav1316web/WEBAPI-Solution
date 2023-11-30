@@ -140,7 +140,7 @@ Public Class frmCorrection
 
             'RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -329,7 +329,7 @@ Public Class frmCorrection
                 label.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -627,7 +627,7 @@ Public Class frmCorrection
     Private Sub RadButton290_Click(sender As Object, e As EventArgs) Handles RadButton290.Click
         If txtMPCMMCC.arrValueMember Is Nothing OrElse txtMPCMMCC.arrValueMember.Count < 0 Then
             txtMPCMMCC.Focus()
-            clsCommon.MyMessageBoxShow("Please First select MCC")
+            clsCommon.MyMessageBoxShow("Please First select MCC", Me.Text)
         End If
         If clsCommon.MyMessageBoxShow("Correct Pro data." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
@@ -636,7 +636,7 @@ Public Class frmCorrection
 
         Dim settBennyImportPickRateFromPrice As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BennyImportPickRateFromPrice, clsFixedParameterCode.BennyImportPickRateFromPrice, Nothing)) = 1)
         If Not settBennyImportPickRateFromPrice Then
-            clsCommon.MyMessageBoxShow("This utility is not fou you")
+            clsCommon.MyMessageBoxShow("This utility is not fou you", Me.Text)
             Exit Sub
         End If
         Dim tran As SqlTransaction = Nothing

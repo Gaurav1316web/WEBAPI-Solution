@@ -104,11 +104,11 @@ Public Class RptMilkWeigmentRegister
                 gv.DataSource = Nothing
                 gv.Rows.Clear()
                 gv.Columns.Clear()
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -165,7 +165,7 @@ Public Class RptMilkWeigmentRegister
     Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
         Try
             If gv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -204,7 +204,7 @@ Public Class RptMilkWeigmentRegister
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -224,7 +224,7 @@ Public Class RptMilkWeigmentRegister
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -233,13 +233,13 @@ Public Class RptMilkWeigmentRegister
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
         Try
             If gv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()

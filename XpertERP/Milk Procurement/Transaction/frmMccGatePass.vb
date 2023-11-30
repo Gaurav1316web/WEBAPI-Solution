@@ -220,7 +220,7 @@ Public Class frmMccGatePass
                 txtmultiBooking.arrValueMember = list
                 ' **************************************************************************************************
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
@@ -299,7 +299,7 @@ Public Class frmMccGatePass
                 funLoadGrid(txtCode.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -308,13 +308,13 @@ Public Class frmMccGatePass
     Function AllowToSave() As Boolean
         If clsCommon.CompairString(cmbtype.SelectedIndex, 2) = CompairStringResult.Equal Then
             If clsCommon.myLen(txtVehicle.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vehicle No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle No", Me.Text)
                 txtVehicle.Focus()
                 Return False
             End If
         End If
         If clsCommon.myLen(txtLocCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             txtLocCode.Focus()
             Return False
         End If
@@ -407,16 +407,16 @@ Public Class frmMccGatePass
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
+                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Document", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(obj, isNewEntry, "MCC")) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     LoadData(obj.GPCode, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -583,7 +583,7 @@ Public Class frmMccGatePass
 
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -612,7 +612,7 @@ Public Class frmMccGatePass
 
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Post Record")
+            common.clsCommon.MyMessageBoxShow("You Cannot Post Record", Me.Text)
             Exit Sub
         End If
         If myMessages.postConfirm() Then
@@ -648,7 +648,7 @@ Public Class frmMccGatePass
             frmStock.LoadDispatchData(strQuery)
             frmStock.Show()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -676,7 +676,7 @@ Public Class frmMccGatePass
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
@@ -696,7 +696,7 @@ Public Class frmMccGatePass
         txtmultiBooking.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSel", strAllDoc, "Document Code", "Document code", txtmultiBooking.arrValueMember, txtmultiBooking.arrDispalyMember)
             funFillGrid2()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

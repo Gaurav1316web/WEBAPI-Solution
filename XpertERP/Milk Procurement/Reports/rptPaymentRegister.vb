@@ -18,7 +18,7 @@ Public Class RptPaymentRegister
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -72,7 +72,7 @@ Public Class RptPaymentRegister
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -82,7 +82,7 @@ Public Class RptPaymentRegister
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()
@@ -151,21 +151,21 @@ Public Class RptPaymentRegister
 
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         If chkBankSelect.IsChecked AndAlso cbgBank.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Bank or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Bank or select all.", Me.Text)
             Exit Sub
         End If
        
         If chkVSPSelect.IsChecked AndAlso cbgVSP.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single VSP or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single VSP or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = "select TSPL_VENDOR_MASTER.Vendor_Code as VSP_CODE,Vendor_Name as Vsp_name,TSPL_MILK_RECEIPT_DETAIL.VLC_CODE+', Name - '+VLC_Name as VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) as shift_date ,case when TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 'Morning'  else 'Evening' end as  Shift_type,TSPL_MILK_RECEIPT_DETAIL.TYPE,TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO,MILK_WEIGHT as Qty,TSPL_MILK_SAMPLE_DETAIL.FAT,TSPL_MILK_SAMPLE_DETAIL.SNF,convert(decimal(18,3),TSPL_MILK_SAMPLE_DETAIL.FAT*Qty /100) as Fat_KG,convert(Decimal(18,3),TSPL_MILK_SAMPLE_DETAIL.snf*Qty /100) as SNF_KG,RATE,amount,TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE +', Name -'+Route_name as ROUTE_CODE,TSPL_mcc_ROUTE_MASTER.Route_name,TSPL_VLC_MASTER_HEAD.Village_Code,Village_Name,TSPL_MILK_RECEIPT_DETAIL.MCC_Code+' Name- '+MCC_NAME as MCC_Code ,TSPL_MCC_MASTER .MCC_NAME  "
@@ -200,7 +200,7 @@ Public Class RptPaymentRegister
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

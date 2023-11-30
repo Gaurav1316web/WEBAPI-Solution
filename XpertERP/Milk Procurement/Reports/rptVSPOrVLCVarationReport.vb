@@ -21,7 +21,7 @@ Public Class RptVSPOrVLCVarationReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -128,7 +128,7 @@ Public Class RptVSPOrVLCVarationReport
 
         If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
 
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
 
@@ -176,7 +176,7 @@ Public Class RptVSPOrVLCVarationReport
         'FormatGrid()
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
 
@@ -329,7 +329,7 @@ Public Class RptVSPOrVLCVarationReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

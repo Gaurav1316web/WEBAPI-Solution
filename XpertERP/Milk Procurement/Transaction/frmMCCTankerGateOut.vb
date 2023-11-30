@@ -68,7 +68,7 @@ Public Class FrmMCCTankerGateOut
             btnUnpost.Visible = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             If clsCommon.CompairString(ex.Message, "MCC Tanker Gate out Not Required") = CompairStringResult.Equal Then
                 Me.Close()
             End If
@@ -132,7 +132,7 @@ Public Class FrmMCCTankerGateOut
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -178,15 +178,15 @@ Public Class FrmMCCTankerGateOut
 
             If clsMCCTankerGateOut.saveData(obj, isNewEntry) Then
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
                 End If
                 LoadData(obj.GATE_OUT_NO, NavigatorType.Current)
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -203,7 +203,7 @@ Public Class FrmMCCTankerGateOut
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -305,7 +305,7 @@ Public Class FrmMCCTankerGateOut
             End If
         Catch ex As Exception
             isLoadData = False
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -374,7 +374,7 @@ Public Class FrmMCCTankerGateOut
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -509,11 +509,11 @@ Public Class FrmMCCTankerGateOut
             End If
 
             If clsMCCTankerGateOut.Cancel(fndGateOutNo.Value) Then
-                clsCommon.MyMessageBoxShow("Gate Out cancelled successfully!")
+                clsCommon.MyMessageBoxShow("Gate Out cancelled successfully!", Me.Text)
                 LoadData(fndGateOutNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -562,7 +562,7 @@ Public Class FrmMCCTankerGateOut
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -641,7 +641,7 @@ Public Class FrmMCCTankerGateOut
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -680,7 +680,7 @@ Public Class FrmMCCTankerGateOut
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -715,7 +715,7 @@ Public Class FrmMCCTankerGateOut
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

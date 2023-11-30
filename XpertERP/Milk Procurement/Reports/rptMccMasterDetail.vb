@@ -204,12 +204,12 @@ Public Class rptMccMasterDetail
                 Gv1.EnableFiltering = True
                 ControlEnableDisable(False)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -236,7 +236,7 @@ Public Class rptMccMasterDetail
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -250,7 +250,7 @@ Public Class rptMccMasterDetail
                 transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -265,7 +265,7 @@ Public Class rptMccMasterDetail
                 clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -280,7 +280,7 @@ Public Class rptMccMasterDetail
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()

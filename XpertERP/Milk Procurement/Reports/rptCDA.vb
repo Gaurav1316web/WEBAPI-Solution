@@ -17,7 +17,7 @@ Public Class RptCDA
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -32,13 +32,13 @@ Public Class RptCDA
     End Sub
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater than to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         
         If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         Dim whrcls As String = " where 2=2 "
@@ -127,7 +127,7 @@ Public Class RptCDA
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
         view()
@@ -375,7 +375,7 @@ Public Class RptCDA
                     clsCommon.MyExportToPDF("CDA", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -391,7 +391,7 @@ Public Class RptCDA
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     
     Private Sub rmSaveLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmSaveLayout.Click
@@ -405,7 +405,7 @@ Public Class RptCDA
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

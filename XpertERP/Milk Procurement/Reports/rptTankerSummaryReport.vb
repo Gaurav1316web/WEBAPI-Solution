@@ -19,7 +19,7 @@ Public Class RptTankerSummaryReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -62,16 +62,16 @@ Public Class RptTankerSummaryReport
     '=============================Update by Preeti Gupta Against Ticket No[BM00000008169,ERO/15/02/19-000489]======================
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         If chkTankerSelect.IsChecked AndAlso cbgTanker.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Tanker or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Tanker or select all.", Me.Text)
             Exit Sub
         End If
         'Take care Chamber wise Ticket no- ERO/17/05/18-000315
@@ -216,8 +216,8 @@ Public Class RptTankerSummaryReport
             View()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
-            End If
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+        End If
         ReStoreGridLayout()
     End Sub
 
@@ -544,7 +544,7 @@ Public Class RptTankerSummaryReport
             End If
 
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -674,7 +674,7 @@ Public Class RptTankerSummaryReport
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
@@ -682,7 +682,7 @@ Public Class RptTankerSummaryReport
         Try
             print(EnumExportTo.Excel)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -724,7 +724,7 @@ Public Class RptTankerSummaryReport
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             clsCommon.MyExportToPDF("TANKER SUMMARY REPORT", gv, arrHeader, "TANKER SUMMARY REPORT", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

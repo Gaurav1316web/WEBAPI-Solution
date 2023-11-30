@@ -134,15 +134,15 @@ Public Class FrmMCCTankerGateOutSecurity
                 clsMCCTankerGateOutSecurity.saveData(obj, IsNewEntry)
                 If Not isPost Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
                     End If
                 End If
                 loadData(obj.Doc_No, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub loadData(ByVal str As String, ByVal navtype As NavigatorType)
@@ -174,15 +174,15 @@ Public Class FrmMCCTankerGateOutSecurity
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 If deleteConfirm() Then
                     If clsMCCTankerGateOutSecurity.deleteData(fndDocNo.Value) Then
-                        clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                        clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
                         AddNew()
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select Document No To delete")
+                clsCommon.MyMessageBoxShow("Please select Document No To delete", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
@@ -190,7 +190,7 @@ Public Class FrmMCCTankerGateOutSecurity
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 If postConfirm() Then
                     clsMCCTankerGateOutSecurity.PostData(fndDocNo.Value)
-                    clsCommon.MyMessageBoxShow("Successfully Posted")
+                    clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
                     loadData(fndDocNo.Value, NavigatorType.Current)
                 End If
 

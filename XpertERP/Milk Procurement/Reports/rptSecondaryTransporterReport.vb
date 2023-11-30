@@ -30,7 +30,7 @@ Public Class RptSecondaryTransporterReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -59,7 +59,7 @@ Public Class RptSecondaryTransporterReport
             txtFromDate.Value = clsCommon.GETSERVERDATE()
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -94,7 +94,7 @@ Public Class RptSecondaryTransporterReport
             EnableDisableControl(True)
             gv.DataSource = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub EnableDisableControl(ByVal val As Boolean)
@@ -156,7 +156,7 @@ Public Class RptSecondaryTransporterReport
             LoadData()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -167,15 +167,15 @@ Public Class RptSecondaryTransporterReport
         End If
 
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         If ChkSelectPlant.IsChecked AndAlso cbgPlantCode.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Plant or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Plant or select all.", Me.Text)
             Exit Sub
         End If
         If ChkSelectTanker.IsChecked AndAlso cbgTanker.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Tanker or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Tanker or select all.", Me.Text)
             Exit Sub
         End If
         Dim companyADD, CompName, CompCode As String
@@ -366,7 +366,7 @@ Public Class RptSecondaryTransporterReport
                     clsCommon.MyExportToPDF("Secondary Transporter Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No data to export")
+                common.clsCommon.MyMessageBoxShow("No data to export", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -403,7 +403,7 @@ Public Class RptSecondaryTransporterReport
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -412,7 +412,7 @@ Public Class RptSecondaryTransporterReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
