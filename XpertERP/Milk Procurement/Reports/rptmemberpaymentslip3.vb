@@ -567,7 +567,7 @@ Public Class Rptmemberpaymentslip3
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -587,7 +587,7 @@ Public Class Rptmemberpaymentslip3
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
     End Sub
 
     Private Sub chkVLCAll_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkVLCAll.ToggleStateChanged

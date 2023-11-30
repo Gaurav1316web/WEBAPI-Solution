@@ -543,7 +543,7 @@ Public Class RptMDConversionAtUDL
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -554,7 +554,7 @@ Public Class RptMDConversionAtUDL
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Dim ReportID As String = GetReportID()
         clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click

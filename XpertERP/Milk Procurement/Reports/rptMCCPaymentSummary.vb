@@ -466,7 +466,7 @@ Public Class rptMCCPaymentSummary
                 'ReStoreGridLayout()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

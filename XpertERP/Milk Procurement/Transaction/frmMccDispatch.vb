@@ -3418,7 +3418,7 @@ Public Class FrmMccDispatch
                 Throw New Exception("Document no not found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShowme, (ex.Message, Me.Text
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 
