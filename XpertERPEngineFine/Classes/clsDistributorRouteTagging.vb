@@ -45,7 +45,7 @@ Public Class clsDistributorRouteTagging
                 clsCommon.AddColumnsForChange(coll, "End_Date", Nothing, True)
             End If
             If isNewEntry Then
-                obj.Code = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.DistributorRouteTagging, "", objCommonVar.strCurrUserLocations)
+                obj.Code = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.DistributorRouteTagging, "", "")
                 If clsCommon.myLen(obj.Code) <= 0 Then
                     Throw New Exception("Error in Code Generation")
                 End If
