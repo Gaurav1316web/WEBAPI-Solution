@@ -86,10 +86,11 @@ Public Class rptDBTMilkPayment
                 whrclsRjt += " and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader   IN (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ")"
                 whrclsRecpt = " and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  IN (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ")"
             End If
-
+            Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
             qry = " select aa.[MCC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name],
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
-                        ((aa.[SRN Qty]/aa.Conversion_Factor)* ISNULL(aa.Incetive_Rate, 0)) as [DBT Amount] ,aa.Incetive_Rate,aa.Conversion_Factor from ( 
+                        ((aa.[SRN Qty]/aa.Conversion_Factor)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
+                         aa.Incetive_Rate,aa.Conversion_Factor from ( 
                          select xxx.*  from (
                          select xx.*  from ( 
                         select max(pp.[MCC Name] )  as [MCC Name],max([VLC Name]) as [VLC Name],max(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],
@@ -280,10 +281,10 @@ Public Class rptDBTMilkPayment
             Catch
                 MCCName = ",'' AS MCCName"
             End Try
-
+            Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
             qry = " select ROW_NUMBER() OVER (ORDER BY CONVERT(INT, aa.[VLC_Code_VLC_Uploader]) ASC) AS Sno " + MCCName + ",aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name] as VLCName,
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
-                        ((aa.[SRN Qty]/aa.Conversion_Factor)* ISNULL(aa.Incetive_Rate, 0)) as [DBT Amount] ,
+                        ((aa.[SRN Qty]/aa.Conversion_Factor)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
                         aa.Incetive_Rate,aa.Conversion_Factor,aa.Comp_Name,'" + txtFromDate.Value + "' As FromDate,'" + txtToDate.Value + "' As ToDate
                         from ( 
                          select xxx.*  from (
