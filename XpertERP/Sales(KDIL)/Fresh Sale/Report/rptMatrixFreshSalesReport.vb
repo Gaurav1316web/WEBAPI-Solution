@@ -1264,9 +1264,9 @@ Public Class RptMatrixFreshSalesReport
             If chkFirstAndSecondSpellAbstract.Checked = True AndAlso (chkBookingWise.Checked = True OrElse chkSaleInvoiceWise.Checked = True OrElse chkSummary.Checked = True OrElse chkFirstAndSecondSpell.Checked = True OrElse chkRouteBoothWise.Checked = True OrElse ChkDayWiseSummary.Checked = True) Then
                 Throw New Exception("Select only one check box at a time First And Second Spell Card Sale Abstract or Other Check Box ")
             End If
-            If chkBookingWise.Checked = False Then
-                Throw New Exception("Select Booking Wise")
-            End If
+            'If chkBookingWise.Checked = False Then
+            '    Throw New Exception("Select Booking Wise")
+            'End If
 
 
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
