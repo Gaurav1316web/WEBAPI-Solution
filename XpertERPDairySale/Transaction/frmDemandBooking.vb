@@ -1856,7 +1856,6 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
                 For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
-                    ' If clsCommon.myLen(gv1.Columns(colItemCode + clsCommon.myCstr(k))) > 0 Then
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -1950,8 +1949,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 End If
                             End If
                         End If
-                    'End If
-                    '   k = k + 1
+
                 Next
                 gv1.Rows(dblrows).Cells(colCrate).Value = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
                 gv1.Rows(dblrows).Cells(colLitre).Value = Math.Round(clsCommon.myCdbl(TotalLitre), 2)
