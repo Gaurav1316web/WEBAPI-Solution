@@ -2082,6 +2082,7 @@ Public Class frmTender
                     clsCommon.MyMessageBoxShow(Me, "Successfully Opened")
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current, False)
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)

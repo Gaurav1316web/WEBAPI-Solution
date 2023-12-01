@@ -1488,7 +1488,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, True, True)
-            InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, True, True)
+            InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)
             InsertDefaultValue(clsDocType.frmNotification, "", False, True, True)
 
             'sanjay BHA/09/05/18-000014 
