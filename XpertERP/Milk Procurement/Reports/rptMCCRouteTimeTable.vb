@@ -23,7 +23,7 @@ Public Class rptMCCRouteTimeTable
             SetUserMgmtNew()
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -100,7 +100,7 @@ Public Class rptMCCRouteTimeTable
             Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -185,11 +185,11 @@ Public Class rptMCCRouteTimeTable
                 ReStoreGridLayout()
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
@@ -227,7 +227,7 @@ Public Class rptMCCRouteTimeTable
             Dim qry As String = "select Vendor_Code as [Transporter Code],Vendor_Name as [Transporter Name] from TSPL_VENDOR_MASTER  where  2=2 and form_type='PTM' "
             txtTransporter.arrValueMember = clsCommon.ShowMultipleSelectForm("RWTT_VeCode", qry, "Transporter Code", "Transporter Name", txtTransporter.arrValueMember, txtTransporter.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -236,7 +236,7 @@ Public Class rptMCCRouteTimeTable
             Dim qry As String = "select TSPL_Primary_Vehicle_Master.vehicle_code as Code,TSPL_Primary_Vehicle_Master.Description from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' "
             txtVehicleNo.arrValueMember = clsCommon.ShowMultipleSelectForm("RWT_VehiCode", qry, "Code", "Description", txtVehicleNo.arrValueMember, txtVehicleNo.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -253,20 +253,20 @@ Public Class rptMCCRouteTimeTable
                 obj.GridColumns = gv.ColumnCount
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout Saved Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout Saved Successfully", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Try
             clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -306,7 +306,7 @@ Public Class rptMCCRouteTimeTable
                     clsCommon.MyExportToPDF("Milk Route Time Report ", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)

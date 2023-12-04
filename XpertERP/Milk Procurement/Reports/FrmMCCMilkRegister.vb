@@ -3321,7 +3321,7 @@ Public Class FrmMCCMilkRegister
                                                     )XXXQQQQ group by [MCC Code], date , shift  order by convert (date,Date,103) asc, Shift desc"
                         Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qryPrint)
                         If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
-                            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                         Else
                             gv.DataSource = Nothing
                             Dim frmCRV As New frmCrystalReportViewer()
@@ -3519,7 +3519,7 @@ Public Class FrmMCCMilkRegister
 
             dt = clsDBFuncationality.GetDataTable(FinalQuery)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             ElseIf chkVLCWisePayable.Checked Then
                 'For ii As Integer = 0 To dt.Rows.Count - 1
@@ -3542,7 +3542,7 @@ Public Class FrmMCCMilkRegister
             ReStoreGridLayout()
             gv.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3640,7 +3640,7 @@ Public Class FrmMCCMilkRegister
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -3650,7 +3650,7 @@ Public Class FrmMCCMilkRegister
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rbtnMCCRouteVLCCAll_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
@@ -3758,7 +3758,7 @@ Public Class FrmMCCMilkRegister
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
             RefreshVLC()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3775,7 +3775,7 @@ Public Class FrmMCCMilkRegister
 
             txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "VLC_Code", "VLC_Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3875,10 +3875,10 @@ Public Class FrmMCCMilkRegister
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             'transportSql.exportdataChilRows(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
             clsCommon.MyExportToExcelGrid(Me.Text, gv, arrHeader, Me.Text)
-            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.")
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3924,7 +3924,7 @@ Public Class FrmMCCMilkRegister
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             clsCommon.MyExportToPDF(Me.Text, gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3996,7 +3996,7 @@ Public Class FrmMCCMilkRegister
                     Arr.Add(obj)
                 Next
                 clsMCCPaymentCycleLockForScheduler.SaveData(Arr)
-                clsCommon.MyMessageBoxShow("Successfully Locked")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Locked", Me.Text)
                 Arr = Nothing
             End If
             frm = Nothing
@@ -4084,7 +4084,7 @@ Public Class FrmMCCMilkRegister
             End If
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4126,7 +4126,7 @@ Public Class FrmMCCMilkRegister
             End If
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

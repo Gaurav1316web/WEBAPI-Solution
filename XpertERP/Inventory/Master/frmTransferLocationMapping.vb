@@ -263,15 +263,15 @@ Public Class frmTransferLocationMapping
         For Each grow As GridViewRowInfo In gvLoc.Rows
             'If clsCommon.myCdbl(grow.Cells(colSNo).Value) > 0 Then
             If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colFrmLoc).Value)) <= 0 And clsCommon.myLen(clsCommon.myCstr(grow.Cells(colToLoc).Value)) > 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Fill All [From Location] in Grid.")
+                clsCommon.MyMessageBoxShow(Me, "Please Fill All [From Location] in Grid.", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colToLoc).Value)) <= 0 And clsCommon.myLen(clsCommon.myCstr(grow.Cells(colFrmLoc).Value)) > 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Fill All [To Location] in Grid.")
+                clsCommon.MyMessageBoxShow(Me, "Please Fill All [To Location] in Grid.", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colGLAcc).Value)) <= 0 And clsCommon.myLen(clsCommon.myCstr(grow.Cells(colToLoc).Value)) > 0 And clsCommon.myLen(clsCommon.myCstr(grow.Cells(colFrmLoc).Value)) > 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Fill All [GL Accounts] in Grid.")
+                clsCommon.MyMessageBoxShow(Me, "Please Fill All [GL Accounts] in Grid.", Me.Text)
                 Return False
             End If
             If clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colFrmLoc).Value), clsCommon.myCstr(grow.Cells(colToLoc).Value)) = CompairStringResult.Equal And clsCommon.myLen(clsCommon.myCstr(grow.Cells(colGLAcc).Value)) > 0 And clsCommon.myLen(clsCommon.myCstr(grow.Cells(colToLoc).Value)) > 0 And clsCommon.myLen(clsCommon.myCstr(grow.Cells(colFrmLoc).Value)) > 0 Then
@@ -313,7 +313,7 @@ Public Class frmTransferLocationMapping
                 'End If
                 If (clsItemLoc.DeleteData(Nothing)) Then
                     'clsCancelLog.SaveData (Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -326,7 +326,7 @@ Public Class frmTransferLocationMapping
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub

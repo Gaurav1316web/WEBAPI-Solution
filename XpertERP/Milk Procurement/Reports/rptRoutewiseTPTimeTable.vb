@@ -12,7 +12,7 @@ Public Class RptRoutewiseTPTimeTable
             End If
             btnExp.Visible = MyBase.isExport
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -32,7 +32,7 @@ Public Class RptRoutewiseTPTimeTable
             txtMCC.Value = ""
             lblMCC.Text = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RptRoutewiseTPTimeTable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -49,7 +49,7 @@ Public Class RptRoutewiseTPTimeTable
             End If
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadShiftTo()
@@ -95,7 +95,7 @@ Public Class RptRoutewiseTPTimeTable
             Dim qry As String = "select MCC_Code,MCC_Name  from Tspl_mcc_master order by MCC_Name asc"
             txtMccCode.arrValueMember = clsCommon.ShowMultipleSelectForm("LocatMast", qry, "MCC_Code", "MCC_Name", txtMccCode.arrValueMember, txtMccCode.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtRouteCode__My_Click(sender As Object, e As EventArgs) Handles txtRouteCode._My_Click
@@ -103,7 +103,7 @@ Public Class RptRoutewiseTPTimeTable
             Dim qry As String = "select Distinct TSPL_MCC_ROUTE_MASTER.route_code as Code,TSPL_MCC_ROUTE_MASTER.route_name as Description from TSPL_MCC_ROUTE_MASTER "
             txtRouteCode.arrValueMember = clsCommon.ShowMultipleSelectForm("Routed", qry, "Code", "Description", txtRouteCode.arrValueMember, txtRouteCode.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Report_RouteWise()
@@ -120,7 +120,7 @@ Public Class RptRoutewiseTPTimeTable
                 common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub SetGrdProperties()
@@ -245,10 +245,10 @@ Public Class RptRoutewiseTPTimeTable
                 ReStoreGridLayout()
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                common.clsCommon.MyMessageBoxShow("No data found to display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnok_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -265,7 +265,7 @@ Public Class RptRoutewiseTPTimeTable
                 Report_VLCWise()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Set_GridView_Format()
@@ -316,7 +316,7 @@ Public Class RptRoutewiseTPTimeTable
             Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -366,7 +366,7 @@ Public Class RptRoutewiseTPTimeTable
                 CrystalReport_VLCWise()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
@@ -377,7 +377,7 @@ Public Class RptRoutewiseTPTimeTable
             Dim qry As String = " select distinct (TSPL_VEHICLE_MASTER.Number) as [Vehicle Number] , coalesce(TSPL_VEHICLE_MASTER.Description,'') as [Vehicle-Name] , coalesce(TSPL_VEHICLE_MASTER.Vehicle_Id,'') as [Vehicle Id] from TSPL_VEHICLE_MASTER "
             txtVehicleNo.arrValueMember = clsCommon.ShowMultipleSelectForm("RWTT_VehCode", qry, "Vehicle Number", "Vehicle Number", txtVehicleNo.arrValueMember, txtVehicleNo.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtTransporter__My_Click(sender As Object, e As EventArgs) Handles txtTransporter._My_Click
@@ -385,7 +385,7 @@ Public Class RptRoutewiseTPTimeTable
             Dim qry As String = "select distinct coalesce(TSPL_TRANSPORT_MASTER.Transport_Id,'') as [Transporter Id], coalesce(TSPL_TRANSPORT_MASTER.Transporter_Name,'') as [Transporter Name]  from TSPL_TRANSPORT_MASTER "
             txtTransporter.arrValueMember = clsCommon.ShowMultipleSelectForm("RWTT_VehCode", qry, "Transporter Id", "Transporter Name", txtTransporter.arrValueMember, txtTransporter.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Print(ByVal exporter As EnumExportTo)
@@ -444,7 +444,7 @@ Public Class RptRoutewiseTPTimeTable
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ReStoreGridLayout()
@@ -471,7 +471,7 @@ Public Class RptRoutewiseTPTimeTable
             clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
             common.clsCommon.MyMessageBoxShow("Layout Delete successfully", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnGo_KeyDown(sender As Object, e As KeyEventArgs) Handles btnGo.KeyDown
@@ -484,7 +484,7 @@ Public Class RptRoutewiseTPTimeTable
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

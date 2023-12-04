@@ -23,16 +23,16 @@ Partial Class frmVSP_VLCMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadPrintWatermark1 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadPrintWatermark3 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
         Me.btnclear = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -652,7 +652,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage2
+        Me.pageCus.SelectedPage = Me.RadPageViewPage1
         Me.pageCus.Size = New System.Drawing.Size(1078, 444)
         Me.pageCus.TabIndex = 5
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -869,7 +869,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtRateHeadLoad.IsSourceFromTable = False
         Me.txtRateHeadLoad.IsSourceFromValueList = False
         Me.txtRateHeadLoad.IsUnique = False
-        Me.txtRateHeadLoad.Location = New System.Drawing.Point(588, 231)
+        Me.txtRateHeadLoad.Location = New System.Drawing.Point(588, 253)
         Me.txtRateHeadLoad.MaxLength = 20
         Me.txtRateHeadLoad.MendatroryField = True
         Me.txtRateHeadLoad.MyLinkLable1 = Me.MyLabel52
@@ -880,25 +880,28 @@ Partial Class frmVSP_VLCMaster
         Me.txtRateHeadLoad.ReferenceTableName = Nothing
         Me.txtRateHeadLoad.Size = New System.Drawing.Size(146, 20)
         Me.txtRateHeadLoad.TabIndex = 82
+        Me.txtRateHeadLoad.Visible = False
         '
         'MyLabel52
         '
         Me.MyLabel52.FieldName = Nothing
         Me.MyLabel52.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel52.Location = New System.Drawing.Point(488, 233)
+        Me.MyLabel52.Location = New System.Drawing.Point(488, 255)
         Me.MyLabel52.Name = "MyLabel52"
         Me.MyLabel52.Size = New System.Drawing.Size(89, 16)
         Me.MyLabel52.TabIndex = 84
         Me.MyLabel52.Text = "Head Load Rate"
+        Me.MyLabel52.Visible = False
         '
         'ChkHeadLoad
         '
         Me.ChkHeadLoad.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ChkHeadLoad.Location = New System.Drawing.Point(588, 189)
+        Me.ChkHeadLoad.Location = New System.Drawing.Point(588, 211)
         Me.ChkHeadLoad.Name = "ChkHeadLoad"
         Me.ChkHeadLoad.Size = New System.Drawing.Size(88, 16)
         Me.ChkHeadLoad.TabIndex = 394
         Me.ChkHeadLoad.Text = "Is Head Load"
+        Me.ChkHeadLoad.Visible = False
         '
         'CmbHeadLoadServiceBasis
         '
@@ -915,15 +918,15 @@ Partial Class frmVSP_VLCMaster
         Me.CmbHeadLoadServiceBasis.IsSourceFromTable = False
         Me.CmbHeadLoadServiceBasis.IsSourceFromValueList = False
         Me.CmbHeadLoadServiceBasis.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "%(Percentage)"
-        RadListDataItem3.Text = "Rate/Kg"
-        RadListDataItem4.Text = "Rate/Ltr"
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem1)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem2)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem3)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem4)
-        Me.CmbHeadLoadServiceBasis.Location = New System.Drawing.Point(588, 208)
+        RadListDataItem5.Text = "Select"
+        RadListDataItem6.Text = "%(Percentage)"
+        RadListDataItem7.Text = "Rate/Kg"
+        RadListDataItem8.Text = "Rate/Ltr"
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem5)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem6)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem7)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem8)
+        Me.CmbHeadLoadServiceBasis.Location = New System.Drawing.Point(588, 230)
         Me.CmbHeadLoadServiceBasis.MendatroryField = True
         Me.CmbHeadLoadServiceBasis.MyLinkLable1 = Me.MyLabel54
         Me.CmbHeadLoadServiceBasis.MyLinkLable2 = Nothing
@@ -937,21 +940,23 @@ Partial Class frmVSP_VLCMaster
         Me.CmbHeadLoadServiceBasis.RootElement.StretchVertically = True
         Me.CmbHeadLoadServiceBasis.Size = New System.Drawing.Size(146, 20)
         Me.CmbHeadLoadServiceBasis.TabIndex = 83
+        Me.CmbHeadLoadServiceBasis.Visible = False
         '
         'MyLabel54
         '
         Me.MyLabel54.FieldName = Nothing
         Me.MyLabel54.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel54.Location = New System.Drawing.Point(488, 210)
+        Me.MyLabel54.Location = New System.Drawing.Point(488, 232)
         Me.MyLabel54.Name = "MyLabel54"
         Me.MyLabel54.Size = New System.Drawing.Size(92, 16)
         Me.MyLabel54.TabIndex = 85
         Me.MyLabel54.Text = "Head Load Basis"
+        Me.MyLabel54.Visible = False
         '
         'chkInActive
         '
         Me.chkInActive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkInActive.Location = New System.Drawing.Point(588, 264)
+        Me.chkInActive.Location = New System.Drawing.Point(588, 186)
         Me.chkInActive.Name = "chkInActive"
         Me.chkInActive.Size = New System.Drawing.Size(64, 16)
         Me.chkInActive.TabIndex = 0
@@ -1384,10 +1389,10 @@ Partial Class frmVSP_VLCMaster
         Me.cmbGender.IsSourceFromTable = False
         Me.cmbGender.IsSourceFromValueList = False
         Me.cmbGender.IsUnique = False
-        RadListDataItem5.Text = "Male"
-        RadListDataItem6.Text = "Female"
-        Me.cmbGender.Items.Add(RadListDataItem5)
-        Me.cmbGender.Items.Add(RadListDataItem6)
+        RadListDataItem9.Text = "Male"
+        RadListDataItem10.Text = "Female"
+        Me.cmbGender.Items.Add(RadListDataItem9)
+        Me.cmbGender.Items.Add(RadListDataItem10)
         Me.cmbGender.Location = New System.Drawing.Point(178, 134)
         Me.cmbGender.MendatroryField = True
         Me.cmbGender.MyLinkLable1 = Me.MyLabel29
@@ -1426,10 +1431,10 @@ Partial Class frmVSP_VLCMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem7.Text = "Male"
-        RadListDataItem8.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem7)
-        Me.ddlGender.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Male"
+        RadListDataItem2.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem1)
+        Me.ddlGender.Items.Add(RadListDataItem2)
         Me.ddlGender.Location = New System.Drawing.Point(747, 463)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel27
@@ -5185,7 +5190,7 @@ Partial Class frmVSP_VLCMaster
         Me.ClsMyPrintDocument1.LeftMiddleText = Nothing
         Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
         Me.ClsMyPrintDocument1.LeftUpperText = Nothing
-        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark1
+        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark3
         '
         'frmVSP_VLCMaster
         '

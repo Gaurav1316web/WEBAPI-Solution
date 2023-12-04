@@ -329,7 +329,7 @@ Public Class FrmSaleRegisterDemo
             End If
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt
@@ -351,7 +351,7 @@ Public Class FrmSaleRegisterDemo
                 clsCommon.MyExportToPDF("Sale Register" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, "Sale Register", True)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -675,7 +675,7 @@ Public Class FrmSaleRegisterDemo
 
     Private Sub Export_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Print(Exporter.Excel)
@@ -688,7 +688,7 @@ Public Class FrmSaleRegisterDemo
     End Enum
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Print(Exporter.PDF)

@@ -35,7 +35,7 @@ Public Class frmPaymentCycleMaster
             End If
             obj.IsDefault = IIf(chkIsDefault.Checked = True, 1, 0)
             If (obj.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.PC_CODE, NavigatorType.Current)
             End If
         End If
@@ -96,7 +96,7 @@ Public Class frmPaymentCycleMaster
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Select Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Code", Me.Text)
             Exit Sub
         End If
         
@@ -107,7 +107,7 @@ Public Class frmPaymentCycleMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsPaymentCycleMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -283,7 +283,7 @@ Public Class frmPaymentCycleMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -338,7 +338,7 @@ Public Class frmPaymentCycleMaster
                     obj.SaveData(obj, clsPaymentCycleMaster.CheckNewEntry(obj.PC_CODE))
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

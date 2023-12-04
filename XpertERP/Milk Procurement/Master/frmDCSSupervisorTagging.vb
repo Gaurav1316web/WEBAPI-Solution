@@ -24,7 +24,7 @@ Public Class frmDCSSupervisorTagging
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
             Me.Close()
             Exit Sub
         End If
@@ -78,7 +78,7 @@ Public Class frmDCSSupervisorTagging
             'Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -112,15 +112,15 @@ Public Class frmDCSSupervisorTagging
 
                 If clsDCSSupervisor.SaveData(txtmcccode.Value, obj) Then
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                     LoadData(obj.MCC_Code)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -130,7 +130,7 @@ Public Class frmDCSSupervisorTagging
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(txtmcccode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select MCC For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select MCC For Deletion", Me.Text)
             txtmcccode.Focus()
             txtmcccode.Select()
             Errorcontrol.SetError(txtmcccode, "Please Select MCC Code For Deletion")
@@ -143,7 +143,7 @@ Public Class frmDCSSupervisorTagging
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found For Deletion", Me.Text)
             Return
         End If
 
@@ -156,12 +156,12 @@ Public Class frmDCSSupervisorTagging
             qry = "delete from TSPL_VLC_Supervisor_Tagging where mcc_code='" + txtmcccode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             trans.Commit()
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -194,7 +194,7 @@ Public Class frmDCSSupervisorTagging
             IsInsieLoadData = False
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -248,7 +248,7 @@ Public Class frmDCSSupervisorTagging
             gvVLC.AllowAutoSizeColumns = True
             gvVLC.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -268,7 +268,7 @@ Public Class frmDCSSupervisorTagging
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -366,7 +366,7 @@ Public Class frmDCSSupervisorTagging
                 'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -385,7 +385,7 @@ Public Class frmDCSSupervisorTagging
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -511,7 +511,7 @@ Public Class frmDCSSupervisorTagging
 
                     clsCommon.ProgressBarHide()
                     'trans.Commit()
-                    RadMessageBox.Show("Data Imported Successfully.")
+                    RadMessageBox.Show(Me, "Data Imported Successfully.", Me.Text)
                     txtmcccode.Value = obj.MCC_Code
                     LoadData(txtmcccode.Value)
                 Else
@@ -520,7 +520,7 @@ Public Class frmDCSSupervisorTagging
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 'trans.Rollback()
-                RadMessageBox.Show(ex.Message)
+                RadMessageBox.Show(Me, ex.Message, Me.Text)
             Finally
                 Me.Controls.Remove(gvCharges)
                 'arrRoute = Nothing

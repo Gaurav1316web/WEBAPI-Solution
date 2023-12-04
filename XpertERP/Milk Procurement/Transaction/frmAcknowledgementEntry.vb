@@ -805,7 +805,7 @@ Public Class frmAcknowledgementEntry
         Dim qry As String = String.Empty
 
         If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC Name from which dispatch is being made, First")
+            clsCommon.MyMessageBoxShow("Please select MCC Name from which dispatch is being made, First", Me.Text)
             Exit Sub
         End If
 
@@ -978,7 +978,7 @@ Public Class frmAcknowledgementEntry
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1060,9 +1060,9 @@ Public Class frmAcknowledgementEntry
             If clsAcknowledgementEntry.SaveData(obj) Then
                 If Not isPostbtnClick Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
                     End If
                 End If
                 btnSave.Text = "Update"
@@ -1075,9 +1075,9 @@ Public Class frmAcknowledgementEntry
             End If
         Catch ex As Exception
             If isPostbtnClick Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -1104,7 +1104,7 @@ Public Class frmAcknowledgementEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -1224,7 +1224,7 @@ Public Class frmAcknowledgementEntry
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isLoad = False
         End Try
@@ -1284,7 +1284,7 @@ Public Class frmAcknowledgementEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1327,7 +1327,7 @@ Public Class frmAcknowledgementEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1543,7 +1543,7 @@ Public Class frmAcknowledgementEntry
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

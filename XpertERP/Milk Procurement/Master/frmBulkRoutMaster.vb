@@ -130,7 +130,7 @@ Public Class FrmBulkRoutMaster
                     Throw New Exception("At Row No" + clsCommon.myCstr(ii) + " " + ex.Message)
                 End Try
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -151,7 +151,7 @@ Public Class FrmBulkRoutMaster
         Try
             LoadData(txtRouteNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -232,7 +232,7 @@ Public Class FrmBulkRoutMaster
                 obj.Schedule_Time_Morning = txtScheduleTimeM.Value
                 obj.Schedule_Time_Evening = txtScheduleTimeE.Value
                 If (clsBulkRoutMaster.SaveData(obj)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                     LoadData(obj.ROUTE_NO, NavigatorType.Current)
                 End If
             End If
@@ -253,7 +253,7 @@ Public Class FrmBulkRoutMaster
             Return False
         End If
         If clsCommon.myLen(txtRouteNo.Value) > 30 Then
-            clsCommon.MyMessageBoxShow("Route code Length is greater then 30.")
+            clsCommon.MyMessageBoxShow(Me, "Route code Length is greater then 30.")
             txtRouteNo.Focus()
             Return False
         End If
@@ -264,7 +264,7 @@ Public Class FrmBulkRoutMaster
         End If
 
         If clsCommon.myLen(txtToLocationCode.Value) <= 0 AndAlso chkForContractor.Checked = True Then
-            clsCommon.MyMessageBoxShow("Please Select Location")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Location")
             txtToLocationCode.Focus()
             Return False
         End If
@@ -281,7 +281,7 @@ Public Class FrmBulkRoutMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
             Exit Sub
         End If
         funDelete()
@@ -291,7 +291,7 @@ Public Class FrmBulkRoutMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsBulkRoutMaster.DeleteData(txtRouteNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     funReset()
                 End If
             End If

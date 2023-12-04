@@ -62,7 +62,7 @@ Public Class FrmMilkRouteMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmMilkRouteMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -236,7 +236,7 @@ Public Class FrmMilkRouteMaster
             If clsCommon.myCdbl(gvVLC.Rows.Count) <> clsCommon.myCdbl(No_of_Vlc) Then
                 If clsCommon.CompairString(Old_KM_Value, txt_km.Text) = CompairStringResult.Equal Then
                     'Errorcontrol.SetError(txt_km, "Please Update Distance.VLC Data Is Changed")
-                    If clsCommon.MyMessageBoxShow("Please Update Distance.VLC Data Is Changed." & Environment.NewLine _
+                    If clsCommon.MyMessageBoxShow(Me, "Please Update Distance.VLC Data Is Changed." & Environment.NewLine _
                                                    & "            Do you want To change", "Message", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         Errorcontrol.SetError(txt_km, "Please Update Distance.VLC Data Is Changed")
                         Return False
@@ -254,7 +254,7 @@ Public Class FrmMilkRouteMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -369,15 +369,15 @@ Public Class FrmMilkRouteMaster
                 If clsfrmMilkRouteMaster.SaveData(obj.code, obj, isNewEntry) Then
                     UcAttachment1.SaveData(fndcode.Value)
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                     LoadData(obj.code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -387,7 +387,7 @@ Public Class FrmMilkRouteMaster
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(fndcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Route Code For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Route Code For Deletion", Me.Text)
             fndcode.Focus()
             fndcode.Select()
             Errorcontrol.SetError(fndcode, "Please Select Route Code For Deletion")
@@ -400,11 +400,11 @@ Public Class FrmMilkRouteMaster
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found For Deletion", Me.Text)
             Return
         End If
 
-        If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Delete The Route Master Of Route Code " + fndcode.Value + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+        If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Delete The Route Master Of Route Code " + fndcode.Value + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
             Return
         End If
 
@@ -413,12 +413,12 @@ Public Class FrmMilkRouteMaster
             qry = "delete from tspl_mcc_route_master where route_code='" + fndcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             trans.Commit()
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -495,7 +495,7 @@ Public Class FrmMilkRouteMaster
             IsInsieLoadData = False
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -623,7 +623,7 @@ Public Class FrmMilkRouteMaster
             gvVLC.AllowAutoSizeColumns = True
             gvVLC.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -685,7 +685,7 @@ Public Class FrmMilkRouteMaster
 
     Private Sub txtvehicleno__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtvehicleno._MYValidating
         If clsCommon.myLen(txtmcccode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select MCC First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select MCC First", Me.Text)
             txtmcccode.Focus()
             txtmcccode.Select()
             Errorcontrol.SetError(txtmccname, "Please Select MCC First")
@@ -727,7 +727,7 @@ Public Class FrmMilkRouteMaster
 
     Private Sub txtstate__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtstate._MYValidating
         If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Country First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Country First", Me.Text)
             txtcountrycode.Focus()
             txtcountrycode.Select()
             Errorcontrol.SetError(txtcountryname, "Please Select Country First")
@@ -750,7 +750,7 @@ Public Class FrmMilkRouteMaster
 
     Private Sub txtcity__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtcity._MYValidating
         If clsCommon.myLen(txtstate.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select State First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select State First", Me.Text)
             txtstate.Focus()
             txtstate.Select()
             Errorcontrol.SetError(txtstatename, "Please Select State First")
@@ -1041,7 +1041,7 @@ Public Class FrmMilkRouteMaster
                 'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '------------------------------------------------
@@ -1054,7 +1054,7 @@ Public Class FrmMilkRouteMaster
             If check.Success Then
                 Errorcontrol.ResetError(txtemail)
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtemail.Text = ""
                 txtemail.Focus()
                 txtemail.Select()
@@ -1339,11 +1339,11 @@ Public Class FrmMilkRouteMaster
                 Next
 
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 Reset()
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -1353,7 +1353,7 @@ Public Class FrmMilkRouteMaster
         Try
             ImportVLCDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1508,14 +1508,14 @@ Public Class FrmMilkRouteMaster
                     End If
                     clsCommon.ProgressBarHide()
                     trans.Commit()
-                    RadMessageBox.Show("Data Imported Successfully.")
+                    RadMessageBox.Show(Me, "Data Imported Successfully.", Me.Text)
                 Else
                     Throw New Exception("Error in Import")
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                RadMessageBox.Show(ex.Message)
+                RadMessageBox.Show(Me, ex.Message, Me.Text)
             Finally
                 Me.Controls.Remove(gvCharges)
                 arrRoute = Nothing
@@ -1550,7 +1550,7 @@ Public Class FrmMilkRouteMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

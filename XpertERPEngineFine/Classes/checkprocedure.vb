@@ -1773,7 +1773,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionGenerate, "Generate Milk Collection", "1.18.02.32", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCMultipleDays, "MCC Milk Collection Multiple Days", "1.18.02.33", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, "DCS Milk Collection Multiple Days", "1.18.02.34", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, "DCS Milk Collection Multiple Days Merge", "1.18.02.35", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge, "DCS Milk Collection Multiple Days Merge", "1.18.02.35", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "MCC Milk Collection", "1.18.02.36", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.18.02.37", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.18.02.38", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)

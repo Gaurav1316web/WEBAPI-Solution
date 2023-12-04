@@ -20,7 +20,7 @@ Public Class RptPendingMilkSRN
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -51,7 +51,7 @@ Public Class RptPendingMilkSRN
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -60,7 +60,7 @@ Public Class RptPendingMilkSRN
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rmExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmExcel.Click
@@ -146,7 +146,7 @@ Public Class RptPendingMilkSRN
                     clsCommon.MyExportToPDF("Pending Milk SRN Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -154,16 +154,16 @@ Public Class RptPendingMilkSRN
     End Sub
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = ""
@@ -291,7 +291,7 @@ Public Class RptPendingMilkSRN
             FormatGrid()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

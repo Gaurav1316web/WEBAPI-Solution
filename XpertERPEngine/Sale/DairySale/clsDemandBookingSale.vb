@@ -169,7 +169,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                         totalQty = 0
                         obj = New clsBookingEntryDairySale()
                         If clsCommon.CompairString(clsCommon.myCstr(dr1("ShiftType")), "Morning") = CompairStringResult.Equal Then
-                            obj.Document_Date = clsCommon.myCDate(clsCommon.GetPrintDate(clsCommon.myCstr(dr1("Document_Date")), "dd/MMM/yyyy")).AddDays(1)
+                            obj.Document_Date = clsCommon.myCDate(clsCommon.GetPrintDate(clsCommon.myCstr(dr1("Document_Date")), "dd/MMM/yyyy"))
                             obj.GatePass_Type = "AM"
                         Else
                             obj.Document_Date = clsCommon.myCDate(clsCommon.GetPrintDate(clsCommon.myCstr(dr1("Document_Date")), "dd/MMM/yyyy"))

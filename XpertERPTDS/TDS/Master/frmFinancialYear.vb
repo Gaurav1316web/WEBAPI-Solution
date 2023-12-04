@@ -90,7 +90,7 @@ Public Class frmFinancialYear
 
             Dim strvalue As String = clsDBFuncationality.getSingleValue(strQuery)
                       If strvalue <> "" Then
-                common.clsCommon.MyMessageBoxShow("Record Already Exist")
+                common.clsCommon.MyMessageBoxShow(Me, "Record Already Exist", Me.Text)
                 'funReset()
                 Exit Sub
             Else
@@ -635,7 +635,7 @@ Public Class frmFinancialYear
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

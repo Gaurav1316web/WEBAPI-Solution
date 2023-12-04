@@ -166,7 +166,7 @@ Public Class FrmMilkTruckSheet
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -214,11 +214,11 @@ Public Class FrmMilkTruckSheet
         If clsCommon.myCstr(fndMccCode.Value) <> "" Then
             Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(fndMccCode.Value)
             If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No shift is opened. one Shift Must be Opened..")
+                clsCommon.MyMessageBoxShow(Me, "No shift is opened. one Shift Must be Opened..")
                 DtpDocDate.ReadOnly = True
                 cboShift.Enabled = False
             ElseIf DTShift.Rows.Count > 1 Then
-                clsCommon.MyMessageBoxShow("There are more then one shifts are opened.Only one Shift can be Opened..")
+                clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..")
                 DtpDocDate.ReadOnly = True
                 cboShift.Enabled = False
             Else
@@ -411,10 +411,10 @@ Public Class FrmMilkTruckSheet
         fndMccCode.Value = clsCommon.ShowSelectForm("LocatMast", qry, "Location", "  upper(location_category)='MCC' ", fndMccCode.Value, "Location_Code", isButtonClicked)
         Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(fndMccCode.Value)
         If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No shifts is opened.Atleats one Shift should be Opened..")
+            clsCommon.MyMessageBoxShow(Me, "No shifts is opened.Atleats one Shift should be Opened..")
             BtnSave.Enabled = False
         ElseIf DTShift.Rows.Count > 1 Then
-            clsCommon.MyMessageBoxShow("There are more then one shifts are opened.Only one Shift can be Opened..")
+            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..")
             Me.Close()
         Else
             BtnSave.Enabled = True
@@ -505,14 +505,14 @@ Public Class FrmMilkTruckSheet
                 If clsMilk_Truck_Sheet.SaveData(objHead, objList) Then
                     ' trans.Commit()
                     UcAttachment1.SaveData(objHead.DOC_CODE)
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(objHead.DOC_CODE, "", Nothing, NavigatorType.Current)
                     fndRouteCode.Focus()
                 End If
             End If
         Catch ex As Exception
             ' trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -528,23 +528,23 @@ Public Class FrmMilkTruckSheet
                 Dim strchk As String = "select Posted from TSPL_MILK_truck_Sheet_HEAD where DOC_COde='" + fndDocCode.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
             If clsCommon.myLen(Me.cboShift.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Shift", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Shift", Me.Text)
                 Return False
             End If
 
             If clsCommon.myLen(Me.fndMccCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter MCC", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter MCC", Me.Text)
                 fndMccCode.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(Me.txtSuperViserName.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter SuperVisor Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter SuperVisor Name", Me.Text)
                 txtSuperViserName.Focus()
                 Return False
             End If
@@ -553,17 +553,17 @@ Public Class FrmMilkTruckSheet
             For Each row As GridViewRowInfo In gv1.Rows
                 grid_vlc_Count += 1
                 If clsCommon.myCdbl(row.Cells(colQtyMCC).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Fill Qty(MCC) in Row No " & grid_vlc_Count & "", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill Qty(MCC) in Row No " & grid_vlc_Count & "", Me.Text)
                     gv1.Focus()
                     Return False
                 End If
                 If clsCommon.myCdbl(row.Cells(colSNFMCC).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Fill SNF(%)(MCC) in Row No " & grid_vlc_Count & "", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill SNF(%)(MCC) in Row No " & grid_vlc_Count & "", Me.Text)
                     gv1.Focus()
                     Return False
                 End If
                 If clsCommon.myCdbl(row.Cells(colFATMCC).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Fill FAT(%)(MCC) in Row No " & grid_vlc_Count & "", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill FAT(%)(MCC) in Row No " & grid_vlc_Count & "", Me.Text)
                     gv1.Focus()
                     Return False
                 End If
@@ -572,7 +572,7 @@ Public Class FrmMilkTruckSheet
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -608,12 +608,12 @@ Public Class FrmMilkTruckSheet
                     End If
                 End If
                 If (clsMilk_Truck_Sheet.DeleteData(fndDocCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -640,7 +640,7 @@ Public Class FrmMilkTruckSheet
                 fndMccCode.MyReadOnly = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -690,14 +690,14 @@ Public Class FrmMilkTruckSheet
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(fndDocCode.Value, "", Nothing, NavigatorType.Current)
                 'If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                 '    PrintDataNew()
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -711,7 +711,7 @@ Public Class FrmMilkTruckSheet
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
         ''stuti regarding memory leakage
         obj.GridLayout.Close()
@@ -739,7 +739,7 @@ Public Class FrmMilkTruckSheet
             End If
             'End If
         Catch err As Exception
-            MessageBox.Show(err.Message)
+            MessageBox.Show(Me, err.Message, Me.Text)
         End Try
     End Sub
 

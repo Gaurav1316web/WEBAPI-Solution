@@ -163,11 +163,11 @@ Public Class FrmMccRecurringPayablePendingInvoiceList
             'End If
 
             If (ClsMCCSMSSetting.SaveData(Arr)) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -179,7 +179,7 @@ Public Class FrmMccRecurringPayablePendingInvoiceList
             Dim qry As String = "delete from TSPL_MCC_MAIL_SMS_Setting where program_code='" + clsCommon.myCstr("") + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Next
-        clsCommon.MyMessageBoxShow("delete successfully")
+        clsCommon.MyMessageBoxShow(Me, "delete successfully", Me.Text)
 
     End Sub
 
@@ -235,12 +235,12 @@ Public Class FrmMccRecurringPayablePendingInvoiceList
                     Dim check As Match = Regex.Match(clsCommon.myCstr(gv1.CurrentRow.Cells(COl_Mail_Id).Value), "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
                     If check.Success Then
                     Else
-                        common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

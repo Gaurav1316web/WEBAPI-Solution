@@ -18,7 +18,7 @@ Public Class RptSecondaryQualityReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -127,16 +127,16 @@ Public Class RptSecondaryQualityReport
     End Sub
     Public Sub Load_Report()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         If PlantSelect.IsChecked AndAlso cbgPlant.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Plant or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Plant or select all.", Me.Text)
             Exit Sub
         End If
         'If TankerSelect.IsChecked AndAlso cbgTanker.CheckedValue.Count = 0 Then
@@ -216,7 +216,7 @@ Public Class RptSecondaryQualityReport
             gv.MasterTemplate.SummaryRowsBottom.Clear()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -367,7 +367,7 @@ Public Class RptSecondaryQualityReport
                 common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -396,7 +396,7 @@ Public Class RptSecondaryQualityReport
 
     Private Sub rmiDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RptSecondaryQualityReport_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress

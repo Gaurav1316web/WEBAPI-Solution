@@ -231,7 +231,7 @@ Public Class frmVSPMaster
         If Not (MyBase.isReadFlag) Then
 
             If MDI.blnShowAllMenu = False Then
-                common.clsCommon.MyMessageBoxShow("Permission Denied")
+                common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Else
                 Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
             End If
@@ -498,7 +498,7 @@ Public Class frmVSPMaster
             gvBankG.AllowAutoSizeColumns = True
             gvBankG.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1082,7 +1082,7 @@ Public Class frmVSPMaster
             GVPaymentEntry.AllowAutoSizeColumns = True
             GVPaymentEntry.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1963,7 +1963,7 @@ Public Class frmVSPMaster
             gvCharges.AllowAutoSizeColumns = False
             gvCharges.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2467,7 +2467,7 @@ Public Class frmVSPMaster
 
             SetEMPColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub GettotalAmount()
@@ -2771,7 +2771,7 @@ Public Class frmVSPMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtgroupdes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Group Code does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Group Code does not exist in Master Table", Me.Text)
                     fndgroupcode.Value = ""
                 End If
             Catch ex As Exception
@@ -2797,7 +2797,7 @@ Public Class frmVSPMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtCity.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This City does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This City does not exist in Master Table", Me.Text)
                     fndCity.Value = ""
                 End If
             Catch ex As Exception
@@ -2823,7 +2823,7 @@ Public Class frmVSPMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txttermcodedes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Term Code does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Term Code does not exist in Master Table", Me.Text)
                     fndTrmsCode.Value = ""
                 End If
             Catch ex As Exception
@@ -2846,7 +2846,7 @@ Public Class frmVSPMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtaccsetdes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Account does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Account does not exist in Master Table", Me.Text)
                     fndAccntSet.Value = ""
                 End If
             Catch ex As Exception
@@ -2869,7 +2869,7 @@ Public Class frmVSPMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtpaymentcodedes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Payment Code does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Payment Code does not exist in Master Table", Me.Text)
                     fndPayCode.Value = ""
                 End If
             Catch ex As Exception
@@ -2892,7 +2892,7 @@ Public Class frmVSPMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtvendortypedes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Vendor Type does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Vendor Type does not exist in Master Table", Me.Text)
                     fndvendortype.Value = ""
                 End If
             Catch ex As Exception
@@ -2938,7 +2938,7 @@ Public Class frmVSPMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtTxGrp.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Tax Group does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Tax Group does not exist in Master Table", Me.Text)
                     fndTxGrp.Value = ""
                     Me.grdTax.DataSource = Nothing
                     Me.grdTax.Rows.Clear()
@@ -3044,7 +3044,7 @@ Public Class frmVSPMaster
             If check.Success Then
                 Errorcontrol.ResetError(txtEmail)
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtEmail.Text = ""
                 txtEmail.Focus()
                 txtEmail.Select()
@@ -3059,7 +3059,7 @@ Public Class frmVSPMaster
             Dim check As Match = Regex.Match(txtContactEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtContactEmail.Text = ""
                 txtContactEmail.Focus()
             End If
@@ -3240,7 +3240,7 @@ Public Class frmVSPMaster
         Try
             If clsCommon.CompairString(btnsave.Text, "Update") = CompairStringResult.Equal Then
                 If MyBase.isUpdateFlag = False Then
-                    clsCommon.MyMessageBoxShow("Don't have permission to update VSP Master.")
+                    clsCommon.MyMessageBoxShow(Me, "Don't have permission to update VSP Master.", Me.Text)
                     Return
                 End If
             End If
@@ -3309,7 +3309,7 @@ Public Class frmVSPMaster
             End If
 
             If clsCommon.myLen(txtcountrycode) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Country", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtcountrycode.Select()
                 txtcountrycode.Focus()
@@ -3320,7 +3320,7 @@ Public Class frmVSPMaster
             End If
 
             If clsCommon.myLen(txtstatecode) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select State", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select State", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtstatecode.Select()
                 txtstatecode.Focus()
@@ -3331,7 +3331,7 @@ Public Class frmVSPMaster
             End If
 
             If clsCommon.myLen(txtCity) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select City", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select City", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtCity.Select()
                 txtCity.Focus()
@@ -3344,7 +3344,7 @@ Public Class frmVSPMaster
             If clsCommon.myLen(TxtPinCode.Text) > 0 Then
                 If clsCommon.myLen(TxtPinCode.Text) <> 6 Then
                     pageCus.SelectedPage = RadPageViewPage1
-                    clsCommon.MyMessageBoxShow("Invalid Pin Code.Please Enter Pin Code 6 Digit", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invalid Pin Code.Please Enter Pin Code 6 Digit", Me.Text)
                     Errorcontrol.SetError(TxtPinCode, "Invalid Pin Code.Please Enter Pin Code 6 Digit")
                     Return
                 Else
@@ -3372,7 +3372,7 @@ Public Class frmVSPMaster
             'End If
 
             If cmbvsppayment.SelectedValue = "" Then
-                clsCommon.MyMessageBoxShow("Please Select VSP Payment Value", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select VSP Payment Value", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 cmbvsppayment.Select()
                 Errorcontrol.SetError(cmbvsppayment, "Please Select VSP Payment Value")
@@ -3467,13 +3467,13 @@ Public Class frmVSPMaster
             fndVendorCurrency.Value = IIf(objCommonVar.IsMultiCurrencyCompany = False, objCommonVar.BaseCurrencyCode, clsCommon.myCstr(fndVendorCurrency.Value))
             If clsCommon.myLen(clsCommon.myCstr(fndVendorCurrency.Value)) > 0 Then
                 If clsCommon.myLen(Me.fndAccntSet.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select Account Set.")
+                    clsCommon.MyMessageBoxShow(Me, "Select Account Set.", Me.Text)
                     Me.fndAccntSet.Focus()
                     Exit Sub
                 End If
 
                 If clsCommon.myLen(Me.fndTxGrp.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select Tax Group.")
+                    clsCommon.MyMessageBoxShow(Me, "Select Tax Group.", Me.Text)
                     Me.fndTxGrp.Focus()
                     Exit Sub
                 End If
@@ -3481,7 +3481,7 @@ Public Class frmVSPMaster
                 qry = "select CURRENCY_CODE from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='" & clsCommon.myCstr(Me.fndAccntSet.Value) & "' "
                 Dim accCurrCode As String = clsDBFuncationality.getSingleValue(qry).ToString
                 If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(Me.fndVendorCurrency.Value)) <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Account Set Currency and Vendor Currency must be same in case of Multicurrency.")
+                    clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Vendor Currency must be same in case of Multicurrency.", Me.Text)
                     Exit Sub
                 End If
                 qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " &
@@ -3507,7 +3507,7 @@ Public Class frmVSPMaster
 
 
             If clsCommon.CompairString(cmbincentive.SelectedValue, "Qty") = CompairStringResult.Equal AndAlso (clsCommon.myLen(txtno_days.Text) <= 0 Or clsCommon.myCdbl(txtno_days.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Please Enter No.Of Days For Incentive", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter No.Of Days For Incentive", Me.Text)
                 txtno_days.Focus()
                 txtno_days.Select()
                 Errorcontrol.SetError(txtno_days, "Please Enter No.Of Days For Incentive")
@@ -3517,7 +3517,7 @@ Public Class frmVSPMaster
             End If
 
             If clsCommon.CompairString(cmbvsppayment.SelectedValue, "Different") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtpayeename.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter VSP Payment Payee Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter VSP Payment Payee Name", Me.Text)
                 txtpayeename.Focus()
                 txtpayeename.Select()
                 Errorcontrol.SetError(txtpayeename, "Please Enter VSP Payment Payee Name")
@@ -3531,7 +3531,7 @@ Public Class frmVSPMaster
                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal AndAlso check > 0 Then
-                    clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage4
                     txtpan.Focus()
                     txtpan.Select()
@@ -3542,7 +3542,7 @@ Public Class frmVSPMaster
                 End If
 
                 If clsCommon.CompairString(btnsave.Text, "Save") <> CompairStringResult.Equal AndAlso check > 1 Then
-                    clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage4
                     txtpan.Focus()
                     txtpan.Select()
@@ -3560,7 +3560,7 @@ Public Class frmVSPMaster
                 End If
             End If
             If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Country", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtcountrycode.Focus()
                 txtcountrycode.Select()
@@ -3571,7 +3571,7 @@ Public Class frmVSPMaster
             End If
 
             If clsCommon.myLen(txtstatecode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select State", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select State", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtstatecode.Focus()
                 txtstatecode.Select()
@@ -3583,7 +3583,7 @@ Public Class frmVSPMaster
 
 
             If clsCommon.myLen(fndCity.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select City", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select City", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 fndCity.Focus()
                 fndCity.Select()
@@ -3607,7 +3607,7 @@ Public Class frmVSPMaster
                 Errorcontrol.ResetError(txtvendorname)
             End If
             If clsCommon.myLen(txtjointname.Text) <= 0 And clsCommon.myCstr(cmbvsppayment.Text) = "Different" Then
-                clsCommon.MyMessageBoxShow("Please Fill Joint Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Joint Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtjointname.Focus()
                 txtjointname.Select()
@@ -3618,7 +3618,7 @@ Public Class frmVSPMaster
             End If
             If EnableBankFromMaster = True Then
                 If clsCommon.myLen(txtjointname.Text) > 0 And clsCommon.myLen(txtBankCode.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Fill Joint Bank Details", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill Joint Bank Details", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage1
                     txtBankCode.Focus()
                     txtBankCode.Select()
@@ -3629,7 +3629,7 @@ Public Class frmVSPMaster
                 End If
             Else
                 If clsCommon.myLen(txtjointname.Text) > 0 And clsCommon.myLen(texttxtBankCode.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Fill Joint Bank Details", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill Joint Bank Details", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage1
                     txtBankCode.Focus()
                     txtBankCode.Select()
@@ -3640,7 +3640,7 @@ Public Class frmVSPMaster
                 End If
             End If
             If clsCommon.myLen(txtRateHeadLoad.Text) <= 0 And ChkHeadLoad.Checked = True Then
-                clsCommon.MyMessageBoxShow("Please Fill Head Load Rate", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Head Load Rate", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage2
                 txtRateHeadLoad.Focus()
                 txtRateHeadLoad.Select()
@@ -3650,7 +3650,7 @@ Public Class frmVSPMaster
                 Errorcontrol.ResetError(txtRateHeadLoad)
             End If
             If clsCommon.myLen(TxtRateOwnAsset.Text) <= 0 And ChkOwnAsset.Checked = True Then
-                clsCommon.MyMessageBoxShow("Please Fill Own Asset Rate", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Own Asset Rate", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage2
                 TxtRateOwnAsset.Focus()
                 TxtRateOwnAsset.Select()
@@ -3691,7 +3691,7 @@ Public Class frmVSPMaster
             If clsCommon.myLen(txtAadharNo.Text) > 0 Then
                 If clsCommon.myLen(txtAadharNo.Text) <> 12 Then
                     pageCus.SelectedPage = RadPageViewPage4
-                    clsCommon.MyMessageBoxShow("Invalid Aadhar No.Please Enter Aadhar No 12 Digit", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invalid Aadhar No.Please Enter Aadhar No 12 Digit", Me.Text)
                     Errorcontrol.SetError(txtAadharNo, "Invalid Aadhar No.Please Enter Aadhar No 12 Digit")
                     Return
                 Else
@@ -4173,13 +4173,13 @@ Public Class frmVSPMaster
                 txtstatecode.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtstatecode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtstatecode._MYValidating
         If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Country First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Country First", Me.Text)
             txtcountrycode.Focus()
             txtcountrycode.Select()
             Return
@@ -4201,7 +4201,7 @@ Public Class frmVSPMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4226,7 +4226,7 @@ Public Class frmVSPMaster
             Convert.ToDecimal(txtno_days.Text)
             Errorcontrol.ResetError(txtno_days)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("No. Of Days Should Be Numeric", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No. Of Days Should Be Numeric", Me.Text)
             txtno_days.Text = "0"
             txtno_days.Focus()
             txtno_days.Select()
@@ -4305,7 +4305,7 @@ Public Class frmVSPMaster
         Try
             If clsCommon.myLen(txtWeb.Text) > 0 Then
                 If Not txtWeb.Text.ToUpper().Contains("WWW.") Then
-                    clsCommon.MyMessageBoxShow("Please Enter Web Site In Proper Format.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Enter Web Site In Proper Format.", Me.Text)
                     txtWeb.Focus()
                     txtWeb.Select()
                     txtWeb.Text = ""
@@ -4316,7 +4316,7 @@ Public Class frmVSPMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Please Enter Web Site In Proper Format.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Web Site In Proper Format.", Me.Text)
             txtWeb.Focus()
             txtWeb.Select()
             txtWeb.Text = ""
@@ -4460,7 +4460,7 @@ Public Class frmVSPMaster
     Private Sub txtjointname_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtjointname.Leave
         'If Not A Matching Format Entered
         If Not Regex.Match(txtjointname.Text, "^[a-zA-Z ]*$", RegexOptions.IgnorePatternWhitespace).Success Then 'Only Letters
-            clsCommon.MyMessageBoxShow("Please Enter Alphabetic Characters Only!") 'Inform User
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Alphabetic Characters Only!", Me.Text) 'Inform User
             txtjointname.Focus() 'Return Focus
             txtjointname.Clear() 'Clear TextBox
             txtpayeename.Text = txtvendorname.Text
@@ -4744,14 +4744,14 @@ Public Class frmVSPMaster
 
                     clsCommon.ProgressBarHide()
                     trans.Commit()
-                    RadMessageBox.Show("Data Imported Successfully.")
+                    RadMessageBox.Show(Me, "Data Imported Successfully.", Me.Text)
                 Else
                     Throw New Exception("Error in Import")
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                RadMessageBox.Show(ex.Message)
+                RadMessageBox.Show(Me, ex.Message, Me.Text)
             Finally
                 Me.Controls.Remove(gvCharges)
             End Try
@@ -4778,7 +4778,7 @@ Public Class frmVSPMaster
         Try
             ImportChargeDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4930,7 +4930,7 @@ Public Class frmVSPMaster
             frm.WindowState = FormWindowState.Maximized
             frm.Show()
         Else
-            clsCommon.MyMessageBoxShow("Please select bank Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select bank Code", Me.Text)
         End If
 
     End Sub
@@ -4941,7 +4941,7 @@ Public Class frmVSPMaster
             txtBankBranchCode.Value = clsCommon.ShowSelectForm("FormBankBranch", qry, "Branch_Name", " Bank_Code ='" & IIf(EnableBankFromMaster = True, findfndbankcode.Value, fndbankcode.Text) & "' ", txtBankBranchCode.Value, "", isButtonClicked)
             txtIFCICode.Text = clsDBFuncationality.getSingleValue("Select Bank_IFSC_Code from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & IIf(EnableBankFromMaster = True, findfndbankcode.Value, fndbankcode.Text) & "' and Branch_Name='" & txtBankBranchCode.Value & "' ")
         Else
-            clsCommon.MyMessageBoxShow("Please select bank Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select bank Code", Me.Text)
         End If
     End Sub
 
@@ -6164,7 +6164,7 @@ Public Class frmVSPMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -6225,7 +6225,7 @@ Public Class frmVSPMaster
         Try
             ImportIncentiveDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ImportIncentiveDetails()
@@ -6279,14 +6279,14 @@ Public Class frmVSPMaster
 
                     clsCommon.ProgressBarHide()
                     trans.Commit()
-                    RadMessageBox.Show("Data Imported Successfully.")
+                    RadMessageBox.Show(Me, "Data Imported Successfully.", Me.Text)
                 Else
                     Throw New Exception("Error in Import")
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                RadMessageBox.Show(ex.Message)
+                RadMessageBox.Show(Me, ex.Message, Me.Text)
             Finally
                 Me.Controls.Remove(gvCharges)
             End Try
@@ -6314,7 +6314,7 @@ Public Class frmVSPMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6345,7 +6345,7 @@ Public Class frmVSPMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndvendorNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select VSP Code")
+                clsCommon.MyMessageBoxShow(Me, "Select VSP Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_Vendor_MASTER")
@@ -6419,7 +6419,7 @@ Public Class frmVSPMaster
             findTxtIFSCCode.Value = clsCommon.ShowSelectForm("FormIFSCCode", qry, "IFSCCode", " Bank_Code ='" & findfndbankcode.Value & "' ", findTxtIFSCCode.Value, "", isButtonClicked)
             TxtBankBranch.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & findfndbankcode.Value & "' and Bank_IFSC_Code='" & findTxtIFSCCode.Value & "' ")
         Else
-            clsCommon.MyMessageBoxShow("Please select Bank Code first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first", Me.Text)
         End If
     End Sub
     Private Sub fndVSPCopy__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndVSPCopy._MYValidating

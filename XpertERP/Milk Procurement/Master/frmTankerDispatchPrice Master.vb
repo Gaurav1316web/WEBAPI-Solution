@@ -13,13 +13,13 @@ Public Class FrmTankerDispatchPrice_Master
 
     Function AllowToSave() As Boolean
         If String.IsNullOrEmpty(txtrate.Text) Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Total Solid  Rate", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Total Solid  Rate", Me.Text)
             txtrate.Focus()
             Return False
         End If
         If chkJobWork.Checked = True Then
             If clsCommon.myLen(txtItemCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Item Code", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
                 txtItemCode.Focus()
                 Return False
             End If
@@ -27,7 +27,7 @@ Public Class FrmTankerDispatchPrice_Master
         If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
             Return True
         Else
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Mcc.", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Mcc.", Me.Text)
             Return False
         End If
         Return True
@@ -90,12 +90,12 @@ Public Class FrmTankerDispatchPrice_Master
                     isNewEntry = False
                 End If
                 If (clsTankerDispatchPriceMaster.SaveData(isNewEntry, obj)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.PRICE_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -141,7 +141,7 @@ Public Class FrmTankerDispatchPrice_Master
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -166,7 +166,7 @@ Public Class FrmTankerDispatchPrice_Master
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -181,7 +181,7 @@ Public Class FrmTankerDispatchPrice_Master
             If (myMessages.deleteConfirm()) Then
 
                 If (clsTankerDispatchPriceMaster.DeleteData(fndcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -234,7 +234,7 @@ Public Class FrmTankerDispatchPrice_Master
             End If
             LoadData(fndcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

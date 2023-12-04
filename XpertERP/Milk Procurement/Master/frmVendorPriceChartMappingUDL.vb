@@ -23,7 +23,7 @@ Public Class frmVendorPriceChartMappingUDL
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -114,7 +114,7 @@ Public Class frmVendorPriceChartMappingUDL
 
             TagMappedVendor()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -161,9 +161,9 @@ Public Class frmVendorPriceChartMappingUDL
                 If arr IsNot Nothing AndAlso arr.Count > 0 Then
                     If clsCommon.MyMessageBoxShow(clsCommon.myCstr(arr.Count) + " Vendors will added as posted." + Environment.NewLine + "Do you want to continue...", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         ADDMore(arr)
-                        clsCommon.MyMessageBoxShow("Vendor Added successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Vendor Added successfully", Me.Text)
                         LoadPriceData()
-                        If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                        If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                             printData()
                         End If
                     End If
@@ -187,11 +187,11 @@ Public Class frmVendorPriceChartMappingUDL
             obj.Milk_Grade_Code = clsCommon.myCstr(gvPriceCode.CurrentRow.Cells("Milk Grade code").Value)
             obj.arrVendor = arrVendor
             obj.AddMore(obj)
-            clsCommon.MyMessageBoxShow("Data saved successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
             LoadPriceData()
             obj = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -201,7 +201,7 @@ Public Class frmVendorPriceChartMappingUDL
                 SaveData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -234,7 +234,7 @@ Public Class frmVendorPriceChartMappingUDL
             Dim objCall As New clsVendorPriceChartMappingUDLHead()
             objCall.SaveData(arr)
             objCall = Nothing
-            clsCommon.MyMessageBoxShow("Data saved successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
             LoadPriceData()
         End If
     End Sub
@@ -262,7 +262,7 @@ Public Class frmVendorPriceChartMappingUDL
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -292,7 +292,7 @@ Public Class frmVendorPriceChartMappingUDL
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -343,7 +343,7 @@ Public Class frmVendorPriceChartMappingUDL
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

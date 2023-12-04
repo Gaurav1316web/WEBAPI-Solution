@@ -161,14 +161,14 @@ Public Class frmEmployeeTDSRpt
                 End If
                 FormatGrid()
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
 
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtEmployee__My_Click(sender As Object, e As EventArgs) Handles txtEmployee._My_Click
@@ -176,7 +176,7 @@ Public Class frmEmployeeTDSRpt
             Dim qry As String = "select EMP_CODE,Emp_Name from TSPL_EMPLOYEE_MASTER"
             txtEmployee.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "EmpF@TDSC", qry, "EMP_CODE", "", txtEmployee.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FormatGrid()
@@ -281,7 +281,7 @@ Public Class frmEmployeeTDSRpt
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -304,7 +304,7 @@ Public Class frmEmployeeTDSRpt
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gvReport.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             obj = Nothing
@@ -348,7 +348,7 @@ Public Class frmEmployeeTDSRpt
                 clsCommon.MyExportToPDF("Employee TDS Register", gvReport, arrHeader, "Employee TDS Register", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -363,7 +363,7 @@ Public Class frmEmployeeTDSRpt
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gvReport.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             obj.GridLayout.Close()
@@ -378,7 +378,7 @@ Public Class frmEmployeeTDSRpt
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

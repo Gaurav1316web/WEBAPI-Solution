@@ -86,7 +86,7 @@ Public Class FrmCreateRemittance
 
     Private Sub RefreshData()
         If clsCommon.myLen(txtSection.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Section", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Section", Me.Text)
             Exit Sub
         End If
         'If clsCommon.myLen(txtBranch.Value) <= 0 Then
@@ -168,20 +168,20 @@ Public Class FrmCreateRemittance
                 Next
             End If
             If (arr.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Remit is selected to Post")
+                common.clsCommon.MyMessageBoxShow(Me, "No Remit is selected to Post", Me.Text)
                 Return
             End If
 
             If (common.clsCommon.MyMessageBoxShow("Post the selected " + clsCommon.myCstr(arr.Count) + " Remit.Are you sure ? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                 If (clsRemittance.PostRemit(arr, strDrNodeAgainstAP)) Then
-                    common.clsCommon.MyMessageBoxShow("Remit Posted successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Remit Posted successfully", Me.Text)
                     RefreshData()
                     UpdateTotals(Nothing)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnRemittAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemittAll.Click
@@ -273,7 +273,7 @@ Public Class FrmCreateRemittance
                 txtFrom.Value = clsCommon.ShowSelectForm("CRNatureOfDeduction", qry, "Code", whrCls, txtFrom.Value, "Code", isButtonClicked)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -295,7 +295,7 @@ Public Class FrmCreateRemittance
                 txtTo.Value = clsCommon.ShowSelectForm("CRNatureOfDeduction", qry, "Code", whrCls, txtTo.Value, "Code", isButtonClicked)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -354,7 +354,7 @@ Public Class FrmCreateRemittance
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage

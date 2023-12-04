@@ -236,7 +236,7 @@ Public Class FrmTransferKDIL
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1997,7 +1997,7 @@ Public Class FrmTransferKDIL
         Catch ex As Exception
             isCellValueChangedTaxOpen = False
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2576,7 +2576,7 @@ Public Class FrmTransferKDIL
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2732,7 +2732,7 @@ Public Class FrmTransferKDIL
             End If
             If ApplyFEFO = True Then
                 If clsCommon.myLen(txtLoadingAdviceNo.Text) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Enter Loading Advice No ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Enter Loading Advice No ")
                     txtLoadingAdviceNo.Focus()
                     Return False
                 End If
@@ -2835,13 +2835,13 @@ Public Class FrmTransferKDIL
             If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                 If clsCommon.myLen(clsCommon.myCstr(txtTransferOutNo.Value)) = 0 Then
-                    clsCommon.MyMessageBoxShow("Transfer No is mandatory.")
+                    clsCommon.MyMessageBoxShow(Me, "Transfer No is mandatory.")
                     txtTransferOutNo.Focus()
                     Return False
                 End If
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "R") = CompairStringResult.Equal Then
                 If clsCommon.myLen(clsCommon.myCstr(txtRMDANo.Value)) = 0 Then
-                    clsCommon.MyMessageBoxShow("Rejected No is mandatory.")
+                    clsCommon.MyMessageBoxShow(Me, "Rejected No is mandatory.")
                     txtRMDANo.Focus()
                     Return False
                 End If
@@ -2935,13 +2935,13 @@ Public Class FrmTransferKDIL
                         If clsCommon.myLen(strIsschemeItem) = 0 Then
                             If StrCrateTransferFromBooking = "1" Then
                                 If clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) = 0 Then
-                                    common.clsCommon.MyMessageBoxShow("Please enter Item Rate for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please enter Item Rate for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
                                     Return False
                                 End If
                             Else
 
                                 If clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) = 0 Then
-                                    common.clsCommon.MyMessageBoxShow("Please enter Item Rate for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please enter Item Rate for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
                                     Return False
                                 End If
                             End If
@@ -2997,14 +2997,14 @@ Public Class FrmTransferKDIL
                         End If
                     Else
                         If dblOutQty > dblBalQty Then
-                            common.clsCommon.MyMessageBoxShow("Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblOutQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblOutQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
                             Return False
                         End If
                         If clsCommon.myLen(txtRMDANo.Value) > 0 Then
                             Dim strPINo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MAX( TSPL_PI_DETAIL.PI_No) as PI_No from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_HEAD.RMDA_No='" + txtRMDANo.Value + "'"))
                             dblBalQty = clsPurchaseInvoiceDetail.GetBalancePIQty(strPINo, strICode, txtDocNo.Value, strUOM, dblMRP, 0, True)
                             If dblOutQty > dblBalQty Then
-                                common.clsCommon.MyMessageBoxShow("Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblOutQty) + " and RMDA Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
+                                common.clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblOutQty) + " and RMDA Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
                                 Return False
                             End If
                         End If
@@ -3051,7 +3051,7 @@ Public Class FrmTransferKDIL
                             If dblMRP > 0 Then
                                 Msg = Msg + Environment.NewLine + "MRP: " + clsCommon.myCstr(dblMRP)
                             End If
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     Next
@@ -3229,7 +3229,7 @@ Public Class FrmTransferKDIL
     Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (SaveData(False, ChekBtnPost)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
             End If
             Return True
         Else
@@ -3530,7 +3530,7 @@ Public Class FrmTransferKDIL
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
                     Return False
                 End If
 
@@ -3575,7 +3575,7 @@ Public Class FrmTransferKDIL
                 Return isSaved
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -4196,7 +4196,7 @@ Public Class FrmTransferKDIL
                 AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             IsFormLoad = False
@@ -4234,7 +4234,7 @@ Public Class FrmTransferKDIL
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4253,7 +4253,7 @@ Public Class FrmTransferKDIL
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtTransporter_Code.Focus()
                     txtTransporter_Code.Select()
-                    clsCommon.MyMessageBoxShow("Select transporter detail.")
+                    clsCommon.MyMessageBoxShow(Me, "Select transporter detail.")
                     Exit Function
                 End If
 
@@ -4261,7 +4261,7 @@ Public Class FrmTransferKDIL
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtvehicle_mannual_no.Focus()
                     txtvehicle_mannual_no.Select()
-                    clsCommon.MyMessageBoxShow("Fill vehicle no. for provision booking.")
+                    clsCommon.MyMessageBoxShow(Me, "Fill vehicle no. for provision booking.")
                     Exit Function
                 End If
 
@@ -4269,7 +4269,7 @@ Public Class FrmTransferKDIL
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtVehicle_Capacity.Focus()
                     txtVehicle_Capacity.Select()
-                    clsCommon.MyMessageBoxShow("Fill vehicle capacity for provision booking.")
+                    clsCommon.MyMessageBoxShow(Me, "Fill vehicle capacity for provision booking.")
                     Exit Function
                 End If
             End If
@@ -4278,13 +4278,13 @@ Public Class FrmTransferKDIL
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtGross_Wt.Focus()
                 txtGross_Wt.Select()
-                clsCommon.MyMessageBoxShow("Fill Gross weight for provision booking.")
+                clsCommon.MyMessageBoxShow(Me, "Fill Gross weight for provision booking.")
                 Exit Function
             End If
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -4308,13 +4308,13 @@ Public Class FrmTransferKDIL
                     End If
 
                     If (clsTransferDCC.postTransfer(txtDocNo.Value, ProvisionAllow, txtglvoucher.Text)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4342,7 +4342,7 @@ Public Class FrmTransferKDIL
                 End If
                 If (clsTransferDCC.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     AddNew()
                 End If
             End If
@@ -4386,7 +4386,7 @@ Public Class FrmTransferKDIL
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4501,7 +4501,7 @@ Public Class FrmTransferKDIL
 
             SetTaxDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4523,7 +4523,7 @@ Public Class FrmTransferKDIL
         'Dim dt As DataTable = clsTransferDCC.GetTaxDetailsTransfer(txtTaxGroup.Value)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If (dt.Rows.Count > 10) Then
-                MessageBox.Show("Can't Handle More than 10 Tax Types in a Group")
+                MessageBox.Show(Me, "Can't Handle More than 10 Tax Types in a Group")
                 Return
             End If
             lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
@@ -4683,7 +4683,7 @@ Public Class FrmTransferKDIL
         'End If
         If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(cboType.SelectedValue)) <= 0 Then
             txtFromLocation.Value = ""
-            clsCommon.MyMessageBoxShow("Please select Type", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Type", Me.Text)
             cboType.Focus()
             Exit Sub
         End If
@@ -4781,7 +4781,7 @@ Public Class FrmTransferKDIL
         If clsCommon.myCBool(EnableInternalTransfer) = True AndAlso (chkInternalTransfer.Checked) = True Then
 
             If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select From Location")
+                clsCommon.MyMessageBoxShow(Me, "Please Select From Location")
                 Exit Sub
             End If
 
@@ -5638,7 +5638,7 @@ Public Class FrmTransferKDIL
                     If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                         If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                             If clsTransferDCCDetail.CompletePO(txtDocNo.Value, strICode, intSNo) Then
-                                common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                                common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed")
                                 LoadData(txtDocNo.Value, NavigatorType.Current)
                             End If
                         End If
@@ -5647,7 +5647,7 @@ Public Class FrmTransferKDIL
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5662,13 +5662,13 @@ Public Class FrmTransferKDIL
     Public Sub funprint(ByVal i As Integer)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Transfer Order No not found to Print")
+                common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
             End If
             Dim arr As New ArrayList()
             arr.Add(txtDocNo.Value)
             PrintData(txtDocNo.Value, i)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5697,7 +5697,7 @@ Public Class FrmTransferKDIL
             lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
             txtvehicle_mannual_no.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select number from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'"))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5895,7 +5895,7 @@ Public Class FrmTransferKDIL
     Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ''Printing the amendment
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
         Else
             FrmPurchaseOrderReport.PrintAbandoment(txtDocNo.Value)
         End If
@@ -6102,13 +6102,13 @@ Public Class FrmTransferKDIL
         Catch ex As Exception
             isCellValueChangedTaxOpen = False
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
         Else
             i = 1
             funprint(i)
@@ -6234,14 +6234,14 @@ Public Class FrmTransferKDIL
             'End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
 
     Private Sub btnpreprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
         Else
             i = 2
             funprint(i)
@@ -6802,7 +6802,7 @@ Public Class FrmTransferKDIL
             PrintData(txtDocNo.Value)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -6990,14 +6990,14 @@ Public Class FrmTransferKDIL
                 '---------------------
                 If clsTransferDCC.ReverseAndUnpost(txtDocNo.Value, blnUpdateLoadInwithLoadOut) Then
                     txtglvoucher.Text = clsDBFuncationality.getSingleValue("select GLVoucher_No from TSPL_TRANSFER_ORDER_HEAD where Document_No='" & txtDocNo.Value & "'")
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     blnUpdateLoadInwithLoadOut = False
                     btnReverseAndUnpost.Visible = False
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7206,7 +7206,7 @@ Public Class FrmTransferKDIL
                 Throw New Exception("Please Select Item Type")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7386,7 +7386,7 @@ Public Class FrmTransferKDIL
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadRateForGatePassTransfer()
@@ -7595,11 +7595,11 @@ Public Class FrmTransferKDIL
                     obj.EWayBillDate = txtEWayBillDate.Value
                 End If
                 If clsTransferDCC.UpdateAfterPosting(obj, txtDocNo.Value, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.")
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -7620,7 +7620,7 @@ Public Class FrmTransferKDIL
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7686,7 +7686,7 @@ Public Class FrmTransferKDIL
                 chkProductionRequest.Checked = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''RICHA UDL/14/05/18-000161
@@ -7697,12 +7697,12 @@ Public Class FrmTransferKDIL
         Try
             If (myMessages.cancelConfirm()) Then
                 If (clsTransferDCC.CancelData(MyBase.Form_ID, txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Cancelled")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled")
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7714,7 +7714,7 @@ Public Class FrmTransferKDIL
     'Ticket No-MIL/14/08/19-000120,Sanjay,Transfer Out- Item Import/Export
     Private Sub radExportTransferOut_Click(sender As Object, e As EventArgs) Handles radExportTransferOut.Click
         If clsCommon.CompairString(txtDocNo.Value, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select document.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select document.")
             Exit Sub
         End If
         Dim str As String
@@ -7728,7 +7728,7 @@ Public Class FrmTransferKDIL
 
     Private Sub radImportTransferOut_Click(sender As Object, e As EventArgs) Handles radImportTransferOut.Click
         If clsCommon.CompairString(txtFromLocation.Value, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select location.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select location.")
             Exit Sub
         End If
         Dim gv As New RadGridView()
@@ -7779,7 +7779,7 @@ Public Class FrmTransferKDIL
 
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7868,7 +7868,7 @@ Public Class FrmTransferKDIL
                 clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtDocNo.Value), "DOCUMENT_NO", "TSPL_TRANSFER_ORDER_HEAD", "TSPL_TRANSFER_ORDER_DETAIL")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7905,7 +7905,7 @@ Public Class FrmTransferKDIL
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Transfer", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Transfer", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -7987,10 +7987,10 @@ Public Class FrmTransferKDIL
             End If
 
             clsTransferDCC.CancelDelData(Me.Form_ID, txtDocNo.Value, NavigatorType.Current)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function

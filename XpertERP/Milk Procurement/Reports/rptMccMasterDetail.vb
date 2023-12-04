@@ -22,7 +22,7 @@ Public Class rptMccMasterDetail
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
-        cmbReportType.Text = "Select"
+        cmbReportType.Text = "DCS Full Details"
         RadPageView1.SelectedPage = RadPageViewPage1
         btnGo.Enabled = True
         txtMCC.arrValueMember = Nothing
@@ -33,10 +33,11 @@ Public Class rptMccMasterDetail
         txtGrampanchayat.arrValueMember = Nothing
         txtPanchayatSamiti.arrValueMember = Nothing
         txtVidhanSabha.arrValueMember = Nothing
-
-        chkMP.Checked = False
-        chkMP.Visible = True
         ControlEnableDisable(True)
+        rbtnJanAll.Checked = True
+        rbtnJanVerified.Checked = False
+        rbtnJanUnverified.Checked = False
+        RadGroupBox1.Visible = False
     End Sub
     Sub ControlEnableDisable(ByVal isEnable As Boolean)
         txtMCC.Enabled = isEnable
@@ -47,17 +48,16 @@ Public Class rptMccMasterDetail
         txtGrampanchayat.Enabled = isEnable
         txtPanchayatSamiti.Enabled = isEnable
         txtVidhanSabha.Enabled = isEnable
-        chkMP.Enabled = isEnable
+        RadGroupBox1.Enabled = isEnable
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-
             PageSetupReport_ID = MyBase.Form_ID
             If clsCommon.CompairString(cmbReportType.Text, "Select") <> CompairStringResult.Equal Then
                 PageSetupReport_ID = PageSetupReport_ID + clsCommon.myCstr(cmbReportType.Text)
             Else
-                If chkMP.Checked = True Then
+                If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
                     PageSetupReport_ID = MyBase.Form_ID + "MP"
                 End If
             End If
@@ -76,14 +76,14 @@ Public Class rptMccMasterDetail
                 qry = clsMccMasterDetailReport.getQueryMccMasterDetailEmployee()
             Else
                 If txtDistrict.arrValueMember IsNot Nothing AndAlso txtDistrict.arrValueMember.Count > 0 Then
-                    If chkMP.Checked = False Then
+                    If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
                         whre += " and  TSPL_VENDOR_MASTER.DISTRICT_Code in (" + clsCommon.GetMulcallString(txtDistrict.arrValueMember) + ") "
                     Else
                         whre += " and  TSPL_MP_MASTER.DISTRICT_Code in (" + clsCommon.GetMulcallString(txtDistrict.arrValueMember) + ") "
                     End If
                 End If
                 If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
-                    If chkMP.Checked = False Then
+                    If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
                         whre += " and  TSPL_VENDOR_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ") "
                     Else
                         whre += " and  TSPL_MP_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ") "
@@ -91,14 +91,14 @@ Public Class rptMccMasterDetail
                 End If
 
                 If txtBlock.arrValueMember IsNot Nothing AndAlso txtBlock.arrValueMember.Count > 0 Then
-                    If chkMP.Checked = False Then
+                    If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
                         whre += " and  TSPL_VENDOR_MASTER.BLOCK_CODE in (" + clsCommon.GetMulcallString(txtBlock.arrValueMember) + ") "
                     Else
                         whre += " and  TSPL_MP_MASTER.BLOCK_CODE in (" + clsCommon.GetMulcallString(txtBlock.arrValueMember) + ") "
                     End If
                 End If
                 If txtRevenueVillage.arrValueMember IsNot Nothing AndAlso txtRevenueVillage.arrValueMember.Count > 0 Then
-                    If chkMP.Checked = False Then
+                    If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
                         whre += " and  TSPL_VENDOR_MASTER.REVENUE_VILLAGE_CODE in (" + clsCommon.GetMulcallString(txtRevenueVillage.arrValueMember) + ") "
                     Else
                         whre += " and  TSPL_MP_MASTER.REVENUE_VILLAGE_CODE in (" + clsCommon.GetMulcallString(txtRevenueVillage.arrValueMember) + ") "
@@ -106,7 +106,7 @@ Public Class rptMccMasterDetail
                 End If
 
                 If txtGrampanchayat.arrValueMember IsNot Nothing AndAlso txtGrampanchayat.arrValueMember.Count > 0 Then
-                    If chkMP.Checked = False Then
+                    If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
                         whre += " and  TSPL_VENDOR_MASTER.GRAMPANCHAYAT_CODE in (" + clsCommon.GetMulcallString(txtGrampanchayat.arrValueMember) + ") "
                     Else
                         whre += " and  TSPL_MP_MASTER.GRAMPANCHAYAT_CODE in (" + clsCommon.GetMulcallString(txtGrampanchayat.arrValueMember) + ") "
@@ -114,7 +114,7 @@ Public Class rptMccMasterDetail
                 End If
 
                 If txtPanchayatSamiti.arrValueMember IsNot Nothing AndAlso txtPanchayatSamiti.arrValueMember.Count > 0 Then
-                    If chkMP.Checked = False Then
+                    If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
                         whre += " and  TSPL_VENDOR_MASTER.PANCHAYAT_SAMITI_CODE in (" + clsCommon.GetMulcallString(txtPanchayatSamiti.arrValueMember) + ") "
                     Else
                         whre += " and  TSPL_MP_MASTER.PANCHAYAT_SAMITI_CODE in (" + clsCommon.GetMulcallString(txtPanchayatSamiti.arrValueMember) + ") "
@@ -122,7 +122,7 @@ Public Class rptMccMasterDetail
                 End If
 
                 If txtVidhanSabha.arrValueMember IsNot Nothing AndAlso txtVidhanSabha.arrValueMember.Count > 0 Then
-                    If chkMP.Checked = False Then
+                    If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
                         whre += " and  TSPL_VENDOR_MASTER.VIDHAN_SABHA_CODE in (" + clsCommon.GetMulcallString(txtVidhanSabha.arrValueMember) + ") "
                     Else
                         whre += " and  TSPL_MP_MASTER.VIDHAN_SABHA_CODE in (" + clsCommon.GetMulcallString(txtVidhanSabha.arrValueMember) + ") "
@@ -133,26 +133,43 @@ Public Class rptMccMasterDetail
                     whre = " and TSPL_MCC_MASTER.MCC_CODE in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
                 End If
 
-                If chkMP.Checked = True Then
-                    qry = " select TSPL_MCC_MASTER.MCC_CODE as [MCC Code],TSPL_MCC_MASTER.MCC_NAME as [MCC Name], VSP_Code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] , TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] ,tspl_mp_master.MP_Code as [MP Code], tspl_mp_master.MP_Name as [MP Name],tspl_mp_master.MP_CODE_VLC_UPLOADER as [MP Uploader Code],TSPL_MP_MASTER.Telphone as [Phone] , TSPL_MP_MASTER.Fax as [Aadhar No],tspl_mp_master.Jan_Aadhar_No as [Jan Aadhar No],case when isnull (TSPL_MP_MASTER.Jan_Aadhar_No_Verified,'')>0 then 'Y' else 'N' end as [Jan Aadhar Verified],TSPL_MP_MASTER.JA_aadhar, TSPL_MP_MASTER.JA_acc, TSPL_MP_MASTER.JA_age, TSPL_MP_MASTER.JA_bankBranch, TSPL_MP_MASTER.JA_bankName, TSPL_MP_MASTER.JA_ifsc, TSPL_MP_MASTER.JA_caste, TSPL_MP_MASTER.JA_categoryDescEng, TSPL_MP_MASTER.JA_disability, TSPL_MP_MASTER.JA_disabilityPercentage, TSPL_MP_MASTER.JA_disabilityType, TSPL_MP_MASTER.JA_dlNo, TSPL_MP_MASTER.JA_dob, TSPL_MP_MASTER.JA_eid, TSPL_MP_MASTER.JA_email, TSPL_MP_MASTER.JA_enrId, TSPL_MP_MASTER.JA_fnameEng, TSPL_MP_MASTER.JA_fnameHnd, TSPL_MP_MASTER.JA_gender, TSPL_MP_MASTER.JA_income, TSPL_MP_MASTER.JA_isorphan, TSPL_MP_MASTER.JA_isStateGovtEmp, TSPL_MP_MASTER.JA_jan_mid, TSPL_MP_MASTER.JA_janaadhaarId, TSPL_MP_MASTER.JA_maritalStatus, TSPL_MP_MASTER.JA_micr, TSPL_MP_MASTER.JA_mnameEng, TSPL_MP_MASTER.JA_mnameHnd, TSPL_MP_MASTER.JA_mobile, TSPL_MP_MASTER.JA_nameEng, TSPL_MP_MASTER.JA_nameHnd, TSPL_MP_MASTER.JA_occupation, TSPL_MP_MASTER.JA_relationTyp, TSPL_MP_MASTER.JA_panNo, TSPL_MP_MASTER.JA_passport, TSPL_MP_MASTER.JA_qualification, TSPL_MP_MASTER.JA_rghs_no, TSPL_MP_MASTER.JA_snameEng, TSPL_MP_MASTER.JA_snameHnd, TSPL_MP_MASTER.JA_voterId,tspl_mp_master.BankName as [Bank Code],case when len (isnull (TSPL_BANK_MASTER.DESCRIPTION,'')) > 0 then TSPL_BANK_MASTER.DESCRIPTION else tspl_mp_master.BankName end as [Bank Name],tspl_mp_master.IFCICode as [IFSC Code],tspl_mp_master.BankBranch as [Branch Name],tspl_mp_master.AccountNO as [Account No],TSPL_MP_MASTER.DISTRICT_Code as [District Code],TSPL_DISTRICT_MASTER.Name as [District Name],TSPL_MP_MASTER.Zone_Code as [Zone Code], TSPL_ZONE_MASTER.Description as [Zone Name],TSPL_MP_MASTER.BLOCK_CODE as [Block Code],TSPL_BLOCK_MASTER.BLOCK_NAME as [Block Name] ,TSPL_MP_MASTER.REVENUE_VILLAGE_CODE as [Revenue Village Code],TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Revenue Village Name],TSPL_MP_MASTER.GRAMPANCHAYAT_CODE as [Grampanchayat Code],TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Grampanchayat Name],TSPL_MP_MASTER.PANCHAYAT_SAMITI_CODE as [Panchayat Samiti Code],TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Panchayat Samiti Name],TSPL_MP_MASTER.VIDHAN_SABHA_CODE as [Vidhan Sabha Code], TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Vidhan Sabha Name],( case when isOwnBMC= 1 then 'Y' else 'N' end )as [isOwnBMC(Y/N)],(CASE WHEN isOwnBMC =1 THEN TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ELSE '' END) AS [OWN BMC],(case when  TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then  TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader else '' end)as [MCC Uploader Code],case when Apply_Cow_Price =1 then 'Y' else 'N' end as [Apply Cow Price(Y/N)],TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER as [DCS Type],(case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationNo else '' end )as  [Reg No],  (case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationDate else '' end )as  [Reg Date],TSPL_VENDOR_MASTER.Gender as [Gender] "
-                Else
-                    qry = " select isnull(TSPL_MCC_MASTER.plant_code,'') as [Plant],isnull(tspl_Plant_Code.Location_Desc ,'') as [Plant Name],isnull(TSPL_LOCATION_MASTER.Loc_Segment_Code,'') as [Loc Segment Code],TSPL_MCC_MASTER.MCC_CODE as [MCC Code],TSPL_MCC_MASTER.MCC_NAME as [MCC Name],isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,'') as [MCC Uploader Code],tspl_mcc_route_master.Route_Code as [Route Code],tspl_mcc_route_master.Route_Name as [Route Name],tspl_mcc_route_master.Vehicle_Code as [Vehicle No]" &
-                  " ,Transporter.Vendor_Code as [Transporter Code],Transporter.Vendor_Name as [Transporter Name],TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name] " &
-                  " ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],VSP_Code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] ,(case when TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then 'Y' else 'N' end) as [isOwnBMC(Y/N)],(CASE WHEN TSPL_VLC_MASTER_HEAD.isOwnBMC = 1 THEN TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ELSE '' END) AS [OWN BMC],(case when  TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then  TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader else '' end)as [MCC Uploader Code],case when TSPL_VLC_MASTER_HEAD.Apply_Cow_Price =1 then 'Y' else 'N' end as [Apply Cow Price(Y/N)]  " &
-                  " ,TSPL_VENDOR_MASTER.Bank_Code as [Bank Code],TSPL_VENDOR_MASTER.Bank_Name as [Bank Name],TSPL_VENDOR_MASTER.IFSC_Code as [IFSC Code],TSPL_VENDOR_MASTER.Branch_Name as [Branch Name],TSPL_VENDOR_MASTER.Account_No as [Account No],TSPL_VENDOR_MASTER.Gender as [Gender],TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER as [DCS Type],(case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationNo else '' end )as  [Reg No], ( case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationDate else '' end) as  [Reg Date],TSPL_Primary_Vehicle_Master.Vehicle, TSPL_VENDOR_MASTER.DISTRICT_Code as [District Code],TSPL_DISTRICT_MASTER.Name as [District Name]
- ,TSPL_VENDOR_MASTER.Zone_Code as [Zone Code], TSPL_ZONE_MASTER.Description as [Zone Name],TSPL_VENDOR_MASTER.BLOCK_CODE as [Block Code],TSPL_BLOCK_MASTER.BLOCK_NAME as [Block Name] ,TSPL_VENDOR_MASTER.REVENUE_VILLAGE_CODE as [Revenue Village Code],TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Revenue Village Name],TSPL_VENDOR_MASTER.GRAMPANCHAYAT_CODE as [Grampanchayat Code],TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Grampanchayat Name],TSPL_VENDOR_MASTER.PANCHAYAT_SAMITI_CODE as [Panchayat Samiti Code],TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Panchayat Samiti Name],TSPL_VENDOR_MASTER.VIDHAN_SABHA_CODE as [Vidhan Sabha Code], TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Vidhan Sabha Name] "
+                If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal OrElse clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+                    If rbtnJanVerified.Checked Then
+                        whre += " and isnull(TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)>0"
+                    ElseIf rbtnJanUnverified.Checked Then
+                        whre += " and isnull(TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)<=0"
+                    End If
                 End If
-                qry += " from TSPL_VLC_MASTER_HEAD " &
-                  " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code and TSPL_VENDOR_MASTER.Form_Type='VSP' " &
-                  " left join (select distinct Route_CODE , VLC_CODE from TSPL_MCC_ROUTE_VLC_MAPPING) as TSPL_MCC_ROUTE_VLC_MAPPING on TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code " &
-                  " left join tspl_mcc_route_master on tspl_mcc_route_master.Route_Code=TSPL_MCC_ROUTE_VLC_MAPPING.Route_CODE " &
-                  " left join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.Vehicle_Code=tspl_mcc_route_master.Vehicle_Code " &
-                  " left join TSPL_VENDOR_MASTER AS Transporter on Transporter.Vendor_Code=TSPL_Primary_Vehicle_Master.Vendor_Code and Transporter.Form_Type='PTM' " &
-                  " left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC " &
-                  " left outer join TSPL_LOCATION_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_LOCATION_MASTER.Location_Code " &
-                  " left outer join TSPL_LOCATION_MASTER as  tspl_Plant_Code on tspl_Plant_Code.Location_Code  = TSPL_MCC_MASTER.plant_code "
 
-                If chkMP.Checked = True Then
+                If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal OrElse clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+                        qry += " Select  Max(Main.Comp_Name) As [Company Name],Count(Case When Main.[Jan Aadhar Verified]='Y' Then ([Jan Aadhar Verified]) End) As [Verified Jan Aadhar],
+                                Count(Case When Main.[Jan Aadhar Verified]='N' Then ([Jan Aadhar Verified]) End) As [Unverified Jan Aadhar] from ("
+                    End If
+                    qry += " select TSPL_MCC_MASTER.MCC_CODE as [MCC Code],TSPL_MCC_MASTER.MCC_NAME as [MCC Name], VSP_Code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] , TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] ,tspl_mp_master.MP_Code as [MP Code], tspl_mp_master.MP_Name as [MP Name],tspl_mp_master.MP_CODE_VLC_UPLOADER as [MP Uploader Code],TSPL_MP_MASTER.Telphone as [Phone] , TSPL_MP_MASTER.Fax as [Aadhar No],tspl_mp_master.Jan_Aadhar_No as [Jan Aadhar No],case when isnull (TSPL_MP_MASTER.Jan_Aadhar_No_Verified,'')>0 then 'Y' else 'N' end as [Jan Aadhar Verified],TSPL_MP_MASTER.JA_aadhar, TSPL_MP_MASTER.JA_acc, TSPL_MP_MASTER.JA_age, TSPL_MP_MASTER.JA_bankBranch, TSPL_MP_MASTER.JA_bankName, TSPL_MP_MASTER.JA_ifsc, TSPL_MP_MASTER.JA_caste, TSPL_MP_MASTER.JA_categoryDescEng, TSPL_MP_MASTER.JA_disability, TSPL_MP_MASTER.JA_disabilityPercentage, TSPL_MP_MASTER.JA_disabilityType, TSPL_MP_MASTER.JA_dlNo, TSPL_MP_MASTER.JA_dob, TSPL_MP_MASTER.JA_eid, TSPL_MP_MASTER.JA_email, TSPL_MP_MASTER.JA_enrId, TSPL_MP_MASTER.JA_fnameEng, TSPL_MP_MASTER.JA_fnameHnd, TSPL_MP_MASTER.JA_gender, TSPL_MP_MASTER.JA_income, TSPL_MP_MASTER.JA_isorphan, TSPL_MP_MASTER.JA_isStateGovtEmp, TSPL_MP_MASTER.JA_jan_mid, TSPL_MP_MASTER.JA_janaadhaarId, TSPL_MP_MASTER.JA_maritalStatus, TSPL_MP_MASTER.JA_micr, TSPL_MP_MASTER.JA_mnameEng, TSPL_MP_MASTER.JA_mnameHnd, TSPL_MP_MASTER.JA_mobile, TSPL_MP_MASTER.JA_nameEng, TSPL_MP_MASTER.JA_nameHnd, TSPL_MP_MASTER.JA_occupation, TSPL_MP_MASTER.JA_relationTyp, TSPL_MP_MASTER.JA_panNo, TSPL_MP_MASTER.JA_passport, TSPL_MP_MASTER.JA_qualification, TSPL_MP_MASTER.JA_rghs_no, TSPL_MP_MASTER.JA_snameEng, TSPL_MP_MASTER.JA_snameHnd, TSPL_MP_MASTER.JA_voterId,tspl_mp_master.BankName as [Bank Code],case when len (isnull (TSPL_BANK_MASTER.DESCRIPTION,'')) > 0 then TSPL_BANK_MASTER.DESCRIPTION else tspl_mp_master.BankName end as [Bank Name],tspl_mp_master.IFCICode as [IFSC Code],tspl_mp_master.BankBranch as [Branch Name],tspl_mp_master.AccountNO as [Account No],TSPL_MP_MASTER.DISTRICT_Code as [District Code],TSPL_DISTRICT_MASTER.Name as [District Name],TSPL_MP_MASTER.Zone_Code as [Zone Code], TSPL_ZONE_MASTER.Description as [Zone Name],TSPL_MP_MASTER.BLOCK_CODE as [Block Code],TSPL_BLOCK_MASTER.BLOCK_NAME as [Block Name] ,TSPL_MP_MASTER.REVENUE_VILLAGE_CODE as [Revenue Village Code],TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Revenue Village Name],TSPL_MP_MASTER.GRAMPANCHAYAT_CODE as [Grampanchayat Code],TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Grampanchayat Name],TSPL_MP_MASTER.PANCHAYAT_SAMITI_CODE as [Panchayat Samiti Code],TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Panchayat Samiti Name],TSPL_MP_MASTER.VIDHAN_SABHA_CODE as [Vidhan Sabha Code], TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Vidhan Sabha Name],( case when isOwnBMC= 1 then 'Y' else 'N' end )as [isOwnBMC(Y/N)],(CASE WHEN isOwnBMC =1 THEN TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ELSE '' END) AS [OWN BMC],(case when  TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then  TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader else '' end)as [MCC Uploader Code],case when Apply_Cow_Price =1 then 'Y' else 'N' end as [Apply Cow Price(Y/N)],TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER as [DCS Type],(case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationNo else '' end )as  [Reg No],  (case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationDate else '' end )as  [Reg Date],TSPL_VENDOR_MASTER.Gender as [Gender] "
+                Else
+                    qry += " select isnull(TSPL_MCC_MASTER.plant_code,'') as [Plant],isnull(tspl_Plant_Code.Location_Desc ,'') as [Plant Name],isnull(TSPL_LOCATION_MASTER.Loc_Segment_Code,'') as [Loc Segment Code],TSPL_MCC_MASTER.MCC_CODE as [MCC Code],TSPL_MCC_MASTER.MCC_NAME as [MCC Name],isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,'') as [MCC Uploader Code],tspl_mcc_route_master.Route_Code as [Route Code],tspl_mcc_route_master.Route_Name as [Route Name],tspl_mcc_route_master.Vehicle_Code as [Vehicle No]" &
+                   " ,Transporter.Vendor_Code as [Transporter Code],Transporter.Vendor_Name as [Transporter Name],TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name] " &
+                   " ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],VSP_Code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] ,(case when TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then 'Y' else 'N' end) as [isOwnBMC(Y/N)],(CASE WHEN TSPL_VLC_MASTER_HEAD.isOwnBMC = 1 THEN TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ELSE '' END) AS [OWN BMC],(case when  TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then  TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader else '' end)as [MCC Uploader Code],case when TSPL_VLC_MASTER_HEAD.Apply_Cow_Price =1 then 'Y' else 'N' end as [Apply Cow Price(Y/N)]  " &
+                   " ,TSPL_VENDOR_MASTER.Bank_Code as [Bank Code],TSPL_VENDOR_MASTER.Bank_Name as [Bank Name],TSPL_VENDOR_MASTER.IFSC_Code as [IFSC Code],TSPL_VENDOR_MASTER.Branch_Name as [Branch Name],TSPL_VENDOR_MASTER.Account_No as [Account No],TSPL_VENDOR_MASTER.Gender as [Gender],TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER as [DCS Type],(case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationNo else '' end )as  [Reg No], ( case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationDate else '' end) as  [Reg Date],TSPL_Primary_Vehicle_Master.Vehicle, TSPL_VENDOR_MASTER.DISTRICT_Code as [District Code],TSPL_DISTRICT_MASTER.Name as [District Name]
+                     ,TSPL_VENDOR_MASTER.Zone_Code as [Zone Code], TSPL_ZONE_MASTER.Description as [Zone Name],TSPL_VENDOR_MASTER.BLOCK_CODE as [Block Code],TSPL_BLOCK_MASTER.BLOCK_NAME as [Block Name] ,TSPL_VENDOR_MASTER.REVENUE_VILLAGE_CODE as [Revenue Village Code],TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Revenue Village Name],TSPL_VENDOR_MASTER.GRAMPANCHAYAT_CODE as [Grampanchayat Code],TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Grampanchayat Name],TSPL_VENDOR_MASTER.PANCHAYAT_SAMITI_CODE as [Panchayat Samiti Code],TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Panchayat Samiti Name],TSPL_VENDOR_MASTER.VIDHAN_SABHA_CODE as [Vidhan Sabha Code], TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Vidhan Sabha Name] "
+                End If
+
+                If clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+                    qry += "   ,TSPL_COMPANY_MASTER.Comp_Code1 As [Comp Code],  TSPL_COMPANY_MASTER.Comp_Name "
+                End If
+
+                qry += " from TSPL_VLC_MASTER_HEAD " &
+              " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code and TSPL_VENDOR_MASTER.Form_Type='VSP' " &
+              " left join (select distinct Route_CODE , VLC_CODE from TSPL_MCC_ROUTE_VLC_MAPPING) as TSPL_MCC_ROUTE_VLC_MAPPING on TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code " &
+              " left join tspl_mcc_route_master on tspl_mcc_route_master.Route_Code=TSPL_MCC_ROUTE_VLC_MAPPING.Route_CODE " &
+              " left join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.Vehicle_Code=tspl_mcc_route_master.Vehicle_Code " &
+              " left join TSPL_VENDOR_MASTER AS Transporter on Transporter.Vendor_Code=TSPL_Primary_Vehicle_Master.Vendor_Code and Transporter.Form_Type='PTM' " &
+              " left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC " &
+              " left outer join TSPL_LOCATION_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_LOCATION_MASTER.Location_Code " &
+              " left outer join TSPL_LOCATION_MASTER as  tspl_Plant_Code on tspl_Plant_Code.Location_Code  = TSPL_MCC_MASTER.plant_code "
+
+                If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal OrElse clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
                     qry += "  left outer join tspl_mp_master on tspl_mp_master.VLC_Code = TSPL_VLC_MASTER_HEAD.VLC_Code
                               left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE = tspl_mp_master.BankName
                               left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_MP_MASTER.Zone_Code
@@ -174,8 +191,22 @@ Public Class rptMccMasterDetail
                               left outer join TSPL_DISTRICT_MASTER on TSPL_DISTRICT_MASTER.Code = TSPL_VENDOR_MASTER.DISTRICT_Code"
                     'left outer join TSPL_VLC_MASTER_HEAD on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCCOwnBMC"
                 End If
-                qry += " where  2=2  " + whre + " " &
-                        " order by TSPL_MCC_MASTER.MCC_NAME  "
+                If clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+                    qry += " left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"
+                End If
+                qry += " where  2=2  " + whre + " "
+
+                If clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+                    'If rbtnJanUnverified.Checked = False AndAlso rbtnJanVerified.Checked = False AndAlso rbtnJanAll.Checked = False Then
+                    '    qry += " )Main Group By Main.[Comp Code]"
+                    'Else
+                    '    qry += " order by TSPL_MCC_MASTER.MCC_NAME  "
+                    'End If
+                    qry += " )Main Group By Main.[Comp Code]"
+                Else
+                    qry += " order by TSPL_MCC_MASTER.MCC_NAME  "
+                End If
+
 
             End If
 
@@ -204,12 +235,12 @@ Public Class rptMccMasterDetail
                 Gv1.EnableFiltering = True
                 ControlEnableDisable(False)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -236,7 +267,7 @@ Public Class rptMccMasterDetail
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -250,7 +281,7 @@ Public Class rptMccMasterDetail
                 transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -265,7 +296,7 @@ Public Class rptMccMasterDetail
                 clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -280,7 +311,7 @@ Public Class rptMccMasterDetail
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -308,10 +339,12 @@ Public Class rptMccMasterDetail
 
     Private Sub cmbReportType_SelectedIndexChanged(sender As Object, e As Data.PositionChangedEventArgs) Handles cmbReportType.SelectedIndexChanged
         Try
-            If clsCommon.CompairString(cmbReportType.Text, "Select") = CompairStringResult.Equal Then
-                chkMP.Visible = True
+            If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal OrElse clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+                'chkMP.Visible = True
+                RadGroupBox1.Visible = True
             Else
-                chkMP.Visible = False
+                'chkMP.Visible = False
+                RadGroupBox1.Visible = False
             End If
         Catch ex As Exception
 

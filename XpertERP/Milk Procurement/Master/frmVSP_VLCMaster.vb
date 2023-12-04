@@ -317,7 +317,7 @@ Public Class frmVSP_VLCMaster
         If Not (MyBase.isReadFlag) Then
 
             If MDI.blnShowAllMenu = False Then
-                common.clsCommon.MyMessageBoxShow("Permission Denied")
+                common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Else
                 Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
             End If
@@ -1340,7 +1340,7 @@ Public Class frmVSP_VLCMaster
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1425,7 +1425,7 @@ Public Class frmVSP_VLCMaster
         Catch ex As Exception
             'isNewEntry = True
             'isLoadData = False
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1909,8 +1909,8 @@ Public Class frmVSP_VLCMaster
                     HeadLoadBasis = "L"
                 End If
             End If
-            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "T", "F") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
-            clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
+            'Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "T", "F") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            'clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
             'VLC 
             If clsCommon.myLen(fndvlccode.Text) > 0 Then
                 VLCSaveData(False, trans)
@@ -3167,7 +3167,7 @@ Public Class frmVSP_VLCMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtgroupdes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Group Code does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Group Code does not exist in Master Table", Me.Text)
                     fndgroupcode.Value = ""
                 End If
             Catch ex As Exception
@@ -3193,7 +3193,7 @@ Public Class frmVSP_VLCMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtCity.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This City does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This City does not exist in Master Table", Me.Text)
                     fndCity.Value = ""
                 End If
             Catch ex As Exception
@@ -3220,7 +3220,7 @@ Public Class frmVSP_VLCMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtvendortypedes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Vendor Type does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Vendor Type does not exist in Master Table", Me.Text)
                     fndvendortype.Value = ""
                 End If
             Catch ex As Exception
@@ -3307,7 +3307,7 @@ Public Class frmVSP_VLCMaster
             If check.Success Then
                 Errorcontrol.ResetError(txtEmail)
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtEmail.Text = ""
                 txtEmail.Focus()
                 txtEmail.Select()
@@ -4049,13 +4049,13 @@ Public Class frmVSP_VLCMaster
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(Me, ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'myMessages.myExceptions(ex)
         End Try
     End Sub
@@ -4141,7 +4141,7 @@ Public Class frmVSP_VLCMaster
             End If
             '----------------------------
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4356,7 +4356,7 @@ Public Class frmVSP_VLCMaster
                 txtstatecode.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4384,7 +4384,7 @@ Public Class frmVSP_VLCMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4773,7 +4773,7 @@ Public Class frmVSP_VLCMaster
             frm.WindowState = FormWindowState.Maximized
             frm.Show()
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please select bank Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select bank Code", Me.Text)
         End If
 
     End Sub
@@ -4786,7 +4786,7 @@ Public Class frmVSP_VLCMaster
             frm.WindowState = FormWindowState.Maximized
             frm.Show()
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please select bank Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select bank Code", Me.Text)
         End If
 
     End Sub
@@ -4839,7 +4839,7 @@ Public Class frmVSP_VLCMaster
         Try
             ImportIncentiveDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ImportIncentiveDetails()
@@ -4989,7 +4989,7 @@ Public Class frmVSP_VLCMaster
             findTxtIFSCCode.Value = clsCommon.ShowSelectForm("FormIFSCCode", qry, "IFSCCode", " Bank_Code ='" & findfndbankcode.Value & "' ", findTxtIFSCCode.Value, "", isButtonClicked)
             TxtBankBranch.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & findfndbankcode.Value & "' and Bank_IFSC_Code='" & findTxtIFSCCode.Value & "' ")
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first", Me.Text)
         End If
     End Sub
 
@@ -5000,7 +5000,7 @@ Public Class frmVSP_VLCMaster
             txtBankBranch2.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & findfndbankcode2.Value & "' and Bank_IFSC_Code='" & findTxtIFSCCode2.Value & "' ")
             txtIFSCCode2.Text = findTxtIFSCCode2.Value
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first", Me.Text)
         End If
     End Sub
 
@@ -5076,7 +5076,7 @@ Public Class frmVSP_VLCMaster
             End If
 
             If isDuplicateVLCCode(IIf(clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal, False, True)) Then
-                clsCommon.MyMessageBoxShow(Me, "Duplicate DCS Code for DCS Uploader")
+                clsCommon.MyMessageBoxShow(Me, "Duplicate DCS Code for DCS Uploader", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtVLCCodeVlcUploader.Focus()
                 Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate DCS Code for DCS Uploader")
@@ -6180,7 +6180,7 @@ Public Class frmVSP_VLCMaster
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, "Upload Multiple Master")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Upload Multiple Master", Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try

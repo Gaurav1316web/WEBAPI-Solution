@@ -266,12 +266,12 @@ Public Class FrmVSPIncentiveTagging
                 'RadPageView1.SelectedPage = RadPageViewPage2
                 ReStoreGridLayout()
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -383,21 +383,21 @@ Public Class FrmVSPIncentiveTagging
             End If
 
             If (clsVSPIncentiveTagging.SaveData(VSP, arr, isnewentry)) Then
-                clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                 fndDocCode.Value = VSP.Doc_Code
                 btnSave.Text = "Update"
             Else
                 btnSave.Text = "Save"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub SetUserMgmtNew()
         MyBase.SetUserMgmt(clsUserMgtCode.FrmVSPIncentiveTagging)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -450,7 +450,7 @@ Public Class FrmVSPIncentiveTagging
         Try
             LoadData(fndDocCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -459,7 +459,7 @@ Public Class FrmVSPIncentiveTagging
             fndDocCode.Value = clsCommon.myCstr(clsVSPIncentiveTagging.GetFinder("", fndDocCode.Value, isButtonClicked))
             LoadData(fndDocCode.Value, NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -622,12 +622,12 @@ Public Class FrmVSPIncentiveTagging
                 Next
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 'Load_Report(code)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -644,7 +644,7 @@ Public Class FrmVSPIncentiveTagging
             RefreshVSP()
             Load_Report()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -681,7 +681,7 @@ Public Class FrmVSPIncentiveTagging
            " where  TSPL_VLC_MASTER_HEAD.Active='1' and  TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
             txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC", qry, "VSP_Code", "VSP Name", txtVSP.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

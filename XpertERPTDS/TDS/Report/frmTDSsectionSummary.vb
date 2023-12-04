@@ -27,7 +27,7 @@ Public Class FrmTDSsectionSummary
         Dim qry As String = "SELECT '" + DocFilter + "' as DocFilter,'" + LocFilter + "' as Locfilter,  TSPL_REMITTANCE.Section_Code, TSPL_REMITTANCE.Section_Description, TSPL_REMITTANCE.Calculated_Total_TDS,TSPL_REMITTANCE.Calculated_Surcharge, TSPL_REMITTANCE.Calculated_Edu_Cess, TSPL_REMITTANCE.Calculated_Sec_Educess, TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER .Logo_Img,TSPL_COMPANY_MASTER .Logo_Img2,'" + fromdate + "' as FilterFromDate,'" + todate + "' as ToFilterDate FROM  TSPL_REMITTANCE LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_REMITTANCE.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code  where convert(Date, Document_Date,103) >= Convert(Date,'" + fromdate + "',103) and Convert(date,Document_Date,103) <=Convert(Date ,'" + todate + "',103) "
 
         If chkSelect.IsChecked = True AndAlso cbgSection.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Document")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Document", Me.Text)
             Return
         ElseIf chkSelect.IsChecked = True AndAlso cbgSection.CheckedValue.Count > 0 Then
             qry += " and TSPL_REMITTANCE.Section_Code  in (" + clsCommon.GetMulcallString(docarr) + ")"
@@ -35,7 +35,7 @@ Public Class FrmTDSsectionSummary
         qry += "  and TSPL_REMITTANCE.Remit_TDS ='Y'"
         If ChkLocSelect.IsChecked Then
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select one location ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select one location ", Me.Text)
                 Return
             End If
             qry += "and substring(TSPL_REMITTANCE.Branch_GL_AC ,LEN(TSPL_REMITTANCE.Branch_GL_AC )-2,3)  in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "

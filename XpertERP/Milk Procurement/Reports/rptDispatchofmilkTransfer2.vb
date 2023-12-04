@@ -19,7 +19,7 @@ Public Class RptDispatchofmilkTransfer2
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -139,7 +139,7 @@ Public Class RptDispatchofmilkTransfer2
                     clsCommon.MyExportToPDF("Dispatch Milk Transfer", gvReport, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -165,7 +165,7 @@ Public Class RptDispatchofmilkTransfer2
             obj.GridColumns = gvReport.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -175,12 +175,12 @@ Public Class RptDispatchofmilkTransfer2
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Public Sub Load_Report()
 
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = " ;with wholedata as (select case when sum(Dis_qty_Inter) >0 then xx.isIntermittent else 0 end  as isIntermittent,'' as SNO, coalesce(yy.State_Code,xx.state_code) as state_code ,Max(coalesce(yy.STATE_NAME,xx.STATE_NAME)) as STATE_NAME ,coalesce(yy.MCC_CODE,xx.MCC_CODE) as MCC_CODE,max(coalesce(yy.MCC_NAME,xx.MCC_NAME)) as MCC_NAME,max(convert(varchar,coalesce(yy.DOC_DATE,xx.Dispatch_Date),103))  as DOC_DATE,isnull(yy.Opening,0) as  Opening ,isnull(yy.closing ,0) as  closing , isnull(yy.milk_pro,0 ) as milk_proc,isnull(yy.milk_pro_Inter ,0 )as milk_pro_Inter,sum(xx.Dis_qty) as Dis_qty,sum(xx.Dis_qty_Inter ) as Dis_qty_Inter, Max(xx.Tanker_Dispatch_To) as Tanker_Dispatch_To,Max (xx.Tanker_Dispatch_Time) as Tanker_Dispatch_Time,(Tanker_No) as Tanker_No ,(convert(varchar,Reached_Date_time,103)) as Reached_Date_time  from "
@@ -239,7 +239,7 @@ Public Class RptDispatchofmilkTransfer2
             gvReport.BestFitColumns()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

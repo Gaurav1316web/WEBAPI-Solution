@@ -39,7 +39,7 @@ Public Class frmContractTanker
             gv.AllowAutoSizeColumns = False
             gv.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -59,7 +59,7 @@ Public Class frmContractTanker
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.FrmContractTanker)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -152,15 +152,15 @@ Public Class frmContractTanker
     Function allowToSave() As Boolean
         Try
             If clsCommon.myLen(txtTankerCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter Tanker Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter Tanker Code")
                 txtTankerCode.Focus()
                 Return False
             ElseIf clsCommon.myLen(txtTankerNo.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter Tanker No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter Tanker No")
                 txtTankerNo.Focus()
                 Return False
             ElseIf clsCommon.myCdbl(txtChamborNo.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter Chamber No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter Chamber No")
                 txtChamborNo.Focus()
                 Return False
             End If
@@ -172,7 +172,7 @@ Public Class frmContractTanker
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -214,12 +214,12 @@ Public Class frmContractTanker
                 Next
                 obj.isNewEntry = isNewEntry
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Chamber Desc")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Chamber Desc")
                     Return False
                 End If
                 Dim isSaved As Boolean = obj.SaveData(obj)
                 If isSaved Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                     LoadData(obj.TANKER_CODE, NavigatorType.Current)
                 End If
 
@@ -228,7 +228,7 @@ Public Class frmContractTanker
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
  Sub DeleteData()
@@ -236,7 +236,7 @@ Public Class frmContractTanker
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If (clsContractTankerHead.DeleteData(txtTankerCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     reset()
                 End If
             End If
@@ -324,7 +324,7 @@ Public Class frmContractTanker
                 LoadVendor(txtTankerCode.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'Finally
             '    isInsideLoadData = False
         End Try
@@ -336,7 +336,7 @@ Public Class frmContractTanker
     Private Sub btnGO_Click(sender As Object, e As EventArgs) Handles btnGO.Click
         Try
             If clsCommon.myCdbl(txtChamborNo.Text) = 0 Then
-                clsCommon.MyMessageBoxShow("Value of No of Chamber must be >0")
+                clsCommon.MyMessageBoxShow(Me, "Value of No of Chamber must be >0")
                 txtChamborNo.Focus()
                 Exit Sub
             End If
@@ -353,7 +353,7 @@ Public Class frmContractTanker
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -373,7 +373,7 @@ Public Class frmContractTanker
             End If
             LoadData(txtTankerCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -395,7 +395,7 @@ Public Class frmContractTanker
     Private Sub txtTankerNo_Leave(sender As Object, e As EventArgs) Handles txtTankerNo.Leave
         If clsCommon.myLen(txtTankerNo.Text) > 0 Then
             If Not Regex.Match(txtTankerNo.Text, "^[a-zA-Z0-9_]*$", RegexOptions.IgnoreCase).Success Then
-                MessageBox.Show("Space Not Allowed in Tanker No!") 'Inform User
+                MessageBox.Show(Me, "Space Not Allowed in Tanker No!") 'Inform User
                 txtTankerNo.Text = ""
                 txtTankerNo.Focus()
             End If
@@ -437,7 +437,7 @@ Public Class frmContractTanker
             transportSql.ExporttoExcel(QrySheet, whrcls, Me)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -545,7 +545,7 @@ ExitLOOP:
                     clsCommon.ProgressBarPercentHide()
                     dtt.DefaultView.RowFilter = "ErrorDesc<>''"
                     dtt = dtt.DefaultView.ToTable
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!" & IIf(dtt.Rows.Count > 0, " Except of  " & dtt.Rows.Count & " Records", ""), Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!" & IIf(dtt.Rows.Count > 0, " Except of  " & dtt.Rows.Count & " Records", ""), Me.Text, MessageBoxButtons.OK)
                     If dtt.Rows.Count > 0 Then
                         Dim ff As New FrmFreeGrid
                         ff.ReportID = "UnImportedItemList"
@@ -564,7 +564,7 @@ ExitLOOP:
                 'clsCommon.ProgressBarHide()
                 clsCommon.ProgressBarPercentHide()
                 'trans.Rollback()
-                RadMessageBox.Show(ex.Message)
+                RadMessageBox.Show(Me, ex.Message, Me.Text)
             Finally
                 Me.Controls.Remove(gv1)
             End Try
@@ -592,7 +592,7 @@ ExitLOOP:
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -647,7 +647,7 @@ ExitLOOP:
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -656,7 +656,7 @@ ExitLOOP:
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

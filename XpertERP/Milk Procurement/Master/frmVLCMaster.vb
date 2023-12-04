@@ -34,7 +34,7 @@ Public Class FrmVLCMaster
                 Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -235,7 +235,7 @@ Public Class FrmVLCMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVLCMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -256,7 +256,7 @@ Public Class FrmVLCMaster
     Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(txtvlcname.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill VLC Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill VLC Name", Me.Text)
                 txtvlcname.Focus()
                 txtvlcname.Select()
                 Errorcontrol.SetError(txtvlcname, "Please Fill VLC Name")
@@ -266,7 +266,7 @@ Public Class FrmVLCMaster
             End If
             If txtVLCCodeVlcUploader.Enabled = True Then
                 If clsCommon.myLen(txtVLCCodeVlcUploader.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Fill VLC Code For VLC Uploader ", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill VLC Code For VLC Uploader ", Me.Text)
                     txtVLCCodeVlcUploader.Focus()
                     txtVLCCodeVlcUploader.Select()
                     Errorcontrol.SetError(txtVLCCodeVlcUploader, "Please Fill VLC Code For VLC Uploader")
@@ -278,7 +278,7 @@ Public Class FrmVLCMaster
             
             If isDuplicateVLCCode(IIf(clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal, False, True)) Then
 
-                clsCommon.MyMessageBoxShow(" Duplicate VLC Code for VLC Uploader")
+                clsCommon.MyMessageBoxShow(Me, " Duplicate VLC Code for VLC Uploader", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtVLCCodeVlcUploader.Focus()
                 Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate VLC Code for VLC Uploader")
@@ -297,7 +297,7 @@ Public Class FrmVLCMaster
             'End If
 
             If clsCommon.myLen(txtvillcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Village Code/Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Village Code/Name", Me.Text)
                 txtvillcode.Focus()
                 txtvillcode.Select()
                 Errorcontrol.SetError(txtvillcode, "Please Select Village Code/Name")
@@ -317,7 +317,7 @@ Public Class FrmVLCMaster
             'End If
 
             If clsCommon.myLen(txtvspcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select VSP Code/Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select VSP Code/Name", Me.Text)
                 txtvspcode.Focus()
                 txtvspcode.Select()
                 Errorcontrol.SetError(txtvspcode, "Please Select VSP Code/Name")
@@ -327,7 +327,7 @@ Public Class FrmVLCMaster
             End If
 
             If clsCommon.myLen(fndMcc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select MCC", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select MCC", Me.Text)
                 fndMcc.Focus()
                 fndMcc.Select()
                 Errorcontrol.SetError(fndMcc, "Please Select MCC")
@@ -420,7 +420,7 @@ Public Class FrmVLCMaster
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Function isDuplicateVLCCode(ByVal isUpdate As Boolean) As Boolean
@@ -498,9 +498,9 @@ Public Class FrmVLCMaster
 
             If clsfrmVLCMaster.SaveData(obj.vlcCode, isNewEntry, obj, arr, Nothing) Then
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 fndvlccode.Value = obj.vlcCode
                 fndvlccode.MyReadOnly = True
@@ -514,7 +514,7 @@ Public Class FrmVLCMaster
                 btndelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -550,11 +550,11 @@ Public Class FrmVLCMaster
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -718,7 +718,7 @@ Public Class FrmVLCMaster
         Catch ex As Exception
             isNewEntry = True
             isLoadData = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -961,11 +961,11 @@ Public Class FrmVLCMaster
                 Next
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -1078,11 +1078,11 @@ Public Class FrmVLCMaster
                 Next
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -1117,7 +1117,7 @@ Public Class FrmVLCMaster
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt Is Nothing OrElse dt.Rows.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Before Doing VLC Master Entry,Make MCC Master", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Before Doing VLC Master Entry,Make MCC Master", Me.Text)
             Reset()
         End If
 

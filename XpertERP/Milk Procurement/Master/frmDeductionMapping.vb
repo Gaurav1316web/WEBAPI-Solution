@@ -45,7 +45,7 @@ Public Class frmDeductionMapping
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.DeductionMapping)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
@@ -164,7 +164,7 @@ Public Class frmDeductionMapping
             gv1.AllowRowReorder = True
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -237,7 +237,7 @@ Public Class frmDeductionMapping
                     Throw New Exception("Please enter deduction")
                 End If
                 If obj.SaveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Doc_Code, NavigatorType.Current)
                 End If
             Else
@@ -245,7 +245,7 @@ Public Class frmDeductionMapping
                 btndelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -284,13 +284,13 @@ Public Class frmDeductionMapping
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Delete the current mapping" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Delete the current mapping" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsDeductionMappingHead.DeleteData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -337,7 +337,7 @@ Public Class frmDeductionMapping
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -389,12 +389,12 @@ Public Class frmDeductionMapping
             End If
             If clsCommon.MyMessageBoxShow("Post the current plan" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsDeductionMappingHead.PostData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -428,7 +428,7 @@ Public Class frmDeductionMapping
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -516,7 +516,7 @@ Public Class frmDeductionMapping
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(dgv)
         End Try
@@ -540,7 +540,7 @@ Public Class frmDeductionMapping
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv1, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, Nothing, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -555,7 +555,7 @@ Public Class frmDeductionMapping
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -578,13 +578,13 @@ Public Class frmDeductionMapping
                 End If
             End If
         Catch err As Exception
-            MessageBox.Show(err.Message)
+            MessageBox.Show(Me, err.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
@@ -595,7 +595,7 @@ Public Class frmDeductionMapping
 
     Private Sub txtVLC__My_Click(sender As Object, e As EventArgs) Handles txtVLC._My_Click
         If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select MCC", Me.Text)
             Exit Sub
         End If
 
@@ -625,7 +625,7 @@ Public Class frmDeductionMapping
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

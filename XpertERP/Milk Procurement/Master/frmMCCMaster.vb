@@ -392,7 +392,7 @@ Public Class FrmMCCMaster
                 SetDefaultValues()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub loadBlankDgvGenSet()
@@ -419,7 +419,7 @@ Public Class FrmMCCMaster
             dgvGenSet.AllowAutoSizeColumns = False
             dgvGenSet.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -448,7 +448,7 @@ Public Class FrmMCCMaster
             dgvCompressor.AllowAutoSizeColumns = False
             dgvCompressor.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -493,7 +493,7 @@ Public Class FrmMCCMaster
             GVPaymentEntry.AllowAutoSizeColumns = True
             GVPaymentEntry.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -501,7 +501,7 @@ Public Class FrmMCCMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmMCCMaster)
         If Not (MyBase.isReadFlag) Then
-            clsCommon.MyMessageBoxShow(Me, "Permission Denied")
+            clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
         End If
         btnSave.Visible = MyBase.isModifyFlag
@@ -940,7 +940,7 @@ Public Class FrmMCCMaster
             'End If
             If chkAutoMilkIn.Checked Then
                 If clsCommon.myLen(fndAutoInLoc.Value) = 0 Then
-                    clsCommon.MyMessageBoxShow(Me, " Please Select Auto In Location, It is Manadatory for Auto Milk In MCC")
+                    clsCommon.MyMessageBoxShow(Me, " Please Select Auto In Location, It is Manadatory for Auto Milk In MCC", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     errorControl.SetError(fndAutoInLoc, " Please Select Auto In Location, It is Manadatory for Auto Milk In MCC")
                     Return False
@@ -951,7 +951,7 @@ Public Class FrmMCCMaster
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     If clsCommon.myLen(fndSiloInLoc.Value) = 0 Then
-                        clsCommon.MyMessageBoxShow(Me, " Please Select Auto Silo In Location, It is Manadatory for Auto Milk In MCC")
+                        clsCommon.MyMessageBoxShow(Me, " Please Select Auto Silo In Location, It is Manadatory for Auto Milk In MCC", Me.Text)
                         RadPageView1.SelectedPage = RadPageViewPage1
                         errorControl.SetError(fndSiloInLoc, " Please Select Auto Silo In Location, It is Manadatory for Auto Milk In MCC")
                         Return False
@@ -1111,7 +1111,7 @@ Public Class FrmMCCMaster
                     For j As Integer = ix + 1 To gvUOM.Rows.Count - 1
                         Dim SecondUOM As String = gvUOM.Rows(j).Cells(UOMColUnit).Value
                         If UOM = SecondUOM Then
-                            clsCommon.MyMessageBoxShow(Me, "Please check ! duplicate UOM in grid")
+                            clsCommon.MyMessageBoxShow(Me, "Please check ! duplicate UOM in grid", Me.Text)
                             Return False
                         End If
                     Next
@@ -1145,7 +1145,7 @@ Public Class FrmMCCMaster
 
             If chkFailedSampleApply.Checked Then
                 If clsCommon.myLen(txtFailedSampleFAT.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please provide +ve Failed Sample FAT %")
+                    clsCommon.MyMessageBoxShow(Me, "Please provide +ve Failed Sample FAT %", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     errorControl.SetError(txtFailedSampleFAT, "Please provide +ve Failed Sample FAT %")
                     Return False
@@ -1154,7 +1154,7 @@ Public Class FrmMCCMaster
                 End If
 
                 If clsCommon.myLen(txtFailedSampleSNF.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please provide +ve Failed Sample SNF %")
+                    clsCommon.MyMessageBoxShow(Me, "Please provide +ve Failed Sample SNF %", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     errorControl.SetError(txtFailedSampleSNF, "Please provide +ve Failed Sample SNF %")
                     Return False
@@ -1163,7 +1163,7 @@ Public Class FrmMCCMaster
                 End If
             End If
             If clsCommon.myLen(fndpaymentCycle.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select payment cycle")
+                clsCommon.MyMessageBoxShow(Me, "Please select payment cycle", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 errorControl.SetError(fndpaymentCycle, "Please select payment cycle")
                 Return False
@@ -1182,14 +1182,14 @@ Public Class FrmMCCMaster
                 End If
                 If clsCommon.myLen(txtSegmentCode.Text.Trim()) > 0 Then
                     If clsCommon.myLen(txtSegmentCode.Text.Trim()) < 3 Then
-                        clsCommon.MyMessageBoxShow(Me, "Segment code must be 3 charater")
+                        clsCommon.MyMessageBoxShow(Me, "Segment code must be 3 charater", Me.Text)
                         errorControl.SetError(txtSegmentCode, "Segment code must be 3 charater")
                         Return False
                     Else
                         errorControl.SetError(txtSegmentCode, "")
                     End If
                     If clsCommon.myCstr(txtSegmentCode.Text.Trim().Contains(" ")) = True Then
-                        clsCommon.MyMessageBoxShow(Me, "Segment code should not contain space")
+                        clsCommon.MyMessageBoxShow(Me, "Segment code should not contain space", Me.Text)
                         errorControl.SetError(txtSegmentCode, "Segment code should not contain space")
                         Return False
                     Else
@@ -1200,7 +1200,7 @@ Public Class FrmMCCMaster
 
 
                 If clsCommon.myLen(txtSegmentDesc.Text.Trim()) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please enter segment description")
+                    clsCommon.MyMessageBoxShow(Me, "Please enter segment description", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     errorControl.SetError(txtSegmentDesc, "Please select segment description")
                     Return False
@@ -1213,7 +1213,7 @@ Public Class FrmMCCMaster
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Function isDuplicateMccCode(ByVal isUpdate As Boolean) As Boolean
@@ -1237,7 +1237,7 @@ Public Class FrmMCCMaster
             Me.Close()
             GC.Collect()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1245,7 +1245,7 @@ Public Class FrmMCCMaster
         Try
             reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1340,7 +1340,7 @@ Public Class FrmMCCMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '------------------------------------------------
@@ -1351,7 +1351,7 @@ Public Class FrmMCCMaster
                 save()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub save()
@@ -1378,7 +1378,7 @@ Public Class FrmMCCMaster
                 End If
 
                 If clsCommon.myLen(obj.MCC_Code) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Error In Document Code Genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error In Document Code Genertion", Me.Text)
                     Exit Sub
                 End If
                 'obj.MCC_Code = Microsoft.VisualBasic.Left(objCommonVar.CurrentCompanyCode, 2) & "/" & clsCommon.myCstr(fndState.Value) & "/" & obj.MCC_Code
@@ -1745,9 +1745,9 @@ Public Class FrmMCCMaster
             If clsMccMaster.SaveData(obj) Then
                 UcAttachment1.SaveData(obj.MCC_Code)
                 If clsCommon.CompairString(btnSave.Text, "&Save") = CompairStringResult.Equal Then '--26/06/2014 Monika
-                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
                 If chkSegment.Checked = True Then
@@ -1771,12 +1771,12 @@ Public Class FrmMCCMaster
                 Exit Sub
 
             End If
-            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "&Save"
             btnDelete.Enabled = False
             fndMCCCode.MyReadOnly = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1798,7 +1798,7 @@ Public Class FrmMCCMaster
                 fndMCCCode.MyReadOnly = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenEmployeeFinder(ByVal flag As Boolean)
@@ -2238,7 +2238,7 @@ Public Class FrmMCCMaster
             End If
             isInsideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2279,7 +2279,7 @@ Public Class FrmMCCMaster
             loadData(fndMCCCode.Value, NavType)
             txtMCCCopy.Enabled = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2329,7 +2329,7 @@ Public Class FrmMCCMaster
                 'txtChillingVendorName.Text = obj.vndrname
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2368,7 +2368,7 @@ Public Class FrmMCCMaster
             gvBankG.AllowAutoSizeColumns = True
             gvBankG.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2395,14 +2395,14 @@ Public Class FrmMCCMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub fndState__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndState._MYValidating, TxtFinder8._MYValidating, TxtFinder5._MYValidating
         Try
             If clsCommon.myLen(fndCountry.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Select Country First..")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country First..", Me.Text)
                 fndCountry.Focus()
                 Exit Sub
             End If
@@ -2420,7 +2420,7 @@ Public Class FrmMCCMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2454,7 +2454,7 @@ Public Class FrmMCCMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2489,7 +2489,7 @@ Public Class FrmMCCMaster
                 'txtAccountNo.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2519,7 +2519,7 @@ Public Class FrmMCCMaster
     Private Sub fndBankCity__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndBankCity._MYValidating
         Try
             If clsCommon.myLen(fndBankState.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Select state of Bank  First..")
+                clsCommon.MyMessageBoxShow(Me, "Please Select state of Bank  First..", Me.Text)
                 fndBankState.Focus()
                 Exit Sub
             End If
@@ -2531,14 +2531,14 @@ Public Class FrmMCCMaster
                 txtBankCityName.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnDgGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDgGo.Click
         Try
             If clsCommon.myCdbl(txtNoOfDG.Text) = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Value Of  No of DG Set must be >0")
+                clsCommon.MyMessageBoxShow(Me, "Value Of  No of DG Set must be >0", Me.Text)
                 txtNoOfDG.Focus()
                 Exit Sub
             End If
@@ -2555,14 +2555,14 @@ Public Class FrmMCCMaster
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnCompressorGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCompressorGo.Click
         Try
             If clsCommon.myCdbl(txtNoOfCompressor.Text) = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Value of No of Compressor must be >0")
+                clsCommon.MyMessageBoxShow(Me, "Value of No of Compressor must be >0", Me.Text)
                 txtNoOfCompressor.Focus()
                 Exit Sub
             End If
@@ -2579,7 +2579,7 @@ Public Class FrmMCCMaster
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2602,7 +2602,7 @@ Public Class FrmMCCMaster
                 e.Cancel = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2615,7 +2615,7 @@ Public Class FrmMCCMaster
             Next
             txtNoOfCompressor.Text = dgvCompressor.Rows.Count
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2625,7 +2625,7 @@ Public Class FrmMCCMaster
                 e.Cancel = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2781,20 +2781,20 @@ Public Class FrmMCCMaster
                 MyLabel53.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Try
             If clsMccMaster.deleteData(fndMCCCode.Value, Me.Form_ID) Then
-                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 reset()
             Else
-                clsCommon.MyMessageBoxShow(Me, "Delete Unsuccessful.")
+                clsCommon.MyMessageBoxShow(Me, "Delete Unsuccessful.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2877,7 +2877,7 @@ Public Class FrmMCCMaster
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Mcc Code"})
             transportSql.ExporttoExcel(str, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2894,7 +2894,7 @@ Public Class FrmMCCMaster
             End If
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2911,7 +2911,7 @@ Public Class FrmMCCMaster
             End If
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3758,7 +3758,7 @@ Public Class FrmMCCMaster
                 clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!, " + Environment.NewLine + " Only Data Regarding [DG set Detail],[Compressor Detail],[Silo Detail],[Milk Pump Detail],[Chiller Detail],[UOM Detail] is Not Updated Please Import Respective Sheets ", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i, Me.Text)
             End Try
 
         End If
@@ -4023,7 +4023,7 @@ Public Class FrmMCCMaster
                 txtBankBranchName.Text = ""
             End If
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please Select Bank First")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Bank First", Me.Text)
             txtBankCode.Focus()
         End If
     End Sub
@@ -4051,7 +4051,7 @@ Public Class FrmMCCMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -4076,7 +4076,7 @@ Public Class FrmMCCMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4216,7 +4216,7 @@ Public Class FrmMCCMaster
             Next
             txtNoofChillero.Text = gvChiller.Rows.Count
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4226,7 +4226,7 @@ Public Class FrmMCCMaster
                 e.Cancel = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4239,7 +4239,7 @@ Public Class FrmMCCMaster
             Next
             txtNoofMilkPumpo.Text = gvMilkPump.Rows.Count
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4249,7 +4249,7 @@ Public Class FrmMCCMaster
                 e.Cancel = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4273,7 +4273,7 @@ Public Class FrmMCCMaster
             End If
         Catch ex As Exception
             isCellValueChangedSiloOpen = False
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4300,7 +4300,7 @@ Public Class FrmMCCMaster
             Next
             TxtNoofSiloo.Text = gvSilo.Rows.Count
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4310,7 +4310,7 @@ Public Class FrmMCCMaster
                 e.Cancel = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4371,7 +4371,7 @@ Public Class FrmMCCMaster
             gvSilo.AllowAutoSizeColumns = False
             gvSilo.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4404,7 +4404,7 @@ Public Class FrmMCCMaster
             gvCheque.AllowAutoSizeColumns = False
             gvCheque.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4443,7 +4443,7 @@ Public Class FrmMCCMaster
             gvMilkPump.AllowAutoSizeColumns = False
             gvMilkPump.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4471,14 +4471,14 @@ Public Class FrmMCCMaster
             gvChiller.AllowAutoSizeColumns = False
             gvChiller.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub BtnSilo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSilo.Click
         Try
             If clsCommon.myCdbl(TxtNoofSiloo.Text) = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Value Of  No of Silo Set must be >0")
+                clsCommon.MyMessageBoxShow(Me, "Value Of  No of Silo Set must be >0", Me.Text)
                 TxtNoofSiloo.Focus()
                 Exit Sub
             End If
@@ -4495,14 +4495,14 @@ Public Class FrmMCCMaster
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub BtnChiller_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnChiller.Click
         Try
             If clsCommon.myCdbl(txtNoofChillero.Text) = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Value Of  No of Chiller Set must be >0")
+                clsCommon.MyMessageBoxShow(Me, "Value Of  No of Chiller Set must be >0", Me.Text)
                 txtNoofChillero.Focus()
                 Exit Sub
             End If
@@ -4519,7 +4519,7 @@ Public Class FrmMCCMaster
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4543,7 +4543,7 @@ Public Class FrmMCCMaster
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4696,7 +4696,7 @@ Public Class FrmMCCMaster
             End If
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4729,7 +4729,7 @@ Public Class FrmMCCMaster
             End If
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4846,14 +4846,14 @@ Public Class FrmMCCMaster
                 If isSaved Then
                     clsCommon.ProgressBarHide()
                     trans.Commit()
-                    RadMessageBox.Show("Data Imported Successfully ...")
+                    RadMessageBox.Show(Me, "Data Imported Successfully ...")
                 Else
                     Throw New Exception("Error in Import")
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                RadMessageBox.Show(ex.Message)
+                RadMessageBox.Show(Me, ex.Message, Me.Text)
             Finally
                 Me.Controls.Remove(gv1)
             End Try
@@ -5466,7 +5466,7 @@ Public Class FrmMCCMaster
                 fndMCCCode.MyReadOnly = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

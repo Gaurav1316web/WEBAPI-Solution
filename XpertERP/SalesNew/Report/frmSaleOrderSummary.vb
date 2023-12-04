@@ -49,12 +49,12 @@ Public Class FrmSaleOrderSummary
         Dim strclosed As String = ""
 
         If rbtncustslct.IsChecked AndAlso cbgCustomer.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Atleast One Customer")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Customer", Me.Text)
             Return
         End If
 
         If rbtnlocslct.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Atleast One Location")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location", Me.Text)
             Return
         End If
 
@@ -208,7 +208,7 @@ Public Class FrmSaleOrderSummary
             dt = clsDBFuncationality.GetDataTable(qry)
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             ElseIf IsPrint = Exporter.Print Then
                 'If rdbDetail.IsChecked Then
                 'NewSalesReportViewer.funreport(dt, "crptSaleOrderDetail", "Sale Order Report")
@@ -427,7 +427,7 @@ Public Class FrmSaleOrderSummary
 
     Private Sub btnExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExcel.Click
         If (gv.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         LoadData(Exporter.Excel)
@@ -435,7 +435,7 @@ Public Class FrmSaleOrderSummary
 
     Private Sub btnPdf_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPdf.Click
         If (gv.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         LoadData(Exporter.PDF)

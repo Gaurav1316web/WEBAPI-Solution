@@ -320,7 +320,7 @@ Public Class frmPriceChartBulkProc
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function GetRowType() As DataTable
@@ -455,7 +455,7 @@ Public Class frmPriceChartBulkProc
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -466,7 +466,7 @@ Public Class frmPriceChartBulkProc
     Public Sub funPrint()
         Try
             If clsCommon.myLen(fndcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Document No ")
+                clsCommon.MyMessageBoxShow(Me, "Select Document No ", Me.Text)
             End If
             Dim query = "select Price_Code,convert(varchar,Price_Date,103)as Price_Date,TSPL_Bulk_Price_MASTER.Standard_Rate,TSPL_Bulk_Price_MASTER.Tolerance,isnull(convert(varchar,Effective_Date,103),convert(varchar,getdate(),103))as Effective_Date,TSPL_Bulk_Price_MASTER.Fat_Percentage,TSPL_Bulk_Price_MASTER.Snf_Percentage,TSPL_Bulk_Price_MASTER.Fat_Weightage,TSPL_Bulk_Price_MASTER.Snf_Weightage,TSPL_Bulk_Price_MASTER.Created_By,convert(varchar,TSPL_Bulk_Price_MASTER.Created_Date,103) as Created_Date,Modified_By,Modified_Date,Posted,Posted_By,convert(varchar,Posted_Date,103) as Posted_Date,TSPL_Bulk_Price_MASTER.comp_code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Add1 + case When TSPL_COMPANY_MASTER.Add2='' Then '' else ', '+ Convert(Varchar(50),TSPL_COMPANY_MASTER.Add2, 103) End + Case When TSPL_COMPANY_MASTER.Add3='' Then '' Else ', '+ COnvert( Varchar,TSPL_COMPANY_MASTER.Add3,103) end + case When TSPL_COMPANY_MASTER.City_Code ='' then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.City_Code, 103) end+ Case When TSPL_COMPANY_MASTER.State='' Then '' else ', '+Convert(Varchar, TSPL_COMPANY_MASTER.State) end +  Case When TSPL_COMPANY_MASTER.Pincode='' Then '' Else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Pincode, 103)  end  as CompAdd from TSPL_Bulk_Price_MASTER left outer join TSPL_COMPANY_MASTER on tspl_company_master.comp_code=TSPL_Bulk_Price_MASTER.comp_code where Price_Code='" & fndcode.Value & "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
@@ -478,7 +478,7 @@ Public Class frmPriceChartBulkProc
                 ' clsCommon.MyMessageBoxShow("No data found to Print")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -716,12 +716,12 @@ Public Class frmPriceChartBulkProc
         Try
             If (deleteConfirm()) Then
                 If (clsPriceChartBulkProc.DeleteData(fndcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -761,7 +761,7 @@ Public Class frmPriceChartBulkProc
 
             LoadData(fndcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1298,7 +1298,7 @@ Public Class frmPriceChartBulkProc
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1402,7 +1402,7 @@ Public Class frmPriceChartBulkProc
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

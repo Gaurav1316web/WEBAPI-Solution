@@ -907,7 +907,7 @@ Public Class frmPOWeighment
 							max(convert(date,TSPL_GRN_HEAD.GRN_Date,103)) as GRNDate,
 							max(convert(date,TSPL_GRN_HEAD.Invoice_Date,103)) as BillDate,
 							max(TSPL_GRN_HEAD.[Invoice/Challan_No]) as BillNo,
-							max(convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)) as WeighDate,
+							max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date) as WeighDate,
 							max(TSPL_PO_WEIGHTMENT_detail.Unload_Date) as OutDateTime,
 							max(TSPL_PO_WEIGHTMENT_DETAIL.EXTRA_WEIGHT) AS EXTRA_WEIGHT,
 							max(TSPL_GRN_DETAIL.GRN_QTY) as challan_qty,

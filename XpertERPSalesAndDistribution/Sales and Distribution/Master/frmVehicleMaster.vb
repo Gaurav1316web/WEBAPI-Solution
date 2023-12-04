@@ -207,7 +207,7 @@ Public Class frmVehicleMaster
 
             obj.Rate_Type = clsCommon.myCstr(cmbLtrKG.Text)
             obj.Price_Ltr_KG = clsCommon.myCdbl(txt_ltr.Text)
-
+            obj.DriverName = clsCommon.myCstr(txtDriverName.Text)
             obj.pricekm = clsCommon.myCdbl(txt_km.Text)
             obj.status = ""
             obj.Vehicle_Weight = txtVehicleWeight.Value
@@ -425,6 +425,7 @@ Public Class frmVehicleMaster
         rtxtCapacity.Text = ""
         rtxtTranType.Text = ""
         fndTransporter.Value = ""
+        txtDriverName.Text = ""
         fndTransporter.Enabled = True
         rbtnSave.Text = "Save"
         rbtnDelete.Enabled = False
@@ -1091,6 +1092,7 @@ Public Class frmVehicleMaster
                 fndVehicle_id.MyReadOnly = False
                 rtxtModel.Text = obj.Model
                 rtxtNumber.Text = obj.Number
+                txtDriverName.Text = obj.DriverName
                 rtxtDescription.Text = obj.Description
                 fndemployee.Value = clsCommon.myCstr(obj.EmployeeNo)
                 If (obj.Vehicle_Type = "D" Or obj.Vehicle_Type = "d") Then

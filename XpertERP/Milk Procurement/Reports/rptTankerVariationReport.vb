@@ -109,24 +109,24 @@ Public Class RptTankerVariationReport
     Public Sub Load_Report()
         ''adding column Transport Code,Transport Name by shivani against[BM00000008360]
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         If chkPlantSelect.IsChecked AndAlso cbgPlant.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Plant or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Plant or select all.", Me.Text)
             Exit Sub
         End If
         If chkTankerSelect.IsChecked AndAlso cbgTanker.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Tanker or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Tanker or select all.", Me.Text)
             Exit Sub
         End If
         If Chktransselect.IsChecked AndAlso cbgTrans.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Transporter or select all.")
+            clsCommon.MyMessageBoxShow("Please select atleast single Transporter or select all.", Me.Text)
             Exit Sub
         End If
 
@@ -205,7 +205,7 @@ Public Class RptTankerVariationReport
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
         view()
@@ -817,7 +817,7 @@ Public Class RptTankerVariationReport
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("SNF_KG", "KG-SNF", False, DosPrintAlignment.Right, 10, False, DecimalPlaces.Two))
             obj.Print(obj, dt, PageSetup.Landscap)
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
 
         End If
     End Sub
