@@ -13,6 +13,7 @@ Public Class clsCrateReceivedHead
     Public Location_Code As String = Nothing
     Public Comments As String = Nothing
     Public Type As String = Nothing
+    Public ShiftType As String = String.Empty
     Public Posted As Integer
     Public Posting_Date As String = Nothing
     Public Arr As List(Of clsCrateReceivedDetail) = Nothing
@@ -86,6 +87,7 @@ Public Class clsCrateReceivedHead
         clsCommon.AddColumnsForChange(coll, "Route_code", obj.Route_code)
         clsCommon.AddColumnsForChange(coll, "Driver", obj.Driver)
         clsCommon.AddColumnsForChange(coll, "SalesMan", obj.SalesMan)
+        clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
         If isNewEntry Then
             clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -165,10 +167,10 @@ Public Class clsCrateReceivedHead
     End Function
     Public Shared Function GetData(ByVal strDocNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsCrateReceivedHead
         Dim obj As clsCrateReceivedHead = Nothing
-        Dim qry = "select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Driver,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.salesMan,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_Item,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_ItemUnit,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_ItemRate,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.TotalCanQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.TotalCrateQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_Item,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_ItemUnit,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_ItemRate,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Trans_Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Closing_Cust,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date, " & _
-        "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posting_Date, " & _
-        "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_By, " & _
-        "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Modified_By,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Modified_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_code,tspl_route_master.route_desc " & _
+        Dim qry = "select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Driver,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.salesMan,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_Item,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_ItemUnit,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_ItemRate,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.TotalCanQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.TotalCrateQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_Item,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_ItemUnit,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_ItemRate,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Trans_Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Closing_Cust,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date, " &
+        "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posting_Date, " &
+        "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_By, " &
+        "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Modified_By,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Modified_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_code,tspl_route_master.route_desc,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType " &
         "From TSPL_CRATE_RECEIVED_HEAD_FRESHSALE left join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code where 2=2 "
         Dim whrCls As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -198,6 +200,7 @@ Public Class clsCrateReceivedHead
             obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(0)("Vehicle_Code"))
             obj.Posted = clsCommon.myCdbl(dt.Rows(0)("Posted"))
             obj.Comments = clsCommon.myCstr(dt.Rows(0)("Comments"))
+            obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))
             If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
             End If
