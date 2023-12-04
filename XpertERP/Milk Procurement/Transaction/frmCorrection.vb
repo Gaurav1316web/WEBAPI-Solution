@@ -1464,16 +1464,14 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                         obj.Document_No = clsCommon.myCstr(grow.Cells("Document_No").Value)
                         obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Entered_Qty").Value)
                         Dim Qty As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC.Entered_Qty from  TSPL_MILK_COLLECTION_MCC where CONVERT(Date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(clsCommon.myCstr(grow.Cells("Document_Date").Value), "dd/MMM/yyyy") + "' And Status=1 and TSPL_MILK_COLLECTION_MCC.Document_No='" + clsCommon.myCstr(grow.Cells("Document_No").Value) + "'"))
-                        If isCorrection = False Then
-                            obj.Retesting_FAT = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
-                            obj.Retesting_SNF = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
-                        Else
+                        If isCorrection = 1 Then
                             obj.Correction_FAT = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
                             obj.Correction_SNF = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
+
+                        ElseIf isCorrection = 2 Then
+                            obj.Retesting_FAT = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Retesting_SNF = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
                         End If
-
-                        clsMilkCollectionMCC.CorrectionData(obj, isCorrection)
-
 
                         'obj.Document_No = clsCommon.myCstr(grow.Cells("Document_No").Value)
                         'obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Entered_Qty").Value)

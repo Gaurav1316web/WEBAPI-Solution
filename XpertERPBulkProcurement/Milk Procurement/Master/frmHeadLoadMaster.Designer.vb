@@ -22,13 +22,14 @@ Partial Class frmHeadLoadMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnReverseUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -60,6 +61,7 @@ Partial Class frmHeadLoadMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,7 +101,7 @@ Partial Class frmHeadLoadMaster
         '
         '
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -130,6 +132,7 @@ Partial Class frmHeadLoadMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -141,11 +144,23 @@ Partial Class frmHeadLoadMaster
         Me.SplitContainer1.SplitterWidth = 3
         Me.SplitContainer1.TabIndex = 3
         '
+        'btnReverseUnpost
+        '
+        Me.btnReverseUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverseUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverseUnpost.Location = New System.Drawing.Point(410, 5)
+        Me.btnReverseUnpost.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnReverseUnpost.Name = "btnReverseUnpost"
+        Me.btnReverseUnpost.Size = New System.Drawing.Size(122, 22)
+        Me.btnReverseUnpost.TabIndex = 10
+        Me.btnReverseUnpost.Text = "Reverse and Unpost"
+        Me.btnReverseUnpost.Visible = False
+        '
         'btnImport
         '
         Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnImport.Location = New System.Drawing.Point(324, 6)
+        Me.btnImport.Location = New System.Drawing.Point(324, 5)
         Me.btnImport.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Size = New System.Drawing.Size(82, 22)
@@ -156,7 +171,7 @@ Partial Class frmHeadLoadMaster
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExport.Location = New System.Drawing.Point(238, 6)
+        Me.btnExport.Location = New System.Drawing.Point(238, 5)
         Me.btnExport.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(82, 22)
@@ -458,12 +473,12 @@ Partial Class frmHeadLoadMaster
         Me.cmbHeadLoadBasis.IsSourceFromTable = False
         Me.cmbHeadLoadBasis.IsSourceFromValueList = False
         Me.cmbHeadLoadBasis.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Rate/Kg"
-        RadListDataItem3.Text = "Rate/Ltr"
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem1)
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem2)
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "Rate/Kg"
+        RadListDataItem6.Text = "Rate/Ltr"
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem4)
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem5)
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem6)
         Me.cmbHeadLoadBasis.Location = New System.Drawing.Point(100, 2)
         Me.cmbHeadLoadBasis.MendatroryField = True
         Me.cmbHeadLoadBasis.MyLinkLable1 = Me.MyLabel1
@@ -541,6 +556,7 @@ Partial Class frmHeadLoadMaster
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
@@ -598,6 +614,7 @@ Partial Class frmHeadLoadMaster
     Friend WithEvents txtRate As common.MyNumBox
     Friend WithEvents txtstartDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents btnReverseUnpost As RadButton
 End Class
 
 

@@ -351,9 +351,12 @@ Public Class frmHeadLoadMaster
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
+            frm.strType = "SIRC"
+            frm.strCode = "SIReversAndCreate"
             frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverseUnpost.Visible = True
+            End If
         End If
     End Sub
 
@@ -602,6 +605,28 @@ Public Class frmHeadLoadMaster
         Else
             txtRate.Enabled = False
         End If
+    End Sub
+
+    Private Sub btnReverseUnpost_Click_(sender As Object, e As EventArgs) Handles btnReverseUnpost.Click
+        Try
+            If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                Dim Reason As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Reverse"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+                If clsHeadLoadMaster.ReverseAndUnpost(txtDocumentNo.Value) Then
+                    clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    LoadData(txtDocumentNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 

@@ -18,25 +18,25 @@ Public Class frmDemand_Sheet
     Const colItemCode As String = "colItemCode"
 
 #End Region
-    'Public Sub SetUserMgmtNew()
-    ''MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
-    ' If Not (MyBase.isReadFlag) Then
-    '    Throw New Exception("Permission Denied")
-    '    Me.Close()
-    '    Exit Sub
-    'End If
-    'btnSave.Visible = MyBase.isModifyFlag
-    ''btnPost.Visible = MyBase.isPostFlag
-    'If MyBase.isReverse Then
-    '    btnreverse.Enabled = True
-    'Else
-    '    btnreverse.Enabled = False
-    'End If
-    'End Sub
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        'btnPost.Visible = MyBase.isPostFlag
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
+    End Sub
     Private Sub frmDemandSheet_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetShiftTimeOut = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, Nothing))
         AddNew()
-        ' SetUserMgmtNew()
+        SetUserMgmtNew()
         DemandSheetTable()
         LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode)
         isInsideLoadData = False
@@ -491,5 +491,30 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
         End Try
     End Sub
 
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        'Export(EnumExportTo.Excel)
+    End Sub
+    Private Sub Export(ByVal exporter As EnumExportTo)
+        Try
+            Dim str As String = String.Empty
+            Dim strQry As String = "select Short_Description from TSPL_ITEM_MASTER where Is_DisplayDemand=1 order by Sku_Seq "
+            Dim lstItems As List(Of String) = Nothing
 
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    str = clsCommon.myCstr("[" + dr("Short_Description") + "]")
+                    lstItems.Add(str)
+                Next
+            End If
+            str = clsCommon.GetMulcallStringWithComma(lstItems)
+            strQry = " select * from( select Demand_Date ,ShiftType,Cust_Code,Route_No,set_zero,TSPL_ITEM_MASTER.Short_Description,Qty from TSPL_DEMAND_SHEET
+left join TSPL_ITEM_MASTER on TSPL_DEMAND_SHEET.Item_Code=TSPL_ITEM_MASTER.Item_Code where TSPL_DEMAND_SHEET.Created_By='" + objCommonVar.CurrentUserCode + "' )X Pivot (Sum(Qty) FOR Short_Description IN (" + str + ")
+) as PivoteTable "
+            transportSql.ExporttoExcel(strQry, "", Me)
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
 End Class
