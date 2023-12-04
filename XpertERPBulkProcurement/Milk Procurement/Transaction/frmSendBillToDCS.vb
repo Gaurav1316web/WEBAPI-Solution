@@ -33,7 +33,10 @@ Public Class frmSendBillToDCS
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommon.ProgressBarPercentShow()
+                Dim ii As Integer = 0
                 For Each dr As DataRow In dt.Rows
+                    clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, " " & " Printing " & (ii + 1) & " Of " & dt.Rows.Count)
                     Dim PDFPath As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + clsCommon.myCstr(clsCommon.myCstr(dr("Doc_No"))) + "'", clsCommon.myCDate(clsCommon.myCstr(dr("From_Date"))), clsCommon.myCDate(clsCommon.myCstr(dr("To_Date"))), "", "'" + clsCommon.myCstr(dr("VSP_CODE")) + "'", "", "", "", False, True)
                     Dim Str As String = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath))
                     Dim jObj As JObject = JObject.Parse(Str)
@@ -54,9 +57,13 @@ Public Class frmSendBillToDCS
                         Throw New Exception(ArrJ(0).SelectToken("Message"))
                     End If
                     SaveFile(PDFPath, clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("Doc_No")), clsCommon.myCDate(dr("Doc_Date")), clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("VSP_NAME")), clsCommon.myCstr(dr("VLC_CODE_Uploader")), clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")))
+                    ii = ii + 1
                 Next
+                clsCommon.ProgressBarPercentHide()
+                clsCommon.MyMessageBoxShow(Me, "Bill Print Successfully Done.", Me.Text)
             End If
         Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -94,4 +101,7 @@ Public Class frmSendBillToDCS
         End Try
     End Sub
 
+    Private Sub btnSendBill_Click(sender As Object, e As EventArgs) Handles btnSendBill.Click
+
+    End Sub
 End Class
