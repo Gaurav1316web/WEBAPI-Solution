@@ -1632,7 +1632,11 @@ Public Class frmCreateReceivedDairySale
                 Else
                     obj.Closing_Customer = 0
                 End If
-
+                If rbtnEvng.Checked = True Then
+                    obj.ShiftType = "E"
+                Else
+                    obj.ShiftType = "M"
+                End If
                 obj.Arr = New List(Of clsCrateReceivedDetail)
 
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -1777,6 +1781,11 @@ Public Class frmCreateReceivedDairySale
                     btnPost.Enabled = False
                 End If
 
+                If clsCommon.CompairString(obj.ShiftType, "E") = CompairStringResult.Equal Then
+                    rbtnEvng.Checked = True
+                ElseIf clsCommon.CompairString(obj.ShiftType, "M") = CompairStringResult.Equal Then
+                    rbtnMrng.Checked = True
+                End If
 
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsCrateReceivedDetail In obj.Arr
