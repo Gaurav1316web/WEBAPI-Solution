@@ -23,7 +23,7 @@ Public Class FrmMilkVSPPayment
     Dim settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean = False
     Dim SettMultipleMCCFinder As Boolean = False
     Dim MultipleFinderFillAuto As Boolean = False
-
+    Dim ApplyUnpaidBank As Boolean = False
     Dim CompanyVSPDeduction As Decimal = 0
     Dim NonCompanyVSPDeduction As Decimal = 0
 #End Region
@@ -66,6 +66,8 @@ Public Class FrmMilkVSPPayment
         settDoNotIncludeIncentiveInMilkPurchaseInvoice = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotIncludeIncentiveInMilkPurchaseInvoice, clsFixedParameterCode.DoNotIncludeIncentiveInMilkPurchaseInvoice, Nothing)) = 1)
         SettMultipleMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleMCCFinder, clsFixedParameterCode.MultipleMCCFinder, Nothing)) = 1)
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
+        ApplyUnpaidBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyUnpaidBank, clsFixedParameterCode.ApplyUnpaidBank, Nothing)) = 1)
+
         If SettMultipleMCCFinder Then
             SplitContainer1.Panel1Collapsed = True
             If MultipleFinderFillAuto Then
@@ -219,35 +221,39 @@ Public Class FrmMilkVSPPayment
 
     Private Sub btnGenerateBill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateBill.Click
         Try
-            Dim ChkQryUnpaidBank As String = "select count(*) from TSPL_BANK_MASTER where Unpaid='1' "
-            Dim count As Integer = clsDBFuncationality.getSingleValue(ChkQryUnpaidBank)
-            If count = 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Define Unpaid Bank in Bank Master", Me.Text)
-                Exit Sub
-            End If
+            If ApplyUnpaidBank Then
 
-            Dim strVLC As String = clsCommon.GetMulcallString(txtVSP.arrValueMember)
-            Dim DCSCountBank1 As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_VENDOR_MASTER where Form_Type = 'VSP' and Bank_Code is null or Bank_Code = '' AND Vendor_Code IN (" & strVLC & ") ")
-            Dim DCSCountBank2 As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_VENDOR_MASTER where Form_Type = 'VSP' and BankCode2 is null or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ") ")
-            Dim TotalDcsCount As Integer = DCSCountBank1 + DCSCountBank2
-            If TotalDcsCount > 0 Then
-                clsCommon.MyMessageBoxShow(Me, "" & TotalDcsCount & " DCS have blank Bank Details", Me.Text)
-                If common.clsCommon.MyMessageBoxShow("We will update UNPAID Bank Details on these DCS. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                    If DCSCountBank1 > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET Bank_Code = 'UNPAID' , Bank_Name = 'UNPAID', IFSC_Code = 'UNPAID', Account_No = 'UNPAID ' where Form_Type = 'VSP' AND Bank_Code IS NULL or Bank_Code = '' AND Vendor_Code IN (" & strVLC & ")")
-                    End If
-                    If DCSCountBank2 > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET BankCode2 = 'UNPAID' ,BankName2 = 'UNPAID', IFSCCode2 = 'UNPAID', AccNo2 = 'UNPAID' where Form_Type = 'VSP' AND BankCode2 IS NULL or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ")")
-                    End If
-
-                    GenerateBill()
-                Else
+                Dim ChkQryUnpaidBank As String = "select count(*) from TSPL_BANK_MASTER where Unpaid='1' "
+                Dim count As Integer = clsDBFuncationality.getSingleValue(ChkQryUnpaidBank)
+                If count = 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please Define Unpaid Bank in Bank Master", Me.Text)
                     Exit Sub
+                End If
+
+                Dim strVLC As String = clsCommon.GetMulcallString(txtVSP.arrValueMember)
+                Dim DCSCountBank1 As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_VENDOR_MASTER where Form_Type = 'VSP' and Bank_Code is null or Bank_Code = '' AND Vendor_Code IN (" & strVLC & ") ")
+                Dim DCSCountBank2 As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_VENDOR_MASTER where Form_Type = 'VSP' and BankCode2 is null or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ") ")
+                Dim TotalDcsCount As Integer = DCSCountBank1 + DCSCountBank2
+                If TotalDcsCount > 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "" & TotalDcsCount & " DCS have blank Bank Details", Me.Text)
+                    If common.clsCommon.MyMessageBoxShow("We will update UNPAID Bank Details on these DCS. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                        If DCSCountBank1 > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET Bank_Code = 'UNPAID' , Bank_Name = 'UNPAID', IFSC_Code = 'UNPAID', Account_No = 'UNPAID ' where Form_Type = 'VSP' AND Bank_Code IS NULL or Bank_Code = '' AND Vendor_Code IN (" & strVLC & ")")
+                        End If
+                        If DCSCountBank2 > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("UPDATE  TSPL_VENDOR_MASTER SET BankCode2 = 'UNPAID' ,BankName2 = 'UNPAID', IFSCCode2 = 'UNPAID', AccNo2 = 'UNPAID' where Form_Type = 'VSP' AND BankCode2 IS NULL or BankCode2 = '' AND Vendor_Code IN (" & strVLC & ")")
+                        End If
+
+                        GenerateBill()
+                    Else
+                        Exit Sub
+                    End If
+                Else
+                    GenerateBill()
                 End If
             Else
                 GenerateBill()
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
