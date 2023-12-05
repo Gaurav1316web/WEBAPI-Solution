@@ -254,7 +254,14 @@ Public Class FrmVendorService
             UcCustomFields1.Report_ID = MyBase.Form_ID
             UcCustomFields1.LoadCustomControls()
         End If
+        ' RadPageViewPage5.Visible = False
         ''End of For Custom Fields
+        If chkEInvoice.Checked = True Then
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        Else
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+
+        End If
 
         '' MultiCurrency
         SetMultiCurrencyVisibility()
@@ -759,10 +766,10 @@ Public Class FrmVendorService
             txtTaxGroup_TxtChanged()
         Else
             Dim Qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
-            Dim WhrClause As String = "(  select count(TSPL_TAX_GROUP_DETAILS.Tax_Code)  from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_MASTER on " & Environment.NewLine & _
-            " TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " & Environment.NewLine & _
-            "  )=(  select count(TSPL_TAX_GROUP_DETAILS.Tax_Code)  from TSPL_TAX_GROUP_DETAILS left outer join " & Environment.NewLine & _
-            " TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where " & Environment.NewLine & _
+            Dim WhrClause As String = "(  select count(TSPL_TAX_GROUP_DETAILS.Tax_Code)  from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_MASTER on " & Environment.NewLine &
+            " TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " & Environment.NewLine &
+            "  )=(  select count(TSPL_TAX_GROUP_DETAILS.Tax_Code)  from TSPL_TAX_GROUP_DETAILS left outer join " & Environment.NewLine &
+            " TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where " & Environment.NewLine &
             " TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code   ) and Tax_Group_Type='P'"
 
             txtTaxGroup.Value = clsCommon.ShowSelectForm("TaxGrpSFND", Qry, "Code", WhrClause, txtTaxGroup.Value, "Code", isButtonClicked)
@@ -1100,7 +1107,7 @@ Public Class FrmVendorService
         repoHierarchyCode3.IsVisible = SettingCostCenterlevel
         repoHierarchyCode3.Tag = 1
         gv1.MasterTemplate.Columns.Add(repoHierarchyCode3)
-         
+
         repoRate = New GridViewDecimalColumn()
         repoRate.FormatString = ""
         repoRate.HeaderText = "Basic Rate"
@@ -2356,7 +2363,7 @@ Public Class FrmVendorService
 
     Private Sub OpenAdditionCharges(ByVal isButtonClick As Boolean)
         Try
-            Dim obj As clsAdditionalCharge = clsAdditionalCharge.getFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAChgCode).Value), isButtonClick, chkRCM.Checked, chkNoGSTCredit.Checked, txtDate.Value)
+            Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAChgCode).Value), isButtonClick, chkRCM.Checked, chkNoGSTCredit.Checked, txtDate.Value)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                 gv1.CurrentRow.Cells(colAChgCode).Value = obj.Code
                 gv1.CurrentRow.Cells(colAChgName).Value = obj.desc
@@ -2861,6 +2868,12 @@ Public Class FrmVendorService
     End Sub
 
     Sub AddNew()
+        txtAckDate.Value = clsCommon.GETSERVERDATE()
+        EinvoiceAckNo.Text = ""
+        ' EinvoiceAckNo.Text = ""
+        EInvoiceIRNNo.Text = ""
+        EInvoiceQrCode.Text = ""
+        EinvoiceBtnUpdate.Enabled = True
 
         TxtVendorNo.Enabled = True
         TxtVendorNo.Value = ""
@@ -3008,7 +3021,7 @@ Public Class FrmVendorService
                     End If
                 End If
             Next
-             
+
             ''''-------- Added By Abhishek for Row By Row check If Doc type and Doc No HAs same value as on 28 june 2012 
             Dim l As Integer
             Dim k As Integer
@@ -3047,7 +3060,7 @@ Public Class FrmVendorService
                 End If
             Next
 
-            
+
 
             Dim isFirstTime As Boolean = True
             Dim strFirstLocSeg As String = ""
@@ -3470,7 +3483,7 @@ Public Class FrmVendorService
                     objTr.Item_Type = clsCommon.myCstr(grow.Cells(colICodeStatus).Value)
                     objTr.Asset_Code = clsCommon.myCstr(grow.Cells(colAssetCode).Value)
 
-                   
+
 
                     If (clsCommon.myLen(objTr.GL_Account_Code) > 0) And objTr.Amount <> 0 Then
                         'If isApplyCostCenter Then
@@ -3579,6 +3592,17 @@ Public Class FrmVendorService
                     btnViewTDSDetails.Enabled = True
                     dblPreviousTDSAmt = obj.RemittanceObject.Previous_TDS_Amt
                 End If
+                If clsCommon.myLen(obj.irn_no) > 0 Then
+                    EInvoiceIRNNo.Text = obj.irn_no
+                    EinvoiceAckNo.Text = obj.Ack_No
+                    If clsCommon.myLen(obj.Ack_Date) > 0 Then
+                        txtAckDate.Value = obj.Ack_Date
+                    End If
+                    EInvoiceQrCode.Text = obj.QR_Code
+                    EinvoiceBtnUpdate.Enabled = False
+                Else
+                    EinvoiceBtnUpdate.Enabled = True
+                End If
 
                 If clsCommon.myLen(obj.Posting_Date) > 0 Then
                     btnSave.Enabled = False
@@ -3648,7 +3672,7 @@ Public Class FrmVendorService
                 txtlocation.Value = obj.loc_code
                 ' lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtlocation.Value + "'"))
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(txtlocation.Value) & "'"))
-             
+
                 'done by priti KDI/05/07/18-000390 for updating vendor name from master
                 lblVendorName.Text = clsVendorMaster.GetName(obj.Vendor_Code, Nothing)
                 txtVendorInvoiceNo.Text = obj.Vendor_Invoice_No
@@ -4204,7 +4228,6 @@ Public Class FrmVendorService
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
-
     Sub DeleteData()
         Try
             Dim Reason As String = ""
@@ -4309,69 +4332,130 @@ Public Class FrmVendorService
         End If
     End Sub
 
+
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         'PrintData()
-        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to print")
-        End If
-        Dim strDocNo As String = clsCommon.myCstr(txtDocNo.Value)
-        'Dim Arr As New ArrayList
-        'Arr.Add(txtDocNo.Value)
-        'frmRptAPInvoice.PrintData("", "", True, Arr, False, Nothing, False, Nothing)
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Document No not found to print")
+            End If
+            Dim strDocNo As String = clsCommon.myCstr(txtDocNo.Value)
+            Dim qry As String = " select TSPL_VENDOR_INVOICE_HEAD.IsEInvoice,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date, TSPL_Additional_Charges.SAC_Code,(TSPL_VENDOR_MASTER.Add1+' '+TSPL_VENDOR_MASTER.ADD2+' '+TSPL_VENDOR_MASTER.Add3) AS ADD1,TSPL_VENDOR_MASTER.PAN ,TSPL_VENDOR_MASTER.Pin_Code,TSPL_VENDOR_MASTER.State_Code,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_VENDOR_MASTER.City_Code_Desc,right(TSPL_VENDOR_INVOICE_HEAD.document_no,4) as Gatepass ,TSPL_VENDOR_INVOICE_HEAD.Loc_Code as from_location ,tspl_customer_master.GSTNO as Cust_GstInNo,TSPL_VENDOR_INVOICE_HEAD.document_no
+ , cast(
+        TSPL_VENDOR_INVOICE_HEAD.BarCode_Img as image
+      ) As BarCode_Img ,TSPL_VENDOR_INVOICE_DETAIL.Discount,	TSPL_VENDOR_INVOICE_DETAIL.Amount_less_Discount	,TSPL_VENDOR_INVOICE_DETAIL.TAX1	,TSPL_VENDOR_INVOICE_DETAIL.TAX1_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX1_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX2,	TSPL_VENDOR_INVOICE_DETAIL.TAX2_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX2_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX3	,TSPL_VENDOR_INVOICE_DETAIL.TAX3_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX3_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX4,	TSPL_VENDOR_INVOICE_DETAIL.TAX4_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX4_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX5,	TSPL_VENDOR_INVOICE_DETAIL.TAX5_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX5_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX6,	TSPL_VENDOR_INVOICE_DETAIL.TAX6_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX6_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX7,	TSPL_VENDOR_INVOICE_DETAIL.TAX7_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX7_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX8,	TSPL_VENDOR_INVOICE_DETAIL.TAX8_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX8_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX9,	TSPL_VENDOR_INVOICE_DETAIL.TAX9_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX9_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX10,	TSPL_VENDOR_INVOICE_DETAIL.TAX10_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX10_Amt,	TSPL_VENDOR_INVOICE_DETAIL.Total_Tax,	TSPL_VENDOR_INVOICE_DETAIL.Total_Amount	,TSPL_VENDOR_INVOICE_DETAIL.Remarks,	TSPL_VENDOR_INVOICE_DETAIL.Comments	,	TSPL_VENDOR_INVOICE_DETAIL.Invoice_Type,	TSPL_VENDOR_INVOICE_DETAIL.Landed_Amount
+	  ,TSPL_VENDOR_INVOICE_HEAD.IRN_No,TSPL_VENDOR_INVOICE_HEAD.Ack_No,TSPL_VENDOR_INVOICE_HEAD.Ack_Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_DETAIL.AddChargeDesc,TSPL_VENDOR_INVOICE_DETAIL.Amount
+		,tspl_company_master.comp_Name, TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc,
+      TSPL_COMPANY_MASTER.Add1 as Comp_Add1, 
+      TSPL_COMPANY_MASTER.Add2 as Comp_Add2, 
+      TSPL_COMPANY_MASTER.Add3 as Comp_Add3, 
+      TSPL_COMPANY_MASTER.Email as Comp_Email, 
+      TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1, 
+      TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, 
+      TSPL_COMPANY_MASTER.Pan_No as Comp_Pan_No, 
+      cast(
+        TSPL_COMPANY_MASTER.Logo_Img as image
+      ) as Logo_Img, 
+      cast(
+        TSPL_COMPANY_MASTER.Logo_Img2 as image
+      ) as Logo_Img2, 
+      TSPL_COMPANY_MASTER.GSTREg_No as Comp_GSTREg_No, 
+      TSPL_COMPANY_MASTER.CINNO as Comp_CINNO, 
+      TSPL_COMPANY_MASTER.Access_Officer as Comp_Access_Officer , TSPL_LOCATION_MASTER.accountholdername, 
+      TSPL_LOCATION_MASTER.Bank, 
+      TSPL_LOCATION_MASTER.Branch, 
+      TSPL_LOCATION_MASTER.ACType, 
+      TSPL_LOCATION_MASTER.bankaccno, 
+      TSPL_LOCATION_MASTER.bankifsccode ,
+	  TSPL_LOCATION_MASTER.Pin_Code as PinNo,
+	  TSPL_LOCATION_MASTER.Phone1 as LPhone,
+	  TSPL_LOCATION_MASTER.Registration_Number as Registration_No,TSPL_LOCATION_MASTER.GSTNO as From_Loc_GstinNo, TSPL_LOCATION_MASTER.HOAdd1 as frmHO1, 
+      TSPL_LOCATION_MASTER.HOAdd2 as frmHO2, TSPL_LOCATION_MASTER.Location_Desc as [From Location Desc], 
+      (
+        TSPL_LOCATION_MASTER.Add1 + TSPL_LOCATION_MASTER.Add2 + TSPL_LOCATION_MASTER.Add3 + TSPL_LOCATION_MASTER.Add4
+      ) as [From Address], 
+     
+      TSPL_LOCATION_MASTER.TIN_No, 
+      TSPL_LOCATION_MASTER.CST_No, 
+	  tspl_customer_master.Pin_Code as [To Pin Code], 
+	  tspl_customer_master.PAN as Cust_Pan,
+      tspl_customer_master.TIN_No as [To TIN No], 
+      tspl_customer_master.CST as [To CST No], 
+      tspl_customer_master.Phone1 as [To phone], 
+      TSPL_LOCATION_MASTER.State as From_State  from TSPL_VENDOR_INVOICE_HEAD
+	  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code
+	  left  join TSPL_LOCATION_MASTER on left(TSPL_LOCATION_MASTER.Location_Code,3)=TSPL_VENDOR_INVOICE_HEAD.Loc_Code
+	  inner join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
+	  inner join tspl_customer_master on tspl_customer_master.Cust_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+	  inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+	  left join TSPL_Additional_Charges on TSPL_Additional_Charges.Code=TSPL_VENDOR_INVOICE_DETAIL.AddChargeCode where TSPL_VENDOR_INVOICE_HEAD.Document_No ='" + strDocNo + "' "
+            'Dim Arr As New ArrayList
+            'Arr.Add(txtDocNo.Value)
+            'frmRptAPInvoice.PrintData("", "", True, Arr, False, Nothing, False, Nothing)
 
-        'Dim qry As String = "select *,TSPL_COMPANY_MASTER .Logo_Img ,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code, TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode  from (select MAX( FromDate) as FromDate,max(ToDate) as ToDate,max(Location) as Location,max(Document_Type) as Document_Type,max(Loc_Code) as Loc_Code,max(Vendor) as Vendor,max(Document) as Document,max(Document_No) as Document_No," & Environment.NewLine & _
-        '" max(ACCode) as ACCode,max(ACName) as ACName, case when SUM(DrAmt-CrAmt)>0 then sum(DrAmt-CrAmt) else 0 end   as DrAmt ,case when SUM( CrAmt-DrAmt)>0 then SUM( CrAmt-DrAmt) else 0 end   as CrAmt,max(Comp_Code) as Comp_Code,max(Comp_Name) as Comp_Name,max(Vendor_Code) as Vendor_Code,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(RefDocNo) as RefDocNo,max(RefDocType) as RefDocType,max(Vendor_Name) as Vendor_Name,max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Due_Date) as Due_Date,max(Description) as Description,max(Vendor_Invoice_No) as Vendor_Invoice_No,max(Vendor_Invoice_Date) as Vendor_Invoice_Date,max(CreateBy) as CreateBy,max(ApproveBy) as ApproveBy,max(InvStatus) as InvStatus,max(InvoiceType) as InvoiceType,max(RefDocDescription) as RefDocDescription,max(Hirerachy_Code) as Hirerachy_Code ,max(Cost_Centre_Code) as Cost_Centre_Code  from(select  '' as FromDate,'' as ToDate, '' as Location,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_VENDOR_INVOICE_HEAD.Document_Type,'' as Vendor, '" & strDocNo & "' as Document, Final.Document_No,final.ACCode,Final.ACName,DrAmt,CrAmt,Hirerachy_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name as Cost_Centre_Code ,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType, TSPL_VENDOR_INVOICE_HEAD.Vendor_Name ,TSPL_VENDOR_INVOICE_HEAD.Created_By  ,TSPL_VENDOR_INVOICE_HEAD.Created_Date,TSPL_VENDOR_INVOICE_HEAD.Due_Date,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,CreatedBy.User_Name as CreateBy,AuthorisedBy.User_Name as ApproveBy,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as InvStatus,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType  , ( select case when LEN(ISNULL(RefDocType,''))>0 then case when RefDocType='S' then 'SRN' else case when RefDocType='AP' then 'AP Invoice' end end +' : '+RefDocNo  +' - ' +(case when RefDocType='S' then (Select top 1 convert(varchar(100),SRN_Date,110)   from TSPL_SRN_HEAD where SRN_No =RefDocNo) else (select top 1 convert(varchar(100),Invoice_Entry_Date,110)  from TSPL_VENDOR_INVOICE_HEAD where RefDocNo  = RefDocNo) end)  else '' end from TSPL_VENDOR_INVOICE_HEAD where Document_No=Final.Document_No) as RefDocDescription,final.Detail_Line_No   from ( " & Environment.NewLine & _
-        '" SELECT TSPL_JOURNAL_DETAILS.Detail_Line_No ,VI.RefDocNo,VI.RefDocType, TSPL_JOURNAL_MASTER.Source_doc_No as Document_No,TSPL_JOURNAL_DETAILS.Account_code as ACCode, TSPL_JOURNAL_DETAILS.Account_Desc as ACName,case when TSPL_JOURNAL_DETAILS.Amount>=0 then  TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt,case when TSPL_JOURNAL_DETAILS.Amount<0 then -1 * TSPL_JOURNAL_DETAILS.Amount else 0 end as CrAmt ,TSPL_JOURNAL_DETAILS.Hirerachy_Code as Hirerachy_Code,TSPL_JOURNAL_DETAILS.Cost_Centre_Code as Cost_Centre_Code " & Environment.NewLine & _
-        '" FROM TSPL_JOURNAL_MASTER INNER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Journal_No = TSPL_JOURNAL_DETAILS.Journal_No  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code  "
+            'Dim qry As String = "select *,TSPL_COMPANY_MASTER .Logo_Img ,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code, TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode  from (select MAX( FromDate) as FromDate,max(ToDate) as ToDate,max(Location) as Location,max(Document_Type) as Document_Type,max(Loc_Code) as Loc_Code,max(Vendor) as Vendor,max(Document) as Document,max(Document_No) as Document_No," & Environment.NewLine & _
+            '" max(ACCode) as ACCode,max(ACName) as ACName, case when SUM(DrAmt-CrAmt)>0 then sum(DrAmt-CrAmt) else 0 end   as DrAmt ,case when SUM( CrAmt-DrAmt)>0 then SUM( CrAmt-DrAmt) else 0 end   as CrAmt,max(Comp_Code) as Comp_Code,max(Comp_Name) as Comp_Name,max(Vendor_Code) as Vendor_Code,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(RefDocNo) as RefDocNo,max(RefDocType) as RefDocType,max(Vendor_Name) as Vendor_Name,max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Due_Date) as Due_Date,max(Description) as Description,max(Vendor_Invoice_No) as Vendor_Invoice_No,max(Vendor_Invoice_Date) as Vendor_Invoice_Date,max(CreateBy) as CreateBy,max(ApproveBy) as ApproveBy,max(InvStatus) as InvStatus,max(InvoiceType) as InvoiceType,max(RefDocDescription) as RefDocDescription,max(Hirerachy_Code) as Hirerachy_Code ,max(Cost_Centre_Code) as Cost_Centre_Code  from(select  '' as FromDate,'' as ToDate, '' as Location,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_VENDOR_INVOICE_HEAD.Document_Type,'' as Vendor, '" & strDocNo & "' as Document, Final.Document_No,final.ACCode,Final.ACName,DrAmt,CrAmt,Hirerachy_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name as Cost_Centre_Code ,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType, TSPL_VENDOR_INVOICE_HEAD.Vendor_Name ,TSPL_VENDOR_INVOICE_HEAD.Created_By  ,TSPL_VENDOR_INVOICE_HEAD.Created_Date,TSPL_VENDOR_INVOICE_HEAD.Due_Date,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,CreatedBy.User_Name as CreateBy,AuthorisedBy.User_Name as ApproveBy,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as InvStatus,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType  , ( select case when LEN(ISNULL(RefDocType,''))>0 then case when RefDocType='S' then 'SRN' else case when RefDocType='AP' then 'AP Invoice' end end +' : '+RefDocNo  +' - ' +(case when RefDocType='S' then (Select top 1 convert(varchar(100),SRN_Date,110)   from TSPL_SRN_HEAD where SRN_No =RefDocNo) else (select top 1 convert(varchar(100),Invoice_Entry_Date,110)  from TSPL_VENDOR_INVOICE_HEAD where RefDocNo  = RefDocNo) end)  else '' end from TSPL_VENDOR_INVOICE_HEAD where Document_No=Final.Document_No) as RefDocDescription,final.Detail_Line_No   from ( " & Environment.NewLine & _
+            '" SELECT TSPL_JOURNAL_DETAILS.Detail_Line_No ,VI.RefDocNo,VI.RefDocType, TSPL_JOURNAL_MASTER.Source_doc_No as Document_No,TSPL_JOURNAL_DETAILS.Account_code as ACCode, TSPL_JOURNAL_DETAILS.Account_Desc as ACName,case when TSPL_JOURNAL_DETAILS.Amount>=0 then  TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt,case when TSPL_JOURNAL_DETAILS.Amount<0 then -1 * TSPL_JOURNAL_DETAILS.Amount else 0 end as CrAmt ,TSPL_JOURNAL_DETAILS.Hirerachy_Code as Hirerachy_Code,TSPL_JOURNAL_DETAILS.Cost_Centre_Code as Cost_Centre_Code " & Environment.NewLine & _
+            '" FROM TSPL_JOURNAL_MASTER INNER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Journal_No = TSPL_JOURNAL_DETAILS.Journal_No  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code  "
 
-        ''left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No =TSPL_JOURNAL_MASTER.Source_Doc_No and TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code " & Environment.NewLine & _
-        ''" left join TSPL_VENDOR_INVOICE_HEAD on  TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No " & Environment.NewLine & _
-        'qry = qry + " LEFT OUTER JOIN (select Detail_Line_No,TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code," & Environment.NewLine & _
-        '" TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code, TSPL_VENDOR_INVOICE_HEAD.RefDocNo, TSPL_VENDOR_INVOICE_HEAD.RefDocType " & Environment.NewLine & _
-        '" from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No  " & Environment.NewLine & _
-        '" GROUP BY TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code, " & Environment.NewLine & _
-        '" TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code,TSPL_VENDOR_INVOICE_HEAD.RefDocNo,TSPL_VENDOR_INVOICE_HEAD.RefDocType,Detail_Line_No ) VI" & Environment.NewLine & _
-        '"  on VI.Document_No  =TSPL_JOURNAL_MASTER.Source_Doc_No and VI.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code AND TSPL_JOURNAL_DETAILS.Detail_Line_No=VI.Detail_Line_No " & Environment.NewLine & _
-        '" left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =VI.Cost_Centre_Code  left join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code =VI.Hirerachy_Code  where  TSPL_JOURNAL_MASTER.Source_Doc_No = '" & strDocNo & "' " & Environment.NewLine & _
-        '" group by TSPL_JOURNAL_DETAILS.Detail_Line_No ,VI.RefDocNo,VI.RefDocType, TSPL_JOURNAL_MASTER.Source_doc_No ,TSPL_JOURNAL_DETAILS.Account_code , TSPL_JOURNAL_DETAILS.Account_Desc, TSPL_JOURNAL_DETAILS.Amount ,TSPL_JOURNAL_DETAILS.Hirerachy_Code " & Environment.NewLine & _
-        '",TSPL_JOURNAL_DETAILS.Cost_Centre_Code )Final left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=final.Document_No left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =final.Cost_Centre_Code  where 2=2  and TSPL_VENDOR_INVOICE_HEAD.Document_No in ('" & strDocNo & "') " & Environment.NewLine & _
-        '" )xxx     group by Document_No  ,ACCode ,Detail_Line_No " & Environment.NewLine & _
-        '" )xxxx left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code =xxxx.Comp_Code  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=xxxx.Loc_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = xxxx.Vendor_Code   left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code = TSPL_STATE_MASTER.STATE_CODE left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state   order by xxxx.Document_No,xxxx.DrAmt desc,xxxx.CrAmt desc"
+            ''left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No =TSPL_JOURNAL_MASTER.Source_Doc_No and TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code " & Environment.NewLine & _
+            ''" left join TSPL_VENDOR_INVOICE_HEAD on  TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No " & Environment.NewLine & _
+            'qry = qry + " LEFT OUTER JOIN (select Detail_Line_No,TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code," & Environment.NewLine & _
+            '" TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code, TSPL_VENDOR_INVOICE_HEAD.RefDocNo, TSPL_VENDOR_INVOICE_HEAD.RefDocType " & Environment.NewLine & _
+            '" from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No  " & Environment.NewLine & _
+            '" GROUP BY TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code, " & Environment.NewLine & _
+            '" TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code,TSPL_VENDOR_INVOICE_HEAD.RefDocNo,TSPL_VENDOR_INVOICE_HEAD.RefDocType,Detail_Line_No ) VI" & Environment.NewLine & _
+            '"  on VI.Document_No  =TSPL_JOURNAL_MASTER.Source_Doc_No and VI.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code AND TSPL_JOURNAL_DETAILS.Detail_Line_No=VI.Detail_Line_No " & Environment.NewLine & _
+            '" left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =VI.Cost_Centre_Code  left join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code =VI.Hirerachy_Code  where  TSPL_JOURNAL_MASTER.Source_Doc_No = '" & strDocNo & "' " & Environment.NewLine & _
+            '" group by TSPL_JOURNAL_DETAILS.Detail_Line_No ,VI.RefDocNo,VI.RefDocType, TSPL_JOURNAL_MASTER.Source_doc_No ,TSPL_JOURNAL_DETAILS.Account_code , TSPL_JOURNAL_DETAILS.Account_Desc, TSPL_JOURNAL_DETAILS.Amount ,TSPL_JOURNAL_DETAILS.Hirerachy_Code " & Environment.NewLine & _
+            '",TSPL_JOURNAL_DETAILS.Cost_Centre_Code )Final left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=final.Document_No left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =final.Cost_Centre_Code  where 2=2  and TSPL_VENDOR_INVOICE_HEAD.Document_No in ('" & strDocNo & "') " & Environment.NewLine & _
+            '" )xxx     group by Document_No  ,ACCode ,Detail_Line_No " & Environment.NewLine & _
+            '" )xxxx left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code =xxxx.Comp_Code  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=xxxx.Loc_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = xxxx.Vendor_Code   left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code = TSPL_STATE_MASTER.STATE_CODE left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state   order by xxxx.Document_No,xxxx.DrAmt desc,xxxx.CrAmt desc"
 
-        Dim qry As String = "select *,TSPL_COMPANY_MASTER .Logo_Img ,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code, TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode  from (select MAX(TapalNo) as TapalNo,max(DateAndTime) as DateAndTime,MAX( FromDate) as FromDate,max(ToDate) as ToDate,max(Location) as Location,max(Document_Type) as Document_Type,max(Loc_Code) as Loc_Code,max(Vendor) as Vendor,max(Document) as Document,max(Document_No) as Document_No," & Environment.NewLine & _
-  " max(ACCode) as ACCode,max(ACName) as ACName, case when SUM(DrAmt-CrAmt)>0 then sum(DrAmt-CrAmt) else 0 end   as DrAmt ,case when SUM( CrAmt-DrAmt)>0 then SUM( CrAmt-DrAmt) else 0 end   as CrAmt,max(Comp_Code) as Comp_Code,max(Comp_Name) as Comp_Name,max(Vendor_Code) as Vendor_Code,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(RefDocNo) as RefDocNo,max(RefDocType) as RefDocType,max(Vendor_Name) as Vendor_Name,max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Due_Date) as Due_Date,max(Description) as Description,max(Vendor_Invoice_No) as Vendor_Invoice_No,max(Vendor_Invoice_Date) as Vendor_Invoice_Date,max(CreateBy) as CreateBy,max(ApproveBy) as ApproveBy,max(InvStatus) as InvStatus,max(InvoiceType) as InvoiceType,max(RefDocDescription) as RefDocDescription,max(Hirerachy_Code) as Hirerachy_Code ,max(Cost_Centre_Code) as Cost_Centre_Code,MAX(Hirerachy_Code3) AS Hirerachy_Code3,MAX(Hirerachy_Code4) AS Hirerachy_Code4  from(select  TSPL_VENDOR_INVOICE_HEAD.TapalNo,TSPL_VENDOR_INVOICE_HEAD.DateAndTime,'' as FromDate,'' as ToDate, '' as Location,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_VENDOR_INVOICE_HEAD.Document_Type,'' as Vendor, '" & strDocNo & "' as Document, Final.Document_No,final.ACCode,Final.ACName,DrAmt,CrAmt,Hirerachy_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name as Cost_Centre_Code,Hirerachy_Code3,Hirerachy_Code4  ,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType, TSPL_VENDOR_INVOICE_HEAD.Vendor_Name ,TSPL_VENDOR_INVOICE_HEAD.Created_By  ,TSPL_VENDOR_INVOICE_HEAD.Created_Date,TSPL_VENDOR_INVOICE_HEAD.Due_Date,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,CreatedBy.User_Name as CreateBy,AuthorisedBy.User_Name as ApproveBy,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as InvStatus,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType  , ( select case when LEN(ISNULL(RefDocType,''))>0 then case when RefDocType='S' then 'SRN' else case when RefDocType='AP' then 'AP Invoice' end end +' : '+RefDocNo  +' - ' +(case when RefDocType='S' then (Select top 1 convert(varchar(100),SRN_Date,110)   from TSPL_SRN_HEAD where SRN_No =RefDocNo) else (select top 1 convert(varchar(100),Invoice_Entry_Date,110)  from TSPL_VENDOR_INVOICE_HEAD where RefDocNo  = RefDocNo) end)  else '' end from TSPL_VENDOR_INVOICE_HEAD where Document_No=Final.Document_No) as RefDocDescription,final.Detail_Line_No   from ( " & Environment.NewLine & _
-  " SELECT TSPL_JOURNAL_DETAILS.Detail_Line_No ,VI.RefDocNo,VI.RefDocType, TSPL_JOURNAL_MASTER.Source_doc_No as Document_No,TSPL_JOURNAL_DETAILS.Account_code as ACCode, TSPL_JOURNAL_DETAILS.Account_Desc as ACName,case when TSPL_JOURNAL_DETAILS.Amount>=0 then  TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt,case when TSPL_JOURNAL_DETAILS.Amount<0 then -1 * TSPL_JOURNAL_DETAILS.Amount else 0 end as CrAmt,TSPL_JOURNAL_DETAILS.Hirerachy_Code as Hirerachy_Code,TSPL_JOURNAL_DETAILS.Cost_Centre_Code as Cost_Centre_Code, VI.Hirerachy_Code3 ,VI.Hirerachy_Code4  " & Environment.NewLine & _
-  " FROM TSPL_JOURNAL_MASTER INNER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Journal_No = TSPL_JOURNAL_DETAILS.Journal_No  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code  "
-
-
-        qry = qry + " LEFT OUTER JOIN (select Detail_Line_No,TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code," & Environment.NewLine & _
-        " TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code3,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code4, TSPL_VENDOR_INVOICE_HEAD.RefDocNo, TSPL_VENDOR_INVOICE_HEAD.RefDocType " & Environment.NewLine & _
-        " from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No  " & Environment.NewLine & _
-        " GROUP BY TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code, " & Environment.NewLine & _
-        " TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code3,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code4,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code3,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code4,TSPL_VENDOR_INVOICE_HEAD.RefDocNo,TSPL_VENDOR_INVOICE_HEAD.RefDocType,Detail_Line_No ) VI" & Environment.NewLine & _
-        "  on VI.Document_No  =TSPL_JOURNAL_MASTER.Source_Doc_No and VI.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code AND TSPL_JOURNAL_DETAILS.Detail_Line_No=VI.Detail_Line_No " & Environment.NewLine & _
-        " left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =VI.Cost_Centre_Code  left join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code =VI.Hirerachy_Code  where  TSPL_JOURNAL_MASTER.Source_Doc_No = '" & strDocNo & "' " & Environment.NewLine & _
-        " group by TSPL_JOURNAL_DETAILS.Detail_Line_No ,VI.RefDocNo,VI.RefDocType, TSPL_JOURNAL_MASTER.Source_doc_No ,TSPL_JOURNAL_DETAILS.Account_code , TSPL_JOURNAL_DETAILS.Account_Desc, TSPL_JOURNAL_DETAILS.Amount,TSPL_JOURNAL_DETAILS.Hirerachy_Code " & Environment.NewLine & _
-        " ,TSPL_JOURNAL_DETAILS.Cost_Centre_Code,VI.Hirerachy_Code3,VI.Hirerachy_Code4 " & Environment.NewLine & _
-         " )Final left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=final.Document_No left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =final.Cost_Centre_Code where 2=2  and TSPL_VENDOR_INVOICE_HEAD.Document_No in ('" & strDocNo & "') " & Environment.NewLine & _
-        " )xxx     group by Document_No  ,ACCode ,Detail_Line_No " & Environment.NewLine & _
-        " )xxxx left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code =xxxx.Comp_Code  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=xxxx.Loc_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = xxxx.Vendor_Code   left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code = TSPL_STATE_MASTER.STATE_CODE left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state   order by xxxx.Document_No,xxxx.DrAmt desc,xxxx.CrAmt desc"
+            '      Dim qry As String = "select *,TSPL_COMPANY_MASTER .Logo_Img ,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code, TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode  from (select MAX(TapalNo) as TapalNo,max(DateAndTime) as DateAndTime,MAX( FromDate) as FromDate,max(ToDate) as ToDate,max(Location) as Location,max(Document_Type) as Document_Type,max(Loc_Code) as Loc_Code,max(Vendor) as Vendor,max(Document) as Document,max(Document_No) as Document_No," & Environment.NewLine & _
+            '" max(ACCode) as ACCode,max(ACName) as ACName, case when SUM(DrAmt-CrAmt)>0 then sum(DrAmt-CrAmt) else 0 end   as DrAmt ,case when SUM( CrAmt-DrAmt)>0 then SUM( CrAmt-DrAmt) else 0 end   as CrAmt,max(Comp_Code) as Comp_Code,max(Comp_Name) as Comp_Name,max(Vendor_Code) as Vendor_Code,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(RefDocNo) as RefDocNo,max(RefDocType) as RefDocType,max(Vendor_Name) as Vendor_Name,max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Due_Date) as Due_Date,max(Description) as Description,max(Vendor_Invoice_No) as Vendor_Invoice_No,max(Vendor_Invoice_Date) as Vendor_Invoice_Date,max(CreateBy) as CreateBy,max(ApproveBy) as ApproveBy,max(InvStatus) as InvStatus,max(InvoiceType) as InvoiceType,max(RefDocDescription) as RefDocDescription,max(Hirerachy_Code) as Hirerachy_Code ,max(Cost_Centre_Code) as Cost_Centre_Code,MAX(Hirerachy_Code3) AS Hirerachy_Code3,MAX(Hirerachy_Code4) AS Hirerachy_Code4  from(select  TSPL_VENDOR_INVOICE_HEAD.TapalNo,TSPL_VENDOR_INVOICE_HEAD.DateAndTime,'' as FromDate,'' as ToDate, '' as Location,TSPL_VENDOR_INVOICE_HEAD.Loc_Code,TSPL_VENDOR_INVOICE_HEAD.Document_Type,'' as Vendor, '" & strDocNo & "' as Document, Final.Document_No,final.ACCode,Final.ACName,DrAmt,CrAmt,Hirerachy_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name as Cost_Centre_Code,Hirerachy_Code3,Hirerachy_Code4  ,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType, TSPL_VENDOR_INVOICE_HEAD.Vendor_Name ,TSPL_VENDOR_INVOICE_HEAD.Created_By  ,TSPL_VENDOR_INVOICE_HEAD.Created_Date,TSPL_VENDOR_INVOICE_HEAD.Due_Date,TSPL_VENDOR_INVOICE_HEAD.Description,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,CreatedBy.User_Name as CreateBy,AuthorisedBy.User_Name as ApproveBy,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as InvStatus,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType  , ( select case when LEN(ISNULL(RefDocType,''))>0 then case when RefDocType='S' then 'SRN' else case when RefDocType='AP' then 'AP Invoice' end end +' : '+RefDocNo  +' - ' +(case when RefDocType='S' then (Select top 1 convert(varchar(100),SRN_Date,110)   from TSPL_SRN_HEAD where SRN_No =RefDocNo) else (select top 1 convert(varchar(100),Invoice_Entry_Date,110)  from TSPL_VENDOR_INVOICE_HEAD where RefDocNo  = RefDocNo) end)  else '' end from TSPL_VENDOR_INVOICE_HEAD where Document_No=Final.Document_No) as RefDocDescription,final.Detail_Line_No   from ( " & Environment.NewLine & _
+            '" SELECT TSPL_JOURNAL_DETAILS.Detail_Line_No ,VI.RefDocNo,VI.RefDocType, TSPL_JOURNAL_MASTER.Source_doc_No as Document_No,TSPL_JOURNAL_DETAILS.Account_code as ACCode, TSPL_JOURNAL_DETAILS.Account_Desc as ACName,case when TSPL_JOURNAL_DETAILS.Amount>=0 then  TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt,case when TSPL_JOURNAL_DETAILS.Amount<0 then -1 * TSPL_JOURNAL_DETAILS.Amount else 0 end as CrAmt,TSPL_JOURNAL_DETAILS.Hirerachy_Code as Hirerachy_Code,TSPL_JOURNAL_DETAILS.Cost_Centre_Code as Cost_Centre_Code, VI.Hirerachy_Code3 ,VI.Hirerachy_Code4  " & Environment.NewLine & _
+            '" FROM TSPL_JOURNAL_MASTER INNER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Journal_No = TSPL_JOURNAL_DETAILS.Journal_No  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code  "
 
 
+            '      qry = qry + " LEFT OUTER JOIN (select Detail_Line_No,TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code," & Environment.NewLine & _
+            '      " TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code3,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code4, TSPL_VENDOR_INVOICE_HEAD.RefDocNo, TSPL_VENDOR_INVOICE_HEAD.RefDocType " & Environment.NewLine & _
+            '      " from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No  " & Environment.NewLine & _
+            '      " GROUP BY TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code, " & Environment.NewLine & _
+            '      " TSPL_VENDOR_INVOICE_DETAIL.Cost_Centre_Code,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code, TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code3,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code4,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code3,TSPL_VENDOR_INVOICE_DETAIL.Hirerachy_Code4,TSPL_VENDOR_INVOICE_HEAD.RefDocNo,TSPL_VENDOR_INVOICE_HEAD.RefDocType,Detail_Line_No ) VI" & Environment.NewLine & _
+            '      "  on VI.Document_No  =TSPL_JOURNAL_MASTER.Source_Doc_No and VI.GL_Account_Code =TSPL_JOURNAL_DETAILS.Account_code AND TSPL_JOURNAL_DETAILS.Detail_Line_No=VI.Detail_Line_No " & Environment.NewLine & _
+            '      " left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =VI.Cost_Centre_Code  left join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code =VI.Hirerachy_Code  where  TSPL_JOURNAL_MASTER.Source_Doc_No = '" & strDocNo & "' " & Environment.NewLine & _
+            '      " group by TSPL_JOURNAL_DETAILS.Detail_Line_No ,VI.RefDocNo,VI.RefDocType, TSPL_JOURNAL_MASTER.Source_doc_No ,TSPL_JOURNAL_DETAILS.Account_code , TSPL_JOURNAL_DETAILS.Account_Desc, TSPL_JOURNAL_DETAILS.Amount,TSPL_JOURNAL_DETAILS.Hirerachy_Code " & Environment.NewLine & _
+            '      " ,TSPL_JOURNAL_DETAILS.Cost_Centre_Code,VI.Hirerachy_Code3,VI.Hirerachy_Code4 " & Environment.NewLine & _
+            '       " )Final left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=final.Document_No left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By left join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code =final.Cost_Centre_Code where 2=2  and TSPL_VENDOR_INVOICE_HEAD.Document_No in ('" & strDocNo & "') " & Environment.NewLine & _
+            '      " )xxx     group by Document_No  ,ACCode ,Detail_Line_No " & Environment.NewLine & _
+            '      " )xxxx left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code =xxxx.Comp_Code  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=xxxx.Loc_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = xxxx.Vendor_Code   left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code = TSPL_STATE_MASTER.STATE_CODE left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state   order by xxxx.Document_No,xxxx.DrAmt desc,xxxx.CrAmt desc"
 
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        Dim qry1 As String = "select  TSPL_ITEM_MASTER.HSN_Code, TSPL_SRN_DETAIL.Item_Code ,TSPL_SRN_DETAIL.Item_Desc,TSPL_VENDOR_INVOICE_HEAD .Description ,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType   from TSPL_SRN_DETAIL left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_SRN_DETAIL .SRN_No =TSPL_VENDOR_INVOICE_HEAD .RefDocNo  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_SRN_DETAIL.Item_Code where RefDocType ='S'and TSPL_VENDOR_INVOICE_HEAD .Document_No in('" & strDocNo & "') and ISNULL(Against_POInvoice_No,'')= '' and ISNULL(Against_PurchaseReturn_No,'')= ''  "
-        If dt.Rows.Count > 0 Then
+
+
+            '  Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            '  Dim qry1 As String = "select  TSPL_ITEM_MASTER.HSN_Code, TSPL_SRN_DETAIL.Item_Code ,TSPL_SRN_DETAIL.Item_Desc,TSPL_VENDOR_INVOICE_HEAD .Description ,TSPL_VENDOR_INVOICE_HEAD.RefDocNo ,TSPL_VENDOR_INVOICE_HEAD.RefDocType   from TSPL_SRN_DETAIL left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_SRN_DETAIL .SRN_No =TSPL_VENDOR_INVOICE_HEAD .RefDocNo  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_SRN_DETAIL.Item_Code where RefDocType ='S'and TSPL_VENDOR_INVOICE_HEAD .Document_No in('" & strDocNo & "') and ISNULL(Against_POInvoice_No,'')= '' and ISNULL(Against_PurchaseReturn_No,'')= ''  "
+            '  If dt.Rows.Count > 0 Then
             ''frmCrystalReportViewer.funreport(CrystalReportFolder.Purchase, dt, "crptVendorServiceCharge", "Vendor Service Charge")
             'frmCrystalReportViewer.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
-            Dim frmCRV As New frmCrystalReportViewer()
-            If SettingCostCenterlevel Then
-                frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice_Hierarchy", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
+            ' Dim frmCRV As New frmCrystalReportViewer()
+            'If SettingCostCenterlevel Then
+            '    frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice_Hierarchy", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
+            'Else
+            '    frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
+            'End If rptVendorServiceInvoice_RCDFCF
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptVendorServiceInvoice_RCDFCF", "VendorService")
+                frmCRV = Nothing
             Else
-                frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
-            frmCRV = Nothing
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
     'Sub PrintData()
@@ -4471,26 +4555,26 @@ Public Class FrmVendorService
     End Sub
     Function GetTaxRateTypeDT(ByVal DocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Dim qry As String = ""
-        qry = " select distinct * from (" & _
-              " select distinct TAX1 as Tax_RateType_Name,TAX1_Rate as Tax_RateType_Rate,sum(TAX1_Amt) as Tax_RateType_Amount  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX1,TAX1_Rate " & _
-              " union all " & _
-              " select distinct TAX2,TAX2_Rate,sum(TAX2_Amt) as TAX2_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX2,TAX2_Rate " & _
-              " union all " & _
-              " select distinct TAX3,TAX3_Rate,sum(TAX3_Amt) as TAX3_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX3,TAX3_Rate " & _
-              " union all " & _
-              " select distinct TAX4,TAX4_Rate,sum(TAX4_Amt) as TAX4_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX4,TAX4_Rate " & _
-              " union all " & _
-              " select distinct TAX5,TAX5_Rate,sum(TAX5_Amt) as TAX5_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX5,TAX5_Rate " & _
-              " union all " & _
-              " select distinct TAX6,TAX6_Rate,sum(TAX6_Amt) as TAX6_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX6,TAX6_Rate " & _
-              " union all " & _
-              " select distinct TAX7,TAX7_Rate,sum(TAX7_Amt) as TAX7_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX7,TAX7_Rate " & _
-              " union all " & _
-              " select distinct TAX8,TAX8_Rate,sum(TAX8_Amt) as TAX8_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX8,TAX8_Rate " & _
-              " union all " & _
-              " select distinct TAX9,TAX9_Rate,sum(TAX9_Amt) as TAX9_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX9,TAX9_Rate " & _
-              " union all " & _
-              " select distinct TAX10,TAX10_Rate,sum(TAX10_Amt) as TAX1_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX10,TAX10_Rate " & _
+        qry = " select distinct * from (" &
+              " select distinct TAX1 as Tax_RateType_Name,TAX1_Rate as Tax_RateType_Rate,sum(TAX1_Amt) as Tax_RateType_Amount  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX1,TAX1_Rate " &
+              " union all " &
+              " select distinct TAX2,TAX2_Rate,sum(TAX2_Amt) as TAX2_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX2,TAX2_Rate " &
+              " union all " &
+              " select distinct TAX3,TAX3_Rate,sum(TAX3_Amt) as TAX3_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX3,TAX3_Rate " &
+              " union all " &
+              " select distinct TAX4,TAX4_Rate,sum(TAX4_Amt) as TAX4_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX4,TAX4_Rate " &
+              " union all " &
+              " select distinct TAX5,TAX5_Rate,sum(TAX5_Amt) as TAX5_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX5,TAX5_Rate " &
+              " union all " &
+              " select distinct TAX6,TAX6_Rate,sum(TAX6_Amt) as TAX6_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX6,TAX6_Rate " &
+              " union all " &
+              " select distinct TAX7,TAX7_Rate,sum(TAX7_Amt) as TAX7_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX7,TAX7_Rate " &
+              " union all " &
+              " select distinct TAX8,TAX8_Rate,sum(TAX8_Amt) as TAX8_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX8,TAX8_Rate " &
+              " union all " &
+              " select distinct TAX9,TAX9_Rate,sum(TAX9_Amt) as TAX9_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX9,TAX9_Rate " &
+              " union all " &
+              " select distinct TAX10,TAX10_Rate,sum(TAX10_Amt) as TAX1_Amt  from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" & DocNo & "' group by TAX10,TAX10_Rate " &
               " ) as tax where Tax_RateType_Name is not null and Tax_RateType_Amount>0 order by Tax_RateType_Rate desc"
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -4556,25 +4640,25 @@ Public Class FrmVendorService
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True
             End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                         " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine + _
-                         " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine + _
-                         " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine + _
-                         " TSPL_REMITTANCE (For Remittance) " + Environment.NewLine + _
-                         " TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine + _
-                         " TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine + _
-                         " TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine + _
-                         " TSPL_APPROVAL_LEVEL_SCREEN " + Environment.NewLine + _
-                         " TSPL_APPROVAL_LEVEL_SCREEN_HISTORY " + Environment.NewLine + _
-                         " TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine + _
-                         " TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine + _
-                         " TSPL_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine + _
-                         " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine + _
-                         " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine + _
-                         " TSPL_ADJUSTMENT_HEADER  " + Environment.NewLine + _
-                         " TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine + _
-                         " TSPL_SALE_INVOICE_HEAD " + Environment.NewLine + _
-                         " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine + _
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                         " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine +
+                         " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine +
+                         " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine +
+                         " TSPL_REMITTANCE (For Remittance) " + Environment.NewLine +
+                         " TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
+                         " TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
+                         " TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine +
+                         " TSPL_APPROVAL_LEVEL_SCREEN " + Environment.NewLine +
+                         " TSPL_APPROVAL_LEVEL_SCREEN_HISTORY " + Environment.NewLine +
+                         " TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
+                         " TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
+                         " TSPL_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
+                         " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
+                         " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
+                         " TSPL_ADJUSTMENT_HEADER  " + Environment.NewLine +
+                         " TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine +
+                         " TSPL_SALE_INVOICE_HEAD " + Environment.NewLine +
+                         " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine +
                          " TSPL_BATCH_ITEM (During Inventory Movement save) ")
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.R Then
             btnUpdatePosted.Visible = True
@@ -4624,7 +4708,7 @@ Public Class FrmVendorService
     Private Sub gv1_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv1.CellFormatting
         Try
             If e.Column.Index >= 0 Then
-               If e.Column Is gv1.Columns(colIsUnclaimedTax) Then
+                If e.Column Is gv1.Columns(colIsUnclaimedTax) Then
                     If rbtnTaxCalManual.IsChecked Then
                         gv1.CurrentRow.Cells(colIsUnclaimedTax).ReadOnly = True
                     Else
@@ -4726,7 +4810,7 @@ Public Class FrmVendorService
                     'Dim whrclas As String = "Status='1' and Vendor_Code='" & TxtVendorNo.Value & "' and Bill_To_Location='" & txtlocation.Value & "'"
                     ''richa done on 12 Sep ,2017
                     Dim BalQry As String = clsVedorInvoiceHead.GetWorkOrderBalanceAmountBaseQry("", "")
-                    Dim qry As String = "select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as Code,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date as Date,TSPL_PURCHASE_ORDER_HEAD.Vendor_Code as [Vendor code],TSPL_PURCHASE_ORDER_HEAD.Vendor_Name as [Vendor Name],TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location as [Bill To Location],Balance.Balance_WO_Amt as [Order Balance] from TSPL_PURCHASE_ORDER_HEAD " & _
+                    Dim qry As String = "select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as Code,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date as Date,TSPL_PURCHASE_ORDER_HEAD.Vendor_Code as [Vendor code],TSPL_PURCHASE_ORDER_HEAD.Vendor_Name as [Vendor Name],TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location as [Bill To Location],Balance.Balance_WO_Amt as [Order Balance] from TSPL_PURCHASE_ORDER_HEAD " &
                         " left join (" & BalQry & ") as Balance on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=Balance.PurchaseOrder_No "
                     Dim whrclas As String = " TSPL_PURCHASE_ORDER_HEAD.Status='1' and TSPL_PURCHASE_ORDER_HEAD.Vendor_Code='" & TxtVendorNo.Value & "' and TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location='" & txtlocation.Value & "' and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Type ='J'  and Balance.Balance_WO_Amt>0"
                     ''Comment by balwinder on 28/08/2017 with ranjana mam.
@@ -4802,7 +4886,7 @@ Public Class FrmVendorService
 
                         UpdateAllTotals()
                     ElseIf e.Column Is gvAC.Columns(colAChgCode) Then
-                        Dim obj As clsAdditionalCharge = clsAdditionalCharge.getFinder(clsCommon.myCstr(gvAC.CurrentRow.Cells(colAChgCode).Value), False)
+                        Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gvAC.CurrentRow.Cells(colAChgCode).Value), False)
                         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                             gvAC.CurrentRow.Cells(colAChgCode).Value = obj.Code
                             gvAC.CurrentRow.Cells(colAChgName).Value = obj.desc
@@ -5211,7 +5295,7 @@ Public Class FrmVendorService
                             Throw New Exception("Current Transaction is created by Purhcase Return.So Can't perform this operation")
                         End If
 
-                        qry = "select TSPL_PAYMENT_HEADER.Payment_No from TSPL_PAYMENT_DETAIL left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_PAYMENT_DETAIL.Payment_No " & _
+                        qry = "select TSPL_PAYMENT_HEADER.Payment_No from TSPL_PAYMENT_DETAIL left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_PAYMENT_DETAIL.Payment_No " &
                             "where   isnull(IsChkReverse,'N')='N' and TSPL_PAYMENT_DETAIL.Document_No='" + txtDocNo.Value + "'"
                         dt = clsDBFuncationality.GetDataTable(qry, trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -5393,9 +5477,9 @@ Public Class FrmVendorService
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow("Document No not found to print")
         End If
-        Dim qry As String = " select TSPL_JOURNAL_MASTER.CustVend_Code ,TSPL_JOURNAL_MASTER.CustVend_Name ,Source_Doc_No ,Source_Doc_Date ,Source_Narration,Vendor_Invoice_No ,Vendor_Invoice_Date,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as Status,RefDocNo , Account_code ,Account_Desc ,case when Amount>=0 then  Amount else 0 end as DrAmt,case when Amount<0 then -1 * Amount else 0 end as CrAmt ,Comp_Name ,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType ,CreatedBy.User_Name as CreateBy ,AuthorisedBy.User_Name as ApproveBy" & _
-         " from TSPL_JOURNAL_MASTER left join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Journal_No = TSPL_JOURNAL_MASTER.Journal_No  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No LEFT JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_JOURNAL_MASTER.Source_Doc_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code" & _
-        " left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By " & _
+        Dim qry As String = " select TSPL_JOURNAL_MASTER.CustVend_Code ,TSPL_JOURNAL_MASTER.CustVend_Name ,Source_Doc_No ,Source_Doc_Date ,Source_Narration,Vendor_Invoice_No ,Vendor_Invoice_Date,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as Status,RefDocNo , Account_code ,Account_Desc ,case when Amount>=0 then  Amount else 0 end as DrAmt,case when Amount<0 then -1 * Amount else 0 end as CrAmt ,Comp_Name ,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType ,CreatedBy.User_Name as CreateBy ,AuthorisedBy.User_Name as ApproveBy" &
+         " from TSPL_JOURNAL_MASTER left join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Journal_No = TSPL_JOURNAL_MASTER.Journal_No  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No LEFT JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_JOURNAL_MASTER.Source_Doc_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code" &
+        " left outer join TSPL_USER_MASTER as CreatedBy on CreatedBy.User_Code=TSPL_VENDOR_INVOICE_HEAD.Created_By left outer join TSPL_USER_MASTER as AuthorisedBy on AuthorisedBy .User_Code=TSPL_VENDOR_INVOICE_HEAD.Modify_By " &
        " where  TSPL_JOURNAL_MASTER.Source_Doc_No = '" + txtDocNo.Value + "' order by Detail_Line_No  "
         Dim frmCRV As New frmCrystalReportViewer()
         frmCRV.funreport(CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(qry), "rptjvprint1", "Journal Voucher Report")
@@ -5675,20 +5759,20 @@ Public Class FrmVendorService
         'TSPL_VENDOR_INVOICE_DETAIL.SAC_Code,TSPL_SAC_MASTER.Description as SAC_Name
         'left outer join TSPL_SAC_MASTER on TSPL_SAC_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.SAC_Code
         Dim QryCopy As String = Nothing
-        Dim Qry As String = " select TSPL_VENDOR_INVOICE_HEAD.Balance_Amt, TSPL_VENDOR_INVOICE_DETAIL.Total_Amount, TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as Invoice_Date , isnull(TSPL_VENDOR_INVOICE_HEAD.Purchase_Tax_Invoice_Type,'') as Purchase_Tax_Invoice_Type,isnull(Bill_Location.City_Code,'') as Bill_To_City, " & _
-                            " isnull(bill_Location_State.STATE_NAME,0) as Bill_To_State_Name, '1' as CopyType,Vendor_State.is_GST_UT as Vendor_IS_GST_UT,bill_Location_State.is_GST_UT as Bill_IS_GST_UT,  isnull (TSPL_VENDOR_INVOICE_HEAD.Purchase_Tax_Invoice,'') as InvoiceNo,  " & _
-                            " convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) as PI_Date ,Bill_Location .Add1 as Loc_Add1,Bill_Location.Add2 as Loc_ADd2,Bill_Location.Add3  as Loc_Add3, bill_Location_State.gst_state_code as Loc_GST_StateCode,Bill_Location.gstno as " & _
-                            " LocGstNo,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_MASTER.Add1 as Ven_Add1,TSPL_VENDOR_MASTER.Add2 as Ven_Add2,TSPL_VENDOR_MASTER.Add3 as Ven_Add3,Vendor_State.GST_STATE_Code as Vendor_GST_State_Code,TSPL_VENDOR_MASTER.GSTFinalNo as Vendor_GST_No ,TSPL_VENDOR_MASTER.PAN as Ven_PAN_no,TSPL_VENDOR_INVOICE_HEAD.Purchase_Tax_Invoice , " & _
-                            " TSPL_VENDOR_INVOICE_DETAIL.AddChargeCode,TSPL_VENDOR_INVOICE_DETAIL.AddChargeDesc,TSPL_Additional_Charges.SAC_Code,TSPL_SAC_MASTER.Description as SAC_Name ,TSPL_VENDOR_INVOICE_DETAIL.Amount, " & _
-                            " TSPL_VENDOR_INVOICE_HEAD.Discount_Amount as Disc_Amt ,TSPL_VENDOR_INVOICE_HEAD.Amount_Less_Discount as Amt_Less_Discount , TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt1 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt2 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt3 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt4 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt5 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt6 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt7 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt8 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt9 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt10 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name1,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name2 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name3 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name4 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name5 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name6 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name7 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name8,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name9,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name10,  " & _
-                            " TSPL_VENDOR_INVOICE_DETAIL.TAX1 as dTAX1, TSPL_VENDOR_INVOICE_DETAIL.TAX2 as dTAX2, TSPL_VENDOR_INVOICE_DETAIL.TAX3 as  dTAX3, TSPL_VENDOR_INVOICE_DETAIL.TAX4 as  dTAX4, TSPL_VENDOR_INVOICE_DETAIL.TAX5 as  dTAX5, TSPL_VENDOR_INVOICE_DETAIL.TAX6 as  dTAX6, TSPL_VENDOR_INVOICE_DETAIL.TAX7 as  dTAX7, TSPL_VENDOR_INVOICE_DETAIL.TAX8 as dTAX8, TSPL_VENDOR_INVOICE_DETAIL.TAX9 as dTAX9, TSPL_VENDOR_INVOICE_DETAIL.TAX10 as  dTAX10, " & _
-                            " TSPL_VENDOR_INVOICE_DETAIL.TAX1_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX2_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX3_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX4_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX5_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX6_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX7_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX8_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX9_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX10_Amt,  " & _
-                            " TSPL_VENDOR_INVOICE_DETAIL.TAX1_Rate as dTAX1_Rate, TSPL_VENDOR_INVOICE_DETAIL.TAX2_Rate as dTAX2_Rate, TSPL_VENDOR_INVOICE_DETAIL.TAX3_Rate as dTAX3_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX4_Rate as dTAX4_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX5_Rate as dTAX5_Rate  ,TSPL_VENDOR_INVOICE_DETAIL.TAX6_Rate as dTAX6_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX7_Rate as dTAX7_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX8_Rate as dTAX8_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX9_Rate as dTAX9_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX10_Rate as dTAX10_Rate, " & _
-                            " dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type , " & _
-                            " TSPL_VENDOR_INVOICE_HEAD.Terms_Code ,TSPL_VENDOR_INVOICE_HEAD.PO_Number   from TSPL_VENDOR_INVOICE_HEAD  left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No  left join tspl_item_master on tspl_item_master.item_code=TSPL_VENDOR_INVOICE_DETAIL.item_code left join tspl_location_master as Bill_Location on Bill_Location.location_code=TSPL_VENDOR_INVOICE_HEAD.Loc_code left join tspl_state_master as bill_Location_State on bill_Location_State.STATE_CODE =Bill_Location.State  " & _
-                            " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VENDOR_INVOICE_HEAD.vendor_code left join tspl_state_master as Vendor_State on Vendor_State.STATE_CODE =TSPL_VENDOR_MASTER.State_Code  left join TSPL_COMPANY_MASTER on tspl_company_master.comp_code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code  " & _
-                            " left outer join TSPL_Additional_Charges on TSPL_VENDOR_INVOICE_DETAIL.AddChargeCode = TSPL_Additional_Charges.Code  left outer join TSPL_SAC_MASTER on TSPL_SAC_MASTER.Code =TSPL_Additional_Charges.SAC_Code  " & _
-                            " left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_VENDOR_INVOICE_DETAIL .tax1  left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_VENDOR_INVOICE_DETAIL.tax2    left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL .TAX3    left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_VENDOR_INVOICE_DETAIL .tax4    left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL .tax5    left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX6    left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX7     left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX8   left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX9      left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX10  " & _
+        Dim Qry As String = " select TSPL_VENDOR_INVOICE_HEAD.Balance_Amt, TSPL_VENDOR_INVOICE_DETAIL.Total_Amount, TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as Invoice_Date , isnull(TSPL_VENDOR_INVOICE_HEAD.Purchase_Tax_Invoice_Type,'') as Purchase_Tax_Invoice_Type,isnull(Bill_Location.City_Code,'') as Bill_To_City, " &
+                            " isnull(bill_Location_State.STATE_NAME,0) as Bill_To_State_Name, '1' as CopyType,Vendor_State.is_GST_UT as Vendor_IS_GST_UT,bill_Location_State.is_GST_UT as Bill_IS_GST_UT,  isnull (TSPL_VENDOR_INVOICE_HEAD.Purchase_Tax_Invoice,'') as InvoiceNo,  " &
+                            " convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) as PI_Date ,Bill_Location .Add1 as Loc_Add1,Bill_Location.Add2 as Loc_ADd2,Bill_Location.Add3  as Loc_Add3, bill_Location_State.gst_state_code as Loc_GST_StateCode,Bill_Location.gstno as " &
+                            " LocGstNo,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_MASTER.Add1 as Ven_Add1,TSPL_VENDOR_MASTER.Add2 as Ven_Add2,TSPL_VENDOR_MASTER.Add3 as Ven_Add3,Vendor_State.GST_STATE_Code as Vendor_GST_State_Code,TSPL_VENDOR_MASTER.GSTFinalNo as Vendor_GST_No ,TSPL_VENDOR_MASTER.PAN as Ven_PAN_no,TSPL_VENDOR_INVOICE_HEAD.Purchase_Tax_Invoice , " &
+                            " TSPL_VENDOR_INVOICE_DETAIL.AddChargeCode,TSPL_VENDOR_INVOICE_DETAIL.AddChargeDesc,TSPL_Additional_Charges.SAC_Code,TSPL_SAC_MASTER.Description as SAC_Name ,TSPL_VENDOR_INVOICE_DETAIL.Amount, " &
+                            " TSPL_VENDOR_INVOICE_HEAD.Discount_Amount as Disc_Amt ,TSPL_VENDOR_INVOICE_HEAD.Amount_Less_Discount as Amt_Less_Discount , TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt1 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt2 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt3 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt4 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt5 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt6 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt7 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt8 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt9 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Amt10 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name1,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name2 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name3 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name4 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name5 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name6 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name7 ,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name8,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name9,TSPL_VENDOR_INVOICE_HEAD.Add_Charge_Name10,  " &
+                            " TSPL_VENDOR_INVOICE_DETAIL.TAX1 as dTAX1, TSPL_VENDOR_INVOICE_DETAIL.TAX2 as dTAX2, TSPL_VENDOR_INVOICE_DETAIL.TAX3 as  dTAX3, TSPL_VENDOR_INVOICE_DETAIL.TAX4 as  dTAX4, TSPL_VENDOR_INVOICE_DETAIL.TAX5 as  dTAX5, TSPL_VENDOR_INVOICE_DETAIL.TAX6 as  dTAX6, TSPL_VENDOR_INVOICE_DETAIL.TAX7 as  dTAX7, TSPL_VENDOR_INVOICE_DETAIL.TAX8 as dTAX8, TSPL_VENDOR_INVOICE_DETAIL.TAX9 as dTAX9, TSPL_VENDOR_INVOICE_DETAIL.TAX10 as  dTAX10, " &
+                            " TSPL_VENDOR_INVOICE_DETAIL.TAX1_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX2_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX3_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX4_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX5_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX6_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX7_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX8_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX9_Amt, TSPL_VENDOR_INVOICE_DETAIL.TAX10_Amt,  " &
+                            " TSPL_VENDOR_INVOICE_DETAIL.TAX1_Rate as dTAX1_Rate, TSPL_VENDOR_INVOICE_DETAIL.TAX2_Rate as dTAX2_Rate, TSPL_VENDOR_INVOICE_DETAIL.TAX3_Rate as dTAX3_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX4_Rate as dTAX4_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX5_Rate as dTAX5_Rate  ,TSPL_VENDOR_INVOICE_DETAIL.TAX6_Rate as dTAX6_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX7_Rate as dTAX7_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX8_Rate as dTAX8_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX9_Rate as dTAX9_Rate ,TSPL_VENDOR_INVOICE_DETAIL.TAX10_Rate as dTAX10_Rate, " &
+                            " dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type , " &
+                            " TSPL_VENDOR_INVOICE_HEAD.Terms_Code ,TSPL_VENDOR_INVOICE_HEAD.PO_Number   from TSPL_VENDOR_INVOICE_HEAD  left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No  left join tspl_item_master on tspl_item_master.item_code=TSPL_VENDOR_INVOICE_DETAIL.item_code left join tspl_location_master as Bill_Location on Bill_Location.location_code=TSPL_VENDOR_INVOICE_HEAD.Loc_code left join tspl_state_master as bill_Location_State on bill_Location_State.STATE_CODE =Bill_Location.State  " &
+                            " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VENDOR_INVOICE_HEAD.vendor_code left join tspl_state_master as Vendor_State on Vendor_State.STATE_CODE =TSPL_VENDOR_MASTER.State_Code  left join TSPL_COMPANY_MASTER on tspl_company_master.comp_code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code  " &
+                            " left outer join TSPL_Additional_Charges on TSPL_VENDOR_INVOICE_DETAIL.AddChargeCode = TSPL_Additional_Charges.Code  left outer join TSPL_SAC_MASTER on TSPL_SAC_MASTER.Code =TSPL_Additional_Charges.SAC_Code  " &
+                            " left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_VENDOR_INVOICE_DETAIL .tax1  left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_VENDOR_INVOICE_DETAIL.tax2    left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL .TAX3    left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_VENDOR_INVOICE_DETAIL .tax4    left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_VENDOR_INVOICE_DETAIL .tax5    left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX6    left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX7     left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX8   left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX9      left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_VENDOR_INVOICE_DETAIL .TAX10  " &
                             " where TSPL_VENDOR_INVOICE_HEAD.Document_No ='" + strDocNo + "'   "
         If clsCommon.CompairString(strReportType, "NT") = CompairStringResult.Equal Then
             QryCopy = " Select * from (" & Qry & " ) XXX LEFT OUTER JOIN (Select '1' as COL1, 1 as COL2,  'ORIGINAL COPY' as CopyType1 UNION Select '1' as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select '1' as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select '1' as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=XXX.CopyType   ORDER BY YYY.COL2  "
@@ -5833,9 +5917,9 @@ Public Class FrmVendorService
 
                     'Dim segment As String = clsCommon.myCstr(grow.Cells("LocSegment").Value)
 
-                    Dim qry1 As String = "select TSPL_VENDOR_ACCOUNT_SET.Payable_Account ,tspl_gl_accounts.Description   from TSPL_VENDOR_MASTER   " & _
-                                        " left outer join TSPL_VENDOR_ACCOUNT_SET  on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code=TSPL_VENDOR_MASTER.Vendor_Account  " & _
-                                       " left outer join tspl_gl_accounts on  TSPL_VENDOR_ACCOUNT_SET.Payable_Account=tspl_gl_accounts.Account_Code " & _
+                    Dim qry1 As String = "select TSPL_VENDOR_ACCOUNT_SET.Payable_Account ,tspl_gl_accounts.Description   from TSPL_VENDOR_MASTER   " &
+                                        " left outer join TSPL_VENDOR_ACCOUNT_SET  on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code=TSPL_VENDOR_MASTER.Vendor_Account  " &
+                                       " left outer join tspl_gl_accounts on  TSPL_VENDOR_ACCOUNT_SET.Payable_Account=tspl_gl_accounts.Account_Code " &
                                         " where TSPL_VENDOR_MASTER.Vendor_Code='" + strVendor + "' "
 
 
@@ -6214,8 +6298,39 @@ Public Class FrmVendorService
 
     ' Ticket No : KDI/02/05/18-000284 by Prabhakar
     Public Sub FillVendorDetails()
-        lblRegisterOrUnregister.Text = clsVendorMaster.GetVendorRegisterORNonRegister(txtVendorNo.Value, Nothing)
-        lblGstinNo.Text = clsVendorMaster.GetVendorGSTINNo(txtVendorNo.Value, Nothing)
+        lblRegisterOrUnregister.Text = clsVendorMaster.GetVendorRegisterORNonRegister(TxtVendorNo.Value, Nothing)
+        lblGstinNo.Text = clsVendorMaster.GetVendorGSTINNo(TxtVendorNo.Value, Nothing)
     End Sub
-    
+
+    Private Sub chkEInvoice_CheckStateChanged(sender As Object, e As EventArgs) Handles chkEInvoice.CheckStateChanged
+        Try
+            If chkEInvoice.Checked = True Then
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+            Else
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub EinvoiceBtnUpdate_Click(sender As Object, e As EventArgs) Handles EinvoiceBtnUpdate.Click
+        UpdateEInvoice()
+    End Sub
+    Sub UpdateEInvoice()
+        Try
+
+            Dim obj As New clsVedorInvoiceHead
+            obj.Document_No = clsCommon.myCstr(txtDocNo.Value)
+            obj.irn_no = EInvoiceIRNNo.Text
+            obj.Ack_No = EinvoiceAckNo.Text
+            obj.Ack_Date = txtAckDate.Value
+            obj.QR_Code = EInvoiceQrCode.Text
+            clsVedorInvoiceHead.UpdateEInvoiceAfterPosting(obj, txtDocNo.Value, Nothing)
+            clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully")
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -1893,7 +1893,14 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             qry = qry & " order by convert(varchar,Final.Grn_date,103),Final.GRN_No"
 
             Dim rows As DataRow = clsCommon.ShowSelectFormForRow("PendingMRN", qry)
+
             If Not rows Is Nothing Then
+                Dim QC1 As String = clsCommon.myCstr(rows("Visual QC Status"))
+                Dim QC2 As String = clsCommon.myCstr(rows("Visual QC Second Status"))
+                If clsCommon.CompairString(QC2, "Not Ok") = CompairStringResult.Equal Then
+                    clsCommon.MyMessageBoxShow(Me, "Visual QC NotOk So Wet QC not allowed ", Me.Text)
+                    Exit Sub
+                End If
                 fndVendor_code.Value = clsCommon.myCstr(rows("Vendor Code"))
                 txtRALNo.Text = clsCommon.myCstr(rows("RAL No"))
                 Dim strMRN As String = clsCommon.myCstr(rows("MRN No"))

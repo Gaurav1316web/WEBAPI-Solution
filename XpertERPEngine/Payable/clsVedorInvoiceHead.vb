@@ -167,6 +167,11 @@ Public Class clsVedorInvoiceHead
     Public TAX1_GLAC5 As String = Nothing
     Public TAX1_GLAC5_Amt As Double = 0
 
+    Public irn_no As String = Nothing
+    Public Ack_No As String = Nothing
+    Public QR_Code As String = Nothing
+    Public Ack_Date As DateTime?
+
     Public TAX2_GLAC_Amt As Double = 0
     Public TAX2_GLAC2 As String = Nothing
     Public TAX2_GLAC2_Amt As Double = 0
@@ -1095,6 +1100,25 @@ Public Class clsVedorInvoiceHead
 
         Return isSaved
     End Function
+    Public Shared Function UpdateEInvoiceAfterPosting(ByVal obj As clsVedorInvoiceHead, ByVal strDocumentNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If obj IsNot Nothing And clsCommon.myLen(strDocumentNo) > 0 Then
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "IRN_No", obj.irn_no)
+                clsCommon.AddColumnsForChange(coll, "Ack_No", obj.Ack_No)
+                clsCommon.AddColumnsForChange(coll, "Ack_Date", clsCommon.GetPrintDate(obj.Ack_Date, "dd/MMM/yyyy hh:mm tt"))
+                clsCommon.AddColumnsForChange(coll, "QR_Code", obj.QR_Code)
+
+
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_INVOICE_HEAD", OMInsertOrUpdate.Update, "TSPL_VENDOR_INVOICE_HEAD.Document_No='" + strDocumentNo + "'", trans)
+                '    clsCommon.AddColumnsForChange(coll, "Electronic_Ref_No", obj.Electronic_Ref_No)
+                '    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SCRAPSALE_HEAD", OMInsertOrUpdate.Update, "TSPL_SCRAPSALE_HEAD.shipment_No='" + ShipmentNo + "'", trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
     '-29/06/2013-------------Created by--Pankaj kumar
     Public Shared Function UpdateAllTax(ByVal DocNo As String, ByVal trans As SqlTransaction) As Boolean
@@ -1187,6 +1211,15 @@ Public Class clsVedorInvoiceHead
             obj.TapalNo = clsCommon.myCstr(dt.Rows(0)("TapalNo"))
             obj.Against_Salary_Generation_Code = clsCommon.myCstr(dt.Rows(0)("Against_Salary_Generation_Code"))
             '' priti ends here
+            ' ==================
+            If IsDBNull(dt.Rows(0)("Ack_Date")) = True Then
+                obj.Ack_Date = Nothing
+            Else
+                obj.Ack_Date = clsCommon.myCstr(dt.Rows(0)("Ack_Date"))
+            End If
+            obj.irn_no = clsCommon.myCstr(dt.Rows(0)("irn_no"))
+            obj.Ack_No = clsCommon.myCstr(dt.Rows(0)("Ack_No"))
+            obj.QR_Code = clsCommon.myCstr(dt.Rows(0)("QR_Code"))
             obj.Order_No = clsCommon.myCstr(dt.Rows(0)("Order_No"))
             obj.Document_Total = clsCommon.myCdbl(dt.Rows(0)("Document_Total"))
             obj.RoundOffAmount = clsCommon.myCdbl(dt.Rows(0)("RoundOffAmount"))
@@ -3806,7 +3839,7 @@ Public Class clsVedorInvoiceHead
                         dtbTempAmt += objTR.Total_Tax
                     End If
                 End If
-               
+
                 Dim StrRecoControlAccount As String = ""
                 If clsCommon.CompairString(objTR.Comments, "Y") = CompairStringResult.Equal Then
                     StrRecoControlAccount = objTR.Comments
@@ -3850,7 +3883,7 @@ Public Class clsVedorInvoiceHead
             Next
         End If
         If strasset = True Then
-            qry = " Select TSPL_PURCHASE_ACCOUNTS.Inv_Control_Account,TSPL_ACQUISITION_DETAIL.Item_Net_Amt  from TSPL_ACQUISITION_DETAIL left outer join tspl_item_master on tspl_item_master.Item_Code =TSPL_ACQUISITION_DETAIL.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code =tspl_item_master.Purchase_Class_Code " & _
+            qry = " Select TSPL_PURCHASE_ACCOUNTS.Inv_Control_Account,TSPL_ACQUISITION_DETAIL.Item_Net_Amt  from TSPL_ACQUISITION_DETAIL left outer join tspl_item_master on tspl_item_master.Item_Code =TSPL_ACQUISITION_DETAIL.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code =tspl_item_master.Purchase_Class_Code " &
              " where Acquisition_Code ='" + obj.Against_Acquisition + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
@@ -4209,7 +4242,7 @@ Public Class clsVedorInvoiceHead
 
                             '==========================Added by preeti Gupta=====================
                             Dim strsegment As String = obj.loc_code 'clsDBFuncationality.getSingleValue("select Loc_Segment_Code  from TSPL_LOCATION_MASTER  where Location_Code='" + objTr1.Location + "'", trans)
-                            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable("select  replace (Inv_Control_Account,RIGHT(Inv_Control_Account,3),'" + strsegment + "')AS Inv_Control_Account ,'" & objTR.GL_Account_Code & "' as Adjustment_Account from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code in " & _
+                            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable("select  replace (Inv_Control_Account,RIGHT(Inv_Control_Account,3),'" + strsegment + "')AS Inv_Control_Account ,'" & objTR.GL_Account_Code & "' as Adjustment_Account from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code in " &
                                "(select Purchase_Class_Code from TSPL_ITEM_MASTER where Item_Code='" + objTr1.Item_Code + "')", trans)
                             If dt2 Is Nothing AndAlso dt2.Rows.Count <= 0 Then
                                 Throw New Exception("Error")
@@ -4247,34 +4280,34 @@ Public Class clsVedorInvoiceHead
     Private Shared Function GetTaxAmt(ByVal objPIDetail As clsVedorInvoiceDetail, ByVal tans As SqlTransaction) As Double
         Dim dblTotalTax As Double = 0
         Dim isTaxRecoverable As Boolean = False
-        If objPIDetail.TAX1_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX1, tans) Then
+        If objPIDetail.TAX1_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX1, tans) Then
             dblTotalTax += objPIDetail.TAX1_Amt
         End If
-        If objPIDetail.TAX2_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX2, tans) Then
+        If objPIDetail.TAX2_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX2, tans) Then
             dblTotalTax += objPIDetail.TAX2_Amt
         End If
-        If objPIDetail.TAX3_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX3, tans) Then
+        If objPIDetail.TAX3_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX3, tans) Then
             dblTotalTax += objPIDetail.TAX3_Amt
         End If
-        If objPIDetail.TAX4_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX4, tans) Then
+        If objPIDetail.TAX4_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX4, tans) Then
             dblTotalTax += objPIDetail.TAX4_Amt
         End If
-        If objPIDetail.TAX5_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX5, tans) Then
+        If objPIDetail.TAX5_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX5, tans) Then
             dblTotalTax += objPIDetail.TAX5_Amt
         End If
-        If objPIDetail.TAX6_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX6, tans) Then
+        If objPIDetail.TAX6_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX6, tans) Then
             dblTotalTax += objPIDetail.TAX6_Amt
         End If
-        If objPIDetail.TAX7_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX7, tans) Then
+        If objPIDetail.TAX7_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX7, tans) Then
             dblTotalTax += objPIDetail.TAX7_Amt
         End If
-        If objPIDetail.TAX8_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX8, tans) Then
+        If objPIDetail.TAX8_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX8, tans) Then
             dblTotalTax += objPIDetail.TAX8_Amt
         End If
-        If objPIDetail.TAX9_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX9, tans) Then
+        If objPIDetail.TAX9_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX9, tans) Then
             dblTotalTax += objPIDetail.TAX9_Amt
         End If
-        If objPIDetail.TAX10_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX10, tans) Then
+        If objPIDetail.TAX10_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX10, tans) Then
             dblTotalTax += objPIDetail.TAX10_Amt
         End If
         Return dblTotalTax
@@ -4283,34 +4316,34 @@ Public Class clsVedorInvoiceHead
     Public Function GetTaxAmtNonShared(ByVal objPIDetail As clsVedorInvoiceDetail, ByVal tans As SqlTransaction) As Double
         Dim dblTotalTax As Double = 0
         Dim isTaxRecoverable As Boolean = False
-        If objPIDetail.TAX1_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX1, tans) Then
+        If objPIDetail.TAX1_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX1, tans) Then
             dblTotalTax += objPIDetail.TAX1_Amt
         End If
-        If objPIDetail.TAX2_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX2, tans) Then
+        If objPIDetail.TAX2_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX2, tans) Then
             dblTotalTax += objPIDetail.TAX2_Amt
         End If
-        If objPIDetail.TAX3_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX3, tans) Then
+        If objPIDetail.TAX3_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX3, tans) Then
             dblTotalTax += objPIDetail.TAX3_Amt
         End If
-        If objPIDetail.TAX4_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX4, tans) Then
+        If objPIDetail.TAX4_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX4, tans) Then
             dblTotalTax += objPIDetail.TAX4_Amt
         End If
-        If objPIDetail.TAX5_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX5, tans) Then
+        If objPIDetail.TAX5_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX5, tans) Then
             dblTotalTax += objPIDetail.TAX5_Amt
         End If
-        If objPIDetail.TAX6_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX6, tans) Then
+        If objPIDetail.TAX6_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX6, tans) Then
             dblTotalTax += objPIDetail.TAX6_Amt
         End If
-        If objPIDetail.TAX7_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX7, tans) Then
+        If objPIDetail.TAX7_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX7, tans) Then
             dblTotalTax += objPIDetail.TAX7_Amt
         End If
-        If objPIDetail.TAX8_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX8, tans) Then
+        If objPIDetail.TAX8_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX8, tans) Then
             dblTotalTax += objPIDetail.TAX8_Amt
         End If
-        If objPIDetail.TAX9_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX9, tans) Then
+        If objPIDetail.TAX9_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX9, tans) Then
             dblTotalTax += objPIDetail.TAX9_Amt
         End If
-        If objPIDetail.TAX10_Amt <> 0 AndAlso Not clsTaxMaster.IsTaxRecoverableAC(objPIDetail.TAX10, tans) Then
+        If objPIDetail.TAX10_Amt <> 0 AndAlso Not clsTaxMaster.ISTaxRecoverableAC(objPIDetail.TAX10, tans) Then
             dblTotalTax += objPIDetail.TAX10_Amt
         End If
         Return dblTotalTax
@@ -4580,12 +4613,12 @@ Public Class clsVedorInvoiceHead
     End Function
     Public Shared Function GetWorkOrderBalanceAmountBaseQry(ByVal Doc_Code As String, ByVal strAPInvoice As String) As String
         Dim qry As String = ""
-        qry = " SELECT PurchaseOrder_No,SUM(PO_Total_Amt) AS Balance_WO_Amt from (" & _
-              " select PurchaseOrder_No,Vendor_Code as [Vendor code],PO_Total_Amt " & _
-              " from TSPL_PURCHASE_ORDER_HEAD where 2=2 and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Type ='J' " & If(clsCommon.myLen(Doc_Code) > 0, "and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" & Doc_Code & "'", "") & "" & _
-              " UNION ALL " & _
-              " SELECT RefDocNo as PurchaseOrder_No,Vendor_Code,(CASE WHEN Document_Type IN ('I','C') THEN -Document_Total WHEN Document_Type='D' THEN Document_Total ELSE 0 END) AS Document_Total " & _
-              " FROM TSPL_VENDOR_INVOICE_HEAD WHERE RefDocType='WO' and TSPL_VENDOR_INVOICE_HEAD.Document_No<>'" & clsCommon.myCstr(strAPInvoice) & "' " & _
+        qry = " SELECT PurchaseOrder_No,SUM(PO_Total_Amt) AS Balance_WO_Amt from (" &
+              " select PurchaseOrder_No,Vendor_Code as [Vendor code],PO_Total_Amt " &
+              " from TSPL_PURCHASE_ORDER_HEAD where 2=2 and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Type ='J' " & If(clsCommon.myLen(Doc_Code) > 0, "and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" & Doc_Code & "'", "") & "" &
+              " UNION ALL " &
+              " SELECT RefDocNo as PurchaseOrder_No,Vendor_Code,(CASE WHEN Document_Type IN ('I','C') THEN -Document_Total WHEN Document_Type='D' THEN Document_Total ELSE 0 END) AS Document_Total " &
+              " FROM TSPL_VENDOR_INVOICE_HEAD WHERE RefDocType='WO' and TSPL_VENDOR_INVOICE_HEAD.Document_No<>'" & clsCommon.myCstr(strAPInvoice) & "' " &
               " ) as Final where 2=2 "
         If clsCommon.myLen(Doc_Code) > 0 Then
             qry = qry & " and purchaseOrder_No='" & Doc_Code & "'"
@@ -4882,12 +4915,12 @@ Public Class clsAPInvoiceAssetEMIDetails
     End Function
 
     Private Shared Function GetVSPAssetEMIQuery(ByVal strVSPCode As String, ByVal strAssetIssueCode As String, ByVal strItemCode As String) As String
-        Dim qry As String = "select * from (  select Doc_No,Item_Code,case when EMI_Asset_Value<Installment_Amt or ABS(EMI_Asset_Value-Installment_Amt)<=0.09 then EMI_Asset_Value else Installment_Amt end as Installment_Amt from (" + Environment.NewLine + _
-        " select Doc_No,Item_Code,sum(EMI_Asset_Value*RI) as EMI_Asset_Value,max(Installment_Amt) as Installment_Amt  from ( " + Environment.NewLine + _
-        " select Doc_No,Item_Code,sum(EMI_Asset_Value*RI) as EMI_Asset_Value,max(EMI_No_Of_Payment_Cycle) as EMI_No_Of_Payment_Cycle,max(Installment_Amt) as Installment_Amt, 1 as RI,1 as Chk  from ( " + Environment.NewLine + _
-        " select TSPL_VSPAsset_DETAIL.Doc_No ,TSPL_VSPAsset_DETAIL.Item_Code,TSPL_VSPAsset_DETAIL.EMI_Asset_Value,TSPL_VSPAsset_DETAIL.EMI_No_Of_Payment_Cycle,1 as RI,convert(decimal(18,2), (EMI_Asset_Value/EMI_No_Of_Payment_Cycle)) as Installment_Amt " + Environment.NewLine + _
-        " from TSPL_VSPAsset_DETAIL " + Environment.NewLine + _
-        " left outer join TSPL_VSPAsset_HEAD on TSPL_VSPAsset_HEAD.Doc_No=TSPL_VSPAsset_DETAIL.Doc_No " + Environment.NewLine + _
+        Dim qry As String = "select * from (  select Doc_No,Item_Code,case when EMI_Asset_Value<Installment_Amt or ABS(EMI_Asset_Value-Installment_Amt)<=0.09 then EMI_Asset_Value else Installment_Amt end as Installment_Amt from (" + Environment.NewLine +
+        " select Doc_No,Item_Code,sum(EMI_Asset_Value*RI) as EMI_Asset_Value,max(Installment_Amt) as Installment_Amt  from ( " + Environment.NewLine +
+        " select Doc_No,Item_Code,sum(EMI_Asset_Value*RI) as EMI_Asset_Value,max(EMI_No_Of_Payment_Cycle) as EMI_No_Of_Payment_Cycle,max(Installment_Amt) as Installment_Amt, 1 as RI,1 as Chk  from ( " + Environment.NewLine +
+        " select TSPL_VSPAsset_DETAIL.Doc_No ,TSPL_VSPAsset_DETAIL.Item_Code,TSPL_VSPAsset_DETAIL.EMI_Asset_Value,TSPL_VSPAsset_DETAIL.EMI_No_Of_Payment_Cycle,1 as RI,convert(decimal(18,2), (EMI_Asset_Value/EMI_No_Of_Payment_Cycle)) as Installment_Amt " + Environment.NewLine +
+        " from TSPL_VSPAsset_DETAIL " + Environment.NewLine +
+        " left outer join TSPL_VSPAsset_HEAD on TSPL_VSPAsset_HEAD.Doc_No=TSPL_VSPAsset_DETAIL.Doc_No " + Environment.NewLine +
         " where Doc_Type='Issue' and Status='1' and TSPL_VSPAsset_DETAIL.EMI_Asset_Value>0 and EMI_No_Of_Payment_Cycle>0 " + Environment.NewLine
         If clsCommon.myLen(strVSPCode) > 0 Then
             qry += " and Issue_To='" + strVSPCode + "'"
@@ -4896,10 +4929,10 @@ Public Class clsAPInvoiceAssetEMIDetails
             qry += " and TSPL_VSPAsset_DETAIL.Doc_No='" + strAssetIssueCode + "' and TSPL_VSPAsset_DETAIL.Item_Code='" + strItemCode + "'"
         End If
 
-        qry += " union all " + Environment.NewLine + _
-        " select TSPL_VSPAsset_HEAD.Issue_No ,TSPL_VSPAsset_DETAIL.Item_Code,TSPL_VSPAsset_DETAIL.EMI_Asset_Value,0 as  EMI_No_Of_Payment_Cycle,-1 as RI,0 as Installment_Amt " + Environment.NewLine + _
-        " from TSPL_VSPAsset_DETAIL " + Environment.NewLine + _
-        " left outer join TSPL_VSPAsset_HEAD on TSPL_VSPAsset_HEAD.Doc_No=TSPL_VSPAsset_DETAIL.Doc_No " + Environment.NewLine + _
+        qry += " union all " + Environment.NewLine +
+        " select TSPL_VSPAsset_HEAD.Issue_No ,TSPL_VSPAsset_DETAIL.Item_Code,TSPL_VSPAsset_DETAIL.EMI_Asset_Value,0 as  EMI_No_Of_Payment_Cycle,-1 as RI,0 as Installment_Amt " + Environment.NewLine +
+        " from TSPL_VSPAsset_DETAIL " + Environment.NewLine +
+        " left outer join TSPL_VSPAsset_HEAD on TSPL_VSPAsset_HEAD.Doc_No=TSPL_VSPAsset_DETAIL.Doc_No " + Environment.NewLine +
         " where Doc_Type='Return'  and Status='1' and TSPL_VSPAsset_DETAIL.EMI_Asset_Value>0" + Environment.NewLine
         If clsCommon.myLen(strVSPCode) > 0 Then
             qry += " and Issue_To='" + strVSPCode + "' "
@@ -4908,11 +4941,11 @@ Public Class clsAPInvoiceAssetEMIDetails
             qry += " and TSPL_VSPAsset_HEAD.Issue_No='" + strAssetIssueCode + "'"
         End If
 
-        qry += " ) xx group by Doc_No,Item_Code " + Environment.NewLine + _
-        " union all " + Environment.NewLine + _
-        " select Asset_Issue_No,Item_Code,Installment_Amount as EMI_Asset_Value,0 as EMI_No_Of_Payment_Cycle,0 as Installment_Amt, -1 as RI,0 as Chk from TSPL_AP_Invoice_Asset_EMI_Details  " + Environment.NewLine + _
-        " )xxx " + Environment.NewLine + _
-        " group by Doc_No,Item_Code having sum(chk)>0 " + Environment.NewLine + _
+        qry += " ) xx group by Doc_No,Item_Code " + Environment.NewLine +
+        " union all " + Environment.NewLine +
+        " select Asset_Issue_No,Item_Code,Installment_Amount as EMI_Asset_Value,0 as EMI_No_Of_Payment_Cycle,0 as Installment_Amt, -1 as RI,0 as Chk from TSPL_AP_Invoice_Asset_EMI_Details  " + Environment.NewLine +
+        " )xxx " + Environment.NewLine +
+        " group by Doc_No,Item_Code having sum(chk)>0 " + Environment.NewLine +
          " )xx)xxxx where Installment_Amt>0"
         Return qry
     End Function
@@ -5014,8 +5047,8 @@ Public Class clsAPInvoiceAdvanceInterest
             dtToDateForQry = clsCommon.GETSERVERDATE(tran)
         End If
 
-        Dim qry As String = "Select * from (" & _
-               " Select TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_PAYMENT_HEADER.Payment_No,TSPL_PAYMENT_HEADER.Payment_Date,TSPL_PAYMENT_HEADER.Payment_Amount+isnull(TDS_Amount ,0) as Payment_Amount," & _
+        Dim qry As String = "Select * from (" &
+               " Select TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_PAYMENT_HEADER.Payment_No,TSPL_PAYMENT_HEADER.Payment_Date,TSPL_PAYMENT_HEADER.Payment_Amount+isnull(TDS_Amount ,0) as Payment_Amount," &
                " Balance_Amt+isnull(TDS_Amount ,0)-ISNULL((Select SUM(Payment_Amount)+sum(isnull(TDS_Amount ,0)) from TSPL_PAYMENT_HEADER PH WHERE PH.Posted<>'1' AND PH.Payment_Type='AD' AND PH.Vendor_Code=TSPL_PAYMENT_HEADER.Vendor_Code AND PH.Applied_Payment=TSPL_PAYMENT_HEADER.Payment_No),0) as Balance_Amt,TSPL_PAYMENT_HEADER.Interest_Rate,TSPL_PAYMENT_HEADER.No_Of_EMI  from TSPL_PAYMENT_HEADER WHERE Posted='1' "
         If clsCommon.myLen(strVendorCode) <= 0 Then
         Else
@@ -5029,7 +5062,7 @@ Public Class clsAPInvoiceAdvanceInterest
         If skipPreviousDocumeent Then
             qry += " and TSPL_PAYMENT_HEADER.Payment_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm tt") + "' "
         End If
-        qry += " and TSPL_PAYMENT_HEADER.Payment_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtToDateForQry), "dd/MMM/yyyy hh:mm tt") + "' " & _
+        qry += " and TSPL_PAYMENT_HEADER.Payment_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtToDateForQry), "dd/MMM/yyyy hh:mm tt") + "' " &
        " ) Final where Balance_Amt>0 order by Payment_Date"
         Return qry
     End Function
@@ -5102,8 +5135,8 @@ Public Class clsProvisionEntryAdvanceKnockOff
 
     Public Shared Function GetBalanceQry(ByVal strAPInvNo As String, ByVal VendorCode As String, ByVal FromDate? As DateTime, ByVal ToDate? As DateTime, ByVal arrProvision As List(Of String), ByVal arrInvoice As List(Of String), ByVal location As String, ByVal CalculateProvisionOnGateePass As Integer) As String
 
-        Dim qry As String = "select max( Prog_Code) as Prog_Code,max(Doc_No) as Doc_No,max(Doc_Date) as Doc_Date,max(Loc_Code) as Loc_Code,max(Loc_Desc) as Loc_Desc,max(Vendor_Code) as Vendor_Code,max(Vendor_Desc) as Vendor_Desc,max(Vendor_Type) as Vendor_Type,max(Route_Code) as Route_Code,max(Ref_Doc_No) as Ref_Doc_No,max(Prov_type) as Prov_type" + Environment.NewLine + _
-           ",max(Status) as Status,max(Prov_Month) as Prov_Month,max(Prov_Year) as Prov_Year,max(Comp_Code) as Comp_Code,max(Created_by) as Created_by,max(Created_Date) as  Created_Date,max(Modified_By) as Modified_By,max(Modified_Date) as Modified_Date,max(isPosted) as isPosted,max(Posting_Date) Posting_Date" + Environment.NewLine + _
+        Dim qry As String = "select max( Prog_Code) as Prog_Code,max(Doc_No) as Doc_No,max(Doc_Date) as Doc_Date,max(Loc_Code) as Loc_Code,max(Loc_Desc) as Loc_Desc,max(Vendor_Code) as Vendor_Code,max(Vendor_Desc) as Vendor_Desc,max(Vendor_Type) as Vendor_Type,max(Route_Code) as Route_Code,max(Ref_Doc_No) as Ref_Doc_No,max(Prov_type) as Prov_type" + Environment.NewLine +
+           ",max(Status) as Status,max(Prov_Month) as Prov_Month,max(Prov_Year) as Prov_Year,max(Comp_Code) as Comp_Code,max(Created_by) as Created_by,max(Created_Date) as  Created_Date,max(Modified_By) as Modified_By,max(Modified_Date) as Modified_Date,max(isPosted) as isPosted,max(Posting_Date) Posting_Date" + Environment.NewLine +
            ",sum( Amount * RI) as Amount from ("
         If CalculateProvisionOnGateePass = 0 Then
             qry += "select Prog_Code,Doc_No,Doc_Date,Loc_Code,Loc_Desc,Vendor_Code,Vendor_Desc,Vendor_Type,Route_Code,Ref_Doc_No,Prov_type,Amount ,1 as RI,1 as chk" + Environment.NewLine +
@@ -5132,10 +5165,10 @@ Public Class clsProvisionEntryAdvanceKnockOff
             qry += " and tspl_provision_entry.Doc_No in (" + clsCommon.GetMulcallString(arrProvision) + ")"
         End If
 
-        qry += " union all" + Environment.NewLine + _
-         " select null as Prog_Code,Provision_No as Doc_No,null as Doc_Date,null as Loc_Code,null as Loc_Desc,null as Vendor_Code, null as Vendor_Desc,null as Vendor_Type,null as Route_Code,TSPL_PROVISION_ENTRY_KNOCKOFF.Invoice_No as Ref_Doc_No,null as Prov_type,Knockoff_Amount as Amount ,-1 as RI ,0 as chk" + Environment.NewLine + _
-       ",null as Status,null as Prov_Month,null as Prov_Year,null as Comp_Code,null as Created_by,null as  Created_Date,null as Modified_By,null as Modified_Date,null as isPosted,null Posting_Date" + Environment.NewLine + _
-       " from TSPL_PROVISION_ENTRY_KNOCKOFF where AP_Invoice_No not in ('" + strAPInvNo + "')" + Environment.NewLine + _
+        qry += " union all" + Environment.NewLine +
+         " select null as Prog_Code,Provision_No as Doc_No,null as Doc_Date,null as Loc_Code,null as Loc_Desc,null as Vendor_Code, null as Vendor_Desc,null as Vendor_Type,null as Route_Code,TSPL_PROVISION_ENTRY_KNOCKOFF.Invoice_No as Ref_Doc_No,null as Prov_type,Knockoff_Amount as Amount ,-1 as RI ,0 as chk" + Environment.NewLine +
+       ",null as Status,null as Prov_Month,null as Prov_Year,null as Comp_Code,null as Created_by,null as  Created_Date,null as Modified_By,null as Modified_Date,null as isPosted,null Posting_Date" + Environment.NewLine +
+       " from TSPL_PROVISION_ENTRY_KNOCKOFF where AP_Invoice_No not in ('" + strAPInvNo + "')" + Environment.NewLine +
         " )xx "
         If CalculateProvisionOnGateePass = 0 Then
             qry += " group by Doc_No having sum(chk)>0 and sum(Amount*RI)>0 order by Doc_Date"

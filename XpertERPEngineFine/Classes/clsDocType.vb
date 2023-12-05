@@ -388,6 +388,7 @@ Public Class clsDocType
     Public Const MilkCollectionMCCMuliple As String = "Milk Collection MCC Multiple"
     Public Const MilkCollectionDCS As String = "Milk Collection DCS"
     Public Const MilkCollectionDCSMuliple As String = "Milk Collection DCS Multiple"
+    Public Const MilkCollectionDCSMulipleMerge As String = "Milk Collection DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
@@ -1364,6 +1365,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.MilkCollectionMCCMuliple, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionMCC, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCSMuliple, "", False, False, False)
+            InsertDefaultValue(clsDocType.MilkCollectionDCSMulipleMerge, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCS, "", False, False, False)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.PDCS, False, False, True)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.Registered, False, False, True)
