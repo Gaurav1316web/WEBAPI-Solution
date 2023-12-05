@@ -492,7 +492,7 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
-        'Export(EnumExportTo.Excel)
+        Export(EnumExportTo.Excel)
     End Sub
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
