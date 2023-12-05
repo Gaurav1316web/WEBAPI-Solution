@@ -24,7 +24,7 @@ Partial Class frmRouteMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.rlblRouteid = New common.Controls.MyLabel()
         Me.rlblDescription = New common.Controls.MyLabel()
         Me.rlblType = New common.Controls.MyLabel()
@@ -90,6 +90,9 @@ Partial Class frmRouteMaster
         Me.MyLabel24 = New common.Controls.MyLabel()
         Me.cboEntryUOM = New common.Controls.MyComboBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtLocation = New common.UserControls.txtFinder()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.txtLocationDesc = New common.Controls.MyTextBox()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,6 +146,8 @@ Partial Class frmRouteMaster
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboEntryUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -210,7 +215,7 @@ Partial Class frmRouteMaster
         '
         Me.rlblDistrict.FieldName = Nothing
         Me.rlblDistrict.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rlblDistrict.Location = New System.Drawing.Point(12, 234)
+        Me.rlblDistrict.Location = New System.Drawing.Point(12, 255)
         Me.rlblDistrict.Name = "rlblDistrict"
         Me.rlblDistrict.Size = New System.Drawing.Size(41, 16)
         Me.rlblDistrict.TabIndex = 36
@@ -272,7 +277,7 @@ Partial Class frmRouteMaster
         Me.rtxtDistrict.IsSourceFromTable = False
         Me.rtxtDistrict.IsSourceFromValueList = False
         Me.rtxtDistrict.IsUnique = False
-        Me.rtxtDistrict.Location = New System.Drawing.Point(146, 233)
+        Me.rtxtDistrict.Location = New System.Drawing.Point(146, 254)
         Me.rtxtDistrict.MaxLength = 20
         Me.rtxtDistrict.MendatroryField = False
         Me.rtxtDistrict.MyLinkLable1 = Me.rlblDistrict
@@ -341,7 +346,7 @@ Partial Class frmRouteMaster
         '
         Me.rbtnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.rbtnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnSave.Location = New System.Drawing.Point(3, 456)
+        Me.rbtnSave.Location = New System.Drawing.Point(3, 492)
         Me.rbtnSave.Name = "rbtnSave"
         Me.rbtnSave.Size = New System.Drawing.Size(68, 18)
         Me.rbtnSave.TabIndex = 0
@@ -351,7 +356,7 @@ Partial Class frmRouteMaster
         '
         Me.rbtnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.rbtnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnDelete.Location = New System.Drawing.Point(77, 456)
+        Me.rbtnDelete.Location = New System.Drawing.Point(77, 492)
         Me.rbtnDelete.Name = "rbtnDelete"
         Me.rbtnDelete.Size = New System.Drawing.Size(68, 18)
         Me.rbtnDelete.TabIndex = 1
@@ -361,7 +366,7 @@ Partial Class frmRouteMaster
         '
         Me.rbtnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rbtnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnClose.Location = New System.Drawing.Point(596, 456)
+        Me.rbtnClose.Location = New System.Drawing.Point(603, 492)
         Me.rbtnClose.Name = "rbtnClose"
         Me.rbtnClose.Size = New System.Drawing.Size(68, 18)
         Me.rbtnClose.TabIndex = 3
@@ -681,7 +686,7 @@ Partial Class frmRouteMaster
         Me.fndDepot.IsSourceFromTable = False
         Me.fndDepot.IsSourceFromValueList = False
         Me.fndDepot.IsUnique = False
-        Me.fndDepot.Location = New System.Drawing.Point(461, 233)
+        Me.fndDepot.Location = New System.Drawing.Point(461, 254)
         Me.fndDepot.MendatroryField = False
         Me.fndDepot.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndDepot.MyLinkLable1 = Me.lblDepot
@@ -692,7 +697,7 @@ Partial Class frmRouteMaster
         Me.fndDepot.ReferenceFieldDesc = Nothing
         Me.fndDepot.ReferenceFieldName = Nothing
         Me.fndDepot.ReferenceTableName = Nothing
-        Me.fndDepot.Size = New System.Drawing.Size(196, 18)
+        Me.fndDepot.Size = New System.Drawing.Size(196, 19)
         Me.fndDepot.TabIndex = 23
         Me.fndDepot.Value = ""
         '
@@ -700,7 +705,7 @@ Partial Class frmRouteMaster
         '
         Me.lblDepot.FieldName = Nothing
         Me.lblDepot.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDepot.Location = New System.Drawing.Point(361, 234)
+        Me.lblDepot.Location = New System.Drawing.Point(363, 253)
         Me.lblDepot.Name = "lblDepot"
         Me.lblDepot.Size = New System.Drawing.Size(36, 16)
         Me.lblDepot.TabIndex = 22
@@ -836,7 +841,7 @@ Partial Class frmRouteMaster
         '
         Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnprint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnprint.Location = New System.Drawing.Point(151, 456)
+        Me.btnprint.Location = New System.Drawing.Point(151, 492)
         Me.btnprint.Name = "btnprint"
         Me.btnprint.Size = New System.Drawing.Size(86, 18)
         Me.btnprint.TabIndex = 2
@@ -847,7 +852,7 @@ Partial Class frmRouteMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(664, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(671, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'txtDistance
@@ -863,7 +868,7 @@ Partial Class frmRouteMaster
         Me.txtDistance.IsSourceFromTable = False
         Me.txtDistance.IsSourceFromValueList = False
         Me.txtDistance.IsUnique = False
-        Me.txtDistance.Location = New System.Drawing.Point(146, 256)
+        Me.txtDistance.Location = New System.Drawing.Point(146, 277)
         Me.txtDistance.MendatroryField = False
         Me.txtDistance.MyLinkLable1 = Nothing
         Me.txtDistance.MyLinkLable2 = Nothing
@@ -881,7 +886,7 @@ Partial Class frmRouteMaster
         '
         Me.btnDistance.FieldName = Nothing
         Me.btnDistance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDistance.Location = New System.Drawing.Point(12, 258)
+        Me.btnDistance.Location = New System.Drawing.Point(12, 279)
         Me.btnDistance.Name = "btnDistance"
         Me.btnDistance.Size = New System.Drawing.Size(81, 16)
         Me.btnDistance.TabIndex = 86
@@ -914,7 +919,7 @@ Partial Class frmRouteMaster
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(12, 283)
+        Me.MyLabel3.Location = New System.Drawing.Point(12, 304)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(31, 16)
         Me.MyLabel3.TabIndex = 355
@@ -924,7 +929,7 @@ Partial Class frmRouteMaster
         '
         Me.txtRouteTime.CustomFormat = "hh:mm tt"
         Me.txtRouteTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtRouteTime.Location = New System.Drawing.Point(146, 281)
+        Me.txtRouteTime.Location = New System.Drawing.Point(146, 302)
         Me.txtRouteTime.Name = "txtRouteTime"
         Me.txtRouteTime.ShowCheckBox = True
         Me.txtRouteTime.ShowUpDown = True
@@ -942,10 +947,10 @@ Partial Class frmRouteMaster
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox1.Controls.Add(Me.dgv)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(10, 329)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(10, 351)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(647, 122)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(654, 136)
         Me.RadGroupBox1.TabIndex = 358
         '
         'dgv
@@ -964,12 +969,12 @@ Partial Class frmRouteMaster
         Me.dgv.MasterTemplate.EnableFiltering = True
         Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.dgv.Name = "dgv"
         Me.dgv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgv.ShowGroupPanel = False
         Me.dgv.ShowHeaderCellButtons = True
-        Me.dgv.Size = New System.Drawing.Size(627, 92)
+        Me.dgv.Size = New System.Drawing.Size(634, 106)
         Me.dgv.TabIndex = 1
         Me.dgv.TabStop = False
         '
@@ -986,7 +991,7 @@ Partial Class frmRouteMaster
         Me.txtTollAmount.IsSourceFromTable = False
         Me.txtTollAmount.IsSourceFromValueList = False
         Me.txtTollAmount.IsUnique = False
-        Me.txtTollAmount.Location = New System.Drawing.Point(461, 256)
+        Me.txtTollAmount.Location = New System.Drawing.Point(461, 277)
         Me.txtTollAmount.MendatroryField = False
         Me.txtTollAmount.MyLinkLable1 = Nothing
         Me.txtTollAmount.MyLinkLable2 = Nothing
@@ -1004,7 +1009,7 @@ Partial Class frmRouteMaster
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(361, 258)
+        Me.MyLabel4.Location = New System.Drawing.Point(363, 277)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(61, 16)
         Me.MyLabel4.TabIndex = 361
@@ -1013,7 +1018,7 @@ Partial Class frmRouteMaster
         'chkIsEarlyRoute
         '
         Me.chkIsEarlyRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsEarlyRoute.Location = New System.Drawing.Point(261, 283)
+        Me.chkIsEarlyRoute.Location = New System.Drawing.Point(261, 304)
         Me.chkIsEarlyRoute.Name = "chkIsEarlyRoute"
         Me.chkIsEarlyRoute.Size = New System.Drawing.Size(79, 16)
         Me.chkIsEarlyRoute.TabIndex = 1394
@@ -1023,7 +1028,7 @@ Partial Class frmRouteMaster
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(361, 283)
+        Me.MyLabel5.Location = New System.Drawing.Point(361, 304)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(93, 16)
         Me.MyLabel5.TabIndex = 1395
@@ -1033,7 +1038,7 @@ Partial Class frmRouteMaster
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(361, 308)
+        Me.MyLabel6.Location = New System.Drawing.Point(361, 329)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(93, 16)
         Me.MyLabel6.TabIndex = 1396
@@ -1043,7 +1048,7 @@ Partial Class frmRouteMaster
         '
         Me.txtMorningCOT.CustomFormat = "hh:mm tt"
         Me.txtMorningCOT.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtMorningCOT.Location = New System.Drawing.Point(461, 281)
+        Me.txtMorningCOT.Location = New System.Drawing.Point(461, 302)
         Me.txtMorningCOT.Name = "txtMorningCOT"
         Me.txtMorningCOT.ShowCheckBox = True
         Me.txtMorningCOT.ShowUpDown = True
@@ -1057,7 +1062,7 @@ Partial Class frmRouteMaster
         '
         Me.txtEveningCOT.CustomFormat = "hh:mm tt"
         Me.txtEveningCOT.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtEveningCOT.Location = New System.Drawing.Point(461, 306)
+        Me.txtEveningCOT.Location = New System.Drawing.Point(461, 327)
         Me.txtEveningCOT.Name = "txtEveningCOT"
         Me.txtEveningCOT.ShowCheckBox = True
         Me.txtEveningCOT.ShowUpDown = True
@@ -1080,7 +1085,7 @@ Partial Class frmRouteMaster
         Me.txtSeqNo.IsSourceFromTable = False
         Me.txtSeqNo.IsSourceFromValueList = False
         Me.txtSeqNo.IsUnique = False
-        Me.txtSeqNo.Location = New System.Drawing.Point(146, 306)
+        Me.txtSeqNo.Location = New System.Drawing.Point(146, 327)
         Me.txtSeqNo.MendatroryField = False
         Me.txtSeqNo.MyLinkLable1 = Me.MyLabel24
         Me.txtSeqNo.MyLinkLable2 = Nothing
@@ -1097,7 +1102,7 @@ Partial Class frmRouteMaster
         'MyLabel24
         '
         Me.MyLabel24.FieldName = Nothing
-        Me.MyLabel24.Location = New System.Drawing.Point(12, 307)
+        Me.MyLabel24.Location = New System.Drawing.Point(12, 328)
         Me.MyLabel24.Name = "MyLabel24"
         Me.MyLabel24.Size = New System.Drawing.Size(43, 18)
         Me.MyLabel24.TabIndex = 1399
@@ -1140,11 +1145,78 @@ Partial Class frmRouteMaster
         Me.MyLabel7.TabIndex = 1402
         Me.MyLabel7.Text = "Entry UOM"
         '
+        'txtLocation
+        '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
+        Me.txtLocation.Location = New System.Drawing.Point(146, 232)
+        Me.txtLocation.MendatroryField = False
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Me.lblLocation
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
+        Me.txtLocation.Size = New System.Drawing.Size(200, 18)
+        Me.txtLocation.TabIndex = 1403
+        Me.txtLocation.Value = ""
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(12, 233)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(79, 16)
+        Me.lblLocation.TabIndex = 1405
+        Me.lblLocation.Text = "Location Code"
+        '
+        'txtLocationDesc
+        '
+        Me.txtLocationDesc.AutoSize = False
+        Me.txtLocationDesc.CalculationExpression = Nothing
+        Me.txtLocationDesc.FieldCode = Nothing
+        Me.txtLocationDesc.FieldDesc = Nothing
+        Me.txtLocationDesc.FieldMaxLength = 0
+        Me.txtLocationDesc.FieldName = Nothing
+        Me.txtLocationDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationDesc.isCalculatedField = False
+        Me.txtLocationDesc.IsSourceFromTable = False
+        Me.txtLocationDesc.IsSourceFromValueList = False
+        Me.txtLocationDesc.IsUnique = False
+        Me.txtLocationDesc.Location = New System.Drawing.Point(361, 232)
+        Me.txtLocationDesc.MaxLength = 60
+        Me.txtLocationDesc.MendatroryField = False
+        Me.txtLocationDesc.Multiline = True
+        Me.txtLocationDesc.MyLinkLable1 = Nothing
+        Me.txtLocationDesc.MyLinkLable2 = Nothing
+        Me.txtLocationDesc.Name = "txtLocationDesc"
+        Me.txtLocationDesc.ReadOnly = True
+        Me.txtLocationDesc.ReferenceFieldDesc = Nothing
+        Me.txtLocationDesc.ReferenceFieldName = Nothing
+        Me.txtLocationDesc.ReferenceTableName = Nothing
+        Me.txtLocationDesc.Size = New System.Drawing.Size(298, 18)
+        Me.txtLocationDesc.TabIndex = 1404
+        Me.txtLocationDesc.TabStop = False
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(664, 475)
+        Me.ClientSize = New System.Drawing.Size(671, 511)
+        Me.Controls.Add(Me.txtLocation)
+        Me.Controls.Add(Me.txtLocationDesc)
+        Me.Controls.Add(Me.lblLocation)
         Me.Controls.Add(Me.cboEntryUOM)
         Me.Controls.Add(Me.MyLabel7)
         Me.Controls.Add(Me.txtSeqNo)
@@ -1262,6 +1334,8 @@ Partial Class frmRouteMaster
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboEntryUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1332,5 +1406,8 @@ Partial Class frmRouteMaster
     Friend WithEvents MyLabel24 As common.Controls.MyLabel
     Friend WithEvents cboEntryUOM As common.Controls.MyComboBox
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents txtLocation As common.UserControls.txtFinder
+    Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents txtLocationDesc As common.Controls.MyTextBox
 End Class
 
