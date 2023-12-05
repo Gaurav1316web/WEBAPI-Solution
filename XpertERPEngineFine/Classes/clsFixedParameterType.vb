@@ -16,6 +16,7 @@ Public Class clsFixedParameterType
 
     Public Const HeadLoadRODecimalPlace As String = "Head Load RO Decimal Place"
     Public Const HeadLoadROIncreaseAfter As String = "Head Load RO Increase After"
+    Public Const ApplyUnpaidBank As String = "Apply Unpaid Bank"
     Public Const AllowZeroFATSNF As String = "Allow Zero FAT SNF"
     Public Const XpertAPI As String = "Xpert API"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
@@ -1300,6 +1301,7 @@ Public Class clsFixedParameterType
     Public Const ApplyTolerance = "ApplyTolerance"
     Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
+    Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
 
 End Class
 Public Class clsFixedParameterCode
@@ -1325,6 +1327,7 @@ Public Class clsFixedParameterCode
     Public Const LoadLedgerMixedMilk As String = "Load Ledger Mixed Milk"
     Public Const HeadLoadRODecimalPlace As String = "Head Load RO Decimal Place"
     Public Const HeadLoadROIncreaseAfter As String = "Head Load RO Increase After"
+    Public Const ApplyUnpaidBank As String = "Apply Unpaid Bank"
     Public Const AllowZeroFATSNF As String = "Allow Zero FAT SNF"
     Public Const MilkRateRoundOffType As String = "Milk Rate Round Off Type"
     Public Const WeighingRoundSetting As String = "Weighing Round Setting"
@@ -2726,6 +2729,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyTolerance = "ApplyTolerance"
     Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
+    Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2840,6 +2844,7 @@ Public Class clsFixedParameter
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.HeadLoadRODecimalPlace, clsFixedParameterCode.HeadLoadRODecimalPlace, "2", "Head Load Round Off Decimal Places")
         InsertDefaultValueFixedParameter(clsFixedParameterType.HeadLoadROIncreaseAfter, clsFixedParameterCode.HeadLoadROIncreaseAfter, "5", "Head Load Round off Increase Value After")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyUnpaidBank, clsFixedParameterCode.ApplyUnpaidBank, "1", "0:OFF;1-Apply Unpaid Bank")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowZeroFATSNF, clsFixedParameterCode.AllowZeroFATSNF, "0", "0-OFF;1-ON Allow Zero FAT/SNF in Milk Collection")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, "0", "0-OFF;1-ON")
@@ -4424,6 +4429,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, "0", "Enter Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, "10:05 AM", "Enter Shift Time Out")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, "0", "0:Off, 1:On;")
 
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -4479,6 +4485,7 @@ Public Class clsFixedParameterProgramMapping
 
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.HeadLoadRODecimalPlace, clsFixedParameterCode.HeadLoadRODecimalPlace, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.HeadLoadROIncreaseAfter, clsFixedParameterCode.HeadLoadROIncreaseAfter, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.ApplyUnpaidBank, clsFixedParameterCode.ApplyUnpaidBank, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.AllowZeroFATSNF, clsFixedParameterCode.AllowZeroFATSNF, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, EnumControlType.CheckBox)
@@ -6441,6 +6448,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmPriceChartBulkProc, clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, EnumControlType.CheckBox)
 
     End Sub
 End Class

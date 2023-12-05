@@ -254,7 +254,14 @@ Public Class FrmVendorService
             UcCustomFields1.Report_ID = MyBase.Form_ID
             UcCustomFields1.LoadCustomControls()
         End If
+        ' RadPageViewPage5.Visible = False
         ''End of For Custom Fields
+        If chkEInvoice.Checked = True Then
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        Else
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+
+        End If
 
         '' MultiCurrency
         SetMultiCurrencyVisibility()
@@ -2861,6 +2868,12 @@ Public Class FrmVendorService
     End Sub
 
     Sub AddNew()
+        txtAckDate.Value = clsCommon.GETSERVERDATE()
+        EinvoiceAckNo.Text = ""
+        ' EinvoiceAckNo.Text = ""
+        EInvoiceIRNNo.Text = ""
+        EInvoiceQrCode.Text = ""
+        EinvoiceBtnUpdate.Enabled = True
 
         TxtVendorNo.Enabled = True
         TxtVendorNo.Value = ""
@@ -3578,6 +3591,17 @@ Public Class FrmVendorService
                     objRemittance = obj.RemittanceObject
                     btnViewTDSDetails.Enabled = True
                     dblPreviousTDSAmt = obj.RemittanceObject.Previous_TDS_Amt
+                End If
+                If clsCommon.myLen(obj.irn_no) > 0 Then
+                    EInvoiceIRNNo.Text = obj.irn_no
+                    EinvoiceAckNo.Text = obj.Ack_No
+                    If clsCommon.myLen(obj.Ack_Date) > 0 Then
+                        txtAckDate.Value = obj.Ack_Date
+                    End If
+                    EInvoiceQrCode.Text = obj.QR_Code
+                    EinvoiceBtnUpdate.Enabled = False
+                Else
+                    EinvoiceBtnUpdate.Enabled = True
                 End If
 
                 If clsCommon.myLen(obj.Posting_Date) > 0 Then
@@ -4307,6 +4331,7 @@ Public Class FrmVendorService
             e.Handled = True
         End If
     End Sub
+
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         'PrintData()
@@ -6277,4 +6302,35 @@ Public Class FrmVendorService
         lblGstinNo.Text = clsVendorMaster.GetVendorGSTINNo(TxtVendorNo.Value, Nothing)
     End Sub
 
+    Private Sub chkEInvoice_CheckStateChanged(sender As Object, e As EventArgs) Handles chkEInvoice.CheckStateChanged
+        Try
+            If chkEInvoice.Checked = True Then
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+            Else
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub EinvoiceBtnUpdate_Click(sender As Object, e As EventArgs) Handles EinvoiceBtnUpdate.Click
+        UpdateEInvoice()
+    End Sub
+    Sub UpdateEInvoice()
+        Try
+
+            Dim obj As New clsVedorInvoiceHead
+            obj.Document_No = clsCommon.myCstr(txtDocNo.Value)
+            obj.irn_no = EInvoiceIRNNo.Text
+            obj.Ack_No = EinvoiceAckNo.Text
+            obj.Ack_Date = txtAckDate.Value
+            obj.QR_Code = EInvoiceQrCode.Text
+            clsVedorInvoiceHead.UpdateEInvoiceAfterPosting(obj, txtDocNo.Value, Nothing)
+            clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully")
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
 End Class
