@@ -3149,6 +3149,7 @@ Public Class clsCreateAllTable
             coll.Add("EveningCutOff_Time", "datetime NULL")
             coll.Add("Route_Seq_No", "integer not null default 0")
             coll.Add("Entry_UOM", "integer null")
+            coll.Add("Location_Code", "Varchar(12) null REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -23310,6 +23311,44 @@ Public Class clsCreateAllTable
             coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_No", "Varchar(30) not null Primary key")
+            coll.Add("Document_Date", "Datetime NOT NULL")
+            coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("Tanker_No", "Varchar(20) not null references TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("Entered_Qty", "Decimal(18,3) null")
+            coll.Add("Entered_FATKg", "Decimal(18,3) null")
+            coll.Add("Entered_SNFKg", "Decimal(18,3) null")
+            coll.Add("Description", "Varchar(200) null")
+            coll.Add("FAT_SNF_Type", "int Null")
+            coll.Add("Status", "Integer NOT NULL DEFAULT 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Posted_Date", "datetime null")
+            coll.Add("Posted_By", "varchar(12)  NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", coll, Nothing, True, False, "", "Document_No", "Document_Date")
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
+            coll.Add("Against_DCS_Multiple_Days", "Varchar(30) not null unique references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", "Document_No", "")
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
+            coll.Add("IDate", "Date NOT NULL")
+            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("FAT", "Decimal(18,2) null")
+            coll.Add("SNF", "Decimal(18,2) null")
+            coll.Add("FATKG", "Decimal(18,3) null")
+            coll.Add("SNFKG", "Decimal(18,3) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", "Document_No", "")
+
+
+
             'qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC' and COLUMN_NAME='Against_DCS_Multiple_Days'"
             'dt = clsDBFuncationality.GetDataTable(qry)
             coll = New Dictionary(Of String, String)
@@ -23348,6 +23387,7 @@ Public Class clsCreateAllTable
             coll.Add("Correction_Qty", "Decimal(18,3) null")
             coll.Add("Correction_FAT", "Decimal(18,2) null")
             coll.Add("Correction_SNF", "Decimal(18,2) null")
+            coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -23357,6 +23397,8 @@ Public Class clsCreateAllTable
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"
             dt = clsDBFuncationality.GetDataTable(qry)
+
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -23377,6 +23419,7 @@ Public Class clsCreateAllTable
             coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
             coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
             coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
+            coll.Add("Against_Multiple_Days_Merge_Day_Detail", "integer NULL references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL(PK_Id)")
             coll.Add("Machine_FAT", "Decimal(18,2) null")
             coll.Add("Machine_SNF", "Decimal(18,2) null")
             coll.Add("Retesting_FAT", "Decimal(18,2) null")
@@ -23392,6 +23435,10 @@ Public Class clsCreateAllTable
                 qry = "CREATE UNIQUE INDEX Unique_Mupliple_Day ON TSPL_MILK_COLLECTION_MCC_DETAIL (Against_Multiple_Days) WHERE Against_Multiple_Days IS NOT NULL;"
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
+
+
+
+
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "Varchar(30) not null Primary key")
             coll.Add("Document_Date", "Datetime NOT NULL")

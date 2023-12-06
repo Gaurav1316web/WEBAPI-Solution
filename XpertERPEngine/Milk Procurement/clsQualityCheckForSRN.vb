@@ -236,7 +236,7 @@ Public Class clsQualityCheckForSRNHead
 
             'Dim qry As String = "select TSPL_QC_CHECK_HEAD.*,tspl_vendor_master.vendor_name,tspl_location_master.location_desc from TSPL_QC_CHECK_HEAD left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_QC_CHECK_HEAD.vendor_code left outer join tspl_location_master on tspl_location_master.location_code=TSPL_QC_CHECK_HEAD.bill_to_location where TSPL_QC_CHECK_HEAD.qc_type='" + QC_Type + "' "
             Dim qry As String = "select TSPL_QC_CHECK_HEAD.*,tspl_vendor_master.vendor_name,tspl_location_master.location_desc from TSPL_QC_CHECK_HEAD left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_QC_CHECK_HEAD.vendor_code left outer join tspl_location_master on tspl_location_master.location_code=TSPL_QC_CHECK_HEAD.bill_to_location "
-            Dim whr As String = " and qc_type='" + QC_Type + "' " + ExtrWhr
+            Dim whr As String = " where qc_type='" + QC_Type + "' " + ExtrWhr
             'Dim whr As String = "where " + ExtrWhr
 
             Select Case NavType
@@ -538,7 +538,7 @@ Public Class clsQualityCheckForSRNHead
 
         Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject,Notification_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmQualityCheckForSRN + "2" + "'", trans)
 
-        Dim qry As String = "select TSPL_USER_MASTER.User_Code from TSPL_USER_MASTER "                       
+        Dim qry As String = "select TSPL_USER_MASTER.User_Code from TSPL_USER_MASTER "
         If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TSPL_MRN_HEAD.Against_Requisition from TSPL_MRN_HEAD left join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No where TSPL_QC_CHECK_DETAIL.Document_Code='" + obj.Document_Code + "'", trans))) > 0 Then
             qry += " left join TSPL_REQUISITION_HEAD on TSPL_REQUISITION_HEAD.Created_By=TSPL_USER_MASTER.User_Code "
             qry += " left join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_Requisition=TSPL_REQUISITION_HEAD.Requisition_Id left join TSPL_QC_CHECK_DETAIL ON TSPL_QC_CHECK_DETAIL.MRN_NO=TSPL_MRN_HEAD.MRN_NO "

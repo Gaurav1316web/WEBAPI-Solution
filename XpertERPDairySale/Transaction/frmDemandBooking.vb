@@ -6,6 +6,7 @@ Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
     Public Shared LockUnlock As Integer = 0
+    Dim EnableLocation As Boolean = False
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
     Dim SingleUserParticularDairyBookingEdit As Boolean = False
@@ -70,6 +71,7 @@ Public Class frmDemandBooking
         Try
             gv1.EnterKeyMode = RadGridViewEnterKeyMode.EnterMovesToNextRow
             blnPageLoad = True
+            EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
             SettSeprateDemandForMorningEveningShift = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, Nothing)) = 1)
             ChangeVehicleOnDairySaleBooking = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeVehicleOnDairySaleBooking, clsFixedParameterCode.ChangeVehicleOnDairySaleBooking, Nothing)) = 0, False, True)
             ShowItemLocationWiseonBooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemLocationWiseonDairyBooking, clsFixedParameterCode.ShowItemLocationWiseonDairyBooking, Nothing))
@@ -88,12 +90,13 @@ Public Class frmDemandBooking
             If clsCommon.myLen(Me.Tag) > 0 Then
                 LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
             End If
+
             txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(txtLocation.Value) > 0 Then
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
             End If
             blnPageLoad = False
-            txtLocation.Enabled = False
+
             LoadBlankGrid()
             If SettSeprateDemandForMorningEveningShift Then
                 rbtnMorningEveningBoth.Enabled = False
@@ -577,7 +580,12 @@ Public Class frmDemandBooking
             chkMorningPosted.Checked = False
             chkEveningPosted.Checked = False
             RadGroupBox1.Enabled = True
-            txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If EnableLocation Then
+                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+            Else
+                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+
+            End If
             If clsCommon.myLen(txtLocation.Value) > 0 Then
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
             End If
@@ -1350,6 +1358,16 @@ Public Class frmDemandBooking
             Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
             txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isClicked)
             lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
+            If EnableLocation Then
+                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+                txtLocation.Enabled = False
+            Else
+                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+
+            End If
+            If clsCommon.myLen(txtLocation.Value) > 0 Then
+                lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+            End If
             If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
                 setRouteVehicleCityDetail()
             End If

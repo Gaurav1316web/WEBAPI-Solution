@@ -8,6 +8,7 @@ Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim isloadBookingTypeValues As Boolean = True
+    Dim EnableLocation As Boolean = True
     Dim FlagFirstRecord As Boolean = False
     Dim RecordCount As Integer = 0
     Dim FlagCreateDo As Boolean = False
@@ -225,6 +226,8 @@ Public Class frmDairyBookingCustomer
         'ApplyIncludeTCSAmountInRouteTotalOnTruckSheet = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyIncludeTCSAmountInRouteTotalOnTruckSheet, clsFixedParameterCode.ApplyIncludeTCSAmountInRouteTotalOnTruckSheet, Nothing)) = "1", True, False))
         Dim ApplyIncludeTCSAmountInRouteTotalOnTruckSheet As Boolean = False
         AutoCalculateCrate = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoCalculateCrateOnDairyDispatch & "'")) = 0, 0, 1)
+        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+
         SetMailRight()
         SetUserMgmtNew()
         'btnCopy.Visible = False
@@ -294,9 +297,11 @@ Public Class frmDairyBookingCustomer
             ItemTypePanel.Visible = True
         End If
         txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+
         If clsCommon.myLen(txtLocation.Value) > 0 Then
-            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtLocation.Value + "' "))
+            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
         End If
+
         RadMenuItem3.Visibility = ElementVisibility.Collapsed
         isPageLoadData = False
         Try
@@ -3288,6 +3293,16 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             txtRouteName1.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
             txtRouteNo.Value = clsCommon.myCstr(dt1.Rows(0)("Route_No"))
             lblRouteDesc.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
+            If EnableLocation Then
+                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+                txtLocation.Enabled = False
+            Else
+                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+
+            End If
+            If clsCommon.myLen(txtLocation.Value) > 0 Then
+                lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+            End If
             If chkDCS.Checked Then
                 If clsCommon.CompairString(cmbcashcredit.Text, "CASH") = CompairStringResult.Equal Then
                     lblPriceCodeDesc.Text = clsDBFuncationality.getSingleValue("select VSP_Price_Code_Cash from TSPL_customer_group_master where Default_VSP=1")

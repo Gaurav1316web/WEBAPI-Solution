@@ -38,10 +38,9 @@ Public Class clsMilkCollectionDCSMulipleDaysMerge
                 If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
                     Throw New Exception("Posted Document [" + obj.Document_No + "]")
                 End If
-
-                HistoryUpdate(obj.Document_No, trans)
             End If
-            Dim qry As String = "delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT where Document_No='" + obj.Document_No + "'"
+
+            Dim qry As String = "delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL where Document_No='" + obj.Document_No + "'"
@@ -72,6 +71,7 @@ Public Class clsMilkCollectionDCSMulipleDaysMerge
             End If
             clsMilkCollectionDCSMulipleDaysMergeDocument.SaveData(obj.Document_No, obj.ArrDoc, trans)
             clsMilkCollectionDCSMulipleDaysMergeDayDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans)
+            HistoryUpdate(obj.Document_No, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -82,9 +82,9 @@ Public Class clsMilkCollectionDCSMulipleDaysMerge
         Return True
     End Function
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMilkCollectionDCSMulipleDaysMerge
-        Return GetData(strPONo, NavType, trans, "", "")
+        Return GetData(strPONo, NavType, trans, "", "", True)
     End Function
-    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal strDetailWhrlCls As String, ByVal strDetailOrderBy As String) As clsMilkCollectionDCSMulipleDaysMerge
+    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal strDetailWhrlCls As String, ByVal strDetailOrderBy As String, ByVal AddDetails As Boolean) As clsMilkCollectionDCSMulipleDaysMerge
         Dim obj As clsMilkCollectionDCSMulipleDaysMerge = Nothing
         Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.*,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name 
 FROM TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE 
@@ -119,7 +119,10 @@ where 2=2"
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
             End If
-            obj.Arr = clsMilkCollectionDCSMulipleDaysMergeDayDetail.GetData(obj.Document_No, strDetailWhrlCls, strDetailOrderBy, trans)
+            If AddDetails Then
+                obj.ArrDoc = clsMilkCollectionDCSMulipleDaysMergeDocument.GetData(obj.Document_No, strDetailWhrlCls, strDetailOrderBy, trans)
+                obj.Arr = clsMilkCollectionDCSMulipleDaysMergeDayDetail.GetData(obj.Document_No, strDetailWhrlCls, strDetailOrderBy, trans)
+            End If
         End If
         Return obj
     End Function
@@ -157,123 +160,106 @@ where 2=2"
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
-            Dim obj As clsMilkCollectionDCSMulipleDaysMerge = clsMilkCollectionDCSMulipleDaysMerge.GetData(strCode, NavigatorType.Current, trans, "", "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date")
+            Dim obj As clsMilkCollectionDCSMulipleDaysMerge = clsMilkCollectionDCSMulipleDaysMerge.GetData(strCode, NavigatorType.Current, trans, "", "", True)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Post")
             End If
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
-            'Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, trans)) > 0)
-            'Dim corrFactor As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, trans))
-            'Dim Arr As New Dictionary(Of Date, List(Of clsMilkCollectionDCSDetail))
-            'Dim MaxDate As Date = obj.Arr(0).Collection_Date
-            'Dim TotQty As Decimal = 0
-            'Dim TotFATKG As Decimal = 0
-            'Dim TotSNFKG As Decimal = 0
-            'For Each objtr As clsMilkCollectionDCSMulipleDaysMergeDayDetail In obj.Arr
-            '    If objtr.Qty <= 0 Then
-            '        Throw New Exception("Qty is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
-            '    End If
-            '    If objtr.FAT <= 0 Then
-            '        Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
-            '    End If
-            '    If objtr.SNF <= 0 Then
-            '        Throw New Exception("SNF/CLR is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
-            '    End If
-            '    If objtr.Collection_Date > MaxDate Then
-            '        MaxDate = objtr.Collection_Date
-            '    End If
-            '    TotQty += objtr.Qty
-            '    TotFATKG += objtr.FATKG
-            '    Dim dclCurrSNFKG As Decimal = objtr.SNFKG
-            '    If isPickCLRInsteadOfSNF Then
-            '        Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(objtr.FAT, objtr.SNF, corrFactor)
-            '        dclCurrSNFKG = objtr.Qty * snfPer / 100
-            '    End If
-            '    TotSNFKG += dclCurrSNFKG
-            '    Dim objDCSTr As New clsMilkCollectionDCSDetail()
+            Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, trans)) > 0)
+            Dim corrFactor As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, trans))
 
-            '    objDCSTr.VLC_Code = objtr.VLC_Code
-            '    objDCSTr.Shift = objtr.Shift
-            '    objDCSTr.Milk_Type = objtr.Milk_Type
-            '    objDCSTr.Dock_Collection_Milk_Type = objtr.Dock_Collection_Milk_Type
-            '    objDCSTr.Qty = objtr.Qty
-            '    objDCSTr.FAT = objtr.FAT
-            '    objDCSTr.SNF = objtr.SNF
-            '    objDCSTr.FATKG = objtr.FATKG
-            '    objDCSTr.SNFKG = objtr.SNFKG
-            '    If Not Arr.ContainsKey(objtr.Collection_Date) Then
-            '        Dim ArrDCSTr As New List(Of clsMilkCollectionDCSDetail)
-            '        Arr.Add(objtr.Collection_Date, ArrDCSTr)
-            '    End If
-            '    objDCSTr.SNo = Arr(objtr.Collection_Date).Count + 1
-            '    Arr(objtr.Collection_Date).Add(objDCSTr)
-            'Next
+            Dim ArrDCSMD As New List(Of clsMilkCollectionDCSMulipleDays)
+            For Each objtr As clsMilkCollectionDCSMulipleDaysMergeDocument In obj.ArrDoc
+                ArrDCSMD.Add(clsMilkCollectionDCSMulipleDays.GetData(objtr.Against_DCS_Multiple_Days, NavigatorType.Current, trans))
+                clsMilkCollectionDCSMulipleDays.PostData(objtr.Against_DCS_Multiple_Days, trans)
+            Next
 
-            'For ii As Integer = 0 To Arr.Keys.Count - 1
-            '    Dim ArrDCS As List(Of clsMilkCollectionDCSDetail) = Arr.Item(Arr.Keys(ii))
-            '    Dim objMCC As New clsMilkCollectionMCC
-            '    objMCC.Document_Date = Arr.Keys(ii)
-            '    objMCC.Late = 0
-            '    objMCC.Route_Code = obj.Route_Code
-            '    objMCC.Tanker_No = obj.Tanker_No
-            '    objMCC.Vehicle_No = obj.Vehicle_No
-            '    objMCC.Trip_No = 1
-            '    objMCC.Entered_Qty = 0
-            '    objMCC.Entered_FATKg = 0
-            '    objMCC.Entered_SNFKg = 0
-            '    objMCC.Description = "DCS Multiple Days [" + obj.Document_No + "]"
-            '    objMCC.Slip_No = "1"
-            '    objMCC.FAT_SNF_Type = obj.FAT_SNF_Type
-            '    objMCC.Against_DCS_Multiple_Days = obj.Document_No
+            For Each objtr As clsMilkCollectionDCSMulipleDaysMergeDayDetail In obj.Arr
+                If objtr.Qty <= 0 Then
+                    Throw New Exception("Qty is Zero on " + clsCommon.GetPrintDate(objtr.IDate, "dd/MM/yyyy"))
+                End If
+                If objtr.FAT <= 0 Then
+                    Throw New Exception("FAT is Zero on " + clsCommon.GetPrintDate(objtr.IDate, "dd/MM/yyyy"))
+                End If
+                If objtr.SNF <= 0 Then
+                    Throw New Exception("SNF/CLR is Zero on " + clsCommon.GetPrintDate(objtr.IDate, "dd/MM/yyyy"))
+                End If
 
-            '    Dim objMCCTr As New clsMilkCollectionMCCDetail
-            '    objMCCTr.SNo = 1
-            '    objMCCTr.MCC_Code = obj.MCC_Code
-            '    objMCCTr.Milk_Type = "Good"
-            '    For Each objDCSTR As clsMilkCollectionDCSDetail In ArrDCS
-            '        objMCC.Entered_Qty += objDCSTR.Qty
-            '        objMCC.Entered_FATKg += objDCSTR.FATKG
-            '        Dim dclCurrSNFKG As Decimal = objDCSTR.SNFKG
-            '        If isPickCLRInsteadOfSNF Then
-            '            Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(objDCSTR.FAT, objDCSTR.SNF, corrFactor)
-            '            dclCurrSNFKG = objDCSTR.Qty * snfPer / 100
-            '        End If
-            '        objMCC.Entered_SNFKg += dclCurrSNFKG
-            '    Next
-            '    If clsCommon.GetDateWithStartTime(Arr.Keys(ii)) = clsCommon.GetDateWithStartTime(MaxDate) Then
-            '        objMCC.Entered_Qty = objMCC.Entered_Qty + (obj.Entered_Qty - TotQty)
-            '        objMCC.Entered_FATKg = objMCC.Entered_FATKg + (obj.Entered_FATKg - TotFATKG)
-            '        objMCC.Entered_SNFKg = objMCC.Entered_SNFKg + (obj.Entered_SNFKg - TotSNFKG)
-            '    End If
-            '    objMCCTr.Qty = objMCC.Entered_Qty
-            '    objMCCTr.FATKG = objMCC.Entered_FATKg
-            '    objMCCTr.SNFKG = objMCC.Entered_SNFKg
+                Dim objMCC As New clsMilkCollectionMCC
+                objMCC.Document_Date = objtr.IDate
+                objMCC.Late = 0
+                objMCC.Route_Code = obj.Route_Code
+                objMCC.Tanker_No = obj.Tanker_No
+                objMCC.Vehicle_No = ""
+                objMCC.Trip_No = 1
+                objMCC.Entered_Qty = objtr.Qty
+                objMCC.Entered_FATKg = objtr.FATKG
+                objMCC.Entered_SNFKg = objtr.SNFKG
+                objMCC.Description = "DCS Multiple Days Merge [" + obj.Document_No + "]"
+                objMCC.Slip_No = "1"
+                objMCC.FAT_SNF_Type = obj.FAT_SNF_Type
+                objMCC.Against_DCS_Multiple_Days_Merge = obj.Document_No
 
-            '    objMCCTr.FAT = Math.Round((clsCommon.myCDivide((objMCCTr.FATKG * 100), objMCCTr.Qty)), 2, MidpointRounding.ToEven)
-            '    objMCCTr.SNF = Math.Round((clsCommon.myCDivide((objMCCTr.SNFKG * 100), objMCCTr.Qty)), 2, MidpointRounding.ToEven)
-            '    objMCC.Arr = New List(Of clsMilkCollectionMCCDetail)
-            '    objMCC.Arr.Add(objMCCTr)
+                objMCC.Arr = New List(Of clsMilkCollectionMCCDetail)
+                For Each objDCSMD As clsMilkCollectionDCSMulipleDays In ArrDCSMD
+                    For Each objDCSMDTr As clsMilkCollectionDCSMulipleDaysDetail In objDCSMD.Arr
+                        If objtr.IDate = objDCSMDTr.Collection_Date Then
+                            Dim objMCCTr As New clsMilkCollectionMCCDetail
+                            objMCCTr.SNo = 1
+                            objMCCTr.MCC_Code = objDCSMD.MCC_Code
+                            objMCCTr.Milk_Type = "Good"
+                            objMCCTr.Qty = objDCSMDTr.Qty
+                            objMCCTr.FATKG = objDCSMDTr.FATKG
+                            objMCCTr.SNFKG = objDCSMDTr.SNFKG
+                            objMCCTr.FAT = objDCSMDTr.FAT
+                            objMCCTr.SNF = objDCSMDTr.SNF
+                            objMCCTr.Against_Multiple_Days_Merge_Day_Detail = objtr.PK_Id
+                            objMCC.Arr.Add(objMCCTr)
+                        End If
+                    Next
+                Next
+                objMCC.SaveData(objMCC, True, trans)
+                clsMilkCollectionMCC.PostData(objMCC.Document_No, trans)
+                objMCC = clsMilkCollectionMCC.GetData(objMCC.Document_No, NavigatorType.Current, trans)
 
-            '    objMCC.SaveData(objMCC, True, trans)
-            '    clsMilkCollectionMCC.PostData(objMCC.Document_No, trans)
-            '    objMCC = clsMilkCollectionMCC.GetData(objMCC.Document_No, NavigatorType.Current, trans)
+                For Each objMCCTR As clsMilkCollectionMCCDetail In objMCC.Arr
+                    Dim objDCS As New clsMilkCollectionDCS
+                    objDCS.Document_Date = objtr.IDate
+                    objDCS.Description = "DCS Multiple Days Merge [" + obj.Document_No + "]"
+                    objDCS.Slip_No = "1"
 
-            '    Dim objDCS As New clsMilkCollectionDCS
-            '    objDCS.Document_Date = Arr.Keys(ii)
-            '    objDCS.Description = "DCS Multiple Days [" + obj.Document_No + "]"
-            '    objDCS.Slip_No = "1"
-            '    objDCS.Arr = ArrDCS
-            '    objDCS.ArrMCC = New List(Of clsMilkCollectionDCSMCCDetail)
-            '    Dim objDCSMCC As New clsMilkCollectionDCSMCCDetail
-            '    objDCSMCC.Against_Milk_Collection_MCC_Detail = objMCC.Arr(0).PK_Id
-            '    objDCS.ArrMCC.Add(objDCSMCC)
+                    objDCS.ArrMCC = New List(Of clsMilkCollectionDCSMCCDetail)
+                    Dim objDCSMCC As New clsMilkCollectionDCSMCCDetail
+                    objDCSMCC.Against_Milk_Collection_MCC_Detail = objMCCTR.PK_Id
+                    objDCS.ArrMCC.Add(objDCSMCC)
 
-            '    objDCS.SaveData(objDCS, True, trans)
-            '    clsMilkCollectionDCS.PostData(objDCS.Document_No, trans)
-            'Next
-
+                    objDCS.Arr = New List(Of clsMilkCollectionDCSDetail)
+                    For Each objDCSMD As clsMilkCollectionDCSMulipleDays In ArrDCSMD
+                        If clsCommon.CompairString(objDCSMD.MCC_Code, objMCCTR.MCC_Code) = CompairStringResult.Equal Then
+                            For Each objDCSMDTr As clsMilkCollectionDCSMulipleDaysDetail In objDCSMD.Arr
+                                If objtr.IDate = objDCSMDTr.Collection_Date Then
+                                    Dim objDCSTr As New clsMilkCollectionDCSDetail()
+                                    objDCSTr.VLC_Code = objDCSMDTr.VLC_Code
+                                    objDCSTr.Shift = objDCSMDTr.Shift
+                                    objDCSTr.Milk_Type = objDCSMDTr.Milk_Type
+                                    objDCSTr.Dock_Collection_Milk_Type = objDCSMDTr.Dock_Collection_Milk_Type
+                                    objDCSTr.Qty = objDCSMDTr.Qty
+                                    objDCSTr.FAT = objDCSMDTr.FAT
+                                    objDCSTr.SNF = objDCSMDTr.SNF
+                                    objDCSTr.FATKG = objDCSMDTr.FATKG
+                                    objDCSTr.SNFKG = objDCSMDTr.SNFKG
+                                    objDCSTr.SNo = objDCS.Arr.Count + 1
+                                    objDCS.Arr.Add(objDCSTr)
+                                End If
+                            Next
+                        End If
+                    Next
+                    objDCS.SaveData(objDCS, True, trans)
+                    clsMilkCollectionDCS.PostData(objDCS.Document_No, trans)
+                Next
+            Next
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
@@ -348,7 +334,7 @@ Public Class clsMilkCollectionDCSMulipleDaysMergeDocument
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True
@@ -356,16 +342,16 @@ Public Class clsMilkCollectionDCSMulipleDaysMergeDocument
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal strOrderByColumns As String, ByVal trans As SqlTransaction) As List(Of clsMilkCollectionDCSMulipleDaysMergeDocument)
         Dim arr As List(Of clsMilkCollectionDCSMulipleDaysMergeDocument) = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT.* 
-FROM TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT 
-where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT.Document_No='" + strPONo + "' "
+        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.* 
+FROM TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS 
+where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No='" + strPONo + "' "
         If clsCommon.myLen(strExtraWhrclas) > 0 Then
             qry += " and " + strExtraWhrclas
         End If
         If clsCommon.myLen(strOrderByColumns) > 0 Then
             qry += " order by  " + strOrderByColumns
         Else
-            qry += " ORDER BY TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT.PK_Id"
+            qry += " ORDER BY TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.PK_Id"
         End If
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -392,6 +378,8 @@ Public Class clsMilkCollectionDCSMulipleDaysMergeDayDetail
     Public Document_No As String
     Public IDate As Date
     Public Qty As Decimal
+    Public FAT As Decimal
+    Public SNF As Decimal
     Public FATKG As Decimal
     Public SNFKG As Decimal
 #End Region
@@ -403,6 +391,8 @@ Public Class clsMilkCollectionDCSMulipleDaysMergeDayDetail
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "IDate", clsCommon.GetPrintDate(obj.IDate, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
                 If obj.PK_Id > 0 Then
@@ -439,6 +429,8 @@ where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL.Document_No='" + 
                 objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                 objTr.IDate = clsCommon.myCDate(dr("IDate"))
                 objTr.Qty = clsCommon.myCDecimal(dr("Qty"))
+                objTr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
                 objTr.FATKG = clsCommon.myCDecimal(dr("FATKG"))
                 objTr.SNFKG = clsCommon.myCDecimal(dr("SNFKG"))
                 arr.Add(objTr)
