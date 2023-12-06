@@ -157,6 +157,8 @@ where 2=2"
     Public Shared Function PostData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            Throw New Exception("Auto post by mupliple days merge")
+
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If

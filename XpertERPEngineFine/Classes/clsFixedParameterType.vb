@@ -1302,6 +1302,7 @@ Public Class clsFixedParameterType
     Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
+    Public Const EnableLocation = "EnableLocation"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2730,6 +2731,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
+    Public Const EnableLocation = "EnableLocation"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4430,6 +4432,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, "10:05 AM", "Enter Shift Time Out")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, "0", "0:Off, 1:On;")
 
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6449,6 +6452,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmRouteMasterDS, clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, EnumControlType.CheckBox)
 
     End Sub
 End Class

@@ -133,7 +133,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
-        Me.gv1.Size = New System.Drawing.Size(359, 242)
+        Me.gv1.Size = New System.Drawing.Size(269, 242)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
         '
@@ -174,7 +174,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(884, 115)
+        Me.Panel1.Size = New System.Drawing.Size(627, 115)
         Me.Panel1.TabIndex = 0
         '
         'RadButton1
@@ -200,7 +200,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotEnteredFATPer.IsSourceFromTable = False
         Me.txtTotEnteredFATPer.IsSourceFromValueList = False
         Me.txtTotEnteredFATPer.IsUnique = False
-        Me.txtTotEnteredFATPer.Location = New System.Drawing.Point(298, 69)
+        Me.txtTotEnteredFATPer.Location = New System.Drawing.Point(295, 69)
         Me.txtTotEnteredFATPer.MendatroryField = True
         Me.txtTotEnteredFATPer.MyLinkLable1 = Nothing
         Me.txtTotEnteredFATPer.MyLinkLable2 = Nothing
@@ -208,7 +208,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotEnteredFATPer.ReferenceFieldDesc = Nothing
         Me.txtTotEnteredFATPer.ReferenceFieldName = Nothing
         Me.txtTotEnteredFATPer.ReferenceTableName = Nothing
-        Me.txtTotEnteredFATPer.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredFATPer.Size = New System.Drawing.Size(64, 20)
         Me.txtTotEnteredFATPer.TabIndex = 6
         Me.txtTotEnteredFATPer.Text = "0"
         Me.txtTotEnteredFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -227,7 +227,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotEnteredSNFPer.IsSourceFromTable = False
         Me.txtTotEnteredSNFPer.IsSourceFromValueList = False
         Me.txtTotEnteredSNFPer.IsUnique = False
-        Me.txtTotEnteredSNFPer.Location = New System.Drawing.Point(570, 69)
+        Me.txtTotEnteredSNFPer.Location = New System.Drawing.Point(295, 90)
         Me.txtTotEnteredSNFPer.MendatroryField = True
         Me.txtTotEnteredSNFPer.MyLinkLable1 = Nothing
         Me.txtTotEnteredSNFPer.MyLinkLable2 = Nothing
@@ -235,7 +235,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotEnteredSNFPer.ReferenceFieldDesc = Nothing
         Me.txtTotEnteredSNFPer.ReferenceFieldName = Nothing
         Me.txtTotEnteredSNFPer.ReferenceTableName = Nothing
-        Me.txtTotEnteredSNFPer.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredSNFPer.Size = New System.Drawing.Size(64, 20)
         Me.txtTotEnteredSNFPer.TabIndex = 8
         Me.txtTotEnteredSNFPer.Text = "0"
         Me.txtTotEnteredSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -329,9 +329,9 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotPendingSNFPer.AutoSize = False
         Me.txtTotPendingSNFPer.BorderVisible = True
         Me.txtTotPendingSNFPer.FieldName = Nothing
-        Me.txtTotPendingSNFPer.Location = New System.Drawing.Point(756, 69)
+        Me.txtTotPendingSNFPer.Location = New System.Drawing.Point(551, 90)
         Me.txtTotPendingSNFPer.Name = "txtTotPendingSNFPer"
-        Me.txtTotPendingSNFPer.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotPendingSNFPer.Size = New System.Drawing.Size(64, 20)
         Me.txtTotPendingSNFPer.TabIndex = 14
         Me.txtTotPendingSNFPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingSNFPer.TextWrap = False
@@ -341,9 +341,9 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotPendingFATPer.AutoSize = False
         Me.txtTotPendingFATPer.BorderVisible = True
         Me.txtTotPendingFATPer.FieldName = Nothing
-        Me.txtTotPendingFATPer.Location = New System.Drawing.Point(484, 69)
+        Me.txtTotPendingFATPer.Location = New System.Drawing.Point(551, 69)
         Me.txtTotPendingFATPer.Name = "txtTotPendingFATPer"
-        Me.txtTotPendingFATPer.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotPendingFATPer.Size = New System.Drawing.Size(64, 20)
         Me.txtTotPendingFATPer.TabIndex = 13
         Me.txtTotPendingFATPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingFATPer.TextWrap = False
@@ -353,9 +353,9 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotPendingFAT.AutoSize = False
         Me.txtTotPendingFAT.BorderVisible = True
         Me.txtTotPendingFAT.FieldName = Nothing
-        Me.txtTotPendingFAT.Location = New System.Drawing.Point(436, 69)
+        Me.txtTotPendingFAT.Location = New System.Drawing.Point(487, 69)
         Me.txtTotPendingFAT.Name = "txtTotPendingFAT"
-        Me.txtTotPendingFAT.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotPendingFAT.Size = New System.Drawing.Size(64, 20)
         Me.txtTotPendingFAT.TabIndex = 11
         Me.txtTotPendingFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingFAT.TextWrap = False
@@ -365,9 +365,9 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotPendingSNF.AutoSize = False
         Me.txtTotPendingSNF.BorderVisible = True
         Me.txtTotPendingSNF.FieldName = Nothing
-        Me.txtTotPendingSNF.Location = New System.Drawing.Point(708, 69)
+        Me.txtTotPendingSNF.Location = New System.Drawing.Point(487, 90)
         Me.txtTotPendingSNF.Name = "txtTotPendingSNF"
-        Me.txtTotPendingSNF.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotPendingSNF.Size = New System.Drawing.Size(64, 20)
         Me.txtTotPendingSNF.TabIndex = 12
         Me.txtTotPendingSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingSNF.TextWrap = False
@@ -397,7 +397,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotEnteredSNF.IsSourceFromTable = False
         Me.txtTotEnteredSNF.IsSourceFromValueList = False
         Me.txtTotEnteredSNF.IsUnique = False
-        Me.txtTotEnteredSNF.Location = New System.Drawing.Point(615, 69)
+        Me.txtTotEnteredSNF.Location = New System.Drawing.Point(359, 90)
         Me.txtTotEnteredSNF.MendatroryField = True
         Me.txtTotEnteredSNF.MyLinkLable1 = Nothing
         Me.txtTotEnteredSNF.MyLinkLable2 = Nothing
@@ -405,7 +405,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotEnteredSNF.ReferenceFieldDesc = Nothing
         Me.txtTotEnteredSNF.ReferenceFieldName = Nothing
         Me.txtTotEnteredSNF.ReferenceTableName = Nothing
-        Me.txtTotEnteredSNF.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredSNF.Size = New System.Drawing.Size(64, 20)
         Me.txtTotEnteredSNF.TabIndex = 9
         Me.txtTotEnteredSNF.Text = "0"
         Me.txtTotEnteredSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -416,9 +416,9 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotReceivedSNF.AutoSize = False
         Me.txtTotReceivedSNF.BorderVisible = True
         Me.txtTotReceivedSNF.FieldName = Nothing
-        Me.txtTotReceivedSNF.Location = New System.Drawing.Point(660, 69)
+        Me.txtTotReceivedSNF.Location = New System.Drawing.Point(423, 90)
         Me.txtTotReceivedSNF.Name = "txtTotReceivedSNF"
-        Me.txtTotReceivedSNF.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotReceivedSNF.Size = New System.Drawing.Size(64, 20)
         Me.txtTotReceivedSNF.TabIndex = 10
         Me.txtTotReceivedSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotReceivedSNF.TextWrap = False
@@ -428,9 +428,9 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotReceivedFAT.AutoSize = False
         Me.txtTotReceivedFAT.BorderVisible = True
         Me.txtTotReceivedFAT.FieldName = Nothing
-        Me.txtTotReceivedFAT.Location = New System.Drawing.Point(388, 69)
+        Me.txtTotReceivedFAT.Location = New System.Drawing.Point(423, 69)
         Me.txtTotReceivedFAT.Name = "txtTotReceivedFAT"
-        Me.txtTotReceivedFAT.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotReceivedFAT.Size = New System.Drawing.Size(64, 20)
         Me.txtTotReceivedFAT.TabIndex = 9
         Me.txtTotReceivedFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotReceivedFAT.TextWrap = False
@@ -439,7 +439,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(539, 71)
+        Me.MyLabel14.Location = New System.Drawing.Point(266, 92)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel14.TabIndex = 74
@@ -458,7 +458,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotEnteredFAT.IsSourceFromTable = False
         Me.txtTotEnteredFAT.IsSourceFromValueList = False
         Me.txtTotEnteredFAT.IsUnique = False
-        Me.txtTotEnteredFAT.Location = New System.Drawing.Point(343, 69)
+        Me.txtTotEnteredFAT.Location = New System.Drawing.Point(359, 69)
         Me.txtTotEnteredFAT.MendatroryField = True
         Me.txtTotEnteredFAT.MyLinkLable1 = Nothing
         Me.txtTotEnteredFAT.MyLinkLable2 = Nothing
@@ -466,7 +466,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtTotEnteredFAT.ReferenceFieldDesc = Nothing
         Me.txtTotEnteredFAT.ReferenceFieldName = Nothing
         Me.txtTotEnteredFAT.ReferenceTableName = Nothing
-        Me.txtTotEnteredFAT.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredFAT.Size = New System.Drawing.Size(64, 20)
         Me.txtTotEnteredFAT.TabIndex = 7
         Me.txtTotEnteredFAT.Text = "0"
         Me.txtTotEnteredFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -680,7 +680,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(483, 18)
+        Me.txtDesc.Size = New System.Drawing.Size(174, 18)
         Me.txtDesc.TabIndex = 10
         '
         'btnAddNew
@@ -700,7 +700,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel2.Location = New System.Drawing.Point(0, 115)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(884, 270)
+        Me.Panel2.Size = New System.Drawing.Size(627, 270)
         Me.Panel2.TabIndex = 1
         '
         'SplitContainer1
@@ -716,8 +716,8 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.gv2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(884, 242)
-        Me.SplitContainer1.SplitterDistance = 359
+        Me.SplitContainer1.Size = New System.Drawing.Size(627, 242)
+        Me.SplitContainer1.SplitterDistance = 269
         Me.SplitContainer1.TabIndex = 41
         '
         'gv2
@@ -738,7 +738,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
-        Me.gv2.Size = New System.Drawing.Size(521, 242)
+        Me.gv2.Size = New System.Drawing.Size(354, 242)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         '
@@ -752,7 +752,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel3.Location = New System.Drawing.Point(0, 242)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(884, 28)
+        Me.Panel3.Size = New System.Drawing.Size(627, 28)
         Me.Panel3.TabIndex = 40
         '
         'btnSave
@@ -769,7 +769,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(809, 3)
+        Me.btnClose.Location = New System.Drawing.Point(552, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(72, 22)
         Me.btnClose.TabIndex = 6
@@ -808,7 +808,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(884, 385)
+        Me.ClientSize = New System.Drawing.Size(627, 385)
         Me.ControlBox = False
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
