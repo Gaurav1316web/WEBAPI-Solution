@@ -2661,27 +2661,48 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
 
 
             Dim Qry As String = Nothing
-            Qry = "select '" + txtPTSDateFrom.Value + "' As [FromDate],'" + txtPTSDateFrom.Value + "' As [ToDate],TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
-                    TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,
-                    Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate,
-                    Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
-                    TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,
-                    TSPL_ROUTE_MASTER.Route_Desc,
-                    TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
-                    Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName,
-                    TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,
-                    TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate
-                    from TSPL_DEMAND_BOOKING_MASTER
-                    Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-                    Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-                    Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
-                    Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
-                    Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
-                    Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code" + whrcls
+            'Qry = "select '" + txtPTSDateFrom.Value + "' As [FromDate],'" + txtPTSDateFrom.Value + "' As [ToDate],TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+            '        TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,
+            '        Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate,
+            '        Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
+            '        TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,
+            '        TSPL_ROUTE_MASTER.Route_Desc,
+            '        TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
+            '        Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName,
+            '        TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,
+            '        TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate
+            '        from TSPL_DEMAND_BOOKING_MASTER
+            '        Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+            '        Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+            '        Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
+            '        Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
+            '        Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
+            '        Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code" + whrcls
+            Qry = " select
+ TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.ShiftType,TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_ITEM_MASTER.Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,  TSPL_DEMAND_BOOKING_MASTER.Route_No, TSPL_ROUTE_MASTER.Route_Desc, Isnull( TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.' ) as CompanyName, TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, TSPL_VEHICLE_MASTER.DriverName, TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, ITEMDETAIL.CFForLTR, TSPL_ITEM_UOM_DETAIL.Conversion_Factor, Convert( decimal(18, 2), ( TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor )/ ITEMDETAIL.CFForLTR ) As QTYLtr
+  from 
+  TSPL_DEMAND_BOOKING_MASTER 
+  Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+  Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+  Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
+  And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
+  Left Join (
+    select 
+      Conversion_factor AS CFForLTR, 
+      TSPL_ITEM_UOM_DETAIL.Item_code 
+    from 
+      TSPL_ITEM_UOM_DETAIL 
+    where 
+      UOM_code = 'LTR'
+  ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=ITEMDETAIL.Item_code  
+  Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code =TSPL_VEHICLE_MASTER.Vehicle_Id 
+  Left Join TSPL_ROUTE_MASTER on  TSPL_DEMAND_BOOKING_MASTER.Route_No =TSPL_ROUTE_MASTER.Route_No
+  Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
+  Left Join TSPL_COMPANY_MASTER on  TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code " + whrcls
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
+            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingTruckSheet", "Demand Booking Truck Sheet")
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
             frmCRV = Nothing
         Catch ex As Exception
@@ -2730,9 +2751,10 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                     Max(TSPL_DEMAND_BOOKING_MASTER.Route_No)Route_No,
                     Max(Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.')) as CompanyName,
                     Max(TSPL_TRANSPORT_MASTER.Transporter_Name) as TranspoterName,
-                    Max(TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code)Vehicle_Code,Max(TSPL_DEMAND_BOOKING_DETAIL.Item_Rate)Item_Rate,
+                    Max(TSPL_VEHICLE_MASTER.DriverName)Vehicle_Code,Max(TSPL_DEMAND_BOOKING_DETAIL.Item_Rate)Item_Rate,
 					ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
-					Sum(Convert(decimal(18,2),(TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL.CFForLTR)) As QTYLtr
+					Sum(Convert(decimal(18,2),(TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL.CFForLTR)) As QTYLtr,
+max(TSPL_ITEM_MASTER.Sku_Seq) as Sku_Seq
                     from TSPL_DEMAND_BOOKING_MASTER
                     Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
                     Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code

@@ -100,8 +100,4 @@ Public Class frmSendBillToDCS
         Catch ex As Exception
         End Try
     End Sub
-
-    Private Sub btnSendBill_Click(sender As Object, e As EventArgs) Handles btnSendBill.Click
-
-    End Sub
 End Class

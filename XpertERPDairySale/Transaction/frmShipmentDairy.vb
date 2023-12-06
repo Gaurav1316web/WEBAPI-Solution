@@ -8,10 +8,12 @@ Public Class frmShipmentDairy
 #Region "Variables"
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
+    Dim EnableLocation As Boolean = False
     Dim ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding As Boolean = False
     Dim AllowCrateCanPhysicalStock As Integer = 0
     Public AllowtoChangeTCSBaseAmount As Boolean = False
     Dim StockCheckOnPostForDairyDispatchMultiple As Boolean = False
+    Dim ApplyRoundOffZero As Boolean = False
     Dim SettDistributorWiseBilling As Boolean = False
     Public checkstockmrpwise As Boolean = False
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
@@ -413,7 +415,8 @@ Public Class frmShipmentDairy
         ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, clsFixedParameterCode.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, Nothing)) = "1", True, False)
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         StockCheckOnPostForDairyDispatchMultiple = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, Nothing)) = 1, True, False)
-
+        ApplyRoundOffZero = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, Nothing)) = 1, True, False)
+        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -516,7 +519,7 @@ Public Class frmShipmentDairy
             Else
                 RadLabel24.Text = "Delivery No"
             End If
-            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
             '  SetTax()
         End If
 
@@ -6313,17 +6316,20 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 lblTotRAmt1.Text = lblTotRAmt.Text
                 lblCommAmt.Text = clsCommon.myFormat(dblCommAmt)
                 lblTotalWtMetric.Text = dblTotalWtMetric
-                If Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0) > clsCommon.myCdbl(lblTotRAmt.Text) Then
-                    'TxtRoundoff.Text = Math.Round(clsCommon.myCdbl(clsCommon.myCdbl(clsCommon.myCdbl(lblTotRAmt1.Text)) - Math.Round(clsCommon.myCdbl(lblTotRAmt1.Text), 0)), 2)
-                    TxtRoundoff.Text = Math.Round(Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0) - clsCommon.myCdbl(lblTotRAmt.Text), 2)
-                    lblTotRAmt.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
-                    lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
-                Else
-                    'TxtRoundoff.Text = Math.Round(clsCommon.myCdbl(clsCommon.myCdbl(lblTotRAmt1.Text) - Math.Round(clsCommon.myCdbl(lblTotRAmt1.Text))), 2)
-                    TxtRoundoff.Text = Math.Round(Math.Round(clsCommon.myCdbl(lblTotRAmt.Text)) - clsCommon.myCdbl(lblTotRAmt.Text), 2)
-                    lblTotRAmt.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
-                    lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
+                If ApplyRoundOffZero Then
+                    If Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0) > clsCommon.myCdbl(lblTotRAmt.Text) Then
+                        'TxtRoundoff.Text = Math.Round(clsCommon.myCdbl(clsCommon.myCdbl(clsCommon.myCdbl(lblTotRAmt1.Text)) - Math.Round(clsCommon.myCdbl(lblTotRAmt1.Text), 0)), 2)
+                        TxtRoundoff.Text = Math.Round(Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0) - clsCommon.myCdbl(lblTotRAmt.Text), 2)
+                        lblTotRAmt.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
+                        lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
+                    Else
+                        'TxtRoundoff.Text = Math.Round(clsCommon.myCdbl(clsCommon.myCdbl(lblTotRAmt1.Text) - Math.Round(clsCommon.myCdbl(lblTotRAmt1.Text))), 2)
+                        TxtRoundoff.Text = Math.Round(Math.Round(clsCommon.myCdbl(lblTotRAmt.Text)) - clsCommon.myCdbl(lblTotRAmt.Text), 2)
+                        lblTotRAmt.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
+                        lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0)
+                    End If
                 End If
+
                 'If clsCommon.myLen(txtTransporterCode.Value) > 0 Then
                 '    lblFreightCharges.Text = Math.Round(clsCSATransfer.GetProvisionCharge(txtBillToLocation.Value, txtVendorNo.Value, clsCommon.myCdbl(txtGross_Wt.Text), clsCommon.myCdbl(txtVehicleCapacity.Value), clsCommon.myCstr(txtTransporterCode.Value)), 2)
                 'Else
@@ -10004,6 +10010,16 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             txtVendorNo.Enabled = False
             chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
             SetMultiCurrencyVisibility()
+            If EnableLocation Then
+                txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+
+            Else
+                txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+
+            End If
+            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
+            End If
         Else
             lblVendorName.Text = ""
             txtTermCode.Value = ""

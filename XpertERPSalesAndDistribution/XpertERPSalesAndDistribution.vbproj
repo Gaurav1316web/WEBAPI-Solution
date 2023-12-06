@@ -286,7 +286,7 @@
     <Reference Include="xDirectory">
       <HintPath>..\XpertERP\bin\Debug\xDirectory.dll</HintPath>
     </Reference>
-    <Reference Include="XpertCommon, Version=2.0.6.25, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertCommon, Version=2.1.6.66, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
