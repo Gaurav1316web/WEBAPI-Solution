@@ -24,6 +24,7 @@ Public Class clsMilkCollectionMCC
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
     Public Against_DCS_Multiple_Days As String
+    Public Against_DCS_Multiple_Days_Merge As String
     Public Age As Decimal
     Public ALCOB As String
     Public txtDate As String
@@ -85,6 +86,7 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "ORG", obj.ORG)
             clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days, True)
+            clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days_Merge", obj.Against_DCS_Multiple_Days_Merge, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -152,6 +154,7 @@ where 2=2"
             obj.ORG = clsCommon.myCstr(dt.Rows(0)("ORG"))
             obj.Acidity = clsCommon.myCDecimal(dt.Rows(0)("Acidity"))
             obj.Against_DCS_Multiple_Days = clsCommon.myCstr(dt.Rows(0)("Against_DCS_Multiple_Days"))
+            obj.Against_DCS_Multiple_Days_Merge = clsCommon.myCstr(dt.Rows(0)("Against_DCS_Multiple_Days_Merge"))
             obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.FAT_SNF_Type = clsCommon.myCDecimal(dt.Rows(0)("FAT_SNF_Type"))
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
@@ -365,6 +368,7 @@ Public Class clsMilkCollectionMCCDetail
     Public Silo_Capacity As Integer
     Public Against_Multiple_Days As Integer
     Public REF_PK_ID_BMCDCS_TRIP As Integer
+    Public Against_Multiple_Days_Merge_Day_Detail As Integer
 
 
 
@@ -427,6 +431,7 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading_Code", obj.Gaze_Reading_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days", obj.Against_Multiple_Days, True)
+                clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days_Merge_Day_Detail", obj.Against_Multiple_Days_Merge_Day_Detail, True)
 
                 clsCommon.AddColumnsForChange(coll, "REF_PK_ID_BMCDCS_TRIP", obj.REF_PK_ID_BMCDCS_TRIP, True)
                 clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
@@ -492,6 +497,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Gaze_Reading_Code = clsCommon.myCstr(dr("Gaze_Reading_Code"))
                 objTr.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
                 objTr.Against_Multiple_Days = clsCommon.myCDecimal(dr("Against_Multiple_Days"))
+                objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(dr("Against_Multiple_Days_Merge_Day_Detail"))
                 arr.Add(objTr)
             Next
         End If
