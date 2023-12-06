@@ -22,9 +22,9 @@ Partial Class frmPOWeighment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.IsAutoWeighment = New System.Windows.Forms.CheckBox()
@@ -75,6 +75,7 @@ Partial Class frmPOWeighment
         Me.BtnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.UcWeighing1 = New XpertERPEngine.ucWeighing()
+        Me.btnPrintWithGunnyBags = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -131,6 +132,7 @@ Partial Class frmPOWeighment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintWithGunnyBags, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -149,6 +151,7 @@ Partial Class frmPOWeighment
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintWithGunnyBags)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -732,7 +735,7 @@ Partial Class frmPOWeighment
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -766,7 +769,7 @@ Partial Class frmPOWeighment
         Me.MyRadGridView1.MasterTemplate.AllowDeleteRow = False
         Me.MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.MyRadGridView1.Name = "MyRadGridView1"
         Me.MyRadGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.MyRadGridView1.ShowGroupPanel = False
@@ -790,7 +793,7 @@ Partial Class frmPOWeighment
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
@@ -860,6 +863,14 @@ Partial Class frmPOWeighment
         Me.UcWeighing1.Port = ""
         Me.UcWeighing1.Size = New System.Drawing.Size(997, 64)
         Me.UcWeighing1.TabIndex = 1
+        '
+        'btnPrintWithGunnyBags
+        '
+        Me.btnPrintWithGunnyBags.Location = New System.Drawing.Point(285, 7)
+        Me.btnPrintWithGunnyBags.Name = "btnPrintWithGunnyBags"
+        Me.btnPrintWithGunnyBags.Size = New System.Drawing.Size(136, 21)
+        Me.btnPrintWithGunnyBags.TabIndex = 5
+        Me.btnPrintWithGunnyBags.Text = "Print With Gunny Bags"
         '
         'frmPOWeighment
         '
@@ -934,6 +945,7 @@ Partial Class frmPOWeighment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintWithGunnyBags, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -988,4 +1000,5 @@ Partial Class frmPOWeighment
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents MyRadGridView1 As common.UserControls.MyRadGridView
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents btnPrintWithGunnyBags As RadButton
 End Class

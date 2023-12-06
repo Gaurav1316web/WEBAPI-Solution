@@ -38,10 +38,9 @@ Public Class clsMilkCollectionDCSMulipleDaysMerge
                 If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
                     Throw New Exception("Posted Document [" + obj.Document_No + "]")
                 End If
-
-                HistoryUpdate(obj.Document_No, trans)
             End If
-            Dim qry As String = "delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT where Document_No='" + obj.Document_No + "'"
+
+            Dim qry As String = "delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL where Document_No='" + obj.Document_No + "'"
@@ -72,6 +71,7 @@ Public Class clsMilkCollectionDCSMulipleDaysMerge
             End If
             clsMilkCollectionDCSMulipleDaysMergeDocument.SaveData(obj.Document_No, obj.ArrDoc, trans)
             clsMilkCollectionDCSMulipleDaysMergeDayDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans)
+            HistoryUpdate(obj.Document_No, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -119,6 +119,7 @@ where 2=2"
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
             End If
+            obj.ArrDoc = clsMilkCollectionDCSMulipleDaysMergeDocument.GetData(obj.Document_No, strDetailWhrlCls, strDetailOrderBy, trans)
             obj.Arr = clsMilkCollectionDCSMulipleDaysMergeDayDetail.GetData(obj.Document_No, strDetailWhrlCls, strDetailOrderBy, trans)
         End If
         Return obj
@@ -348,7 +349,7 @@ Public Class clsMilkCollectionDCSMulipleDaysMergeDocument
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True
@@ -356,16 +357,16 @@ Public Class clsMilkCollectionDCSMulipleDaysMergeDocument
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal strOrderByColumns As String, ByVal trans As SqlTransaction) As List(Of clsMilkCollectionDCSMulipleDaysMergeDocument)
         Dim arr As List(Of clsMilkCollectionDCSMulipleDaysMergeDocument) = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT.* 
-FROM TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT 
-where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT.Document_No='" + strPONo + "' "
+        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.* 
+FROM TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS 
+where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No='" + strPONo + "' "
         If clsCommon.myLen(strExtraWhrclas) > 0 Then
             qry += " and " + strExtraWhrclas
         End If
         If clsCommon.myLen(strOrderByColumns) > 0 Then
             qry += " order by  " + strOrderByColumns
         Else
-            qry += " ORDER BY TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT.PK_Id"
+            qry += " ORDER BY TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.PK_Id"
         End If
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -392,6 +393,8 @@ Public Class clsMilkCollectionDCSMulipleDaysMergeDayDetail
     Public Document_No As String
     Public IDate As Date
     Public Qty As Decimal
+    Public FAT As Decimal
+    Public SNF As Decimal
     Public FATKG As Decimal
     Public SNFKG As Decimal
 #End Region
@@ -403,6 +406,8 @@ Public Class clsMilkCollectionDCSMulipleDaysMergeDayDetail
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "IDate", clsCommon.GetPrintDate(obj.IDate, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
                 If obj.PK_Id > 0 Then
@@ -439,6 +444,8 @@ where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL.Document_No='" + 
                 objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                 objTr.IDate = clsCommon.myCDate(dr("IDate"))
                 objTr.Qty = clsCommon.myCDecimal(dr("Qty"))
+                objTr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
                 objTr.FATKG = clsCommon.myCDecimal(dr("FATKG"))
                 objTr.SNFKG = clsCommon.myCDecimal(dr("SNFKG"))
                 arr.Add(objTr)

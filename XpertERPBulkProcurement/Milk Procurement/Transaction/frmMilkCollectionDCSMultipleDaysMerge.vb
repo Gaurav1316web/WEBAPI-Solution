@@ -48,13 +48,15 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
         coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
         coll.Add("Against_DCS_Multiple_Days", "Varchar(30) not null unique references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", "Document_No", "")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", "Document_No", "")
 
         coll = New Dictionary(Of String, String)
         coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
         coll.Add("IDate", "Date NOT NULL")
         coll.Add("Qty", "Decimal(18,2) null")
+        coll.Add("FAT", "Decimal(18,2) null")
+        coll.Add("SNF", "Decimal(18,2) null")
         coll.Add("FATKG", "Decimal(18,3) null")
         coll.Add("SNFKG", "Decimal(18,3) null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", "Document_No", "")
@@ -204,24 +206,24 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
                 For ii As Integer = 0 To gv1.Rows.Count - 1
                     If clsCommon.myCBool(gv1.Rows(ii).Cells("sel").Value) Then
                         Dim objtr As New clsMilkCollectionDCSMulipleDaysMergeDocument
-                        objtr.Against_DCS_Multiple_Days = clsCommon.myCBool(gv1.Rows(ii).Cells("Document_No").Value)
+                        objtr.Against_DCS_Multiple_Days = clsCommon.myCstr(gv1.Rows(ii).Cells("Document_No").Value)
                         obj.ArrDoc.Add(objtr)
                     End If
                 Next
-                If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
+                If (obj.ArrDoc Is Nothing OrElse obj.ArrDoc.Count <= 0) Then
                     Throw New Exception("Please Fill at list one Document")
                 End If
 
                 obj.Arr = New List(Of clsMilkCollectionDCSMulipleDaysMergeDayDetail)
                 For ii As Integer = 0 To gv2.Rows.Count - 1
-                    If clsCommon.myCBool(gv2.Rows(ii).Cells("sel").Value) Then
-                        Dim objtr As New clsMilkCollectionDCSMulipleDaysMergeDayDetail
-                        objtr.IDate = clsCommon.myCDate(gv2.Rows(ii).Cells("Collection_Date").Value)
-                        objtr.Qty = clsCommon.myCDecimal(gv2.Rows(ii).Cells("Qty").Value)
-                        objtr.FATKG = clsCommon.myCDecimal(gv2.Rows(ii).Cells("FATKG").Value)
-                        objtr.SNFKG = clsCommon.myCDecimal(gv2.Rows(ii).Cells("SNFKG").Value)
-                        obj.Arr.Add(objtr)
-                    End If
+                    Dim objtr As New clsMilkCollectionDCSMulipleDaysMergeDayDetail
+                    objtr.IDate = clsCommon.myCDate(gv2.Rows(ii).Cells("Collection_Date").Value)
+                    objtr.Qty = clsCommon.myCDecimal(gv2.Rows(ii).Cells("Qty").Value)
+                    objtr.FAT = clsCommon.myCDecimal(gv2.Rows(ii).Cells("FAT").Value)
+                    objtr.SNF = clsCommon.myCDecimal(gv2.Rows(ii).Cells("SNF").Value)
+                    objtr.FATKG = clsCommon.myCDecimal(gv2.Rows(ii).Cells("FATKG").Value)
+                    objtr.SNFKG = clsCommon.myCDecimal(gv2.Rows(ii).Cells("SNFKG").Value)
+                    obj.Arr.Add(objtr)
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     Throw New Exception("No Date details found to save")
@@ -282,15 +284,15 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
 ,(select max(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date) from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No) as Collection_Date_Max
 ,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty ,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_FATKg,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_SNFKg 
 from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS 
-left ouer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Against_DCS_Multiple_Days
+left outer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Against_DCS_Multiple_Days
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
-where  Document_No='" + obj.Document_No + "' order by PK_Id"
+where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No='" + obj.Document_No + "' order by TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.PK_Id"
                 FormatGrid1(clsDBFuncationality.GetDataTable(qry))
 
-                qry = "select IDate as Collection_Date,Qty,FATKG,SNFKG  from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL where Document_No ='" + obj.Document_No + "' order by PK_Id"
+                qry = "select IDate as Collection_Date,Qty,FAT,SNF,FATKG,SNFKG  from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL where Document_No ='" + obj.Document_No + "' order by PK_Id"
                 FormatGrid2(clsDBFuncationality.GetDataTable(qry))
 
-                UpdateAllTotal()
+                UpdateAllTotal(False)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)
@@ -300,9 +302,12 @@ where  Document_No='" + obj.Document_No + "' order by PK_Id"
     End Sub
 
     Private Sub FormatGrid2(ByVal dt As DataTable)
+        gv2.DataSource = Nothing
+        gv2.Rows.Clear()
+        gv2.Columns.Clear()
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             gv2.DataSource = dt
-            For ii As Integer = 1 To gv2.Columns.Count - 1
+            For ii As Integer = 0 To gv2.Columns.Count - 1
                 gv2.Columns(ii).ReadOnly = True
                 gv2.Columns(ii).FormatString = ""
                 gv2.Columns(ii).BestFit()
@@ -310,12 +315,29 @@ where  Document_No='" + obj.Document_No + "' order by PK_Id"
 
             gv2.Columns("Collection_Date").HeaderText = "Date"
             gv2.Columns("Collection_Date").IsVisible = True
+            gv2.Columns("Collection_Date").Width = 80
+
             gv2.Columns("Qty").HeaderText = "Qty"
             gv2.Columns("Qty").IsVisible = True
+            gv2.Columns("Qty").Width = 90
+
+            gv2.Columns("FAT").HeaderText = "FAT %"
+            gv2.Columns("FAT").IsVisible = True
+            gv2.Columns("FAT").Width = 90
+            gv2.Columns("FAT").ReadOnly = False
+
+            gv2.Columns("SNF").HeaderText = If(isPickCLRInsteadOfSNF, "CLR %", "SNF %")
+            gv2.Columns("SNF").IsVisible = True
+            gv2.Columns("SNF").Width = 90
+            gv2.Columns("SNF").ReadOnly = False
+
             gv2.Columns("FATKG").HeaderText = "FAT Kg"
             gv2.Columns("FATKG").IsVisible = True
+            gv2.Columns("FATKG").Width = 100
+
             gv2.Columns("SNFKG").HeaderText = "SNF Kg"
             gv2.Columns("SNFKG").IsVisible = True
+            gv2.Columns("SNFKG").Width = 100
 
             gv2.AllowAddNewRow = False
             gv2.AllowDeleteRow = False
@@ -351,7 +373,7 @@ where  Document_No='" + obj.Document_No + "' order by PK_Id"
     End Sub
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
-            Dim qst As String = "select count(*) from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS where Document_No='" + txtDocNo.Value + "'"
+            Dim qst As String = "select count(*) from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE where Document_No='" + txtDocNo.Value + "'"
             Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
             If count = 0 Then
                 txtDocNo.MyReadOnly = False
@@ -364,11 +386,10 @@ where  Document_No='" + obj.Document_No + "' order by PK_Id"
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Status=1 then 'Posted' else 'Pending' end as Status 
-    from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS
-    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
-    left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code "
-        LoadData(clsCommon.ShowSelectForm("SMP3FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        Dim qry As String = "select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Description ,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Tanker_No,case when TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Status=1 then 'Posted' else 'Pending' end as Status 
+    from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE
+    left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE.Route_Code "
+        LoadData(clsCommon.ShowSelectForm("SMP3FIOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
     End Sub
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()
@@ -460,7 +481,7 @@ where  Document_No='" + obj.Document_No + "' order by PK_Id"
         End Try
     End Sub
     Private Sub txtTotEnteredQty_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtTotEnteredQty.Validating, txtTotEnteredFAT.Validating, txtTotEnteredSNF.Validating, txtTotEnteredFATPer.Validating, txtTotEnteredSNFPer.Validating
-        UpdateAllTotal()
+        UpdateAllTotal(True)
     End Sub
     Function GetBaseQuery(ByVal arrSelectedDoc As List(Of String)) As String
         Dim qry As String = "select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_FATKg,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_SNFKg,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.SNFKG
@@ -471,7 +492,7 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
         If arrSelectedDoc IsNot Nothing AndAlso arrSelectedDoc.Count > 0 Then
             qry += " and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No in (" + clsCommon.GetMulcallString(arrSelectedDoc) + ")"
         End If
-        qry += " and not exists (select 1 from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Against_DCS_Multiple_Days=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No and  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No not in (''))"
+        qry += " and not exists (select 1 from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Against_DCS_Multiple_Days=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No and  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No not in ('" + txtDocNo.Value + "'))"
         Return qry
     End Function
     Private Sub gv1_ValueChanging(sender As Object, e As ValueChangingEventArgs) Handles gv1.ValueChanging
@@ -495,6 +516,9 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
         FormatGrid1(clsDBFuncationality.GetDataTable(qry))
     End Sub
     Private Sub FormatGrid1(ByVal dt As DataTable)
+        gv1.DataSource = Nothing
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             gv1.DataSource = dt
             For ii As Integer = 1 To gv1.Columns.Count - 1
@@ -506,16 +530,26 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
 
             gv1.Columns("Document_No").HeaderText = "Document No"
             gv1.Columns("Document_No").IsVisible = False
+
             gv1.Columns("MCC_Code").HeaderText = "BMC Code"
             gv1.Columns("MCC_Code").IsVisible = False
+
             gv1.Columns("Mcc_Code_VLC_Uploader").HeaderText = "BMC"
             gv1.Columns("Mcc_Code_VLC_Uploader").IsVisible = True
+            gv1.Columns("Mcc_Code_VLC_Uploader").Width = 100
+
             gv1.Columns("MCC_NAME").HeaderText = "BMC Name"
             gv1.Columns("MCC_NAME").IsVisible = True
+            gv1.Columns("MCC_NAME").Width = 100
+
             gv1.Columns("Collection_Date_Min").HeaderText = "From Date"
             gv1.Columns("Collection_Date_Min").IsVisible = True
+            gv1.Columns("Collection_Date_Min").Width = 100
+
             gv1.Columns("Collection_Date_Max").HeaderText = "To Date"
             gv1.Columns("Collection_Date_Max").IsVisible = True
+            gv1.Columns("Collection_Date_Max").Width = 100
+
             gv1.Columns("Entered_Qty").HeaderText = "Qty"
             gv1.Columns("Entered_Qty").IsVisible = False
             gv1.Columns("Entered_FATKg").HeaderText = "FATKg"
@@ -561,22 +595,45 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
                 EnteredSNFKg += clsCommon.myCDecimal(gv1.Rows(ii).Cells("Entered_SNFKg").Value)
             End If
         Next
+        If arr Is Nothing OrElse arr.Count = 0 Then
+            arr.Add("XXXXYYYYYYYYYZZZZZZZ")
+        End If
 
-        Dim qry As String = "select convert(varchar,Collection_Date,103) as Collection_Date,SUM(Qty) as Qty,max(FATKG) as FATKG,max(SNFKG) as SNFKG  from (" + GetBaseQuery(arr) + ")xx group by Collection_Date order by xx.Collection_Date"
+        Dim qry As String = "select convert(varchar,Collection_Date,103) as Collection_Date,SUM(Qty) as Qty,case when SUM(Qty)=0 then 0.0 else cast( SUM(FATKG)*100/SUM(Qty) as decimal(18,2)) end as FAT,case when SUM(Qty)=0 then 0.0 else CAST( SUM(SNFKG)*100/SUM(Qty) as decimal(18,2)) end as SNF,SUM(FATKG) as FATKG,SUM(SNFKG) as SNFKG  from (" + GetBaseQuery(arr) + ")xx group by Collection_Date order by xx.Collection_Date"
         FormatGrid2(clsDBFuncationality.GetDataTable(qry))
+        If isPickCLRInsteadOfSNF Then
+            For ii As Integer = 0 To gv2.Rows.Count - 1
+                gv2.Rows(ii).Cells("SNF").Value = clsEkoPro.getClrOnCalculation(clsCommon.myCDecimal(gv2.Rows(ii).Cells("FAT").Value), clsCommon.myCDecimal(gv2.Rows(ii).Cells("SNF").Value), corrFactor)
+            Next
+        End If
 
         If UpdateTotal Then
             txtTotEnteredQty.Value = EnteredQty
             txtTotEnteredFAT.Value = EnteredFATKg
             txtTotEnteredSNF.Value = EnteredSNFKg
-
-            UpdateAllTotal()
+            UpdateAllTotal(False)
         End If
     End Sub
 
 
 
-    Private Sub UpdateAllTotal()
+    Private Sub UpdateAllTotal(ByVal isManual As Boolean)
+        If isManual Then
+            txtTotEnteredFAT.Value = Math.Round(txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100, 3, MidpointRounding.ToEven)
+            Dim snfPer As Decimal = txtTotEnteredFATPer.Value
+            If isPickCLRInsteadOfSNF Then
+                snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredFATPer.Value, corrFactor)
+            End If
+            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfPer / 100), 3, MidpointRounding.ToEven)
+        Else
+            txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
+            txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
+            If isPickCLRInsteadOfSNF Then
+                txtTotEnteredSNFPer.Value = clsEkoPro.getClrOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
+            End If
+        End If
+
+
         Dim Qty As Decimal = 0
         Dim FATKg As Decimal = 0
         Dim SNFKg As Decimal = 0
@@ -585,22 +642,10 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
             FATKg += clsCommon.myCDecimal(gv2.Rows(ii).Cells("FATKG").Value)
             SNFKg += clsCommon.myCDecimal(gv2.Rows(ii).Cells("SNFKG").Value)
         Next
-
-
         txtTotReceivedQty.Text = clsCommon.myCstr(Math.Round((Qty), 3, MidpointRounding.ToEven))
         txtTotReceivedFAT.Text = clsCommon.myCstr(Math.Round((FATKg), 3, MidpointRounding.ToEven))
         txtTotReceivedSNF.Text = clsCommon.myCstr(Math.Round((SNFKg), 3, MidpointRounding.ToEven))
-        If SettMilkCollectionFATSNFTypeHeader = 0 Then
-            txtTotEnteredFAT.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100), 3, MidpointRounding.ToEven)
-            Dim snfPer As Decimal = txtTotEnteredSNFPer.Value
-            If isPickCLRInsteadOfSNF Then
-                snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
-            End If
-            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfPer / 100), 3, MidpointRounding.ToEven)
-        Else
-            txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
-            txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
-        End If
+
         txtTotPendingQty.Text = clsCommon.myCstr(Math.Round((txtTotEnteredQty.Value - (Qty)), 3, MidpointRounding.ToEven))
         txtTotPendingFAT.Text = clsCommon.myCstr(Math.Round((txtTotEnteredFAT.Value - (FATKg)), 3, MidpointRounding.ToEven))
         txtTotPendingSNF.Text = clsCommon.myCstr(Math.Round((txtTotEnteredSNF.Value - (SNFKg)), 3, MidpointRounding.ToEven))
@@ -608,5 +653,37 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
         txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingFAT.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.ToEven)
         txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingSNF.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.ToEven)
 
+    End Sub
+
+    Private Sub gv2_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv2.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gv2.Columns("FAT") OrElse e.Column Is gv2.Columns("SNF") Then
+                        UpdateCurrentRowGV2(gv2.CurrentRow.Index)
+                    End If
+                    isCellValueChangedOpen = False
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            isCellValueChangedOpen = False
+        End Try
+    End Sub
+    Sub UpdateCurrentRowGV2(ByVal ii As Integer)
+        If clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 0 Then
+            gv2.Rows(ii).Cells("FATKG").Value = Math.Round(clsCommon.myCDecimal(gv2.Rows(ii).Cells("Qty").Value) * clsCommon.myCDecimal(gv2.Rows(ii).Cells("FAT").Value) / 100, 3, MidpointRounding.ToEven)
+            Dim snfPer As Decimal = clsCommon.myCDecimal(gv2.Rows(ii).Cells("SNF").Value)
+            If isPickCLRInsteadOfSNF Then
+                snfPer = clsEkoPro.getSnfOnCalculation(clsCommon.myCDecimal(gv2.Rows(ii).Cells("FAT").Value), clsCommon.myCDecimal(gv2.Rows(ii).Cells("SNF").Value), corrFactor)
+            End If
+            gv2.Rows(ii).Cells("SNFKG").Value = Math.Round(clsCommon.myCDecimal(gv2.Rows(ii).Cells("Qty").Value) * snfPer / 100, 3, MidpointRounding.ToEven)
+
+        ElseIf clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 1 Then
+            gv2.Rows(ii).Cells("FAT").Value = Math.Round((100 * clsCommon.myCDecimal(gv2.Rows(ii).Cells("FATKG").Value)) / clsCommon.myCDecimal(gv2.Rows(ii).Cells("Qty").Value), 1, MidpointRounding.ToEven)
+            gv2.Rows(ii).Cells("SNF").Value = Math.Round((100 * clsCommon.myCDecimal(gv2.Rows(ii).Cells("SNFKG").Value)) / clsCommon.myCDecimal(gv2.Rows(ii).Cells("Qty").Value), 2, MidpointRounding.ToEven)
+        End If
+        UpdateAllTotal(False)
     End Sub
 End Class
