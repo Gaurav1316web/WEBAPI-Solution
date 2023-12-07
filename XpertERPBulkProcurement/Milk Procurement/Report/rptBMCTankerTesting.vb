@@ -105,9 +105,9 @@ Public Class rptBMCTankerTesting
                 End If
                 qry += "ORDER BY TSPL_MILK_COLLECTION_MCC_DETAIL.SNO"
             Else
-                qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date, ROW_NUMBER() OVER(PARTITION BY 1 ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SNo, TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Entered_Qty AS Qty
-                       ,Case When TSPL_MILK_COLLECTION_MCC.Entered_Qty>0 Then cast(TSPL_MILK_COLLECTION_MCC.Entered_FATKg*100/TSPL_MILK_COLLECTION_MCC.Entered_Qty as decimal(18,2)) Else 0 End as FAT
-                       ,Case When TSPL_MILK_COLLECTION_MCC.Entered_Qty>0 Then cast(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg*100/TSPL_MILK_COLLECTION_MCC.Entered_Qty as decimal(18,2))  Else 0 End as SNF
+                qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date, ROW_NUMBER() OVER(PARTITION BY 1 ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SNo, TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Original_Qty AS Qty
+                       ,Case When TSPL_MILK_COLLECTION_MCC.Original_Qty >0 Then cast(TSPL_MILK_COLLECTION_MCC.Original_FATKg * 100/TSPL_MILK_COLLECTION_MCC.Original_Qty as decimal(18,2)) Else 0 End as FAT
+                       ,Case When TSPL_MILK_COLLECTION_MCC.Original_Qty>0 Then cast(TSPL_MILK_COLLECTION_MCC.Original_SNFKg*100/TSPL_MILK_COLLECTION_MCC.Original_Qty as decimal(18,2))  Else 0 End as SNF
                        ,'' as CLR,TSPL_MILK_COLLECTION_MCC.Temp , TSPL_MILK_COLLECTION_MCC.Retesting_FAT, TSPL_MILK_COLLECTION_MCC.Retesting_SNF , TSPL_MILK_COLLECTION_MCC.Retesting_CLR ,TSPL_MILK_COLLECTION_MCC.Route_Code as Route,TSPL_MILK_COLLECTION_MCC.Entered_Qty as Corr_Qty, TSPL_MILK_COLLECTION_MCC.Correction_FAT , TSPL_MILK_COLLECTION_MCC.Correction_SNF, '' as Corr_CLR
                         from  TSPL_MILK_COLLECTION_MCC
 					   where convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)

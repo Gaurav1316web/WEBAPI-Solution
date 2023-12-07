@@ -14,9 +14,13 @@ Public Class clsMilkCollectionMCC
     Public Entered_Qty As Decimal
     Public Entered_FATKg As Decimal
     Public Entered_SNFKg As Decimal
+    Public Original_Qty As Decimal
+    Public Original_FATKg As Decimal
+    Public Original_SNFKg As Decimal
     Public Retesting_FAT As Decimal
     Public Retesting_SNF As Decimal
     Public Retesting_CLR As Decimal
+    Public Correction_Qty As Decimal
     Public Correction_FAT As Decimal
     Public Correction_SNF As Decimal
     Public Slip_No As String
@@ -77,6 +81,9 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
             clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
             clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+            clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Original_Qty)
+            clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.Original_FATKg)
+            clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.Original_SNFKg)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "FAT_SNF_Type", obj.FAT_SNF_Type)
             clsCommon.AddColumnsForChange(coll, "Slip_No", obj.Slip_No)
@@ -308,11 +315,21 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
                 clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
                 clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
                 clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+                clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Original_Qty)
+                clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.Original_FATKg)
+                clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.Original_SNFKg)
             ElseIf isCorrection = 1 Then
+                clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
+                clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
+                clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+                clsCommon.AddColumnsForChange(coll, "Correction_Qty", obj.Correction_Qty)
                 clsCommon.AddColumnsForChange(coll, "Correction_FAT", obj.Correction_FAT)
                 clsCommon.AddColumnsForChange(coll, "Correction_SNF", obj.Correction_SNF)
 
             ElseIf isCorrection = 2 Then
+                clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
+                clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
+                clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
                 clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
                 clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
                 clsCommon.AddColumnsForChange(coll, "Retesting_CLR", obj.Retesting_CLR)

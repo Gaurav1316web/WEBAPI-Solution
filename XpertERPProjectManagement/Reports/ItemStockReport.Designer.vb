@@ -23,7 +23,7 @@ Partial Class ItemStockReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -46,6 +46,10 @@ Partial Class ItemStockReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtItemType = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.cmbUnit = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -65,6 +69,9 @@ Partial Class ItemStockReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -104,6 +111,10 @@ Partial Class ItemStockReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel8)
+        Me.RadPageViewPage1.Controls.Add(Me.txtItemType)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbUnit)
         Me.RadPageViewPage1.Controls.Add(Me.TxtItem)
         Me.RadPageViewPage1.Controls.Add(Me.Label4)
         Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
@@ -120,19 +131,19 @@ Partial Class ItemStockReport
         '
         Me.TxtItem.arrDispalyMember = Nothing
         Me.TxtItem.arrValueMember = Nothing
-        Me.TxtItem.Location = New System.Drawing.Point(81, 113)
+        Me.TxtItem.Location = New System.Drawing.Point(87, 114)
         Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtItem.MyLinkLable1 = Nothing
         Me.TxtItem.MyLinkLable2 = Nothing
         Me.TxtItem.MyNullText = "All"
         Me.TxtItem.Name = "TxtItem"
-        Me.TxtItem.Size = New System.Drawing.Size(292, 21)
+        Me.TxtItem.Size = New System.Drawing.Size(281, 21)
         Me.TxtItem.TabIndex = 45
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(24, 121)
+        Me.Label4.Location = New System.Drawing.Point(24, 118)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(29, 13)
         Me.Label4.TabIndex = 44
@@ -144,7 +155,7 @@ Partial Class ItemStockReport
         Me.lblBillToLocation.BorderVisible = True
         Me.lblBillToLocation.FieldName = Nothing
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBillToLocation.Location = New System.Drawing.Point(190, 89)
+        Me.lblBillToLocation.Location = New System.Drawing.Point(190, 92)
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(178, 18)
         Me.lblBillToLocation.TabIndex = 43
@@ -161,7 +172,7 @@ Partial Class ItemStockReport
         Me.txtBillToLocation.IsSourceFromTable = False
         Me.txtBillToLocation.IsSourceFromValueList = False
         Me.txtBillToLocation.IsUnique = False
-        Me.txtBillToLocation.Location = New System.Drawing.Point(81, 89)
+        Me.txtBillToLocation.Location = New System.Drawing.Point(87, 92)
         Me.txtBillToLocation.MendatroryField = True
         Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBillToLocation.MyLinkLable1 = Nothing
@@ -179,7 +190,7 @@ Partial Class ItemStockReport
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(24, 89)
+        Me.Label3.Location = New System.Drawing.Point(24, 93)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(51, 13)
         Me.Label3.TabIndex = 41
@@ -290,7 +301,7 @@ Partial Class ItemStockReport
         '
         '
         '
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.Gv1.Name = "Gv1"
         Me.Gv1.Size = New System.Drawing.Size(779, 366)
         Me.Gv1.TabIndex = 0
@@ -357,6 +368,65 @@ Partial Class ItemStockReport
         Me.btnGo.TabIndex = 53
         Me.btnGo.Text = ">>"
         '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(24, 139)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel8.TabIndex = 347
+        Me.MyLabel8.Text = "Item Type"
+        '
+        'txtItemType
+        '
+        Me.txtItemType.arrDispalyMember = Nothing
+        Me.txtItemType.arrValueMember = Nothing
+        Me.txtItemType.Location = New System.Drawing.Point(87, 138)
+        Me.txtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItemType.MyLinkLable1 = Me.MyLabel8
+        Me.txtItemType.MyLinkLable2 = Nothing
+        Me.txtItemType.MyNullText = "All"
+        Me.txtItemType.Name = "txtItemType"
+        Me.txtItemType.Size = New System.Drawing.Size(281, 21)
+        Me.txtItemType.TabIndex = 344
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Location = New System.Drawing.Point(25, 162)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(33, 18)
+        Me.MyLabel3.TabIndex = 346
+        Me.MyLabel3.Text = "UOM"
+        '
+        'cmbUnit
+        '
+        Me.cmbUnit.AutoCompleteDisplayMember = Nothing
+        Me.cmbUnit.AutoCompleteValueMember = Nothing
+        Me.cmbUnit.CalculationExpression = Nothing
+        Me.cmbUnit.DropDownAnimationEnabled = True
+        Me.cmbUnit.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbUnit.FieldCode = Nothing
+        Me.cmbUnit.FieldDesc = Nothing
+        Me.cmbUnit.FieldMaxLength = 0
+        Me.cmbUnit.FieldName = Nothing
+        Me.cmbUnit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbUnit.isCalculatedField = False
+        Me.cmbUnit.IsSourceFromTable = False
+        Me.cmbUnit.IsSourceFromValueList = False
+        Me.cmbUnit.IsUnique = False
+        Me.cmbUnit.Location = New System.Drawing.Point(87, 162)
+        Me.cmbUnit.MendatroryField = False
+        Me.cmbUnit.MyLinkLable1 = Me.MyLabel3
+        Me.cmbUnit.MyLinkLable2 = Nothing
+        Me.cmbUnit.Name = "cmbUnit"
+        Me.cmbUnit.ReferenceFieldDesc = Nothing
+        Me.cmbUnit.ReferenceFieldName = Nothing
+        Me.cmbUnit.ReferenceTableName = Nothing
+        Me.cmbUnit.Size = New System.Drawing.Size(141, 18)
+        Me.cmbUnit.TabIndex = 345
+        '
         'ItemStockReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -390,6 +460,9 @@ Partial Class ItemStockReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -417,4 +490,8 @@ Partial Class ItemStockReport
     Friend WithEvents btnclose As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents Gv1 As RadGridView
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents txtItemType As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Protected WithEvents cmbUnit As common.Controls.MyComboBox
 End Class
