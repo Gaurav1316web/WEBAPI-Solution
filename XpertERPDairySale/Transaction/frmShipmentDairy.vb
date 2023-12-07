@@ -8,6 +8,7 @@ Public Class frmShipmentDairy
 #Region "Variables"
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
+    Dim EnableLocation As Boolean = False
     Dim ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding As Boolean = False
     Dim AllowCrateCanPhysicalStock As Integer = 0
     Public AllowtoChangeTCSBaseAmount As Boolean = False
@@ -415,6 +416,7 @@ Public Class frmShipmentDairy
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         StockCheckOnPostForDairyDispatchMultiple = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, Nothing)) = 1, True, False)
         ApplyRoundOffZero = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, Nothing)) = 1, True, False)
+        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -517,7 +519,7 @@ Public Class frmShipmentDairy
             Else
                 RadLabel24.Text = "Delivery No"
             End If
-            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
             '  SetTax()
         End If
 
@@ -6303,7 +6305,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
                 lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt + dblCashDisAmt + dblVolumeSlabCashDisAmt)
                 lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
-                lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
+                lblTaxAmt.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblTaxTotAmt), 2))
 
                 lblAddCharges.Text = clsCommon.myFormat(dblACAmount)
                 lblAddCharges1.Text = clsCommon.myFormat(dblACAmount)
@@ -10008,6 +10010,16 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             txtVendorNo.Enabled = False
             chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
             SetMultiCurrencyVisibility()
+            If EnableLocation Then
+                txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+
+            Else
+                txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+
+            End If
+            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
+            End If
         Else
             lblVendorName.Text = ""
             txtTermCode.Value = ""
@@ -11416,13 +11428,15 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                         For i As Integer = 0 To gv1.Rows.Count - 1
                             TotalCrate = TotalCrate + gv1.Rows(i).Cells(colCrate).Value
                         Next
-                        If Not (EnableManualCrateonTaxableDairyDispatch = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal) Then
-                            If clsCommon.myCdbl(TotalCrate) > 0 Then
-                                txtCrate.Value = TotalCrate
-                            Else
-                                txtCrate.Value = 0
-                            End If
+                    If Not (EnableManualCrateonTaxableDairyDispatch = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal) Then
+                        If clsCommon.myCdbl(TotalCrate) > 0 Then
+                            txtCrate.Value = TotalCrate
+                        Else
+                            txtCrate.Value = 0
                         End If
+                    Else
+                        txtCrate.Value = TotalCrate
+                    End If
 
 
                     End If

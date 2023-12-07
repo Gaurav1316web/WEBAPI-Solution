@@ -22,7 +22,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
@@ -128,7 +128,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -838,6 +838,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnPost.Size = New System.Drawing.Size(72, 22)
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
+        Me.btnPost.Visible = False
         '
         'frmMilkCollectionDCSMultipleDays
         '

@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Text.RegularExpressions
 Imports common
+
 Public Class frmRouteMaster
     Inherits FrmMainTranScreen
 #Region "Variables"
@@ -15,6 +16,7 @@ Public Class frmRouteMaster
     Const colCustomerName As String = "CUSTOMERNAME"
     Private isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
+    Dim EnableLocation As Boolean = False
     Dim SettNoOFCustomerForImportExport As Integer
 #End Region
 
@@ -29,6 +31,7 @@ Public Class frmRouteMaster
         FunAddHandler()
         SetUserMgmtNew()
         SettNoOFCustomerForImportExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOFCustomerForImportExportOnRouteMaster, clsFixedParameterCode.NoOFCustomerForImportExportOnRouteMaster, Nothing))
+        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
@@ -43,6 +46,13 @@ Public Class frmRouteMaster
         rdoAC.IsChecked = True
         dtpAcIn.Value = clsCommon.GETSERVERDATE()
         isInsideLoadData = False
+        If EnableLocation Then
+            txtLocation.Enabled = True
+            txtLocationDesc.Enabled = True
+        Else
+            txtLocation.Enabled = False
+            txtLocationDesc.Enabled = False
+        End If
     End Sub
     Private Sub LoadEntryUOM()
         Try
@@ -269,7 +279,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -309,6 +319,8 @@ Public Class frmRouteMaster
                     txtnonprice.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct Price_Code_Desc  from TSPL_PRICE_COMPONENT_MAPPING Where Price_Code='" + fndnonprice.Value + "'"))
                     txtvcodedesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select description from tspl_vehicle_master where vehicle_id='" + fndvcode.Value + "' "))
                     chkIsEarlyRoute.Checked = IIf(clsCommon.myCdbl(dt.Rows(i)("IsEarlyRoute")) = 1, True, False)
+                    txtLocation.Value = clsCommon.myCstr(dt.Rows(i)("Location_Code"))
+                    txtLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER Where Location_Code='" + txtLocation.Value + "'"))
                     If String.IsNullOrEmpty(clsCommon.myCstr(dt.Rows(i)("Route_Time"))) = True Then
                         txtRouteTime.Value = Nothing
                         txtRouteTime.Checked = False
@@ -405,6 +417,8 @@ Public Class frmRouteMaster
             txtTollAmount.Value = 0
             chkIsEarlyRoute.Checked = False
             fnd_saleman_code.arrValueMember = Nothing
+            txtLocation.Value = String.Empty
+            txtLocationDesc.Text = ""
             dtpAcIn.Value = clsCommon.GETSERVERDATE()
             isCellValueChangedOpen = False
             LoadBlankGrid()
@@ -547,6 +561,7 @@ Public Class frmRouteMaster
         Else
             clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", Nothing, True)
         End If
+        clsCommon.AddColumnsForChange(coll1, "Location_Code", txtLocation.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Value)
         clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
@@ -584,6 +599,7 @@ Public Class frmRouteMaster
             Dim Comp_Code As String = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
             Dim vehicle_code As String = clsCommon.myCstr(dt.Rows(0)("vehicle_code"))
             Dim NonPrice_Code As String = clsCommon.myCstr(dt.Rows(0)("NonPrice_Code"))
+            Dim Location_Code As String = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
 
             Dim strActive As Char
 
@@ -1367,6 +1383,18 @@ Public Class frmRouteMaster
             End If
         End If
     End Sub
+
+    Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
+        Try
+            Dim strQry As String = " select Location_Code as Code, Location_Desc as [Location Name],City_Code as [City],State,Country from TSPL_LOCATION_MASTER "
+            Dim Whrcls As String = " Location_Category<>'MCC' and Is_Sub_Location='N' "
+            txtLocation.Value = clsCommon.ShowSelectForm("RotMastrLocation", strQry, "Code", Whrcls, txtLocation.Value, "", isButtonClicked)
+            txtLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged
         If dgv.RowCount > 0 Then
             Dim intCurrRow As Integer = dgv.CurrentRow.Index

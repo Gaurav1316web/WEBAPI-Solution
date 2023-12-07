@@ -14,9 +14,13 @@ Public Class clsMilkCollectionMCC
     Public Entered_Qty As Decimal
     Public Entered_FATKg As Decimal
     Public Entered_SNFKg As Decimal
+    Public Original_Qty As Decimal
+    Public Original_FATKg As Decimal
+    Public Original_SNFKg As Decimal
     Public Retesting_FAT As Decimal
     Public Retesting_SNF As Decimal
     Public Retesting_CLR As Decimal
+    Public Correction_Qty As Decimal
     Public Correction_FAT As Decimal
     Public Correction_SNF As Decimal
     Public Slip_No As String
@@ -24,6 +28,7 @@ Public Class clsMilkCollectionMCC
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
     Public Against_DCS_Multiple_Days As String
+    Public Against_DCS_Multiple_Days_Merge As String
     Public Age As Decimal
     Public ALCOB As String
     Public txtDate As String
@@ -76,6 +81,9 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
             clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
             clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+            clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Original_Qty)
+            clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.Original_FATKg)
+            clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.Original_SNFKg)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "FAT_SNF_Type", obj.FAT_SNF_Type)
             clsCommon.AddColumnsForChange(coll, "Slip_No", obj.Slip_No)
@@ -85,6 +93,7 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "ORG", obj.ORG)
             clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
             clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days, True)
+            clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days_Merge", obj.Against_DCS_Multiple_Days_Merge, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -99,7 +108,8 @@ Public Class clsMilkCollectionMCC
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC.Document_No='" + obj.Document_No + "'", trans)
             End If
-            clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans)
+            Dim isCorrection As Integer = 0
+            clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans, isCorrection)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -152,6 +162,7 @@ where 2=2"
             obj.ORG = clsCommon.myCstr(dt.Rows(0)("ORG"))
             obj.Acidity = clsCommon.myCDecimal(dt.Rows(0)("Acidity"))
             obj.Against_DCS_Multiple_Days = clsCommon.myCstr(dt.Rows(0)("Against_DCS_Multiple_Days"))
+            obj.Against_DCS_Multiple_Days_Merge = clsCommon.myCstr(dt.Rows(0)("Against_DCS_Multiple_Days_Merge"))
             obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.FAT_SNF_Type = clsCommon.myCDecimal(dt.Rows(0)("FAT_SNF_Type"))
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
@@ -305,11 +316,21 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
                 clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
                 clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
                 clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+                clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Original_Qty)
+                clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.Original_FATKg)
+                clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.Original_SNFKg)
             ElseIf isCorrection = 1 Then
+                clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
+                clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
+                clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+                clsCommon.AddColumnsForChange(coll, "Correction_Qty", obj.Correction_Qty)
                 clsCommon.AddColumnsForChange(coll, "Correction_FAT", obj.Correction_FAT)
                 clsCommon.AddColumnsForChange(coll, "Correction_SNF", obj.Correction_SNF)
 
             ElseIf isCorrection = 2 Then
+                clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
+                clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
+                clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
                 clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
                 clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
                 clsCommon.AddColumnsForChange(coll, "Retesting_CLR", obj.Retesting_CLR)
@@ -348,10 +369,14 @@ Public Class clsMilkCollectionMCCDetail
     Public Qty As Decimal
     Public FAT As Decimal
     Public SNF As Decimal
+    Public Original_Qty As Decimal
+    Public Original_FATKg As Decimal
+    Public Original_SNFKg As Decimal
     Public Retesting_FAT As Decimal
     Public Retesting_SNF As Decimal
     Public Retesting_CLR As Decimal
     Public Retesting_OR_Correction As Integer
+    Public Correction_Qty As Decimal
     Public Correction_FAT As Decimal
     Public Correction_SNF As Decimal
     Public Machine_FAT As Decimal
@@ -365,6 +390,7 @@ Public Class clsMilkCollectionMCCDetail
     Public Silo_Capacity As Integer
     Public Against_Multiple_Days As Integer
     Public REF_PK_ID_BMCDCS_TRIP As Integer
+    Public Against_Multiple_Days_Merge_Day_Detail As Integer
 
 
 
@@ -374,7 +400,8 @@ Public Class clsMilkCollectionMCCDetail
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim dtDocDate As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_MILK_COLLECTION_MCC where Document_No='" + strDocNo + "'", trans))
-            SaveData(strDocNo, dtDocDate, Arr, False, trans)
+            Dim isCorrection As Integer = 0
+            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -383,10 +410,10 @@ Public Class clsMilkCollectionMCCDetail
         Return True
     End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal isCorrection As Integer) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(strDocNo, dtDocDate, Arr, False, trans)
+            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -395,7 +422,7 @@ Public Class clsMilkCollectionMCCDetail
         Return True
     End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction, ByVal isCorrection As Integer) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionMCCDetail In Arr
                 Dim coll As New Hashtable()
@@ -412,11 +439,18 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
+                If isCorrection = 0 Then
+                    clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Original_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.Original_FATKg)
+                    clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.Original_SNFKg)
+                End If
+
                 If obj.Retesting_OR_Correction = 1 Then
                     clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
                     clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
                     clsCommon.AddColumnsForChange(coll, "Retesting_CLR", obj.Retesting_CLR)
                 ElseIf obj.Retesting_OR_Correction = 2 Then
+                    clsCommon.AddColumnsForChange(coll, "Correction_Qty", obj.Correction_Qty)
                     clsCommon.AddColumnsForChange(coll, "Correction_FAT", obj.Correction_FAT)
                     clsCommon.AddColumnsForChange(coll, "Correction_SNF", obj.Correction_SNF)
                 End If
@@ -427,6 +461,7 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading_Code", obj.Gaze_Reading_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days", obj.Against_Multiple_Days, True)
+                clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days_Merge_Day_Detail", obj.Against_Multiple_Days_Merge_Day_Detail, True)
 
                 clsCommon.AddColumnsForChange(coll, "REF_PK_ID_BMCDCS_TRIP", obj.REF_PK_ID_BMCDCS_TRIP, True)
                 clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
@@ -492,6 +527,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Gaze_Reading_Code = clsCommon.myCstr(dr("Gaze_Reading_Code"))
                 objTr.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
                 objTr.Against_Multiple_Days = clsCommon.myCDecimal(dr("Against_Multiple_Days"))
+                objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(dr("Against_Multiple_Days_Merge_Day_Detail"))
                 arr.Add(objTr)
             Next
         End If

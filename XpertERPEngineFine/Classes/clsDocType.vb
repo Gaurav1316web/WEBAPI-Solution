@@ -388,7 +388,7 @@ Public Class clsDocType
     Public Const MilkCollectionMCCMuliple As String = "Milk Collection MCC Multiple"
     Public Const MilkCollectionDCS As String = "Milk Collection DCS"
     Public Const MilkCollectionDCSMuliple As String = "Milk Collection DCS Multiple"
-    Public Const MilkCollectionDCSMulipleMerge As String = "Milk Collection DCS Multiple Merge"
+    Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
@@ -1489,7 +1489,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.FarmerServiceOrder, "", False, False)
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
-            InsertDefaultValue(clsDocType.DistributorCommission, "", False, True, True)
+            InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)
             InsertDefaultValue(clsDocType.frmNotification, "", False, True, True)
 
