@@ -1489,7 +1489,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.FarmerServiceOrder, "", False, False)
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
-            InsertDefaultValue(clsDocType.DistributorCommission, "", False, True, True)
+            InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)
             InsertDefaultValue(clsDocType.frmNotification, "", False, True, True)
 

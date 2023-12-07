@@ -2731,14 +2731,9 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
 
             Dim MilkProductBoth As String = Nothing
             If rbtnMilk.Checked Then
-                MilkProductBoth = "Milk"
-                whrcls += " And TSPL_ITEM_MASTER.Structure_Code='" + MilkProductBoth + "'"
+                whrcls += " And TSPL_ITEM_MASTER.Is_FreshItem=1"
             ElseIf rbtnProduct.Checked Then
-                MilkProductBoth = "Product"
-                whrcls += " And TSPL_ITEM_MASTER.Structure_Code='" + MilkProductBoth + "'"
-            Else
-                MilkProductBoth = "'Milk','Product'"
-                whrcls += " And TSPL_ITEM_MASTER.Structure_Code IN (" + MilkProductBoth + ")"
+                whrcls += " And TSPL_ITEM_MASTER.Is_Ambient=1"
             End If
 
             Dim Qry As String = Nothing

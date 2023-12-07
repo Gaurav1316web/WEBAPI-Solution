@@ -108,7 +108,8 @@ Public Class clsMilkCollectionMCC
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC.Document_No='" + obj.Document_No + "'", trans)
             End If
-            clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans)
+            Dim isCorrection As Integer = 0
+            clsMilkCollectionMCCDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans, isCorrection)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -368,10 +369,14 @@ Public Class clsMilkCollectionMCCDetail
     Public Qty As Decimal
     Public FAT As Decimal
     Public SNF As Decimal
+    Public Original_Qty As Decimal
+    Public Original_FATKg As Decimal
+    Public Original_SNFKg As Decimal
     Public Retesting_FAT As Decimal
     Public Retesting_SNF As Decimal
     Public Retesting_CLR As Decimal
     Public Retesting_OR_Correction As Integer
+    Public Correction_Qty As Decimal
     Public Correction_FAT As Decimal
     Public Correction_SNF As Decimal
     Public Machine_FAT As Decimal
@@ -395,7 +400,8 @@ Public Class clsMilkCollectionMCCDetail
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim dtDocDate As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_MILK_COLLECTION_MCC where Document_No='" + strDocNo + "'", trans))
-            SaveData(strDocNo, dtDocDate, Arr, False, trans)
+            Dim isCorrection As Integer = 0
+            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -404,10 +410,10 @@ Public Class clsMilkCollectionMCCDetail
         Return True
     End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal isCorrection As Integer) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(strDocNo, dtDocDate, Arr, False, trans)
+            SaveData(strDocNo, dtDocDate, Arr, False, trans, isCorrection)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -416,7 +422,7 @@ Public Class clsMilkCollectionMCCDetail
         Return True
     End Function
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction, ByVal isCorrection As Integer) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionMCCDetail In Arr
                 Dim coll As New Hashtable()
@@ -433,11 +439,18 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
+                If isCorrection = 0 Then
+                    clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Original_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.Original_FATKg)
+                    clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.Original_SNFKg)
+                End If
+
                 If obj.Retesting_OR_Correction = 1 Then
                     clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
                     clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
                     clsCommon.AddColumnsForChange(coll, "Retesting_CLR", obj.Retesting_CLR)
                 ElseIf obj.Retesting_OR_Correction = 2 Then
+                    clsCommon.AddColumnsForChange(coll, "Correction_Qty", obj.Correction_Qty)
                     clsCommon.AddColumnsForChange(coll, "Correction_FAT", obj.Correction_FAT)
                     clsCommon.AddColumnsForChange(coll, "Correction_SNF", obj.Correction_SNF)
                 End If

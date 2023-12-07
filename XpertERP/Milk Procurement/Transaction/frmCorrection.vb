@@ -1070,6 +1070,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                 Arr(0).Retesting_CLR = txtRetestingCLR.Value
                 Arr(0).Retesting_OR_Correction = 1
             Else
+                Arr(0).Correction_Qty = txtBMCCorrQty.Value
                 Arr(0).Correction_FAT = txtBMCCorrFAT.Value
                 Arr(0).Correction_SNF = txtBMCCorrSNF.Value
                 Arr(0).Retesting_OR_Correction = 2
@@ -1078,7 +1079,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             Arr(0).SNF = txtBMCCorrSNF.Value
             Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
             Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
-            clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, Nothing)
+            clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, Nothing, isCorrection)
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1170,6 +1171,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
         lblBMCTankerFATKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerFAT.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
 
+    
     Private Sub txtBMCTankerSNF_TextChanged(sender As Object, e As EventArgs) Handles txtBMCTankerSNF.TextChanged
         lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
@@ -1383,7 +1385,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                         Arr(0).SNF = clsCommon.myCDecimal(grow.Cells("SNF").Value)
                         Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
                         Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
-                        clsMilkCollectionMCCDetail.SaveData(clsCommon.myCstr(grow.Cells("Document_No").Value), txtBMCDate.Value, Arr, True)
+                        clsMilkCollectionMCCDetail.SaveData(clsCommon.myCstr(grow.Cells("Document_No").Value), txtBMCDate.Value, Arr, True, isCorrection)
                         'clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
                     Catch ex As Exception
                         dr = DtError.NewRow()
@@ -1523,5 +1525,10 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             End Try
         End If
         Me.Controls.Remove(gv)
+    End Sub
+
+    Private Sub txtBMCTankerQty_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtBMCTankerQty.Validating
+        lblBMCTankerFATKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerFAT.Value / 100), 3, MidpointRounding.ToEven)
+        lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
 End Class
