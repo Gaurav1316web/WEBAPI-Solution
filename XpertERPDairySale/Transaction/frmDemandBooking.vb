@@ -3719,22 +3719,22 @@ group by XX.Cust_Code,XX.Sku_Seq
                 Exit Sub
             End If
 
-            Dim sfd As SaveFileDialog = New SaveFileDialog()
-            Dim filePath As String = ""
-            sfd.FileName = Me.Text
-            sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
-            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                filePath = sfd.FileName
-            Else
+            'Dim sfd As SaveFileDialog = New SaveFileDialog()
+            'Dim filePath As String = ""
+            'sfd.FileName = Me.Text
+            'sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
+            'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            '    filePath = sfd.FileName
+            'Else
 
-            End If
+            'End If
 
-            If Not filePath.Equals(String.Empty) Then
-                If exporter = EnumExportTo.Excel Then
+            'If Not filePath.Equals(String.Empty) Then
+            If exporter = EnumExportTo.Excel Then
                     transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                     transportSql.exportdata(gv1, "", Me.Text, , Nothing, False, False, True)
                 End If
-            End If
+            ' End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
@@ -3799,7 +3799,7 @@ group by XX.Cust_Code,XX.Sku_Seq
                         UpdateAllTotals()
                         clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     Else
-                        clsCommon.MyMessageBoxShow("You cannot import qunatity because both Import and Export Data is different", Me.Text)
+                        clsCommon.MyMessageBoxShow("You cannot import quantity because both Import and Export Data is different", Me.Text)
                     End If
                 End If
             End If

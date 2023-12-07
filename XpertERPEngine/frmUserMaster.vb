@@ -1287,6 +1287,11 @@ Public Class FrmUserMaster
                     txtMP.Focus()
                     Throw New Exception("Please select Milk Producer/Farmer ")
                 End If
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(CboAppUserType.SelectedValue), "Z") = CompairStringResult.Equal Then
+                If mulZone.arrValueMember Is Nothing OrElse mulZone.arrValueMember.Count <= 0 Then
+                    mulZone.Focus()
+                    Throw New Exception("Please select at lease one Zone ")
+                End If
             End If
 
             If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal) AndAlso chkInActive.Checked = False Then
@@ -1296,7 +1301,6 @@ Public Class FrmUserMaster
                     lblCustCode.Text = ""
                     Throw New Exception("You cannot mapped same customer to more than one user")
                 End If
-
             End If
 
             SaveData()
@@ -1674,6 +1678,7 @@ Public Class FrmUserMaster
         dt.Rows.Add("F", "Milk Producer")
         dt.Rows.Add("R", "RP")
         dt.Rows.Add("V", "VSP")
+        dt.Rows.Add("Z", "Zone")
 
         CboAppUserType.DataSource = dt
         CboAppUserType.ValueMember = "Code"

@@ -1070,6 +1070,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                 Arr(0).Retesting_CLR = txtRetestingCLR.Value
                 Arr(0).Retesting_OR_Correction = 1
             Else
+                Arr(0).Correction_Qty = txtBMCCorrQty.Value
                 Arr(0).Correction_FAT = txtBMCCorrFAT.Value
                 Arr(0).Correction_SNF = txtBMCCorrSNF.Value
                 Arr(0).Retesting_OR_Correction = 2
@@ -1078,7 +1079,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             Arr(0).SNF = txtBMCCorrSNF.Value
             Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
             Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
-            clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, Nothing)
+            clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, Nothing, isCorrection)
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1170,6 +1171,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
         lblBMCTankerFATKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerFAT.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
 
+    
     Private Sub txtBMCTankerSNF_TextChanged(sender As Object, e As EventArgs) Handles txtBMCTankerSNF.TextChanged
         lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
@@ -1227,13 +1229,20 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             End If
             Dim obj As New clsMilkCollectionMCC
             obj.Document_No = lblBMCTankerDocNo.Text
-            obj.Entered_Qty = txtBMCTankerQty.Value
             If isCorrection = 1 Then
-                obj.Correction_FAT = clsCommon.myCDecimal(txtBMCTankerFAT.Text)
-                obj.Correction_SNF = clsCommon.myCDecimal(txtBMCTankerSNF.Text)
+                obj.Entered_Qty = clsCommon.myCDecimal(txtBMCTankerQty.Value)
+                obj.Entered_FATKg = clsCommon.myCDecimal(lblBMCTankerFATKG.Text)
+                obj.Entered_SNFKg = clsCommon.myCDecimal(lblBMCTankerSNFKG.Text)
+                obj.Correction_Qty = clsCommon.myCDecimal(txtBMCTankerQty.Value)
+                obj.Correction_FAT = clsCommon.myCDecimal(txtBMCTankerFAT.Value)
+                obj.Correction_SNF = clsCommon.myCDecimal(txtBMCTankerSNF.Value)
+
             ElseIf isCorrection = 2 Then
-                obj.Retesting_FAT = clsCommon.myCDecimal(txtBMCTankerFAT.Text)
-                obj.Retesting_SNF = clsCommon.myCDecimal(txtBMCTankerSNF.Text)
+                obj.Entered_Qty = clsCommon.myCDecimal(txtBMCTankerQty.Value)
+                obj.Entered_FATKg = clsCommon.myCDecimal(lblBMCTankerFATKG.Text)
+                obj.Entered_SNFKg = clsCommon.myCDecimal(lblBMCTankerSNFKG.Text)
+                obj.Retesting_FAT = clsCommon.myCDecimal(txtBMCTankerFAT.Value)
+                obj.Retesting_SNF = clsCommon.myCDecimal(txtBMCTankerSNF.Value)
                 Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Trans)
                 Dim CLR As Decimal
                 CLR = clsEkoPro.getClrOnCalculation(obj.Retesting_FAT, obj.Retesting_SNF, corrFactor)
@@ -1376,7 +1385,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                         Arr(0).SNF = clsCommon.myCDecimal(grow.Cells("SNF").Value)
                         Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
                         Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
-                        clsMilkCollectionMCCDetail.SaveData(clsCommon.myCstr(grow.Cells("Document_No").Value), txtBMCDate.Value, Arr, True)
+                        clsMilkCollectionMCCDetail.SaveData(clsCommon.myCstr(grow.Cells("Document_No").Value), txtBMCDate.Value, Arr, True, isCorrection)
                         'clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
                     Catch ex As Exception
                         dr = DtError.NewRow()
@@ -1462,15 +1471,21 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                         Dim obj As New clsMilkCollectionMCC
 
                         obj.Document_No = clsCommon.myCstr(grow.Cells("Document_No").Value)
-                        obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Entered_Qty").Value)
                         Dim Qty As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC.Entered_Qty from  TSPL_MILK_COLLECTION_MCC where CONVERT(Date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(clsCommon.myCstr(grow.Cells("Document_Date").Value), "dd/MMM/yyyy") + "' And Status=1 and TSPL_MILK_COLLECTION_MCC.Document_No='" + clsCommon.myCstr(grow.Cells("Document_No").Value) + "'"))
                         If isCorrection = 1 Then
-                            obj.Correction_FAT = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
-                            obj.Correction_SNF = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Entered_Qty").Value)
+                            obj.Entered_FATKg = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Entered_SNFKg = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Correction_Qty = clsCommon.myCDecimal(grow.Cells("Correction_Qty").Value)
+                            obj.Correction_FAT = clsCommon.myCDecimal(grow.Cells("FATPer").Value)
+                            obj.Correction_SNF = clsCommon.myCDecimal(grow.Cells("SNFPer").Value)
 
                         ElseIf isCorrection = 2 Then
-                            obj.Retesting_FAT = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
-                            obj.Retesting_SNF = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Entered_Qty").Value)
+                            obj.Entered_FATKg = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("FATPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Entered_SNFKg = Math.Round((Qty * clsCommon.myCDecimal(grow.Cells("SNFPer").Value) / 100), 3, MidpointRounding.ToEven)
+                            obj.Retesting_FAT = clsCommon.myCDecimal(grow.Cells("FATPer").Value)
+                            obj.Retesting_SNF = clsCommon.myCDecimal(grow.Cells("SNFPer").Value)
                         End If
 
                         'obj.Document_No = clsCommon.myCstr(grow.Cells("Document_No").Value)
@@ -1510,5 +1525,10 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             End Try
         End If
         Me.Controls.Remove(gv)
+    End Sub
+
+    Private Sub txtBMCTankerQty_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtBMCTankerQty.Validating
+        lblBMCTankerFATKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerFAT.Value / 100), 3, MidpointRounding.ToEven)
+        lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
 End Class

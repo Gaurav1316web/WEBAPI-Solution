@@ -25,44 +25,6 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
 
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-        coll.Add("Document_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_Date", "Datetime NOT NULL")
-        coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
-        coll.Add("Tanker_No", "Varchar(20) not null references TSPL_TANKER_MASTER(Tanker_No)")
-        coll.Add("Entered_Qty", "Decimal(18,3) null")
-        coll.Add("Entered_FATKg", "Decimal(18,3) null")
-        coll.Add("Entered_SNFKg", "Decimal(18,3) null")
-        coll.Add("Description", "Varchar(200) null")
-        coll.Add("FAT_SNF_Type", "int Null")
-        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Posted_Date", "datetime null")
-        coll.Add("Posted_By", "varchar(12)  NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", coll, Nothing, True, False, "", "Document_No", "Document_Date")
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
-        coll.Add("Against_DCS_Multiple_Days", "Varchar(30) not null unique references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCUMENT", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", "Document_No", "")
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
-        coll.Add("IDate", "Date NOT NULL")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("FATKG", "Decimal(18,3) null")
-        coll.Add("SNFKG", "Decimal(18,3) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", "Document_No", "")
-
-
-
         SettShowAllMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing)) = 1)
         settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
@@ -245,7 +207,7 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
             gv1.DataSource = Nothing
             gv2.DataSource = Nothing
             Dim obj As New clsMilkCollectionDCSMulipleDaysMerge()
-            obj = clsMilkCollectionDCSMulipleDaysMerge.GetData(strCode, NavTyep, Nothing)
+            obj = clsMilkCollectionDCSMulipleDaysMerge.GetData(strCode, NavTyep, Nothing, "", "", False)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 txtDate.Enabled = False
                 isNewEntry = False
@@ -280,8 +242,8 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
 
 
                 Dim qry As String = "select cast(1 as bit) as sel ,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Against_DCS_Multiple_Days as Document_No,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_NAME
-,(select min(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date) from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No) as Collection_Date_Min
-,(select max(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date) from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No) as Collection_Date_Max
+,convert(varchar,(select min(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date) from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No),103) as Collection_Date_Min
+,convert(varchar,(select max(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date) from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No),103) as Collection_Date_Max
 ,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty ,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_FATKg,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_SNFKg 
 from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS 
 left outer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Against_DCS_Multiple_Days
@@ -289,7 +251,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
 where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No='" + obj.Document_No + "' order by TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.PK_Id"
                 FormatGrid1(clsDBFuncationality.GetDataTable(qry))
 
-                qry = "select IDate as Collection_Date,Qty,FAT,SNF,FATKG,SNFKG  from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL where Document_No ='" + obj.Document_No + "' order by PK_Id"
+                qry = "select convert(varchar,IDate,103) as Collection_Date,Qty,FAT,SNF,FATKG,SNFKG  from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL where Document_No ='" + obj.Document_No + "' order by PK_Id"
                 FormatGrid2(clsDBFuncationality.GetDataTable(qry))
 
                 UpdateAllTotal(False)
@@ -620,9 +582,9 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
     Private Sub UpdateAllTotal(ByVal isManual As Boolean)
         If isManual Then
             txtTotEnteredFAT.Value = Math.Round(txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100, 3, MidpointRounding.ToEven)
-            Dim snfPer As Decimal = txtTotEnteredFATPer.Value
+            Dim snfPer As Decimal = txtTotEnteredSNFPer.Value
             If isPickCLRInsteadOfSNF Then
-                snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredFATPer.Value, corrFactor)
+                snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, snfPer, corrFactor)
             End If
             txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfPer / 100), 3, MidpointRounding.ToEven)
         Else
