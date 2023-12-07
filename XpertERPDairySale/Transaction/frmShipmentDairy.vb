@@ -6305,7 +6305,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
                 lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt + dblCashDisAmt + dblVolumeSlabCashDisAmt)
                 lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
-                lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
+                lblTaxAmt.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblTaxTotAmt), 2))
 
                 lblAddCharges.Text = clsCommon.myFormat(dblACAmount)
                 lblAddCharges1.Text = clsCommon.myFormat(dblACAmount)
@@ -11428,13 +11428,15 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                         For i As Integer = 0 To gv1.Rows.Count - 1
                             TotalCrate = TotalCrate + gv1.Rows(i).Cells(colCrate).Value
                         Next
-                        If Not (EnableManualCrateonTaxableDairyDispatch = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal) Then
-                            If clsCommon.myCdbl(TotalCrate) > 0 Then
-                                txtCrate.Value = TotalCrate
-                            Else
-                                txtCrate.Value = 0
-                            End If
+                    If Not (EnableManualCrateonTaxableDairyDispatch = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal) Then
+                        If clsCommon.myCdbl(TotalCrate) > 0 Then
+                            txtCrate.Value = TotalCrate
+                        Else
+                            txtCrate.Value = 0
                         End If
+                    Else
+                        txtCrate.Value = TotalCrate
+                    End If
 
 
                     End If
