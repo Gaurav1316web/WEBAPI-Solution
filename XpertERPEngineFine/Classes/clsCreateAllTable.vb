@@ -23398,7 +23398,8 @@ Public Class clsCreateAllTable
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"
             dt = clsDBFuncationality.GetDataTable(qry)
 
-
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -23440,7 +23441,10 @@ Public Class clsCreateAllTable
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
 
-
+            If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
+                qry = "CREATE UNIQUE INDEX Unique_BMCDCS_TRIP ON TSPL_MILK_COLLECTION_MCC_DETAIL (REF_PK_ID_BMCDCS_TRIP) WHERE REF_PK_ID_BMCDCS_TRIP IS NOT NULL;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
 
             coll = New Dictionary(Of String, String)
