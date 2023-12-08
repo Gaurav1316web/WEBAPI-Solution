@@ -1744,8 +1744,18 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc
                         TSPL_PAYMENT_PROCESS_DETAIL INNER JOIN
                         TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
                         where Document_Type='C' and RefDocType='Milk_HE'  and TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") group by 
-                        TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,Description)final1  on final1.Doc_No=xxy.doc_no"
+                        TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,Description)final1  on final1.Doc_No=xxy.doc_no "
 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                sQuery += " left outer join (
+                         select TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,Sum(TSPL_PAYMENT_PROCESS_DETAIL.Reduce_Deduc_Amt) As 'TotalOutStandingAmt' from TSPL_PAYMENT_PROCESS_DETAIL  
+                         left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,
+                         cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer  
+                         from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER, cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg, cast( ACC_Qty*SNF_PER/100 as decimal(18,2)) as SNFKg 
+                         from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE ) as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+                         where TSPL_PAYMENT_PROCESS_DETAIL.doc_no in (" + strDocNo + ") Group By TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+                         ) As TotalOutStanding On TotalOutStanding.Doc_No=final1.Doc_No"
+            End If
             dt = clsDBFuncationality.GetDataTable(sQuery)
 
 
@@ -1881,8 +1891,13 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc
         ",TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_RECEIPT_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT,"
         BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, TSPL_VENDOR_MASTER.Bank_Name as Vendor_Bank_Name, TSPL_VENDOR_MASTER.Account_Type as Vendor_Bank_Account_Type1 , TSPL_VENDOR_MASTER.AccountType2 as Vendor_Bank_Account_Type2 , TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.AccNo2 as Vendor_Account_No2,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SAMPLE_DETAIL.TYPE,'')='' then 'Mix' else TSPL_MILK_SAMPLE_DETAIL.TYPE end as Type ,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
         BaseQry += " TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt"
-        BaseQry += " ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, " + IIf(ApplyMilkTypeBuffaloCowOnPrint = True, " case when TSPL_PRICE_CHART_PLANNING.Dock_Collection_Milk_Type = 'M' then 'Buffalo' else 'Cow' end  ", "'Mixed'") + "  as CowBuffalo_Type " + Environment.NewLine +
-            ",(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount
+        BaseQry += " ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name,"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+            BaseQry += " 'Mix' as CowBuffalo_Type "
+        Else
+            BaseQry += "" + IIf(ApplyMilkTypeBuffaloCowOnPrint = True, " case when TSPL_PRICE_CHART_PLANNING.Dock_Collection_Milk_Type = 'M' then 'Buffalo' else 'Cow' end  ", "'Mixed'") + "  as CowBuffalo_Type "
+        End If
+        BaseQry += ",(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount
 ,TSPL_MILK_PURCHASE_INVOICE_HEAD.Total_Basic_AMOUNT "
         If ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = True Then
             BaseQry += " ,coalesce(TSPL_Primary_Vehicle_Master.Vehicle,TSPL_MILK_SRN_HEAD.VEHICLE_CODE) as VEHICLE_CODE "

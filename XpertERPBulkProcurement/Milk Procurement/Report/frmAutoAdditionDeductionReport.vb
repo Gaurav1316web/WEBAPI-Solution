@@ -33,17 +33,17 @@ Public Class frmAutoAdditionDeductionReport
     End Sub
     Sub Print(ByVal isPrint As Boolean)
         Try
-            If SetToDate() Then
-                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                Gv1.DataSource = Nothing
-                Gv1.Rows.Clear()
-                Gv1.Columns.Clear()
-                Gv1.GroupDescriptors.Clear()
-                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                Gv1.MasterView.Refresh()
-                PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
-                TemplateGridview = Gv1
-                Dim Qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code]
+            'If SetToDate() Then
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterView.Refresh()
+            PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
+            TemplateGridview = Gv1
+            Dim Qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code]
                                     ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code]
                                     ,CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=1 THEN 'DCS'
@@ -71,37 +71,37 @@ Public Class frmAutoAdditionDeductionReport
                                     left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
                                     WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
 
-                If rbtnAddition.IsChecked = True Then
-                    Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 "
-                ElseIf rbtnDeduction.IsChecked = True Then
-                    Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 "
-                End If
-
-                If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
-                    Qry += "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
-                End If
-                If TxtMultiDCS.arrValueMember IsNot Nothing AndAlso TxtMultiDCS.arrValueMember.Count > 0 Then
-                    Qry += "and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtMultiDCS.arrValueMember) + ")"
-                End If
-
-                If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
-                    Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
-                End If
-
-
-                dt = Nothing
-                dt = clsDBFuncationality.GetDataTable(Qry)
-                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    Throw New Exception("No Data Found to Display")
-                End If
-
-
-                Gv1.DataSource = dt
-                RadPageView1.SelectedPage = RadPageViewPage2
-                SetGridFormat(Gv1)
-                EnableDisaableControls(False)
-                ReStoreGridLayout()
+            If rbtnAddition.IsChecked = True Then
+                Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 "
+            ElseIf rbtnDeduction.IsChecked = True Then
+                Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 "
             End If
+
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                Qry += "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+            End If
+            If TxtMultiDCS.arrValueMember IsNot Nothing AndAlso TxtMultiDCS.arrValueMember.Count > 0 Then
+                Qry += "and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtMultiDCS.arrValueMember) + ")"
+            End If
+
+            If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
+                Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
+            End If
+
+
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("No Data Found to Display")
+            End If
+
+
+            Gv1.DataSource = dt
+            RadPageView1.SelectedPage = RadPageViewPage2
+            SetGridFormat(Gv1)
+            EnableDisaableControls(False)
+            ReStoreGridLayout()
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -196,10 +196,10 @@ Public Class frmAutoAdditionDeductionReport
     End Sub
 
     Private Sub txtFromDate_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtFromDate.Validating
-        SetToDate()
+        'SetToDate()
     End Sub
     Private Sub txtFromDate_Leave(sender As Object, e As EventArgs) Handles txtFromDate.Leave
-        SetToDate()
+        'SetToDate()
     End Sub
     Function SetToDate() As Boolean
         Try
