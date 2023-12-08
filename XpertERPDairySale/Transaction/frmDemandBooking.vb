@@ -5,6 +5,7 @@ Imports common
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim gvFullMode As Boolean = False
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
     Dim LockedByUserName As String = ""
@@ -2266,21 +2267,22 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 If clsCommon.myLen(clsCommon.myCstr(txtVehicleNo.Value)) <= 0 Then
                     Throw New Exception("Please Map Vehicle with Route " & lblRouteDesc.Text & "")
                 End If
-                If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(TxtCity.Value)) > 0 Then
+                If EnableLocation Then
+                    txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+                    txtLocation.Enabled = False
+                Else
+                    txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+
+                End If
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
+                    lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+                End If
+                If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(TxtCity.Value)) > 0 Then
                     setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
                 End If
             End If
             RefreshFormName()
-            If EnableLocation Then
-                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
-                txtLocation.Enabled = False
-            Else
-                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
 
-            End If
-            If clsCommon.myLen(txtLocation.Value) > 0 Then
-                lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
-            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -3836,6 +3838,26 @@ group by XX.Cust_Code,XX.Sku_Seq
         Return OSBal
     End Function
 
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnFullMode.Click
+        Try
+            If gvFullMode Then
+                rgbDemandHead.Visible = True
+                RadGroupBox2.Location = New System.Drawing.Point(6, 190)
+                RadGroupBox2.Size = New System.Drawing.Size(1114, 400)
+
+                gvFullMode = False
+            Else
+
+                gvFullMode = True
+                rgbDemandHead.Visible = False
+                RadGroupBox2.Location = New System.Drawing.Point(6, 6)
+                RadGroupBox2.Size = New System.Drawing.Size(1114, 600)
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Public Class ItemValueClass
     Public itemCode As String = String.Empty

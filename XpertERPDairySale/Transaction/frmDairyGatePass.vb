@@ -35,6 +35,7 @@ Public Class frmDairyGatePass
     Dim AlternateVechileforGatePass As Double
     Dim isCreateProvisionOfTransporterInDairyDispatch As Boolean = False
     Dim SettCreateProvisionOnOpeningAndClosingKM As Boolean = False
+    Dim IsLoadingSlipMandatory As Boolean = False
     Dim CreateGatePassFromDemand As Boolean = False
     Public arrShipmentFromMultiple As ArrayList ''ERO/03/05/19-000584 by balwindr on 06/05/2019
 #End Region
@@ -68,6 +69,7 @@ Public Class frmDairyGatePass
         LoadBlankGrid()
         txtDate.Value = clsCommon.GETSERVERDATE()
         isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
+        IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
         SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
         CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
         Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
@@ -607,6 +609,13 @@ Public Class frmDairyGatePass
             If txtOpKM.Value <= 0 Then
                 txtOpKM.Focus()
                 Throw New Exception("Please enter opening KM")
+            End If
+
+        End If
+        If IsLoadingSlipMandatory Then
+            If clsCommon.myLen(txtLoadingSlip.Text) <= 0 Then
+                txtLoadingSlip.Focus()
+                Throw New Exception("Please Enter Loading Slip")
             End If
         End If
         Return funvalidatevehicle()
