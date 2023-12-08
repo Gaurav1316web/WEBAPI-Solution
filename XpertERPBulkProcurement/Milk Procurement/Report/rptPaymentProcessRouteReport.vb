@@ -1310,7 +1310,7 @@ Public Class rptPaymentProcessRouteReport
 
         ShowMixedMilk = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.LoadLedgerMixedMilk, clsFixedParameterCode.LoadLedgerMixedMilk, Nothing)) = 1)
 
-        Dim legerMainQuery As String = " select '" + strCompanyCityName + "' as strCompanyCityName , max(fromDate) as fromDate,max(Todate) as Todate,  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , sum(FATQTY) * 100 / sum( Qty)  as FAT_PER , sum(SNFQTY) * 100 / sum( Qty) as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,"
+        Dim legerMainQuery As String = " select '" + CompName + "' As 'CompanyName','" + strCompanyCityName + "' as strCompanyCityName , max(fromDate) as fromDate,max(Todate) as Todate,  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , sum(FATQTY) * 100 / sum( Qty)  as FAT_PER , sum(SNFQTY) * 100 / sum( Qty) as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,"
         If ShowMixedMilk = True Then
             legerMainQuery += "'Mixed Milk' as CowBuffalo_Type , max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE"
         Else
