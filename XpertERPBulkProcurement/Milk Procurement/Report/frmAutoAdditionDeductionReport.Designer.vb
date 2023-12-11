@@ -293,7 +293,6 @@ Partial Class frmAutoAdditionDeductionReport
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.Name = "txtToDate"
         Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReadOnly = True
         Me.txtToDate.Size = New System.Drawing.Size(78, 20)
         Me.txtToDate.TabIndex = 1
         Me.txtToDate.TabStop = False

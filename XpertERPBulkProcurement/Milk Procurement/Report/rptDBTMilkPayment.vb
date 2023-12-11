@@ -89,7 +89,7 @@ Public Class rptDBTMilkPayment
             Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
             qry = " select aa.[MCC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name],
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
-                        ((aa.[SRN Qty]/aa.Conversion_Factor)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
+                        (Round((aa.[SRN Qty]/aa.Conversion_Factor),2)* Incetive_Rate) as [DBT Amount],
                          aa.Incetive_Rate,aa.Conversion_Factor from ( 
                          select xxx.*  from (
                          select xx.*  from ( 

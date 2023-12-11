@@ -1303,6 +1303,7 @@ Public Class clsFixedParameterType
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
     Public Const EnableLocation = "EnableLocation"
+    Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2732,6 +2733,7 @@ Public Class clsFixedParameterCode
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
     Public Const EnableLocation = "EnableLocation"
+    Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4433,6 +4435,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, "0", "0:Off, 1:On;")
 
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6453,6 +6456,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRouteMasterDS, clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, EnumControlType.CheckBox)
 
     End Sub
 End Class
