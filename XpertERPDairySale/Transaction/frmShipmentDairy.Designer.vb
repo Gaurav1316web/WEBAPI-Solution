@@ -2331,7 +2331,6 @@ Partial Class frmShipmentDairy
         'txtRouteNo
         '
         Me.txtRouteNo.CalculationExpression = Nothing
-        Me.txtRouteNo.Enabled = False
         Me.txtRouteNo.FieldCode = Nothing
         Me.txtRouteNo.FieldDesc = Nothing
         Me.txtRouteNo.FieldMaxLength = 0
@@ -2345,7 +2344,7 @@ Partial Class frmShipmentDairy
         Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRouteNo.MyLinkLable1 = Me.lblRouteNo
         Me.txtRouteNo.MyLinkLable2 = Nothing
-        Me.txtRouteNo.MyReadOnly = True
+        Me.txtRouteNo.MyReadOnly = False
         Me.txtRouteNo.MyShowMasterFormButton = False
         Me.txtRouteNo.Name = "txtRouteNo"
         Me.txtRouteNo.ReferenceFieldDesc = Nothing

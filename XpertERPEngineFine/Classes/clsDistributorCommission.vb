@@ -38,7 +38,7 @@ Public Class clsDistributorCommission
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
-                obj.Doc_No = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.DistributorCommission, "", objCommonVar.strCurrUserLocations)
+                obj.Doc_No = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.DistributorCommission, "", "")
                 If clsCommon.myLen(obj.Doc_No) <= 0 Then
                     Throw New Exception("Error in Code Generation")
                 End If

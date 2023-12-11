@@ -5,6 +5,7 @@ Imports common
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim gvFullMode As Boolean = False
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
     Dim LockedByUserName As String = ""
@@ -2106,11 +2107,22 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 If clsCommon.myLen(clsCommon.myCstr(txtVehicleNo.Value)) <= 0 Then
                     Throw New Exception("Please Map Vehicle with Route " & lblRouteDesc.Text & "")
                 End If
-                If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(TxtCity.Value)) > 0 Then
+                If EnableLocation Then
+                    txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+                    txtLocation.Enabled = False
+                Else
+                    txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+
+                End If
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
+                    lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+                End If
+                If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(TxtCity.Value)) > 0 Then
                     setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
                 End If
             End If
             RefreshFormName()
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -3470,6 +3482,19 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             '            qry += " as PreviousDemand on PreviousDemand.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  "
 
             '            qry += "  where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
+            Dim strQry As String = " with cte as ( select top 2 Document_No, 
+Convert( int,ROW_NUMBER() over (order by Document_No)) as rn,
+(Convert( int,ROW_NUMBER() over (order by Document_No))-1)as prevrn from TSPL_DEMAND_BOOKING_MASTER
+where         
+  TSPL_DEMAND_BOOKING_MASTER.Document_Date<'" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "' 
+and IsIndividualCustomer=0 and Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and Posted=1
+order by Document_Date desc
+
+		  ) 
+
+		  select top 1 b.Document_No  from cte as a
+		  left outer join cte as b on a.prevrn=b.rn"
+            Dim prevDocno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry))
 
             qry = " select 
 Max(XX.Cust_Code) as Cust_Code, max(XX.ShiftType) as ShiftType, XX.Sku_Seq,max(XX.Document_Date) as Document_Date, max(XX.Short_Description) as Short_Description, max(XX.Qty) as Qty, max(XX.Unit_code) as Unit_code, max(XX.Crate) as Crate, max(XX.Pouch) as Pouch, max(XX.ItemNetAmount) as ItemNetAmount,max(XX.Route_No) as Route_No, max(XX.Route_Desc) as Route_Desc, sum(XX.Crate_Collect) as Crate_Collect, max(XX.CompanyName) as CompanyName, max(XX.TranspoterName) as TranspoterName, max(XX.DriverName) as Vehicle_Code, max(XX.Item_Rate) as Item_Rate, max(XX.CFForLTR) as CFForLTR, max(XX.Conversion_Factor) as Conversion_Factor, sum(XX.QTYLtr) as QTYLtr
@@ -3507,9 +3532,7 @@ where
 
   select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, '" + ShiftType + "' as ShiftType, TSPL_DEMAND_BOOKING_DETAIL.ShiftType as PrevShiftType, TSPL_ITEM_MASTER.Sku_Seq, '" + clsCommon.GetPrintDate(txtDate.Value) + "' as Document_Date,TSPL_ITEM_MASTER.Short_Description, 0 as Qty, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch, 0 as ItemNetAmount, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as PrevAmt, TSPL_DEMAND_BOOKING_MASTER.Route_No, TSPL_ROUTE_MASTER.Route_Desc, Qty as Crate_Collect, Isnull( TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.' ) as CompanyName, TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, TSPL_VEHICLE_MASTER.DriverName, TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, ITEMDETAIL.CFForLTR, TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 0 As QTYLtr, Convert( decimal(18, 2), ( TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor )/ ITEMDETAIL.CFForLTR ) as prevQtyLtr from TSPL_DEMAND_BOOKING_MASTER Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code Left Join ( select Conversion_factor AS CFForLTR, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'LTR' ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=ITEMDETAIL.Item_code Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No =TSPL_ROUTE_MASTER.Route_No Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code =TSPL_VEHICLE_MASTER.Vehicle_Id Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id Left Join TSPL_COMPANY_MASTER on TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code
     where  
-             TSPL_DEMAND_BOOKING_DETAIL.Document_No in (select top 1 Document_No from TSPL_DEMAND_BOOKING_MASTER where TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' 
-and shiftType='" + Previous_Shift + "' and Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and Posted=1
-order by Document_Date desc)
+             TSPL_DEMAND_BOOKING_DETAIL.Document_No='" + prevDocno + "'
     --group by 
     --  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 )XX
@@ -3655,6 +3678,26 @@ group by XX.Cust_Code,XX.Sku_Seq
         Return OSBal
     End Function
 
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnFullMode.Click
+        Try
+            If gvFullMode Then
+                rgbDemandHead.Visible = True
+                RadGroupBox2.Location = New System.Drawing.Point(6, 190)
+                RadGroupBox2.Size = New System.Drawing.Size(1114, 400)
+
+                gvFullMode = False
+            Else
+
+                gvFullMode = True
+                rgbDemandHead.Visible = False
+                RadGroupBox2.Location = New System.Drawing.Point(6, 6)
+                RadGroupBox2.Size = New System.Drawing.Size(1114, 600)
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Public Class ItemValueClass
     Public itemCode As String = String.Empty
