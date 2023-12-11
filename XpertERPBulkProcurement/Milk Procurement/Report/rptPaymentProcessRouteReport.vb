@@ -13,6 +13,8 @@ Public Class rptPaymentProcessRouteReport
     Dim ShowMixedMilk As Boolean = False
     Dim SettShowMultipleLegers As Boolean = False
     Dim isLoad As Boolean = False
+    Dim FYFromDate As Date
+    Dim FYToDate As Date
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -3744,7 +3746,9 @@ TSPL_MILK_COLLECTION_MCC
                 qry += " where Fiscal_Code='" + fndFinacialYear.Value + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt.Rows.Count > 0 Then
+                    FYFromDate = clsCommon.GetPrintDate(dt.Rows(0)("Start Date"))
                     txtDateFrom.Value = clsCommon.GetPrintDate(dt.Rows(0)("Start Date"))
+                    FYToDate = clsCommon.GetPrintDate(dt.Rows(0)("End Date"))
                     txtDateTo.Value = clsCommon.GetPrintDate(dt.Rows(0)("End Date"))
                 End If
             End If
@@ -3756,8 +3760,15 @@ TSPL_MILK_COLLECTION_MCC
     Private Sub btnYearlySummary_Click(sender As Object, e As EventArgs) Handles btnYearlySummary.Click
         Try
             If clsCommon.myLen(fndFinacialYear.Value) > 0 Then
+                If clsCommon.myCDate(txtDateFrom.Value) < clsCommon.myCDate(FYFromDate) Then
+                    clsCommon.MyMessageBoxShow("From Date can't be less then selected finacial year start date.", Me.Text)
+                    Exit Sub
+                ElseIf clsCommon.myCDate(txtDateTo.Value) > clsCommon.myCDate(FYToDate) Then
+                    clsCommon.MyMessageBoxShow("To Date can't be greater then selected finacial year end date.", Me.Text)
+                    Exit Sub
+                End If
                 Dim MCCName As String
-                If fndMultMCC.arrValueMember.Count = 1 Then
+                If fndMultDCS.arrValueMember IsNot Nothing AndAlso fndMultMCC.arrValueMember.Count = 1 Then
                     MCCName = clsDBFuncationality.getSingleValue("Select ', '+MCC_NAME from TSPL_MCC_MASTER Where MCC_Code IN ('" + clsCommon.myCstr(fndMultMCC.arrValueMember(0)) + "')")
                 End If
 
@@ -4042,5 +4053,25 @@ TSPL_MILK_COLLECTION_MCC
             qry += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(fndMultMCC.arrValueMember) + ") "
         End If
         fndMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("@MultDCS", qry, "DCS Code", "DCS Name", fndMultDCS.arrValueMember, Nothing)
+    End Sub
+
+    Private Sub txtDateFrom_Leave(sender As Object, e As EventArgs) Handles txtDateFrom.Leave
+        Try
+            If clsCommon.myCDate(txtDateFrom.Value) < clsCommon.myCDate(FYFromDate) Then
+                clsCommon.MyMessageBoxShow("From Date can't be less then selected finacial year start date.", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtDateTo_Leave(sender As Object, e As EventArgs) Handles txtDateTo.Leave
+        Try
+            If clsCommon.myCDate(txtDateTo.Value) > clsCommon.myCDate(FYToDate) Then
+                clsCommon.MyMessageBoxShow("To Date can't be greater then selected finacial year end date.", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
