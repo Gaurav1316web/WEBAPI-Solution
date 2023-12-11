@@ -30,6 +30,8 @@ Public Class frmPendingPO
     Const colDCode As String = "CODE"
     Const colDICode As String = "ICODE"
     Const colDIName As String = "INAME"
+    Const colItemTol As String = "tolerencePer"
+    Const colItemTolAmt As String = "ItemTolerenceQty"
     Const colDIType As String = "IType"
     Const colRowType As String = "COLTYPE"
     Const colDTaxGroup As String = "TAXGROUP"
@@ -183,13 +185,17 @@ Public Class frmPendingPO
                     strSRNCondition = " and tspl_srn_head.PurchaseOrder_Type='" + PurchaseOrder_Type + "'"
                 End If
 
-                qry = "select CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,max(TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as TaxGroupName,ICode,max(IName) as IName,MAX(IType) as IType,max(Unit)as Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName," &
+                qry = "select CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,max(TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as TaxGroupName,ICode,max(IName) as IName,max(tolerencePer) as tolerencePer,
+	  max(ItemTolerenceQty) as ItemTolerenceQty ,MAX(IType) as IType,max(Unit)as Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName," &
                         " SUM(Qty* case when RI=1 then 1 else 0 end) as POQty," &
                         " SUM(Qty* case when RI=-1 then 1 else 0 end) as GRNQty," &
                         " SUM(Unapproved) as UnapprovedQty," &
                         " SUM((Qty *RI)- Unapproved " + IIf(OpenPOForShorateLeakageQty, "+", "-") + " DamageQty) as PedningQty ,MAX(Rate) as Rate," &
                         " MAX(Final.TAX1_Rate) as TAX1_Rate,MAX(Final.TAX2_Rate) as TAX2_Rate,MAX(Final.TAX3_Rate) as TAX3_Rate,MAX(Final.TAX4_Rate) as TAX4_Rate,MAX(Final.TAX5_Rate) as TAX5_Rate,MAX(Final.TAX6_Rate) as TAX6_Rate,MAX(Final.TAX7_Rate) as TAX7_Rate,MAX(Final.TAX8_Rate) as TAX8_Rate,MAX(Final.TAX9_Rate) as TAX9_Rate,MAX(Final.TAX10_Rate) as TAX10_Rate, MAX(Final.TAX1_Amt) as TAX1_Amt,MAX(Final.TAX2_Amt) as TAX2_Amt,MAX(Final.TAX3_Amt) as TAX3_Amt,MAX(Final.TAX4_Amt) as TAX4_Amt,MAX(Final.TAX5_Amt) as TAX5_Amt,MAX(Final.TAX6_Amt) as TAX6_Amt,MAX(Final.TAX7_Amt) as TAX7_Amt,MAX(Final.TAX8_Amt) as TAX8_Amt,MAX(Final.TAX9_Amt) as TAX9_Amt,MAX(Final.TAX10_Amt) as TAX10_Amt,max(TransDate) as TransDate,max(Vendor) as Vendor,max(TSPL_VENDOR_MASTER.Vendor_Name) as VendorName,MRP,0 as Assessable,SUM(DamageQty) as DamageQty,max(AbatementRate) as AbatementRate,max(Bin_No) as Bin_No,max(SaleInvoiceNo) as SaleInvoiceNo,max(Against_Item_Wise_Tax_Rate) as Against_Item_Wise_Tax_Rate,max(Taxable_Amount_Per) as Taxable_Amount_Per,sum(isBlanket) as isBlanket,max(Header_Discount_Per) as Header_Discount_Per,max(ReferencePo) as ReferencePo,max(Item_Insurance_Apply_On) as Item_Insurance_Apply_On ,max(Item_Insurance_Rate) as Item_Insurance_Rate ,max(Item_Insurance_Amt) as Item_Insurance_Amt, max(RefTendorNo) as RefTendorNo from ( " + Environment.NewLine &
-                        " select TSPL_PURCHASE_ORDER_HEAD.ReferencePo,TSPL_PURCHASE_ORDER_DETAIL.Header_Discount_Per,TSPL_PURCHASE_ORDER_HEAD.isBlanket,TSPL_PURCHASE_ORDER_DETAIL.Taxable_Amount_Per, TSPL_PURCHASE_ORDER_DETAIL.Against_Item_Wise_Tax_Rate, TSPL_PURCHASE_ORDER_HEAD.SaleInvoiceNo,TSPL_PURCHASE_ORDER_DETAIL.Bin_No,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No as Code,TSPL_PURCHASE_ORDER_HEAD.Vendor_Code as Vendor,TSPL_PURCHASE_ORDER_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,TSPL_PURCHASE_ORDER_DETAIL.Row_Type as IType"
+                        " select TSPL_PURCHASE_ORDER_HEAD.ReferencePo,TSPL_PURCHASE_ORDER_DETAIL.Header_Discount_Per,TSPL_PURCHASE_ORDER_HEAD.isBlanket,TSPL_PURCHASE_ORDER_DETAIL.Taxable_Amount_Per, TSPL_PURCHASE_ORDER_DETAIL.Against_Item_Wise_Tax_Rate, TSPL_PURCHASE_ORDER_HEAD.SaleInvoiceNo,TSPL_PURCHASE_ORDER_DETAIL.Bin_No,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No as Code,TSPL_PURCHASE_ORDER_HEAD.Vendor_Code as Vendor,TSPL_PURCHASE_ORDER_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName, tspl_item_master.tolerence as tolerencePer,
+	 (
+          TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty * ISNULL(TSPL_ITEM_MASTER.tolerence, 0)
+        )/ 100 as ItemTolerenceQty,TSPL_PURCHASE_ORDER_DETAIL.Row_Type as IType"
                 If AutoClosePOBasedOnSRNQtyWithTolerance Then
                     qry += ",TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty+((TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty * ISNULL(TSPL_ITEM_MASTER.tolerence ,0))/100) "
                 Else
@@ -225,11 +231,33 @@ Public Class frmPendingPO
                 End If
                 qry += " union all  " + Environment.NewLine &
                 " select '' as ReferencePo,0 as Header_Discount_Per, 0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,
-                '' as SaleInvoiceNo,'' as Bin_No,TSPL_SRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,
-                '' as IType,  case when isnull(TSPL_SRN_DETAIL.SRN_Qty,0)>0 THEN TSPL_SRN_DETAIL.SRN_Qty ELSE (
-                case when isnull(TSPL_MRN_DETAIL.MRN_Qty,0)>0 then TSPL_MRN_DETAIL.MRN_Qty  ELSE (
-                CASE when (tspl_grn_head.VisualQCStatusSecond=3 or tspl_grn_head.VisualQCStatus=3) then  (0)
-                else (TSPL_GRN_DETAIL.GRN_Qty) end)End)end as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,
+                '' as SaleInvoiceNo,'' as Bin_No,TSPL_SRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,
+                '' as IType, CASE 
+  WHEN ISNULL(TSPL_SRN_DETAIL.SRN_Qty, 0) > 0 
+    THEN TSPL_SRN_DETAIL.SRN_Qty 
+  ELSE (
+    CASE 
+      WHEN ISNULL(TSPL_MRN_DETAIL.MRN_Qty, 0) > 0 
+        THEN 
+          CASE 
+            WHEN TSPL_NIR_QC.QC_Status = 0 
+              THEN 0 
+            ELSE TSPL_MRN_DETAIL.MRN_Qty 
+          END
+      ELSE (
+        CASE 
+          WHEN (
+            tspl_grn_head.VisualQCStatusSecond = 3 
+            OR tspl_grn_head.VisualQCStatus = 3
+          ) 
+            THEN 0 
+          ELSE TSPL_GRN_DETAIL.GRN_Qty 
+        END
+      )
+    END
+  )
+END AS Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,
                 0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,
                 0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,
                 null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,
@@ -240,12 +268,14 @@ Public Class frmPendingPO
                 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN
                 left outer join tspl_grn_detail on tspl_grn_detail.GRN_No=TSPL_GRN_HEAD.GRN_No
                 left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_SRN_HEAD.Against_MRN
+                left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
                 left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No and TSPL_MRN_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code
                 left outer join tspl_item_master on tspl_item_master.item_code=TSPL_SRN_DETAIL.item_code
                 where TSPL_SRN_HEAD.Status=1 and len(isnull(TSPL_SRN_DETAIL.PO_ID,''))>0 and len(isnull(TSPL_SRN_DETAIL.Against_Schedule_Code,''))<=0 and len(isnull(TSPL_SRN_DETAIL.RGP_Id,''))<=0 and len(isnull(tspl_srn_detail.MRN_Id,''))<=0 " + strSRNCondition + " and len(isnull(tspl_srn_detail.GRN_Id,''))<=0  and not exists (select 1 from TSPL_SRN_RETURN where TSPL_SRN_RETURN.SRN_No=TSPL_SRN_DETAIL.SRN_No)  " + Environment.NewLine &
                 " union all  " + Environment.NewLine &
                 " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,
-                '' as SaleInvoiceNo,''as BinNo, TSPL_SRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,
+                '' as SaleInvoiceNo,''as BinNo, TSPL_SRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,
                 '' as IType,0  as Qty,  case when isnull(TSPL_SRN_DETAIL.SRN_Qty,0)>0 THEN TSPL_SRN_DETAIL.SRN_Qty ELSE (
                 case when isnull(TSPL_MRN_DETAIL.MRN_Qty,0)>0 then TSPL_MRN_DETAIL.MRN_Qty  ELSE (
                 CASE when (tspl_grn_head.VisualQCStatusSecond=3 or tspl_grn_head.VisualQCStatus=3) then  (0)
@@ -265,11 +295,33 @@ Public Class frmPendingPO
                 where TSPL_SRN_HEAD.Status=0 and TSPL_SRN_DETAIL.SRN_No not in ('" + strCurrCode + "') and len(isnull(TSPL_SRN_DETAIL.PO_ID,''))>0 and len(isnull(TSPL_SRN_DETAIL.Against_Schedule_Code,''))<=0 and len(isnull(TSPL_SRN_DETAIL.RGP_Id,''))<=0 and len(isnull(tspl_srn_detail.MRN_Id,''))<=0 and len(isnull(tspl_srn_detail.GRN_Id,''))<=0  and not exists (select 1 from TSPL_SRN_RETURN where TSPL_SRN_RETURN.SRN_No=TSPL_SRN_DETAIL.SRN_No) " + strSRNCondition + "  " + Environment.NewLine
                 qry += " union all  " + Environment.NewLine &
                 " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,
-                '' as Bin_No,TSPL_GRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_GRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,
-                '' as IType,  case when isnull(TSPL_SRN_DETAIL.SRN_Qty,0)>0 THEN TSPL_SRN_DETAIL.SRN_Qty ELSE (
-                case when isnull(TSPL_MRN_DETAIL.MRN_Qty,0)>0 then TSPL_MRN_DETAIL.MRN_Qty  ELSE (
-                CASE when (tspl_grn_head.VisualQCStatusSecond=3 or tspl_grn_head.VisualQCStatus=3) then  (0)
-                else (TSPL_GRN_DETAIL.GRN_Qty) end)end )END as Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
+                '' as Bin_No,TSPL_GRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_GRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,
+                '' as IType,  CASE 
+  WHEN ISNULL(TSPL_SRN_DETAIL.SRN_Qty, 0) > 0 
+    THEN TSPL_SRN_DETAIL.SRN_Qty 
+  ELSE (
+    CASE 
+      WHEN ISNULL(TSPL_MRN_DETAIL.MRN_Qty, 0) > 0 
+        THEN 
+          CASE 
+            WHEN TSPL_NIR_QC.QC_Status = 0 
+              THEN 0 
+            ELSE TSPL_MRN_DETAIL.MRN_Qty 
+          END
+      ELSE (
+        CASE 
+          WHEN (
+            tspl_grn_head.VisualQCStatusSecond = 3 
+            OR tspl_grn_head.VisualQCStatus = 3
+          ) 
+            THEN 0 
+          ELSE TSPL_GRN_DETAIL.GRN_Qty 
+        END
+      )
+    END
+  )
+END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                 -1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,
                 0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,
                 0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,
@@ -279,6 +331,7 @@ Public Class frmPendingPO
                 from TSPL_GRN_DETAIL  
                 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No 
                 left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_DETAIL.GRN_No
+                left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
                 left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No and TSPL_MRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
                 left outer join tspl_srn_head on tspl_srn_head.Against_GRN = TSPL_GRN_HEAD.GRN_No
                 left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No=tspl_srn_head.SRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code
@@ -289,7 +342,8 @@ Public Class frmPendingPO
                 qry += " union all  " + Environment.NewLine &
                 " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,
                 '' as SaleInvoiceNo,''as BinNo, TSPL_GRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_GRN_DETAIL.Item_Code as ICode,
-                tspl_item_master.Item_Desc as IName,'' as IType,0  as Qty,  case when isnull(TSPL_SRN_DETAIL.SRN_Qty,0)>0 THEN TSPL_SRN_DETAIL.SRN_Qty ELSE (
+                tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,'' as IType,0  as Qty,  case when isnull(TSPL_SRN_DETAIL.SRN_Qty,0)>0 THEN TSPL_SRN_DETAIL.SRN_Qty ELSE (
                 case when isnull(TSPL_MRN_DETAIL.MRN_Qty,0)>0 then TSPL_MRN_DETAIL.MRN_Qty  ELSE (
                 CASE when (tspl_grn_head.VisualQCStatusSecond=3 or tspl_grn_head.VisualQCStatus=3) then  (0)
                 else (TSPL_GRN_DETAIL.GRN_Qty) end)end ) END as Unapproved,
@@ -310,23 +364,30 @@ Public Class frmPendingPO
 
                 '==============add by Monika===if schedule setting is on then po that used in schedule should also not seen in pending PO list
                 qry += " union all  " + Environment.NewLine &
-                " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,'' as Bin_No,TSPL_PO_SCH_DETAIL.PO_code as Code,null as Vendor,TSPL_PO_SCH_DETAIL.Item_Code as ICode,TSPL_item_master.Item_Desc as IName,'' as IType,TSPL_PO_SCH_DETAIL.schedule_qty as Qty,0 as Unapproved,TSPL_PO_SCH_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo  from TSPL_PO_SCH_DETAIL  left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code left outer join tspl_item_master on tspl_item_master.item_code=TSPL_PO_SCH_DETAIL.item_code where TSPL_PO_SCH_HEAD.is_post=1 and len(isnull(TSPL_PO_SCH_DETAIL.PO_code,''))>0 " + strSchcondition + "  " + Environment.NewLine &
+                " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,'' as Bin_No,TSPL_PO_SCH_DETAIL.PO_code as Code,null as Vendor,TSPL_PO_SCH_DETAIL.Item_Code as ICode,TSPL_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,'' as IType,TSPL_PO_SCH_DETAIL.schedule_qty as Qty,0 as Unapproved,TSPL_PO_SCH_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo  from TSPL_PO_SCH_DETAIL  left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code left outer join tspl_item_master on tspl_item_master.item_code=TSPL_PO_SCH_DETAIL.item_code where TSPL_PO_SCH_HEAD.is_post=1 and len(isnull(TSPL_PO_SCH_DETAIL.PO_code,''))>0 " + strSchcondition + "  " + Environment.NewLine &
                 " union all  " + Environment.NewLine &
-                " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,''as BinNo, TSPL_PO_SCH_DETAIL.PO_Code as Code,null as Vendor,TSPL_PO_SCH_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,'' as IType,0  as Qty,TSPL_PO_SCH_DETAIL.schedule_qty as Unapproved,TSPL_PO_SCH_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty, 0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo  from TSPL_PO_SCH_DETAIL  left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code left outer join tspl_item_master on tspl_item_master.item_code=TSPL_PO_SCH_DETAIL.item_code  where TSPL_PO_SCH_HEAD.is_post=0 and TSPL_PO_SCH_DETAIL.document_code not in ('" + strCurrCode + "') and len(isnull(TSPL_PO_SCH_DETAIL.PO_code,''))>0 " + strSchcondition + "  " + Environment.NewLine &
+                " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,''as BinNo, TSPL_PO_SCH_DETAIL.PO_Code as Code,null as Vendor,TSPL_PO_SCH_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,'' as IType,0  as Qty,TSPL_PO_SCH_DETAIL.schedule_qty as Unapproved,TSPL_PO_SCH_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty, 0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo  from TSPL_PO_SCH_DETAIL  left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code left outer join tspl_item_master on tspl_item_master.item_code=TSPL_PO_SCH_DETAIL.item_code  where TSPL_PO_SCH_HEAD.is_post=0 and TSPL_PO_SCH_DETAIL.document_code not in ('" + strCurrCode + "') and len(isnull(TSPL_PO_SCH_DETAIL.PO_code,''))>0 " + strSchcondition + "  " + Environment.NewLine &
                 " union all  " + Environment.NewLine
                 If clsCommon.CompairString(PurchaseOrder_Type, "J") = CompairStringResult.Equal OrElse Is_From_RGP Then
-                    qry += " select  '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,'' as Bin_No,TSPL_RGP_JOB_WORK_DETAIL.PO_id as Code,null as Vendor,TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,TSPL_item_master.Item_Desc as IName,'' as IType,TSPL_RGP_JOB_WORK_DETAIL.rgp_qty as Qty,0 as Unapproved,TSPL_RGP_JOB_WORK_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo from TSPL_RGP_JOB_WORK_DETAIL left outer join tspl_rgp_head on tspl_rgp_head.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no left outer join tspl_item_master on tspl_item_master.item_code=TSPL_RGP_JOB_WORK_DETAIL.item_code where tspl_rgp_head.status=1 and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.PO_id,''))>0 and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.against_schedule_code,''))<=0  " + Environment.NewLine &
+                    qry += " select  '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,'' as Bin_No,TSPL_RGP_JOB_WORK_DETAIL.PO_id as Code,null as Vendor,TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,TSPL_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,'' as IType,TSPL_RGP_JOB_WORK_DETAIL.rgp_qty as Qty,0 as Unapproved,TSPL_RGP_JOB_WORK_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo from TSPL_RGP_JOB_WORK_DETAIL left outer join tspl_rgp_head on tspl_rgp_head.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no left outer join tspl_item_master on tspl_item_master.item_code=TSPL_RGP_JOB_WORK_DETAIL.item_code where tspl_rgp_head.status=1 and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.PO_id,''))>0 and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.against_schedule_code,''))<=0  " + Environment.NewLine &
                 " union all  " + Environment.NewLine &
-                " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,''as BinNo, TSPL_RGP_JOB_WORK_DETAIL.PO_id as Code,null as Vendor,TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,'' as IType,0  as Qty,TSPL_RGP_JOB_WORK_DETAIL.rgp_qty as Unapproved,TSPL_RGP_JOB_WORK_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty, 0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo from TSPL_RGP_JOB_WORK_DETAIL left outer join tspl_rgp_head on tspl_rgp_head.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no left outer join tspl_item_master on tspl_item_master.item_code=TSPL_RGP_JOB_WORK_DETAIL.item_code where tspl_rgp_head.status=0 and TSPL_RGP_JOB_WORK_DETAIL.rgp_no not in ('" + strCurrCode + "') and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.PO_id,''))>0 and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.against_schedule_code,''))<=0 " + Environment.NewLine
+                " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,''as BinNo, TSPL_RGP_JOB_WORK_DETAIL.PO_id as Code,null as Vendor,TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,'' as IType,0  as Qty,TSPL_RGP_JOB_WORK_DETAIL.rgp_qty as Unapproved,TSPL_RGP_JOB_WORK_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty, 0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo from TSPL_RGP_JOB_WORK_DETAIL left outer join tspl_rgp_head on tspl_rgp_head.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no left outer join tspl_item_master on tspl_item_master.item_code=TSPL_RGP_JOB_WORK_DETAIL.item_code where tspl_rgp_head.status=0 and TSPL_RGP_JOB_WORK_DETAIL.rgp_no not in ('" + strCurrCode + "') and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.PO_id,''))>0 and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.against_schedule_code,''))<=0 " + Environment.NewLine
                 Else
-                    qry += " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,'' as Bin_No,TSPL_RGP_DETAIL.PO_id as Code,null as Vendor,TSPL_RGP_DETAIL.Item_Code as ICode,TSPL_item_master.Item_Desc as IName,'' as IType,TSPL_RGP_DETAIL.rgp_qty as Qty,0 as Unapproved,TSPL_RGP_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo from TSPL_RGP_DETAIL left outer join tspl_rgp_head on tspl_rgp_head.rgp_no=TSPL_RGP_DETAIL.rgp_no left outer join tspl_item_master on tspl_item_master.item_code=TSPL_RGP_DETAIL.item_code where tspl_rgp_head.status=1 and isnull(tspl_rgp_head.Against_JobWork,0)=0 and len(isnull(TSPL_RGP_DETAIL.PO_id,''))>0 and len(isnull(TSPL_RGP_DETAIL.against_schedule_code,''))<=0  " + Environment.NewLine &
+                    qry += " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,'' as Bin_No,TSPL_RGP_DETAIL.PO_id as Code,null as Vendor,TSPL_RGP_DETAIL.Item_Code as ICode,TSPL_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,'' as IType,TSPL_RGP_DETAIL.rgp_qty as Qty,0 as Unapproved,TSPL_RGP_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo from TSPL_RGP_DETAIL left outer join tspl_rgp_head on tspl_rgp_head.rgp_no=TSPL_RGP_DETAIL.rgp_no left outer join tspl_item_master on tspl_item_master.item_code=TSPL_RGP_DETAIL.item_code where tspl_rgp_head.status=1 and isnull(tspl_rgp_head.Against_JobWork,0)=0 and len(isnull(TSPL_RGP_DETAIL.PO_id,''))>0 and len(isnull(TSPL_RGP_DETAIL.against_schedule_code,''))<=0  " + Environment.NewLine &
                 " union all  " + Environment.NewLine &
-                " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,''as BinNo, TSPL_RGP_DETAIL.PO_id as Code,null as Vendor,TSPL_RGP_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,'' as IType,0  as Qty,TSPL_RGP_DETAIL.rgp_qty as Unapproved,TSPL_RGP_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty, 0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo from TSPL_RGP_DETAIL left outer join tspl_rgp_head on tspl_rgp_head.rgp_no=TSPL_RGP_DETAIL.rgp_no left outer join tspl_item_master on tspl_item_master.item_code=TSPL_RGP_DETAIL.item_code where tspl_rgp_head.status=0 and isnull(tspl_rgp_head.Against_JobWork,0)=0 and TSPL_RGP_DETAIL.rgp_no not in ('" + strCurrCode + "') and len(isnull(TSPL_RGP_DETAIL.PO_id,''))>0 and len(isnull(TSPL_RGP_DETAIL.against_schedule_code,''))<=0 " + Environment.NewLine
+                " select '' as ReferencePo,0 as Header_Discount_Per,0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,''as BinNo, TSPL_RGP_DETAIL.PO_id as Code,null as Vendor,TSPL_RGP_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,'' as IType,0  as Qty,TSPL_RGP_DETAIL.rgp_qty as Unapproved,TSPL_RGP_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty, 0 as AbatementRate,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo from TSPL_RGP_DETAIL left outer join tspl_rgp_head on tspl_rgp_head.rgp_no=TSPL_RGP_DETAIL.rgp_no left outer join tspl_item_master on tspl_item_master.item_code=TSPL_RGP_DETAIL.item_code where tspl_rgp_head.status=0 and isnull(tspl_rgp_head.Against_JobWork,0)=0 and TSPL_RGP_DETAIL.rgp_no not in ('" + strCurrCode + "') and len(isnull(TSPL_RGP_DETAIL.PO_id,''))>0 and len(isnull(TSPL_RGP_DETAIL.against_schedule_code,''))<=0 " + Environment.NewLine
                 End If
 
                 If OpenPOForShorateLeakageQty Then
                     qry += " union all " + Environment.NewLine +
-                    " select '' as ReferencePo,0 as Header_Discount_Per, 0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,'' as Bin_No,TSPL_SRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,'' as IType,0 as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as DamageQty,0 as AbatementRate ,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo " + Environment.NewLine +
+                    " select '' as ReferencePo,0 as Header_Discount_Per, 0 as isBlanket,0 as Taxable_Amount_Per,'' as Against_Item_Wise_Tax_Rate,'' as SaleInvoiceNo,'' as Bin_No,TSPL_SRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
+	  0 as ItemTolerenceQty,'' as IType,0 as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as DamageQty,0 as AbatementRate ,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt, null as RefTendorNo " + Environment.NewLine +
                     " from TSPL_SRN_DETAIL" + Environment.NewLine +
                     " left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No " + Environment.NewLine
                     Dim is_Srn_rejQty_goes_in_Rejstore As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select SRN_Rejected_Store from TSPL_PURCHASE_SETTINGS", Nothing)) = 0, False, True)
@@ -627,6 +688,11 @@ Public Class frmPendingPO
         repoIName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoIName)
 
+
+
+
+
+
         Dim repoIType As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoIType.FormatString = ""
         repoIType.HeaderText = "Row Type"
@@ -675,7 +741,7 @@ Public Class frmPendingPO
 
         Dim repoOrderQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoOrderQty.FormatString = ""
-        repoOrderQty.HeaderText = IIf(Is_Load_MRN, "Qty", "PO Qty")
+        repoOrderQty.HeaderText = IIf(Is_Load_MRN, "Qty", "PO Allowed Qty")
         repoOrderQty.Name = colDOrderQty
         repoOrderQty.ReadOnly = True
         repoOrderQty.Width = 80
