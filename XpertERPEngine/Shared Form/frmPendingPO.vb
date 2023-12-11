@@ -692,7 +692,6 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
 
 
 
-
         Dim repoIType As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoIType.FormatString = ""
         repoIType.HeaderText = "Row Type"
@@ -738,6 +737,24 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
         repoAssessable.WrapText = True
         repoAssessable.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAssessable)
+
+        Dim repoItemTol As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoItemTol.FormatString = ""
+        repoItemTol.HeaderText = IIf(Is_Load_MRN, "tolerencePer", "Tolerence %")
+        repoItemTol.Name = colItemTol
+        repoItemTol.Width = 70
+        repoItemTol.WrapText = True
+        repoItemTol.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoItemTol)
+
+        Dim repoItemTolAmt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoItemTolAmt.FormatString = ""
+        repoItemTolAmt.HeaderText = IIf(Is_Load_MRN, "ItemTolerenceQty", "Tolerence Amt")
+        repoItemTolAmt.Name = colItemTolAmt
+        repoItemTolAmt.Width = 70
+        repoItemTolAmt.WrapText = True
+        repoItemTolAmt.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoItemTolAmt)
 
         Dim repoOrderQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoOrderQty.FormatString = ""
@@ -1442,6 +1459,8 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDIType).Value = clsCommon.myCstr(dr("IType"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnit).Value = clsCommon.myCstr(dr("Unit"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDRate).Value = clsCommon.myCdbl(dr("Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTol).Value = clsCommon.myCdbl(dr("tolerencePer"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTolAmt).Value = clsCommon.myCdbl(dr("ItemTolerenceQty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDOrderQty).Value = clsCommon.myCdbl(dr("POQty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDApprovedQty).Value = clsCommon.myCdbl(dr("GRNQty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnApprovedQty).Value = clsCommon.myCdbl(dr("UnapprovedQty"))
@@ -1501,6 +1520,8 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDIType).Value = clsCommon.myCstr(dr("IType"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnit).Value = clsCommon.myCstr(dr("Unit"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDRate).Value = clsCommon.myCdbl(dr("Rate"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTol).Value = clsCommon.myCdbl(dr("tolerencePer"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTolAmt).Value = clsCommon.myCdbl(dr("ItemTolerenceQty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDOrderQty).Value = clsCommon.myCdbl(dr("POQty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDApprovedQty).Value = clsCommon.myCdbl(dr("GRNQty"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDUnApprovedQty).Value = clsCommon.myCdbl(dr("UnapprovedQty"))
