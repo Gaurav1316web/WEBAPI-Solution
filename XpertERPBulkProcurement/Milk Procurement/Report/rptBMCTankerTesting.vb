@@ -37,7 +37,7 @@ Public Class rptBMCTankerTesting
 
     Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
         Try
-            Dim qry As String = "select ROUTE_NO as ROUTE NO ,ROUTE_NAME as ROUTE NAME from TSPL_BULK_ROUTE_MASTER where 2=2 "
+            Dim qry As String = "select ROUTE_NO as [ROUTE NO] ,ROUTE_NAME as [ROUTE NAME] from TSPL_BULK_ROUTE_MASTER where 2=2 "
 
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("BMCRoute", qry, "ROUTE NO", "ROUTE NAME", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
         Catch ex As Exception
