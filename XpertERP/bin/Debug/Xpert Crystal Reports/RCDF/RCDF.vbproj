@@ -1314,6 +1314,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmerPredefineFormate.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmerPredefineFormate2.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLeger.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLegerJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptShiftReportZeroAmountSample.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptTmpPayDedSummaryJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptVillageData.rpt" />
