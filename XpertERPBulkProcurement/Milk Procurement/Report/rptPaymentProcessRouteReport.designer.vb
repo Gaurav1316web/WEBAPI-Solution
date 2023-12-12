@@ -540,7 +540,6 @@ Partial Class rptPaymentProcessRouteReport
         'txtDateTo
         '
         Me.txtDateTo.CustomFormat = "dd/MM/yyyy"
-        Me.txtDateTo.Enabled = False
         Me.txtDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.txtDateTo.Location = New System.Drawing.Point(178, 39)
         Me.txtDateTo.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -555,7 +554,6 @@ Partial Class rptPaymentProcessRouteReport
         'txtDateFrom
         '
         Me.txtDateFrom.CustomFormat = "dd/MM/yyyy"
-        Me.txtDateFrom.Enabled = False
         Me.txtDateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.txtDateFrom.Location = New System.Drawing.Point(72, 39)
         Me.txtDateFrom.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)

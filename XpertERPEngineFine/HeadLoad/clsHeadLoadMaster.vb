@@ -11,6 +11,7 @@ Public Class clsHeadLoadMaster
     Public Description As String = Nothing
     Public Status As Integer = 0
     Public Arr As List(Of clsHeadLoadDCS) = Nothing
+    Dim AutoSave As Boolean = False
 #End Region
     Public Function SaveData(ByVal obj As clsHeadLoadMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -26,6 +27,7 @@ Public Class clsHeadLoadMaster
 
     Sub SaveAutoData()
         Try
+            AutoSave = True
             Dim obj As New clsHeadLoadMaster()
             obj.Document_No = "Default"
             obj.Description = "Auto generated"
@@ -71,8 +73,8 @@ Public Class clsHeadLoadMaster
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
-                Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD", trans)
-                If isRecordExist > 0 Then
+                'Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD", trans)
+                If AutoSave = False Then
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_date, clsDocType.HeadLoadDCS, "", "")
                 End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
