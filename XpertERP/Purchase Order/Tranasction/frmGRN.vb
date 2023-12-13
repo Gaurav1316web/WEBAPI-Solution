@@ -7096,17 +7096,51 @@ Public Class frmGRN
             End If
 
             ''
-            Dim qry1 As String = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+            'Dim qry1 As String = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    qry1 = "GRN is used in following MRN"
+            '    For Each dr As DataRow In dt.Rows
+            '        qry1 += Environment.NewLine + clsCommon.myCstr(dr("MRN_No"))
+            '    Next
+            '    qry1 += Environment.NewLine + "Can't update it"
+            '    Throw New Exception(qry1)
+            'End If
+
+            Dim qry1 As String = "select distinct TSPL_NIR_QC.Document_No from TSPL_NIR_QC left join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_NIR_QC.MRN_No  where TSPL_MRN_DETAIL.GRN_Id= '" + clsCommon.myCstr(txtDocNo.Value) + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                qry1 = "GRN is used in following MRN"
+                qry1 = "GRN is used in following NIR QC"
                 For Each dr As DataRow In dt.Rows
-                    qry1 += Environment.NewLine + clsCommon.myCstr(dr("MRN_No"))
+                    qry1 += Environment.NewLine + clsCommon.myCstr(dr("Document_No"))
                 Next
                 qry1 += Environment.NewLine + "Can't update it"
                 Throw New Exception(qry1)
             End If
 
+
+            Dim qry2 As String = "select distinct Document_Code from TSPL_QC_CHECK_HEAD where Gate_Entry_No ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry2)
+            If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+                qry2 = "GRN is used in following WAT Qc"
+                For Each dr As DataRow In dt.Rows
+                    qry2 += Environment.NewLine + clsCommon.myCstr(dr("Document_Code"))
+                Next
+                qry2 += Environment.NewLine + "Can't update it"
+                Throw New Exception(qry2)
+            End If
+
+
+            Dim qry3 As String = "select distinct srn_no from TSPl_SRN_detail where GRN_ID ='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+            Dim dt3 As DataTable = clsDBFuncationality.GetDataTable(qry3)
+            If dt3 IsNot Nothing AndAlso dt3.Rows.Count > 0 Then
+                qry3 = "GRN is used in following SRN"
+                For Each dr As DataRow In dt.Rows
+                    qry3 += Environment.NewLine + clsCommon.myCstr(dr("srn_no"))
+                Next
+                qry3 += Environment.NewLine + "Can't update it"
+                Throw New Exception(qry3)
+            End If
 
             clsGRNHead.UpdateVisualQCStatusSecond(txtDocNo.Value, cboVisualQCStatusSecond.SelectedIndex, txtVisualQCRemarksSecond.Text, dtpVisualQCStatusSecond.Value)
             ''
