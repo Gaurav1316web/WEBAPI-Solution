@@ -2890,6 +2890,7 @@ max(TSPL_ITEM_MASTER.Sku_Seq) as Sku_Seq
         dt.Columns.Add("Value", GetType(String))
 
         'dt.Rows.Add("Select", "SL")
+        dt.Rows.Add("Matrix Fresh Sale", "MFS")
         dt.Rows.Add("Demand Wise", "DW")
         dt.Rows.Add("Truck Sheet", "TS")
         dt.Rows.Add("Milk Gate Pass Demand Detail", "MGPD")
@@ -2899,7 +2900,7 @@ max(TSPL_ITEM_MASTER.Sku_Seq) as Sku_Seq
         dt.Rows.Add("Milk Sale Report", "MSR")
         dt.Rows.Add("Product Sale Report", "PSR")
         dt.Rows.Add("Credit Sale Report", "CSR")
-        dt.Rows.Add("Matrix Fresh Sale", "MFS")
+
 
         ddlReportType.DataSource = dt
         ddlReportType.DisplayMember = "Code"
@@ -2909,14 +2910,16 @@ max(TSPL_ITEM_MASTER.Sku_Seq) as Sku_Seq
 
     Private Sub ReportDW()
         If IsReportTypeChanged = True Then
-            If clsCommon.CompairString(ddlReportType.SelectedValue, "DW") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "MFS") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
-                chkBookingWise.Visible = False
+                chkBookingWise.Visible = True
+                chkBookingWise.Checked = True
                 RadGroupBox7.Visible = False
                 RadGroupBox3.Visible = True
                 chkFilterByCreatedDate.Visible = True
                 chkSaleInvoiceWise.Visible = True
                 pnlMilkPouch.Visible = True
+                chkMilkPouch.Checked = True
                 chkRouteSummary.Visible = True
                 chkProduct.Visible = True
                 txtCustomerGroup.Visible = True
