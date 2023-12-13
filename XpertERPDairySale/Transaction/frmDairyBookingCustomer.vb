@@ -3,6 +3,8 @@
 Imports System.Data.SqlClient
 Imports System.IO
 Imports common
+Imports System.Globalization
+Imports System.Text.RegularExpressions
 ''Checkin sanjay 22/06/2020
 Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
@@ -31,6 +33,7 @@ Public Class frmDairyBookingCustomer
     Public StrDocNo As String
     Public strExcise As Boolean
     Dim blnPageLoad As Boolean = False
+    Public Shared valueEntry As Boolean = False
     Dim CreateCommonDairyDispatchforFreshAmbient As Integer = 0
     Private PurchaseOneItemOneVendor As Boolean = False
     Private blnBackCalculation As Boolean = False
@@ -118,6 +121,8 @@ Public Class frmDairyBookingCustomer
     Dim settTCSRateforCustomerWithoutPanNo As Decimal = 0
     Dim ApplyIncludeTCSAmountInRouteTotalOnTruckSheet As Boolean = False
     Dim AutoCalculateCrate As Integer = 0
+    Public Property custname As String
+    Public Property txtloc As String
     'Dim Tax1_code As String = ""
     'Dim Tax1_Rate As Decimal = 0
     'Dim Tax1_Base_Amt As Decimal = 0
@@ -319,6 +324,9 @@ Public Class frmDairyBookingCustomer
         pnlTCS.Visible = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowTCSAmountOnBookingForOtherCustomer, clsFixedParameterCode.ShowTCSAmountOnBookingForOtherCustomer, Nothing)) = 1, True, False)
         BPLController(False)
         lblShiftType.Visible = False
+        custname = txtVendorNo.Value
+        txtLocation.Value = txtloc
+        btnGatepass.Enabled = False
     End Sub
     Sub BlankAllControls()
         'VendorCodeForChangeIndent = ""
@@ -1507,6 +1515,7 @@ Public Class frmDairyBookingCustomer
         txtRouteName1.Enabled = False
         txtVehicleCode.Enabled = False
         txtVehicleName.Enabled = False
+        btnGatepass.Enabled = False
         ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer Then
             txtVendorNo.Focus()
@@ -1928,8 +1937,8 @@ Public Class frmDairyBookingCustomer
 
                         End If
 
-                            'sanjay
-                            objTr.Item_Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                        'sanjay
+                        objTr.Item_Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
                         objTr.Disc_Scheme_Amount = clsCommon.myCdbl(grow.Cells(colDisc_Scheme_Amount).Value)
                         objTr.Disc_Scheme_Code = clsCommon.myCstr(grow.Cells(colDisc_Scheme_Code).Value)
                         objTr.Disc_Scheme_Pers = clsCommon.myCdbl(grow.Cells(colDisc_Scheme_Pers).Value)
@@ -2514,6 +2523,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     btnSave.Enabled = False
                     btnDelete.Enabled = False
                     btnPost.Enabled = False
+                    btnGatepass.Enabled = True
                     Dim isDemandBooking = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'")
                     If clsCommon.myLen(isDemandBooking) > 0 Then
                         btnCreateAndPrintInvoice.Enabled = False
@@ -3258,9 +3268,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     End If
 
                 End If
-                    'Load booking if already exist
-                    'RadPageView1.SelectedPage = RadPageViewPage2
-                Else
+                'Load booking if already exist
+                'RadPageView1.SelectedPage = RadPageViewPage2
+            Else
                 txtVendorNo.Focus()
             End If
         End If
@@ -6700,6 +6710,31 @@ from
 
             txtCategory.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtCategory.Value, "", isButtonClicked)
 
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub BtnRecieptEntry_Click(sender As Object, e As EventArgs) Handles BtnRecieptEntry.Click
+        Try
+            Dim chk As Boolean = True
+            Dim CustRoute As String = clsDBFuncationality.getSingleValue("Select  TSPL_BOOKING_DETAIL.Cust_Code + ',' + CONVERT(VARCHAR ,TSPL_BOOKING_MATSER.Document_Date , 103) AS Cust_Code from TSPL_BOOKING_DETAIL
+            Left OUTER JOIN TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No
+            WHERE TSPL_BOOKING_DETAIL.CUST_CODE = '" & txtVendorNo.Value & "' AND TSPL_BOOKING_DETAIL.route_no = '" & txtRouteNo.Value & "' ")
+
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.ReceiptEntry, CustRoute)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub btnGatepass_Click(sender As Object, e As EventArgs) Handles btnGatepass.Click
+        Try
+            Dim frm As New frmDairyGatePass
+            frm.routeno = txtRouteNo.Value
+            frm.txtlocation = txtLocation.Value
+            frm.vehicleno = txtVehicleCode.Value
+            frm.docdate = txtDate.Value
+            frm.ShowDialog()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

@@ -1,6 +1,7 @@
 ﻿' '' '' '' ''Created by Sanjeet 31/01/2018 ========
 Imports common
 Imports System.Data.SqlClient
+Imports System
 
 Public Class frmDairyGatePass
     Inherits FrmMainTranScreen
@@ -37,11 +38,19 @@ Public Class frmDairyGatePass
     Dim SettCreateProvisionOnOpeningAndClosingKM As Boolean = False
     Dim IsLoadingSlipMandatory As Boolean = False
     Dim CreateGatePassFromDemand As Boolean = False
+    Public arrShipmentFromMultiple As ArrayList
+    Public Property routeno As String
+    Public Property txtlocation As String
+    Public Property vehicleno As String
+    Public Property docdate As Date?
+    ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     Public arrShipmentFromMultiple As ArrayList ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     Dim VehicleDesc As String = Nothing
 #End Region
 
     Private Sub SetUserMgmtNew()
+        Me.Form_ID = clsUserMgtCode.frmDairyGatePass
+        MyBase.SetUserMgmt(clsUserMgtCode.frmDairyGatePass)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
@@ -115,6 +124,15 @@ Public Class frmDairyGatePass
         Else
             RadGroupBox3.Visible = True
         End If
+        fndRouteNo.Value = routeno
+        txtRouteName.Text = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
+        txtLocCode.Value = txtlocation
+        txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
+        txtVehicle.Value = vehicleno
+        lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+        txtDate.Value = docdate
+        '  LoadData(txtCode.Value, NavigatorType.Current)
+
     End Sub
 
     Private Sub CreateTable()
