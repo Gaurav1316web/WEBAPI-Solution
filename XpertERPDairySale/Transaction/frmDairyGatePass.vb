@@ -44,7 +44,7 @@ Public Class frmDairyGatePass
     Public Property vehicleno As String
     Public Property docdate As Date?
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
-    Public arrShipmentFromMultiple As ArrayList ''ERO/03/05/19-000584 by balwindr on 06/05/2019
+    ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     Dim VehicleDesc As String = Nothing
 #End Region
 
