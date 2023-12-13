@@ -1,6 +1,7 @@
 ﻿' '' '' '' ''Created by Sanjeet 31/01/2018 ========
 Imports common
 Imports System.Data.SqlClient
+Imports System
 
 Public Class frmDairyGatePass
     Inherits FrmMainTranScreen
@@ -37,10 +38,17 @@ Public Class frmDairyGatePass
     Dim SettCreateProvisionOnOpeningAndClosingKM As Boolean = False
     Dim IsLoadingSlipMandatory As Boolean = False
     Dim CreateGatePassFromDemand As Boolean = False
-    Public arrShipmentFromMultiple As ArrayList ''ERO/03/05/19-000584 by balwindr on 06/05/2019
+    Public arrShipmentFromMultiple As ArrayList
+    Public Property routeno As String
+    Public Property txtlocation As String
+    Public Property vehicleno As String
+    Public Property docdate As Date?
+    ''ERO/03/05/19-000584 by balwindr on 06/05/2019
 #End Region
 
     Private Sub SetUserMgmtNew()
+        Me.Form_ID = clsUserMgtCode.frmDairyGatePass
+        MyBase.SetUserMgmt(clsUserMgtCode.frmDairyGatePass)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
@@ -113,6 +121,15 @@ Public Class frmDairyGatePass
         Else
             RadGroupBox3.Visible = True
         End If
+        fndRouteNo.Value = routeno
+        txtRouteName.Text = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
+        txtLocCode.Value = txtlocation
+        txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
+        txtVehicle.Value = vehicleno
+        lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+        txtDate.Value = docdate
+        '  LoadData(txtCode.Value, NavigatorType.Current)
+
     End Sub
 
     Private Sub CreateTable()
@@ -327,12 +344,12 @@ Public Class frmDairyGatePass
 
         If AlternateVechileforGatePass.Equals(1) Then
 
-            Dim StrChkAvQuery As String = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type],TSPL_SD_SHIPMENT_HEAD.Document_Code as DocNo,Document_Date as [Document Date],Customer_Code,Customer_Name, " & _
-                "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " & _
-                "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " & _
-                "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & _
-                "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " & _
-                "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   GPCode ='" + txtCode.Value + "' and " & _
+            Dim StrChkAvQuery As String = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type],TSPL_SD_SHIPMENT_HEAD.Document_Code as DocNo,Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
+                "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
+                "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   GPCode ='" + txtCode.Value + "' and " &
                 "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and TSPL_SD_SHIPMENT_HEAD.AlternateVehicle='" + txtVehicle.Value + "'   and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
 
             If clsCommon.myLen(fndRouteNo.Value) > 0 Then
@@ -342,12 +359,12 @@ Public Class frmDairyGatePass
             dt = clsDBFuncationality.GetDataTable(StrChkAvQuery)
             If dt.Rows.Count > 0 Then
 
-                strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type], TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " & _
-                    "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " & _
-                    "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " & _
-                    "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & _
-                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " & _
-                    "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   GPCode ='" + txtCode.Value + "' and " & _
+                strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type], TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                    "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
+                    "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
+                    "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                    "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   GPCode ='" + txtCode.Value + "' and " &
                     "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "' and TSPL_SD_SHIPMENT_HEAD.AlternateVehicle='" + txtVehicle.Value + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
 
                 If clsCommon.myLen(fndRouteNo.Value) > 0 Then
@@ -356,12 +373,12 @@ Public Class frmDairyGatePass
 
 
             Else
-                strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type], TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " & _
-                   "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " & _
-                   "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " & _
-                   "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & _
-                   "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " & _
-                   "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And    GPCode ='" + txtCode.Value + "' and " & _
+                strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type], TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                   "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
+                   "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
+                   "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                   "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                   "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And    GPCode ='" + txtCode.Value + "' and " &
                    "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "' and TSPL_SD_SHIPMENT_HEAD.Vehicle_Code='" + txtVehicle.Value + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & " "
 
                 If clsCommon.myLen(fndRouteNo.Value) > 0 Then
@@ -369,12 +386,12 @@ Public Class frmDairyGatePass
                 End If
             End If
         Else
-            strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type],TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " & _
-                    "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " & _
-                    "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " & _
-                    "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & _
-                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " & _
-                    "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' and GPCode ='" + txtCode.Value + "' and " & _
+            strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type],TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                    "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
+                    "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
+                    "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                    "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' and GPCode ='" + txtCode.Value + "' and " &
                     "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and TSPL_SD_SHIPMENT_HEAD.Vehicle_Code='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
 
             If clsCommon.myLen(fndRouteNo.Value) > 0 Then
@@ -392,10 +409,10 @@ Public Class frmDairyGatePass
             strItem = " and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" & strItemCode & "'"
         End If
 
-        strQuery = "select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode as [Document No],GPDate as [Document Date],'' as Customer_Code,'' as Customer_Name, " & _
-            "TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_code as Unit,Qty,TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code  " & _
-            "from TSPL_DAIRYSALE_GATEPASS_MASTER left outer join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode  " & _
-            "left outer join TSPL_ITEM_MASTER on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code   " & _
+        strQuery = "select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode as [Document No],GPDate as [Document Date],'' as Customer_Code,'' as Customer_Name, " &
+            "TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_code as Unit,Qty,TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code  " &
+            "from TSPL_DAIRYSALE_GATEPASS_MASTER left outer join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode  " &
+            "left outer join TSPL_ITEM_MASTER on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code   " &
             "where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strGPCode & "' "
         Return strQuery
     End Function
@@ -946,7 +963,7 @@ Public Class frmDairyGatePass
         ' Ticket No : ERO/23/05/19-000614 By prabhakar
         'Ticket No-ERO/05/08/19-000984 ,Sanjay, add pending / approved 
         'Ticket No-ERO/27/08/19-001004 ,Add Opening_Km,Closing_Km
-        Dim qry As String = " SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)  as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_Route_Master.Route_Desc, case when TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' then 'Approved' else 'Pending' end as Status,Opening_Km,Closing_Km ,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as [Against Transfer No] FROM  TSPL_DAIRYSALE_GATEPASS_MASTER " & _
+        Dim qry As String = " SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)  as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_Route_Master.Route_Desc, case when TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' then 'Approved' else 'Pending' end as Status,Opening_Km,Closing_Km ,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as [Against Transfer No] FROM  TSPL_DAIRYSALE_GATEPASS_MASTER " &
                             " left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No "
 
         LoadData(clsCommon.ShowSelectForm("GatepassEntry", qry, "GPCode", "", txtCode.Value, "GPCode", isButtonClicked), NavigatorType.Current)
@@ -1267,8 +1284,8 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Sum(Amount)Amount,Su
             Dim dclDistanceInRoute As String = Nothing
             Dim dclPriceKM As String = Nothing
             Dim dclTollAmt As String = Nothing
-            Dim qry As String = " select TSPL_ROUTE_MASTER.Distance,TSPL_VEHICLE_MASTER.Price_KM,  isnull (TSPL_ROUTE_MASTER.Toll_amount,0) as Toll_Amount from TSPL_DAIRYSALE_GATEPASS_MASTER left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No " & _
-                                " left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id " & _
+            Dim qry As String = " select TSPL_ROUTE_MASTER.Distance,TSPL_VEHICLE_MASTER.Price_KM,  isnull (TSPL_ROUTE_MASTER.Toll_amount,0) as Toll_Amount from TSPL_DAIRYSALE_GATEPASS_MASTER left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No " &
+                                " left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id " &
                                 " where GPCode = '" + txtCode.Value + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1316,7 +1333,7 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Sum(Amount)Amount,Su
         End Try
     End Sub
 
-  
+
     Private Sub chkAgainstTransfer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkAgainstTransfer.ToggleStateChanged
         Try
             If chkAgainstTransfer.Checked = True Then
@@ -1372,9 +1389,9 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Sum(Amount)Amount,Su
         Try
 
             LoadBlankGrid()
-            Dim qry As String = "select TSPL_TRANSFER_ORDER_DETAIL.Item_Code as [Item Code],TSPL_TRANSFER_ORDER_DETAIL.Item_Desc as [Item Desc],TSPL_TRANSFER_ORDER_DETAIL.Unit_code as Unit ,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Qty,TSPL_ITEM_MASTER.HSN_Code,TSPL_TRANSFER_ORDER_HEAD.From_Location ,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code   from TSPL_TRANSFER_ORDER_HEAD " & Environment.NewLine & _
-" left outer join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " & Environment.NewLine & _
-" left outer join TSPL_ITEM_MASTER on TSPL_TRANSFER_ORDER_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code " & Environment.NewLine & _
+            Dim qry As String = "select TSPL_TRANSFER_ORDER_DETAIL.Item_Code as [Item Code],TSPL_TRANSFER_ORDER_DETAIL.Item_Desc as [Item Desc],TSPL_TRANSFER_ORDER_DETAIL.Unit_code as Unit ,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Qty,TSPL_ITEM_MASTER.HSN_Code,TSPL_TRANSFER_ORDER_HEAD.From_Location ,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code   from TSPL_TRANSFER_ORDER_HEAD " & Environment.NewLine &
+" left outer join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " & Environment.NewLine &
+" left outer join TSPL_ITEM_MASTER on TSPL_TRANSFER_ORDER_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code " & Environment.NewLine &
              " where 1=1 and TSPL_TRANSFER_ORDER_HEAD.Document_No='" + FndTransferNo.Value + "' "
 
 
@@ -1417,9 +1434,9 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Sum(Amount)Amount,Su
                     End If
 
                 Next
-                    If clsCommon.myCdbl(TotalCrate) > 0 Then
+                If clsCommon.myCdbl(TotalCrate) > 0 Then
                     txtCrateQty.Text = TotalCrate
-                    Else
+                Else
                     txtCrateQty.Text = 0
                 End If
                 If clsCommon.myCdbl(TotalCan) > 0 Then
