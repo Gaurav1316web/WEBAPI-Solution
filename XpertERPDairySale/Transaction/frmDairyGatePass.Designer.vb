@@ -86,6 +86,7 @@ Partial Class frmDairyGatePass
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnGPCancel = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -152,6 +153,7 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1156,6 +1158,7 @@ Partial Class frmDairyGatePass
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGPCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel10)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -1168,6 +1171,16 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.Size = New System.Drawing.Size(1031, 404)
         Me.SplitContainer1.SplitterDistance = 369
         Me.SplitContainer1.TabIndex = 3
+        '
+        'btnGPCancel
+        '
+        Me.btnGPCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGPCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGPCancel.Location = New System.Drawing.Point(505, 4)
+        Me.btnGPCancel.Name = "btnGPCancel"
+        Me.btnGPCancel.Size = New System.Drawing.Size(69, 24)
+        Me.btnGPCancel.TabIndex = 1034
+        Me.btnGPCancel.Text = "Cancel"
         '
         'MyLabel10
         '
@@ -1336,6 +1349,7 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1419,5 +1433,6 @@ Partial Class frmDairyGatePass
     Friend WithEvents txtLoadingSlip As common.Controls.MyTextBox
     Friend WithEvents txtGatepassDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents btnGPCancel As RadButton
 End Class
 
