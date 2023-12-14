@@ -19,6 +19,7 @@ Public Class FrmCrateJaliReport
     Dim ItemDefaultBoxRate As Integer = 0
     Public CrateReceivingWithMultipleRoute As Boolean = False
     Public CrateReceiveddairyCustomerWise As Boolean = False
+    Dim IsReportTypeChanged As Boolean = False
     Public dt As DataTable
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.rptCrateAccountingReport)
@@ -116,6 +117,7 @@ Public Class FrmCrateJaliReport
         ButtonToolTip.SetToolTip(btnGo, "Press Alt+N Refresh ")
         ButtonToolTip.SetToolTip(btnReset, "Press Alt+R ")
         Reset()
+        btnPrint.Visible = False
     End Sub
 
 
@@ -129,6 +131,18 @@ Public Class FrmCrateJaliReport
         If CrateReceivingWithMultipleRoute = True Then
             loaddataRouteWise()
         Else
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "DCD") = CompairStringResult.Equal Then
+                DepositCrateDetailReport()
+                Exit Sub
+            End If
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "IOR") = CompairStringResult.Equal Then
+                'InOutReport()
+                Exit Sub
+            End If
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "PWR") = CompairStringResult.Equal Then
+                'PartyWiseReport()
+                Exit Sub
+            End If
             loaddata()
         End If
 
@@ -1606,6 +1620,7 @@ Public Class FrmCrateJaliReport
             pnlActiveInActiveCustomer.Enabled = True
             'txtRoute.Enabled = False
         End If
+        ReportType()
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
@@ -1842,5 +1857,179 @@ Public Class FrmCrateJaliReport
             doc = Nothing
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub ReportType()
+        IsReportTypeChanged = False
+        dt = New DataTable
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Value", GetType(String))
+
+        dt.Rows.Add("Select", "SL")
+        dt.Rows.Add("Deposit Crate Detail", "DCD")
+        dt.Rows.Add("In/Out Report", "IOR")
+        dt.Rows.Add("Party-Wise Report", "PWR")
+
+        ddlReportType.DataSource = dt
+        ddlReportType.DisplayMember = "Code"
+        ddlReportType.ValueMember = "Value"
+        IsReportTypeChanged = True
+    End Sub
+
+    Private Sub DepositCrateDetailReport()
+        Try
+            If fromDate.Value > ToDate.Value Then
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                fromDate.Focus()
+                Exit Sub
+            End If
+
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+            Dim whrcls As String = Nothing
+            Dim Query As String = String.Empty
+            Dim strWhrClause As String = String.Empty
+            Dim strWhrClause2 As String = String.Empty
+            Dim itemCode As String = String.Empty
+            Dim MainQueryForScheme As String = String.Empty
+            Dim strWhrRoutSummaryPrint As String = String.Empty
+
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                strWhrClause += " and TSPL_ROUTE_MASTER.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+            End If
+
+            Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate,
+                      tspl_route_master.Route_No,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,
+                      Convert(varchar(10),TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,105) as Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
+                      CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, 
+                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
+                      From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
+                      left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
+                      left outer join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code 
+                      where convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
+                      and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strWhrClause + "
+                      order by line_no,Route_No "
+
+            Dim dt As New DataTable
+            dt = clsDBFuncationality.GetDataTable(Query)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.DataSource = dt
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.BestFitColumns()
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                Exit Sub
+            End If
+            RadPageView1.SelectedPage = RadPageViewPage2
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            FormatGridDepositCrate()
+            'FormatGridRouteWise()
+            RadPageView1.SelectedPage = RadPageViewPage2
+            'ReStoreGridLayout()
+            'View()
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub FormatGridDepositCrate()
+        Gv1.TableElement.TableHeaderHeight = 25
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).Width = 100
+            Gv1.Columns(ii).IsVisible = False
+        Next
+
+        Gv1.Columns("Invoice_Date").IsVisible = True
+        Gv1.Columns("Invoice_Date").Width = 100
+        Gv1.Columns("Invoice_Date").HeaderText = "Date"
+
+        Gv1.Columns("Route_No").IsVisible = False
+        Gv1.Columns("Route_No").Width = 100
+        Gv1.Columns("Route_No").HeaderText = "Route No"
+
+        Gv1.Columns("Vehicle_Code").IsVisible = True
+        Gv1.Columns("Vehicle_Code").Width = 100
+        Gv1.Columns("Vehicle_Code").HeaderText = "Vehicle_Code"
+
+        Gv1.Columns("CrateQtyRecd").IsVisible = True
+        Gv1.Columns("CrateQtyRecd").Width = 100
+        Gv1.Columns("CrateQtyRecd").HeaderText = "No.Of Crates"
+
+        Gv1.Columns("Comments").IsVisible = True
+        Gv1.Columns("Comments").Width = 100
+        Gv1.Columns("Comments").HeaderText = "Remarks"
+
+    End Sub
+
+    Private Sub ddlReportType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles ddlReportType.SelectedIndexChanged
+        ' If clsCommon.CompairString(ddlReportType.SelectedValue,ddlReportType.SelectedItem.Text "DCD") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedValue, "IOR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedValue, "PWR") = CompairStringResult.Equal Then
+        'If clsCommon.CompairString(ddlReportType.SelectedText, "DCD") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedText, "IOR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedText, "PWR") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Deposit Crate Detail") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedItem.Text, "In/Out Report") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Party-Wise Report") = CompairStringResult.Equal Then
+            btnPrint.Visible = True
+        Else
+            btnPrint.Visible = False
+        End If
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        If clsCommon.CompairString(ddlReportType.SelectedValue, "DCD") = CompairStringResult.Equal Then
+            Try
+                If fromDate.Value > ToDate.Value Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    fromDate.Focus()
+                    Exit Sub
+                End If
+
+                Dim whrcls As String = Nothing
+                Dim Query As String = String.Empty
+                Dim strWhrClause As String = String.Empty
+                Dim strWhrClause2 As String = String.Empty
+                Dim itemCode As String = String.Empty
+                Dim MainQueryForScheme As String = String.Empty
+                Dim strWhrRoutSummaryPrint As String = String.Empty
+
+                If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                    strWhrClause += " and TSPL_ROUTE_MASTER.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+                End If
+
+                Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate,
+                      tspl_route_master.Route_No,Comp_Name,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,
+                      Convert(varchar(10),TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,105) as Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
+                      CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, 
+                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
+                      From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
+                      left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
+                      left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code
+                      left outer join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code 
+                      where convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
+                      and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strWhrClause + "
+                      order by line_no,Route_No "
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
+                If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDepositCrateDetail", "")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                End If
+
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        End If
     End Sub
 End Class

@@ -8160,6 +8160,10 @@ Public Class MDI
                         frm = New rptBookingQtyAmtReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptSalesLedgerReport
+                        frm = New rptSalesLedgerReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptProvisionChart
                         frm = New rptProvisionChart()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8272,6 +8276,7 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptTruckSheetDailySummaryReport
                         frm = New rptTruckSheetDailySummaryReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptBMCTankerTestingReport
                         frm = New rptBMCTankerTesting
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

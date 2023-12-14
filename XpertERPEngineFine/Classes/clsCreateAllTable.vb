@@ -6518,6 +6518,8 @@ Public Class clsCreateAllTable
             coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
             coll.Add("ShiftType", "varchar(20) NULL")
             coll.Add("Loading_Slip", "varchar(20) NULL")
+            coll.Add("GatePass_Date", "datetime NULL")
+            coll.Add("Status", "char(1)  NUll")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
             coll = New Dictionary(Of String, String)()
