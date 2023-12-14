@@ -217,6 +217,7 @@ Public Class FrmReceipttNew
     'Dim rceceiptformOpens As New frmCustomer("", "")
     'Dim valueEntry As Boolean = rceceiptformOpens.ReceiptFormOpens
     Dim strRecieptCode As String = ""
+    Dim chk As Boolean = False
     'Private valueEntryforreciept As Boolean = True
     'Dim frm As New frmCustomer("", "")
     'Public Event _MYOpenMasterForm As EventHandler
@@ -238,6 +239,7 @@ Public Class FrmReceipttNew
     Private Sub FrmReceipt_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
             ERPStartDate = objCommonVar.ERPStartDate
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
             Me.Close()
@@ -313,7 +315,7 @@ Public Class FrmReceipttNew
                 fndCustomer.Value = objCommonVar.ObjVar4
                 txtCusName.Text = clsCustomerMaster.GetName(fndCustomer.Value, Nothing)
             End If
-           
+
         End If
 
         '' MultiCurrency
@@ -390,6 +392,20 @@ Public Class FrmReceipttNew
             fndRcptNo.Value = strRecieptCode
             funFillDetails(fndRcptNo.Value, NavigatorType.Current)
         End If
+        Dim index As Integer = sender.tag.ToString.IndexOf(",")
+        Dim Cust_Code As String
+        Dim Doc_Date As Date
+        If index > 0 Then
+            Cust_Code = sender.tag.ToString.Substring(0, index)
+            Doc_Date = sender.tag.ToString.Substring(index + 1)
+        End If
+
+        fndCustomer.Value = Cust_Code
+        dtRcpt.Value = Doc_Date
+        If clsCommon.myLen(fndCustomer.Value) > 0 Then
+            chk = True
+        End If
+        txtCusName.Text = clsCustomerMaster.GetName(fndCustomer.Value, Nothing)
     End Sub
     Sub SetMultiCurrencyVisibility()
         Dim strq As String = ""
@@ -4139,10 +4155,13 @@ Public Class FrmReceipttNew
     End Sub
 
     Private Sub ddlTransType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles ddlTransType.SelectedIndexChanged
-        IsTransferVisible()
-        If IsPaymentTypeChanged Then
-            TypeChange()
+        If chk = False Then
+            IsTransferVisible()
+            If IsPaymentTypeChanged Then
+                TypeChange()
+            End If
         End If
+
         'EnableDisableIncaseofRefund()
     End Sub
 
