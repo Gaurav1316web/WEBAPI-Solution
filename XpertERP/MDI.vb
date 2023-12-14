@@ -8272,6 +8272,7 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptTruckSheetDailySummaryReport
                         frm = New rptTruckSheetDailySummaryReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptBMCTankerTestingReport
                         frm = New rptBMCTankerTesting
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

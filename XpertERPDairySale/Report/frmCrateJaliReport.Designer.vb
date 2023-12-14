@@ -22,7 +22,7 @@ Partial Class FrmCrateJaliReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -52,6 +52,7 @@ Partial Class FrmCrateJaliReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPDFWithFormat = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.PDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -60,7 +61,9 @@ Partial Class FrmCrateJaliReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnPDFWithFormat = New Telerik.WinControls.UI.RadButton()
+        Me.ddlReportType = New common.Controls.MyComboBox()
+        Me.lbltype = New common.Controls.MyLabel()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -87,11 +90,14 @@ Partial Class FrmCrateJaliReport
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPDFWithFormat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPDFWithFormat, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbltype, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,6 +115,7 @@ Partial Class FrmCrateJaliReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPDFWithFormat)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -132,6 +139,8 @@ Partial Class FrmCrateJaliReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.ddlReportType)
+        Me.RadPageViewPage1.Controls.Add(Me.lbltype)
         Me.RadPageViewPage1.Controls.Add(Me.pnlActiveInActiveCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.chkcustomerWithDateWise)
@@ -155,7 +164,7 @@ Partial Class FrmCrateJaliReport
         Me.pnlActiveInActiveCustomer.Controls.Add(Me.chkActive)
         Me.pnlActiveInActiveCustomer.Controls.Add(Me.chkAll)
         Me.pnlActiveInActiveCustomer.Controls.Add(Me.chkInactive)
-        Me.pnlActiveInActiveCustomer.Location = New System.Drawing.Point(457, 52)
+        Me.pnlActiveInActiveCustomer.Location = New System.Drawing.Point(457, 71)
         Me.pnlActiveInActiveCustomer.Name = "pnlActiveInActiveCustomer"
         Me.pnlActiveInActiveCustomer.Size = New System.Drawing.Size(121, 67)
         Me.pnlActiveInActiveCustomer.TabIndex = 416
@@ -198,7 +207,7 @@ Partial Class FrmCrateJaliReport
         Me.RadGroupBox1.Controls.Add(Me.chkCan)
         Me.RadGroupBox1.Controls.Add(Me.chkCrate)
         Me.RadGroupBox1.HeaderText = "Show Value"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(580, 67)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(580, 86)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(128, 52)
         Me.RadGroupBox1.TabIndex = 415
@@ -232,7 +241,7 @@ Partial Class FrmCrateJaliReport
         '
         'chkcustomerWithDateWise
         '
-        Me.chkcustomerWithDateWise.Location = New System.Drawing.Point(559, 9)
+        Me.chkcustomerWithDateWise.Location = New System.Drawing.Point(559, 28)
         Me.chkcustomerWithDateWise.MyLinkLable1 = Nothing
         Me.chkcustomerWithDateWise.MyLinkLable2 = Nothing
         Me.chkcustomerWithDateWise.Name = "chkcustomerWithDateWise"
@@ -245,7 +254,7 @@ Partial Class FrmCrateJaliReport
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(107, 101)
+        Me.txtRoute.Location = New System.Drawing.Point(107, 120)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Nothing
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -258,7 +267,7 @@ Partial Class FrmCrateJaliReport
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(16, 101)
+        Me.MyLabel3.Location = New System.Drawing.Point(16, 120)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel3.TabIndex = 412
@@ -266,7 +275,7 @@ Partial Class FrmCrateJaliReport
         '
         'chkCustomerWise
         '
-        Me.chkCustomerWise.Location = New System.Drawing.Point(457, 9)
+        Me.chkCustomerWise.Location = New System.Drawing.Point(457, 28)
         Me.chkCustomerWise.MyLinkLable1 = Nothing
         Me.chkCustomerWise.MyLinkLable2 = Nothing
         Me.chkCustomerWise.Name = "chkCustomerWise"
@@ -279,7 +288,7 @@ Partial Class FrmCrateJaliReport
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(16, 78)
+        Me.MyLabel2.Location = New System.Drawing.Point(16, 97)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel2.TabIndex = 387
@@ -289,7 +298,7 @@ Partial Class FrmCrateJaliReport
         '
         Me.txtCustomer.arrDispalyMember = Nothing
         Me.txtCustomer.arrValueMember = Nothing
-        Me.txtCustomer.Location = New System.Drawing.Point(107, 77)
+        Me.txtCustomer.Location = New System.Drawing.Point(107, 96)
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Me.MyLabel2
         Me.txtCustomer.MyLinkLable2 = Nothing
@@ -302,7 +311,7 @@ Partial Class FrmCrateJaliReport
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(16, 57)
+        Me.MyLabel1.Location = New System.Drawing.Point(16, 76)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(42, 18)
         Me.MyLabel1.TabIndex = 385
@@ -312,7 +321,7 @@ Partial Class FrmCrateJaliReport
         '
         Me.txtVehicle.arrDispalyMember = Nothing
         Me.txtVehicle.arrValueMember = Nothing
-        Me.txtVehicle.Location = New System.Drawing.Point(107, 56)
+        Me.txtVehicle.Location = New System.Drawing.Point(107, 75)
         Me.txtVehicle.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVehicle.MyLinkLable1 = Me.MyLabel1
         Me.txtVehicle.MyLinkLable2 = Nothing
@@ -329,7 +338,7 @@ Partial Class FrmCrateJaliReport
         Me.RadGroupBox3.Controls.Add(Me.ToDate)
         Me.RadGroupBox3.Controls.Add(Me.fromDate)
         Me.RadGroupBox3.HeaderText = "Date Range"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 9)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 28)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(435, 42)
@@ -401,7 +410,7 @@ Partial Class FrmCrateJaliReport
         Me.Gv1.MasterTemplate.EnableFiltering = True
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(798, 357)
@@ -431,11 +440,21 @@ Partial Class FrmCrateJaliReport
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
+        'btnPDFWithFormat
+        '
+        Me.btnPDFWithFormat.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPDFWithFormat.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPDFWithFormat.Location = New System.Drawing.Point(269, 9)
+        Me.btnPDFWithFormat.Name = "btnPDFWithFormat"
+        Me.btnPDFWithFormat.Size = New System.Drawing.Size(95, 22)
+        Me.btnPDFWithFormat.TabIndex = 151
+        Me.btnPDFWithFormat.Text = "PDF With Format"
+        '
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExcel, Me.PDF, Me.ExcelGrid, Me.PDFGrid})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(156, 9)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(166, 9)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
         Me.RadSplitButton1.TabIndex = 150
@@ -491,21 +510,58 @@ Partial Class FrmCrateJaliReport
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(82, 9)
+        Me.btnReset.Location = New System.Drawing.Point(87, 9)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 147
         Me.btnReset.Text = "Reset"
         '
-        'btnPDFWithFormat
+        'ddlReportType
         '
-        Me.btnPDFWithFormat.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPDFWithFormat.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPDFWithFormat.Location = New System.Drawing.Point(255, 9)
-        Me.btnPDFWithFormat.Name = "btnPDFWithFormat"
-        Me.btnPDFWithFormat.Size = New System.Drawing.Size(95, 22)
-        Me.btnPDFWithFormat.TabIndex = 151
-        Me.btnPDFWithFormat.Text = "PDF With Format"
+        Me.ddlReportType.AutoCompleteDisplayMember = Nothing
+        Me.ddlReportType.AutoCompleteValueMember = Nothing
+        Me.ddlReportType.CalculationExpression = Nothing
+        Me.ddlReportType.DropDownAnimationEnabled = True
+        Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlReportType.FieldCode = Nothing
+        Me.ddlReportType.FieldDesc = Nothing
+        Me.ddlReportType.FieldMaxLength = 0
+        Me.ddlReportType.FieldName = Nothing
+        Me.ddlReportType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ddlReportType.isCalculatedField = False
+        Me.ddlReportType.IsSourceFromTable = False
+        Me.ddlReportType.IsSourceFromValueList = False
+        Me.ddlReportType.IsUnique = False
+        Me.ddlReportType.Location = New System.Drawing.Point(95, 4)
+        Me.ddlReportType.MendatroryField = False
+        Me.ddlReportType.MyLinkLable1 = Nothing
+        Me.ddlReportType.MyLinkLable2 = Nothing
+        Me.ddlReportType.Name = "ddlReportType"
+        Me.ddlReportType.ReferenceFieldDesc = Nothing
+        Me.ddlReportType.ReferenceFieldName = Nothing
+        Me.ddlReportType.ReferenceTableName = Nothing
+        Me.ddlReportType.Size = New System.Drawing.Size(180, 18)
+        Me.ddlReportType.TabIndex = 418
+        '
+        'lbltype
+        '
+        Me.lbltype.FieldName = Nothing
+        Me.lbltype.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbltype.Location = New System.Drawing.Point(16, 3)
+        Me.lbltype.Name = "lbltype"
+        Me.lbltype.Size = New System.Drawing.Size(69, 16)
+        Me.lbltype.TabIndex = 417
+        Me.lbltype.Text = "Report Type"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(372, 9)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 152
+        Me.btnPrint.Text = "Print"
         '
         'FrmCrateJaliReport
         '
@@ -550,11 +606,14 @@ Partial Class FrmCrateJaliReport
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPDFWithFormat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPDFWithFormat, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbltype, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -597,5 +656,8 @@ Partial Class FrmCrateJaliReport
     Friend WithEvents chkAll As RadioButton
     Friend WithEvents chkInactive As RadioButton
     Friend WithEvents btnPDFWithFormat As RadButton
+    Friend WithEvents ddlReportType As common.Controls.MyComboBox
+    Friend WithEvents lbltype As common.Controls.MyLabel
+    Friend WithEvents btnPrint As RadButton
 End Class
 

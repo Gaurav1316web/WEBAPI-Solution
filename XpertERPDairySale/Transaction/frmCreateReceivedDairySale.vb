@@ -141,10 +141,13 @@ Public Class frmCreateReceivedDairySale
         Try
             Dim dblCrateQty As Double = 0
             Dim dblCrateQtyRecd As Double = 0
+            Dim dblCrateQtymanual As Double = 0
             Dim dblCrateBalance As Double = 0
             dblCrateQty = clsCommon.myCdbl(gv1.Rows(intRow).Cells(colCreateQty).Value)
+            dblCrateQtymanual = clsCommon.myCdbl(gv1.Rows(intRow).Cells(colCrateQtyManual).Value)
             dblCrateQtyRecd = clsCommon.myCdbl(gv1.Rows(intRow).Cells(colCreateQtyRecd).Value)
-            dblCrateBalance = dblCrateQty - dblCrateQtyRecd
+            'dblCrateBalance = dblCrateQty - dblCrateQtyRecd
+            dblCrateBalance = dblCrateQtymanual - dblCrateQtyRecd
             gv1.Rows(intRow).Cells(colCrateBalance).Value = dblCrateBalance
             txtDate.Focus()
             gv1.Focus()
