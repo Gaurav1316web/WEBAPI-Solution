@@ -43,6 +43,11 @@ Public Class ClsJobTitle
             ClsChkOfferJoblist.SaveData(obj.Job_Title_Code, Ara, trans)
             ClsChkJoiningJoblist.SaveData(obj.Job_Title_Code, Arraa, trans)
             trans.Commit()
+
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Job_Title_Code), "TSPL_HR_JOB_TITLE", "Job_Title_Code", trans)
+            'End If
+
         Catch err As Exception
             trans.Rollback()
             Throw New Exception(err.Message)

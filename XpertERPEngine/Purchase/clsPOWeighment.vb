@@ -81,6 +81,11 @@ Public Class clsPOWeighment
                 clsPOWeighmentGunnyBag.SaveData(obj.Weighment_Code, obj.ArrGunnyBag, trans)
             End If
             trans.Commit()
+
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Weighment_Code), "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", trans)
+            'End If
+
         Catch err As Exception
             trans.Rollback()
             Throw New Exception(err.Message)
@@ -864,6 +869,7 @@ Public Class clsPOWeighmentDetail
             If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
                 CreateInternalEmailSMS_Unloading(strCode, trans)
             End If
+
 
             trans.Commit()
         Catch err As Exception

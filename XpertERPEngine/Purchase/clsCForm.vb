@@ -75,6 +75,10 @@ Public Class clsCForm
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CForm_HEADER", OMInsertOrUpdate.Update, "TSPL_CForm_HEADER.Document_No='" + obj.Document_No + "'", trans)
             End If
 
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_CForm_HEADER", "Document_No", "TSPL_CForm_DETAIL", "Document_No", trans)
+            'End If
+
             isSaved = isSaved AndAlso ClsCFormDetails.SaveData(obj.Document_No, obj.Arr, trans, obj.CollectionType)
             If isSaved Then
                 trans.Commit()

@@ -147,6 +147,7 @@ Public Class ClsScrapSaleHeadReturn
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_SCRAPSALE_HEAD_Return", "Document_No", "TSPL_SCRAPSALE_DETAIL_RETURN", "Document_No", trans)
         Return True
     End Function
+
     Public Function SaveData(ByVal obj As ClsScrapSaleHeadReturn, ByVal strScrapSaleInvoiceNo As String, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
