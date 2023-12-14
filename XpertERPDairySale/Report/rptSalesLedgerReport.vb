@@ -70,14 +70,14 @@ Public Class rptSalesLedgerReport
                 repoStrCodeAmt.FormatString = ""
                 repoStrCodeAmt.HeaderText = clsCommon.myCstr(dr("Structure_Code"))
                 obj = New ItemValueClass()
-                obj.Struct_Code = clsCommon.myCstr(dr("Structure_Code"))
                 Dim sql As String = "SELECT distinct TSPL_SD_SHIPMENT_DETAIL.Structure_Code,TSPL_SD_SHIPMENT_DETAIL.Item_Code, TSPL_ITEM_MASTER.Item_Desc, TSPL_ITEM_MASTER.Short_Description, TSPL_SD_SHIPMENT_DETAIL.Unit_code
              FROM TSPL_SD_SHIPMENT_DETAIL 
              left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
              left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
              left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
              where Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
-             and Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) and  TSPL_SD_SHIPMENT_DETAIL.Structure_Code = '" & obj.Struct_Code & "'  ORDER BY Structure_Code"
+             and Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) 
+             ORDER BY Structure_Code"
                 dtRowsCount = clsDBFuncationality.GetDataTable(sql)
                 repoStrCodeAmt.Name = colItemStrCodeAmt + clsCommon.myCstr(i)
                 If dtRowsCount.Rows.Count = 1 Then
@@ -135,7 +135,6 @@ Public Class rptSalesLedgerReport
                 obj.itemDesc = clsCommon.myCstr(dr("Item_Desc"))
                 obj.Unit_code = clsCommon.myCstr(dr("Unit_code"))
                 obj.ShortDesc = clsCommon.myCstr(dr("Short_Description"))
-                obj.Struct_Code = clsCommon.myCstr(dr("Structure_Code"))
                 repoINameQty.Name = colItemQty + clsCommon.myCstr(i)
                 repoINameQty.Width = 20
                 repoINameQty.IsVisible = True
@@ -242,7 +241,6 @@ Public Class rptSalesLedgerReport
                 repoStrCodeQty.FormatString = ""
                 repoStrCodeQty.HeaderText = clsCommon.myCstr(dr("Structure_Code"))
                 obj = New ItemValueClass()
-                obj.Struct_Code = clsCommon.myCstr(dr("Structure_Code"))
                 repoStrCodeQty.Name = colItemStrCodeQty + clsCommon.myCstr(i)
                 Dim sql As String = "SELECT distinct TSPL_SD_SHIPMENT_DETAIL.Structure_Code,TSPL_SD_SHIPMENT_DETAIL.Item_Code, TSPL_ITEM_MASTER.Item_Desc, TSPL_ITEM_MASTER.Short_Description, TSPL_SD_SHIPMENT_DETAIL.Unit_code
              FROM TSPL_SD_SHIPMENT_DETAIL 
@@ -250,7 +248,8 @@ Public Class rptSalesLedgerReport
              left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
              left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
              where Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
-             and Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) and  TSPL_SD_SHIPMENT_DETAIL.Structure_Code = '" & obj.Struct_Code & "'  ORDER BY Structure_Code"
+             and Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) and 
+ORDER BY Structure_Code"
                 dtRowsCount = clsDBFuncationality.GetDataTable(sql)
                 If dtRowsCount.Rows.Count = 1 Then
                     repoStrCodeQty.Width = 50
@@ -535,7 +534,7 @@ and Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & t
                             gv1.Rows(dblrows).Cells(colShiftName).Value = (dr("Shift_Type"))
                         End If
                     End If
-                        Dim k As Integer = 1
+                    Dim k As Integer = 1
                     For columns = gv1.Columns(colShiftName).Index + 1 To gv1.Columns(colTotal).Index - 1
                         Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemQty + clsCommon.myCstr(k)).Tag, ItemValueClass)
                         k = k + 1
