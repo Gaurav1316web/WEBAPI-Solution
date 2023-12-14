@@ -50,50 +50,6 @@ Public Class rptSalesLedgerReport
         gv1.Columns.Clear()
         gv1.DataSource = Nothing
         gv1.Rows.AddNew()
-        Dim dtStrCode As DataTable
-        Dim dtRowsCount As DataTable
-        Dim repoStrCodeAmt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        qry = "SELECT distinct TSPL_SD_SHIPMENT_DETAIL.Structure_Code
-             FROM TSPL_SD_SHIPMENT_DETAIL 
-             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
-             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-             where Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
-             and Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) ORDER BY Structure_Code "
-        dtStrCode = clsDBFuncationality.GetDataTable(qry)
-
-        If dtStrCode IsNot Nothing AndAlso dtStrCode.Rows.Count > 0 Then
-            Dim i As Integer = 1
-            Dim obj As ItemValueClass = New ItemValueClass()
-            For Each dr As DataRow In dtStrCode.Rows
-                repoStrCodeAmt = New GridViewTextBoxColumn()
-                repoStrCodeAmt.FormatString = ""
-                repoStrCodeAmt.HeaderText = clsCommon.myCstr(dr("Structure_Code"))
-                obj = New ItemValueClass()
-                Dim sql As String = "SELECT distinct TSPL_SD_SHIPMENT_DETAIL.Structure_Code,TSPL_SD_SHIPMENT_DETAIL.Item_Code, TSPL_ITEM_MASTER.Item_Desc, TSPL_ITEM_MASTER.Short_Description, TSPL_SD_SHIPMENT_DETAIL.Unit_code
-             FROM TSPL_SD_SHIPMENT_DETAIL 
-             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
-             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-             where Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
-             and Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) 
-             ORDER BY Structure_Code"
-                dtRowsCount = clsDBFuncationality.GetDataTable(sql)
-                repoStrCodeAmt.Name = colItemStrCodeAmt + clsCommon.myCstr(i)
-                If dtRowsCount.Rows.Count = 1 Then
-                    repoStrCodeAmt.Width = 10
-                ElseIf dtRowsCount.Rows.Count > 1 AndAlso dtRowsCount.Rows.Count <= 3 Then
-                    repoStrCodeAmt.Width = 130
-                ElseIf dtRowsCount.Rows.Count > 3 Then
-                    repoStrCodeAmt.Width = 130
-                End If
-
-                repoStrCodeAmt.Tag = obj
-                repoStrCodeAmt.IsVisible = True
-                i = i + 1
-                gv1.MasterTemplate.Columns.Add(repoStrCodeAmt)
-            Next
-        End If
 
         Dim repoGatePassDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoGatePassDate.FormatString = ""
@@ -143,23 +99,6 @@ Public Class rptSalesLedgerReport
                 gv1.MasterTemplate.Columns.Add(repoINameQty)
             Next
         End If
-
-        Dim repoTotal As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTotal.FormatString = ""
-        repoTotal.HeaderText = "Total"
-        repoTotal.Name = colTotal
-        repoTotal.Width = 50
-        repoTotal.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoTotal)
-
-        Dim repoTotalSum As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTotalSum.FormatString = ""
-        repoTotalSum.HeaderText = "Total"
-        repoTotalSum.Name = colTotalSum
-        repoTotalSum.Width = 50
-        repoTotalSum.ReadOnly = True
-        gv1.MasterTemplate.Columns.Add(repoTotalSum)
-
         Dim repoTotalQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTotalQty.FormatString = ""
         repoTotalQty.HeaderText = "Total Qty"
@@ -231,40 +170,6 @@ Public Class rptSalesLedgerReport
         repoBalanceAmt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoBalanceAmt)
 
-        Dim repoStrCodeQty As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-
-        If dtStrCode IsNot Nothing AndAlso dtStrCode.Rows.Count > 0 Then
-            Dim i As Integer = 1
-            Dim obj As ItemValueClass = New ItemValueClass()
-            For Each dr As DataRow In dtStrCode.Rows
-                repoStrCodeQty = New GridViewTextBoxColumn()
-                repoStrCodeQty.FormatString = ""
-                repoStrCodeQty.HeaderText = clsCommon.myCstr(dr("Structure_Code"))
-                obj = New ItemValueClass()
-                repoStrCodeQty.Name = colItemStrCodeQty + clsCommon.myCstr(i)
-                Dim sql As String = "SELECT distinct TSPL_SD_SHIPMENT_DETAIL.Structure_Code,TSPL_SD_SHIPMENT_DETAIL.Item_Code, TSPL_ITEM_MASTER.Item_Desc, TSPL_ITEM_MASTER.Short_Description, TSPL_SD_SHIPMENT_DETAIL.Unit_code
-             FROM TSPL_SD_SHIPMENT_DETAIL 
-             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
-             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-             where Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
-             and Convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) and 
-ORDER BY Structure_Code"
-                dtRowsCount = clsDBFuncationality.GetDataTable(sql)
-                If dtRowsCount.Rows.Count = 1 Then
-                    repoStrCodeQty.Width = 50
-                ElseIf dtRowsCount.Rows.Count > 1 AndAlso dtRowsCount.Rows.Count <= 3 Then
-                    repoStrCodeQty.Width = 120
-                ElseIf dtRowsCount.Rows.Count > 3 Then
-                    repoStrCodeQty.Width = 130
-                End If
-                repoStrCodeQty.Tag = obj
-                repoStrCodeQty.IsVisible = True
-                i = i + 1
-                gv1.MasterTemplate.Columns.Add(repoStrCodeQty)
-            Next
-        End If
-
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
         gv1.AllowColumnReorder = False
@@ -278,150 +183,47 @@ ORDER BY Structure_Code"
         ' View()
     End Sub
 
-    'Sub View()
-    '    Try
-    '        If gv1.Rows.Count > 0 Then
-    '            Dim view As New ColumnGroupsViewDefinition()
+    Sub View()
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colGatePassDate).Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colShiftName).Name)
 
-    '            view.ColumnGroups.Add(New GridViewColumnGroup(""))
-    '            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(0).Rows(0).ColumnNames.Add(GridName.Columns("Item").Name)
+                view.ColumnGroups.Add(New GridViewColumnGroup("Quantity"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Qy.Tot."))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Rate Amount"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
 
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Quantity In Ltr"))
-    '            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(1).Rows(0).ColumnNames.Add(GridName.Columns("Quantity In Ltr").Name)
-    '            view.ColumnGroups(1).Rows(0).ColumnNames.Add(GridName.Columns("Scheme Quantity In Ltr").Name)
-    '            view.ColumnGroups(1).Rows(0).ColumnNames.Add(GridName.Columns("Sample Quantity In Ltr").Name)
-    '            view.ColumnGroups(1).Rows(0).ColumnNames.Add(GridName.Columns("Total Quantity In Ltr").Name)
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                For col As Integer = 2 To gv1.Columns(colTotalQty).Index - 1
+                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
+                Next
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns(colTotalQty).Name)
 
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Quantity In Kg"))
-    '            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(2).Rows(0).ColumnNames.Add(GridName.Columns("Quantity In Kg").Name)
-    '            view.ColumnGroups(2).Rows(0).ColumnNames.Add(GridName.Columns("Scheme Quantity In Kg").Name)
-    '            view.ColumnGroups(2).Rows(0).ColumnNames.Add(GridName.Columns("Sample Quantity In Kg").Name)
-    '            view.ColumnGroups(2).Rows(0).ColumnNames.Add(GridName.Columns("Total Quantity In Kg").Name)
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
 
+                For col As Integer = gv1.Columns(colTotalQty).Index + 1 To gv1.Columns(colTotalAmt).Index - 1
+                    view.ColumnGroups(3).Rows(1).ColumnNames.Add(gv1.Columns(col).Name)
+                Next
 
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns(colTotalAmt).Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns(colDepositAmt).Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns(colDueAmt).Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns(colBalanceAmt).Name)
 
-    '            Dim view As New ColumnGroupsViewDefinition()
-    '            view.ColumnGroups.Add(New GridViewColumnGroup(""))
-    '            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                gv1.ViewDefinition = view
 
-    '            view.ColumnGroups(0).Rows(1).ColumnNames.Add(gv1.Columns(colGatePassDate).Name)
-    '            view.ColumnGroups(0).Rows(1).ColumnNames.Add(gv1.Columns(colShiftName).Name)
-
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Quantity"))
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Qy.Tot."))
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Rate Amount"))
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
-
-    '            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-    '            For dblcolumns As Integer = gv1.Columns(colBalanceAmt).Index + 1 To gv1.Columns.Count - 1
-    '                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns(dblcolumns).Name)
-    '                'view.ColumnGroups(1).Rows(0).ColumnNames
-
-    '            Next
-
-
-
-    '            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-    '            For col As Integer = gv1.Columns(colShiftName).Index + 1 To gv1.Columns(colTotalQty).Index - 3
-    '                view.ColumnGroups(1).Rows(1).ColumnNames.Add(gv1.Columns(col).Name)
-    '            Next
-    '            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns(colTotal).Name)
-    '            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(2).Rows(1).ColumnNames.Add(gv1.Columns(colTotalQty).Name)
-
-    '            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-
-    '            For dblcolumns As Integer = 0 To gv1.Columns(colGatePassDate).Index - 1
-    '                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns(dblcolumns).Name)
-    '            Next
-
-    '            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-    '            For col As Integer = gv1.Columns(colTotalQty).Index + 1 To gv1.Columns(colTotalAmt).Index - 1
-    '                view.ColumnGroups(3).Rows(1).ColumnNames.Add(gv1.Columns(col).Name)
-    '            Next
-
-
-    '            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns(colTotalSum).Name)
-    '            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(4).Rows(1).ColumnNames.Add(gv1.Columns(colTotalAmt).Name)
-    '            view.ColumnGroups(4).Rows(1).ColumnNames.Add(gv1.Columns(colDepositAmt).Name)
-    '            view.ColumnGroups(4).Rows(1).ColumnNames.Add(gv1.Columns(colDueAmt).Name)
-    '            view.ColumnGroups(4).Rows(1).ColumnNames.Add(gv1.Columns(colBalanceAmt).Name)
-
-    '            gv1.ViewDefinition = view
-
-    '        End If
-    '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
-    '    End Try
-    'End Sub
-    'Sub View()
-    '    Try
-    '        If gv1.Rows.Count > 0 Then
-    '            Dim view As New ColumnGroupsViewDefinition()
-    '            view.ColumnGroups.Add(New GridViewColumnGroup(""))
-    '            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-
-    '            view.ColumnGroups(0).Rows(1).ColumnNames.Add(gv1.Columns(colGatePassDate).Name)
-    '            view.ColumnGroups(0).Rows(1).ColumnNames.Add(gv1.Columns(colShiftName).Name)
-
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Quantity"))
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Qy.Tot."))
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Rate Amount"))
-    '            view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
-
-    '            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-    '            For dblcolumns As Integer = gv1.Columns(colBalanceAmt).Index + 1 To gv1.Columns.Count - 1
-    '                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns(dblcolumns).Name)
-    '                'view.ColumnGroups(1).Rows(0).ColumnNames
-
-    '            Next
-
-
-
-    '            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-    '            For col As Integer = gv1.Columns(colShiftName).Index + 1 To gv1.Columns(colTotalQty).Index - 3
-    '                view.ColumnGroups(1).Rows(1).ColumnNames.Add(gv1.Columns(col).Name)
-    '            Next
-    '            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns(colTotal).Name)
-    '            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(2).Rows(1).ColumnNames.Add(gv1.Columns(colTotalQty).Name)
-
-    '            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-
-    '            For dblcolumns As Integer = 0 To gv1.Columns(colGatePassDate).Index - 1
-    '                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns(dblcolumns).Name)
-    '            Next
-
-    '            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
-    '            For col As Integer = gv1.Columns(colTotalQty).Index + 1 To gv1.Columns(colTotalAmt).Index - 1
-    '                view.ColumnGroups(3).Rows(1).ColumnNames.Add(gv1.Columns(col).Name)
-    '            Next
-
-
-    '            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns(colTotalSum).Name)
-    '            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
-    '            view.ColumnGroups(4).Rows(1).ColumnNames.Add(gv1.Columns(colTotalAmt).Name)
-    '            view.ColumnGroups(4).Rows(1).ColumnNames.Add(gv1.Columns(colDepositAmt).Name)
-    '            view.ColumnGroups(4).Rows(1).ColumnNames.Add(gv1.Columns(colDueAmt).Name)
-    '            view.ColumnGroups(4).Rows(1).ColumnNames.Add(gv1.Columns(colBalanceAmt).Name)
-
-    '            gv1.ViewDefinition = view
-
-    '        End If
-    '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
-    '    End Try
-    'End Sub
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
     Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click
         Try
             Dim qry As String = "select Cust_Code as Code ,Customer_Name as  Name from TSPL_CUSTOMER_MASTER "

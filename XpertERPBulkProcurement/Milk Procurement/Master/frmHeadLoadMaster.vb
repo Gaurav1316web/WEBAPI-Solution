@@ -197,7 +197,7 @@ Public Class frmHeadLoadMaster
 
                 Next
 
-                If (obj.SaveData(obj, isNewEntry, Nothing)) Then
+                If (obj.SaveData(obj, isNewEntry, Nothing, False)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
