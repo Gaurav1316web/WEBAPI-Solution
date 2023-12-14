@@ -274,6 +274,11 @@ Public Class clsIndentHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INDENT_HEAD", OMInsertOrUpdate.Update, "TSPL_INDENT_HEAD.Indent_No='" + obj.Indent_No + "'", trans)
             End If
             clsIndentDetail.SaveData(obj.Indent_No, obj.Arr, trans)
+
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Indent_No), "TSPL_INDENT_HEAD", "Indent_No", "TSPL_INDENT_DETAIL", "Indent_No", trans)
+            'End If
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

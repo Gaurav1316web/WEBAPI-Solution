@@ -159,6 +159,11 @@ Public Class clsPurchaseSchedule
             isSaved = isSaved AndAlso clsPurchaseScheduleVendorDetail.SaveData(obj.Document_Code, obj.Arr_Vendor, trans)
 
             Return isSaved
+
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_PO_SCH_HEAD", "Document_Code", "TSPL_PO_SCH_DETAIL", "Document_Code", trans)
+            'End If
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

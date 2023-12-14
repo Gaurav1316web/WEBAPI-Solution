@@ -273,6 +273,11 @@ Public Class cls_TSPL_NRGP_REQUEST_HEAD
 
             isSaved = isSaved AndAlso cls_TSPL_NRGP_REQUEST_DETAIL.SaveDetailData(obj.BOOKING_NO, obj, objList, trans)
 
+
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.BOOKING_NO), "TSPL_NRGP_REQUEST_HEAD", "BOOKING_NO", "TSPL_NRGP_REQUEST_DETAIL", "BOOKING_NO", trans)
+            'End If
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

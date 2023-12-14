@@ -128,6 +128,7 @@ Public Class clsAssembliesDis
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PROD_ASSEMBLIES", "CODE", "TSPL_PROD_ASSEMBLIES_ITEM_DETAIL", "ASSEMBLY_CODE", trans)
         Return True
     End Function
+
     Public Shared Function DeleteData(ByVal strCode As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
         Dim isSaved As Boolean
         Try

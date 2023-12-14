@@ -22,6 +22,7 @@ Partial Class frmSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
@@ -29,7 +30,9 @@ Partial Class frmSRN
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
+        Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -68,7 +71,6 @@ Partial Class frmSRN
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtBarCode = New common.Controls.MyTextBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.UcItemBalance1 = New XpertERPEngine.ucItemBalance()
         Me.pnlPCJ = New System.Windows.Forms.Panel()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.fndProject = New common.UserControls.txtFinder()
@@ -168,8 +170,8 @@ Partial Class frmSRN
         Me.MyLabel56 = New common.Controls.MyLabel()
         Me.lblAddChargesForInsurance = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.MyLabel58 = New common.Controls.MyLabel()
         Me.lblTotalInsuranceAmt = New common.Controls.MyLabel()
@@ -236,10 +238,10 @@ Partial Class frmSRN
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.EmailSmsSetting = New Telerik.WinControls.UI.RadMenuItem()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
-        Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcItemBalance1 = New XpertERPEngine.ucItemBalance()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -442,10 +444,48 @@ Partial Class frmSRN
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel1.SuspendLayout()
-        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.AnimationEnabled = False
+        Me.RadMenuItem2.AnimationFrames = 1
+        Me.RadMenuItem2.AnimationType = Telerik.WinControls.UI.PopupAnimationTypes.None
+        Me.RadMenuItem2.AutoSize = True
+        Me.RadMenuItem2.DropDownAnimationDirection = Telerik.WinControls.UI.RadDirection.Down
+        Me.RadMenuItem2.DropShadow = True
+        Me.RadMenuItem2.EasingType = Telerik.WinControls.RadEasingType.InQuad
+        Me.RadMenuItem2.EnableAeroEffects = False
+        Me.RadMenuItem2.FadeAnimationFrames = 10
+        Me.RadMenuItem2.FadeAnimationSpeed = 10
+        Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
+        Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
+        Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
+        Me.RadMenuItem2.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
+        Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Opacity = 1.0!
+        Me.RadMenuItem2.ProcessKeyboard = False
+        Me.RadMenuItem2.RollOverItemSelection = True
+        Me.RadMenuItem2.Size = New System.Drawing.Size(0, 0)
+        Me.RadMenuItem2.TabIndex = 0
+        Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.Visible = False
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.SplitContainer1)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(0, 20)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1126, 572)
+        Me.Panel1.TabIndex = 4
         '
         'SplitContainer1
         '
@@ -534,7 +574,6 @@ Partial Class frmSRN
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel16)
         Me.RadPageViewPage1.Controls.Add(Me.txtBarCode)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
-        Me.RadPageViewPage1.Controls.Add(Me.UcItemBalance1)
         Me.RadPageViewPage1.Controls.Add(Me.pnlPCJ)
         Me.RadPageViewPage1.Controls.Add(Me.chkRGPNonInventory)
         Me.RadPageViewPage1.Controls.Add(Me.txtRequistionNo)
@@ -589,6 +628,7 @@ Partial Class frmSRN
         Me.RadPageViewPage1.Controls.Add(Me.txtRefNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
+        Me.RadPageViewPage1.Controls.Add(Me.UcItemBalance1)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(117.0!, 22.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
@@ -1131,29 +1171,6 @@ Partial Class frmSRN
         Me.MyLabel5.TabIndex = 30
         Me.MyLabel5.Text = "Press F4 serial item Details || Press F5 Batch item Details || Double click on Ta" &
     "x Amount Column To Set Item wise Tax"
-        '
-        'UcItemBalance1
-        '
-        Me.UcItemBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.UcItemBalance1.CommitedQty = True
-        Me.UcItemBalance1.CommitedQtyLbl = True
-        Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0R
-        Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 412)
-        Me.UcItemBalance1.LocationCode = ""
-        Me.UcItemBalance1.LocationName = ""
-        Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
-        Me.UcItemBalance1.MinimumSize = New System.Drawing.Size(710, 70)
-        Me.UcItemBalance1.Name = "UcItemBalance1"
-        Me.UcItemBalance1.ShowCSADOQty = False
-        Me.UcItemBalance1.ShowPOQty = False
-        Me.UcItemBalance1.ShowSOQty = False
-        Me.UcItemBalance1.Size = New System.Drawing.Size(710, 70)
-        Me.UcItemBalance1.TabIndex = 28
-        Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
-        Me.UcItemBalance1.TransNo = ""
-        Me.UcItemBalance1.UOM = ""
         '
         'pnlPCJ
         '
@@ -2730,6 +2747,14 @@ Partial Class frmSRN
         Me.pvpCustomFields.Size = New System.Drawing.Size(1105, 494)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1105, 494)
+        Me.UcCustomFields1.TabIndex = 2
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
@@ -2738,15 +2763,6 @@ Partial Class frmSRN
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1105, 494)
         Me.Attachments.Text = "Attachments"
-        '
-        'UcAttachment1
-        '
-        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
-        Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1105, 494)
-        Me.UcAttachment1.TabIndex = 0
-        Me.UcAttachment1.TabStop = False
         '
         'RadPageViewPage4
         '
@@ -3497,53 +3513,37 @@ Partial Class frmSRN
         Me.EmailSmsSetting.Name = "EmailSmsSetting"
         Me.EmailSmsSetting.Text = "Email/SMS Setting"
         '
-        'Panel1
+        'UcItemBalance1
         '
-        Me.Panel1.Controls.Add(Me.SplitContainer1)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(0, 20)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1126, 572)
-        Me.Panel1.TabIndex = 4
+        Me.UcItemBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.UcItemBalance1.CommitedQty = True
+        Me.UcItemBalance1.CommitedQtyLbl = True
+        Me.UcItemBalance1.ItemCode = ""
+        Me.UcItemBalance1.ItemMRP = 0R
+        Me.UcItemBalance1.ItemName = ""
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 412)
+        Me.UcItemBalance1.LocationCode = ""
+        Me.UcItemBalance1.LocationName = ""
+        Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
+        Me.UcItemBalance1.MinimumSize = New System.Drawing.Size(710, 70)
+        Me.UcItemBalance1.Name = "UcItemBalance1"
+        Me.UcItemBalance1.ShowCSADOQty = False
+        Me.UcItemBalance1.ShowPOQty = False
+        Me.UcItemBalance1.ShowSOQty = False
+        Me.UcItemBalance1.Size = New System.Drawing.Size(710, 70)
+        Me.UcItemBalance1.TabIndex = 28
+        Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
+        Me.UcItemBalance1.TransNo = ""
+        Me.UcItemBalance1.UOM = ""
         '
-        'RadMenuItem2
+        'UcAttachment1
         '
-        Me.RadMenuItem2.AnimationEnabled = False
-        Me.RadMenuItem2.AnimationFrames = 1
-        Me.RadMenuItem2.AnimationType = Telerik.WinControls.UI.PopupAnimationTypes.None
-        Me.RadMenuItem2.AutoSize = True
-        Me.RadMenuItem2.DropDownAnimationDirection = Telerik.WinControls.UI.RadDirection.Down
-        Me.RadMenuItem2.DropShadow = True
-        Me.RadMenuItem2.EasingType = Telerik.WinControls.RadEasingType.InQuad
-        Me.RadMenuItem2.EnableAeroEffects = False
-        Me.RadMenuItem2.FadeAnimationFrames = 10
-        Me.RadMenuItem2.FadeAnimationSpeed = 10
-        Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
-        Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
-        Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
-        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
-        Me.RadMenuItem2.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
-        Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Opacity = 1.0!
-        Me.RadMenuItem2.ProcessKeyboard = False
-        Me.RadMenuItem2.RollOverItemSelection = True
-        Me.RadMenuItem2.Size = New System.Drawing.Size(0, 0)
-        Me.RadMenuItem2.TabIndex = 0
-        Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
-        Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1105, 494)
-        Me.UcCustomFields1.TabIndex = 2
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(1105, 494)
+        Me.UcAttachment1.TabIndex = 0
+        Me.UcAttachment1.TabStop = False
         '
         'frmSRN
         '
@@ -3559,6 +3559,8 @@ Partial Class frmSRN
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "Store Received Note"
+        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
@@ -3771,8 +3773,6 @@ Partial Class frmSRN
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel1.ResumeLayout(False)
-        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

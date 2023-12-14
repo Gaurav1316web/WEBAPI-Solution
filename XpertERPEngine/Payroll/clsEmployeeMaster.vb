@@ -1278,6 +1278,9 @@ Public Class clsEmpFamilieDetails
                     Else
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_FAMILIES", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ")
                     End If
+
+
+
                 Next
             End If
         Catch ex As Exception
@@ -1345,6 +1348,7 @@ Public Class clsEmpLanguageDetails
     End Function
 
     Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpLanguageDetails)) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim isSaved As Boolean = True
         Try
             If ObjList IsNot Nothing AndAlso ObjList.Count > 0 Then
@@ -1372,6 +1376,9 @@ Public Class clsEmpLanguageDetails
                     Else
                         isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_LANGUAGES", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ")
                     End If
+                    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.LINE_NO), "TSPL_EMPLOYEE_LANGUAGES", "LINE_NO", "TSPL_TENDER_DETAIL", "LINE_NO", trans)
+
+
                 Next
             End If
         Catch ex As Exception
