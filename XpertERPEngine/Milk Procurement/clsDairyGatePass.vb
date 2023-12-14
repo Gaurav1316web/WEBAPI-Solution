@@ -5,6 +5,7 @@ Public Class clsDairyGatePassEntry
 #Region "Variables"
     Public GPCode As String = Nothing
     Public GPDate As DateTime
+    Public GatePassDate As DateTime
     Public Vehicle_Id As String = Nothing
     Public Vehicle_Number As String = Nothing
     Public DocNo As String = Nothing
@@ -64,6 +65,7 @@ Public Class clsDairyGatePassEntry
             End If
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "GPDate", clsCommon.GetPrintDate(obj.GPDate, "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "GatePass_Date", clsCommon.GetPrintDate(obj.GatePassDate, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Vehicle_Id", obj.Vehicle_Id)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Number", obj.Vehicle_Number)
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type)
@@ -183,6 +185,9 @@ Public Class clsDairyGatePassEntry
             obj = New clsDairyGatePassEntry()
             obj.GPCode = clsCommon.myCstr(dt.Rows(0)("GPCode"))
             obj.GPDate = clsCommon.myCDate(dt.Rows(0)("GPDate"))
+            If clsCommon.myCstr(dt.Rows(0)("GatePass_Date")) IsNot Nothing AndAlso clsCommon.myLen(dt.Rows(0)("GatePass_Date")) > 0 Then
+                obj.GatePassDate = clsCommon.myCDate(dt.Rows(0)("GatePass_Date"))
+            End If
             obj.Vehicle_Id = clsCommon.myCstr(dt.Rows(0)("Vehicle_Id"))
             obj.Vehicle_Number = clsCommon.myCstr(dt.Rows(0)("Vehicle_Number"))
             obj.Item_Type = clsCommon.myCstr(dt.Rows(0)("Item_Type"))
