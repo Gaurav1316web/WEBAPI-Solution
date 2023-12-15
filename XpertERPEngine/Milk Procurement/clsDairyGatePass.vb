@@ -5,6 +5,7 @@ Public Class clsDairyGatePassEntry
 #Region "Variables"
     Public GPCode As String = Nothing
     Public GPDate As DateTime
+    Public GatePassDate As DateTime
     Public Vehicle_Id As String = Nothing
     Public Vehicle_Number As String = Nothing
     Public DocNo As String = Nothing
@@ -19,6 +20,7 @@ Public Class clsDairyGatePassEntry
     Public Remarks As String = Nothing
     Public Comments As String = Nothing
     Public Post As String = Nothing
+    Public Status As String = Nothing
     Public Location_Code As String = Nothing
     Public Location_Desc As String = Nothing
     Public TotalCAN As Integer = 0
@@ -64,6 +66,7 @@ Public Class clsDairyGatePassEntry
             End If
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "GPDate", clsCommon.GetPrintDate(obj.GPDate, "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "GatePass_Date", clsCommon.GetPrintDate(obj.GatePassDate, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Vehicle_Id", obj.Vehicle_Id)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Number", obj.Vehicle_Number)
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type)
@@ -183,6 +186,9 @@ Public Class clsDairyGatePassEntry
             obj = New clsDairyGatePassEntry()
             obj.GPCode = clsCommon.myCstr(dt.Rows(0)("GPCode"))
             obj.GPDate = clsCommon.myCDate(dt.Rows(0)("GPDate"))
+            If clsCommon.myCstr(dt.Rows(0)("GatePass_Date")) IsNot Nothing AndAlso clsCommon.myLen(dt.Rows(0)("GatePass_Date")) > 0 Then
+                obj.GatePassDate = clsCommon.myCDate(dt.Rows(0)("GatePass_Date"))
+            End If
             obj.Vehicle_Id = clsCommon.myCstr(dt.Rows(0)("Vehicle_Id"))
             obj.Vehicle_Number = clsCommon.myCstr(dt.Rows(0)("Vehicle_Number"))
             obj.Item_Type = clsCommon.myCstr(dt.Rows(0)("Item_Type"))
@@ -191,6 +197,9 @@ Public Class clsDairyGatePassEntry
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Comments = clsCommon.myCstr(dt.Rows(0)("Comments"))
             obj.Post = clsCommon.myCstr(dt.Rows(0)("Post"))
+            If clsCommon.myCstr(dt.Rows(0)("Status")) IsNot Nothing AndAlso clsCommon.myLen(dt.Rows(0)("Status")) > 0 Then
+                obj.Status = clsCommon.myCstr(dt.Rows(0)("Status"))
+            End If
             obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
             obj.Location_Desc = clsCommon.myCstr(dt.Rows(0)("Location_Desc"))
             '============Added by preeti Gupta Against ticket no[BHA/02/08/18-000212]
@@ -234,6 +243,32 @@ Public Class clsDairyGatePassEntry
                 CreateProvison(obj, FormId, trans)
             End If
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set post='Y', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") + "'  where gpcode='" & obj.GPCode & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function CancelData(ByVal FormId As String, ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Document No not found to Cancel")
+            End If
+            Dim obj As clsDairyGatePassEntry = clsDairyGatePassEntry.GetData(strDocNo, NavigatorType.Current, "", trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.GPCode) <= 0) Then
+                Throw New Exception("No Data found to Cancel")
+            End If
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
+
+
+            If (obj.Status = "Y") Then
+                Throw New Exception("Already Canceled")
+            End If
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set Status='Y', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") + "'  where gpcode='" & obj.GPCode & "'", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
             trans.Commit()
         Catch ex As Exception
@@ -474,24 +509,24 @@ Public Class clsDairyGPDetail
         Dim arr As List(Of clsDairyGPDetail) = Nothing
         Dim qry As String
         If clsCommon.CompairString(strType, "PS") = CompairStringResult.Equal Then
-            qry = "select GPCode,DocNo,convert(date,Docdate,103) as Docdate,ToSalesmanCode,ToSalesmanname, " & _
-            "Route_No,Route_Desc,1 as Status,Type,Price_Code,Price_Desc,Cust_Code,Customer_Name from " & _
-            "TSPL_DAIRYSALE_GATEPASS_DETAIL where TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode='" + strCode + "' " & _
-            " Union all " & _
-            "select '' as GPCode,Document_Code as DOCNo,Document_Date as Docdate,'' as ToSalesmanCode ,'' as ToSalesmanname,'' as Route_No,'' as Route_Desc, " & _
-                    "0  as Status," & strType & " as Type,'' as Price_Code,'' as Price_Desc,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_INVOICE_HEAD  " & _
-                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code where Trans_Type='" & strType & "' and " & _
-                    "convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' AND  " & _
+            qry = "select GPCode,DocNo,convert(date,Docdate,103) as Docdate,ToSalesmanCode,ToSalesmanname, " &
+            "Route_No,Route_Desc,1 as Status,Type,Price_Code,Price_Desc,Cust_Code,Customer_Name from " &
+            "TSPL_DAIRYSALE_GATEPASS_DETAIL where TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode='" + strCode + "' " &
+            " Union all " &
+            "select '' as GPCode,Document_Code as DOCNo,Document_Date as Docdate,'' as ToSalesmanCode ,'' as ToSalesmanname,'' as Route_No,'' as Route_Desc, " &
+                    "0  as Status," & strType & " as Type,'' as Price_Code,'' as Price_Desc,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_INVOICE_HEAD  " &
+                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code where Trans_Type='" & strType & "' and " &
+                    "convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' AND  " &
                     "Document_Code not in (select DOCno From TSPL_DAIRYSALE_GATEPASS_DETAIL ) "
         Else
-            qry = "select GPCode,DocNo,convert(date,Docdate,103) as Docdate,ToSalesmanCode,ToSalesmanname, " & _
-                      "Route_No,Route_Desc,1 as Status,Type,Price_Code,Price_Desc,Cust_Code,Customer_Name from " & _
-                      "TSPL_DAIRYSALE_GATEPASS_DETAIL where TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode='" + strCode + "' " & _
-                      " Union all " & _
-                      "select '' as GPCode,Document_Code as DOCNo,Document_Date as Docdate,'' as ToSalesmanCode ,'' as ToSalesmanname, TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc, " & _
-                      "0  as Status,'" & strType & "' as Type, TSPL_SD_SALE_INVOICE_HEAD.Price_Code,(select distinct Price_Code_Desc from  TSPL_PRICE_COMPONENT_MAPPING  where price_code=TSPL_SD_SALE_INVOICE_HEAD.price_code)  as Price_Desc,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_INVOICE_HEAD " & _
-                     "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  left outer join TSPL_ROUTE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No where Trans_Type='" & strType & "' and " & _
-                     "convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' AND  " & _
+            qry = "select GPCode,DocNo,convert(date,Docdate,103) as Docdate,ToSalesmanCode,ToSalesmanname, " &
+                      "Route_No,Route_Desc,1 as Status,Type,Price_Code,Price_Desc,Cust_Code,Customer_Name from " &
+                      "TSPL_DAIRYSALE_GATEPASS_DETAIL where TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode='" + strCode + "' " &
+                      " Union all " &
+                      "select '' as GPCode,Document_Code as DOCNo,Document_Date as Docdate,'' as ToSalesmanCode ,'' as ToSalesmanname, TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc, " &
+                      "0  as Status,'" & strType & "' as Type, TSPL_SD_SALE_INVOICE_HEAD.Price_Code,(select distinct Price_Code_Desc from  TSPL_PRICE_COMPONENT_MAPPING  where price_code=TSPL_SD_SALE_INVOICE_HEAD.price_code)  as Price_Desc,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_INVOICE_HEAD " &
+                     "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  left outer join TSPL_ROUTE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No where Trans_Type='" & strType & "' and " &
+                     "convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' AND  " &
                      "Document_Code not in (select DOCno From TSPL_DAIRYSALE_GATEPASS_DETAIL ) "
         End If
 

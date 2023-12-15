@@ -220,6 +220,9 @@ Public Class clsRequistionHead
             End If
             isSaved = isSaved AndAlso clsRequistionDetail.SaveData(obj.Requisition_Id, obj.ArrTr, trans)
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Requisition_Id, obj.arrCustomFields, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Requisition_Id), "TSPL_REQUISITION_HEAD", "Requisition_Id", "TSPL_REQUISITION_DETAIL", "Requisition_Id", trans)
+
+
             Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.mbtnPurchaseRequistion + "'", trans))
             If clsCommon.CompairString(strNotificationOn, "S") = CompairStringResult.Equal Then
                 If clsCommon.CompairString(clsCommon.myCstr(obj.Description), "Auto Indent") = CompairStringResult.Equal Then

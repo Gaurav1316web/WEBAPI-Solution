@@ -11,12 +11,11 @@ Public Class clsHeadLoadMaster
     Public Description As String = Nothing
     Public Status As Integer = 0
     Public Arr As List(Of clsHeadLoadDCS) = Nothing
-    Dim AutoSave As Boolean = False
 #End Region
-    Public Function SaveData(ByVal obj As clsHeadLoadMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String) As Boolean
+    Public Function SaveData(ByVal obj As clsHeadLoadMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal AutoSave As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(obj, isNewEntry, Nothing, trans)
+            SaveData(obj, isNewEntry, Nothing, trans, AutoSave)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -27,7 +26,6 @@ Public Class clsHeadLoadMaster
 
     Sub SaveAutoData()
         Try
-            AutoSave = True
             Dim obj As New clsHeadLoadMaster()
             obj.Document_No = "Default"
             obj.Description = "Auto generated"
@@ -50,8 +48,9 @@ Public Class clsHeadLoadMaster
                     obj.Arr.Add(objTr)
                 Next
             End If
+            Dim AutoSave As Boolean = True
 
-            If (obj.SaveData(obj, True, Nothing)) Then
+            If (obj.SaveData(obj, True, Nothing, AutoSave)) Then
                 obj.PostData(clsUserMgtCode.frmHeadLoadMaster, obj.Document_No)
                 objCommonVar.CurrentUserCode = ""
             End If
@@ -60,7 +59,7 @@ Public Class clsHeadLoadMaster
         End Try
     End Sub
 
-    Public Function SaveData(ByVal obj As clsHeadLoadMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction) As Boolean
+    Public Function SaveData(ByVal obj As clsHeadLoadMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction, ByVal AutoSave As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Try
             Dim qry As String = "delete from TSPL_HEAD_LOAD_DCS where Document_No='" + obj.Document_No + "'"
@@ -74,7 +73,8 @@ Public Class clsHeadLoadMaster
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
                 'Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD", trans)
-                If AutoSave = False Then
+                If clsCommon.CompairString(AutoSave, False) = CompairStringResult.Equal Then
+
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_date, clsDocType.HeadLoadDCS, "", "")
                 End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then

@@ -81,6 +81,11 @@ Public Class ClsMaterialQuotationHead
             isSaved = isSaved AndAlso clsMaterialCustomerDetail.SaveData(obj.Code, obj.arrCustList, trans)
             'isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Code, obj.arrCustomFields, trans)
             trans.Commit()
+
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_SCRAP_QUOTATION_HEAD", "Code", "TSPL_SCRAP_QUOTATION_DETAIL", "Code", trans)
+            'End If
+
         Catch err As Exception
             trans.Rollback()
             Throw New Exception(err.Message)

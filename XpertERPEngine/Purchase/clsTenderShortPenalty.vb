@@ -174,6 +174,11 @@ Public Class clsTenderShortPenalty
             End If
             isSaved = isSaved AndAlso clsTenderShortPenaltyDetail.SaveData(obj.Document_No, Arr, trans)
         Catch err As Exception
+
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TENDER_SHORT_PENALTY", "Document_No", trans)
+            'End If
+
             Throw New Exception(err.Message)
         End Try
         Return isSaved

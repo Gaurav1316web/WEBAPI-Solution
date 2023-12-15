@@ -33,6 +33,8 @@ Partial Class frmDairyGatePass
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtGatepassDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txtLoadingSlip = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
@@ -84,6 +86,7 @@ Partial Class frmDairyGatePass
         Me.txtVehicle = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnGPCancel = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -102,6 +105,8 @@ Partial Class frmDairyGatePass
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtGatepassDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLoadingSlip, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,6 +153,7 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -227,6 +233,8 @@ Partial Class frmDairyGatePass
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtGatepassDate)
+        Me.Panel1.Controls.Add(Me.MyLabel12)
         Me.Panel1.Controls.Add(Me.txtLoadingSlip)
         Me.Panel1.Controls.Add(Me.MyLabel11)
         Me.Panel1.Controls.Add(Me.RadGroupBox3)
@@ -276,6 +284,45 @@ Partial Class frmDairyGatePass
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1031, 173)
         Me.Panel1.TabIndex = 0
+        '
+        'txtGatepassDate
+        '
+        Me.txtGatepassDate.CalculationExpression = Nothing
+        Me.txtGatepassDate.CustomFormat = "dd/MM/yyyy  hh:mm tt"
+        Me.txtGatepassDate.FieldCode = Nothing
+        Me.txtGatepassDate.FieldDesc = Nothing
+        Me.txtGatepassDate.FieldMaxLength = 0
+        Me.txtGatepassDate.FieldName = Nothing
+        Me.txtGatepassDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtGatepassDate.isCalculatedField = False
+        Me.txtGatepassDate.IsSourceFromTable = False
+        Me.txtGatepassDate.IsSourceFromValueList = False
+        Me.txtGatepassDate.IsUnique = False
+        Me.txtGatepassDate.Location = New System.Drawing.Point(582, 7)
+        Me.txtGatepassDate.MendatroryField = False
+        Me.txtGatepassDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtGatepassDate.MyLinkLable1 = Me.MyLabel12
+        Me.txtGatepassDate.MyLinkLable2 = Nothing
+        Me.txtGatepassDate.Name = "txtGatepassDate"
+        Me.txtGatepassDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtGatepassDate.ReferenceFieldDesc = Nothing
+        Me.txtGatepassDate.ReferenceFieldName = Nothing
+        Me.txtGatepassDate.ReferenceTableName = Nothing
+        Me.txtGatepassDate.Size = New System.Drawing.Size(131, 20)
+        Me.txtGatepassDate.TabIndex = 1034
+        Me.txtGatepassDate.TabStop = False
+        Me.txtGatepassDate.Text = "10/06/2011  11:51 AM"
+        Me.txtGatepassDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(501, 9)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel12.TabIndex = 1035
+        Me.MyLabel12.Text = "Gatepass Date"
         '
         'txtLoadingSlip
         '
@@ -515,7 +562,7 @@ Partial Class frmDairyGatePass
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(715, 7)
+        Me.UsLock1.Location = New System.Drawing.Point(924, 7)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(91, 20)
@@ -985,7 +1032,7 @@ Partial Class frmDairyGatePass
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(372, 7)
+        Me.txtDate.Location = New System.Drawing.Point(367, 7)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.lblpaymentpostdate
@@ -1005,7 +1052,7 @@ Partial Class frmDairyGatePass
         '
         Me.lblpaymentpostdate.FieldName = Nothing
         Me.lblpaymentpostdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblpaymentpostdate.Location = New System.Drawing.Point(338, 9)
+        Me.lblpaymentpostdate.Location = New System.Drawing.Point(336, 9)
         Me.lblpaymentpostdate.Name = "lblpaymentpostdate"
         Me.lblpaymentpostdate.Size = New System.Drawing.Size(30, 16)
         Me.lblpaymentpostdate.TabIndex = 14
@@ -1032,7 +1079,7 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype.Items.Add(RadListDataItem1)
         Me.cmbitemtype.Items.Add(RadListDataItem2)
         Me.cmbitemtype.Items.Add(RadListDataItem3)
-        Me.cmbitemtype.Location = New System.Drawing.Point(576, 7)
+        Me.cmbitemtype.Location = New System.Drawing.Point(785, 7)
         Me.cmbitemtype.MendatroryField = False
         Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
         Me.cmbitemtype.MyLinkLable2 = Nothing
@@ -1048,7 +1095,7 @@ Partial Class frmDairyGatePass
         '
         Me.lblfullempty.FieldName = Nothing
         Me.lblfullempty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblfullempty.Location = New System.Drawing.Point(507, 9)
+        Me.lblfullempty.Location = New System.Drawing.Point(716, 9)
         Me.lblfullempty.Name = "lblfullempty"
         Me.lblfullempty.Size = New System.Drawing.Size(57, 16)
         Me.lblfullempty.TabIndex = 15
@@ -1111,6 +1158,7 @@ Partial Class frmDairyGatePass
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGPCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel10)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -1123,6 +1171,16 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.Size = New System.Drawing.Size(1031, 404)
         Me.SplitContainer1.SplitterDistance = 369
         Me.SplitContainer1.TabIndex = 3
+        '
+        'btnGPCancel
+        '
+        Me.btnGPCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGPCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGPCancel.Location = New System.Drawing.Point(505, 4)
+        Me.btnGPCancel.Name = "btnGPCancel"
+        Me.btnGPCancel.Size = New System.Drawing.Size(69, 24)
+        Me.btnGPCancel.TabIndex = 1034
+        Me.btnGPCancel.Text = "Cancel"
         '
         'MyLabel10
         '
@@ -1240,6 +1298,8 @@ Partial Class frmDairyGatePass
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtGatepassDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLoadingSlip, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1289,6 +1349,7 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1370,5 +1431,8 @@ Partial Class frmDairyGatePass
     Friend WithEvents rbtnMorning As RadRadioButton
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents txtLoadingSlip As common.Controls.MyTextBox
+    Friend WithEvents txtGatepassDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents btnGPCancel As RadButton
 End Class
 

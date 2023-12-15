@@ -56,7 +56,7 @@ Public Class clsCancelLog
             Else
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSACTION_REVERSE_LOG", OMInsertOrUpdate.Update, "TSPL_TRANSACTION_REVERSE_LOG.LOG_ID='" + obj.LOG_ID + "'", trans)
             End If
-
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.LOG_ID), "TSPL_TRANSACTION_REVERSE_LOG", "LOG_ID", trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)

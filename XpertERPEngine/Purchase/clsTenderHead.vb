@@ -108,6 +108,8 @@ Public Class clsTenderHead
             End If
             clsTenderDetail.SaveData(obj.DocumentCode, obj.Arr, trans)
             clsTenderSchedule.SaveData(obj.DocumentCode, obj.ArrSchedule, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DocumentCode), "TSPL_TENDER_HEADER", "DocumentCode", "TSPL_TENDER_DETAIL", "DocumentCode", "TSPL_TENDER_SCHEDULE", "DocumentCode", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

@@ -353,16 +353,16 @@ Public Class frmAutoAdditionDeductionReport
 
 
             Qry = "select round(row_number() over(order by(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer))),0) as SNo, cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [DCS Code] 
-                                    ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code]
-									,TSPL_VLC_MASTER_HEAD.VLC_Name as [Vender Name]
-                                     ,TSPL_MCC_MASTER.MCC_Name as Area
-									 ,TSPL_COMPANY_MASTER.Regn_No
-									 ,TSPL_COMPANY_MASTER.Phone1 
-									 ,TSPL_COMPANY_MASTER.Comp_Name
-									 ,(MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT        
-									 ,MILK_RECEIPT_DETAIL.ACC_WEIGHT
-                                    ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]
-                                    ,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
+                                    ,max(TSPL_VLC_MASTER_HEAD.VSP_Code) as [Code]
+									,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [Vender Name]
+                                     ,max(TSPL_MCC_MASTER.MCC_Name) as Area
+									 ,max(TSPL_COMPANY_MASTER.Regn_No) as Regn_No
+									 ,max(TSPL_COMPANY_MASTER.Phone1 ) as Phone1
+									 ,max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name
+									 ,max(MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT        
+									 ,max(MILK_RECEIPT_DETAIL.ACC_WEIGHT)as ACC_WEIGHT
+                                    ,sum(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount) As [Addition/Deduction Amount]
+                                    ,max(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description]
 									,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate
                                      from TSPL_VENDOR_INVOICE_DETAIL
                                     LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
@@ -379,7 +379,8 @@ Public Class frmAutoAdditionDeductionReport
 									where 
 									convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  and CONVERT(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  
 									group by TSPL_MILK_RECEIPT_DETAIL.VSP_CODE) MILK_RECEIPT_DETAIL ON MILK_RECEIPT_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
-                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + " order by [DCS Code] asc "
+                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + " group by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+									order by [DCS Code] asc"
 
 
 

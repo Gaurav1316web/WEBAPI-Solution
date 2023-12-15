@@ -149,6 +149,7 @@ Public Class clsPurchasReturnHead
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PR_HEAD", "PR_No", "TSPL_PR_DETAIL", "PR_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
         Return True
     End Function
+
     Public Function SaveData(ByVal obj As clsPurchasReturnHead, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try

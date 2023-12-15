@@ -444,6 +444,7 @@ Public Class clsGRNHead
                 clsCommon.AddColumnsForChange(coll, "Is_Auto_Weighment_Type", IIf(clsCommon.myCdbl(dt.Rows(0)("WeightItem")) > 0, 1, 0))
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GRN_HEAD", OMInsertOrUpdate.Update, "TSPL_GRN_HEAD.GRN_No='" + obj.GRN_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GRN_No), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_GRN_RGP_CONVERSION_DETAIL", "GRN_No", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
