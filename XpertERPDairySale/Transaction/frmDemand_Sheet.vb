@@ -37,7 +37,7 @@ Public Class frmDemand_Sheet
         SetShiftTimeOut = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, Nothing))
         AddNew()
         SetUserMgmtNew()
-        DemandSheetTable()
+
         LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode, True)
         isInsideLoadData = False
 
@@ -247,23 +247,7 @@ Public Class frmDemand_Sheet
             End If
         End If
     End Sub
-    Public Sub DemandSheetTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("DEMAND_Date", "datetime Not null")
-        coll.Add("ShiftType", "VARCHAR(200)")
-        coll.Add("Cust_Code", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
-        coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
-        coll.Add("Set_Zero", "integer NOT NULL")
-        coll.Add("Item_Code", "Varchar(50) Not NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Qty", "Decimal (18,2) NULL")
-        coll.Add("Created_By", "varchar(12)  Not NULL")
-        coll.Add("Created_Date", "datetime  Not NULL")
-        coll.Add("Modify_By", "varchar(12)  Not NULL")
-        coll.Add("Modify_Date", "datetime  Not NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DEMAND_SHEET", coll, "", True)
-    End Sub
+
     Public Sub LoadData(ByVal CurrDate As Date, ByVal Shift As String, ByVal CurrUser As String, ByVal isSummary As Boolean)
         Try
             LoadBlankGrid()
@@ -320,7 +304,7 @@ Public Class frmDemand_Sheet
     End Sub
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Try
-            SaveData()
+            'SaveData()
             clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
 
         Catch ex As Exception
