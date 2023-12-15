@@ -80,6 +80,10 @@ Public Class clsPJVHead
             End If
             isSaved = isSaved AndAlso clsPJVDetail.SaveData(obj.PJV_No, Arr, trans)
 
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.PJV_No), "TSPL_PJV_HEAD", "PJV_No", "TSPL_PJV_Detail", "PJV_No", trans)
+            'End If
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

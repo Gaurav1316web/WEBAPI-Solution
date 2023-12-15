@@ -61,6 +61,9 @@ Public Class clsRMDemandApproval
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_RM_DEMAND_APPROVAL", OMInsertOrUpdate.Update, "TSPL_RM_DEMAND_APPROVAL.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             clsRMDemandApprovalItemLocation.SaveData(obj.Document_Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_RM_DEMAND_APPROVAL", "Document_Code", "TSPL_RM_DEMAND_APPROVAL_INDENT", "Document_Code", "TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION", "Document_Code", trans)
+
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

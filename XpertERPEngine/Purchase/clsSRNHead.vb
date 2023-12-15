@@ -203,6 +203,7 @@ Public Class clsSRNHead
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
             clsItemLocationDetails.CheckCancelInventoryBalance(Form_Id, Doc_No, trans)
+
             '' transfer data into cancel table
 
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_SRN_HEAD", "SRN_No", "TSPL_SRN_DETAIL", "SRN_No", trans)

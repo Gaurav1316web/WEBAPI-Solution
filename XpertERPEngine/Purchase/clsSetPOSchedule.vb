@@ -54,6 +54,11 @@ Public Class clsSetPOSchedule
             clsSetPOScheduleDetail.SaveData(obj.Code, obj.ArrTr, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.Code, obj.arrCustomFields, trans)
             trans.Commit()
+
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_SET_PO_SCHEDULE", "Code", "TSPL_SET_PO_SCHEDULE_DETAIL", "Code", trans)
+            'End If
+
         Catch err As Exception
             trans.Rollback()
             Throw New Exception(err.Message)

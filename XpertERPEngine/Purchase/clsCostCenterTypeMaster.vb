@@ -35,6 +35,10 @@ Public Class clsCostCenterTypeMaster
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_COST_CENTER_TYPE_MASTER", OMInsertOrUpdate.Update, "Code='" + obj.Code + "'", trans)
             End If
 
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_COST_CENTER_TYPE_MASTER", "Code", trans)
+            'End If
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

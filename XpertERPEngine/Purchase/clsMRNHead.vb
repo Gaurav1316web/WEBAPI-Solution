@@ -395,6 +395,11 @@ Public Class clsMRNHead
             End If
             isSaved = isSaved AndAlso clsMRNDetail.SaveData(obj.MRN_No, Arr, trans)
             isSaved = isSaved AndAlso clsMRNAdditionChargeInsurance.SaveData(obj.MRN_No, obj.MRN_Date, obj.Arr_ACInsurance, trans)
+
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.MRN_No), "TSPL_MRN_HEAD", "MRN_No", "TSPL_MRN_DETAIL", "MRN_No", "TSPL_MRN_HEAD_History", "MRN_No", trans)
+
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

@@ -102,6 +102,7 @@ Public Class clsIssueReturnHead
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_IssueReturn_HEAD", "Doc_No", "TSPL_IssueReturn_DETAIL", "Doc_No", trans)
         Return True
     End Function
+
     Public Function SaveData(ByVal obj As clsIssueReturnHead, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try

@@ -245,8 +245,9 @@ Public Class clsUserMgtCode
     Public Const rptCustomerWiseSalesReport As String = "CUST_SAL_RPT"
     Public Const rptBookingReport As String = "BOOKING_RPT"
     Public Const rptBookingQtyAmtReport As String = "DEMD_BK_RPT"
+    Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
 
-    '===Dairy Visual Sales reports
+    '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
     Public Const rptZoneWiseMSVisual As String = "ZW_VSaleR"
     Public Const VisualReportSale As String = "VIS-RPT-SAL"

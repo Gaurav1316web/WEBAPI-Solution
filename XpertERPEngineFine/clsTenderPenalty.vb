@@ -43,12 +43,15 @@ Public Class clsTenderPenalty
 
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
+
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(ServerDate, "dd/MMM/yyyy hh:mm:ss tt"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_PENALTY", OMInsertOrUpdate.Insert, "", trans)
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_PENALTY", OMInsertOrUpdate.Update, "TSPL_TENDER_PENALTY.Document_No='" + obj.Document_No + "'", trans)
             End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TENDER_PENALTY", "Document_No", "TSPL_TENDER_PENALTY_DETAIL", "Document_No", trans)
+
             clsTenderPenaltyDetail.SaveData(obj.Document_No, obj.Arr, trans)
             trans.Commit()
         Catch err As Exception
