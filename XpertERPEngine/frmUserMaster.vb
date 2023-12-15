@@ -395,12 +395,14 @@ Public Class FrmUserMaster
                 If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
 
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
-                    lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
+                    lblRetailerCode.Text = clsCustomerMaster.GetName(fndDisRetailerCode.Value, Nothing)
+                    'lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
                 End If
 
                 If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
-                    lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
+                    'lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
+                    lblRetailerCode.Text = clsCustomerMaster.GetName(fndDisRetailerCode.Value, Nothing)
                 End If
 
             End If
@@ -421,7 +423,8 @@ Public Class FrmUserMaster
                 If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
 
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
-                    lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
+                    'lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
+                    lblRetailerCode.Text = clsCustomerMaster.GetName(fndDisRetailerCode.Value, Nothing)
                     fndCustCode.Enabled = False
                     fndDisRetailerCode.Enabled = True
                     fndCustCode.Value = ""
@@ -429,7 +432,8 @@ Public Class FrmUserMaster
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
-                    lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
+                    'lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
+                    lblRetailerCode.Text = clsCustomerMaster.GetName(fndDisRetailerCode.Value, Nothing)
                     fndCustCode.Enabled = False
                     fndDisRetailerCode.Enabled = True
                     fndCustCode.Value = ""
@@ -2028,35 +2032,42 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     End Sub
 
     Private Sub fndDisRetailerCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDisRetailerCode._MYValidating
-        If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
-            clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
-            Try
-                Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
-                fndDisRetailerCode.Value = clsCommon.ShowSelectForm("Fndr", qry, "Code", "", fndDisRetailerCode.Value, "Code", isButtonClicked)
-                If clsCommon.myLen(fndDisRetailerCode.Value) > 0 Then
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "' ")
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        lblRetailerCode.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
-                    End If
-                End If
-            Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
-            End Try
-        ElseIf isCheckCustomerType = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
-            clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
-            Try
-                Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
-                fndDisRetailerCode.Value = clsCommon.ShowSelectForm("Fndr1", qry, "Code", " POS_type='" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "' ", fndDisRetailerCode.Value, "Code", isButtonClicked)
-                If clsCommon.myLen(fndDisRetailerCode.Value) > 0 Then
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "' ")
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        lblRetailerCode.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
-                    End If
-                End If
-            Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
-            End Try
-        End If
+        Try
+            Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_CUSTOMER_MASTER  "
+            fndDisRetailerCode.Value = clsCommon.ShowSelectForm("Dis@um", qry, "Code", " STATUS='N' and IsDistributor='Y'", fndDisRetailerCode.Value, "Code", isButtonClicked)
+            lblRetailerCode.Text = clsCustomerMaster.GetName(fndDisRetailerCode.Value, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+        'If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
+        '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
+        '    Try
+        '        Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
+        '        fndDisRetailerCode.Value = clsCommon.ShowSelectForm("Fndr", qry, "Code", "", fndDisRetailerCode.Value, "Code", isButtonClicked)
+        '        If clsCommon.myLen(fndDisRetailerCode.Value) > 0 Then
+        '            Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "' ")
+        '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '                lblRetailerCode.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
+        '            End If
+        '        End If
+        '    Catch ex As Exception
+        '        clsCommon.MyMessageBoxShow(ex.Message)
+        '    End Try
+        'ElseIf isCheckCustomerType = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
+        '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
+        '    Try
+        '        Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
+        '        fndDisRetailerCode.Value = clsCommon.ShowSelectForm("Fndr1", qry, "Code", " POS_type='" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "' ", fndDisRetailerCode.Value, "Code", isButtonClicked)
+        '        If clsCommon.myLen(fndDisRetailerCode.Value) > 0 Then
+        '            Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "' ")
+        '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '                lblRetailerCode.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
+        '            End If
+        '        End If
+        '    Catch ex As Exception
+        '        clsCommon.MyMessageBoxShow(ex.Message)
+        '    End Try
+        'End If
     End Sub
 
     Private Sub fndCustCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustCode._MYValidating
