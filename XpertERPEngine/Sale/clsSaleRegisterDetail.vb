@@ -995,7 +995,7 @@ Public Class clsSaleRegisterDetail
                 strMCCMaterial += " case when Sampling=1 then cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3))*case when Scheme_Item='Y' then 0 else cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  end else 0 end  as [Sampling Amount], Cust.[RSM Code] as [RSM Code] ,Cust.[RSM Name] as [RSM Name] ,Cust.[ZSM Code] as [ZSM Code] ,cust.[ZSM Name] as [ZSM Name] ,Cust.[ASM Code] as [ASM Code] ,Cust.[ASM Name] as [ASM Name] ,Cust.[ASO Code]  as [ASO Code] ,Cust.[ASO Name] as [ASO Name] , "
             End If
 
-            strMCCMaterial += " " & IIf(Batch_Wise = True, " Batch_No, ", " ") & " Scheme_Item as [Scheme Type],[Invoice Type GST],[GSTIN No Company],[GSTIN no Customer], case when Scheme_Item='Y' then 0 else [Nill Rate Amount] end [Nill Rate Amount],cast(Additional_Charge as numeric(18,2))+ [Exempted Amount] as [Exempted Amount],[Non GST Supply],[Reverse Charge],[Export Type],Port,[Shipping Bill No],[Shipping Bill Date],[Original Invoice No],[Original Invoice Date],[Reason for Revision],[Executive] "
+            strMCCMaterial += " " & IIf(Batch_Wise = True, " Batch_No, ", " ") & " Scheme_Item as [Scheme Type],[Invoice Type GST],[GSTIN No Company],[GSTIN no Customer], case when Scheme_Item='Y' then 0 else [Nill Rate Amount] end [Nill Rate Amount],cast(Additional_Charge as numeric(18,2))+ [Exempted Amount] as [Exempted Amount],[Non GST Supply],[Reverse Charge],[Export Type],Port,[Shipping Bill No],[Shipping Bill Date],[Original Invoice No],[Original Invoice Date],[Reason for Revision],[Executive],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0) as numeric(18,2))[Commission Amt] "
         End If
 
 
@@ -3002,6 +3002,8 @@ Public Class clsSaleRegisterDetail
 
         End If
         strMCCMaterial += ") xx"
+
+        strMCCMaterial += " Left Join (Select  DOCUMENT_CODE,Item_Code,Distributor_Commission_Amt from TSPL_SD_SHIPMENT_DETAIL Group By Item_Code,DOCUMENT_CODE,Distributor_Commission_Amt)TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=xx.[Shipment No] And TSPL_SD_SHIPMENT_DETAIL.Item_Code=xx.[Item Code]"
         '===============Added by preeti Gupta ===
         strMCCMaterial += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =xx.[Location Code] "
         '=======================================

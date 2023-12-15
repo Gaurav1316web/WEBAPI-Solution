@@ -913,7 +913,8 @@ Public Class frmPOWeighment
 							max(TSPL_GRN_DETAIL.GRN_QTY) as challan_qty,
 							max(TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE) AS ITEM_CODE,
 							MAX(TSPL_ITEM_MASTER.Item_Desc) AS ITEM_NAME,
-							MAX(TSPL_PO_WEIGHTMENT_GUNNY.QTY) AS BAG_QTY
+											MAX(TSPL_PO_WEIGHTMENT_GUNNY.JuteBagWeight) AS JuteBagWeight,
+							MAX(TSPL_PO_WEIGHTMENT_GUNNY.PPBagWeight) AS PPBagWeight
                             from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code  
                             left join TSPL_GRN_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No  
                             left join TSPL_COMPANY_MASTER on TSPL_GRN_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  
@@ -921,12 +922,14 @@ Public Class frmPOWeighment
                             LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_STATE_MASTER.STATE_CODE  =TSPL_LOCATION_MASTER.State 	
 							LEFT OUTER JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 							LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE
-							LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_GUNNY ON TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
+							LEFT OUTER JOIN (SELECT Weighment_Code, ISNULL([PM0001],0) AS 'JuteBagWeight',ISNULL([PM0002],0) AS 'PPBagWeight'  FROM (SELECT TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code,TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,CAST(ISNULL(TSPL_PO_WEIGHTMENT_GUNNY.Qty,0)*ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)/100 AS decimal(18,2)) AS QTY FROM   TSPL_PO_WEIGHTMENT_GUNNY
+					        left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PO_WEIGHTMENT_GUNNY.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='KG' ) AS PO_WEIGHTMENT_GUNNY
+					        PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                             where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code = '" + StrCode + "'  
-                            group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type
+                            group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type"
 
 
-"
+
             Else
                 strQuery = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar(13),TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No,convert(varchar(13),TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date," &
                  "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &
@@ -937,10 +940,11 @@ Public Class frmPOWeighment
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
+
                 frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip", "Tanker Weighment Slip")
-                frmCRV = Nothing
-            End If
-        Else
+                    frmCRV = Nothing
+                End If
+            Else
             clsCommon.MyMessageBoxShow("Please Select Weighmrnt Code first.")
         End If
     End Sub
@@ -963,8 +967,8 @@ Public Class frmPOWeighment
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Gross_Weight) end) as Gross_Weight 
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Tare_Weight) end) AS Tare_Weight 
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Net_Weight) end) as Net_Weight
-                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then  FORMAT(TSPL_GRN_HEAD.GRN_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_GRN_HEAD.GRN_Date,'dd/mmm/yyyy')  end) as In_Date 
-                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_GRN_HEAD.GRN_Date,'hh:mm:ss tt')  else FORMAT(TSPL_GRN_HEAD.GRN_Date,'hh:mm:ss tt') end) as In_Time 
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then  FORMAT(TSPL_GRN_HEAD.GRN_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_GRN_HEAD.GRN_Date,'dd/mmm/yyyy')  end) as In_Date 
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_GRN_HEAD.GRN_Date,'hh:mm:ss tt')  else FORMAT(TSPL_GRN_HEAD.GRN_Date,'hh:mm:ss tt') end) as In_Time  
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'dd/MMM/yyyy')  end) as Out_Date 
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'hh:mm:ss tt')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'hh:mm:ss tt')  end) as Out_Time 
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then TSPL_GRN_HEAD.Vendor_Code else TSPL_PO_WEIGHTMENT_HEAD.Out_Party end) as Vendor_Code 
@@ -976,13 +980,14 @@ Public Class frmPOWeighment
 							max(convert(date,TSPL_GRN_HEAD.GRN_Date,103)) as GRNDate,
 							max(convert(date,TSPL_GRN_HEAD.Invoice_Date,103)) as BillDate,
 							max(TSPL_GRN_HEAD.[Invoice/Challan_No]) as BillNo,
-							max(convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)) as WeighDate,
+							max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date) as WeighDate,
 							max(TSPL_PO_WEIGHTMENT_detail.Unload_Date) as OutDateTime,
 							max(TSPL_PO_WEIGHTMENT_DETAIL.EXTRA_WEIGHT) AS EXTRA_WEIGHT,
 							max(TSPL_GRN_DETAIL.GRN_QTY) as challan_qty,
 							max(TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE) AS ITEM_CODE,
 							MAX(TSPL_ITEM_MASTER.Item_Desc) AS ITEM_NAME,
-							MAX(TSPL_PO_WEIGHTMENT_GUNNY.QTY) AS BAG_QTY
+											MAX(TSPL_PO_WEIGHTMENT_GUNNY.JuteBagWeight) AS JuteBagWeight,
+							MAX(TSPL_PO_WEIGHTMENT_GUNNY.PPBagWeight) AS PPBagWeight
                             from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code  
                             left join TSPL_GRN_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No  
                             left join TSPL_COMPANY_MASTER on TSPL_GRN_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  
@@ -990,19 +995,20 @@ Public Class frmPOWeighment
                             LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_STATE_MASTER.STATE_CODE  =TSPL_LOCATION_MASTER.State 	
 							LEFT OUTER JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 							LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE
-							LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_GUNNY ON TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
-                            where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code = '" + StrCode + "'
-                            group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type
+							LEFT OUTER JOIN (SELECT Weighment_Code, ISNULL([PM0001],0) AS 'JuteBagWeight',ISNULL([PM0002],0) AS 'PPBagWeight'  FROM (SELECT TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code,TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,CAST(ISNULL(TSPL_PO_WEIGHTMENT_GUNNY.Qty,0)*ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)/100 AS decimal(18,2)) AS QTY FROM   TSPL_PO_WEIGHTMENT_GUNNY
+					        left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PO_WEIGHTMENT_GUNNY.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='KG' ) AS PO_WEIGHTMENT_GUNNY
+					        PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
+                            where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code = '" + StrCode + "'  
+                            group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type"
 
 
-"
+
             Else
                 strQuery = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar(13),TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No,convert(varchar(13),TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date," &
                  "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &
                  "left join TSPL_GRN_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No " &
                  "left join TSPL_COMPANY_MASTER on TSPL_GRN_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code='" + StrCode + " '"
             End If
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
@@ -1018,6 +1024,7 @@ Public Class frmPOWeighment
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
+           
             PrintData(txtCode.Value)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

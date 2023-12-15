@@ -856,9 +856,6 @@ Public Class FrmRptCustomerLedgerDemo
                 If rbtnNone.Checked Then
                     dtMain = clsDBFuncationality.GetDataTable(strQry)
                 End If
-
-
-
                 If rbtnNone.Checked = True AndAlso dtMain.Rows.Count <= 0 Then
                     btnPrint.Enabled = False
                     gvDetails.DataSource = Nothing
@@ -912,19 +909,13 @@ Public Class FrmRptCustomerLedgerDemo
                     gvDetails.AllowRowReorder = False
                     FormatGrid(False)
                 End If
-
-
-
                 If ChkDocWise.Checked = True Then
                     FormatGridDocWise()
                 End If
-
                 If ChkDocWise.Checked = False Then
                     gridHideVisible(IsDrillDown)
                 End If
             End If
-
-
             If BackProcess = False Then
                 If (rbtnCustGroupWise.Checked = True OrElse rbtnCustGroupWiseDrCr.Checked) AndAlso gvCustomer.Visible = True Then
                     FilterForLevels += " and TSPL_CUSTOMER_MASTER.Cust_Group_Code in ('" + clsCommon.myCstr(gvCustomerGroup.CurrentRow.Cells("Cust_Group_Code").Value) + "')  "
