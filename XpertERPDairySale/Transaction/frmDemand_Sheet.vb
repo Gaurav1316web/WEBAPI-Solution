@@ -38,7 +38,7 @@ Public Class frmDemand_Sheet
         AddNew()
         SetUserMgmtNew()
         DemandSheetTable()
-        LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode)
+        LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode, True)
         isInsideLoadData = False
 
     End Sub
@@ -264,8 +264,9 @@ Public Class frmDemand_Sheet
         coll.Add("Modify_Date", "datetime  Not NULL")
         clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DEMAND_SHEET", coll, "", True)
     End Sub
-    Public Sub LoadData(ByVal CurrDate As Date, ByVal Shift As String, ByVal CurrUser As String)
+    Public Sub LoadData(ByVal CurrDate As Date, ByVal Shift As String, ByVal CurrUser As String, ByVal isSummary As Boolean)
         Try
+            LoadBlankGrid()
             isInsideLoadData = True
             Dim IntRowNo As Decimal = 0
             Dim lstobj As List(Of clsDemandSheet)
@@ -300,16 +301,19 @@ Public Class frmDemand_Sheet
                 Next
             End If
             GvRowFridge()
-            Dim summaryRowItem As New GridViewSummaryRowItem()
-            For colcount As Integer = 5 To gv1.Columns.Count - 1
-                gv1.Columns(colItemCode + clsCommon.myCstr(colcount - 4)).FormatString = "{0:n2}"
-            Next
-            For colcount As Integer = 5 To gv1.Columns.Count - 1
-                Dim TotalCount As New GridViewSummaryItem(colItemCode + clsCommon.myCstr(colcount - 4), "{0:n2}", GridAggregateFunction.Sum)
-                summaryRowItem.Add(TotalCount)
-            Next
-            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-            gv1.AutoSizeRows = False
+            If isSummary Then
+                Dim summaryRowItem As New GridViewSummaryRowItem()
+                For colcount As Integer = 5 To gv1.Columns.Count - 1
+                    gv1.Columns(colItemCode + clsCommon.myCstr(colcount - 4)).FormatString = "{0:n2}"
+                Next
+                For colcount As Integer = 5 To gv1.Columns.Count - 1
+                    Dim TotalCount As New GridViewSummaryItem(colItemCode + clsCommon.myCstr(colcount - 4), "{0:n2}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(TotalCount)
+                Next
+                gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.AutoSizeRows = False
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -496,25 +500,110 @@ and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + RouteNo + "' and TSPL_DEMAND_BOOKIN
     End Sub
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
-            Dim str As String = String.Empty
-            Dim strQry As String = "select Short_Description from TSPL_ITEM_MASTER where Is_DisplayDemand=1 order by Sku_Seq "
-            Dim lstItems As List(Of String) = Nothing
+            '            Dim str As String = String.Empty
+            '            Dim strQry As String = "select Short_Description from TSPL_ITEM_MASTER where Is_DisplayDemand=1 order by Sku_Seq "
+            '            Dim lstItems As List(Of String) = Nothing
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For Each dr As DataRow In dt.Rows
-                    str = clsCommon.myCstr("[" + dr("Short_Description") + "]")
-                    lstItems.Add(str)
-                Next
+            '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '                For Each dr As DataRow In dt.Rows
+            '                    str = clsCommon.myCstr("[" + dr("Short_Description") + "]")
+            '                    lstItems.Add(str)
+            '                Next
+            '            End If
+            '            str = clsCommon.GetMulcallStringWithComma(lstItems)
+            '            strQry = " select * from( select Demand_Date ,ShiftType,Cust_Code,Route_No,set_zero,TSPL_ITEM_MASTER.Short_Description,Qty from TSPL_DEMAND_SHEET
+            'left join TSPL_ITEM_MASTER on TSPL_DEMAND_SHEET.Item_Code=TSPL_ITEM_MASTER.Item_Code where TSPL_DEMAND_SHEET.Created_By='" + objCommonVar.CurrentUserCode + "' )X Pivot (Sum(Qty) FOR Short_Description IN (" + str + ")
+            ') as PivoteTable "
+            '            transportSql.ExporttoExcel(strQry, "", Me)
+
+            If gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                Exit Sub
             End If
-            str = clsCommon.GetMulcallStringWithComma(lstItems)
-            strQry = " select * from( select Demand_Date ,ShiftType,Cust_Code,Route_No,set_zero,TSPL_ITEM_MASTER.Short_Description,Qty from TSPL_DEMAND_SHEET
-left join TSPL_ITEM_MASTER on TSPL_DEMAND_SHEET.Item_Code=TSPL_ITEM_MASTER.Item_Code where TSPL_DEMAND_SHEET.Created_By='" + objCommonVar.CurrentUserCode + "' )X Pivot (Sum(Qty) FOR Short_Description IN (" + str + ")
-) as PivoteTable "
-            transportSql.ExporttoExcel(strQry, "", Me)
+            If exporter = EnumExportTo.Excel Then
+                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                transportSql.exportdata(gv1, "", Me.Text, , Nothing, False, False, False)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rmiImport_Click(sender As Object, e As EventArgs) Handles rmiImport.Click
+        Dim gv As New RadGridView()
+        Dim arr As New List(Of Integer)
+        Try
+            Dim obj As clsDemandSheet = New clsDemandSheet()
+            Dim DemandDate As DateTime = Nothing
+            Dim Shift As String = Nothing
+            Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetShiftTimeOut, "dd/MMM/yyyy hh:mm tt")
+            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                DemandDate = clsCommon.GetPrintDate(CurrDateTime)
+                Shift = "Evening"
+            Else
+                DemandDate = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+                Shift = "Morning"
+            End If
+            Dim strItems As New List(Of String)
+            strItems.Add("Line No")
+            strItems.Add("Booth Code")
+            strItems.Add("Phone No")
+            strItems.Add("Route No")
+            strItems.Add("Set Zero")
+            Me.Controls.Add(gv)
+            Dim strQry As String = " select Short_Description from TSPL_ITEM_MASTER where Is_DisplayDemand=1 order by Sku_Seq "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    strItems.Add(clsCommon.myCstr(dr("Short_Description")))
+                Next
+            Else
+
+            End If
+            If transportSql.importExcel(gv, strItems.ToArray()) Then
+                For Each grow As GridViewRowInfo In gv.Rows
+                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(1).Value)) > 0 Then
+                        obj.DEMAND_Date = clsCommon.GetPrintDate(DemandDate)
+                        obj.ShiftType = Shift
+                        obj.Cust_Code = clsCommon.myCstr(grow.Cells(1).Value)
+                        obj.Route_No = clsCommon.myCstr(grow.Cells(3).Value)
+                        obj.Set_Zero = clsCommon.myCdbl(grow.Cells(4).Value)
+                        Dim NoofItems As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Short_Description) from TSPL_ITEM_MASTER where Is_DisplayDemand=1"))
+                        For ii As Integer = 1 To NoofItems
+                            Dim ItemCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Code from tspl_item_master where Short_Description='" + clsCommon.myCstr(strItems(ii + 4)) + "'and Is_DisplayDemand=1  order by Sku_Seq"))
+                            obj.Item_Code = ItemCode
+                            obj.Qty = clsCommon.myCdbl(grow.Cells(ii + 4).Value)
+                            If clsCommon.myCdbl(grow.Cells(4).Value) = 0 Then
+                                obj.Qty = 0
+                                Try
+                                    Dim status As Boolean = obj.SaveData(obj)
+                                Catch ex As Exception
+                                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                                End Try
+                            ElseIf clsCommon.myCdbl(grow.Cells(ii + 4).Value) > 0 Then
+                                obj.Qty = clsCommon.myCdbl(grow.Cells(ii + 4).Value)
+                                Try
+                                    Dim status As Boolean = obj.SaveData(obj)
+                                Catch ex As Exception
+                                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                                End Try
+                            End If
+
+                        Next
+
+                    Else
+                        Throw New Exception("Booth Code Not Found at Line no" + clsCommon.myCstr(grow.Cells(0).Value))
+                    End If
+                Next
+                common.clsCommon.MyMessageBoxShow(Me, "Data Uploaded Successfully", Me.Text)
+                LoadData(clsCommon.GetPrintDate(DemandDate), Shift, objCommonVar.CurrentUserCode, False)
+            End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
         End Try
     End Sub
 End Class
