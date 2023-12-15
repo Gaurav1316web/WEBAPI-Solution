@@ -46,6 +46,7 @@ Public Class frmDairyGatePass
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     Dim VehicleDesc As String = Nothing
+    Dim OneTimeCheck As Boolean = False
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -130,7 +131,10 @@ Public Class frmDairyGatePass
         txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
         txtVehicle.Value = vehicleno
         lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
-        txtDate.Value = docdate
+        If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
+            txtDate.Value = docdate
+        End If
+
         '  LoadData(txtCode.Value, NavigatorType.Current)
 
     End Sub
@@ -168,6 +172,8 @@ Public Class frmDairyGatePass
         coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
         coll.Add("ShiftType", "varchar(20) NULL")
         coll.Add("Loading_Slip", "varchar(20) NULL")
+        coll.Add("GatePass_Date", "datetime NULL")
+        coll.Add("Status", "char(1)  NUll")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
     End Sub
@@ -525,6 +531,7 @@ Public Class frmDairyGatePass
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
+            btnPost.Visible = True
             btnSave.Enabled = True
             btnPost.Enabled = True
             Addnew()
@@ -552,9 +559,21 @@ Public Class frmDairyGatePass
                 If obj.Post = "Y" Then
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
+                    btnPrint.Enabled = True
                 Else
-                    UsLock1.Status = ERPTransactionStatus.Pending
-                    btnDelete.Enabled = True
+                    If obj.Status = "Y" Then
+                        UsLock1.Status = ERPTransactionStatus.Cancel
+                        btnSave.Enabled = False
+                        btnDelete.Enabled = False
+                        btnPrint.Enabled = False
+                        btnPost.Enabled = False
+                    Else
+                        UsLock1.Status = ERPTransactionStatus.Pending
+                        btnDelete.Enabled = True
+                        btnPrint.Enabled = True
+                        btnPost.Enabled = True
+                        btnSave.Enabled = True
+                    End If
                 End If
 
                 txtCode.Value = obj.GPCode
@@ -992,7 +1011,22 @@ Public Class frmDairyGatePass
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        SaveData()
+        If clsCommon.CompairString(btnSave.Text, "Update") = CompairStringResult.Equal AndAlso OneTimeCheck = False Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.UpdatePassword
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                OneTimeCheck = True
+            Else
+                Exit Sub
+            End If
+        End If
+        If clsCommon.CompairString(btnSave.Text, "Update") = CompairStringResult.Equal AndAlso OneTimeCheck Then
+            SaveData()
+        Else
+            SaveData()
+        End If
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnNew.Click
@@ -1514,5 +1548,35 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
         If clsCommon.myLen(lblVehicleDesc.Text) > 0 Then
             VehicleDesc = lblVehicleDesc.Text
         End If
+    End Sub
+
+    Private Sub btnGPCancel_Click(sender As Object, e As EventArgs) Handles btnGPCancel.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Document No not found to Post")
+                Exit Sub
+            End If
+
+            Dim isCancel As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode = '" + txtCode.Value + "' and Status = 'Y'"))
+            If isCancel = True Then
+                common.clsCommon.MyMessageBoxShow("Record Already canceled.")
+                Exit Sub
+            End If
+            If myMessages.cancelConfirm() Then
+                If (clsDairyGatePassEntry.CancelData(MyBase.Form_ID, txtCode.Value)) Then
+                    common.clsCommon.MyMessageBoxShow("Successfully canceled")
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
+                End If
+
+                'clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set post='Y' where gpcode='" & txtCode.Value & "'")
+
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+
+        End Try
     End Sub
 End Class

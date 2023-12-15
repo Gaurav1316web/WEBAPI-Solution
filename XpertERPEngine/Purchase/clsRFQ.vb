@@ -61,6 +61,11 @@ Public Class clsRFQ
 
             trans.Commit()
 
+            'If Not isNewEntry Then
+            '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.RFQ_No), "TSPL_RFQ_HEAD", "RFQ_No", "TSPL_RFQ_DETAIL_ITEM", "RFQ_No", trans)
+            'End If
+
+
         Catch err As Exception
             trans.Rollback()
             Throw New Exception(err.Message)

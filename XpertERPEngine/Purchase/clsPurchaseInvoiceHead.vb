@@ -3909,6 +3909,7 @@ Public Class clsPurchaseInvoiceHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
+
                 clsPIAdditionChargeInsurance.DeleteData(strCode, trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PI_HEAD", "PI_No", "TSPL_PI_DETAIL", "PI_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
                 Dim qry As String = "delete from TSPL_PI_DETAIL where PI_No='" + strCode + "'"

@@ -98,6 +98,8 @@ Partial Class frmDemandHistory
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -118,6 +120,8 @@ Partial Class frmDemandHistory
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -137,7 +141,7 @@ Partial Class frmDemandHistory
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
         Me.SplitContainer2.Size = New System.Drawing.Size(800, 390)
-        Me.SplitContainer2.SplitterDistance = 129
+        Me.SplitContainer2.SplitterDistance = 66
         Me.SplitContainer2.TabIndex = 0
         '
         'btnGo
@@ -303,7 +307,7 @@ Partial Class frmDemandHistory
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(800, 257)
+        Me.gv1.Size = New System.Drawing.Size(800, 320)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
         '

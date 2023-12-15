@@ -361,6 +361,7 @@ Public Class clsGateEntry
             Dim strQry As String = " update tspl_gate_entry_details set isPosted='1', Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where gate_entry_no='" & strGateEntryNo & "'"
             clsDBFuncationality.ExecuteNonQuery(strQry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strGateEntryNo), "TSPL_GATE_ENTRY_DETAILS", "Gate_Entry_No", trans)
+
             If TankerFromMaster = 1 Then
                 CreateSMSEmailContent(clsUserMgtCode.frmGateEntry, obj, trans)
             End If

@@ -77,6 +77,7 @@ Public Class clsRGPHead
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_RGP_HEAD", "RGP_No", "TSPL_RGP_DETAIL", "RGP_No", trans)
         Return True
     End Function
+
     Public Function SaveData(ByVal obj As clsRGPHead, ByVal isNewEntry As Boolean) As Boolean
 
         Dim isSaved As Boolean = True

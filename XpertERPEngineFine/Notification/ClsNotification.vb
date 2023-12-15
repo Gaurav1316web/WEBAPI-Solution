@@ -41,8 +41,8 @@ Public Class ClsNotification
 
 
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Subject", obj.Subject)
-            clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Subject", obj.Subject, False, True)
+            clsCommon.AddColumnsForChange(coll, "Description", obj.Description, False, True)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
