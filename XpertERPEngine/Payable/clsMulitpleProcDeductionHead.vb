@@ -112,7 +112,9 @@ Public Class clsMultipleProcDeductionHead
             obj.IsPosted = clsCommon.myCdbl(dt.Rows(0)("IsPosted"))
             obj.IsOpening = clsCommon.myCdbl(dt.Rows(0)("IsOpening"))
 
-            qry = "Select TSPL_MULTIPLE_DEDUCTION_DETAIL.* from TSPL_MULTIPLE_DEDUCTION_Detail where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
+            qry = "Select TSPL_MULTIPLE_DEDUCTION_DETAIL.* , TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader from TSPL_MULTIPLE_DEDUCTION_Detail
+           left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code
+where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -122,6 +124,7 @@ Public Class clsMultipleProcDeductionHead
                     objTr = New clsMultipleProcDeductionDetail
                     objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
+                    objTr.VLCUploderCode = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
                     objTr.DeductionCode = clsCommon.myCstr(dr("DeductionCode"))
                     objTr.Deduction_Desc = clsCommon.myCstr(dr("Deduction_Desc"))
                     objTr.GL_Account_Code = clsCommon.myCstr(dr("GL_Account_Code"))
