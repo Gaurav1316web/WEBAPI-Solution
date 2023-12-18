@@ -1782,7 +1782,13 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc
             End If
 
 
-            sQuery = " select CowBuffalo_Type,sum( Qty) as Qty, cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer, cast( sum (SNFQTY) * 100 / sum(Qty) as decimal(18,2)) as SNFPer,sum(SRN_NET_AMOUNT)+(sum(PPSRN_RO_Amount)*-1) AS Amt,round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG from ( " + BaseQty + " ) XXXX group by CowBuffalo_Type "
+            sQuery = " select CowBuffalo_Type,sum( Qty) as Qty, cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer, cast( sum (SNFQTY) * 100 / sum(Qty) as decimal(18,2)) as SNFPer,sum(SRN_NET_AMOUNT)+(sum(PPSRN_RO_Amount)*-1) AS Amt, "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                sQuery += " (sum (FATQTY))  as FATKG,(sum (SNFQTY)) as SNFKG "
+            Else
+                sQuery += " round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG  "
+            End If
+            sQuery += " from ( " + BaseQty + " ) XXXX group by CowBuffalo_Type"
             dtMilkType = clsDBFuncationality.GetDataTable(sQuery)
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then

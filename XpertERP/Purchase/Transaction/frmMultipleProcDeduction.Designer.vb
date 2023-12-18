@@ -76,6 +76,9 @@ Partial Class FrmMultipleProcDeduction
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem7 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
+        Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -123,6 +126,7 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -142,6 +146,7 @@ Partial Class FrmMultipleProcDeduction
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsetting)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel3)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
@@ -665,7 +670,7 @@ Partial Class FrmMultipleProcDeduction
         'btnsetting
         '
         Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem11, Me.RadMenuItem12})
-        Me.btnsetting.Location = New System.Drawing.Point(230, 6)
+        Me.btnsetting.Location = New System.Drawing.Point(305, 6)
         Me.btnsetting.Name = "btnsetting"
         Me.btnsetting.Size = New System.Drawing.Size(112, 22)
         Me.btnsetting.TabIndex = 1486
@@ -772,7 +777,7 @@ Partial Class FrmMultipleProcDeduction
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3})
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.btnSaveLayout, Me.btnDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
@@ -816,6 +821,25 @@ Partial Class FrmMultipleProcDeduction
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1041, 498)
         Me.Panel1.TabIndex = 3
+        '
+        'btnExport
+        '
+        Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExport.Location = New System.Drawing.Point(230, 6)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(69, 22)
+        Me.btnExport.TabIndex = 1487
+        Me.btnExport.Text = "Export"
+        '
+        'btnSaveLayout
+        '
+        Me.btnSaveLayout.Name = "btnSaveLayout"
+        Me.btnSaveLayout.Text = "Save Layout"
+        '
+        'btnDeleteLayout
+        '
+        Me.btnDeleteLayout.Name = "btnDeleteLayout"
+        Me.btnDeleteLayout.Text = "Delete Layout"
         '
         'FrmMultipleProcDeduction
         '
@@ -881,6 +905,7 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -939,5 +964,8 @@ Partial Class FrmMultipleProcDeduction
     Friend WithEvents RadMenuItem5 As RadMenuItem
     Friend WithEvents RadMenuItem6 As RadMenuItem
     Friend WithEvents RadMenuItem7 As RadMenuItem
+    Friend WithEvents btnExport As RadButton
+    Friend WithEvents btnSaveLayout As RadMenuItem
+    Friend WithEvents btnDeleteLayout As RadMenuItem
 End Class
 
