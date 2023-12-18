@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Imports System
+Imports System.Text.RegularExpressions
 
 Public Class frmDairyGatePass
     Inherits FrmMainTranScreen
@@ -174,6 +175,8 @@ Public Class frmDairyGatePass
         coll.Add("Loading_Slip", "varchar(20) NULL")
         coll.Add("GatePass_Date", "datetime NULL")
         coll.Add("Status", "char(1)  NUll")
+        coll.Add("Driver_Name", "varchar(100) NULL")
+        coll.Add("Driver_ContactNo", "varchar(15) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
     End Sub
@@ -620,8 +623,9 @@ Public Class frmDairyGatePass
                     rbtnEvening.IsChecked = True
                 End If
                 txtLoadingSlip.Text = obj.Loading_Slip
+                txtDriverName.Text = obj.Driver_Name
+                txtDriverMobNo.Text = obj.Driver_ContactNo
                 funLoadGrid(txtCode.Value)
-
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
@@ -636,7 +640,6 @@ Public Class frmDairyGatePass
             Return False
         End If
         If chkAgainstTransfer.Checked = True Then
-
             If clsCommon.myLen(FndTransferNo.Value) <= 0 Then
                 FndTransferNo.Focus()
                 Throw New Exception("Please select Transfer No")
@@ -743,6 +746,8 @@ Public Class frmDairyGatePass
                 obj.AgainstDocumentCode = clsCommon.GetMulcallString(txtmultiBooking.arrValueMember)
                 obj.Opening_Km = txtOpKM.Value
                 obj.Loading_Slip = txtLoadingSlip.Text
+                obj.Driver_Name = txtDriverName.Text
+                obj.Driver_ContactNo = txtDriverMobNo.Text
                 If chkAgainstTransfer.Checked = True Then
                     obj.IsTransfer = 1
                     obj.AgainstTransferNo = clsCommon.myCstr(FndTransferNo.Value)
@@ -829,6 +834,8 @@ Public Class frmDairyGatePass
         txtClKM.Value = 0
         txtLocCode.Enabled = True
         TxtMultiDairyGPassReverse.arrValueMember = Nothing
+        txtDriverName.Text = Nothing
+        txtDriverMobNo.Text = Nothing
     End Sub
 
     Private Sub cmbitemtype_SelectedIndexChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
@@ -1103,7 +1110,7 @@ Public Class frmDairyGatePass
         Dim Qry As String = " Select Case When CFinPouch>0  Then ((Final.Crate_Qty*Final.Conversion_Factor)/CFinPouch) Else 0 End AS 'NoOfPouch',
                                 Case When CFinLTR>0 Then (((Final.Crate_Qty*Final.Conversion_Factor+Final.Pouch_Qty))/CFinLTR)  Else 0 End AS 'MilkQuantity',
                                 Case When Final.Column_Crate>0 Then Cast((Final.Crate_Qty/Final.Column_Crate) AS int)  Else 0 End AS 'CrateLine', 
-                                cast((cast(qty as int)% Column_Crate) as int) AS 'LooseCrate',Pouch_Qty AS 'LoosePouch',Final.* ,tbl_Brand.Brand,tbl_Brand.BRANDDESC ,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2 
+                                cast((cast(qty as int)% Column_Crate) as int) AS 'LooseCrate',Pouch_Qty AS 'LoosePouch',Final.* ,tbl_Brand.Brand,tbl_Brand.BRANDDESC ,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img2  
                                 FROM								
 								(Select Max(Distributor)Distributor,Max(CFinPouch)CFinPouch,Max(CFinLTR)CFinLTR,Max(Conversion_Factor)Conversion_Factor,Max(AgainstTransferNo)AgainstTransferNo,
 Max(Comp_Code)Comp_Code,Sum(Qty * case when Unit_Code='Crate' then 1 else 0 end )Crate_Qty,Sum(Qty * case when Unit_Code='Pouch' then 1 else 0 end )Pouch_Qty,Sum(Box_Crate_Qty)Box_Crate_Qty,Max(Insurance_No)Insurance_No,Max(Insurance_Comp_Name)Insurance_Comp_Name,
@@ -1112,10 +1119,10 @@ Sum(TotalCan)TotalCan,Max(Route_Desc)Route_Desc,Max(GPCode)GPCode,Max(GPDate)GPD
 Max(location_code)location_code	,Max(Location_desc)Location_desc,Max(transporter)transporter,Max(remarks)remarks,Max(comments)comments,Max(post)post,	Item_code,
 Max(item_desc)item_desc,Max(short_description)short_description,Max(sku_seq)sku_seq,Max(TranporterNameFromMaster)TranporterNameFromMaster,Max(HSN_Code)HSN_Code,
 Max(Salesman)Salesman,Sum(Column_Crate)Column_Crate,Max(Area_Code)Area_Code,Max(Zone_Code)Zone_Code,Max(ShiftType)ShiftType,Max(GSTReg_No)GSTReg_No,
-Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)GatePass_Date,Sum(Amount)Amount,Sum(Margin)Margin, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax FROM ( select TSPL_CUSTOMER_MASTER.Customer_Name As 'Distributor',ItemConversionInPouch.Conversion_Factor As 'CFinPouch',ItemConversionInLTR.Conversion_Factor AS 'CFinLTR',CurrentUnit.Conversion_Factor,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as AgainstTransferNo,TSPL_COMPANY_MASTER.Comp_Code ,CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Box' THEN convert(decimal(18,2),(TSPL_DAIRYSALE_GATEPASS_DETAIL.qty/CrateUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code='Box' THEN convert(decimal(18,2),(TSPL_DAIRYSALE_GATEPASS_DETAIL.qty/CrateUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor)  else 0 end as Box_Crate_Qty,TSPL_COMPANY_MASTER.Insurance_No,TSPL_COMPANY_MASTER.Insurance_Comp_Name,TSPL_COMPANY_MASTER.comp_name,TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code,TSPL_DAIRYSALE_GATEPASS_DETAIL.qty," &
+Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)GatePass_Date,Sum(Amount)Amount,Sum(Margin)Margin, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax,Max(Driver_Name)Driver_Name,Max(Driver_ContactNo)Driver_ContactNo FROM ( select TSPL_CUSTOMER_MASTER.Customer_Name As 'Distributor',ItemConversionInPouch.Conversion_Factor As 'CFinPouch',ItemConversionInLTR.Conversion_Factor AS 'CFinLTR',CurrentUnit.Conversion_Factor,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as AgainstTransferNo,TSPL_COMPANY_MASTER.Comp_Code ,CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Box' THEN convert(decimal(18,2),(TSPL_DAIRYSALE_GATEPASS_DETAIL.qty/CrateUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code='Box' THEN convert(decimal(18,2),(TSPL_DAIRYSALE_GATEPASS_DETAIL.qty/CrateUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor)  else 0 end as Box_Crate_Qty,TSPL_COMPANY_MASTER.Insurance_No,TSPL_COMPANY_MASTER.Insurance_Comp_Name,TSPL_COMPANY_MASTER.comp_name,TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code,TSPL_DAIRYSALE_GATEPASS_DETAIL.qty," &
                                  " TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end as Comp_Address," &
                                  " tspl_location_master.add1 +case when len(tspl_location_master.add2)>0 then ', '+tspl_location_master.add2 else '' end +case when LEN(isnull(tspl_location_master.Add3,''))>0 then ', '+isnull(tspl_location_master.Add3,'') else ' ' end as Loc_add," &
-                   " TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan,tspl_route_master.Route_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as GPDate,FORMAT(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,'hh:mm tt') as GPTime,TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc,TSPL_DAIRYSALE_GATEPASS_MASTER.location_code,tspl_location_master.Location_desc,TSPL_DAIRYSALE_GATEPASS_MASTER.transporter,TSPL_DAIRYSALE_GATEPASS_MASTER.remarks,TSPL_DAIRYSALE_GATEPASS_MASTER.comments,TSPL_DAIRYSALE_GATEPASS_MASTER.post,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code,tspl_item_master.item_desc,tspl_item_master.short_description,tspl_item_master.sku_seq,TSPL_TRANSPORT_MASTER.Transporter_Name as TranporterNameFromMaster,TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.Salesman,tspl_vehicle_master.Column_Crate,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No AS Area_Code,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,tspl_company_master.GSTReg_No,TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,(Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode='" + StrCode + "') AS 'DispatchDate',xyz.Amount,xyz.Margin, xyz.Dist_Commission_Ratewithtax   from TSPL_DAIRYSALE_GATEPASS_DETAIL " &
+                   " TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan,tspl_route_master.Route_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as GPDate,FORMAT(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,'hh:mm tt') as GPTime,TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc,TSPL_DAIRYSALE_GATEPASS_MASTER.location_code,tspl_location_master.Location_desc,TSPL_DAIRYSALE_GATEPASS_MASTER.transporter,TSPL_DAIRYSALE_GATEPASS_MASTER.remarks,TSPL_DAIRYSALE_GATEPASS_MASTER.comments,TSPL_DAIRYSALE_GATEPASS_MASTER.post,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code,tspl_item_master.item_desc,tspl_item_master.short_description,tspl_item_master.sku_seq,TSPL_TRANSPORT_MASTER.Transporter_Name as TranporterNameFromMaster,TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.Salesman,tspl_vehicle_master.Column_Crate,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No AS Area_Code,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,tspl_company_master.GSTReg_No,TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,(Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode='" + StrCode + "') AS 'DispatchDate',xyz.Amount,xyz.Margin, xyz.Dist_Commission_Ratewithtax,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from TSPL_DAIRYSALE_GATEPASS_DETAIL " &
                    " left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
                    " left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id " &
                    " left outer join tspl_location_master on tspl_location_master.location_code=TSPL_DAIRYSALE_GATEPASS_MASTER.location_code " &
@@ -1579,4 +1586,5 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
 
         End Try
     End Sub
+
 End Class
