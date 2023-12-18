@@ -36,6 +36,7 @@ Partial Class rptVSPMilkNotSold
         Me.txtPaymentCycleCode = New common.UserControls.txtFinder()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.txtMCC = New common.Controls.MyTextBox()
+        Me.TxtMCCMultifnd = New common.UserControls.txtMultiSelectFinder()
         Me.lblMCC = New common.Controls.MyTextBox()
         Me.lblMCC2 = New common.Controls.MyLabel()
         Me.txtLocName = New common.Controls.MyTextBox()
@@ -147,12 +148,13 @@ Partial Class rptVSPMilkNotSold
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtMCC)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtMCCMultifnd)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.txtMultiDeduction)
         Me.RadPageViewPage1.Controls.Add(Me.chkDeduction)
         Me.RadPageViewPage1.Controls.Add(Me.txtPaymentCycleCode)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMCC)
         Me.RadPageViewPage1.Controls.Add(Me.lblMCC)
         Me.RadPageViewPage1.Controls.Add(Me.lblMCC2)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocName)
@@ -248,7 +250,7 @@ Partial Class rptVSPMilkNotSold
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(64, 39)
+        Me.txtMCC.Location = New System.Drawing.Point(65, 40)
         Me.txtMCC.MendatroryField = False
         Me.txtMCC.MyLinkLable1 = Nothing
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -258,6 +260,21 @@ Partial Class rptVSPMilkNotSold
         Me.txtMCC.ReferenceTableName = Nothing
         Me.txtMCC.Size = New System.Drawing.Size(136, 20)
         Me.txtMCC.TabIndex = 291
+        '
+        'TxtMCCMultifnd
+        '
+        Me.TxtMCCMultifnd.arrDispalyMember = Nothing
+        Me.TxtMCCMultifnd.arrValueMember = Nothing
+        Me.TxtMCCMultifnd.Location = New System.Drawing.Point(265, 160)
+        Me.TxtMCCMultifnd.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtMCCMultifnd.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMCCMultifnd.MyLinkLable1 = Nothing
+        Me.TxtMCCMultifnd.MyLinkLable2 = Nothing
+        Me.TxtMCCMultifnd.MyNullText = "All"
+        Me.TxtMCCMultifnd.Name = "TxtMCCMultifnd"
+        Me.TxtMCCMultifnd.Size = New System.Drawing.Size(220, 19)
+        Me.TxtMCCMultifnd.TabIndex = 1524
+        Me.TxtMCCMultifnd.Visible = False
         '
         'lblMCC
         '
@@ -607,5 +624,6 @@ Partial Class rptVSPMilkNotSold
     Friend WithEvents chkDeduction As RadCheckBox
     Friend WithEvents txtMultiDeduction As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents TxtMCCMultifnd As common.UserControls.txtMultiSelectFinder
 End Class
 

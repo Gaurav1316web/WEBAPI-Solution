@@ -1304,6 +1304,7 @@ Public Class clsFixedParameterType
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
     Public Const EnableLocation = "EnableLocation"
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
+    Public Const PickAllBMC = "VSP Milk Not Sold"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2734,6 +2735,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
     Public Const EnableLocation = "EnableLocation"
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
+    Public Const PickAllBMC = "Pick All BMC"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4436,6 +4438,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, "0", "0:Off, 1:On;")
 
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6457,6 +6460,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRouteMasterDS, clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, EnumControlType.CheckBox)
 
     End Sub
 End Class
