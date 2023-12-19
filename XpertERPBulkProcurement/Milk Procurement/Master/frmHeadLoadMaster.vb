@@ -188,12 +188,12 @@ Public Class frmHeadLoadMaster
                     Else
                         objTr.Head_Load_Basis = "L"
                     End If
-                    objTr.Head_Load_Rate = clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value))
+                    If grow.Cells("Head Load Rate").Value IsNot Nothing Then
+                        objTr.Head_Load_Rate = clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value))
 
-                    If clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value)) > 0 Then
                         obj.Arr.Add(objTr)
-
                     End If
+
 
                 Next
 
@@ -305,16 +305,18 @@ Public Class frmHeadLoadMaster
                         btnDelete.Enabled = False
                         btnSave.Enabled = False
                         btnPost.Enabled = False
+                        btnImport.Enabled = False
                     Else
                         lblStatus.Status = ERPTransactionStatus.Pending
                         btnDelete.Enabled = True
-
+                        btnImport.Enabled = True
                     End If
                 Else
                     isNewEntry = True
                     btnSave.Text = "Save"
                     lblStatus.Status = ERPTransactionStatus.Pending
                     btnDelete.Enabled = True
+                    btnImport.Enabled = True
                 End If
 
 
@@ -579,8 +581,14 @@ Public Class frmHeadLoadMaster
                             gv1.Rows(ii).Cells("BMC Uploader No").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("BMC Uploader No").Value)
                             gv1.Rows(ii).Cells("BMC Name").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("BMC Name").Value)
                             gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("Head Load Basis").Value)
-                            gv1.Rows(ii).Cells("Head Load Rate").Value = Math.Round(clsCommon.myCdbl(gvImport.Rows(ii).Cells("Head Load Rate").Value), 2) 
-                            gv1.Rows.AddNew()
+                            gv1.Rows(ii).Cells("Head Load Rate").Value = Math.Round(clsCommon.myCdbl(gvImport.Rows(ii).Cells("Head Load Rate").Value), 2)
+                            If clsCommon.myLen(txtDocumentNo.Value) = 0 Then
+                                If gv1.Rows.Count = gvImport.Rows.Count Then
+                                Else
+                                    gv1.Rows.AddNew()
+
+                                End If
+                            End If
 
                         Catch ex As Exception
                             gv1.Rows.RemoveAt(ii)
@@ -590,7 +598,7 @@ Public Class frmHeadLoadMaster
                 Next
 
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data imported successfully", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
                 Throw New Exception(ex.Message)
