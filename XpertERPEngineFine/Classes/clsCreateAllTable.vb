@@ -13802,6 +13802,7 @@ Public Class clsCreateAllTable
             coll.Add("Email", "varchar(60) NULL")
             coll.Add("BANK_GROUP_CODE", "varchar(12) NULL References TSPL_BANK_GROUP_MASTER(BANK_GROUP_CODE)")
             coll.Add("Unpaid", "BIT NOT NULL DEFAULT 0")
+            coll.Add("Online_Bank", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -18063,6 +18064,7 @@ Public Class clsCreateAllTable
             coll.Add("Rec_Zone_Code", "varchar(30) NULL REFERENCES TSPL_ZONE_MASTER(Zone_Code)")
             coll.Add("isCardSale", "integer not null default 0")
             coll.Add("Against_RCDF_Loadin", "Varchar(30) null references TSPL_RCDF_LOAD_IN(Document_Code)")
+            coll.Add("Online_Transaction_ID", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()
