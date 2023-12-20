@@ -22,7 +22,11 @@ Partial Class rptPaymentProcessRouteReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -142,6 +146,8 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.cmbFromShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.cmbToShift = New Telerik.WinControls.UI.RadDropDownList()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -259,6 +265,8 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbToShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -371,9 +379,9 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox16.Controls.Add(Me.MyLabel20)
         Me.RadGroupBox16.Controls.Add(Me.btnYearlySummary)
         Me.RadGroupBox16.HeaderText = "Yearly DCS Summary"
-        Me.RadGroupBox16.Location = New System.Drawing.Point(283, 137)
+        Me.RadGroupBox16.Location = New System.Drawing.Point(274, 137)
         Me.RadGroupBox16.Name = "RadGroupBox16"
-        Me.RadGroupBox16.Size = New System.Drawing.Size(286, 151)
+        Me.RadGroupBox16.Size = New System.Drawing.Size(254, 151)
         Me.RadGroupBox16.TabIndex = 10
         Me.RadGroupBox16.Text = "Yearly DCS Summary"
         '
@@ -387,7 +395,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox17.Location = New System.Drawing.Point(72, 100)
         Me.RadGroupBox17.Name = "RadGroupBox17"
         Me.RadGroupBox17.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox17.Size = New System.Drawing.Size(189, 25)
+        Me.RadGroupBox17.Size = New System.Drawing.Size(175, 25)
         Me.RadGroupBox17.TabIndex = 1524
         '
         'rbtnPRBoth
@@ -433,13 +441,13 @@ Partial Class rptPaymentProcessRouteReport
         Me.fndMultDCS.MyLinkLable2 = Nothing
         Me.fndMultDCS.MyNullText = "All"
         Me.fndMultDCS.Name = "fndMultDCS"
-        Me.fndMultDCS.Size = New System.Drawing.Size(189, 19)
+        Me.fndMultDCS.Size = New System.Drawing.Size(175, 19)
         Me.fndMultDCS.TabIndex = 1521
         '
         'MyLabel13
         '
         Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Location = New System.Drawing.Point(5, 16)
+        Me.MyLabel13.Location = New System.Drawing.Point(3, 16)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(32, 18)
         Me.MyLabel13.TabIndex = 2
@@ -467,7 +475,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.fndMultMCC.MyLinkLable2 = Nothing
         Me.fndMultMCC.MyNullText = "All"
         Me.fndMultMCC.Name = "fndMultMCC"
-        Me.fndMultMCC.Size = New System.Drawing.Size(189, 19)
+        Me.fndMultMCC.Size = New System.Drawing.Size(175, 19)
         Me.fndMultMCC.TabIndex = 1519
         '
         'MyLabel23
@@ -503,7 +511,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.fndFinacialYear.ReferenceFieldDesc = Nothing
         Me.fndFinacialYear.ReferenceFieldName = Nothing
         Me.fndFinacialYear.ReferenceTableName = Nothing
-        Me.fndFinacialYear.Size = New System.Drawing.Size(189, 19)
+        Me.fndFinacialYear.Size = New System.Drawing.Size(175, 19)
         Me.fndFinacialYear.TabIndex = 159
         Me.fndFinacialYear.Value = ""
         '
@@ -522,7 +530,7 @@ Partial Class rptPaymentProcessRouteReport
         'MyLabel21
         '
         Me.MyLabel21.FieldName = Nothing
-        Me.MyLabel21.Location = New System.Drawing.Point(158, 41)
+        Me.MyLabel21.Location = New System.Drawing.Point(149, 41)
         Me.MyLabel21.Name = "MyLabel21"
         Me.MyLabel21.Size = New System.Drawing.Size(19, 18)
         Me.MyLabel21.TabIndex = 158
@@ -541,11 +549,11 @@ Partial Class rptPaymentProcessRouteReport
         '
         Me.txtDateTo.CustomFormat = "dd/MM/yyyy"
         Me.txtDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtDateTo.Location = New System.Drawing.Point(178, 39)
+        Me.txtDateTo.Location = New System.Drawing.Point(170, 39)
         Me.txtDateTo.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDateTo.Name = "txtDateTo"
         Me.txtDateTo.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDateTo.Size = New System.Drawing.Size(83, 20)
+        Me.txtDateTo.Size = New System.Drawing.Size(77, 20)
         Me.txtDateTo.TabIndex = 156
         Me.txtDateTo.TabStop = False
         Me.txtDateTo.Text = "24/10/2011"
@@ -559,7 +567,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.txtDateFrom.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDateFrom.Name = "txtDateFrom"
         Me.txtDateFrom.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDateFrom.Size = New System.Drawing.Size(85, 20)
+        Me.txtDateFrom.Size = New System.Drawing.Size(77, 20)
         Me.txtDateFrom.TabIndex = 155
         Me.txtDateFrom.TabStop = False
         Me.txtDateFrom.Text = "24/10/2011"
@@ -589,9 +597,9 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox14.Controls.Add(Me.btnDCSWiseAvgFatSnfPrint)
         Me.RadGroupBox14.Controls.Add(Me.RadGroupBox15)
         Me.RadGroupBox14.HeaderText = "DCS Wise Avg FAT SNF"
-        Me.RadGroupBox14.Location = New System.Drawing.Point(578, 137)
+        Me.RadGroupBox14.Location = New System.Drawing.Point(534, 137)
         Me.RadGroupBox14.Name = "RadGroupBox14"
-        Me.RadGroupBox14.Size = New System.Drawing.Size(269, 104)
+        Me.RadGroupBox14.Size = New System.Drawing.Size(313, 104)
         Me.RadGroupBox14.TabIndex = 9
         Me.RadGroupBox14.Text = "DCS Wise Avg FAT SNF"
         '
@@ -607,6 +615,8 @@ Partial Class rptPaymentProcessRouteReport
         'RadGroupBox15
         '
         Me.RadGroupBox15.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox15.Controls.Add(Me.cmbFromShift)
+        Me.RadGroupBox15.Controls.Add(Me.cmbToShift)
         Me.RadGroupBox15.Controls.Add(Me.MyLabel16)
         Me.RadGroupBox15.Controls.Add(Me.MyLabel17)
         Me.RadGroupBox15.Controls.Add(Me.dtpDCSWiseAvgFatSnfToDate)
@@ -615,14 +625,14 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox15.Location = New System.Drawing.Point(5, 19)
         Me.RadGroupBox15.Name = "RadGroupBox15"
         Me.RadGroupBox15.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox15.Size = New System.Drawing.Size(255, 42)
+        Me.RadGroupBox15.Size = New System.Drawing.Size(303, 42)
         Me.RadGroupBox15.TabIndex = 54
         Me.RadGroupBox15.Text = "Date Range"
         '
         'MyLabel16
         '
         Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Location = New System.Drawing.Point(135, 16)
+        Me.MyLabel16.Location = New System.Drawing.Point(159, 16)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(19, 18)
         Me.MyLabel16.TabIndex = 3
@@ -631,7 +641,7 @@ Partial Class rptPaymentProcessRouteReport
         'MyLabel17
         '
         Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Location = New System.Drawing.Point(5, 16)
+        Me.MyLabel17.Location = New System.Drawing.Point(2, 16)
         Me.MyLabel17.Name = "MyLabel17"
         Me.MyLabel17.Size = New System.Drawing.Size(32, 18)
         Me.MyLabel17.TabIndex = 2
@@ -641,11 +651,11 @@ Partial Class rptPaymentProcessRouteReport
         '
         Me.dtpDCSWiseAvgFatSnfToDate.CustomFormat = "dd/MM/yyyy"
         Me.dtpDCSWiseAvgFatSnfToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpDCSWiseAvgFatSnfToDate.Location = New System.Drawing.Point(162, 15)
+        Me.dtpDCSWiseAvgFatSnfToDate.Location = New System.Drawing.Point(181, 15)
         Me.dtpDCSWiseAvgFatSnfToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpDCSWiseAvgFatSnfToDate.Name = "dtpDCSWiseAvgFatSnfToDate"
         Me.dtpDCSWiseAvgFatSnfToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpDCSWiseAvgFatSnfToDate.Size = New System.Drawing.Size(83, 20)
+        Me.dtpDCSWiseAvgFatSnfToDate.Size = New System.Drawing.Size(78, 20)
         Me.dtpDCSWiseAvgFatSnfToDate.TabIndex = 1
         Me.dtpDCSWiseAvgFatSnfToDate.TabStop = False
         Me.dtpDCSWiseAvgFatSnfToDate.Text = "24/10/2011"
@@ -655,11 +665,11 @@ Partial Class rptPaymentProcessRouteReport
         '
         Me.dtpDCSWiseAvgFatSnfFromDate.CustomFormat = "dd/MM/yyyy"
         Me.dtpDCSWiseAvgFatSnfFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpDCSWiseAvgFatSnfFromDate.Location = New System.Drawing.Point(44, 15)
+        Me.dtpDCSWiseAvgFatSnfFromDate.Location = New System.Drawing.Point(37, 15)
         Me.dtpDCSWiseAvgFatSnfFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpDCSWiseAvgFatSnfFromDate.Name = "dtpDCSWiseAvgFatSnfFromDate"
         Me.dtpDCSWiseAvgFatSnfFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpDCSWiseAvgFatSnfFromDate.Size = New System.Drawing.Size(85, 20)
+        Me.dtpDCSWiseAvgFatSnfFromDate.Size = New System.Drawing.Size(78, 20)
         Me.dtpDCSWiseAvgFatSnfFromDate.TabIndex = 0
         Me.dtpDCSWiseAvgFatSnfFromDate.TabStop = False
         Me.dtpDCSWiseAvgFatSnfFromDate.Text = "24/10/2011"
@@ -778,7 +788,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox10.HeaderText = "DCS Ledger Report"
         Me.RadGroupBox10.Location = New System.Drawing.Point(8, 137)
         Me.RadGroupBox10.Name = "RadGroupBox10"
-        Me.RadGroupBox10.Size = New System.Drawing.Size(269, 150)
+        Me.RadGroupBox10.Size = New System.Drawing.Size(260, 150)
         Me.RadGroupBox10.TabIndex = 7
         Me.RadGroupBox10.Text = "DCS Ledger Report"
         '
@@ -793,7 +803,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.txtRouteName.MyLinkLable2 = Nothing
         Me.txtRouteName.MyNullText = "All"
         Me.txtRouteName.Name = "txtRouteName"
-        Me.txtRouteName.Size = New System.Drawing.Size(186, 19)
+        Me.txtRouteName.Size = New System.Drawing.Size(176, 19)
         Me.txtRouteName.TabIndex = 1518
         '
         'txtMultiMCC
@@ -807,7 +817,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.txtMultiMCC.MyLinkLable2 = Nothing
         Me.txtMultiMCC.MyNullText = "All"
         Me.txtMultiMCC.Name = "txtMultiMCC"
-        Me.txtMultiMCC.Size = New System.Drawing.Size(186, 19)
+        Me.txtMultiMCC.Size = New System.Drawing.Size(176, 19)
         Me.txtMultiMCC.TabIndex = 1517
         '
         'MyLabel19
@@ -852,14 +862,14 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox11.Location = New System.Drawing.Point(5, 19)
         Me.RadGroupBox11.Name = "RadGroupBox11"
         Me.RadGroupBox11.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox11.Size = New System.Drawing.Size(255, 42)
+        Me.RadGroupBox11.Size = New System.Drawing.Size(245, 42)
         Me.RadGroupBox11.TabIndex = 54
         Me.RadGroupBox11.Text = "Date Range"
         '
         'MyLabel12
         '
         Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Location = New System.Drawing.Point(135, 16)
+        Me.MyLabel12.Location = New System.Drawing.Point(126, 16)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(19, 18)
         Me.MyLabel12.TabIndex = 3
@@ -869,7 +879,7 @@ Partial Class rptPaymentProcessRouteReport
         '
         Me.dtpToDCS_Ledger.CustomFormat = "dd/MM/yyyy"
         Me.dtpToDCS_Ledger.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpToDCS_Ledger.Location = New System.Drawing.Point(162, 15)
+        Me.dtpToDCS_Ledger.Location = New System.Drawing.Point(151, 15)
         Me.dtpToDCS_Ledger.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpToDCS_Ledger.Name = "dtpToDCS_Ledger"
         Me.dtpToDCS_Ledger.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -883,7 +893,7 @@ Partial Class rptPaymentProcessRouteReport
         '
         Me.dtpFromDCS_Ledger.CustomFormat = "dd/MM/yyyy"
         Me.dtpFromDCS_Ledger.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpFromDCS_Ledger.Location = New System.Drawing.Point(44, 15)
+        Me.dtpFromDCS_Ledger.Location = New System.Drawing.Point(38, 15)
         Me.dtpFromDCS_Ledger.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFromDCS_Ledger.Name = "dtpFromDCS_Ledger"
         Me.dtpFromDCS_Ledger.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -1617,7 +1627,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -1683,6 +1693,36 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'cmbFromShift
+        '
+        Me.cmbFromShift.AutoCompleteDisplayMember = Nothing
+        Me.cmbFromShift.AutoCompleteValueMember = Nothing
+        Me.cmbFromShift.DropDownAnimationEnabled = True
+        Me.cmbFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cmbFromShift.Items.Add(RadListDataItem1)
+        Me.cmbFromShift.Items.Add(RadListDataItem2)
+        Me.cmbFromShift.Location = New System.Drawing.Point(120, 15)
+        Me.cmbFromShift.Name = "cmbFromShift"
+        Me.cmbFromShift.Size = New System.Drawing.Size(36, 20)
+        Me.cmbFromShift.TabIndex = 328
+        '
+        'cmbToShift
+        '
+        Me.cmbToShift.AutoCompleteDisplayMember = Nothing
+        Me.cmbToShift.AutoCompleteValueMember = Nothing
+        Me.cmbToShift.DropDownAnimationEnabled = True
+        Me.cmbToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cmbToShift.Items.Add(RadListDataItem3)
+        Me.cmbToShift.Items.Add(RadListDataItem4)
+        Me.cmbToShift.Location = New System.Drawing.Point(262, 15)
+        Me.cmbToShift.Name = "cmbToShift"
+        Me.cmbToShift.Size = New System.Drawing.Size(37, 20)
+        Me.cmbToShift.TabIndex = 329
         '
         'rptPaymentProcessRouteReport
         '
@@ -1832,6 +1872,8 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbFromShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbToShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1956,5 +1998,7 @@ Partial Class rptPaymentProcessRouteReport
     Friend WithEvents rbtnPDCS As RadioButton
     Friend WithEvents rbtnRegistered As RadioButton
     Friend WithEvents rbtnPRBoth As RadioButton
+    Friend WithEvents cmbFromShift As RadDropDownList
+    Friend WithEvents cmbToShift As RadDropDownList
 End Class
 

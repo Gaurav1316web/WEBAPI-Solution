@@ -15,6 +15,7 @@ Public Class rptPaymentProcessRouteReport
     Dim isLoad As Boolean = False
     Dim FYFromDate As Date
     Dim FYToDate As Date
+    'Public FilterON As Boolean = False
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -63,6 +64,7 @@ Public Class rptPaymentProcessRouteReport
             btnReset.Visible = True
             RadSplitExp.Visible = True
         End If
+
         isLoad = False
     End Sub
     Sub Reset()
@@ -86,7 +88,54 @@ Public Class rptPaymentProcessRouteReport
         Gv1.Columns.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
+
+        cmbFromShift.SelectedIndex = 0
+        cmbToShift.SelectedIndex = 0
     End Sub
+
+
+    'Sub LoadShiftFrom()
+    '    Dim dt As DataTable = New DataTable
+    '    dt.Columns.Add("Code")
+    '    dt.Columns.Add("Shift")
+
+    '    Dim dr As DataRow = dt.NewRow
+    '    dr("Code") = "M"
+    '    dr("Shift") = "Morning"
+    '    dt.Rows.Add(dr)
+
+    '    dr = dt.NewRow
+    '    dr("Code") = "E"
+    '    dr("Shift") = "Evening"
+    '    dt.Rows.Add(dr)
+
+    '    txtFromShift.DataSource = dt
+    '    txtFromShift.ValueMember = "Code"
+    '    'cbgShift.DisplayMember = "Shift"
+    'End Sub
+
+
+    'Sub LoadShiftTo()
+    '    Dim dt As DataTable = New DataTable
+    '    dt.Columns.Add("Code")
+    '    dt.Columns.Add("Shift")
+
+    '    Dim dr As DataRow = dt.NewRow
+    '    dr("Code") = "M"
+    '    dr("Shift") = "Morning"
+    '    dt.Rows.Add(dr)
+
+    '    dr = dt.NewRow
+    '    dr("Code") = "E"
+    '    dr("Shift") = "Evening"
+    '    dt.Rows.Add(dr)
+
+    '    cmbToShift.DataSource = dt
+    '    cmbToShift.ValueMember = "Code"
+    '    cbgShift.DisplayMember = "Shift"
+    'End Sub
+
+
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         LoadData()
@@ -3352,15 +3401,30 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
         Try
 
 
-            Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate, TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty) as Qty, cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG, sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader
-                                  FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
-                                  left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
-                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
-                                  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
-                                  where convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103)
-                                  group by TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  "
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate, TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty) as Qty, cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG, sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader
+            '                      FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
+            '                      left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+            '                      left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+            '                      left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+            '                      where convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103)
+            '                      group by TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code "
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
+            Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate, TSPL_MILK_RECEIPT_DETAIL.VLC_Code,sum (TSPL_MILK_RECEIPT_DETAIL.acc_weight) as Qty
+ , cast( round ((sum(TSPL_MILK_SRN_DETAIL.FAT_KG) * 100 / nullif (sum (TSPL_MILK_RECEIPT_DETAIL.acc_weight),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_SRN_DETAIL.SNF_KG) * 100 / nullif (sum (TSPL_MILK_RECEIPT_DETAIL.acc_weight),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FATKG, sum(TSPL_MILK_SRN_DETAIL.SNF_KG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader
+                                  FROM 
+								 TSPL_MILK_RECEIPT_DETAIL 
+ Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE 
+ Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE
+ Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE 
+ Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO 
+ Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
+                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_RECEIPT_DETAIL.VLC_Code
+                                  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = 'UDP'
+                                  where convert (date, TSPL_MILK_RECEIPT_DETAIL.Doc_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_RECEIPT_DETAIL.Doc_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103)
+								  and TSPL_MILK_RECEIPT_DETAIL.MCC_CODE not in ('MMB/000129','MMB/000130')
+                                  group by TSPL_MILK_RECEIPT_DETAIL.VLC_Code"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
