@@ -3246,7 +3246,8 @@ Public Class clsPaymentProcessCreditNote
     Public AP_Invoice_Date As String = ""
     Public Vendor_CODE As String = ""
     Public Vendor_NAME As String = ""
-    Public Amount As Double = 0
+    Public TDS_Amount As Decimal = 0
+    Public Amount As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessCreditNote), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -3262,7 +3263,8 @@ Public Class clsPaymentProcessCreditNote
                     clsCommon.AddColumnsForChange(coll, "AP_Invoice_Date", arr.Item(i).AP_Invoice_Date)
                     clsCommon.AddColumnsForChange(coll, "Vendor_CODE", arr.Item(i).Vendor_CODE)
                     clsCommon.AddColumnsForChange(coll, "Vendor_NAME", arr.Item(i).Vendor_NAME)
-                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(arr.Item(i).Amount))
+                    clsCommon.AddColumnsForChange(coll, "TDS_Amount", arr.Item(i).TDS_Amount)
+                    clsCommon.AddColumnsForChange(coll, "Amount", arr.Item(i).Amount)
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_CREDIT_NOTE", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -3287,6 +3289,7 @@ Public Class clsPaymentProcessCreditNote
                     obj.AP_Invoice_Date = clsCommon.myCstr(dtbl.Rows(i)("AP_Invoice_Date"))
                     obj.Vendor_CODE = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
                     obj.Vendor_NAME = clsCommon.myCstr(dtbl.Rows(i)("Vendor_NAME"))
+                    obj.TDS_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("TDS_Amount"))
                     obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
                     arr.Add(obj)
                 Next

@@ -1,11 +1,8 @@
 ﻿'===================BM00000007864,BM00000007337,BM00000007744===================
 Imports System.Data.SqlClient
-Imports common
 Imports System.IO
-Imports System.Net
-Imports Newtonsoft.Json
+Imports common
 Imports Newtonsoft.Json.Linq
-Imports System.Collections.Specialized
 
 
 Public Class FrmPaymentProcess
@@ -739,6 +736,22 @@ Public Class FrmPaymentProcess
                 Next
             End If
 
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return rValue
+    End Function
+
+    Function getTDSTotalCreditNoteSum(ByVal vsp As String) As Double
+        Dim rValue As Double = 0
+        Try
+            If clsCommon.myLen(vsp) > 0 AndAlso gvCreditNote IsNot Nothing AndAlso gvCreditNote.Rows.Count > 0 Then
+                For i As Integer = 0 To gvCreditNote.Rows.Count - 1
+                    If gvCreditNote.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvCreditNote.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
+                        rValue = rValue + clsCommon.myCdbl(gvCreditNote.Rows(i).Cells(colTDSAmt).Value)
+                    End If
+                Next
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -2505,6 +2518,14 @@ Public Class FrmPaymentProcess
 
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
+        colDecimal.HeaderText = "TDS Amount"
+        colDecimal.Name = colTDSAmt
+        colDecimal.Width = 100
+        colDecimal.ReadOnly = True
+        gvCreditNote.MasterTemplate.Columns.Add(colDecimal)
+
+        colDecimal = New GridViewDecimalColumn()
+        colDecimal.FormatString = ""
         colDecimal.HeaderText = "Amount"
         colDecimal.Name = colItemAmt
         colDecimal.Width = 200
@@ -2591,9 +2612,8 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
         LoadBlankGridCreditNote()
         If clsCommon.myLen(strVendorCode) > 0 Then
             '' Update By pankaj jha For picking up amount from Head in place of details 
-            Dim qry As String = "   select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   from TSPL_VENDOR_INVOICE_head   where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+            Dim qry As String = "   select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   from TSPL_VENDOR_INVOICE_head   where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
             Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE  where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no not in ('" + fndDocNo.Value + "')) "
-
 
             If clsCommon.myLen(strVendorCode) <= 0 Then
             Else
@@ -2622,6 +2642,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gvCreditNote.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(dt.Rows(i)("Vendor_Code")))
                     gvCreditNote.Rows(i).Cells(colVendorCode).Value = dt.Rows(i)("Vendor_Code")
                     gvCreditNote.Rows(i).Cells(colVendorDesc).Value = dt.Rows(i)("Vendor_Name")
+                    gvCreditNote.Rows(i).Cells(colTDSAmt).Value = clsCommon.myFormat(clsCommon.myCdbl(dt.Rows(i)("TDS_Actual_Amount")))
                     gvCreditNote.Rows(i).Cells(colItemAmt).Value = clsCommon.myFormat(clsCommon.myCdbl(dt.Rows(i)("Total_Amount")))
                 Next
             End If
@@ -4026,7 +4047,8 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                         objPayProCreditNote.AP_Invoice_Date = clsCommon.myCstr(gvCreditNote.Rows(i).Cells(colAPInvoiceDate).Value)
                         objPayProCreditNote.Vendor_CODE = clsCommon.myCstr(gvCreditNote.Rows(i).Cells(colVendorCode).Value)
                         objPayProCreditNote.Vendor_NAME = clsCommon.myCstr(gvCreditNote.Rows(i).Cells(colVendorDesc).Value)
-                        objPayProCreditNote.Amount = clsCommon.myCdbl(gvCreditNote.Rows(i).Cells(colItemAmt).Value)
+                        objPayProCreditNote.TDS_Amount = clsCommon.myCDecimal(gvCreditNote.Rows(i).Cells(colTDSAmt).Value)
+                        objPayProCreditNote.Amount = clsCommon.myCDecimal(gvCreditNote.Rows(i).Cells(colItemAmt).Value)
                         obj.arrClsPaymentProcessCreditNote.Add(objPayProCreditNote)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
@@ -4436,8 +4458,8 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gvCreditNote.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_CODE))
                     gvCreditNote.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_CODE
                     gvCreditNote.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_NAME
-                    gvCreditNote.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessCreditNote.Item(i).Amount)
-
+                    gvCreditNote.Rows(i).Cells(colTDSAmt).Value = obj.arrClsPaymentProcessCreditNote.Item(i).TDS_Amount
+                    gvCreditNote.Rows(i).Cells(colItemAmt).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Amount
                 Next
             End If
 
@@ -5042,7 +5064,8 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
 
                 gv.Rows(k).Cells(colSRNROAmt).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSRNROAmt).Value)
                 gv.Rows(k).Cells(colSRNNetAmount).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSRNNetAmount).Value)
-                gv.Rows(k).Cells(colTDSAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colTDSAmt).Value)
+                gv.Rows(k).Cells(colTDSAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colTDSAmt).Value) + getTDSTotalCreditNoteSum(gv.Rows(k).Cells(colVendorCode).Value)
+
                 gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value
                 gv.Rows(k).Cells(colActualVSPCode).Value = gvInvoice.Rows(i).Cells(colActualVSPCode).Value
                 gv.Rows(k).Cells(colActualVSPName).Value = gvInvoice.Rows(i).Cells(colActualVSPName).Value

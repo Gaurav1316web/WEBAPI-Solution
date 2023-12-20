@@ -10815,6 +10815,7 @@ Public Class clsCreateAllTable
             coll.Add("AP_Invoice_Date", "varchar(30) ")
             coll.Add("Vendor_CODE", "varchar(30) ")
             coll.Add("Vendor_NAME", "varchar(200) ")
+            coll.Add("TDS_Amount", "decimal(18,2) NULL")
             coll.Add("Amount", "float not null default 0 ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_CREDIT_NOTE", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
@@ -24227,6 +24228,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Include_Shortage_Own_BMC", "integer NULL")
             coll.Add("Subtract", "integer NULL")
             coll.Add("Check_Saving_AC", "integer NULL")
+            coll.Add("Conversion", "decimal(18,3) not NULL default 1")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)

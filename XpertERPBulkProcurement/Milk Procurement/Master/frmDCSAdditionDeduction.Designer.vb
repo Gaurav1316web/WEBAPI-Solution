@@ -22,6 +22,8 @@ Partial Class frmDCSAdditionDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.rbtnACNotExists = New common.Controls.MyRadioButton()
+        Me.rbtnACExists = New common.Controls.MyRadioButton()
         Me.chkSavingAC = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIncludeShortageOwnBMC = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSubtract = New Telerik.WinControls.UI.RadCheckBox()
@@ -83,11 +85,13 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnACNotExists = New common.Controls.MyRadioButton()
-        Me.rbtnACExists = New common.Controls.MyRadioButton()
+        Me.txtConvertsion = New common.MyNumBox()
+        Me.MyLabel11 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.rbtnACNotExists, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnACExists, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSavingAC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIncludeShortageOwnBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSubtract, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,8 +147,8 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnACNotExists, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnACExists, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtConvertsion, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -214,6 +218,26 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Size = New System.Drawing.Size(681, 449)
         Me.SplitContainer1.SplitterDistance = 415
         Me.SplitContainer1.TabIndex = 0
+        '
+        'rbtnACNotExists
+        '
+        Me.rbtnACNotExists.Location = New System.Drawing.Point(197, 276)
+        Me.rbtnACNotExists.MyLinkLable1 = Nothing
+        Me.rbtnACNotExists.MyLinkLable2 = Nothing
+        Me.rbtnACNotExists.Name = "rbtnACNotExists"
+        Me.rbtnACNotExists.Size = New System.Drawing.Size(114, 18)
+        Me.rbtnACNotExists.TabIndex = 382
+        Me.rbtnACNotExists.Text = "Account Not Exists"
+        '
+        'rbtnACExists
+        '
+        Me.rbtnACExists.Location = New System.Drawing.Point(100, 276)
+        Me.rbtnACExists.MyLinkLable1 = Nothing
+        Me.rbtnACExists.MyLinkLable2 = Nothing
+        Me.rbtnACExists.Name = "rbtnACExists"
+        Me.rbtnACExists.Size = New System.Drawing.Size(91, 18)
+        Me.rbtnACExists.TabIndex = 381
+        Me.rbtnACExists.Text = "Account Exists"
         '
         'chkSavingAC
         '
@@ -448,6 +472,8 @@ Partial Class frmDCSAdditionDeduction
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.txtConvertsion)
+        Me.GroupBox1.Controls.Add(Me.MyLabel11)
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeBMCTruckSheet)
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeCluster)
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeBMC)
@@ -456,7 +482,7 @@ Partial Class frmDCSAdditionDeduction
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeBoth)
         Me.GroupBox1.Location = New System.Drawing.Point(522, 80)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(149, 76)
+        Me.GroupBox1.Size = New System.Drawing.Size(149, 99)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Applicable For DCS Type"
@@ -620,7 +646,7 @@ Partial Class frmDCSAdditionDeduction
         Me.lblGLAcctName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblGLAcctName.Location = New System.Drawing.Point(308, 162)
         Me.lblGLAcctName.Name = "lblGLAcctName"
-        Me.lblGLAcctName.Size = New System.Drawing.Size(363, 18)
+        Me.lblGLAcctName.Size = New System.Drawing.Size(212, 18)
         Me.lblGLAcctName.TabIndex = 10
         Me.lblGLAcctName.TextWrap = False
         '
@@ -1027,25 +1053,44 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'rbtnACNotExists
+        'txtConvertsion
         '
-        Me.rbtnACNotExists.Location = New System.Drawing.Point(197, 276)
-        Me.rbtnACNotExists.MyLinkLable1 = Nothing
-        Me.rbtnACNotExists.MyLinkLable2 = Nothing
-        Me.rbtnACNotExists.Name = "rbtnACNotExists"
-        Me.rbtnACNotExists.Size = New System.Drawing.Size(114, 18)
-        Me.rbtnACNotExists.TabIndex = 382
-        Me.rbtnACNotExists.Text = "Account Not Exists"
+        Me.txtConvertsion.BackColor = System.Drawing.Color.Transparent
+        Me.txtConvertsion.CalculationExpression = Nothing
+        Me.txtConvertsion.DecimalPlaces = 3
+        Me.txtConvertsion.FieldCode = Nothing
+        Me.txtConvertsion.FieldDesc = Nothing
+        Me.txtConvertsion.FieldMaxLength = 0
+        Me.txtConvertsion.FieldName = Nothing
+        Me.txtConvertsion.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtConvertsion.isCalculatedField = False
+        Me.txtConvertsion.IsSourceFromTable = False
+        Me.txtConvertsion.IsSourceFromValueList = False
+        Me.txtConvertsion.IsUnique = False
+        Me.txtConvertsion.Location = New System.Drawing.Point(77, 72)
+        Me.txtConvertsion.MaxLength = 5
+        Me.txtConvertsion.MendatroryField = False
+        Me.txtConvertsion.MyLinkLable1 = Me.MyLabel11
+        Me.txtConvertsion.MyLinkLable2 = Nothing
+        Me.txtConvertsion.Name = "txtConvertsion"
+        Me.txtConvertsion.ReferenceFieldDesc = Nothing
+        Me.txtConvertsion.ReferenceFieldName = Nothing
+        Me.txtConvertsion.ReferenceTableName = Nothing
+        Me.txtConvertsion.Size = New System.Drawing.Size(60, 21)
+        Me.txtConvertsion.TabIndex = 383
+        Me.txtConvertsion.Text = "0"
+        Me.txtConvertsion.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtConvertsion.Value = 0R
         '
-        'rbtnACExists
+        'MyLabel11
         '
-        Me.rbtnACExists.Location = New System.Drawing.Point(100, 276)
-        Me.rbtnACExists.MyLinkLable1 = Nothing
-        Me.rbtnACExists.MyLinkLable2 = Nothing
-        Me.rbtnACExists.Name = "rbtnACExists"
-        Me.rbtnACExists.Size = New System.Drawing.Size(91, 18)
-        Me.rbtnACExists.TabIndex = 381
-        Me.rbtnACExists.Text = "Account Exists"
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel11.Location = New System.Drawing.Point(6, 74)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(63, 16)
+        Me.MyLabel11.TabIndex = 384
+        Me.MyLabel11.Text = "Conversion"
         '
         'frmDCSAdditionDeduction
         '
@@ -1064,6 +1109,8 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.rbtnACNotExists, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnACExists, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSavingAC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIncludeShortageOwnBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSubtract, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1123,8 +1170,8 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnACNotExists, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnACExists, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtConvertsion, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1193,4 +1240,6 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents chkSavingAC As RadCheckBox
     Friend WithEvents rbtnACNotExists As common.Controls.MyRadioButton
     Friend WithEvents rbtnACExists As common.Controls.MyRadioButton
+    Friend WithEvents txtConvertsion As common.MyNumBox
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
 End Class
