@@ -150,7 +150,7 @@ Public Class frmMilkRejectEntry
                 Dim str As String = "select UOM_Code from TSPL_Mcc_UOM_DETAIL where stocking_unit='Y' and MCC_CODE='" & fndMCCCode.Value & "' "
                 Dim Unit_Code As String = clsDBFuncationality.getSingleValue(str)
                 If Unit_Code = "" Then
-                    clsCommon.MyMessageBoxShow("Fill UOM of Current Mcc")
+                    clsCommon.MyMessageBoxShow(Me, "Fill UOM of Current Mcc", Me.Text)
                     Exit Sub
                 End If
                 str = "select UOM_Code from TSPL_Item_UOM_DETAIL where Item_CODE='" & fndItem_Code.Text & "' and UOM_code='" & Unit_Code & "' "
@@ -235,13 +235,13 @@ Public Class frmMilkRejectEntry
                     If btnsave.Text = ">>" Then
                         frmRange += 1
                     End If
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(objHead.DOC_CODE)
                     fndVLCCode.Focus()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -257,7 +257,7 @@ Public Class frmMilkRejectEntry
             Dim strchk As String = "select Posted from TSPL_MILK_REJECT_HEAD where DOC_COde='" + txtCode.Value + "'"
             Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
             ' Else
@@ -278,82 +278,82 @@ Public Class frmMilkRejectEntry
             '    Return False
             'End If
             If clsCommon.myLen(Me.cboShift.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Shift", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Shift", Me.Text)
                 Return False
             End If
 
             If clsCommon.myLen(Me.fndMCCCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter MCC", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter MCC", Me.Text)
                 fndMCCCode.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(Me.fndVLCCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter VLC Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter VLC Code", Me.Text)
                 fndVLCCode.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(Me.fndVspCode.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter VSP Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter VSP Code", Me.Text)
                 fndVspCode.Focus()
                 Return False
             End If
 
 
             If clsCommon.myLen(Me.fndVehicleCode.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Vehicle Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Vehicle Code", Me.Text)
                 fndVehicleCode.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(cboRejectType.SelectedValue) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Reject Type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Reject Type", Me.Text)
                 cboRejectType.Focus()
                 Return False
             End If
             If rbtnReturnTypeNA.IsChecked Then
                 If txtFatPer.Value <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please enter fat %", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please enter fat %", Me.Text)
                     txtFatPer.Focus()
                     Return False
                 End If
                 If txtFatPer.Value > 15 Then
-                    clsCommon.MyMessageBoxShow("Please fat % cannot be more than 15 %", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please fat % cannot be more than 15 %", Me.Text)
                     txtFatPer.Focus()
                     Return False
                 End If
 
                 If txtSNFPer.Value <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please enter SNF %", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please enter SNF %", Me.Text)
                     txtSNFPer.Focus()
                     Return False
                 End If
                 If txtSNFPer.Value > 15 Then
-                    clsCommon.MyMessageBoxShow("Please SNF % cannot be more than 15 %", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please SNF % cannot be more than 15 %", Me.Text)
                     txtSNFPer.Focus()
                     Return False
                 End If
             End If
 
             If clsCommon.myCdbl(Me.txtMilkWeight.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Milk Weight", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Milk Weight", Me.Text)
                 txtMilkWeight.Focus()
                 Return False
             End If
             If clsCommon.myCdbl(Me.txtNoOfCans.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter No of Cans", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter No of Cans", Me.Text)
                 txtNoOfCans.Focus()
                 Return False
             End If
 
 
             If clsCommon.myLen(Me.cboRejectType.SelectedValue) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Milk Reject Type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Milk Reject Type", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(Me.fndRouteCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Route Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Route Code", Me.Text)
                 fndRouteCode.Focus()
                 Return False
             End If
@@ -372,7 +372,7 @@ Public Class frmMilkRejectEntry
                 If ShiftTiming = "1" Then
                     Dim IsOpenShift As Integer = ClsOpenMCCShift.CheckisShiftTimingAvailable(fndMCCCode.Value, cboShift.SelectedValue)
                     If IsOpenShift <= 0 Then
-                        clsCommon.MyMessageBoxShow("Shift Timing Excluded.Can't be Save.")
+                        clsCommon.MyMessageBoxShow(Me, "Shift Timing Excluded.Can't be Save.", Me.Text)
                         Return False
                     End If
                 End If
@@ -380,7 +380,7 @@ Public Class frmMilkRejectEntry
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -547,7 +547,7 @@ Public Class frmMilkRejectEntry
             gv1.AutoScroll = True
             isDoubleClicked = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -568,11 +568,11 @@ Public Class frmMilkRejectEntry
         Dim DTShift As DataTable = clsMilkRejectHead.GetShift(fndMCCCode.Value)
         If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
             Irregular_Mcc_Code = ""
-            clsCommon.MyMessageBoxShow("No shifts is opened.Atleats one Shift should be Opened..")
+            clsCommon.MyMessageBoxShow(Me, "No shifts is opened.Atleats one Shift should be Opened..", Me.Text)
             btnsave.Enabled = False
         ElseIf DTShift.Rows.Count > 1 Then
             Irregular_Mcc_Code = ""
-            clsCommon.MyMessageBoxShow("There are more then one shifts are opened.Only one Shift can be Opened..")
+            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..", Me.Text)
             Me.Close()
         Else
             btnsave.Enabled = True
@@ -662,7 +662,7 @@ Public Class frmMilkRejectEntry
             End If
             cboRejectType.Focus()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -727,7 +727,7 @@ Public Class frmMilkRejectEntry
             Me.fndVLCCode.Enabled = True
             Me.fndRouteCode.Enabled = True
             If btnsave.Visible = False Then
-                clsCommon.MyMessageBoxShow("You do Not have Permission to Update Any Record.")
+                clsCommon.MyMessageBoxShow(Me, "You do Not have Permission to Update Any Record.", Me.Text)
                 Exit Sub
             End If
             Dim trans As SqlTransaction = Nothing
@@ -794,7 +794,7 @@ Public Class frmMilkRejectEntry
                 isDoubleClicked = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -922,7 +922,7 @@ Public Class frmMilkRejectEntry
            & " '" & clsCommon.GetPrintDate(dtpDocDate.Value, "dd/MMM/yyyy") & "'  and SHIFT='" & cboShift.SelectedValue & "' and sample_No=" & Me.txtNoOfCans.Tag & " "
         Dim Dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If Dt.Rows.Count > 0 Then
-            clsCommon.MyMessageBoxShow("This receipt have been sampled and can not be updated.")
+            clsCommon.MyMessageBoxShow(Me, "This receipt have been sampled and can not be updated.", Me.Text)
             Return False
         End If
         Return True
@@ -955,7 +955,7 @@ Public Class frmMilkRejectEntry
 
     Private Sub txtFatPer_Validating(sender As Object, e As CancelEventArgs) Handles txtFatPer.Validating
         If txtFatPer.Value > 15 Then
-            clsCommon.MyMessageBoxShow("Max Fat% is 15", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Max Fat% is 15", Me.Text)
             txtFatPer.Focus()
         Else
             txtSNFPer.Focus()
@@ -964,7 +964,7 @@ Public Class frmMilkRejectEntry
 
     Private Sub txtSNFPer_Validating(sender As Object, e As CancelEventArgs) Handles txtSNFPer.Validating
         If txtSNFPer.Value > 15 Then
-            clsCommon.MyMessageBoxShow("Max SNF % is 15", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Max SNF % is 15", Me.Text)
             txtSNFPer.Focus()
         Else
             txtNoOfCans.Focus()
@@ -997,14 +997,14 @@ Public Class frmMilkRejectEntry
                 Try
                     clsMilkRejectHead.PostData(txtCode.Value, True, tran)
                     tran.Commit()
-                    clsCommon.MyMessageBoxShow("Posted successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Posted successfully", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 Catch ex As Exception
                     tran.Rollback()
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1036,7 +1036,7 @@ Public Class frmMilkRejectEntry
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1065,11 +1065,11 @@ Public Class frmMilkRejectEntry
                 clsMilkRejectDetail.SaveData(obj.DOC_CODE, obj, settAlwaysVSPDefaulter, tran)
             End If
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Data updated successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data updated successfully", Me.Text)
             LoadData(txtCode.Value, NavigatorType.Current)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1104,14 +1104,14 @@ Public Class frmMilkRejectEntry
                 qry = "update TSPL_MILK_REJECT_DETAIL set SAMPLE_NO=SAMPLE_NO-1  where DOC_CODE='" + txtCode.Value + "' and  SAMPLE_NO>'" + currSampleNo + "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, tran)
                 tran.Commit()
-                clsCommon.MyMessageBoxShow("Sample Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Sample Deleted Successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             Catch ex As Exception
                 tran.Rollback()
                 e.Cancel = True
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             e.Cancel = True
         End Try
     End Sub

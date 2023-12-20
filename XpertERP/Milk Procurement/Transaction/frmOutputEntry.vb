@@ -100,23 +100,23 @@ Public Class frmOutputEntry
 
     Private Function AllowToSave() As Boolean
         If (clsCommon.myLen(fndLoc.Value)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Plant first.")
+            clsCommon.MyMessageBoxShow(Me, "Select Plant first.", Me.Text)
             fndLoc.Focus()
             Return False
         End If
         If (clsCommon.myLen(txtMCC.Value)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select MCC/Plant first.")
+            clsCommon.MyMessageBoxShow(Me, "Select MCC/Plant first.", Me.Text)
             txtMCC.Focus()
             Return False
         End If
         If clsCommon.CompairString(cboOutPutType.SelectedValue, "Select") = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Select Output Type first.")
+            clsCommon.MyMessageBoxShow(Me, "Select Output Type first.", Me.Text)
             cboOutPutType.Focus()
             Return False
         End If
 
         If (clsCommon.myCdbl(txtFatKG.Value)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Enter Fat Kg")
+            clsCommon.MyMessageBoxShow(Me, "Enter Fat Kg", Me.Text)
             txtFatKG.Focus()
             Return False
         End If
@@ -126,7 +126,7 @@ Public Class frmOutputEntry
             Return False
         End If
         If (clsCommon.myCdbl(txtQtyKG.Value)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Enter Quantity Kg")
+            clsCommon.MyMessageBoxShow(Me, "Enter Quantity Kg", Me.Text)
             txtQtyKG.Focus()
             Return False
         End If
@@ -141,7 +141,7 @@ Public Class frmOutputEntry
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False, ChekBtnPost)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -173,7 +173,7 @@ Public Class frmOutputEntry
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -225,7 +225,7 @@ Public Class frmOutputEntry
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -248,12 +248,12 @@ Public Class frmOutputEntry
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsOutputEntry.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -277,7 +277,7 @@ Public Class frmOutputEntry
                 '    End If
                 'End If
                 If (clsOutputEntry.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -298,7 +298,7 @@ Public Class frmOutputEntry
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -348,13 +348,13 @@ Public Class frmOutputEntry
                 'trans = clsDBFuncationality.GetTransactin()
                 If clsOutputEntry.ReverseAndUnpost(txtDocNo.Value) Then
                     'trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -368,7 +368,7 @@ Public Class frmOutputEntry
 
     Private Sub TxtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
         If clsCommon.myLen(fndLoc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select the Plant first")
+            clsCommon.MyMessageBoxShow(Me, "Please select the Plant first", Me.Text)
             fndLoc.Focus()
             Exit Sub
         End If
@@ -410,7 +410,7 @@ Public Class frmOutputEntry
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TOP 1 TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   order by TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  desc ") ' where TSPL_MCC_MASTER.MCC_Code ='" & txtMCC.Value & "'")
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Payment Cycle found")
+            clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found", Me.Text)
             Exit Sub
         End If
         PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -435,7 +435,7 @@ Public Class frmOutputEntry
             End If
         ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                 txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                 Exit Sub
@@ -479,7 +479,7 @@ Public Class frmOutputEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -495,7 +495,7 @@ Public Class frmOutputEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -515,7 +515,7 @@ Public Class frmOutputEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
