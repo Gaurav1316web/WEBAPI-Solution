@@ -873,7 +873,7 @@ Public Class FrmMccTankerDispatchReturn
         Dim qry As String = String.Empty
 
         If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC Name from which dispatch is being made, First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select MCC Name from which dispatch is being made, First", Me.Text)
             Exit Sub
         End If
 
@@ -887,7 +887,7 @@ Public Class FrmMccTankerDispatchReturn
                 txtPlantOrMccName.Text = clsDBFuncationality.getSingleValue("select Location_desc from tspl_location_master where Location_code='" & fndPlantOrMCCCode.Value & "'")
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
         End If
     End Sub
     Private Sub fndTnakerNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndTnakerNo._MYValidating
@@ -1019,7 +1019,7 @@ Public Class FrmMccTankerDispatchReturn
     Private Sub FrmMccDispatch_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         If clsCommon.CompairString(BtnStart.Text, "Stop") = CompairStringResult.Equal Then
             e.Cancel = True
-            clsCommon.MyMessageBoxShow("Please stop the port before application close", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please stop the port before application close", Me.Text)
         End If
     End Sub
     Private Sub FrmMccDispatch_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -1755,9 +1755,9 @@ Public Class FrmMccTankerDispatchReturn
                 trans.Commit()
                 If Not isPostbtnClick Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 btnSave.Text = "Update"
@@ -2512,7 +2512,7 @@ Public Class FrmMccTankerDispatchReturn
     Private Sub mnuDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
     Private Sub mnuSaveLayOut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSaveLayOut.Click
         If clsCommon.myLen(MyBase.Form_ID) > 0 Then
@@ -2525,7 +2525,7 @@ Public Class FrmMccTankerDispatchReturn
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2751,7 +2751,7 @@ Public Class FrmMccTankerDispatchReturn
         If clsCommon.myLen(strItemCode) > 0 Then
         Else
             gvManualSeal.CurrentRow.Cells(colSealNo).Value = ""
-            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Item Of Seal Type Found", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -2779,7 +2779,7 @@ Public Class FrmMccTankerDispatchReturn
         If clsCommon.myLen(strItemCode) > 0 Then
         Else
             gvManualSeal.CurrentRow.Cells(colSealNo).Value = ""
-            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Item Of Seal Type Found", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -2898,7 +2898,7 @@ Public Class FrmMccTankerDispatchReturn
     End Sub
     Private Sub fndUOM__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndUOM._MYValidating
         If clsCommon.myLen(fndItemCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Item Code", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             fndItemCode.Focus()
             Exit Sub
         End If
@@ -3047,7 +3047,7 @@ Public Class FrmMccTankerDispatchReturn
                 Throw New Exception("Update of tanker is Not allowed Due to its Gate-In is Done")
             End If
             If updateTanker() Then
-                clsCommon.MyMessageBoxShow("Tanker Updated Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Tanker Updated Successfully", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

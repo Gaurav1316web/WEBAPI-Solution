@@ -310,7 +310,7 @@ Public Class frmMilkGateEntryIn
                 End If
 
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Entry_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -469,7 +469,7 @@ Public Class frmMilkGateEntryIn
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptGateEntryIn", "Milk Gate Entry In")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No document for print", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No document for print", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

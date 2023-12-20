@@ -21917,6 +21917,20 @@ Public Class clsCreateAllTable
             coll.Add("Ded_Amt", "DECIMAL(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_DEDUCTION_SECURITY", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Date", "DateTime Not NULL")
+            coll.Add("GRN_Code", "Varchar(30) not null references TSPL_GRN_HEAD(GRN_No)")
+            coll.Add("Description", "varchar(200) NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Remarks", "varchar(200) NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "DateTime NOT NULL")
+            coll.Add("Modify_By", "varchar(12) NOT NULL")
+            coll.Add("Modify_Date", "Datetime NULL")
+            coll.Add("Posted_By", "VARCHAR(12) NULL")
+            coll.Add("Posted_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Purchase_GateOut", coll, Nothing, True, False)
 
 
             coll = New Dictionary(Of String, String)

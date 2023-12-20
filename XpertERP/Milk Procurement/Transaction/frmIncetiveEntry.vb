@@ -695,7 +695,7 @@ Public Class frmIncetiveEntry
 
             If (myMessages.deleteConfirm()) Then
                 If clsIncentiveEntryHead.DeleteData(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -712,7 +712,7 @@ Public Class frmIncetiveEntry
         Try
             If (clsCommon.myLen(txtCode.Value) > 0 AndAlso myMessages.postConfirm()) Then
                 If (clsIncentiveEntryHead.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If

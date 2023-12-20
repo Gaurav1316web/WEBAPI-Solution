@@ -345,7 +345,7 @@ Public Class FrmRecurringPayableInvoice
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -1930,7 +1930,7 @@ Public Class FrmRecurringPayableInvoice
         Dim whrcls As String
         Dim arr As New ArrayList()
         If txtlocation.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please first select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
             Return
         End If
         arr = clsERPFuncationality.glaccountquery(objCommonVar.CurrentUserCode)
@@ -1976,7 +1976,7 @@ Public Class FrmRecurringPayableInvoice
 
     Private Sub OpenInvoiceNo(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(TxtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
             gv1.CurrentRow.Cells(colDocNo).Value = ""
             Exit Sub
         End If
@@ -2509,19 +2509,19 @@ Public Class FrmRecurringPayableInvoice
 
 
             If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please first select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
                 txtlocation.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(TxtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
                 TxtVendorNo.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(txtACSet.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vendor Account Set")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor Account Set", Me.Text)
                 txtACSet.Focus()
                 Return False
             End If
@@ -2529,7 +2529,7 @@ Public Class FrmRecurringPayableInvoice
             If clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "C") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "D") = CompairStringResult.Equal) Then
             Else
                 If clsCommon.myLen(txtVendorInvoiceNo.Text) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Enter Vendor Invoice No")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Enter Vendor Invoice No", Me.Text)
                     txtVendorInvoiceNo.Focus()
                     Return False
                 End If
@@ -2550,12 +2550,12 @@ Public Class FrmRecurringPayableInvoice
             End If
 
             If clsCommon.GetDateWithStartTime(txtVendorInvDatre.Value) > clsCommon.GetDateWithEndTime(txtDate.Value) Then
-                common.clsCommon.MyMessageBoxShow("Vendor Invoice Date can't be Greate then Document Date")
+                common.clsCommon.MyMessageBoxShow(Me, "Vendor Invoice Date can't be Greate then Document Date", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(cmbRefType.SelectedValue) > 0 AndAlso clsCommon.myLen(txtRefDocNo.Value) <= 0 AndAlso cmbRefType.Text <> "Charges" Then
 
-                common.clsCommon.MyMessageBoxShow("Please select Ref Document No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Ref Document No", Me.Text)
                 txtRefDocNo.Focus()
                 Return False
             End If
@@ -2643,7 +2643,7 @@ Public Class FrmRecurringPayableInvoice
                     End If
                     Dim strCurrLocSeg As String = strACode.Substring(strACode.Length - 3, 3)
                     If Not clsCommon.CompairString(strCurrLocSeg, strFirstLocSeg) = CompairStringResult.Equal Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Location segment should be same for all the GL Accounts")
+                        common.clsCommon.MyMessageBoxShow(Me, "Location segment should be same for all the GL Accounts", Me.Text)
                         Return False
                     End If
                 End If
@@ -2986,7 +2986,7 @@ Public Class FrmRecurringPayableInvoice
 
                 End If
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one GL Acount")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one GL Acount", Me.Text)
                     Return
                 End If
 
@@ -3021,12 +3021,12 @@ Public Class FrmRecurringPayableInvoice
 
                     UcAttachment1.SaveData(obj.Document_No)
                     txtDocNo.Value = obj.Document_No
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3534,7 +3534,7 @@ Public Class FrmRecurringPayableInvoice
                 UcAttachment1.LoadData(obj.Document_No)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3567,7 +3567,7 @@ Public Class FrmRecurringPayableInvoice
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3586,7 +3586,7 @@ Public Class FrmRecurringPayableInvoice
             objRemittance = frm.ObjReturn
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3639,7 +3639,7 @@ Public Class FrmRecurringPayableInvoice
                 LoadData(txtDocNo.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3664,12 +3664,12 @@ Public Class FrmRecurringPayableInvoice
                 End If
                 If (clsRecurringPayableInvoice.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3756,7 +3756,7 @@ Public Class FrmRecurringPayableInvoice
 
     Sub PrintData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to print")
+            common.clsCommon.MyMessageBoxShow(Me, "Document No not found to print", Me.Text)
         End If
         Dim Arr As New ArrayList
         Arr.Add(txtDocNo.Value)
@@ -3969,7 +3969,7 @@ Public Class FrmRecurringPayableInvoice
                 ''End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4039,7 +4039,7 @@ Public Class FrmRecurringPayableInvoice
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4051,7 +4051,7 @@ Public Class FrmRecurringPayableInvoice
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4121,7 +4121,7 @@ Public Class FrmRecurringPayableInvoice
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4395,7 +4395,7 @@ Public Class FrmRecurringPayableInvoice
                 LblLocDesp.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4497,7 +4497,7 @@ Public Class FrmRecurringPayableInvoice
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4691,13 +4691,13 @@ Public Class FrmRecurringPayableInvoice
         repoAcCode.ReadOnly = False
 
         If clsCommon.myLen(txtlocation.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please first select location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select location", Me.Text)
             txtlocation.Focus()
             Return
         End If
 
         If clsCommon.myLen(TxtVendorNo.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please first select vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select vendor", Me.Text)
             TxtVendorNo.Focus()
             Return
         End If

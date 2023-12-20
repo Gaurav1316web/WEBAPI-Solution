@@ -6049,6 +6049,9 @@ Public Class MDI
                     Case clsUserMgtCode.mbtnSRN
                         frm = New frmSRN(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.PurchaseGateOut
+                        frm = New PurchaseGateOut()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.SRNReturn
                         frm = New frmSRNReturn()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

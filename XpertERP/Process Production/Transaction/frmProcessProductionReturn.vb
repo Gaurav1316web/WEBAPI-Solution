@@ -36,7 +36,7 @@ Public Class frmProcessProductionReturn
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public STIRDocOpenTrans As String = Nothing
@@ -46,7 +46,7 @@ Public Class frmProcessProductionReturn
                 LoadData(STIRDocOpenTrans, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -89,7 +89,7 @@ Public Class frmProcessProductionReturn
 
             OpenFormByEnumreation()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -205,7 +205,7 @@ Public Class frmProcessProductionReturn
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -247,14 +247,14 @@ Public Class frmProcessProductionReturn
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.PROD_RETURN_CODE)
                     If isPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     LoadData(obj.PROD_RETURN_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -311,7 +311,7 @@ Public Class frmProcessProductionReturn
                 UcAttachment1.LoadData(obj.PROD_RETURN_CODE)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -334,12 +334,12 @@ Public Class frmProcessProductionReturn
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 If clsProcessProductionReturn.PostData(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Data Posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -354,7 +354,7 @@ Public Class frmProcessProductionReturn
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -485,7 +485,7 @@ Public Class frmProcessProductionReturn
                 End If
             End If            
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : TEC/29/10/18-000347 By Prabhakar
@@ -496,7 +496,7 @@ Public Class frmProcessProductionReturn
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Return No")
+                clsCommon.MyMessageBoxShow(Me, "Select Return No", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "PROD_RETURN_CODE", "TSPL_PP_PRODUCTION_RETURN")

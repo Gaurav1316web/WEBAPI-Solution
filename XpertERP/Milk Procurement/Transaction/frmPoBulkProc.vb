@@ -96,7 +96,7 @@ Public Class frmPoBulkProc
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -299,12 +299,12 @@ Public Class frmPoBulkProc
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsPOBulkProc.ReverseAndUnpost(fndGateEntryNO.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndGateEntryNO.Value, "BulkProc", NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvItemBulk_CellEndEdit(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvItemBulk.CellEndEdit
@@ -338,11 +338,11 @@ Public Class frmPoBulkProc
     Private Sub btnDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Dim arr As List(Of String) = New List(Of String)
         If clsCommon.myLen(fndGateEntryNO.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Enter  PO No To delete ")
+            clsCommon.MyMessageBoxShow(Me, "Please Enter  PO No To delete ", Me.Text)
         Else
             Dim isUsed As Integer = clsDBFuncationality.getSingleValue("select COUNT(*) as row_Count from  tspl_gate_entry_details where Po_No='" & fndGateEntryNO.Value & "'")
             If isUsed > 0 Then
-                clsCommon.MyMessageBoxShow("PO  No is in use")
+                clsCommon.MyMessageBoxShow(Me, "PO  No is in use", Me.Text)
                 Exit Sub
             End If
             If myMessages.deleteConfirm() Then
@@ -447,7 +447,7 @@ Public Class frmPoBulkProc
             Return True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -484,7 +484,7 @@ Public Class frmPoBulkProc
 
 
                 If clsCommon.myLen(obj.PO_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error in PO   No genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error in PO   No genertion")
                     Exit Sub
                 End If
             Else
@@ -545,7 +545,7 @@ Public Class frmPoBulkProc
 
             End If
             trans.Rollback()
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
@@ -553,7 +553,7 @@ Public Class frmPoBulkProc
             fndGateEntryNO.MyReadOnly = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -601,7 +601,7 @@ Public Class frmPoBulkProc
             End If
             dt = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
   
@@ -717,7 +717,7 @@ Public Class frmPoBulkProc
             obj.GridColumns = gvItemBulk.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -770,7 +770,7 @@ Public Class frmPoBulkProc
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             dtpDateAndTimeBulk.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy hh:mm:ss tt")
         End Try
     End Sub
@@ -785,7 +785,7 @@ Public Class frmPoBulkProc
         Try
          
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

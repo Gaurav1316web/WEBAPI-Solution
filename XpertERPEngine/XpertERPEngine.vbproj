@@ -462,6 +462,7 @@
     <Compile Include="Production\clsProductionRequistionHead.vb" />
     <Compile Include="Production\ClsSiloMilkTransfer.vb" />
     <Compile Include="Production\clsStanderdProductionEntry.vb" />
+    <Compile Include="Purchase\clsGateOutt.vb" />
     <Compile Include="Purchase\clsNIRQC.vb" />
     <Compile Include="Purchase\clsRMDemandApproval.vb" />
     <Compile Include="Purchase\clsSetPOSchedule.vb" />

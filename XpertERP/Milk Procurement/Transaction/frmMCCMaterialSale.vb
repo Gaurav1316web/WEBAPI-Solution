@@ -3902,7 +3902,7 @@ Public Class frmMCCMaterialSale
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -3938,7 +3938,7 @@ Public Class frmMCCMaterialSale
                     If (obj.SaveData(obj, isNewEntry)) Then
                         UcAttachment1.SaveData(obj.Document_Code)
                         If ChekPostBtn = False And IsDataImported = False Then
-                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         End If
                         LoadData(obj.Document_Code, NavigatorType.Current)
                     End If
@@ -4745,7 +4745,7 @@ Public Class frmMCCMaterialSale
         Dim strGITLoc As String
         If chkAutoTransfer.Checked = True Then
             If clsCommon.myLen(txtFromLoc.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select From Location", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select From Location", Me.Text)
                 txtFromLoc.Focus()
                 Return False
             End If
@@ -5015,7 +5015,7 @@ Public Class frmMCCMaterialSale
                             'End If
                         Next
                         If (objIn.Arr Is Nothing OrElse objIn.Arr.Count <= 0) Then
-                            common.clsCommon.MyMessageBoxShow("Please Fill at list one Item", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                             trans.Rollback()
 
                         End If

@@ -132,7 +132,7 @@ Public Class frmMilkSRNMCC
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 'frmCrystalReportViewer.funreport(CrystalReportFolder.MilkProcurement, dt, "MilkSRNReportThroughReport", "Milk SRN Report")
                 Dim frmCRV As New frmCrystalReportViewer()
@@ -599,12 +599,12 @@ Public Class frmMilkSRNMCC
                     End If
                 End If
                 If (clsMilkReceiptMCC.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1250,7 +1250,7 @@ Public Class frmMilkSRNMCC
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gvImport)
         End Try
@@ -1322,7 +1322,7 @@ Public Class frmMilkSRNMCC
             End If
             UcAttachment1.LoadData(obj.DOC_CODE)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadBlankGrid()
@@ -1598,7 +1598,7 @@ Public Class frmMilkSRNMCC
             End If
             Squery = String.Empty
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1614,7 +1614,7 @@ Public Class frmMilkSRNMCC
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
         End If
         ''stuti regarding memory leakage
         obj.GridLayout.Close()
@@ -1683,7 +1683,7 @@ Public Class frmMilkSRNMCC
                     clsCommon.ProgressBarUpdate("Total Receords Imported : " & counter_Index & " / " & gv.Rows.Count)
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
             End Try
@@ -1982,11 +1982,11 @@ Public Class frmMilkSRNMCC
         Try
             clsMilkShiftEndMCC.RecreateConsumptionEntry(txtShiftEnd.arrValueMember, trans)
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Task completed successfully")
+            clsCommon.MyMessageBoxShow(Me, "Task completed successfully", Me.Text)
             txtShiftEnd.arrValueMember = Nothing
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2012,14 +2012,14 @@ Public Class frmMilkSRNMCC
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub BtnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Document Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtCode.Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
