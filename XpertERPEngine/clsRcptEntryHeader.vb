@@ -194,7 +194,9 @@ Public Class clsRcptEntryHeader
             End If
             Dim qry As String = ""
 
-
+            If clsCommon.myLen(clsDBFuncationality.getSingleValue("Select Online_Transaction_ID from TSPL_RECEIPT_HEADER  Where Receipt_No='" + obj.Receipt_No + "'", trans)) > 0 Then
+                Throw New Exception("Online receipt cannot be modify")
+            End If
 
             '-----------------------------------------------------------------------------------------------
             If clsCommon.myLen(obj.Receipt_No) > 0 Then
@@ -1354,8 +1356,6 @@ Public Class clsRcptEntryHeader
         Return True
     End Function
     Public Shared Function fundelete(ByVal strReceiptNo As String, ByVal trans As SqlTransaction) As Boolean
-
-        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsRcptEntryHeader
             If clsCommon.myLen(strReceiptNo) > 0 Then
@@ -1367,6 +1367,11 @@ Public Class clsRcptEntryHeader
                 Else
                     Throw New Exception("Document not found to delete.")
                 End If
+
+                If clsCommon.myLen(clsDBFuncationality.getSingleValue("Select Online_Transaction_ID from TSPL_RECEIPT_HEADER  Where Receipt_No='" + strReceiptNo + "'", trans)) > 0 Then
+                    Throw New Exception("Online receipt cannot be delete")
+                End If
+
                 '--------------------Checks Whether the Transaction is Locked or not----------------------------
                 Dim LocSegmentCode As String = clsDBFuncationality.getSingleValue("Select RIGHT(BANKACC, 3) from TSPL_BANK_MASTER  Where BANK_CODE='" + obj.Bank_Code + "'", trans)
                 clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Receipt Entry", LocSegmentCode, obj.Receipt_Date, trans)
@@ -1391,7 +1396,7 @@ Public Class clsRcptEntryHeader
                 Throw New Exception("Document not found to delete.")
             End If
             Dim Qry As String = String.Empty
-           
+
 
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where (Source_Code like 'AR%' or Source_Code='GL-JE') AND  Source_Doc_No='" + strReceiptNo + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
@@ -1426,14 +1431,10 @@ Public Class clsRcptEntryHeader
             End If
             ''richa to set outanstanding balance of bank reco
             clsBankReco.SetOutstandingEntry(strReceiptNo, obj.Receipt_Date, "Receipt", trans, False)
-            'trans.Commit()
-            Return True
-
         Catch ex As Exception
-            'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
-            Return False
+            Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
 
     Public Shared Function funRcptPost(ByVal strDocNo As String) As Boolean
