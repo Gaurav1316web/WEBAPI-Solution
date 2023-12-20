@@ -6520,6 +6520,8 @@ Public Class clsCreateAllTable
             coll.Add("Loading_Slip", "varchar(20) NULL")
             coll.Add("GatePass_Date", "datetime NULL")
             coll.Add("Status", "char(1)  NUll")
+            coll.Add("Driver_Name", "varchar(100) NULL")
+            coll.Add("Driver_ContactNo", "varchar(15) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
             coll = New Dictionary(Of String, String)()
@@ -10813,6 +10815,7 @@ Public Class clsCreateAllTable
             coll.Add("AP_Invoice_Date", "varchar(30) ")
             coll.Add("Vendor_CODE", "varchar(30) ")
             coll.Add("Vendor_NAME", "varchar(200) ")
+            coll.Add("TDS_Amount", "decimal(18,2) NULL")
             coll.Add("Amount", "float not null default 0 ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_CREDIT_NOTE", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
@@ -13802,6 +13805,7 @@ Public Class clsCreateAllTable
             coll.Add("Email", "varchar(60) NULL")
             coll.Add("BANK_GROUP_CODE", "varchar(12) NULL References TSPL_BANK_GROUP_MASTER(BANK_GROUP_CODE)")
             coll.Add("Unpaid", "BIT NOT NULL DEFAULT 0")
+            coll.Add("Online_Bank", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -18063,6 +18067,7 @@ Public Class clsCreateAllTable
             coll.Add("Rec_Zone_Code", "varchar(30) NULL REFERENCES TSPL_ZONE_MASTER(Zone_Code)")
             coll.Add("isCardSale", "integer not null default 0")
             coll.Add("Against_RCDF_Loadin", "Varchar(30) null references TSPL_RCDF_LOAD_IN(Document_Code)")
+            coll.Add("Online_Transaction_ID", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -24237,6 +24242,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Include_Shortage_Own_BMC", "integer NULL")
             coll.Add("Subtract", "integer NULL")
             coll.Add("Check_Saving_AC", "integer NULL")
+            coll.Add("Conversion", "decimal(18,3) not NULL default 1")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)

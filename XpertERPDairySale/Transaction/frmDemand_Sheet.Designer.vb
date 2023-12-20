@@ -32,8 +32,8 @@ Partial Class frmDemand_Sheet
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
-        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -182,6 +182,7 @@ Partial Class frmDemand_Sheet
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
+        Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(800, 362)
         Me.gv1.TabIndex = 2
@@ -206,17 +207,17 @@ Partial Class frmDemand_Sheet
         Me.btnExport.TabIndex = 87
         Me.btnExport.Text = "Import/Export"
         '
-        'rmiExcel
-        '
-        Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Export"
-        Me.rmiExcel.UseCompatibleTextRendering = False
-        '
         'rmiImport
         '
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         Me.rmiImport.UseCompatibleTextRendering = False
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Export"
+        Me.rmiExcel.UseCompatibleTextRendering = False
         '
         'btnSave
         '

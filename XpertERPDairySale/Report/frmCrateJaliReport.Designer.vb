@@ -26,6 +26,8 @@ Partial Class FrmCrateJaliReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.ddlReportType = New common.Controls.MyComboBox()
+        Me.lbltype = New common.Controls.MyLabel()
         Me.pnlActiveInActiveCustomer = New System.Windows.Forms.Panel()
         Me.chkActive = New System.Windows.Forms.RadioButton()
         Me.chkAll = New System.Windows.Forms.RadioButton()
@@ -52,6 +54,7 @@ Partial Class FrmCrateJaliReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPDFWithFormat = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmExcel = New Telerik.WinControls.UI.RadMenuItem()
@@ -61,15 +64,17 @@ Partial Class FrmCrateJaliReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.ddlReportType = New common.Controls.MyComboBox()
-        Me.lbltype = New common.Controls.MyLabel()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.lblLocationName = New common.Controls.MyLabel()
+        Me.RadLabel15 = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbltype, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlActiveInActiveCustomer.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -90,14 +95,14 @@ Partial Class FrmCrateJaliReport
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPDFWithFormat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbltype, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -139,6 +144,9 @@ Partial Class FrmCrateJaliReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblLocationName)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel15)
+        Me.RadPageViewPage1.Controls.Add(Me.fndLocation)
         Me.RadPageViewPage1.Controls.Add(Me.ddlReportType)
         Me.RadPageViewPage1.Controls.Add(Me.lbltype)
         Me.RadPageViewPage1.Controls.Add(Me.pnlActiveInActiveCustomer)
@@ -157,6 +165,43 @@ Partial Class FrmCrateJaliReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(798, 357)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'ddlReportType
+        '
+        Me.ddlReportType.AutoCompleteDisplayMember = Nothing
+        Me.ddlReportType.AutoCompleteValueMember = Nothing
+        Me.ddlReportType.CalculationExpression = Nothing
+        Me.ddlReportType.DropDownAnimationEnabled = True
+        Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlReportType.FieldCode = Nothing
+        Me.ddlReportType.FieldDesc = Nothing
+        Me.ddlReportType.FieldMaxLength = 0
+        Me.ddlReportType.FieldName = Nothing
+        Me.ddlReportType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ddlReportType.isCalculatedField = False
+        Me.ddlReportType.IsSourceFromTable = False
+        Me.ddlReportType.IsSourceFromValueList = False
+        Me.ddlReportType.IsUnique = False
+        Me.ddlReportType.Location = New System.Drawing.Point(95, 4)
+        Me.ddlReportType.MendatroryField = False
+        Me.ddlReportType.MyLinkLable1 = Nothing
+        Me.ddlReportType.MyLinkLable2 = Nothing
+        Me.ddlReportType.Name = "ddlReportType"
+        Me.ddlReportType.ReferenceFieldDesc = Nothing
+        Me.ddlReportType.ReferenceFieldName = Nothing
+        Me.ddlReportType.ReferenceTableName = Nothing
+        Me.ddlReportType.Size = New System.Drawing.Size(180, 18)
+        Me.ddlReportType.TabIndex = 418
+        '
+        'lbltype
+        '
+        Me.lbltype.FieldName = Nothing
+        Me.lbltype.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbltype.Location = New System.Drawing.Point(16, 3)
+        Me.lbltype.Name = "lbltype"
+        Me.lbltype.Size = New System.Drawing.Size(69, 16)
+        Me.lbltype.TabIndex = 417
+        Me.lbltype.Text = "Report Type"
         '
         'pnlActiveInActiveCustomer
         '
@@ -440,6 +485,16 @@ Partial Class FrmCrateJaliReport
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(372, 9)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 152
+        Me.btnPrint.Text = "Print"
+        '
         'btnPDFWithFormat
         '
         Me.btnPDFWithFormat.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -516,52 +571,53 @@ Partial Class FrmCrateJaliReport
         Me.btnReset.TabIndex = 147
         Me.btnReset.Text = "Reset"
         '
-        'ddlReportType
+        'lblLocationName
         '
-        Me.ddlReportType.AutoCompleteDisplayMember = Nothing
-        Me.ddlReportType.AutoCompleteValueMember = Nothing
-        Me.ddlReportType.CalculationExpression = Nothing
-        Me.ddlReportType.DropDownAnimationEnabled = True
-        Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlReportType.FieldCode = Nothing
-        Me.ddlReportType.FieldDesc = Nothing
-        Me.ddlReportType.FieldMaxLength = 0
-        Me.ddlReportType.FieldName = Nothing
-        Me.ddlReportType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ddlReportType.isCalculatedField = False
-        Me.ddlReportType.IsSourceFromTable = False
-        Me.ddlReportType.IsSourceFromValueList = False
-        Me.ddlReportType.IsUnique = False
-        Me.ddlReportType.Location = New System.Drawing.Point(95, 4)
-        Me.ddlReportType.MendatroryField = False
-        Me.ddlReportType.MyLinkLable1 = Nothing
-        Me.ddlReportType.MyLinkLable2 = Nothing
-        Me.ddlReportType.Name = "ddlReportType"
-        Me.ddlReportType.ReferenceFieldDesc = Nothing
-        Me.ddlReportType.ReferenceFieldName = Nothing
-        Me.ddlReportType.ReferenceTableName = Nothing
-        Me.ddlReportType.Size = New System.Drawing.Size(180, 18)
-        Me.ddlReportType.TabIndex = 418
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocationName.Location = New System.Drawing.Point(256, 142)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(195, 18)
+        Me.lblLocationName.TabIndex = 421
+        Me.lblLocationName.TextWrap = False
         '
-        'lbltype
+        'RadLabel15
         '
-        Me.lbltype.FieldName = Nothing
-        Me.lbltype.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbltype.Location = New System.Drawing.Point(16, 3)
-        Me.lbltype.Name = "lbltype"
-        Me.lbltype.Size = New System.Drawing.Size(69, 16)
-        Me.lbltype.TabIndex = 417
-        Me.lbltype.Text = "Report Type"
+        Me.RadLabel15.FieldName = Nothing
+        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel15.Location = New System.Drawing.Point(16, 142)
+        Me.RadLabel15.Name = "RadLabel15"
+        Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
+        Me.RadLabel15.TabIndex = 420
+        Me.RadLabel15.Text = "Location"
         '
-        'btnPrint
+        'fndLocation
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(372, 9)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
-        Me.btnPrint.TabIndex = 152
-        Me.btnPrint.Text = "Print"
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(107, 142)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.RadLabel15
+        Me.fndLocation.MyLinkLable2 = Me.lblLocationName
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(143, 18)
+        Me.fndLocation.TabIndex = 419
+        Me.fndLocation.Value = ""
         '
         'FrmCrateJaliReport
         '
@@ -583,6 +639,8 @@ Partial Class FrmCrateJaliReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbltype, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlActiveInActiveCustomer.ResumeLayout(False)
         Me.pnlActiveInActiveCustomer.PerformLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -606,14 +664,14 @@ Partial Class FrmCrateJaliReport
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPDFWithFormat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbltype, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -659,5 +717,8 @@ Partial Class FrmCrateJaliReport
     Friend WithEvents ddlReportType As common.Controls.MyComboBox
     Friend WithEvents lbltype As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents lblLocationName As common.Controls.MyLabel
+    Friend WithEvents RadLabel15 As common.Controls.MyLabel
+    Friend WithEvents fndLocation As common.UserControls.txtFinder
 End Class
 

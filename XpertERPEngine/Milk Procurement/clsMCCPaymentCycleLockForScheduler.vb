@@ -3785,8 +3785,8 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + clsCommon.myCstr(dr("PK_Id")) +
             If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
 #Region "Create DCS Addition/Deduction"
                 qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt)
-select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ) as Amt from ( 
-select  TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty,(case when len(isnull(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))<=2 then TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR else TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR end) as ACC_WEIGHT_LTR,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Qty_UOM,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value 
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt from ( 
+select  TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty,(case when len(isnull(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))<=2 then TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR else TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR end) as ACC_WEIGHT_LTR,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Qty_UOM,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
 from TSPL_MILK_SRN_DETAIL 
 inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
 left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE
@@ -3813,8 +3813,8 @@ and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+isnull(TSPL_MILK_REJECT_DET
 
 
                 qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt)
-select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,PK_Id,((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ) as Amt from (
-select  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value 
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code,null as SRN_CODE,PK_Id,((((case when Applicable_On=0 then Qty else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt from (
+select  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,0 as AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value ,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MCC=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code and isnull(TSPL_VLC_MASTER_HEAD.isOwnBMC,0)=1

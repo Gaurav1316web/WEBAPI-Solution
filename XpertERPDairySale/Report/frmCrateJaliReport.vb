@@ -117,6 +117,7 @@ Public Class FrmCrateJaliReport
         ButtonToolTip.SetToolTip(btnGo, "Press Alt+N Refresh ")
         ButtonToolTip.SetToolTip(btnReset, "Press Alt+R ")
         Reset()
+        ReportType()
         btnPrint.Visible = False
     End Sub
 
@@ -135,8 +136,8 @@ Public Class FrmCrateJaliReport
                 DepositCrateDetailReport()
                 Exit Sub
             End If
-            If clsCommon.CompairString(ddlReportType.SelectedValue, "IOR") = CompairStringResult.Equal Then
-                'InOutReport()
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "SCR") = CompairStringResult.Equal Then
+                SupplyCrateReport()
                 Exit Sub
             End If
             If clsCommon.CompairString(ddlReportType.SelectedValue, "PWR") = CompairStringResult.Equal Then
@@ -1620,7 +1621,8 @@ Public Class FrmCrateJaliReport
             pnlActiveInActiveCustomer.Enabled = True
             'txtRoute.Enabled = False
         End If
-        ReportType()
+        ddlReportType.SelectedIndex = 0
+        'ReportType()
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
@@ -1867,7 +1869,7 @@ Public Class FrmCrateJaliReport
 
         dt.Rows.Add("Select", "SL")
         dt.Rows.Add("Deposit Crate Detail", "DCD")
-        dt.Rows.Add("In/Out Report", "IOR")
+        dt.Rows.Add("Supply Crate Report", "SCR")
         dt.Rows.Add("Party-Wise Report", "PWR")
 
         ddlReportType.DataSource = dt
@@ -1875,6 +1877,127 @@ Public Class FrmCrateJaliReport
         ddlReportType.ValueMember = "Value"
         IsReportTypeChanged = True
     End Sub
+
+    Private Sub SupplyCrateReport()
+        Try
+            If fromDate.Value > ToDate.Value Then
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                fromDate.Focus()
+                Exit Sub
+            End If
+
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+            Dim whrcls As String = Nothing
+            Dim Query As String = String.Empty
+            Dim WhrRoute As String = String.Empty
+            Dim WhrLocn As String = String.Empty
+            Dim WhrVhcle As String = String.Empty
+            Dim WhrCust As String = String.Empty
+            Dim strWhrClause2 As String = String.Empty
+            Dim itemCode As String = String.Empty
+            Dim MainQueryForScheme As String = String.Empty
+            Dim strWhrRoutSummaryPrint As String = String.Empty
+
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                WhrRoute += " and TSPL_ROUTE_MASTER.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+            End If
+            If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
+                WhrVhcle += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
+            End If
+            If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
+                WhrLocn += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code In  ('" + clsCommon.myCstr(fndLocation.Value) + "') "
+            End If
+
+            Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate, 
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,CAST(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE) AS GPDate,
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,
+                      RIGHT(TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number, 4) AS Vehicle_Number1,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_route_master.Route_Desc, 
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate from TSPL_DAIRYSALE_GATEPASS_MASTER
+                      left join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no  where
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate >= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  
+                      and  TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate <= '" + clsCommon.GetPrintDate(ToDate.Value) + "'" + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
+
+
+            Dim dt As New DataTable
+            dt = clsDBFuncationality.GetDataTable(Query)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.DataSource = dt
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.BestFitColumns()
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                Exit Sub
+            End If
+            RadPageView1.SelectedPage = RadPageViewPage2
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            FormatGridSupplyCrate()
+            'FormatGridRouteWise()
+            RadPageView1.SelectedPage = RadPageViewPage2
+            'ReStoreGridLayout()
+            'View()
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub FormatGridSupplyCrate()
+        Gv1.TableElement.TableHeaderHeight = 25
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).Width = 100
+            Gv1.Columns(ii).IsVisible = False
+        Next
+
+        Gv1.Columns("Location_Code").IsVisible = True
+        Gv1.Columns("Location_Code").Width = 100
+        Gv1.Columns("Location_Code").HeaderText = "Location"
+
+        Gv1.Columns("GPCode").IsVisible = True
+        Gv1.Columns("GPCode").Width = 100
+        Gv1.Columns("GPCode").HeaderText = "GatePassCode"
+
+        Gv1.Columns("GPDate").IsVisible = False
+        Gv1.Columns("GPDate").Width = 100
+        Gv1.Columns("GPDate").HeaderText = "GatePassDate"
+
+        Gv1.Columns("Vehicle_Id").IsVisible = True
+        Gv1.Columns("Vehicle_Id").Width = 100
+        Gv1.Columns("Vehicle_Id").HeaderText = "Vehicle Id"
+
+        Gv1.Columns("Vehicle_Number").IsVisible = True
+        Gv1.Columns("Vehicle_Number").Width = 100
+        Gv1.Columns("Vehicle_Number").HeaderText = "Vehicle Number"
+
+        Gv1.Columns("Route_No").IsVisible = True
+        Gv1.Columns("Route_No").Width = 100
+        Gv1.Columns("Route_No").HeaderText = "Route No"
+
+        Gv1.Columns("Route_Desc").IsVisible = True
+        Gv1.Columns("Route_Desc").Width = 100
+        Gv1.Columns("Route_Desc").HeaderText = "Route Desc"
+
+        Gv1.Columns("ShiftType").IsVisible = True
+        Gv1.Columns("ShiftType").Width = 100
+        Gv1.Columns("ShiftType").HeaderText = "Shift Type"
+
+        Gv1.Columns("TotalCrate").IsVisible = True
+        Gv1.Columns("TotalCrate").Width = 100
+        Gv1.Columns("TotalCrate").HeaderText = "Total Crate"
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        Dim item1 As New GridViewSummaryItem("TotalCrate", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+
+    End Sub
+
 
     Private Sub DepositCrateDetailReport()
         Try
@@ -1969,12 +2092,14 @@ Public Class FrmCrateJaliReport
         Gv1.Columns("Comments").Width = 100
         Gv1.Columns("Comments").HeaderText = "Remarks"
 
+
+
     End Sub
 
     Private Sub ddlReportType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles ddlReportType.SelectedIndexChanged
         ' If clsCommon.CompairString(ddlReportType.SelectedValue,ddlReportType.SelectedItem.Text "DCD") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedValue, "IOR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedValue, "PWR") = CompairStringResult.Equal Then
         'If clsCommon.CompairString(ddlReportType.SelectedText, "DCD") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedText, "IOR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedText, "PWR") = CompairStringResult.Equal Then
-        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Deposit Crate Detail") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedItem.Text, "In/Out Report") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Party-Wise Report") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Deposit Crate Detail") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Supply Crate Report") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Party-Wise Report") = CompairStringResult.Equal Then
             btnPrint.Visible = True
         Else
             btnPrint.Visible = False
@@ -2030,6 +2155,68 @@ Public Class FrmCrateJaliReport
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
+        End If
+
+        If clsCommon.CompairString(ddlReportType.SelectedValue, "SCR") = CompairStringResult.Equal Then
+            Try
+                If fromDate.Value > ToDate.Value Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    fromDate.Focus()
+                    Exit Sub
+                End If
+
+                Dim whrcls As String = Nothing
+                Dim Query As String = String.Empty
+                Dim WhrRoute As String = String.Empty
+                Dim WhrLocn As String = String.Empty
+                Dim WhrVhcle As String = String.Empty
+                Dim WhrCust As String = String.Empty
+                Dim strWhrClause2 As String = String.Empty
+                Dim itemCode As String = String.Empty
+                Dim MainQueryForScheme As String = String.Empty
+                Dim strWhrRoutSummaryPrint As String = String.Empty
+
+                If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                    WhrRoute += " and TSPL_ROUTE_MASTER.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+                End If
+                If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
+                    WhrVhcle += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
+                End If
+                If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
+                    WhrLocn += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code In  ('" + clsCommon.myCstr(fndLocation.Value) + "') "
+                End If
+
+                Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate, 
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,CAST(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE) AS GPDate,
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,
+                      RIGHT(TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number, 4) AS Vehicle_Number1,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,tspl_route_master.Route_Desc from TSPL_DAIRYSALE_GATEPASS_MASTER
+                      left join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no  where
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate >= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  
+                      and  TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate <= '" + clsCommon.GetPrintDate(ToDate.Value) + "'" + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
+                If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptSupplyCrate", "")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                End If
+
+            Catch ex As Exception
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        End If
+
+    End Sub
+
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        fndLocation.Value = clsLocation.getFinder(" Location_Type='Physical'", fndLocation.Value, isButtonClicked)
+        If clsCommon.myLen(fndLocation.Value) > 0 Then
+            lblLocationName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndLocation.Value & "'"))
+        Else
+            lblLocationName.Text = ""
         End If
     End Sub
 End Class

@@ -157,6 +157,7 @@ Public Class frmDCSAdditionDeduction
                 ElseIf rbtnDCSTypeBMCTruckSheet.IsChecked Then
                     obj.Applicable_DCS_Type = 5
                 End If
+                obj.Conversion = txtConvertsion.Value
                 obj.Saving = 0
                 If rbtnNatureTypeAddition.IsChecked Then
                     obj.Nature_Type = 0
@@ -257,6 +258,7 @@ Public Class frmDCSAdditionDeduction
                 ElseIf obj.Applicable_DCS_Type = 5 Then
                     rbtnDCSTypeBMCTruckSheet.IsChecked = True
                 End If
+                txtConvertsion.Value = obj.Conversion
                 If obj.Nature_Type = 0 Then
                     rbtnNatureTypeAddition.IsChecked = True
                 ElseIf obj.Nature_Type = 1 Then
@@ -474,7 +476,7 @@ Public Class frmDCSAdditionDeduction
         chkSavingAC.Checked = False
         rbtnACExists.Visible = False
         rbtnACNotExists.Visible = False
-
+        txtConvertsion.Value = 1
     End Sub
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso rdbtnreset.Enabled Then
@@ -635,4 +637,6 @@ Public Class frmDCSAdditionDeduction
         End If
 
     End Sub
+
+
 End Class
