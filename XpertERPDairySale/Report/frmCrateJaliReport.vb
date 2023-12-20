@@ -141,7 +141,7 @@ Public Class FrmCrateJaliReport
                 Exit Sub
             End If
             If clsCommon.CompairString(ddlReportType.SelectedValue, "PWR") = CompairStringResult.Equal Then
-                'PartyWiseReport()
+                PartyWiseReport()
                 Exit Sub
             End If
             loaddata()
@@ -1608,6 +1608,10 @@ Public Class FrmCrateJaliReport
         txtVehicle.Enabled = True
         RadPageView1.SelectedPage = RadPageViewPage1
         Gv1.DataSource = Nothing
+        txtCustomer.arrValueMember = Nothing
+        txtRoute.arrValueMember = Nothing
+        txtVehicle.arrValueMember = Nothing
+        fndLocation.Value = Nothing
         If CrateReceivingWithMultipleRoute = True Then
             chkCustomerWise.Enabled = False
             chkcustomerWithDateWise.Enabled = False
@@ -1878,6 +1882,184 @@ Public Class FrmCrateJaliReport
         IsReportTypeChanged = True
     End Sub
 
+    Private Sub PartyWiseReport()
+        Try
+            If fromDate.Value > ToDate.Value Then
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                fromDate.Focus()
+                Exit Sub
+            End If
+
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+            Dim whrcls As String = Nothing
+            Dim Query As String = String.Empty
+            Dim WhrRoute As String = String.Empty
+            Dim WhrLocn As String = String.Empty
+            Dim WhrVhcle As String = String.Empty
+            Dim WhrCust As String = String.Empty
+            Dim strWhrClause2 As String = String.Empty
+            Dim itemCode As String = String.Empty
+            Dim MainQueryForScheme As String = String.Empty
+            Dim strWhrRoutSummaryPrint As String = String.Empty
+
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                WhrRoute += " and Route_No In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+            End If
+            If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
+                WhrVhcle += " and Vehicle_Id In (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
+            End If
+            If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
+                WhrLocn += " and Location_Code = (" + clsCommon.myCstr(fndLocation.Value) + ") "
+            End If
+            If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                WhrCust += " and Customer_Code In (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
+            End If
+
+            Query = " WITH my_cte AS (
+                      select ROW_NUMBER() over (Partition by 1 order by Sale_Invoice_Date) as SNO , * from (
+                      select max(Customer_Name)Customer_Name,max(Comp_Name)Comp_Name,max(Location_Desc)Location_Desc,max(Location_Code)Location_Code, max(Vehicle_Id)Vehicle_Id,
+                      max(Vehicle_Number)Vehicle_Number,max(Route_No)Route_No,max(Route_Desc)Route_Desc,
+                      max(Customer_Code)Customer_Code,Sale_Invoice_Date ,
+                      sum(Qty * case when RI=-1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end ) as  Morning_Supply,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end ) as  Morning_Return,
+                      sum(Qty * case when RI=-1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end ) as  Evening_Supply,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end ) as  Evening_Return
+                      from (
+                      select TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code as Route_No,  TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,TSPL_route_master.Route_Desc,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,  CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) AS Sale_Invoice_Date,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd as Qty ,1 as RI,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,
+                      TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name 
+                      From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
+                      left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
+                      left outer join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code 
+					  left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code
+					  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code 
+                      left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
+                      union all
+                      select TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
+                      CASE WHEN TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = 'Morning' THEN 'M' ELSE 'E' END AS ShiftType,tspl_route_master.Route_Desc,
+                      (select cust_code from TSPL_CUSTOMER_MASTER where Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No and IsDistributor='Y') as Customer_Code,
+                      (select Customer_Name from TSPL_CUSTOMER_MASTER where Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No and IsDistributor='Y') as Customer_Name,
+                      CAST(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE) AS Sale_Invoice_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate  as Qty,-1 as RI,
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name
+                      from TSPL_DAIRYSALE_GATEPASS_MASTER
+                      left OUTER join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no 
+					  LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code
+					  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code 
+                      )xx where 2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + " 
+                      group by Sale_Invoice_Date
+                      )xxx )
+                      select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' as ToDate,
+                      Comp_Name,Location_Code,Location_Desc,Vehicle_Id,Vehicle_Number,Route_No,Route_Desc,Customer_Code,Customer_Name,Sale_Invoice_Date,OP,Morning_Supply,Morning_Return,Evening_Supply,Evening_Return,
+                      (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL from  (
+                      select  (select isnull(sum((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return)),0)  from my_cte as InnCTE 
+                      where InnCTE.Sale_Invoice_Date<my_cte.Sale_Invoice_Date) as OP,* from my_cte 
+                      where Sale_Invoice_Date>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  and Sale_Invoice_Date<='" + clsCommon.GetPrintDate(ToDate.Value) + "') xx
+                      order by xx.Sale_Invoice_Date asc"
+
+            Dim dt As New DataTable
+            dt = clsDBFuncationality.GetDataTable(Query)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.DataSource = dt
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.BestFitColumns()
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                Exit Sub
+            End If
+
+            RadPageView1.SelectedPage = RadPageViewPage2
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            FormatGridPartyWise()
+            'FormatGridRouteWise()
+            RadPageView1.SelectedPage = RadPageViewPage2
+            'ReStoreGridLayout()
+            'View()
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub FormatGridPartyWise()
+
+        Gv1.TableElement.TableHeaderHeight = 25
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).Width = 100
+            Gv1.Columns(ii).IsVisible = False
+        Next
+
+        Gv1.Columns("Location_Code").IsVisible = True
+        Gv1.Columns("Location_Code").Width = 100
+        Gv1.Columns("Location_Code").HeaderText = "Location"
+
+        Gv1.Columns("Vehicle_Id").IsVisible = True
+        Gv1.Columns("Vehicle_Id").Width = 100
+        Gv1.Columns("Vehicle_Id").HeaderText = "Vehicle Code"
+
+        Gv1.Columns("Vehicle_Number").IsVisible = True
+        Gv1.Columns("Vehicle_Number").Width = 100
+        Gv1.Columns("Vehicle_Number").HeaderText = "Vehicle Number"
+
+        Gv1.Columns("Route_No").IsVisible = True
+        Gv1.Columns("Route_No").Width = 100
+        Gv1.Columns("Route_No").HeaderText = "Route Number"
+
+        Gv1.Columns("Route_Desc").IsVisible = True
+        Gv1.Columns("Route_Desc").Width = 100
+        Gv1.Columns("Route_Desc").HeaderText = "Route Description"
+
+        Gv1.Columns("Customer_Code").IsVisible = True
+        Gv1.Columns("Customer_Code").Width = 100
+        Gv1.Columns("Customer_Code").HeaderText = "Customer Code"
+
+        Gv1.Columns("Customer_Name").IsVisible = True
+        Gv1.Columns("Customer_Name").Width = 100
+        Gv1.Columns("Customer_Name").HeaderText = "Customer Name"
+
+        Gv1.Columns("Sale_Invoice_Date").IsVisible = True
+        Gv1.Columns("Sale_Invoice_Date").Width = 100
+        Gv1.Columns("Sale_Invoice_Date").HeaderText = "Date"
+        Gv1.Columns("Sale_Invoice_Date").FormatString = "{0:d}"
+
+        Gv1.Columns("OP").IsVisible = True
+        Gv1.Columns("OP").Width = 100
+        Gv1.Columns("OP").HeaderText = "Opening Balance"
+
+        Gv1.Columns("Morning_Supply").IsVisible = True
+        Gv1.Columns("Morning_Supply").Width = 100
+        Gv1.Columns("Morning_Supply").HeaderText = "Morning Supply"
+
+        Gv1.Columns("Morning_Return").IsVisible = True
+        Gv1.Columns("Morning_Return").Width = 100
+        Gv1.Columns("Morning_Return").HeaderText = "Morning Return"
+
+        Gv1.Columns("Evening_Supply").IsVisible = True
+        Gv1.Columns("Evening_Supply").Width = 100
+        Gv1.Columns("Evening_Supply").HeaderText = "Evening Supply"
+
+        Gv1.Columns("Evening_Return").IsVisible = True
+        Gv1.Columns("Evening_Return").Width = 100
+        Gv1.Columns("Evening_Return").HeaderText = "Evening Return"
+
+        Gv1.Columns("CL").IsVisible = True
+        Gv1.Columns("CL").Width = 100
+        Gv1.Columns("CL").HeaderText = "Closing Balance"
+
+        'Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        'Dim item1 As New GridViewSummaryItem("TotalCrate", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item1)
+
+    End Sub
+
     Private Sub SupplyCrateReport()
         Try
             If fromDate.Value > ToDate.Value Then
@@ -2101,8 +2283,20 @@ Public Class FrmCrateJaliReport
         'If clsCommon.CompairString(ddlReportType.SelectedText, "DCD") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedText, "IOR") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedText, "PWR") = CompairStringResult.Equal Then
         If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Deposit Crate Detail") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Supply Crate Report") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Party-Wise Report") = CompairStringResult.Equal Then
             btnPrint.Visible = True
+            chkCustomerWise.Visible = False
+            chkcustomerWithDateWise.Visible = False
+            pnlActiveInActiveCustomer.Visible = False
+            RadGroupBox1.Visible = False
+            txtCustomer.arrValueMember = Nothing
+            txtRoute.arrValueMember = Nothing
+            txtVehicle.arrValueMember = Nothing
+            fndLocation.Value = Nothing
         Else
             btnPrint.Visible = False
+            chkCustomerWise.Visible = True
+            chkcustomerWithDateWise.Visible = True
+            pnlActiveInActiveCustomer.Visible = True
+            RadGroupBox1.Visible = True
         End If
     End Sub
 
@@ -2208,6 +2402,95 @@ Public Class FrmCrateJaliReport
                 common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
+
+        If clsCommon.CompairString(ddlReportType.SelectedValue, "PWR") = CompairStringResult.Equal Then
+            Try
+                If fromDate.Value > ToDate.Value Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    fromDate.Focus()
+                    Exit Sub
+                End If
+
+                Dim whrcls As String = Nothing
+                Dim Query As String = String.Empty
+                Dim WhrRoute As String = String.Empty
+                Dim WhrLocn As String = String.Empty
+                Dim WhrVhcle As String = String.Empty
+                Dim WhrCust As String = String.Empty
+                Dim strWhrClause2 As String = String.Empty
+                Dim itemCode As String = String.Empty
+                Dim MainQueryForScheme As String = String.Empty
+                Dim strWhrRoutSummaryPrint As String = String.Empty
+
+                If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                    WhrRoute += " and Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+                End If
+                If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
+                    WhrVhcle += " and Vehicle_Id in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
+                End If
+                If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
+                    WhrLocn += " and Location_Code In  (" + clsCommon.myCstr(fndLocation.Value) + ") "
+                End If
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                    WhrCust += " and Customer_Code In (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
+                End If
+
+                Query = " WITH my_cte AS (
+                      select ROW_NUMBER() over (Partition by 1 order by Sale_Invoice_Date) as SNO , * from (
+                      select max(Customer_Name)Customer_Name,max(Comp_Name)Comp_Name,max(Location_Desc)Location_Desc,max(Location_Code)Location_Code, max(Vehicle_Id)Vehicle_Id,
+                      max(Vehicle_Number)Vehicle_Number,max(Route_No)Route_No,max(Route_Desc)Route_Desc,
+                      max(Customer_Code)Customer_Code,Sale_Invoice_Date ,
+                      sum(Qty * case when RI=-1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end ) as  Morning_Supply,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end ) as  Morning_Return,
+                      sum(Qty * case when RI=-1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end ) as  Evening_Supply,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end ) as  Evening_Return
+                      from (
+                      select TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code as Route_No,  TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,TSPL_route_master.Route_Desc,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,  CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) AS Sale_Invoice_Date,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd as Qty ,1 as RI,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,
+                      TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name 
+                      From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
+                      left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
+                      left outer join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code 
+					  left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code
+					  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code 
+                      left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
+                      union all
+                      select TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
+                      CASE WHEN TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = 'Morning' THEN 'M' ELSE 'E' END AS ShiftType,tspl_route_master.Route_Desc,
+                      (select cust_code from TSPL_CUSTOMER_MASTER where Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No and IsDistributor='Y') as Customer_Code,
+                      (select Customer_Name from TSPL_CUSTOMER_MASTER where Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No and IsDistributor='Y') as Customer_Name,
+                      CAST(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE) AS Sale_Invoice_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate  as Qty,-1 as RI,
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name
+                      from TSPL_DAIRYSALE_GATEPASS_MASTER
+                      left OUTER join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no 
+					  LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code
+					  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code 
+                      )xx where 2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + " 
+                      group by Sale_Invoice_Date
+                      )xxx )
+                      select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' as ToDate,
+                      Customer_Name,Comp_Name,Location_Code,Location_Desc,Vehicle_Id,Vehicle_Number,Route_No,Route_Desc,Customer_Code,Sale_Invoice_Date,OP,Morning_Supply,Morning_Return,Evening_Supply,Evening_Return,
+                      (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL from  (
+                      select  (select isnull(sum((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return)),0)  from my_cte as InnCTE 
+                      where InnCTE.Sale_Invoice_Date<my_cte.Sale_Invoice_Date) as OP,* from my_cte 
+                      where Sale_Invoice_Date>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  and Sale_Invoice_Date<='" + clsCommon.GetPrintDate(ToDate.Value) + "') xx
+                      order by xx.Sale_Invoice_Date asc"
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
+                If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptPartyWise", "")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                End If
+
+            Catch ex As Exception
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        End If
+
 
     End Sub
 
