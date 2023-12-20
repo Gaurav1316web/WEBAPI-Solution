@@ -3584,19 +3584,19 @@ Public Class frmMccMaterialSaleReturn
                     End If
                     Dim isGateEntryNoUsed As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select count(*) from TSPL_SD_SALE_RETURN_HEAD where Gate_Entry_No = '" + fndGateEntryNo.Value + "' "))
                     If isGateEntryNoUsed > 0 AndAlso clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        common.clsCommon.MyMessageBoxShow("[Gate Entry No] already used another Document.", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] already used another Document.", Me.Text)
                         fndGateEntryNo.Focus()
                         Return False
                     End If
                 End If
                 If isGateEntryLocAndSaleRetrunLocSame(txtBillToLocation.Value, fndGateEntryNo.Value) = False Then
-                    common.clsCommon.MyMessageBoxShow("[Gate Entry No] location and Sale Return Location Should be Same.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] location and Sale Return Location Should be Same.", Me.Text)
                     fndGateEntryNo.Focus()
                     Return False
                 End If
 
                 If isCancelGateEntry(fndGateEntryNo.Value) = True Then
-                    common.clsCommon.MyMessageBoxShow("[Gate Entry No] canceled.Select another gate entry no.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] canceled.Select another gate entry no.", Me.Text)
                     fndGateEntryNo.Focus()
                     Return False
                 End If
@@ -4893,12 +4893,12 @@ Public Class frmMccMaterialSaleReturn
                 End If
                 If (clsMccMaterialSaleReturn.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -5090,7 +5090,7 @@ Public Class frmMccMaterialSaleReturn
             'Next
             SetTaxDetails()
         Else
-            common.clsCommon.MyMessageBoxShow("Please select Location First", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location First", Me.Text)
         End If
 
 
@@ -5210,7 +5210,7 @@ Public Class frmMccMaterialSaleReturn
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
         btnHistory.Enabled = True
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             Exit Sub
         End If
         ''-------richa 12/08/2014 Ticket No. BM00000003242---------
@@ -5310,7 +5310,7 @@ Public Class frmMccMaterialSaleReturn
             txtVehcileCode.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehcileCode.Value, "vehicle_id", isButtonClicked)
             txtVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehcileCode.Value) + "'")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function MCCLOCATIONFINDER()
@@ -5326,7 +5326,7 @@ Public Class frmMccMaterialSaleReturn
                 'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return arrloc
     End Function
@@ -5771,7 +5771,7 @@ Public Class frmMccMaterialSaleReturn
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         If clsMccMaterialSaleReturnDetail.CompleteSRN(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
@@ -6493,7 +6493,7 @@ Public Class frmMccMaterialSaleReturn
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -6806,12 +6806,12 @@ Public Class frmMccMaterialSaleReturn
                     objEmailH.SaveData(MyBase.Form_ID, objEmailH, Nothing)
                     objEmailH = Nothing
 
-                    clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                 End If
                 SMSSENDONLY(False)
 
             Else
-                clsCommon.MyMessageBoxShow("First do email and sms setting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
             End If
             'sanjay
 
@@ -6958,7 +6958,7 @@ Public Class frmMccMaterialSaleReturn
                     objSMSH.SaveData(clsUserMgtCode.frmMCCMaterialSaleReturn, objSMSH, Nothing)
                     objSMSH = Nothing
                     If Not isPost Then
-                        clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
                     End If
                 End If
             End If
@@ -6981,7 +6981,7 @@ Public Class frmMccMaterialSaleReturn
 
     Private Sub btnpreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreview.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select First Sale Return No.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select First Sale Return No.", Me.Text)
             txtDocNo.Focus()
             txtDocNo.Select()
             Return
@@ -7000,7 +7000,7 @@ Public Class frmMccMaterialSaleReturn
     Private Sub btnsend_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -7023,7 +7023,7 @@ Public Class frmMccMaterialSaleReturn
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return

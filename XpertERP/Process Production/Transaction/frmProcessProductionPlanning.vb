@@ -44,7 +44,7 @@ Public Class FrmProcessProductionPlanning
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -170,7 +170,7 @@ Public Class FrmProcessProductionPlanning
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -460,7 +460,7 @@ Public Class FrmProcessProductionPlanning
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -514,7 +514,7 @@ Public Class FrmProcessProductionPlanning
 
                 If clsProcessProductionPlanning.SaveData(obj, isNewEntry) Then
                     If Not isPost Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     txtCode.Value = obj.plancode
 
@@ -526,7 +526,7 @@ Public Class FrmProcessProductionPlanning
             isSavedSuccess = True
         Catch ex As Exception
             isSavedSuccess = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             objtr = Nothing
@@ -547,7 +547,7 @@ Public Class FrmProcessProductionPlanning
 
             If myMessages.deleteConfirm() Then
                 If clsProcessProductionPlanning.DeleteData(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Data deleted successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully", Me.Text)
                     FunReset()
                 End If
             End If
@@ -608,14 +608,14 @@ Public Class FrmProcessProductionPlanning
                 SaveData(True)
 
                 If clsProcessProductionPlanning.PostData(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Data posted successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
 
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -625,7 +625,7 @@ Public Class FrmProcessProductionPlanning
 
     Sub OpenIcode(ByVal isButtonClicked As Boolean)
         If clsCommon.myLen(fndItemCategory.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select production category first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select production category first.", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             fndItemCategory.Select()
             fndItemCategory.Focus()
@@ -636,7 +636,7 @@ Public Class FrmProcessProductionPlanning
         End If
 
         If clsCommon.myLen(fndSection.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select section first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select section first.", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             fndSection.Select()
             fndSection.Focus()
@@ -647,7 +647,7 @@ Public Class FrmProcessProductionPlanning
         End If
 
         If clsCommon.myLen(txtlocationcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select location first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select location first.", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             txtlocationcode.Select()
             txtlocationcode.Focus()
@@ -727,7 +727,7 @@ Public Class FrmProcessProductionPlanning
         Dim UOM As String = ""
         icode = clsCommon.myCstr(gv.CurrentRow.Cells(colIcode).Value)
         If clsCommon.myLen(icode) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select item first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select item first", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             gv.CurrentRow = gv.Rows(gv.CurrentRow.Index)
             gv.CurrentColumn = gv.Columns(colIcode)
@@ -775,7 +775,7 @@ Public Class FrmProcessProductionPlanning
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -792,7 +792,7 @@ Public Class FrmProcessProductionPlanning
 
     Private Sub txtlocationcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtlocationcode._MYValidating
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("No record found.")
+            clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
             txtlocationcode.Value = ""
             txtlocationname.Text = ""
             Exit Sub
@@ -818,7 +818,7 @@ Public Class FrmProcessProductionPlanning
         Dim obj As New clsProcessProductionPlanning()
         Try
             If clsCommon.myLen(arrLoc) <= 0 Then
-                clsCommon.MyMessageBoxShow("User have no location rights.")
+                clsCommon.MyMessageBoxShow(Me, "User have no location rights.", Me.Text)
                 Exit Sub
             End If
 
@@ -908,7 +908,7 @@ Public Class FrmProcessProductionPlanning
             FillSection()
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -931,7 +931,7 @@ Public Class FrmProcessProductionPlanning
 
         If txtCode.MyReadOnly Or isButtonClicked Then
             If clsCommon.myLen(arrLoc) <= 0 Then
-                clsCommon.MyMessageBoxShow("User have no location rights.")
+                clsCommon.MyMessageBoxShow(Me, "User have no location rights.", Me.Text)
                 Exit Sub
             End If
 
@@ -1022,7 +1022,7 @@ Public Class FrmProcessProductionPlanning
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Amended and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Amended and Recreated", Me.Text)
                         btnunpost.Visible = False
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
@@ -1054,7 +1054,7 @@ Public Class FrmProcessProductionPlanning
             TxtSection.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_SECTION_MASTER where Section_Code='" + fndSection.Value + "'"))
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1099,7 +1099,7 @@ Public Class FrmProcessProductionPlanning
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1144,10 +1144,10 @@ Public Class FrmProcessProductionPlanning
                 Exit Function
             End If
             clsProcessProductionPlanning.CancelData(Me.Form_ID, txtCode.Value)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             FunReset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     ''richa agarwal againt ticket no BHA/02/07/18-000120
@@ -1156,7 +1156,7 @@ Public Class FrmProcessProductionPlanning
             Dim qry As String = "Select LINE_NO AS Code,MACHINE_NAME,MACHINE_RATED,CAPACITY ,TIME_FRAME  from TSPL_LINE_MASTER"
             FndLineNo.Value = clsCommon.ShowSelectForm("PPLineFND", qry, "Code", " ", FndLineNo.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1179,14 +1179,14 @@ Public Class FrmProcessProductionPlanning
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Planning Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Planning Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "Plan_Code", "TSPL_PP_PRODUCTION_PLAN_HEAD", "TSPL_PP_PRODUCTION_PLAN_DETAIL")

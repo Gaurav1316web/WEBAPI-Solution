@@ -151,7 +151,7 @@ Public Class frmProcessProductionStageProcess
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -996,7 +996,7 @@ Public Class frmProcessProductionStageProcess
                 total = total + 1
             Next
             If total <= 0 Then
-                clsCommon.MyMessageBoxShow("Batch grid is empty.")
+                clsCommon.MyMessageBoxShow(Me, "Batch grid is empty.", Me.Text)
                 Return False
             End If
 
@@ -1011,7 +1011,7 @@ Public Class frmProcessProductionStageProcess
                 End If
             Next
             If total <= 0 Then
-                clsCommon.MyMessageBoxShow("Issue grid is empty.")
+                clsCommon.MyMessageBoxShow(Me, "Issue grid is empty.", Me.Text)
                 Return False
             End If
 
@@ -1126,7 +1126,7 @@ Public Class frmProcessProductionStageProcess
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -1299,9 +1299,9 @@ Public Class frmProcessProductionStageProcess
             If clsProcessProductionStageProcess.SaveData(isNewEntry, obj) Then
                 If isPost = False Then
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
 
@@ -1313,7 +1313,7 @@ Public Class frmProcessProductionStageProcess
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -1343,7 +1343,7 @@ Public Class frmProcessProductionStageProcess
             Dim isDeleted As Boolean = False
             If clsProcessProductionStageProcess.DeleteData(txtCode.Value, trans) Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 isDeleted = True
             End If
             If isDeleted Then
@@ -1409,11 +1409,11 @@ Public Class frmProcessProductionStageProcess
 
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsProcessProductionStageProcess.PostData(Me.Form_ID, txtCode.Value, arrLoc) Then
-                clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1704,7 +1704,7 @@ Public Class frmProcessProductionStageProcess
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         isInsideLoadData = False
     End Sub
@@ -1716,7 +1716,7 @@ Public Class frmProcessProductionStageProcess
 
                 Dim currRec As Decimal = gv.CurrentRow.Cells(colQuantity).Value
                 If currRec > GetIssueQty() Then
-                    clsCommon.MyMessageBoxShow("Quantity must be less than or equal to Issued Quantity.")
+                    clsCommon.MyMessageBoxShow(Me, "Quantity must be less than or equal to Issued Quantity.", Me.Text)
                     gv.CurrentRow.Cells(colQuantity).Value = 0
                 End If
                 'gv.CurrentRow.Cells(colFINAL_PROD_Qty).Value = gv.CurrentRow.Cells(colQuantity).Value - gv.CurrentRow.Cells(colDAMAGE_Qty).Value
@@ -1754,7 +1754,7 @@ Public Class frmProcessProductionStageProcess
             FillStageDetail()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1773,7 +1773,7 @@ Public Class frmProcessProductionStageProcess
             FillStageDetail()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1932,7 +1932,7 @@ Public Class frmProcessProductionStageProcess
                     If e.RowIndex > 0 Then
                         Dim PrevStatus As String = gvStage.Rows(e.RowIndex - 1).Cells(colStatus).Value
                         If clsCommon.CompairString(PrevStatus, "1") <> CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("First complete previous stage status.")
+                            clsCommon.MyMessageBoxShow(Me, "First complete previous stage status.", Me.Text)
                             gvStage.CurrentRow.Cells(colStatus).Value = ""
                         Else
                             For Each grow As GridViewRowInfo In gvStage.Rows
@@ -2253,7 +2253,7 @@ Public Class frmProcessProductionStageProcess
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                     '-----------------------------
@@ -2464,7 +2464,7 @@ Public Class frmProcessProductionStageProcess
     Private Sub gvARDetail_CellValueChanged1(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvARDetail.CellValueChanged
         If Not isInsideLoadData Then
             If clsCommon.myLen(fndMainBatchNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Batch Order Detail", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Batch Order Detail", Me.Text)
                 fndMainBatchNo.Select()
                 fndMainBatchNo.Focus()
                 Return
@@ -2584,7 +2584,7 @@ Public Class frmProcessProductionStageProcess
                 Exit Function
             End If
             clsProcessProductionStageProcess.CancelData(Me.Form_ID, txtCode.Value)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             FunReset()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

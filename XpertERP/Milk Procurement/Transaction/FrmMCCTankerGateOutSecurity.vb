@@ -134,9 +134,9 @@ Public Class FrmMCCTankerGateOutSecurity
                 clsMCCTankerGateOutSecurity.saveData(obj, IsNewEntry)
                 If Not isPost Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 loadData(obj.Doc_No, NavigatorType.Current)
@@ -174,12 +174,12 @@ Public Class FrmMCCTankerGateOutSecurity
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 If deleteConfirm() Then
                     If clsMCCTankerGateOutSecurity.deleteData(fndDocNo.Value) Then
-                        clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                         AddNew()
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select Document No To delete", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Document No To delete", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -190,7 +190,7 @@ Public Class FrmMCCTankerGateOutSecurity
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 If postConfirm() Then
                     clsMCCTankerGateOutSecurity.PostData(fndDocNo.Value)
-                    clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     loadData(fndDocNo.Value, NavigatorType.Current)
                 End If
 

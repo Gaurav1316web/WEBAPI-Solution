@@ -151,7 +151,7 @@ Public Class frmMCCTankerWeighment
                 Else
                     Throw New Exception("Error is saving data")
                 End If
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Document_No, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -265,7 +265,7 @@ Public Class frmMCCTankerWeighment
         Try
             If (deleteConfirm()) Then
                 If (clsMCCWeighment.DeleteData(txtDocumentNo.Value, arrLoc)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data deleted successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -341,7 +341,7 @@ Public Class frmMCCTankerWeighment
             If ucStatusTare.Status = ERPTransactionStatus.Pending OrElse ucStatusGros.Status = ERPTransactionStatus.Pending Then
                 If (myMessages.postConfirm()) Then
                     clsMCCWeighment.PostData(txtDocumentNo.Value, arrLoc)
-                    clsCommon.MyMessageBoxShow("Successfully posted", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully posted", Me.Text)
                     LoadData(txtDocumentNo.Value, NavigatorType.Current)
                 End If
             End If

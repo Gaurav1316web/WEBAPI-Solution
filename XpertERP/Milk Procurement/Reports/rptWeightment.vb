@@ -45,7 +45,7 @@ Public Class RptWeightment
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -55,7 +55,7 @@ Public Class RptWeightment
 
     Private Sub btnDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -303,11 +303,11 @@ Public Class RptWeightment
             Exit Sub
         End If
         If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor or select all.", Me.Text)
             Exit Sub
         End If
         If chkTankerSelect.IsChecked AndAlso cbgTanker.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Tanker or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Tanker or select all.", Me.Text)
             Exit Sub
         End If
 

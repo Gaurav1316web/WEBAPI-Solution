@@ -583,7 +583,7 @@ Public Class frmAssembDis
                 If (clsAssembliesDis.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
                     If isPost = False Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         LoadData(obj.CODE, NavigatorType.Current)
 
                     End If
@@ -595,7 +595,7 @@ Public Class frmAssembDis
             Return True
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -826,7 +826,7 @@ Public Class frmAssembDis
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Private Sub DeleteData()
@@ -858,12 +858,12 @@ Public Class frmAssembDis
                 '' custom fields
                 clsCustomFieldValues.DeleteData(Me.Form_ID, txtCode.Value, trans)
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
 
             Else
                 clsCommon.MyMessageBoxShow(ex.Message)
@@ -1267,7 +1267,7 @@ Public Class frmAssembDis
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1294,7 +1294,7 @@ Public Class frmAssembDis
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1307,7 +1307,7 @@ Public Class frmAssembDis
     Sub OpenLocationSubCalaculation(ByVal isButtonClick As Boolean)
         Dim qry As String
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select location", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select location", Me.Text)
         End If
         qry = "select * from (select Location,ICode,convert(decimal(18,2),SUM(qty*RI)) as StockQty from ( select xx.ICode,xx.Location, xx.Qty as OldQty,xx.fat_kg as old_fatkg,xx.snf_kg as old_snfkg,xx.RI ,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,(case when isnull(FinalUOM.Conversion_Factor,0)>0 then ((xx.Qty* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/FinalUOM.Conversion_Factor) else 0 end) as Qty,(case when isnull(FinalUOM.Conversion_Factor,0)>0 then ((xx.fat_kg* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/FinalUOM.Conversion_Factor) else 0 end) as fat_kg,(case when isnull(FinalUOM.Conversion_Factor,0)>0 then ((xx.snf_kg* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/FinalUOM.Conversion_Factor) else 0 end) as snf_kg from ( select Item_Code as ICode,Location_Code as Location ,SUM(QtyNew*RI) as Qty,1 as RI,UOMNew as UOM,sum(fat_kg*RI) as fat_kg,sum(snf_kg*RI) as snf_kg  from( select Trans_Id,Item_Code ,Location_Code,case when InOut='I' then 1 else -1 end as RI,Qty as QtyNew,UOMNew,fat_kg,snf_kg from " & _
  " ( select TSPL_INVENTORY_MOVEMENT.Trans_Id, TSPL_INVENTORY_MOVEMENT.Item_Code ,TSPL_INVENTORY_MOVEMENT.Location_Code , TSPL_INVENTORY_MOVEMENT.InOut,(TSPL_INVENTORY_MOVEMENT.Stock_Qty  ) as qty  ,TSPL_INVENTORY_MOVEMENT.Stock_Uom as UOMNew ,0 as fat_kg,0 as snf_kg from TSPL_INVENTORY_MOVEMENT " & _
@@ -1337,7 +1337,7 @@ Public Class frmAssembDis
     Sub OpenLocationCurrent(ByVal isButtonClick As Boolean)
         Dim qry As String
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select location", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select location", Me.Text)
         End If
         qry = "select * from (select Location,ICode,convert(decimal(18,2),SUM(qty*RI)) as StockQty from ( select xx.ICode,xx.Location, xx.Qty as OldQty,xx.fat_kg as old_fatkg,xx.snf_kg as old_snfkg,xx.RI ,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,(case when isnull(FinalUOM.Conversion_Factor,0)>0 then ((xx.Qty* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/FinalUOM.Conversion_Factor) else 0 end) as Qty,(case when isnull(FinalUOM.Conversion_Factor,0)>0 then ((xx.fat_kg* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/FinalUOM.Conversion_Factor) else 0 end) as fat_kg,(case when isnull(FinalUOM.Conversion_Factor,0)>0 then ((xx.snf_kg* TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/FinalUOM.Conversion_Factor) else 0 end) as snf_kg from ( select Item_Code as ICode,Location_Code as Location ,SUM(QtyNew*RI) as Qty,1 as RI,UOMNew as UOM,sum(fat_kg*RI) as fat_kg,sum(snf_kg*RI) as snf_kg  from( select Trans_Id,Item_Code ,Location_Code,case when InOut='I' then 1 else -1 end as RI,Qty as QtyNew,UOMNew,fat_kg,snf_kg from " & _
  " ( select TSPL_INVENTORY_MOVEMENT.Trans_Id, TSPL_INVENTORY_MOVEMENT.Item_Code ,TSPL_INVENTORY_MOVEMENT.Location_Code , TSPL_INVENTORY_MOVEMENT.InOut,(TSPL_INVENTORY_MOVEMENT.Stock_Qty  ) as qty  ,TSPL_INVENTORY_MOVEMENT.Stock_Uom as UOMNew ,0 as fat_kg,0 as snf_kg from TSPL_INVENTORY_MOVEMENT " & _
@@ -1398,7 +1398,7 @@ Public Class frmAssembDis
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1513,7 +1513,7 @@ Public Class frmAssembDis
                 Me.gvBOM.Rows.Clear()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1655,7 +1655,7 @@ Public Class frmAssembDis
                     'UpdateInventoryMovement(trans)
 
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
 
@@ -2320,7 +2320,7 @@ Public Class frmAssembDis
             frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptAssembliesDeassembliesReport", "Assembly Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub CalculateFatandSNF()
@@ -2340,7 +2340,7 @@ Public Class frmAssembDis
                 Exit Function
             End If
             clsAssembliesDis.CancelData(txtCode.Value)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -2392,7 +2392,7 @@ Public Class frmAssembDis
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         btnunpost.Visible = False
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
@@ -2411,7 +2411,7 @@ Public Class frmAssembDis
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "CODE", "TSPL_PROD_ASSEMBLIES")
@@ -2436,7 +2436,7 @@ Public Class frmAssembDis
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

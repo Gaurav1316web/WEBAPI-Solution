@@ -519,7 +519,7 @@ Public Class rptWholeMilkAccount
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(GetReportID(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
     Private Sub ReStoreGridLayout()
         Try

@@ -220,7 +220,7 @@ Public Class frmMccGatePass
                 txtmultiBooking.arrValueMember = list
                 ' **************************************************************************************************
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
@@ -407,11 +407,11 @@ Public Class frmMccGatePass
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Document", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Document", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(obj, isNewEntry, "MCC")) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.GPCode, NavigatorType.Current)
                 End If
             End If
@@ -499,11 +499,11 @@ Public Class frmMccGatePass
             isInsideLoadData = False
 
             If clsCommon.myLen(txtLocCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Location", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Location", Me.Text)
                 Exit Sub
             End If
             If clsCommon.CompairString(cmbtype.SelectedIndex, -1) = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Select Type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Type", Me.Text)
                 Exit Sub
             End If
 
@@ -612,7 +612,7 @@ Public Class frmMccGatePass
 
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Post Record", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Post Record", Me.Text)
             Exit Sub
         End If
         If myMessages.postConfirm() Then
