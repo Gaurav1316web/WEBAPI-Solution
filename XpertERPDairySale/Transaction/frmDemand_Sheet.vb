@@ -33,8 +33,6 @@ Public Class frmDemand_Sheet
     End Sub
     Private Sub frmDemandSheet_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetShiftTimeOut = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, Nothing))
-        txtDate.Enabled = False
-        txtShift.Enabled = False
         AddNew()
         SetUserMgmtNew()
         LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode, True)
@@ -157,15 +155,10 @@ Public Class frmDemand_Sheet
                     isCellValueChangedOpen = True
                     If e.Column.Name = colCustCode Then
                         gv1.CurrentRow.Cells(colCustCode).Value = clsDistributorRouteTagging.getFinder(" IsDistributor='N' and form_type not in('TPT','VSP') ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False)
-                        Dim isExistingCust As Boolean = FindCustInGrid(gv1.CurrentRow.Cells(colCustCode).Value)
-                        If Not isExistingCust Then
-                            gv1.CurrentRow.Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
-                            gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
-                            gv1.CurrentRow.Cells(colSetZero).Value = 1
-
-                            FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
-                        End If
-
+                        gv1.CurrentRow.Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
+                        gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
+                        gv1.CurrentRow.Cells(colSetZero).Value = 1
+                        FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
                         'UpdateCurrentRow(gv1.CurrentRow.Index)
                     End If
                     If e.Column.Name = colSetZero Then
@@ -635,32 +628,5 @@ Public Class frmDemand_Sheet
     End Sub
     Private Sub gv1_CellBeginEdit(sender As Object, e As GridViewCellCancelEventArgs) Handles gv1.CellBeginEdit
         isInsideLoadData = False
-    End Sub
-    Public Function FindCustInGrid(ByVal CustCode As String) As Boolean
-        If gv1.Rows.Count > 0 Then
-            For dblrows As Integer = 0 To gv1.Rows.Count - 1
-                If clsCommon.myLen(CustCode) > 0 Then
-                    If clsCommon.CompairString(gv1.Rows(dblrows).Cells(colCustCode).Value, CustCode) = CompairStringResult.Equal Then
-                        gv1.CurrentColumn = gv1.Columns(colCustCode)
-                        Return True
-                    End If
-                End If
-            Next
-
-        End If
-        Return False
-    End Function
-
-    Private Sub gv1_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        Try
-            If (myMessages.deleteConfirm()) Then
-                Dim strQry As String = " delete TSPL_DEMAND_SHEET where DEMAND_Date='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Cust_Code='" + gv1.CurrentRow.Cells(colCustCode).Value + "' and Created_By='" + objCommonVar.CurrentUserCode + "' "
-                clsDBFuncationality.ExecuteNonQuery(strQry)
-            Else
-                e.Cancel = True
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
     End Sub
 End Class
