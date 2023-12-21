@@ -681,9 +681,9 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox12.Controls.Add(Me.RadSplitButton1)
         Me.RadGroupBox12.Controls.Add(Me.RadGroupBox13)
         Me.RadGroupBox12.HeaderText = "Daily Gain Loss Report"
-        Me.RadGroupBox12.Location = New System.Drawing.Point(8, 293)
+        Me.RadGroupBox12.Location = New System.Drawing.Point(8, 307)
         Me.RadGroupBox12.Name = "RadGroupBox12"
-        Me.RadGroupBox12.Size = New System.Drawing.Size(269, 104)
+        Me.RadGroupBox12.Size = New System.Drawing.Size(269, 106)
         Me.RadGroupBox12.TabIndex = 8
         Me.RadGroupBox12.Text = "Daily Gain Loss Report"
         '
@@ -691,7 +691,7 @@ Partial Class rptPaymentProcessRouteReport
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.rmiPDFGrid})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(5, 67)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(5, 69)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(71, 22)
         Me.RadSplitButton1.TabIndex = 154
@@ -779,6 +779,7 @@ Partial Class rptPaymentProcessRouteReport
         'RadGroupBox10
         '
         Me.RadGroupBox10.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox10.Controls.Add(Me.RadGroupBox18)
         Me.RadGroupBox10.Controls.Add(Me.txtRouteName)
         Me.RadGroupBox10.Controls.Add(Me.txtMultiMCC)
         Me.RadGroupBox10.Controls.Add(Me.MyLabel19)
@@ -786,9 +787,9 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox10.Controls.Add(Me.btn_DCS_Ledger_Report)
         Me.RadGroupBox10.Controls.Add(Me.RadGroupBox11)
         Me.RadGroupBox10.HeaderText = "DCS Ledger Report"
-        Me.RadGroupBox10.Location = New System.Drawing.Point(8, 137)
+        Me.RadGroupBox10.Location = New System.Drawing.Point(8, 117)
         Me.RadGroupBox10.Name = "RadGroupBox10"
-        Me.RadGroupBox10.Size = New System.Drawing.Size(260, 150)
+        Me.RadGroupBox10.Size = New System.Drawing.Size(269, 150)
         Me.RadGroupBox10.TabIndex = 7
         Me.RadGroupBox10.Text = "DCS Ledger Report"
         '
@@ -845,7 +846,7 @@ Partial Class rptPaymentProcessRouteReport
         'btn_DCS_Ledger_Report
         '
         Me.btn_DCS_Ledger_Report.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_DCS_Ledger_Report.Location = New System.Drawing.Point(5, 122)
+        Me.btn_DCS_Ledger_Report.Location = New System.Drawing.Point(5, 154)
         Me.btn_DCS_Ledger_Report.Name = "btn_DCS_Ledger_Report"
         Me.btn_DCS_Ledger_Report.Size = New System.Drawing.Size(71, 22)
         Me.btn_DCS_Ledger_Report.TabIndex = 153
@@ -1694,36 +1695,6 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'cmbFromShift
-        '
-        Me.cmbFromShift.AutoCompleteDisplayMember = Nothing
-        Me.cmbFromShift.AutoCompleteValueMember = Nothing
-        Me.cmbFromShift.DropDownAnimationEnabled = True
-        Me.cmbFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cmbFromShift.Items.Add(RadListDataItem1)
-        Me.cmbFromShift.Items.Add(RadListDataItem2)
-        Me.cmbFromShift.Location = New System.Drawing.Point(120, 15)
-        Me.cmbFromShift.Name = "cmbFromShift"
-        Me.cmbFromShift.Size = New System.Drawing.Size(36, 20)
-        Me.cmbFromShift.TabIndex = 328
-        '
-        'cmbToShift
-        '
-        Me.cmbToShift.AutoCompleteDisplayMember = Nothing
-        Me.cmbToShift.AutoCompleteValueMember = Nothing
-        Me.cmbToShift.DropDownAnimationEnabled = True
-        Me.cmbToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cmbToShift.Items.Add(RadListDataItem3)
-        Me.cmbToShift.Items.Add(RadListDataItem4)
-        Me.cmbToShift.Location = New System.Drawing.Point(262, 15)
-        Me.cmbToShift.Name = "cmbToShift"
-        Me.cmbToShift.Size = New System.Drawing.Size(37, 20)
-        Me.cmbToShift.TabIndex = 329
-        '
         'rptPaymentProcessRouteReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1998,7 +1969,5 @@ Partial Class rptPaymentProcessRouteReport
     Friend WithEvents rbtnPDCS As RadioButton
     Friend WithEvents rbtnRegistered As RadioButton
     Friend WithEvents rbtnPRBoth As RadioButton
-    Friend WithEvents cmbFromShift As RadDropDownList
-    Friend WithEvents cmbToShift As RadDropDownList
 End Class
 

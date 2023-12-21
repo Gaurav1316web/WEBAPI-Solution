@@ -48,6 +48,7 @@ Public Class clsHeadLoadMaster
                     obj.Arr.Add(objTr)
                 Next
             End If
+            Dim AutoSave As Boolean = True
 
             Dim AutoSave As Boolean = True
             If (obj.SaveData(obj, True, Nothing, AutoSave)) Then

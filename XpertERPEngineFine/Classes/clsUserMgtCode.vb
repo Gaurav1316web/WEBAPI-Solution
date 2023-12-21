@@ -1163,6 +1163,7 @@ Public Class clsUserMgtCode
     Public Const mbtnMRN As String = "PO-MRN"
     Public Const NIRQC As String = "PO-NIR-QC"
     Public Const mbtnSRN As String = "PO-SRN"
+    Public Const PurchaseGateOut As String = "GTE-OUT"
     Public Const SRNReturn As String = "PO-SRN-RET"
     Public Const mbtnPurchaseInvoice As String = "PO-INV"
     Public Const mbtnPurchaseReturn As String = "PO-RET"

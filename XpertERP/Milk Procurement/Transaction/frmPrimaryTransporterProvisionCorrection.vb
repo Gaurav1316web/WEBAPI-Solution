@@ -50,7 +50,7 @@ Public Class frmPrimaryTransporterProvisionCorrection
     Private Sub BulkDelete_Click(sender As Object, e As EventArgs) Handles BulkDelete.Click
         If TxtMultiSelectFinder8.arrValueMember Is Nothing OrElse TxtMultiSelectFinder8.arrValueMember.Count < 0 Then
             TxtMultiSelectFinder8.Focus()
-            clsCommon.MyMessageBoxShow("Please First select MCC")
+            clsCommon.MyMessageBoxShow(Me, "Please First select MCC", Me.Text)
         End If
         Dim qry As String = "select TSPL_PROVISION_ENTRY.Doc_No,TSPL_PROVISION_ENTRY.Doc_Date,TSPL_PROVISION_ENTRY.Loc_Code as MCCCode,TSPL_LOCATION_MASTER.Location_Desc as MCC,TSPL_PROVISION_ENTRY.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MILK_Shift_End_Route_DETAIL.VEHICLE_CODE,TSPL_PROVISION_ENTRY.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name, TSPL_PROVISION_ENTRY.Ref_Doc_No as ShiftEndNo " + Environment.NewLine +
         ",TSPL_MILK_Shift_End_Route_DETAIL.PK_Id,TSPL_MILK_Shift_End_Route_DETAIL.Actual_KM" + Environment.NewLine +
@@ -153,7 +153,7 @@ Public Class frmPrimaryTransporterProvisionCorrection
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenVehicleFinder(ByVal isButtonClick As Boolean)
@@ -335,7 +335,7 @@ where  TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE='" + clsCommon.myCstr(gv1.Rows(
             clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -375,7 +375,7 @@ where  TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE='" + clsCommon.myCstr(gv1.Rows(
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -516,7 +516,7 @@ where  TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE='" + clsCommon.myCstr(gv1.Rows(
             '            End If
             '            Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LocalException(ByVal str As String)

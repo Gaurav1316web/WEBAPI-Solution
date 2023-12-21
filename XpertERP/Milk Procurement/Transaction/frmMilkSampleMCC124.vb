@@ -1030,7 +1030,7 @@ Public Class frmMilkSampleMCC124
                     End If
                 End If
                 If (clsMilkSampleMCC.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -1711,7 +1711,7 @@ Public Class frmMilkSampleMCC124
                         Next
                     End If
                     If Not IsReset And gv.Rows.Count <= 0 And DtMilkReceiptEcoProWise.Select("" & colECOPro & " ='' and " & colSRNo & ">='" & clsCommon.myCdbl(txtRangeFrom.Text) & "' and " & colSRNo & "<='" & clsCommon.myCdbl(TxtRangeTo.Text) & "'").Count <= 0 Then
-                        clsCommon.MyMessageBoxShow(Me, "No data Found.")
+                        clsCommon.MyMessageBoxShow(Me, "No data Found.", Me.Text)
                     End If
                 End If
                 trans.Commit()
@@ -2615,7 +2615,7 @@ Public Class frmMilkSampleMCC124
             LblSNFPanel1.Text = "00.00"
             LblFATPanel1.Text = "00.00"
             objSr.ClosePort()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2646,7 +2646,7 @@ Public Class frmMilkSampleMCC124
             LblFATPanel2.Text = "00.00"
             LblSNFPanel2.Text = "00.00"
             objSr2.ClosePort()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2678,7 +2678,7 @@ Public Class frmMilkSampleMCC124
             LblFATPanel3.Text = "00.00"
             LblSNFPanel3.Text = "00.00"
             objSr3.ClosePort()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2710,7 +2710,7 @@ Public Class frmMilkSampleMCC124
             LblFATPanel4.Text = "00.00"
             LblSNFPanel4.Text = "00.00"
             objSr4.ClosePort()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2836,13 +2836,13 @@ Public Class frmMilkSampleMCC124
                     If clsCommon.myCstr(strMCCode) <> "" Then
                         Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(strMCCode)
                         If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "No shift is opened. one Shift Must be Opened..")
+                            clsCommon.MyMessageBoxShow(Me, "No shift is opened. one Shift Must be Opened..", Me.Text)
                             dtpDocDate.ReadOnly = True
                             cboShift.Enabled = False
                             Irregular_Mcc_Code = ""
                             Exit Sub
                         ElseIf DTShift.Rows.Count > 1 Then
-                            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..")
+                            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..", Me.Text)
                             dtpDocDate.ReadOnly = True
                             cboShift.Enabled = False
                             Irregular_Mcc_Code = ""

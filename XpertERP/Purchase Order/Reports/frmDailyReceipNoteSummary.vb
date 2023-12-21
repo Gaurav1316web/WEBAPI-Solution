@@ -257,7 +257,7 @@ Public Class FrmDailyReceipNoteSummary
 
             Dim Dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If Dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 'If rbtnItemWise.IsChecked = True Then
                 'PurchaseOrderViewer.funreport(Dt, "crptDailyRcptSummaryItemWise", "Daily Receipt Summary")

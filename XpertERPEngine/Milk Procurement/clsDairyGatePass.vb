@@ -37,6 +37,9 @@ Public Class clsDairyGatePassEntry
     Public AgainstTransferNo As String = String.Empty
     Public ShiftType As String = String.Empty
     Public Loading_Slip As String = Nothing
+    Public Driver_Name As String = Nothing
+    Public Driver_ContactNo As String = Nothing
+
 #End Region
 
     Public Function SaveData(ByVal obj As clsDairyGatePassEntry, ByVal isNewEntry As Boolean, ByVal strTransType As String) As Boolean
@@ -90,6 +93,8 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "AgainstTransferNo", obj.AgainstTransferNo, True)
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType, True)
             clsCommon.AddColumnsForChange(coll, "Loading_Slip", obj.Loading_Slip)
+            clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
+            clsCommon.AddColumnsForChange(coll, "Driver_ContactNo", obj.Driver_ContactNo)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "GPCode", obj.GPCode)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -219,6 +224,8 @@ Public Class clsDairyGatePassEntry
                 obj.Closing_Date = clsCommon.myCDate(dt.Rows(0)("Closing_Date"))
             End If
             obj.Loading_Slip = clsCommon.myCstr(dt.Rows(0)("Loading_Slip"))
+            obj.Driver_Name = clsCommon.myCstr(dt.Rows(0)("Driver_Name"))
+            obj.Driver_ContactNo = clsCommon.myCstr(dt.Rows(0)("Driver_ContactNo"))
         End If
         Return obj
     End Function

@@ -1,11 +1,8 @@
 ﻿'===================BM00000007864,BM00000007337,BM00000007744===================
 Imports System.Data.SqlClient
-Imports common
 Imports System.IO
-Imports System.Net
-Imports Newtonsoft.Json
+Imports common
 Imports Newtonsoft.Json.Linq
-Imports System.Collections.Specialized
 
 
 Public Class FrmPaymentProcess
@@ -739,6 +736,22 @@ Public Class FrmPaymentProcess
                 Next
             End If
 
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return rValue
+    End Function
+
+    Function getTDSTotalCreditNoteSum(ByVal vsp As String) As Double
+        Dim rValue As Double = 0
+        Try
+            If clsCommon.myLen(vsp) > 0 AndAlso gvCreditNote IsNot Nothing AndAlso gvCreditNote.Rows.Count > 0 Then
+                For i As Integer = 0 To gvCreditNote.Rows.Count - 1
+                    If gvCreditNote.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvCreditNote.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
+                        rValue = rValue + clsCommon.myCdbl(gvCreditNote.Rows(i).Cells(colTDSAmt).Value)
+                    End If
+                Next
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -1765,7 +1778,7 @@ Public Class FrmPaymentProcess
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2505,6 +2518,14 @@ Public Class FrmPaymentProcess
 
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
+        colDecimal.HeaderText = "TDS Amount"
+        colDecimal.Name = colTDSAmt
+        colDecimal.Width = 100
+        colDecimal.ReadOnly = True
+        gvCreditNote.MasterTemplate.Columns.Add(colDecimal)
+
+        colDecimal = New GridViewDecimalColumn()
+        colDecimal.FormatString = ""
         colDecimal.HeaderText = "Amount"
         colDecimal.Name = colItemAmt
         colDecimal.Width = 200
@@ -2591,9 +2612,8 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
         LoadBlankGridCreditNote()
         If clsCommon.myLen(strVendorCode) > 0 Then
             '' Update By pankaj jha For picking up amount from Head in place of details 
-            Dim qry As String = "   select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   from TSPL_VENDOR_INVOICE_head   where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+            Dim qry As String = "   select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   from TSPL_VENDOR_INVOICE_head   where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
             Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE  where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no not in ('" + fndDocNo.Value + "')) "
-
 
             If clsCommon.myLen(strVendorCode) <= 0 Then
             Else
@@ -2622,6 +2642,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gvCreditNote.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(dt.Rows(i)("Vendor_Code")))
                     gvCreditNote.Rows(i).Cells(colVendorCode).Value = dt.Rows(i)("Vendor_Code")
                     gvCreditNote.Rows(i).Cells(colVendorDesc).Value = dt.Rows(i)("Vendor_Name")
+                    gvCreditNote.Rows(i).Cells(colTDSAmt).Value = clsCommon.myFormat(clsCommon.myCdbl(dt.Rows(i)("TDS_Actual_Amount")))
                     gvCreditNote.Rows(i).Cells(colItemAmt).Value = clsCommon.myFormat(clsCommon.myCdbl(dt.Rows(i)("Total_Amount")))
                 Next
             End If
@@ -3664,7 +3685,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             Next
             ''-------------------------
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         ''----------------------
@@ -3676,7 +3697,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 If clsCommon.MyMessageBoxShow("Want To Delete The Doc No : " & fndDocNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     If clsPaymentProcessHead.deleteData(fndDocNo.Value) Then
-                        clsCommon.MyMessageBoxShow("Deleted successFully")
+                        clsCommon.MyMessageBoxShow(Me, "Deleted successFully", Me.Text)
                         Reset()
                     End If
                 End If
@@ -3684,7 +3705,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Throw New Exception("Doc No not Found to delete")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4026,7 +4047,8 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                         objPayProCreditNote.AP_Invoice_Date = clsCommon.myCstr(gvCreditNote.Rows(i).Cells(colAPInvoiceDate).Value)
                         objPayProCreditNote.Vendor_CODE = clsCommon.myCstr(gvCreditNote.Rows(i).Cells(colVendorCode).Value)
                         objPayProCreditNote.Vendor_NAME = clsCommon.myCstr(gvCreditNote.Rows(i).Cells(colVendorDesc).Value)
-                        objPayProCreditNote.Amount = clsCommon.myCdbl(gvCreditNote.Rows(i).Cells(colItemAmt).Value)
+                        objPayProCreditNote.TDS_Amount = clsCommon.myCDecimal(gvCreditNote.Rows(i).Cells(colTDSAmt).Value)
+                        objPayProCreditNote.Amount = clsCommon.myCDecimal(gvCreditNote.Rows(i).Cells(colItemAmt).Value)
                         obj.arrClsPaymentProcessCreditNote.Add(objPayProCreditNote)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
@@ -4226,7 +4248,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             If isPostbtnClick Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -4436,8 +4458,8 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gvCreditNote.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_CODE))
                     gvCreditNote.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_CODE
                     gvCreditNote.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_NAME
-                    gvCreditNote.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessCreditNote.Item(i).Amount)
-
+                    gvCreditNote.Rows(i).Cells(colTDSAmt).Value = obj.arrClsPaymentProcessCreditNote.Item(i).TDS_Amount
+                    gvCreditNote.Rows(i).Cells(colItemAmt).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Amount
                 Next
             End If
 
@@ -4772,12 +4794,12 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             SaveData(True)
             If clsCommon.MyMessageBoxShow("Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                 clsPaymentProcessHead.ProcessData(fndDocNo.Value, IIf(clsCommon.myLen(txtNEFTUploaderREFNo.Tag) > 0, txtNEFTUploaderREFNo.Tag, frm.desc))
-                clsCommon.MyMessageBoxShow("Payment Processed")
+                clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
             ' End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4863,12 +4885,12 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
         isLoad = True
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select Location segment")
+                clsCommon.MyMessageBoxShow(Me, "Please select Location segment", Me.Text)
                 Exit Sub
             End If
             If SettShowMCCFinder AndAlso MultipleFinderFillAuto = False Then
                 If clsCommon.myLen(txtMCC.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please select MCC")
+                    clsCommon.MyMessageBoxShow(Me, "Please select MCC", Me.Text)
                     Exit Sub
                 End If
             End If
@@ -4904,7 +4926,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             loadGvData()
             SetTagOFCheckBox()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isLoad = False
         End Try
@@ -5042,7 +5064,8 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
 
                 gv.Rows(k).Cells(colSRNROAmt).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSRNROAmt).Value)
                 gv.Rows(k).Cells(colSRNNetAmount).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSRNNetAmount).Value)
-                gv.Rows(k).Cells(colTDSAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colTDSAmt).Value)
+                gv.Rows(k).Cells(colTDSAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colTDSAmt).Value) + getTDSTotalCreditNoteSum(gv.Rows(k).Cells(colVendorCode).Value)
+
                 gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value
                 gv.Rows(k).Cells(colActualVSPCode).Value = gvInvoice.Rows(i).Cells(colActualVSPCode).Value
                 gv.Rows(k).Cells(colActualVSPName).Value = gvInvoice.Rows(i).Cells(colActualVSPName).Value
@@ -5252,12 +5275,12 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Dim PaymentCycleValue As Integer = 0
                 ' If Not isLoad Then
                 If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please select the Location first")
+                    clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
                     Exit Sub
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select isnull(TSPL_MCC_MASTER.empOnAmountOnly,0) as empOnAmountOnly,TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code in (select Location_Code  from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & fndLoc.Value & "' and Location_Category='MCC' and Rejected_Type='N') ")
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                    clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                     Exit Sub
                 End If
                 PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -5277,7 +5300,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     End If
                 ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                     If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                        clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                        clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
                         dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         Exit Sub
@@ -5285,7 +5308,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     dtpToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDate.Value)
                 ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                     If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                        clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                        clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
                         dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         Exit Sub
@@ -5380,7 +5403,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             Dim rownummain As Integer = 0
             Try
                 If gvDeduction.CurrentRow.Cells(colReduceDeduc).Value > gvDeduction.CurrentRow.Cells(colItemAmt).Value Then
-                    clsCommon.MyMessageBoxShow("Reduce Deduction can not be more than invoice amount ")
+                    clsCommon.MyMessageBoxShow(Me, "Reduce Deduction can not be more than invoice amount ", Me.Text)
                     gvDeduction.CurrentRow.Cells(colReduceDeduc).Value = 0
                     Exit Sub
                 End If
@@ -5422,7 +5445,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             Dim rownummain As Integer = 0
             Try
                 If gvMccSale.CurrentRow.Cells(colReduceDeduc).Value > gvMccSale.CurrentRow.Cells(colItemAmt).Value Then
-                    clsCommon.MyMessageBoxShow("Reduce Deduction can not be more than invoice amount ")
+                    clsCommon.MyMessageBoxShow(Me, "Reduce Deduction can not be more than invoice amount ", Me.Text)
                     gvMccSale.CurrentRow.Cells(colReduceDeduc).Value = 0
                     Exit Sub
                 End If
@@ -5525,7 +5548,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Dim frm As New FrmFreeGrid
                 frm.dt = getMccSaleList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "MCC Sale List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -5538,7 +5561,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Dim frm As New FrmFreeGrid
                 frm.dt = getMccSaleReturnList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "MCC Sale Return List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -5551,7 +5574,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Dim frm As New FrmFreeGrid
                 frm.dt = getItemIssueList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Item Issue List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -5563,7 +5586,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Dim frm As New FrmFreeGrid
                 frm.dt = getItemIssueList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Item Issue Return List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -5576,7 +5599,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Dim frm As New FrmFreeGrid
                 frm.dt = getDeductionList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Deduction List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -5589,7 +5612,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Dim frm As New FrmFreeGrid
                 frm.dt = getAssetLostList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Asset Lost List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -5602,7 +5625,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Dim frm As New FrmFreeGrid
                 frm.dt = getCreditNoteList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Credit Note List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -5764,7 +5787,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Payment Process Details", gv, arr, "Payment Process")
                 gv.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -5777,7 +5800,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Invoices Details", gvInvoice, arr, "Invoices")
                 gvInvoice.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -5790,7 +5813,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("MCC Sale Details", gvMccSale, arr, "MCC Sale")
                 gvMccSale.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -5803,7 +5826,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("MCC Sale Return Details", GvMccSaleReturn, arr, "MCC Sale Return")
                 GvMccSaleReturn.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -5816,7 +5839,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Item Issue Details", gvItemIssue, arr, "Item Issue")
                 gvItemIssue.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -5829,7 +5852,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Item Issue Return Details", gvItemIssueReturn, arr, "Item Issue Return")
                 gvItemIssueReturn.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -5842,7 +5865,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Deduction Details", gvDeduction, arr, "Deduction")
                 gvDeduction.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found To Export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found To Export", Me.Text)
             End If
         End If
 
@@ -5855,7 +5878,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Credit Note Details", gvCreditNote, arr, "Credit Note")
                 gvCreditNote.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found To Export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found To Export", Me.Text)
             End If
         End If
 
@@ -5868,7 +5891,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Advance Payment Details", gvAdvancePayment, arr, "Advance Payment")
                 gvAdvancePayment.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -5881,7 +5904,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Asset Lost Details", gvAssetLost, arr, "Asset Lost")
                 gvAssetLost.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -5894,7 +5917,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Saving Details", gvSaving, arr, "Saving")
                 gvSaving.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found To Export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found To Export", Me.Text)
             End If
         End If
 
@@ -5907,7 +5930,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 clsCommon.MyExportToExcelGrid("Compulsory Details", gvCompulsory, arr, "Compulsory")
                 gvCompulsory.Columns(colSelect).IsVisible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to export")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
             End If
         End If
 
@@ -6071,12 +6094,12 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             Dim PaymentCycleValue As Integer = 0
             ' If Not isLoad Then
             If clsCommon.myLen(fndLoc.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Please select the Location first")
+                clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
                 Exit Sub
             End If
             If MultipleFinderFillAuto = True Then
                 If mfndMcc.arrValueMember Is Nothing OrElse mfndMcc.arrValueMember.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please select the Location first")
+                    clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
                     Exit Sub
                 End If
             End If
@@ -6089,7 +6112,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (select Location_Code  from TSPL_LOCATION_MASTER where " + strMCCcode + " and Location_Category='MCC' and Rejected_Type='N') ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -6113,7 +6136,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
                     dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -6121,7 +6144,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 dtpToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
                     dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -6200,7 +6223,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
 
             txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "PPfPVLF", qry, "Code", "", txtVSP.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6387,7 +6410,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             End If
             Return dt
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Return Nothing
         End If
 
@@ -6508,7 +6531,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
 
     End Sub
@@ -6627,7 +6650,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess_Type_Wise", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
 
     End Sub
@@ -6649,7 +6672,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 Load_Report(Nothing, Nothing, Nothing, Nothing, False, True)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6918,7 +6941,7 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = '" + fndDocNo.Value + "'
 
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -7152,7 +7175,7 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
             frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -7463,7 +7486,7 @@ from TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
             frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcessPRO2", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubNonMilkPurchaseBill.rpt", dtgv, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale)
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -7674,7 +7697,7 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
             frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcessPRO", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -7869,7 +7892,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
             frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -7987,7 +8010,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -8067,13 +8090,13 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 If clsCommon.MyMessageBoxShow("Reverse and unpost The payment Process " + Environment.NewLine + "Are You sure", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     clsPaymentProcessHead.ReverseAndUnpost(fndDocNo.Value)
-                    clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     LoadData(fndDocNo.Value, NavigatorType.Current)
                 End If
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8082,18 +8105,18 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 If clsCommon.MyMessageBoxShow("Reverse and unpost The payment Process " + Environment.NewLine + "Are You sure", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     clsPaymentProcessHead.DeleteWithVSPBill(fndDocNo.Value)
-                    clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
         If clsCommon.myLen(fndLoc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please first select Location ")
+            clsCommon.MyMessageBoxShow(Me, "Please first select Location ", Me.Text)
             fndLoc.Focus()
             Exit Sub
         End If
@@ -8142,7 +8165,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
             mfndMcc.arrValueMember = clsCommon.ShowMultipleSelectForm("MULMCC@PaymentProcess", qry, "Code", "", mfndMcc.arrValueMember, Nothing)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -8173,7 +8196,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
             End If
             txtVSP.arrValueMember = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub AutoFillAllVSP()
@@ -8214,7 +8237,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
                 txtVSP.arrValueMember = arr
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

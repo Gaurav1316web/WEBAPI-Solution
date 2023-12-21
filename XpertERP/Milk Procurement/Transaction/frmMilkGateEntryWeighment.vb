@@ -29,7 +29,7 @@ Public Class frmMilkGateEntryWeighment
             txtGWDate.ReadOnly = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickServerDateWithNoChange, clsFixedParameterCode.PickServerDateWithNoChange, Nothing)) = 1
             txtTWDate.ReadOnly = txtGWDate.ReadOnly
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             If clsCommon.CompairString(ex.Message, "Gate entry not required") = CompairStringResult.Equal Then
                 CloseForm()
             End If
@@ -89,7 +89,7 @@ Public Class frmMilkGateEntryWeighment
                     End If
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnnew.Enabled Then
             AddNew()
@@ -128,7 +128,7 @@ Public Class frmMilkGateEntryWeighment
             If clsCommon.CompairString(ex.Message, "Gate entry not required") = CompairStringResult.Equal Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -186,11 +186,11 @@ Public Class frmMilkGateEntryWeighment
                 ElseIf UsGrossWeight.Status = ERPTransactionStatus.Approved AndAlso UsTareWeight.Status = ERPTransactionStatus.Pending Then
                     obj.SaveDataTW(obj)
                 End If
-                clsCommon.MyMessageBoxShow("Data saved successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Weighment_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -248,7 +248,7 @@ Public Class frmMilkGateEntryWeighment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -262,11 +262,11 @@ Public Class frmMilkGateEntryWeighment
                 Else
                     Throw New Exception("Wrong Combination")
                 End If
-                clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -282,7 +282,7 @@ Public Class frmMilkGateEntryWeighment
         Try
             If (myMessages.deleteConfirm()) Then
                 clsMilkGateEntryWeighment.DeleteData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
@@ -337,7 +337,7 @@ Public Class frmMilkGateEntryWeighment
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -366,7 +366,7 @@ Public Class frmMilkGateEntryWeighment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -403,7 +403,7 @@ Public Class frmMilkGateEntryWeighment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnSave.Enabled = False
         End Try
     End Sub
@@ -439,7 +439,7 @@ Public Class frmMilkGateEntryWeighment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

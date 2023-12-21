@@ -92,7 +92,7 @@ Public Class FrmMultipleProcDeduction
         Else
             LblLocDesp.Text = ""
         End If
-
+        ReStoreGridLayout()
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag))
         End If
@@ -473,7 +473,7 @@ Public Class FrmMultipleProcDeduction
         isNewEntry = True
         txtMCC.Text = ""
         lblMCC.Text = ""
-
+        ReStoreGridLayout()
     End Sub
 
     Function AllowToSave() As Boolean
@@ -652,6 +652,7 @@ Public Class FrmMultipleProcDeduction
                 For Each objTr As clsMultipleProcDeductionDetail In obj.Arr
                     gv1.Rows.AddNew()
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVlcUploderCode).Value = objTr.VLCUploderCode
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = objTr.Vendor_Code
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorName).Value = objTr.Vendor_Name
                     If clsCommon.myLen(txtMCC.Text) > 0 AndAlso clsCommon.myLen(objTr.Vendor_Code) > 0 Then
@@ -659,7 +660,10 @@ Public Class FrmMultipleProcDeduction
                     End If
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionCode).Value = objTr.DeductionCode
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionDesc).Value = objTr.Deduction_Desc
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colACCode).Value = objTr.GL_Account_Code
+                    If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colACCode)) > 0 Then
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colACCode).Value = objTr.GL_Account_Code
+
+                    End If
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colACName).Value = objTr.GL_Account_Desc
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Amount
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTermsCode).Value = objTr.Terms_Code
@@ -685,8 +689,8 @@ Public Class FrmMultipleProcDeduction
                 txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtlocation.Value, txtDate.Value)
                 txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtlocation.Value, txtDate.Value)
 
-
             End If
+            ReStoreGridLayout()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         Finally
@@ -1299,5 +1303,67 @@ where TSPL_DEDUCTION_MASTER.Code='" + objImportTR.DeductionCode + "'"
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
+        Try
+            Dim arrHeader As New List(Of String)
+            arrHeader.Add("Print Date(" + clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy hh:mm:ss tt") + ")")
+            arrHeader.Add("Type(" + ddlType.SelectedItem.Text + ")")
+
+            If gv1.Rows.Count > 0 Then
+                'transportSql.applyExportTemplate(gv1, MyBase.Form_ID)
+                transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
+            Else
+                Throw New Exception("No data found to export.")
+
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub ReStoreGridLayout()
+        Try
+            If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+                Dim obj As clsGridLayout = New clsGridLayout()
+                obj = CType(obj.GetData(MyBase.Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
+                    Dim ii As Integer
+                    For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
+                        gv1.Columns(ii).IsVisible = False
+                        gv1.Columns(ii).VisibleInColumnChooser = True
+                    Next
+                    gv1.LoadLayout(obj.GridLayout)
+                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                End If
+            End If
+        Catch err As Exception
+            MessageBox.Show(err.Message)
+        End Try
+    End Sub
+    Private Sub btnSaveLayout_Click(sender As Object, e As EventArgs) Handles btnSaveLayout.Click
+        Dim ReportID As String = MyBase.Form_ID
+        If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+            gv1.MasterTemplate.FilterDescriptors.Clear()
+            Dim obj As New clsGridLayout()
+            obj.ReportID = MyBase.Form_ID
+            obj.UserID = objCommonVar.CurrentUserCode
+            obj.GridLayout = New MemoryStream()
+            gv1.SaveLayout(obj.GridLayout)
+            obj.GridColumns = gv1.ColumnCount
+            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+            If obj.SaveData() Then
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+            End If
+            obj.GridLayout.Close()
+            obj.GridLayout.Dispose()
+            ''---------------
+        End If
+    End Sub
+
+    Private Sub btnDeleteLayout_Click(sender As Object, e As EventArgs) Handles btnDeleteLayout.Click
+        clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
+        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
     End Sub
 End Class
