@@ -256,7 +256,7 @@ Public Class frmSiloMilkTransfer
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenSiloList(ByVal isButtonClick As Boolean)
@@ -285,7 +285,7 @@ Public Class frmSiloMilkTransfer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -302,7 +302,7 @@ Public Class frmSiloMilkTransfer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub UpdateFatSnfPer(ByVal isButtonClick As Boolean)
@@ -363,7 +363,7 @@ Public Class frmSiloMilkTransfer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -405,7 +405,7 @@ Public Class frmSiloMilkTransfer
             End If
             Return BalQty
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Function
@@ -474,14 +474,14 @@ Public Class frmSiloMilkTransfer
             dt = clsDBFuncationality.GetDataTable(str)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return dt
     End Function
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
 
@@ -552,7 +552,7 @@ Public Class frmSiloMilkTransfer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -747,7 +747,7 @@ Public Class frmSiloMilkTransfer
                 Dim isSaved As Boolean = obj.SaveData(obj, isNewEntry)
 
                 If Not isFlag Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_Code, NavigatorType.Current)
                 End If
                 Return isSaved
@@ -755,7 +755,7 @@ Public Class frmSiloMilkTransfer
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -816,7 +816,7 @@ Public Class frmSiloMilkTransfer
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -843,7 +843,7 @@ Public Class frmSiloMilkTransfer
 
                         If (ClsSiloMilkTransfer.PostData(txtAdjustmentNo.Value)) Then
 
-                            clsCommon.MyMessageBoxShow("Data posted successfully.")
+                            clsCommon.MyMessageBoxShow(Me, "Data posted successfully.", Me.Text)
                             LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                         End If
                     End If
@@ -856,7 +856,7 @@ Public Class frmSiloMilkTransfer
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -883,7 +883,7 @@ Public Class frmSiloMilkTransfer
                 End If
                 If (ClsSiloMilkTransfer.DeleteData(txtAdjustmentNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -912,7 +912,7 @@ Public Class frmSiloMilkTransfer
             End If
             LoadData(txtAdjustmentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1004,7 +1004,7 @@ Public Class frmSiloMilkTransfer
                 fnditemuom.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1021,7 +1021,7 @@ Public Class frmSiloMilkTransfer
             fnditemuom.Value = clsCommon.ShowSelectForm("SiloUOM", qry, "Code", WhrCls, clsCommon.myCstr(fnditemuom.Value), "Code", isButtonClicked)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1072,7 +1072,7 @@ Public Class frmSiloMilkTransfer
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         btnunpost.Visible = False
                         LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                     End If
@@ -1080,7 +1080,7 @@ Public Class frmSiloMilkTransfer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : TEC/29/10/18-000347 By Prabhakar
@@ -1091,7 +1091,7 @@ Public Class frmSiloMilkTransfer
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtAdjustmentNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Doc No")
+                clsCommon.MyMessageBoxShow(Me, "Select Doc No", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtAdjustmentNo.Value, "Document_Code", "TSPL_SILO_MILK_TRANSFER_HEAD", "TSPL_SILO_MILK_TRANSFER_DETAIL")

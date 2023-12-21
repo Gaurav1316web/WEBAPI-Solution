@@ -1905,6 +1905,14 @@ Public Class clsUserMaster
         End Try
     End Function
 
+    Public Shared Function GetDetaultLocation(ByVal trans As SqlTransaction) As String
+        Try
+            Dim qry As String = "select Default_Location from tspl_User_Master where User_Code='" & objCommonVar.CurrentUserCode & "'"
+            Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
 End Class
 Public Class clsUserGroupMaster
     '----------------Code For Get Finder--------------------------------------------------------------------'

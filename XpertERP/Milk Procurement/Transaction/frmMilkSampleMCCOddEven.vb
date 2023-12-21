@@ -1023,12 +1023,12 @@ Public Class frmMilkSampleMCCOddEven
                     End If
                 End If
                 If (clsMilkSampleMCC.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1435,7 +1435,7 @@ Public Class frmMilkSampleMCCOddEven
             If (clsCommon.myLen(cboECOPro.SelectedValue) <= 0 Or cboECOPro.SelectedValue = "0") And clsCommon.myLen(txtMilkReceiptNo.Value) <= 0 Then
                 If Not IsReset Then
                     If ShowMsg Then
-                        clsCommon.MyMessageBoxShow(Me, "Please Select Eco Pro Machine First.")
+                        clsCommon.MyMessageBoxShow(Me, "Please Select Eco Pro Machine First.", Me.Text)
                     End If
                 End If
                 Exit Sub
@@ -1511,7 +1511,7 @@ Public Class frmMilkSampleMCCOddEven
                     End If
                     If Not IsReset And gv.Rows.Count <= 0 And DtMilkReceiptEcoProWise.Select("" & colECOPro & " ='' and " & colSRNo & ">='" & clsCommon.myCdbl(txtRangeFrom.Text) & "' and " & colSRNo & "<='" & clsCommon.myCdbl(TxtRangeTo.Text) & "'").Count <= 0 Then
                         If ShowMsg Then
-                            clsCommon.MyMessageBoxShow(Me, "No data Found.")
+                            clsCommon.MyMessageBoxShow(Me, "No data Found.", Me.Text)
                         End If
                     End If
                 End If
@@ -2165,7 +2165,7 @@ Public Class frmMilkSampleMCCOddEven
     Private Sub fndMCCCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtMilkReceiptNo._MYValidating, txtMilkReceiptNo._MYValidating
         Try
             If clsCommon.myLen(cboECOPro.SelectedValue) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Select Eco Pro Machine First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Eco Pro Machine First.", Me.Text)
                 Exit Sub
             End If
             Dim sQuery As String = "select distinct TSPL_MILK_RECEIPT_HEAD.DOC_CODE as [Code],TSPL_MILK_RECEIPT_HEAD.MCC_CODE as [MCC Code],TSPL_MILK_RECEIPT_HEAD.DOC_DATE as [Date],case when TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 'Morning' " _
@@ -2342,7 +2342,7 @@ Public Class frmMilkSampleMCCOddEven
             LblSNFPanel1.Text = "00.00"
             LblFATPanel1.Text = "00.00"
             objSr.ClosePort()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2376,7 +2376,7 @@ Public Class frmMilkSampleMCCOddEven
             LblFATPanel2.Text = "00.00"
             LblSNFPanel2.Text = "00.00"
             objSr2.ClosePort()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2563,13 +2563,13 @@ Public Class frmMilkSampleMCCOddEven
                     If clsCommon.myCstr(strMCCode) <> "" Then
                         Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(strMCCode)
                         If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "No shift is opened. one Shift Must be Opened..")
+                            clsCommon.MyMessageBoxShow(Me, "No shift is opened. one Shift Must be Opened..", Me.Text)
                             dtpDocDate.ReadOnly = True
                             cboShift.Enabled = False
                             Irregular_Mcc_Code = ""
                             Exit Sub
                         ElseIf DTShift.Rows.Count > 1 Then
-                            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..")
+                            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..", Me.Text)
                             dtpDocDate.ReadOnly = True
                             cboShift.Enabled = False
                             Irregular_Mcc_Code = ""

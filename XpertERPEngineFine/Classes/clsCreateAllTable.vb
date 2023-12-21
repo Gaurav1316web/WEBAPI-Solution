@@ -21917,6 +21917,20 @@ Public Class clsCreateAllTable
             coll.Add("Ded_Amt", "DECIMAL(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_DEDUCTION_SECURITY", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Date", "DateTime Not NULL")
+            coll.Add("GRN_Code", "Varchar(30) not null references TSPL_GRN_HEAD(GRN_No)")
+            coll.Add("Description", "varchar(200) NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Remarks", "varchar(200) NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "DateTime NOT NULL")
+            coll.Add("Modify_By", "varchar(12) NOT NULL")
+            coll.Add("Modify_Date", "Datetime NULL")
+            coll.Add("Posted_By", "VARCHAR(12) NULL")
+            coll.Add("Posted_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Purchase_GateOut", coll, Nothing, True, False)
 
 
             coll = New Dictionary(Of String, String)
@@ -25424,7 +25438,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("Voucher_No", "varchar(50) NULL")
             coll.Add("IsOpening", "integer not null default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, False, False, "", "Document_No", "Document_Date", False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date", False)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL References TSPL_MULTIPLE_DEDUCTION_HEAD(Document_No)")
@@ -25444,7 +25458,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Amount", "decimal (18,2) NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Against_Deduction_DocNo", "varchar(30)  NULL References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_DETAIL", coll, Nothing, False, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_DETAIL", coll, Nothing, True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "varchar(30)  NULL  ")

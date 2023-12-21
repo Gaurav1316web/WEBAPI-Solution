@@ -160,7 +160,7 @@ Public Class FrmProcessProductionIssueEntry
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -343,7 +343,7 @@ Public Class FrmProcessProductionIssueEntry
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1155,7 +1155,7 @@ Public Class FrmProcessProductionIssueEntry
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -1361,7 +1361,7 @@ Public Class FrmProcessProductionIssueEntry
                 clsCommon.MyMessageBoxShow("Please Recreate Production Std. Final QC [" + qry + "]", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         Return True
@@ -1522,7 +1522,7 @@ Public Class FrmProcessProductionIssueEntry
 
             If clsProcessProductionIssueEntry.SaveData(isNewEntry, obj) Then
                 If isPost = False Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
 
                 txtCode.Value = obj.issuecode
@@ -1534,7 +1534,7 @@ Public Class FrmProcessProductionIssueEntry
 
         Catch ex As Exception
             isSavedSuccess = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -1575,7 +1575,7 @@ Public Class FrmProcessProductionIssueEntry
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1660,7 +1660,7 @@ Public Class FrmProcessProductionIssueEntry
         Catch ex As Exception
             btnsave.Enabled = True
             btndelete.Enabled = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1703,7 +1703,7 @@ Public Class FrmProcessProductionIssueEntry
 
     Private Sub txttosub__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txttosub._MYValidating
         If clsCommon.myLen(txtmain_Loc_Code.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Location First.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select Location First.", Me.Text)
             txtmain_Loc_Code.Focus()
             txtmain_Loc_Code.Select()
             Errorcontrol.SetError(txtMain_Loc_Name, "Select Location First.")
@@ -1825,7 +1825,7 @@ Public Class FrmProcessProductionIssueEntry
                 LoadQCBlankGrid()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2008,7 +2008,7 @@ Public Class FrmProcessProductionIssueEntry
                 gv.Rows.AddNew()
             Next
         Else
-            clsCommon.MyMessageBoxShow("No Data Found.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found.", Me.Text)
         End If
         dt = Nothing
     End Sub
@@ -2044,7 +2044,7 @@ Public Class FrmProcessProductionIssueEntry
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("No location rights.")
+            clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
 
@@ -2271,7 +2271,7 @@ Public Class FrmProcessProductionIssueEntry
         Catch ex As Exception
             isNewEntry = True
             isSavedSuccess = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             obj = Nothing
@@ -2296,7 +2296,7 @@ Public Class FrmProcessProductionIssueEntry
                 If Not isCellValueChanged Then
                     If clsCommon.myLen(txtbatchorder.Value) <= 0 AndAlso chkBO.IsChecked Then
                         RadPageView1.SelectedPage = RadPageViewPage1
-                        clsCommon.MyMessageBoxShow("Select Batch Order Detail", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Select Batch Order Detail", Me.Text)
                         txtbatchorder.Select()
                         txtbatchorder.Focus()
                         Errorcontrol.SetError(txtbatch_desc, "Select Batch Order Detail")
@@ -2379,7 +2379,7 @@ Public Class FrmProcessProductionIssueEntry
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2548,7 +2548,7 @@ Public Class FrmProcessProductionIssueEntry
                 whrcls = " location_code in (" + sec_loc + ")"
             Else
                 'whrcls = " location_code in (Select location_code from tspl_location_master where main_location_code='" + txtmain_Loc_Code.Value + "' and isnull(Is_Section,'N')='Y')"
-                clsCommon.MyMessageBoxShow("No consumption section found.")
+                clsCommon.MyMessageBoxShow(Me, "No consumption section found.", Me.Text)
                 gv.CurrentRow.Cells(colToloc_code).Value = Nothing
                 gv.CurrentRow.Cells(colToloc_name).Value = Nothing
                 Exit Sub
@@ -2607,7 +2607,7 @@ Public Class FrmProcessProductionIssueEntry
             Throw New Exception("You are not authorize to Pick item from Main Location" + Environment.NewLine + "Please change Location Type - Main location at Row no" & clsCommon.myCstr(intRow + 1) & "  ")
         End If
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("No location rights.")
+            clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
 
@@ -2784,7 +2784,7 @@ Public Class FrmProcessProductionIssueEntry
 
     Private Sub OpenUOM(ByVal isButtonClicked As Boolean)
         If clsCommon.myLen(gv.CurrentRow.Cells(colitemcode).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select item code first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select item code first", Me.Text)
             Exit Sub
         End If
 
@@ -2852,7 +2852,7 @@ Public Class FrmProcessProductionIssueEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3093,7 +3093,7 @@ Public Class FrmProcessProductionIssueEntry
             If check > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("drop table TEMP_LOC_QC_PARAM")
             End If
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = "select count(*) from INFORMATION_SCHEMA.TABLES where TABLE_NAME='TEMP_LOC_QC_PARAM'"
             check = clsDBFuncationality.getSingleValue(qry)
@@ -3197,7 +3197,7 @@ Public Class FrmProcessProductionIssueEntry
 
     Private Sub txtmain_Loc_Code__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtmain_Loc_Code._MYValidating
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("No location rights.")
+            clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
 
@@ -3273,7 +3273,7 @@ Public Class FrmProcessProductionIssueEntry
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                     '-----------------------------
@@ -3313,7 +3313,7 @@ Public Class FrmProcessProductionIssueEntry
             txtbatchorder.Value = ""
             txtbatch_desc.Text = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3348,7 +3348,7 @@ Public Class FrmProcessProductionIssueEntry
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Issue Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Issue Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "issue_code", "TSPL_PP_ISSUE_HEAD", "TSPL_PP_ISSUE_ITEM_DETAIL")
@@ -3370,7 +3370,7 @@ Public Class FrmProcessProductionIssueEntry
                 Exit Function
             End If
             clsProcessProductionIssueEntry.CancelData(Me.Form_ID, txtCode.Value)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             FunReset()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

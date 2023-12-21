@@ -85,7 +85,7 @@ Public Class FrmMRDAReport
             Dim locationArr As ArrayList = cbgLocation.CheckedValue
 
             If chkvenSelect.IsChecked AndAlso cgvvendor.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vendor", Me.Text)
                 Return
             End If
             If chkvenSelect.IsChecked AndAlso cgvvendor.CheckedValue.Count > 0 Then
@@ -98,7 +98,7 @@ Public Class FrmMRDAReport
                 LOcCode12 = LocCode.Replace("'", "")
             End If
             If mrdaselect.IsChecked AndAlso cgvMRDA.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one MRDA No.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one MRDA No.", Me.Text)
                 Return
             End If
 
@@ -113,7 +113,7 @@ Public Class FrmMRDAReport
 
             If chkLocSelect.IsChecked Then
                 If cbgLocation.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select one location ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select one location ", Me.Text)
                     Return
                 End If
                 qry += "and TSPL_LOCATION_MASTER.Loc_Segment_Code  IN (" + clsCommon.GetMulcallString(locationArr) + ") "
@@ -137,7 +137,7 @@ Public Class FrmMRDAReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

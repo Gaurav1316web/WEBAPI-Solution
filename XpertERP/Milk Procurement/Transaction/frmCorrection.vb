@@ -627,7 +627,7 @@ Public Class frmCorrection
     Private Sub RadButton290_Click(sender As Object, e As EventArgs) Handles RadButton290.Click
         If txtMPCMMCC.arrValueMember Is Nothing OrElse txtMPCMMCC.arrValueMember.Count < 0 Then
             txtMPCMMCC.Focus()
-            clsCommon.MyMessageBoxShow("Please First select MCC", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please First select MCC", Me.Text)
         End If
         If clsCommon.MyMessageBoxShow("Correct Pro data." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
@@ -704,7 +704,7 @@ Public Class frmCorrection
                 Next
             Next
 
-            clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Updated", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -828,7 +828,7 @@ order by  xx.Shift desc,xx.Qty "
                                     Next
                                 End If
                             Next
-                            clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Successfully Updated", Me.Text)
                         Catch ex As Exception
                             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                         End Try
@@ -869,7 +869,7 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
                                     End If
                                 Next
                             Next
-                            clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Successfully Updated", Me.Text)
                         Catch ex As Exception
                             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                         End Try
@@ -1431,7 +1431,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                 transportSql.ExporttoExcel(dt, Me)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

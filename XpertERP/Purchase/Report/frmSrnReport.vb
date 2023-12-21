@@ -272,7 +272,7 @@ Public Class FrmSrnReport
 
         If chkLocSelect.IsChecked Then
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select one location ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select one location ", Me.Text)
                 Exit Sub
             End If
             strquery += "and TSPL_LOCATION_MASTER.Loc_Segment_Code  IN (" + clsCommon.GetMulcallString(locationArr) + ") "
@@ -282,20 +282,20 @@ Public Class FrmSrnReport
             End If
         End If
         If chk_Doc_Select.IsChecked AndAlso cbgDoc.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Documnet Number", Me.Text)
         ElseIf cbgDoc.CheckedValue.Count > 0 Then
             strquery += " and TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(DocArr) + ")  "
 
         End If
         If chk_Vendor_Select.IsChecked AndAlso cbgVendor1.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vendor", Me.Text)
         ElseIf cbgVendor1.CheckedValue.Count > 0 Then
             strquery += " and TSPL_SRN_HEAD.Vendor_Name in (" + clsCommon.GetMulcallString(VendorArr) + ")  "
 
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Record Found")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
         Else
             Dim frmCRV As New frmCrystalReportViewer()
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "SRNReportThroughReport", "Store Receipt Report")

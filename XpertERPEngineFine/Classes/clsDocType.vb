@@ -234,6 +234,7 @@ Public Class clsDocType
     Public Const TenderShortPenalty As String = "Tender Short Penalty"
     Public Const MRN As String = "Material Receipt Note"
     Public Const SRN As String = "Store Receipt Note"
+    Public Const GTOut As String = "Gate Out"
     Public Const SRNReturn As String = "Store Receipt Note Return"
     Public Const NIRQC As String = "NIR QC"
     Public Const TransferReturn As String = "Transfer Return"

@@ -3455,7 +3455,7 @@ Public Class FrmMilkVSPPayment
             Next
             trans.Commit()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -3644,7 +3644,7 @@ Public Class FrmMilkVSPPayment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3700,7 +3700,7 @@ Public Class FrmMilkVSPPayment
             Dim qry As String = VSPQry(arrMCC)
             txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "VSPPVLF", qry, "Code", "", txtVSP.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4036,9 +4036,9 @@ Public Class FrmMilkVSPPayment
             Else
                 BillDeleteMCCWise(txtMCC.Value)
             End If
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4064,7 +4064,7 @@ Public Class FrmMilkVSPPayment
             End If
         Catch ex As Exception
             If Not MultipleFinderFillAuto Then
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -4096,7 +4096,7 @@ Public Class FrmMilkVSPPayment
             End If
             txtVSP.arrValueMember = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4136,7 +4136,7 @@ Public Class FrmMilkVSPPayment
             End If
             txtVSP.arrValueMember = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4172,7 +4172,7 @@ Public Class FrmMilkVSPPayment
                 txtVSP.arrValueMember = arr
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4188,9 +4188,9 @@ Public Class FrmMilkVSPPayment
             'Else
             '    BillGenerationMCCWiseProvision(txtMCC.Value, lblMCC.Text)
             'End If
-            clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

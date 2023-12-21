@@ -50,7 +50,7 @@ Public Class frmMonthlyConsumptionReport
             chkValueWise.Checked = True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub FillFiscalYear()
@@ -75,7 +75,7 @@ Public Class frmMonthlyConsumptionReport
                 cboFiscalYear.DisplayMember = "FiscalYear"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -288,7 +288,7 @@ Public Class frmMonthlyConsumptionReport
                             whereQry += monthName + "_Qty" + " > " + txtHighValue.Text + " or "
                         Next
                     Else
-                        clsCommon.MyMessageBoxShow("Please Select <Months> to check Monthly High Consumption ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please Select <Months> to check Monthly High Consumption ", Me.Text)
                         fnd_Months.Select()
                         Exit Sub
 
@@ -299,7 +299,7 @@ Public Class frmMonthlyConsumptionReport
                         whereQry = whereQry.Replace("or  )", "  )")
                     End If
                 Else
-                    clsCommon.MyMessageBoxShow("Please Select <Category> and <Months> to check High Consumption", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Select <Category> and <Months> to check High Consumption", Me.Text)
                     Exit Sub
                 End If
             End If
@@ -312,7 +312,7 @@ Public Class frmMonthlyConsumptionReport
                             whereQry += monthName + "_Amt" + " > " + txtHighValue.Text + " or "
                         Next
                     Else
-                        clsCommon.MyMessageBoxShow("Please Select <Months> to check Monthly High Consumption ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please Select <Months> to check Monthly High Consumption ", Me.Text)
                         fnd_Months.Select()
                         Exit Sub
 
@@ -342,12 +342,12 @@ Public Class frmMonthlyConsumptionReport
                 SetGridFormatOfGrid()
                 RadPageView1.SelectedPage = Me.RadPageView1.Pages("RadPageViewPage2")
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -397,7 +397,7 @@ Public Class frmMonthlyConsumptionReport
                             qry += "  fnlQry." + monthName + " > " + txtHighValue.Text + " or "
                         Next
                     Else
-                        clsCommon.MyMessageBoxShow("Please Select <Months> to check Monthly High Consumption ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please Select <Months> to check Monthly High Consumption ", Me.Text)
                         fnd_Months.Select()
                         Exit Sub
 
@@ -430,12 +430,12 @@ Public Class frmMonthlyConsumptionReport
                 SetGridFormatOfGrid()
                 RadPageView1.SelectedPage = Me.RadPageView1.Pages("RadPageViewPage2")
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetGridFormatOfGrid()
@@ -557,7 +557,7 @@ Public Class frmMonthlyConsumptionReport
             TemplateGridview = gv
             Load_Report()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -591,7 +591,7 @@ Public Class frmMonthlyConsumptionReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
  
@@ -629,7 +629,7 @@ Public Class frmMonthlyConsumptionReport
                     'common.clsCommon.MyMessageBoxShow("Exported Successfully", Me.Text)
                     'Process.Start(filePath)
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found in Grid to Export In Excel Sheet", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found in Grid to Export In Excel Sheet", Me.Text)
                 End If
             Else
                 If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
@@ -655,7 +655,7 @@ Public Class frmMonthlyConsumptionReport
                 obj.GridColumns = gv.ColumnCount
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout Saved Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout Saved Successfully", Me.Text)
                 End If
                 ''stuti regarding memory leakage
                 obj.GridLayout.Close()
@@ -669,7 +669,7 @@ Public Class frmMonthlyConsumptionReport
             Dim obj As New clsGridLayout()
             obj.ReportID = PageSetupReport_ID
             clsGridLayout.DeleteData(obj.ReportID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
             'ReStoreGridLayout()
         Catch ex As Exception
         End Try
@@ -686,7 +686,7 @@ Public Class frmMonthlyConsumptionReport
             Dim qry As String = " SELECT [Item_Category_Code1], [Item_Cagetory_Values], [Category_Value_Desc] FROM (SELECT MAX([Item Code]) AS [Item Code], [Item_Category_Code1], [Item_Cagetory_Values], MAX([Category_Value_Desc]) AS [Category_Value_Desc], MAX(COALESCE([CATEGORY RM], '')) AS [CATEGORY RM], MAX(COALESCE([BRAND], '')) AS [BRAND], MAX(COALESCE([SUB BRAND], '')) AS [SUB BRAND], MAX(COALESCE([DESCRP], '')) AS [DESCRP], MAX(COALESCE([PACK], '')) AS [PACK], MAX(COALESCE([PACK SIZE], '')) AS [PACK SIZE], MAX(COALESCE([CATEGORY OT], '')) AS [CATEGORY OT], MAX(COALESCE([CATEGORY FA], '')) AS [CATEGORY FA], MAX(COALESCE([P TYPE], '')) AS [P TYPE], MAX(COALESCE([L TYPE], '')) AS [L TYPE], MAX(COALESCE([JW], '')) AS [JW], MAX(COALESCE([SCRAP], '')) AS [SCRAP] FROM (SELECT COALESCE(TSPL_ITEM_MASTER.Item_Code, '') AS [Item Code], COALESCE(TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code, '') AS [Item_Category_Code], COALESCE(TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code, '') AS [Item_Category_Code1], COALESCE(TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values, '') AS [Item_Cagetory_Values], COALESCE(TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION, '') AS [Category_Value_Desc] FROM TSPL_ITEM_MASTER LEFT OUTER JOIN TSPL_ITEM_MASTER_CATEGORY ON TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code LEFT OUTER JOIN TSPL_ITEM_CATEGORY_LEVEL_VALUES ON TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE = TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code AND TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE = TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values WHERE 2 = 2) xx PIVOT (MAX(Item_Category_Code) FOR Item_Category_Code IN ([CATEGORY RM], [BRAND], [SUB BRAND], [DESCRP], [PACK], [PACK SIZE], [CATEGORY OT], [CATEGORY FA], [P TYPE], [L TYPE], [JW], [SCRAP])) Pivt GROUP BY [Item_Category_Code1], [Item_Cagetory_Values]) AS subQryCat order by  [Item_Cagetory_Values] desc"
             fnd_Category.arrValueMember = clsCommon.ShowMultipleSelectForm("MCR_Category", qry, "Item_Cagetory_Values", "Item_Cagetory_Values", fnd_Category.arrValueMember, fnd_Category.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fnd_ItemCode__My_Click(sender As Object, e As EventArgs) Handles fnd_ItemCode._My_Click
@@ -694,7 +694,7 @@ Public Class frmMonthlyConsumptionReport
             Dim qry As String = "SELECT item_code , Item_Desc from TSPL_ITEM_MASTER"
             fnd_ItemCode.arrValueMember = clsCommon.ShowMultipleSelectForm("MCR_ItemCode", qry, "item_code", "Item_Desc", fnd_ItemCode.arrValueMember, fnd_ItemCode.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fnd_Dept__My_Click(sender As Object, e As EventArgs) Handles fnd_Dept._My_Click
@@ -702,7 +702,7 @@ Public Class frmMonthlyConsumptionReport
             Dim qry As String = "select distinct TSPL_IssueReturn_HEAD.Dept  , TSPL_IssueReturn_HEAD.Dept_Desc from  TSPL_IssueReturn_HEAD "
             fnd_Dept.arrValueMember = clsCommon.ShowMultipleSelectForm("MCR_Dept", qry, "Dept", "Dept_Desc", fnd_Dept.arrValueMember, fnd_Dept.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fnd_DocNo__My_Click(sender As Object, e As EventArgs) Handles fnd_DocNo._My_Click
@@ -710,7 +710,7 @@ Public Class frmMonthlyConsumptionReport
             Dim qry = "SELECT distinct Doc_No , CAST(Doc_Date AS date) AS Doc_Date , Doc_Type  FROM TSPL_IssueReturn_HEAD "
             fnd_DocNo.arrValueMember = clsCommon.ShowMultipleSelectForm("MCR_fnd_DocNo", qry, "Doc_No", "Doc_No", fnd_DocNo.arrValueMember, fnd_DocNo.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv.CellDoubleClick
@@ -727,7 +727,7 @@ Public Class frmMonthlyConsumptionReport
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fnd_Months__My_Click(sender As Object, e As EventArgs) Handles fnd_Months._My_Click

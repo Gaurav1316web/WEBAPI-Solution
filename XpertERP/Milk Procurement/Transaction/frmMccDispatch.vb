@@ -788,7 +788,7 @@ Public Class FrmMccDispatch
         Dim qry As String = String.Empty
         Dim TaxType As String = ""
         If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC Name from which dispatch is being made, First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select MCC Name from which dispatch is being made, First", Me.Text)
             Exit Sub
         End If
         If clsCommon.myLen(fndChalanNo.Value) > 0 Then
@@ -817,7 +817,7 @@ Public Class FrmMccDispatch
                 txtPlantOrMccName.Text = clsDBFuncationality.getSingleValue("select Location_desc from tspl_location_master where Location_code='" & fndPlantOrMCCCode.Value & "'")
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
         End If
     End Sub
 
@@ -955,7 +955,7 @@ Public Class FrmMccDispatch
     Private Sub FrmMccDispatch_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         If clsCommon.CompairString(BtnStart.Text, "Stop") = CompairStringResult.Equal Then
             e.Cancel = True
-            clsCommon.MyMessageBoxShow("Please stop the port before application close", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please stop the port before application close", Me.Text)
         End If
     End Sub
 
@@ -1800,9 +1800,9 @@ Public Class FrmMccDispatch
                 trans.Commit()
                 If Not isPostbtnClick Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 btnSave.Text = "Update"
@@ -1841,7 +1841,7 @@ Public Class FrmMccDispatch
                     If clsCommon.MyMessageBoxShow("Want To Delete The Challan No : " & fndChalanNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         If clsMccDispatch.deleteData(fndChalanNo.Value, tran) Then
                             tran.Commit()
-                            clsCommon.MyMessageBoxShow("Deleted successFully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Deleted successFully", Me.Text)
                             Reset()
                         End If
                     End If
@@ -2836,7 +2836,7 @@ Public Class FrmMccDispatch
     Private Sub mnuDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub mnuSaveLayOut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSaveLayOut.Click
@@ -2850,7 +2850,7 @@ Public Class FrmMccDispatch
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2862,7 +2862,7 @@ Public Class FrmMccDispatch
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsMccDispatch.ReverseAndUnpost(fndChalanNo.Value, Nothing) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndChalanNo.Value, NavigatorType.Current)
                 End If
             End If

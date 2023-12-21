@@ -36,7 +36,7 @@ Public Class frmDairyProductionUploader
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -196,7 +196,7 @@ Public Class frmDairyProductionUploader
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -308,7 +308,7 @@ Public Class frmDairyProductionUploader
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -386,7 +386,7 @@ Public Class frmDairyProductionUploader
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -424,7 +424,7 @@ Public Class frmDairyProductionUploader
                     Throw New Exception("Please Fill at list one Item")
                 End If
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Document_No, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -474,7 +474,7 @@ Public Class frmDairyProductionUploader
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -487,11 +487,11 @@ Public Class frmDairyProductionUploader
             End If
             If clsCommon.MyMessageBoxShow("Delete the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsDairyProductionUploader.DeleteData(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Data delete successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data delete successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -617,7 +617,7 @@ ExitLOOP:
             End If
             Me.Controls.Remove(gv1)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -708,7 +708,7 @@ ExitLOOP:
             'End Try
             '    End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -750,7 +750,7 @@ ExitLOOP:
 
     Private Sub txtmain_Loc_Code__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("No location rights.")
+            clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
             Exit Sub
         End If
         txtLocation.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y'", txtLocation.Value, isButtonClicked)

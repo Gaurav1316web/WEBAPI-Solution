@@ -715,7 +715,7 @@ Public Class FrmVendorService
     Private Sub TxtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles TxtVendorNo._MYValidating
         Try
             If txtlocation.Value = "" Then
-                common.clsCommon.MyMessageBoxShow("Please first select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
                 TxtVendorNo.Value = ""
                 txtlocation.Focus()
                 Exit Sub
@@ -2144,7 +2144,7 @@ Public Class FrmVendorService
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -2174,7 +2174,7 @@ Public Class FrmVendorService
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+                clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
             End If
         End If
     End Sub
@@ -2221,7 +2221,7 @@ Public Class FrmVendorService
                     gv1.CurrentRow.Cells(colCostCenterName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Center_Fin_Name from TSPL_COST_CENTRE_FINANCIAL where Cost_Center_Fin_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCostCenterCode).Value) + "'"))
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+                clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
             End If
         End If
     End Sub
@@ -2271,7 +2271,7 @@ Public Class FrmVendorService
         Dim whrcls As String
         Dim arr As New ArrayList()
         If txtlocation.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please first select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
             Return
         End If
         arr = clsERPFuncationality.glaccountquery(objCommonVar.CurrentUserCode)
@@ -2302,7 +2302,7 @@ Public Class FrmVendorService
 
     Private Sub OpenInvoiceNo(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(TxtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
             gv1.CurrentRow.Cells(colDocNo).Value = ""
             Exit Sub
         End If
@@ -2936,7 +2936,7 @@ Public Class FrmVendorService
                 Dim strchk As String = "select Posting_Date from TSPL_VENDOR_INVOICE_HEAD where Document_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strchk))
                 If clsCommon.myLen(chkpost) > 0 Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow("Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -2975,18 +2975,18 @@ Public Class FrmVendorService
             End If
 
             If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please first select Location")
+                common.clsCommon.MyMessageBoxShow("Please first select Location", Me.Text)
                 txtlocation.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(TxtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vendor")
+                common.clsCommon.MyMessageBoxShow("Please select Vendor", Me.Text)
                 TxtVendorNo.Focus()
                 Return False
             End If
             If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                common.clsCommon.MyMessageBoxShow("Please select Tax Group", Me.Text)
                 txtTaxGroup.Focus()
                 Return False
             End If
@@ -3082,7 +3082,7 @@ Public Class FrmVendorService
                     grouptype = clsPaymentHeader.CheckGLAccountType(clsCommon.myCstr(gv1.Rows(ii).Cells(colACCode).Value), Nothing)
                     If Not clsCommon.CompairString(grouptype, "Balance Sheet") = CompairStringResult.Equal Then
                         If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colHierarchyCode).Value)) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(" Please select Hierarchy ")
+                            common.clsCommon.MyMessageBoxShow(" Please select Hierarchy ", Me.Text)
                             Return False
                         End If
                         If SettingCostCenterlevel Then
@@ -3098,7 +3098,7 @@ Public Class FrmVendorService
                             End If
                         End If
                         If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colCostCenterCode).Value)) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(" Please select Cost Center ")
+                            common.clsCommon.MyMessageBoxShow(" Please select Cost Center ", Me.Text)
                             Return False
                         End If
                     End If
@@ -3120,13 +3120,13 @@ Public Class FrmVendorService
             ''richa agarwal 12/06/2015
             If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "I") = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtVendorInvoiceNo.Text) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Enter Invoice No")
+                    common.clsCommon.MyMessageBoxShow("Please Enter Invoice No", Me.Text)
                     txtVendorInvoiceNo.Focus()
                     Return False
                 End If
             End If
             If chkProvision.Checked AndAlso (clsCommon.myCdbl(txtProvAmt.Text) <= 0 OrElse arrProvDocNo Is Nothing) Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one provision to Knock Off")
+                common.clsCommon.MyMessageBoxShow("Please select atleast one provision to Knock Off", Me.Text)
                 Return False
             End If
 
@@ -3520,7 +3520,7 @@ Public Class FrmVendorService
 
                 End If
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one GL Acount having Amount greater than zero.")
+                    common.clsCommon.MyMessageBoxShow("Please Fill at list one GL Acount having Amount greater than zero.", Me.Text)
                     Return
                 End If
 
@@ -3554,12 +3554,12 @@ Public Class FrmVendorService
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Document_No)
                     txtDocNo.Value = obj.Document_No
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4114,7 +4114,7 @@ Public Class FrmVendorService
             End If
             FillVendorDetails()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4147,7 +4147,7 @@ Public Class FrmVendorService
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4221,7 +4221,7 @@ Public Class FrmVendorService
                 LoadData(txtDocNo.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4245,12 +4245,12 @@ Public Class FrmVendorService
                 End If
                 If (clsVedorInvoiceHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4304,7 +4304,7 @@ Public Class FrmVendorService
             End Select
             LoadData(clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry)))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4337,7 +4337,7 @@ Public Class FrmVendorService
         'PrintData()
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No not found to print")
+                common.clsCommon.MyMessageBoxShow("Document No not found to print", Me.Text)
             End If
             Dim strDocNo As String = clsCommon.myCstr(txtDocNo.Value)
             Dim qry As String = " select TSPL_VENDOR_INVOICE_HEAD.IsEInvoice,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date, TSPL_Additional_Charges.SAC_Code,(TSPL_VENDOR_MASTER.Add1+' '+TSPL_VENDOR_MASTER.ADD2+' '+TSPL_VENDOR_MASTER.Add3) AS ADD1,TSPL_VENDOR_MASTER.PAN ,TSPL_VENDOR_MASTER.Pin_Code,TSPL_VENDOR_MASTER.State_Code,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_VENDOR_MASTER.City_Code_Desc,right(TSPL_VENDOR_INVOICE_HEAD.document_no,4) as Gatepass ,TSPL_VENDOR_INVOICE_HEAD.Loc_Code as from_location ,tspl_customer_master.GSTNO as Cust_GstInNo,TSPL_VENDOR_INVOICE_HEAD.document_no
@@ -4469,7 +4469,7 @@ Public Class FrmVendorService
 
     Sub PrintData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to print")
+            common.clsCommon.MyMessageBoxShow("Document No not found to print", Me.Text)
         End If
         Dim strDocNo As String = clsCommon.myCstr(txtDocNo.Value)
         'Dim Arr As New ArrayList
@@ -4550,7 +4550,7 @@ Public Class FrmVendorService
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function GetTaxRateTypeDT(ByVal DocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
@@ -4830,7 +4830,7 @@ Public Class FrmVendorService
                 ''End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4901,7 +4901,7 @@ Public Class FrmVendorService
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4913,7 +4913,7 @@ Public Class FrmVendorService
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4979,7 +4979,7 @@ Public Class FrmVendorService
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5079,7 +5079,7 @@ Public Class FrmVendorService
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5175,7 +5175,7 @@ Public Class FrmVendorService
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5369,13 +5369,13 @@ Public Class FrmVendorService
         repoAcCode.ReadOnly = False
 
         If clsCommon.myLen(txtlocation.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please first select location")
+            common.clsCommon.MyMessageBoxShow("Please first select location", Me.Text)
             txtlocation.Focus()
             Return
         End If
 
         If clsCommon.myLen(TxtVendorNo.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please first select vendor")
+            common.clsCommon.MyMessageBoxShow("Please first select vendor", Me.Text)
             TxtVendorNo.Focus()
             Return
         End If
@@ -5459,7 +5459,7 @@ Public Class FrmVendorService
             repochrValue.IsVisible = False
             repoItmCode.IsVisible = False
             repoItmName.IsVisible = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5475,7 +5475,7 @@ Public Class FrmVendorService
     '===========added by shivani tyagi[BM00000009381]
     Sub PrintJVDataKDIL()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to print")
+            common.clsCommon.MyMessageBoxShow("Document No not found to print", Me.Text)
         End If
         Dim qry As String = " select TSPL_JOURNAL_MASTER.CustVend_Code ,TSPL_JOURNAL_MASTER.CustVend_Name ,Source_Doc_No ,Source_Doc_Date ,Source_Narration,Vendor_Invoice_No ,Vendor_Invoice_Date,case when ((TSPL_VENDOR_INVOICE_HEAD.Posting_Date IS null ) Or (TSPL_VENDOR_INVOICE_HEAD.Posting_Date='') ) then 'Pending' else 'Posted' end as Status,RefDocNo , Account_code ,Account_Desc ,case when Amount>=0 then  Amount else 0 end as DrAmt,case when Amount<0 then -1 * Amount else 0 end as CrAmt ,Comp_Name ,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='I' then 'Bill Inward Voucher' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit Note' else case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then 'Credit Note' else '' end end end as InvoiceType ,CreatedBy.User_Name as CreateBy ,AuthorisedBy.User_Name as ApproveBy" &
          " from TSPL_JOURNAL_MASTER left join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Journal_No = TSPL_JOURNAL_MASTER.Journal_No  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No LEFT JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_JOURNAL_MASTER.Source_Doc_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code" &
@@ -5487,7 +5487,7 @@ Public Class FrmVendorService
     End Sub
     Sub PrintJVData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to print")
+            common.clsCommon.MyMessageBoxShow("Document No not found to print", Me.Text)
         End If
         'Dim Arr As New ArrayList
         'Arr.Add(txtDocNo.Value)
@@ -5515,12 +5515,12 @@ Public Class FrmVendorService
     Sub selectProvision()
 
         If dtpFromProv.Value > dtpToProv.Value Then
-            clsCommon.MyMessageBoxShow(" 'Provision From Date' can't be greator than 'Provision To Date'")
+            clsCommon.MyMessageBoxShow(" 'Provision From Date' can't be greator than 'Provision To Date'", Me.Text)
             dtpFromProv.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtlocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(" Please Select Location")
+            clsCommon.MyMessageBoxShow(" Please Select Location", Me.Text)
             txtlocation.Focus()
             Exit Sub
         End If
@@ -5566,7 +5566,7 @@ Public Class FrmVendorService
     Sub selectProvisionForCurrentDocment()
 
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select a Document")
+            clsCommon.MyMessageBoxShow(Me, "Please select a Document", Me.Text)
             Exit Sub
         End If
 
@@ -5628,16 +5628,16 @@ Public Class FrmVendorService
                 objTr.Asset_Code = clsCommon.myCstr(gv1.Rows(objTr.Detail_Line_No - 1).Cells(colAssetCode).Value)
             Next
             If clsVedorInvoiceHead.UpdateAfterPost(obj) Then
-                clsCommon.MyMessageBoxShow("Updated Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Updated Successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnPrintInvoice_Click(sender As Object, e As EventArgs) Handles btnPrintInvoice.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
         Else
             Dim isVendorRegister As Boolean = clsDBFuncationality.getSingleValue("select  GSTRegistered from TSPL_VENDOR_MASTER where vendor_code='" + TxtVendorNo.Value + "' ")
             If isVendorRegister = False Then
@@ -5645,10 +5645,10 @@ Public Class FrmVendorService
                 If clsCommon.myLen(strPurchaseTaxInvoiceNo) > 0 Then
                     funPrint(txtDocNo.Value)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to print")
+                    clsCommon.MyMessageBoxShow("No data found to print", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No data found to print")
+                clsCommon.MyMessageBoxShow("No data found to print", Me.Text)
             End If
 
         End If
@@ -5744,12 +5744,12 @@ Public Class FrmVendorService
                 End If
 
             Else
-                clsCommon.MyMessageBoxShow("No data found to print")
+                clsCommon.MyMessageBoxShow("No data found to print", Me.Text)
             End If
 
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -6310,7 +6310,7 @@ Public Class FrmVendorService
                 RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6327,10 +6327,10 @@ Public Class FrmVendorService
             obj.Ack_Date = txtAckDate.Value
             obj.QR_Code = EInvoiceQrCode.Text
             clsVedorInvoiceHead.UpdateEInvoiceAfterPosting(obj, txtDocNo.Value, Nothing)
-            clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully")
+            clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully", Me.Text)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

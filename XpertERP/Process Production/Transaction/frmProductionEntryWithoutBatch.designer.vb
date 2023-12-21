@@ -22,9 +22,9 @@ Partial Class frmProductionEntryWithoutBatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -212,7 +212,7 @@ Partial Class frmProductionEntryWithoutBatch
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(10, 119)
+        Me.MyLabel1.Location = New System.Drawing.Point(10, 117)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(90, 18)
         Me.MyLabel1.TabIndex = 330
@@ -229,7 +229,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtImportTemplate.MyLinkLable2 = Nothing
         Me.txtImportTemplate.MyNullText = "All"
         Me.txtImportTemplate.Name = "txtImportTemplate"
-        Me.txtImportTemplate.Size = New System.Drawing.Size(309, 20)
+        Me.txtImportTemplate.Size = New System.Drawing.Size(356, 19)
         Me.txtImportTemplate.TabIndex = 329
         '
         'lblConsmLocOtherDesc
@@ -254,7 +254,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtConsmLocOther.IsSourceFromTable = False
         Me.txtConsmLocOther.IsSourceFromValueList = False
         Me.txtConsmLocOther.IsUnique = False
-        Me.txtConsmLocOther.Location = New System.Drawing.Point(590, 94)
+        Me.txtConsmLocOther.Location = New System.Drawing.Point(590, 95)
         Me.txtConsmLocOther.MendatroryField = True
         Me.txtConsmLocOther.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtConsmLocOther.MyLinkLable1 = Me.MyLabel5
@@ -273,7 +273,7 @@ Partial Class frmProductionEntryWithoutBatch
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(476, 97)
+        Me.MyLabel5.Location = New System.Drawing.Point(476, 96)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(112, 16)
         Me.MyLabel5.TabIndex = 64
@@ -285,7 +285,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.lblConsmLocMilkDesc.BorderVisible = True
         Me.lblConsmLocMilkDesc.FieldName = Nothing
         Me.lblConsmLocMilkDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblConsmLocMilkDesc.Location = New System.Drawing.Point(272, 95)
+        Me.lblConsmLocMilkDesc.Location = New System.Drawing.Point(272, 94)
         Me.lblConsmLocMilkDesc.Name = "lblConsmLocMilkDesc"
         Me.lblConsmLocMilkDesc.Size = New System.Drawing.Size(202, 20)
         Me.lblConsmLocMilkDesc.TabIndex = 60
@@ -312,7 +312,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtConsmLocMilk.ReferenceFieldDesc = Nothing
         Me.txtConsmLocMilk.ReferenceFieldName = Nothing
         Me.txtConsmLocMilk.ReferenceTableName = Nothing
-        Me.txtConsmLocMilk.Size = New System.Drawing.Size(154, 18)
+        Me.txtConsmLocMilk.Size = New System.Drawing.Size(154, 19)
         Me.txtConsmLocMilk.TabIndex = 59
         Me.txtConsmLocMilk.Value = ""
         '
@@ -320,7 +320,7 @@ Partial Class frmProductionEntryWithoutBatch
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(10, 95)
+        Me.MyLabel2.Location = New System.Drawing.Point(10, 96)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(107, 16)
         Me.MyLabel2.TabIndex = 61
@@ -340,7 +340,7 @@ Partial Class frmProductionEntryWithoutBatch
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(10, 52)
+        Me.MyLabel3.Location = New System.Drawing.Point(10, 53)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(82, 16)
         Me.MyLabel3.TabIndex = 58
@@ -368,7 +368,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.fndItemCategory.ReferenceFieldDesc = Nothing
         Me.fndItemCategory.ReferenceFieldName = Nothing
         Me.fndItemCategory.ReferenceTableName = Nothing
-        Me.fndItemCategory.Size = New System.Drawing.Size(153, 20)
+        Me.fndItemCategory.Size = New System.Drawing.Size(153, 19)
         Me.fndItemCategory.TabIndex = 55
         Me.fndItemCategory.Value = ""
         '
@@ -386,7 +386,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtBatchNo.IsSourceFromTable = False
         Me.txtBatchNo.IsSourceFromValueList = False
         Me.txtBatchNo.IsUnique = False
-        Me.txtBatchNo.Location = New System.Drawing.Point(590, 31)
+        Me.txtBatchNo.Location = New System.Drawing.Point(590, 30)
         Me.txtBatchNo.MaxLength = 200
         Me.txtBatchNo.MendatroryField = False
         Me.txtBatchNo.MyLinkLable1 = Me.RadLabel2
@@ -413,7 +413,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.lblBatchNo.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.lblBatchNo.FieldName = Nothing
         Me.lblBatchNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBatchNo.Location = New System.Drawing.Point(483, 35)
+        Me.lblBatchNo.Location = New System.Drawing.Point(483, 31)
         Me.lblBatchNo.Name = "lblBatchNo"
         Me.lblBatchNo.Size = New System.Drawing.Size(53, 16)
         Me.lblBatchNo.TabIndex = 17
@@ -423,7 +423,7 @@ Partial Class frmProductionEntryWithoutBatch
         '
         Me.lblReceiptCode.FieldName = Nothing
         Me.lblReceiptCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReceiptCode.Location = New System.Drawing.Point(10, 10)
+        Me.lblReceiptCode.Location = New System.Drawing.Point(10, 9)
         Me.lblReceiptCode.Name = "lblReceiptCode"
         Me.lblReceiptCode.Size = New System.Drawing.Size(75, 16)
         Me.lblReceiptCode.TabIndex = 18
@@ -434,9 +434,9 @@ Partial Class frmProductionEntryWithoutBatch
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(337, 8)
+        Me.btnAddNew.Location = New System.Drawing.Point(336, 8)
         Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 21)
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
         Me.btnAddNew.TabIndex = 1
         '
         'txtDesc
@@ -451,7 +451,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(118, 75)
+        Me.txtDesc.Location = New System.Drawing.Point(118, 74)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel5
@@ -487,7 +487,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.dtpDate.IsSourceFromTable = False
         Me.dtpDate.IsSourceFromValueList = False
         Me.dtpDate.IsUnique = False
-        Me.dtpDate.Location = New System.Drawing.Point(400, 9)
+        Me.dtpDate.Location = New System.Drawing.Point(400, 8)
         Me.dtpDate.MendatroryField = False
         Me.dtpDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpDate.MyLinkLable1 = Me.RadLabel4
@@ -507,7 +507,7 @@ Partial Class frmProductionEntryWithoutBatch
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(368, 10)
+        Me.RadLabel4.Location = New System.Drawing.Point(368, 9)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 19
@@ -527,7 +527,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtComment.IsSourceFromTable = False
         Me.txtComment.IsSourceFromValueList = False
         Me.txtComment.IsUnique = False
-        Me.txtComment.Location = New System.Drawing.Point(590, 73)
+        Me.txtComment.Location = New System.Drawing.Point(590, 74)
         Me.txtComment.MaxLength = 200
         Me.txtComment.MendatroryField = False
         Me.txtComment.MyLinkLable1 = Me.RadLabel2
@@ -585,7 +585,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.lblLocation.BorderVisible = True
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(272, 31)
+        Me.lblLocation.Location = New System.Drawing.Point(272, 29)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(202, 20)
         Me.lblLocation.TabIndex = 14
@@ -627,7 +627,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(118, 32)
+        Me.txtLocation.Location = New System.Drawing.Point(118, 30)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Me.RadLabel6
@@ -638,7 +638,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtLocation.ReferenceFieldDesc = Nothing
         Me.txtLocation.ReferenceFieldName = Nothing
         Me.txtLocation.ReferenceTableName = Nothing
-        Me.txtLocation.Size = New System.Drawing.Size(154, 17)
+        Me.txtLocation.Size = New System.Drawing.Size(154, 19)
         Me.txtLocation.TabIndex = 5
         Me.txtLocation.Value = ""
         '
@@ -646,7 +646,7 @@ Partial Class frmProductionEntryWithoutBatch
         '
         Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel6.Location = New System.Drawing.Point(10, 32)
+        Me.RadLabel6.Location = New System.Drawing.Point(10, 31)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(49, 16)
         Me.RadLabel6.TabIndex = 15
@@ -710,7 +710,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvBatch.MasterTemplate.AllowAddNewRow = False
         Me.gvBatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBatch.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvBatch.Name = "gvBatch"
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBatch.ShowGroupPanel = False
@@ -758,7 +758,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvConsumption.MasterTemplate.AllowDeleteRow = False
         Me.gvConsumption.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvConsumption.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvConsumption.Name = "gvConsumption"
         Me.gvConsumption.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvConsumption.ShowGroupPanel = False
@@ -806,7 +806,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvProductionCost.MasterTemplate.AllowDeleteRow = False
         Me.gvProductionCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProductionCost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvProductionCost.Name = "gvProductionCost"
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProductionCost.ShowGroupPanel = False
@@ -835,7 +835,7 @@ Partial Class frmProductionEntryWithoutBatch
         'btnGo
         '
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(20, 5)
+        Me.btnGo.Location = New System.Drawing.Point(10, 10)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(55, 22)
         Me.btnGo.TabIndex = 35
@@ -844,7 +844,7 @@ Partial Class frmProductionEntryWithoutBatch
         'btnunpost
         '
         Me.btnunpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnunpost.Location = New System.Drawing.Point(378, 5)
+        Me.btnunpost.Location = New System.Drawing.Point(366, 10)
         Me.btnunpost.Name = "btnunpost"
         Me.btnunpost.Size = New System.Drawing.Size(76, 22)
         Me.btnunpost.TabIndex = 34
@@ -854,7 +854,7 @@ Partial Class frmProductionEntryWithoutBatch
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(303, 5)
+        Me.btnPrint.Location = New System.Drawing.Point(292, 10)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnPrint.TabIndex = 3
@@ -863,7 +863,7 @@ Partial Class frmProductionEntryWithoutBatch
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(153, 5)
+        Me.btnDelete.Location = New System.Drawing.Point(144, 10)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 22)
         Me.btnDelete.TabIndex = 1
@@ -872,7 +872,7 @@ Partial Class frmProductionEntryWithoutBatch
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(228, 5)
+        Me.btnPost.Location = New System.Drawing.Point(218, 10)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 22)
         Me.btnPost.TabIndex = 2
@@ -883,7 +883,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.None
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(962, 5)
+        Me.btnClose.Location = New System.Drawing.Point(962, 10)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 4
@@ -892,7 +892,7 @@ Partial Class frmProductionEntryWithoutBatch
         'btnSave
         '
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(78, 5)
+        Me.btnSave.Location = New System.Drawing.Point(70, 10)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0

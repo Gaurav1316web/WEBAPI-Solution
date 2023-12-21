@@ -297,7 +297,7 @@ Public Class frmIntimation
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsIntimation.ReverseAndUnpost(fndGateEntryNO.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndGateEntryNO.Value, NavigatorType.Current)
                 End If
             End If
@@ -333,7 +333,7 @@ Public Class frmIntimation
         Else
             Dim isUsed As Integer = clsDBFuncationality.getSingleValue("select SUM(row_Count ) from (select COUNT(*) as row_Count from  TSPL_Weighment_Detail where gate_entry_no='" & fndGateEntryNO.Value & "' union all select COUNT(*) as row_Count from tspl_quality_check where gate_entry_no='" & fndGateEntryNO.Value & "') xx ")
             If isUsed > 0 Then
-                clsCommon.MyMessageBoxShow("Gate Entry No is in use", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Gate Entry No is in use", Me.Text)
                 Exit Sub
             End If
             If myMessages.deleteConfirm() Then
@@ -537,7 +537,7 @@ Public Class frmIntimation
 
             End If
             trans.Rollback()
-            clsCommon.MyMessageBoxShow("Data Not Saved ", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
@@ -762,7 +762,7 @@ Public Class frmIntimation
             obj.GridColumns = gvItemBulk.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -816,14 +816,14 @@ Public Class frmIntimation
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             dtpDateAndTimeBulk.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy hh:mm:ss tt")
         End Try
     End Sub
 
     Private Sub txtSupplierCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSupplierCode._MYValidating
         If clsCommon.myLen(fndVendorBulk.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Vendor", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
             fndVendorBulk.Focus()
             Exit Sub
         End If

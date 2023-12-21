@@ -328,12 +328,12 @@ Public Class rptAPReport
                 gv1.EnableFiltering = True
                 FormatGrid()
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -453,7 +453,7 @@ Public Class rptAPReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -762,11 +762,11 @@ Public Class rptAPReport
 
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data found to print")
+                clsCommon.MyMessageBoxShow(Me, "No Data found to print", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnGST_Click(sender As Object, e As EventArgs) Handles btnGST.Click
@@ -823,11 +823,11 @@ Public Class rptAPReport
                 'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
                 'Process.Start(filePath)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -867,11 +867,11 @@ Public Class rptAPReport
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("AP Invoice Report" + IIf(btnSummary.IsChecked, "Summary", "Detail"), gv1, arrHeader, "AP Invoice Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

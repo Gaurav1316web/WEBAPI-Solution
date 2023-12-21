@@ -99,7 +99,7 @@ Public Class rptGSTR
                 gv1.EnableFiltering = True
                 FormatGridHeader()
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
 
             dt1 = clsDBFuncationality.GetDataTable(qryfooter)
@@ -124,12 +124,12 @@ Public Class rptGSTR
                     Next
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
 
             'ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1778,7 +1778,7 @@ Public Class rptGSTR
                 drilldownHeaderforgv1()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1797,7 +1797,7 @@ Public Class rptGSTR
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa agarwal 29 Nov,2018 ALF/26/11/18-000089
@@ -2554,11 +2554,11 @@ Public Class rptGSTR
                 End If
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data found to print")
+                clsCommon.MyMessageBoxShow(Me, "No Data found to print", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '==================Added by preeti Gupta AGAINST TICKET NO[]
@@ -3055,11 +3055,11 @@ Public Class rptGSTR
                 'Process.Start(filePath)
                 transportSql.QuickExportToExcel(gv3, "", Me.Text, , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3097,11 +3097,11 @@ Public Class rptGSTR
             If gv3.Rows.Count > 0 Then
                 clsCommon.MyExportToPDF(Me.Text, gv3, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

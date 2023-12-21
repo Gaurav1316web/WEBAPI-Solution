@@ -208,7 +208,7 @@ Public Class rptVendorAccountSetReport
             FormatGrid()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
 
             Else
@@ -288,7 +288,7 @@ Public Class rptVendorAccountSetReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -389,7 +389,7 @@ Public Class rptVendorAccountSetReport
             End If
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -423,7 +423,7 @@ Public Class rptVendorAccountSetReport
                 Me.Close()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -798,7 +798,7 @@ Public Class rptVendorAccountSetReport
         Gv1.MasterTemplate.AllowAddNewRow = False
             'Gv1.MasterTemplate.AllowDragToGroup = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -901,7 +901,7 @@ Public Class rptVendorAccountSetReport
         Gv1.MasterTemplate.AllowAddNewRow = False
             'Gv1.MasterTemplate.AllowDragToGroup = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -921,7 +921,7 @@ Public Class rptVendorAccountSetReport
         isInsideLoadData = False
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Gv1.EnableFiltering = False
         chkOnlyview.Checked = False
@@ -963,7 +963,7 @@ Public Class rptVendorAccountSetReport
                 clsCommon.MyExportToPDF("Vendor Account Set Report", Gv1, arrHeader, "Vendor Account Set Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1073,12 +1073,12 @@ Public Class rptVendorAccountSetReport
 
                 RadPageView1.SelectedPage = RadPageViewPage2
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Data Transfered Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data Transfered Successfully.", Me.Text)
 
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -1417,7 +1417,7 @@ Public Class rptVendorAccountSetReport
                 End If
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1464,7 +1464,7 @@ Public Class rptVendorAccountSetReport
                     End If
                 Next
 
-                common.clsCommon.MyMessageBoxShow("Data Update Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Update Successfully", Me.Text)
                 FunReset()
             End If
 
@@ -1489,7 +1489,7 @@ Public Class rptVendorAccountSetReport
                 clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.vendoraccountset, vendoraccountsetcode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1606,7 +1606,7 @@ Public Class rptVendorAccountSetReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

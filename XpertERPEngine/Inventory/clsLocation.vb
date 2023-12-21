@@ -230,6 +230,8 @@ Public Class clsLocation
             Throw New Exception(ex.Message)
         End Try
     End Function
+
+
     Public Shared Function GetGITMainLocation(ByVal strLocation As String, ByVal trans As SqlTransaction) As String
         Try
             Dim qry As String = "select Location_Code from TSPL_LOCATION_MASTER where GIT_Location='" + strLocation + "'"
@@ -506,6 +508,7 @@ Public Class clsLocation
                 isSaved = isSaved AndAlso clsLocationPlantDepotMapping.SaveData(obj, obj.ArrMappingPlantDepot, trans)
                 isSaved = isSaved AndAlso SaveLocationCategory(obj.Location_Code, obj.Loc_Cat_structr_Code, obj.ArrCategoryStr, trans)
             End If
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Location_Code, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "TSPL_MULTIPLE_DEDUCTION_DETAIL", "Document_No", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -2493,6 +2493,12 @@
       <DependentUpon>frmSetPOSchedule.vb</DependentUpon>
     </Compile>
     <Compile Include="Purchase Order\Tranasction\frmSetPOSchedule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchase Order\Tranasction\PurchaseGateOut.Designer.vb">
+      <DependentUpon>PurchaseGateOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Purchase Order\Tranasction\PurchaseGateOut.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase\Master\frmvendorsubgroup.Designer.vb">
@@ -6269,6 +6275,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Tranasction\frmSetPOSchedule.resx">
       <DependentUpon>frmSetPOSchedule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase Order\Tranasction\PurchaseGateOut.resx">
+      <DependentUpon>PurchaseGateOut.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Master\frmvendorsubgroup.resx">
       <DependentUpon>frmvendorsubgroup.vb</DependentUpon>

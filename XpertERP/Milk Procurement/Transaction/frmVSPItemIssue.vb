@@ -1259,7 +1259,7 @@ Public Class frmVSPItemIssue
 
                                 'End If
                             Else
-                                common.clsCommon.MyMessageBoxShow("Select the Location")
+                                common.clsCommon.MyMessageBoxShow(Me, "Select the Location", Me.Text)
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                             End If
                         End If
@@ -1287,7 +1287,7 @@ Public Class frmVSPItemIssue
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1367,7 +1367,7 @@ Public Class frmVSPItemIssue
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1376,7 +1376,7 @@ Public Class frmVSPItemIssue
         'If clsCommon.myLen(fndReqNo.Value) <= 0 Then
         If clsCommon.myLen(txtFromLocation.Value) = 0 Then
 
-            common.clsCommon.MyMessageBoxShow("Select the from location")
+            common.clsCommon.MyMessageBoxShow(Me, "Select the from location", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
             gv1.CurrentRow.Cells(colUnit).Value = ""
@@ -1633,7 +1633,7 @@ Public Class frmVSPItemIssue
                 Dim strchk As String = "select Status from TSPL_VSPItem_HEAD where Doc_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -1645,7 +1645,7 @@ Public Class frmVSPItemIssue
 
 
             If clsCommon.CompairString(clsCommon.myCstr(cboDocType.Text), "Issue") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Enter From Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter From Location", Me.Text)
                 txtFromLocation.Focus()
                 Return False
                 'ElseIf clsCommon.CompairString(clsCommon.myCstr(cboDocType.Text), "Return") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtFromLocation.Value) <= 0 Then
@@ -1655,29 +1655,29 @@ Public Class frmVSPItemIssue
             End If
 
             If clsCommon.CompairString(clsCommon.myCstr(cboDocType.Text), "Return") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtIssueNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Enter Issue No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter Issue No", Me.Text)
                 txtIssueNo.Focus()
                 Return False
             End If
 
 
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "Document No Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
             If clsCommon.myLen(cboDocType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Document Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Document Type", Me.Text)
                 cboDocType.Focus()
                 Return False
             End If
             If clsCommon.myLen(txtIssueTo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Issue To")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Issue To", Me.Text)
                 txtIssueTo.Focus()
                 Return False
             End If
             If clsCommon.myLen(txtRequestBy.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Requested By")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Requested By", Me.Text)
                 txtRequestBy.Focus()
                 Return False
             End If
@@ -1851,7 +1851,7 @@ Public Class frmVSPItemIssue
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -2065,12 +2065,12 @@ Public Class frmVSPItemIssue
                 Next
                 If clsCommon.CompairString(obj.Doc_Type, "Issue") = CompairStringResult.Equal Then
                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                        common.clsCommon.MyMessageBoxShow("Please Fill at least one Item")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Fill at least one Item", Me.Text)
                         Return
                     End If
                 ElseIf clsCommon.CompairString(obj.Doc_Type, "Return") = CompairStringResult.Equal Then
                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                        common.clsCommon.MyMessageBoxShow("Please return qty for at least one item")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please return qty for at least one item", Me.Text)
                         Return
                     End If
                 End If
@@ -2090,7 +2090,7 @@ Public Class frmVSPItemIssue
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Doc_No)
                     If ChekPostBTn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     txtDocNo.Value = obj.Doc_No
                     ''done by stuti approval work 01/12/2016
@@ -2101,7 +2101,7 @@ Public Class frmVSPItemIssue
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2525,7 +2525,7 @@ Public Class frmVSPItemIssue
             End If
             '============================================
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2558,7 +2558,7 @@ Public Class frmVSPItemIssue
                 End If
                 ''
                 If (clsVSPItemIssue.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     ''If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                     ''    print()
@@ -2566,7 +2566,7 @@ Public Class frmVSPItemIssue
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2594,12 +2594,12 @@ Public Class frmVSPItemIssue
                 End If
                 If (clsVSPItemIssue.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2623,7 +2623,7 @@ Public Class frmVSPItemIssue
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2780,7 +2780,7 @@ Public Class frmVSPItemIssue
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3155,7 +3155,7 @@ Public Class frmVSPItemIssue
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3205,7 +3205,7 @@ Public Class frmVSPItemIssue
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3474,7 +3474,7 @@ Public Class frmVSPItemIssue
 
                 If clsVSPItemIssue.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse and Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -3624,7 +3624,7 @@ Public Class frmVSPItemIssue
 
             Next
         Else
-            clsCommon.MyMessageBoxShow("No data found")
+            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End If
         isInsideLoadData = False
     End Sub
@@ -3640,7 +3640,7 @@ Public Class frmVSPItemIssue
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
         End If
         ''stuti regarding memory leakage
         obj.GridLayout.Close()

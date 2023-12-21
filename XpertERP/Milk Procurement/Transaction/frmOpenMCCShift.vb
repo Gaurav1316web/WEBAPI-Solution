@@ -94,7 +94,7 @@ Public Class FrmOpenMCCShift
                 Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -277,15 +277,15 @@ Public Class FrmOpenMCCShift
                         clsDBFuncationality.ExecuteNonQuery(sQuery)
                     End If
                     If FormCode = "MCC-SHF" Then
-                        clsCommon.MyMessageBoxShow("Shift Opened Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Shift Opened Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Shift Settings Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Shift Settings Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.MCC_SHIFT_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -331,7 +331,7 @@ Public Class FrmOpenMCCShift
                 Qry = "select * from tspl_milk_receipt_Head  Where MCC_Code = '" + txtmccode.Value + "' and shift='" & cmbShift.SelectedValue & "'and convert(date,Doc_date,103)=convert(date,'" & dtpShiftDate.Value & "',103)"
                 dt = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("This Shift is Used in Milk Receipt and can not be Updated.")
+                    clsCommon.MyMessageBoxShow(Me, "This Shift is Used in Milk Receipt and can not be Updated.", Me.Text)
                     Return False
                 End If
             End If
@@ -445,7 +445,7 @@ Public Class FrmOpenMCCShift
             If ShiftTiming = "1" Then
                 Dim IsOpenShift As Integer = ClsOpenMCCShift.CheckisShiftTimingAvailable(txtmccode.Value, cmbShift.SelectedValue)
                 If IsOpenShift <= 0 Then
-                    clsCommon.MyMessageBoxShow("Shift Timing Excluded.Can't be Save.")
+                    clsCommon.MyMessageBoxShow(Me, "Shift Timing Excluded.Can't be Save.", Me.Text)
                     Return False
                 End If
             End If
@@ -484,7 +484,7 @@ Public Class FrmOpenMCCShift
                 If dt.Rows.Count <= 0 Then
                     qry = "DELETE FROM TSPL_OPEN_MCC_SHIFT WHERE MCC_SHIFT_CODE='" + txtCode.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
-                    clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                     AddNew()
                 Else
                     clsCommon.MyMessageBoxShow("This Mcc Code has been used in Receipt...Can not be Deleted..")
@@ -493,12 +493,12 @@ Public Class FrmOpenMCCShift
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Transaction MCC-SHF[MMMProc] is Locked") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             ElseIf (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Cost Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
 
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -592,7 +592,7 @@ Public Class FrmOpenMCCShift
                     lblmccname.Text = ""
                 End If
             Else
-                clsCommon.MyMessageBoxShow("no location found")
+                clsCommon.MyMessageBoxShow(Me, "no location found", Me.Text)
                 'Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select isnull(Location_Code,'') As Location_Code, ISNULL(Location_Desc,'') AS Location_Desc from TSPL_LOCATION_MASTER  Where Location_Code  ='" + UserLoc + "' AND Location_Category ='MCC'")
                 'If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 '    If dt.Rows.Count = 1 Then
@@ -631,7 +631,7 @@ Public Class FrmOpenMCCShift
                 '    End If
             End If
         Else
-            clsCommon.MyMessageBoxShow("no location found")
+            clsCommon.MyMessageBoxShow(Me, "no location found", Me.Text)
         End If
     End Sub
 
@@ -723,7 +723,7 @@ Public Class FrmOpenMCCShift
                 clsCommon.ProgressBarShow()
                 clsDBFuncationality.ExecuteNonQuery("exec [dbo].[DeleteMccData]")
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Whole Data Deleted Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Whole Data Deleted Successfully.", Me.Text)
             End If
         ElseIf e.Control And e.Alt And e.KeyCode = Keys.F12 Then
            Dim frm As New FrmPWD(Nothing)

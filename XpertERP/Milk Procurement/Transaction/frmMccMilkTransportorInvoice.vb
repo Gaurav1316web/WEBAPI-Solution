@@ -1832,7 +1832,7 @@ Public Class frmMccMilkTransportorInvoice
                                     Dim cellPrice As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colRate).Value)
                                     Dim vendorPrice As Double = clsDBFuncationality.getSingleValue("select item_rate from TSPL_VENDOR_ITEM_DETAIL where vendor_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' and item_no='" & strCode & "'")
                                     If cellPrice > vendorPrice Then
-                                        clsCommon.MyMessageBoxShow("The Larger Price Of Item is not Allowed then the Vendor Item Price ", Me.Text)
+                                        clsCommon.MyMessageBoxShow(Me, "The Larger Price Of Item is not Allowed then the Vendor Item Price ", Me.Text)
                                         gv1.CurrentRow.Cells(colRate).Value = vendorPrice
                                     End If
 
@@ -2287,17 +2287,17 @@ Public Class frmMccMilkTransportorInvoice
             End If
 
             If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
                 txtTaxGroup.Focus()
                 Return False
             End If
             If clsCommon.myLen(fndBillToLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
                 fndBillToLocation.Focus()
                 Return False
             End If
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("PI No Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "PI No Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
@@ -2365,7 +2365,7 @@ Public Class frmMccMilkTransportorInvoice
             UcAttachment1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -2732,7 +2732,7 @@ Public Class frmMccMilkTransportorInvoice
 
                 obj.objJVC = SetPJVData(obj)
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -2801,7 +2801,7 @@ Public Class frmMccMilkTransportorInvoice
 a:                      UcAttachment1.SaveData(obj.PI_No)
 
                         If ChekPostBtn = False Then
-                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         End If
                         LoadData(obj.PI_No, NavigatorType.Current)
                     End If
@@ -2821,11 +2821,11 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
 
                 obj.LRNo = CboExpiration.Text 'txtCurrentCount.Text
                 If clsMilkTransporterInvoiceMCC.UpdateSecondaryInfo(obj, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4482,7 +4482,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4516,7 +4516,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4576,7 +4576,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4600,12 +4600,12 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
                 End If
                 If (clsMilkTransporterInvoiceMCC.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -4643,7 +4643,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5271,7 +5271,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsMilkTransporterInvoiceMCCDetail.CompletePI(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
@@ -5365,7 +5365,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
             objRemittance = frm.ObjReturn
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5691,7 +5691,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5746,7 +5746,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5788,7 +5788,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
                 e.RowElement.ForeColor = Color.Black
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5860,7 +5860,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
 
                         saveCancelLog(Reason, "Reverse and Recreate", trans)
                         trans.Commit()
-                        clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     Catch ex As Exception
                         trans.Rollback()
@@ -5902,7 +5902,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
 
     Private Sub DeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub SaveLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveLayoutrb.Click
@@ -5916,7 +5916,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -5933,7 +5933,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
     Private Sub btnsend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
@@ -5954,7 +5954,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 Return
             End If
 
@@ -6134,7 +6134,7 @@ a:                      UcAttachment1.SaveData(obj.PI_No)
         Dim strwherecls As String = ""
         strwherecls = MyBase.Cust_CustomerVendorMapping()
         If clsCommon.myLen(strwherecls) <= 0 Then
-            clsCommon.MyMessageBoxShow("No Customer Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Customer Found", Me.Text)
             Exit Sub
         End If
         '-----------------------------------------------------

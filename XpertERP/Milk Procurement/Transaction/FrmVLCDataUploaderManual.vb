@@ -342,7 +342,7 @@ Public Class FrmVLCDataUploaderManual
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isCellValueChangedOpen = False
         End Try
@@ -380,7 +380,7 @@ Public Class FrmVLCDataUploaderManual
             lblAvgSNF.Text = Format(clsCommon.myCdbl((TotalSNFKG * 100) / TotalQty), "###0.00")
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenFarmerCodeList(ByVal isButtonClick As Boolean)
@@ -523,7 +523,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
             If clsCommon.myLen(ex.Message) > 200 Then
                 clsERPFuncationality.OpenNotepadFile(ex.Message, Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -532,12 +532,12 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
             clsLockMPPaymentCycle.LockMPTransaction(fndMCC_Code.Value, txtdate.Value)
             If (deleteConfirm()) Then
                 If (ClsVLCDataUploaderManual.DeleteData(fndDocumentNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -635,7 +635,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
 
             LoadData(fndDocumentNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -656,7 +656,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
                 'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -670,13 +670,13 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
     Private Sub fndVLCCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndVLCCode._MYValidating
         Try
             If clsCommon.myLen(clsCommon.myCstr(fndMCC_Code.Value)) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Select MCC First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select MCC First.", Me.Text)
                 fndMCC_Code.Focus()
                 Exit Sub
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(ddlShift.Text)) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Select Shift.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Shift.", Me.Text)
                 ddlShift.Focus()
                 Exit Sub
             End If
@@ -899,7 +899,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
@@ -1053,7 +1053,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gvItem)
         End Try
@@ -1376,7 +1376,7 @@ Where 2=2 and TSPL_MP_MASTER.VLC_Code<>'" + obj.VLC_Code + "' and MP_Code in('" 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -1493,7 +1493,7 @@ Where 2=2 and TSPL_MP_MASTER.VLC_Code<>'" + obj.VLC_Code + "' and MP_Code in('" 
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gvItem)
         End Try
@@ -1529,12 +1529,12 @@ Where 2=2 and TSPL_MP_MASTER.VLC_Code<>'" + obj.VLC_Code + "' and MP_Code in('" 
 
             If (clsCommon.MyMessageBoxShow(Me, "Delete " + clsCommon.myCstr(TxtMultiSelectFinder3.arrValueMember.Count) + "Documents." + Environment.NewLine + "Are You sure?", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question)) = System.Windows.Forms.DialogResult.Yes Then
                 If (ClsVLCDataUploaderManual.DeleteData(TxtMultiSelectFinder3.arrValueMember)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     TxtMultiSelectFinder3.arrValueMember = Nothing
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

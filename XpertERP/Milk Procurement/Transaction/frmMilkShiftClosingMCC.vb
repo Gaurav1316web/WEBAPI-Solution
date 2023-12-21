@@ -150,9 +150,9 @@ Public Class frmMilkShiftClosingMCC
         If clsCommon.myCstr(fndMccCode.Text) <> "" Then
             Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(fndMcc.Value)
             If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No shift is opened. one Shift Must be Opened..")
+                clsCommon.MyMessageBoxShow(Me, "No shift is opened. one Shift Must be Opened..", Me.Text)
             ElseIf DTShift.Rows.Count > 1 Then
-                clsCommon.MyMessageBoxShow("There are more then one shifts are opened.Only one Shift can be Opened..")
+                clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..", Me.Text)
             Else
                 cboShift.SelectedValue = DTShift.Rows(0).Item("Shift")
                 dtpDocDate.Value = DTShift.Rows(0).Item("MCC_Shift_date")
@@ -197,7 +197,7 @@ Public Class frmMilkShiftClosingMCC
                 ArrGateEntryWithPenalty = clsCommon.ShowMultipleSelectForm(False, "MILRETP", qry, "Entry_Code", Nothing, ArrGateEntryWithPenalty, Nothing)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Exit Sub
         End Try
 
@@ -363,7 +363,7 @@ Public Class frmMilkShiftClosingMCC
                         ''---------------------End of For Kwality Only---------------------------
                         'Comment code as per Balwinder sir
                         If clsMilkShiftEndAttachment.SaveData(objHead.DOC_CODE, objListAttachment, trans) Then
-                            clsCommon.MyMessageBoxShow("Shift Ended Successfully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Shift Ended Successfully", Me.Text)
                         End If
                         LoadData(objHead.DOC_CODE)
                     End If
@@ -373,7 +373,7 @@ Public Class frmMilkShiftClosingMCC
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -649,7 +649,7 @@ Public Class frmMilkShiftClosingMCC
                 Dim strchk As String = "select Posted from TSPL_MILK_Shift_End_Head where DOC_COde='" + txtCode.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -688,7 +688,7 @@ Public Class frmMilkShiftClosingMCC
                 Return False
             ElseIf NoOfDock > 0 Then
                 If NoOfDock <> dt.Rows.Count Then
-                    clsCommon.MyMessageBoxShow("Milk Receipt not found for All Dock.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Milk Receipt not found for All Dock.", Me.Text)
                     Return False
                 End If
             End If
@@ -699,7 +699,7 @@ Public Class frmMilkShiftClosingMCC
                 Return False
             ElseIf NoOfDock > 0 Then
                 If NoOfDock <> dt.Rows.Count Then
-                    clsCommon.MyMessageBoxShow("Milk Sample not found for All Dock.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Milk Sample not found for All Dock.", Me.Text)
                     Return False
                 End If
             End If
@@ -707,12 +707,12 @@ Public Class frmMilkShiftClosingMCC
 
 
             If clsCommon.myLen(Me.cboShift.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Shift", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Shift", Me.Text)
                 Return False
             End If
 
             If clsCommon.myLen(Me.fndMccCode.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter MCC", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter MCC", Me.Text)
                 fndMccCode.Focus()
                 Return False
             End If
@@ -795,14 +795,14 @@ Public Class frmMilkShiftClosingMCC
                 End If
 
                 If clsCommon.myCdbl(grow.Cells(col_Deduction_of_transporter).Value) > 0 And clsCommon.myLen(grow.Cells(col_Reason_Deduction).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill [Deduction Reason] in Route Grid For Deduction Rows.", "Validation")
+                    clsCommon.MyMessageBoxShow(Me, "Fill [Deduction Reason] in Route Grid For Deduction Rows.", "Validation")
                     GvRoute.CurrentRow = GvRoute.Rows(grow.Index)
                     GvRoute.CurrentColumn = GvRoute.Columns(col_Reason_Deduction)
                     RadPageView2.SelectedPage = RadPageViewPage2
                     Return False
                 End If
                 If clsCommon.myCdbl(grow.Cells(col_Deduction_of_transporter).Value) <= 0 And clsCommon.myLen(grow.Cells(col_Reason_Deduction).Value) > 0 Then
-                    clsCommon.MyMessageBoxShow("Fill [Deduction] in Route Grid For Deduction Reason is Filled.", "Validation")
+                    clsCommon.MyMessageBoxShow(Me, "Fill [Deduction] in Route Grid For Deduction Reason is Filled.", "Validation")
                     GvRoute.CurrentRow = GvRoute.Rows(grow.Index)
                     GvRoute.CurrentColumn = GvRoute.Columns(col_Deduction_of_transporter)
                     RadPageView2.SelectedPage = RadPageViewPage2
@@ -818,14 +818,14 @@ Public Class frmMilkShiftClosingMCC
                         arr_vlc.Add(clsCommon.myCstr(row.Cells(colVlc_Code).Value))
                     End If
                     If clsCommon.myCdbl(row.Cells(colDeduction_of_VSP).Value) > 0 And clsCommon.myLen(row.Cells(col_reason).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Fill [Deduction Reason] in Documents and Deduction Grid For Deduction Rows.", "Validation")
+                        clsCommon.MyMessageBoxShow(Me, "Fill [Deduction Reason] in Documents and Deduction Grid For Deduction Rows.", "Validation")
                         gv1.CurrentRow = gv1.Rows(grow.Index)
                         gv1.CurrentColumn = gv1.Columns(col_reason)
                         RadPageView2.SelectedPage = RadPageViewPage3
                         Return False
                     End If
                     If clsCommon.myCdbl(row.Cells(colDeduction_of_VSP).Value) <= 0 And clsCommon.myLen(row.Cells(col_reason).Value) > 0 Then
-                        clsCommon.MyMessageBoxShow("Fill [Deduction] in Documents and Deduction Grid For Deduction Rows.", "Validation")
+                        clsCommon.MyMessageBoxShow(Me, "Fill [Deduction] in Documents and Deduction Grid For Deduction Rows.", "Validation")
                         gv1.CurrentRow = gv1.Rows(grow.Index)
                         gv1.CurrentColumn = gv1.Columns(colDeduction_of_VSP)
                         RadPageView2.SelectedPage = RadPageViewPage3
@@ -894,7 +894,7 @@ Public Class frmMilkShiftClosingMCC
             UcCustomFields1.AllowToSave()
             '=======================================================
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1074,12 +1074,12 @@ Public Class frmMilkShiftClosingMCC
                     End If
                 End If
                 If (clsMilkShiftEndMCC.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1432,7 +1432,7 @@ Public Class frmMilkShiftClosingMCC
             SetSampleDetails()
             isInsideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadBlankGrid()
@@ -2025,10 +2025,10 @@ Public Class frmMilkShiftClosingMCC
         Try
             If e.Column Is gv1.Columns(colDeduction_of_VSP) Then
                 If clsCommon.myLen(gv1.CurrentRow.Cells(colAorC).Value) <= 0 And clsCommon.myCdbl(gv1.CurrentRow.Cells(colDeduction_of_VSP).Value) > 0 Then
-                    clsCommon.MyMessageBoxShow("Please select [Amount/Rate(%)] First.")
+                    clsCommon.MyMessageBoxShow(Me, "Please select [Amount/Rate(%)] First.")
                     gv1.CurrentRow.Cells(colDeduction_of_VSP).Value = 0
                 ElseIf clsCommon.myCstr(gv1.CurrentRow.Cells(colAorC).Value) = "R" And clsCommon.myCdbl(gv1.CurrentRow.Cells(colDeduction_of_VSP).Value) > 100 Then
-                    clsCommon.MyMessageBoxShow("Rate can not be greater then 100.")
+                    clsCommon.MyMessageBoxShow(Me, "Rate can not be greater then 100.")
                     gv1.CurrentRow.Cells(colDeduction_of_VSP).Value = 0
                 End If
             ElseIf Not isInsideLoadData And e.Column Is gv1.Columns(col_reason) Then
@@ -2078,7 +2078,7 @@ Public Class frmMilkShiftClosingMCC
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -2164,7 +2164,7 @@ Public Class frmMilkShiftClosingMCC
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2179,7 +2179,7 @@ Public Class frmMilkShiftClosingMCC
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2342,7 +2342,7 @@ Public Class frmMilkShiftClosingMCC
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
         End If
         ''stuti regarding memory leakage
         obj.GridLayout.Close()
@@ -2428,10 +2428,10 @@ Public Class frmMilkShiftClosingMCC
         fndMcc.Value = clsMccMaster.getFinder("", fndMcc.Value, isButtonClicked)
         Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(fndMcc.Value)
         If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No shifts is opened.Atleats one Shift should be Opened..")
+            clsCommon.MyMessageBoxShow(Me, "No shifts is opened.Atleats one Shift should be Opened..", Me.Text)
             btnsave.Enabled = False
         ElseIf DTShift.Rows.Count > 1 Then
-            clsCommon.MyMessageBoxShow("There are more then one shifts are opened.Only one Shift can be Opened..")
+            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..", Me.Text)
             Me.Close()
         Else
             btnsave.Enabled = True
@@ -2473,7 +2473,7 @@ Public Class frmMilkShiftClosingMCC
     ''RICHA BHA/25/10/18-000640 25 OCT,2018
     Private Sub fndSiloInLoc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndSiloInLoc._MYValidating
         If clsCommon.myLen(fndAutoInLoc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(" Please select a In Location First ")
+            clsCommon.MyMessageBoxShow(Me, " Please select a In Location First ", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
