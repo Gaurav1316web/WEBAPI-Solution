@@ -74,7 +74,7 @@ Public Class FrmRequisitionApproval
     Private Function AllowToSave() As Boolean
         If Not (rbtnOff.IsChecked Or rbtnLBL1.IsChecked Or rbtnLBL2.IsChecked) Then
             If clsCommon.myCdbl(txtLevel1.Text) >= clsCommon.myCdbl(txtLevel2.Text) Then
-                clsCommon.MyMessageBoxShow("Level1 user amount can not be greater/equal to level2 user amount")
+                clsCommon.MyMessageBoxShow("Level1 user amount can not be greater/equal to level2 user amount", Me.Text)
                 Return False
             End If
         End If
@@ -105,7 +105,7 @@ Public Class FrmRequisitionApproval
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

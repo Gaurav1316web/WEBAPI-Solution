@@ -92,7 +92,7 @@ Public Class FrmWTDRpt
             chkLocAll.IsChecked = True
             loadItem()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -111,7 +111,7 @@ Public Class FrmWTDRpt
             Dim Strlocation As String = ""
 
             If chkIselect.IsChecked AndAlso cgvItem.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Item")
+                common.clsCommon.MyMessageBoxShow("Please select atleast one Item", Me.Text)
                 Return
             End If
 
@@ -129,7 +129,7 @@ Public Class FrmWTDRpt
 
           
             If (dtpfyear.Value > dtptyear.Value) Then
-                common.clsCommon.MyMessageBoxShow("Fromyear should be less than Toyear")
+                common.clsCommon.MyMessageBoxShow("Fromyear should be less than Toyear", Me.Text)
                 Return
             End If
 
@@ -269,7 +269,7 @@ Public Class FrmWTDRpt
 
             If chkLocSelect.IsChecked Then
                 If cbgLocation.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select one location ")
+                    common.clsCommon.MyMessageBoxShow("Please select one location ", Me.Text)
                     Return
                 End If
                 qry += "and TSPL_LOCATION_MASTER.Loc_Segment_Code  IN (" + clsCommon.GetMulcallString(locationArr) + ") "
@@ -310,7 +310,7 @@ Public Class FrmWTDRpt
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

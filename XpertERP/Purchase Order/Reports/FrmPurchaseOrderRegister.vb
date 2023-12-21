@@ -347,7 +347,7 @@ Public Class FrmPurchaseOrderRegister
                             'colDateWithNullSum = clsDBFuncationality.getSingleValue(" Select  STUFF((SELECT '+' +'tttt.' +'['+aa.purchaseorder_date+']' from (select distinct convert(varchar,PurchaseOrder_Date,103) PurchaseOrder_Date FROM TSPL_PURCHASE_ORDER_HEAD where datename(month,convert(date, PurchaseOrder_Date,103)) ='" + cboMonthName.Text + "' and Convert(Date,PurchaseOrder_Date,103) >=convert(date,'" + fromdate + "',103) and Convert(Date,PurchaseOrder_Date,103) <=Convert(Date,'" + Todate + "',103))aa order by convert(date,aa.PurchaseOrder_Date,103)  FOR XML PATH ('')), 1, 1, '') ")
                             'colDatforSummery = clsDBFuncationality.getSingleValue(" Select  STUFF((SELECT ','+aa.purchaseorder_date from (select distinct convert(varchar,PurchaseOrder_Date,103) PurchaseOrder_Date FROM TSPL_PURCHASE_ORDER_HEAD where datename(month,convert(date, PurchaseOrder_Date,103)) ='" + cboMonthName.Text + "' and Convert(Date,PurchaseOrder_Date,103) >=convert(date,'" + fromdate + "',103) and Convert(Date,PurchaseOrder_Date,103) <=Convert(Date,'" + Todate + "',103))aa order by convert(date,aa.PurchaseOrder_Date,103)  FOR XML PATH ('')), 1, 1, '')")
                         Catch ex As Exception
-                            clsCommon.MyMessageBoxShow("No Data Found")
+                            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
                             Return
                         End Try
                     End If
@@ -704,8 +704,8 @@ Public Class FrmPurchaseOrderRegister
                     gv.DataSource = Nothing
                     gv.Rows.Clear()
                     gv.Columns.Clear()
-                    clsCommon.MyMessageBoxShow("No Data Found")
-                    Exit Sub
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                Exit Sub
                 End If
                 'If dtCategory IsNot Nothing AndAlso dtCategory.Rows.Count > 0 Then
                 '    For Each dr As DataRow In dtCategory.Rows
@@ -787,7 +787,7 @@ Public Class FrmPurchaseOrderRegister
             End If
             ' ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormationOFGV1()
@@ -1107,7 +1107,7 @@ Public Class FrmPurchaseOrderRegister
                 frm.Controls.Add(gv)
                 FillGridView(sql, gv)
                 If gv.Rows.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("There is no data for Show Excel Report.")
+                    common.clsCommon.MyMessageBoxShow("There is no data for Show Excel Report.", Me.Text)
                     Return False
                 End If
                 Dim i As Integer = 0

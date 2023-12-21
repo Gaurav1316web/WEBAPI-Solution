@@ -373,7 +373,7 @@ Public Class frmPendingRGP
             Next
 
             If ArrReturn_Job.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending RGP item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending RGP item", Me.Text)
             Else
                 Me.Close()
             End If
@@ -399,7 +399,7 @@ Public Class frmPendingRGP
             Next
 
             If ArrReturn.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending RGP item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending RGP item", Me.Text)
             Else
                 Me.Close()
             End If

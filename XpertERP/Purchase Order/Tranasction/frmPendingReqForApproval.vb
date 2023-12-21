@@ -119,12 +119,12 @@ Public Class FrmPendingReqForApproval
             gv1.TableElement.TableHeaderHeight = 40
 
             If dt.Rows.Count = 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found To Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found To Display", Me.Text)
                 Exit Sub
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -143,15 +143,15 @@ Public Class FrmPendingReqForApproval
                 End If
             Next
             If isPosted Then
-                clsCommon.MyMessageBoxShow("Successfully Approved")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Approved", Me.Text)
                 LoadData()
             Else
 
-                clsCommon.MyMessageBoxShow("Please select at least one Requisition to Approve")
+                clsCommon.MyMessageBoxShow(Me, "Please select at least one Requisition to Approve", Me.Text)
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
