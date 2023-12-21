@@ -100,7 +100,7 @@ Public Class FrmMilkCollectionCenters
             Try
                 If clsMilkCollectionCenters.SaveData(obj, isNewEntry, trans) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     LoadData(obj.COLLECTION_CENTER_CODE, NavigatorType.Current)
                 End If
             Catch ex As Exception
@@ -204,7 +204,7 @@ Public Class FrmMilkCollectionCenters
             If clsCommon.MyMessageBoxShow("Delete the Current User." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim qry As String = "delete from TSPL_MilkCollectionCenter where COLLECTION_CENTER_CODE='" + txtCollectionCenters.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 Addnew()
             End If
         Catch ex As Exception

@@ -22,11 +22,11 @@ Public Class rptAuditTrailReport
         Try
 
             If clsCommon.myLen(fndScreen.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Screen ....", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Screen ....", Me.Text)
                 Exit Sub
             End If
             If txtToDate.Value < txtFromDate.Value Then
-                clsCommon.MyMessageBoxShow("To Date cant be less than from date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "To Date cant be less than from date", Me.Text)
                 Exit Sub
             End If
             Dim strMoudleName As String = lblModule.Text
@@ -2708,7 +2708,7 @@ Public Class rptAuditTrailReport
                     Panel1.Enabled = False
 
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 End If
 
                 gv1.DataSource = dt
@@ -2831,7 +2831,7 @@ Public Class rptAuditTrailReport
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -2862,10 +2862,10 @@ Public Class rptAuditTrailReport
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2887,10 +2887,10 @@ Public Class rptAuditTrailReport
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("Audit Trail Report", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2967,7 +2967,7 @@ Public Class rptAuditTrailReport
                 DrillDown()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2979,7 +2979,7 @@ Public Class rptAuditTrailReport
                 'End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

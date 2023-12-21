@@ -146,7 +146,7 @@ Public Class frmMCCGateEntry
                 obj.Transporter_Code = txtTransporter.Value
                 obj.Remarks = txtRemarks.Text
                 If (clsMCCGateEntry.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
             End If

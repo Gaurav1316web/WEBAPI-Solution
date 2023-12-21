@@ -625,7 +625,7 @@ Public Class frmIncetiveEntryBySRN
         Try
             If (clsCommon.myLen(txtCode.Value) > 0 AndAlso myMessages.postConfirm()) Then
                 If (clsIncentiveEntryBySRNHead.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
@@ -661,7 +661,7 @@ Public Class frmIncetiveEntryBySRN
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document No found.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document No found.", Me.Text)
                 Return
             End If
             Dim frmCRV As New frmCrystalReportViewer()
@@ -699,7 +699,7 @@ Public Class frmIncetiveEntryBySRN
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -838,7 +838,7 @@ Public Class frmIncetiveEntryBySRN
                 frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptIncentiveEntryBySRNVSPWise", "Incentive")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -850,7 +850,7 @@ Public Class frmIncetiveEntryBySRN
                                   order by TSPL_INCENTIVE_ENTRY_BY_SRN_DETAIL.Vsp_Code"
             txtVSP_Print.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "PPfPVisrn@@PrintVSP", qry, "Code", "", txtVSP_Print.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

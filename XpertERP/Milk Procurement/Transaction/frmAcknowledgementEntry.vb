@@ -805,7 +805,7 @@ Public Class frmAcknowledgementEntry
         Dim qry As String = String.Empty
 
         If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC Name from which dispatch is being made, First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select MCC Name from which dispatch is being made, First", Me.Text)
             Exit Sub
         End If
 
@@ -820,7 +820,7 @@ Public Class frmAcknowledgementEntry
                 ' lblToPlantName.Text = clsLocation.GetPlantNameFromMCC(fndPlantOrMCCCode.Value, Nothing)
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select ' Tanker Dispatch To  ' type First ")
+            clsCommon.MyMessageBoxShow(Me, "Please Select ' Tanker Dispatch To  ' type First ")
         End If
     End Sub
 
@@ -1060,9 +1060,9 @@ Public Class frmAcknowledgementEntry
             If clsAcknowledgementEntry.SaveData(obj) Then
                 If Not isPostbtnClick Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 btnSave.Text = "Update"
@@ -1099,7 +1099,7 @@ Public Class frmAcknowledgementEntry
                 End If
                 If (clsAcknowledgementEntry.DeleteData(fndDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -1296,7 +1296,7 @@ Public Class frmAcknowledgementEntry
     Private Sub mnuDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub mnuSaveLayOut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSaveLayOut.Click
@@ -1310,7 +1310,7 @@ Public Class frmAcknowledgementEntry
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1322,7 +1322,7 @@ Public Class frmAcknowledgementEntry
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsAcknowledgementEntry.ReverseAndUnpost(fndDocNo.Value, Nothing) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndDocNo.Value, NavigatorType.Current)
                 End If
             End If

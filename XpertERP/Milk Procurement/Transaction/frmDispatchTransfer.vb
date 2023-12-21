@@ -37,7 +37,7 @@ Public Class FrmDispatchTransfer
     Private Sub fndNewToLocCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndNewToLocCode._MYValidating
         Dim qry As String = String.Empty
         If clsCommon.myLen(fndFromLocationOld.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC  from which Dispatch is being made, First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select MCC  from which Dispatch is being made, First", Me.Text)
             Exit Sub
         End If
         Dim blnInterstate As Boolean = False
@@ -59,18 +59,18 @@ Public Class FrmDispatchTransfer
             End If
             Dim ToLocState = clsDBFuncationality.getSingleValue("Select state from tspl_location_master where location_code='" & fndNewToLocCode.Value & "'")
             If blnInterstate AndAlso clsCommon.CompairString(FRomLocState, ToLocState) = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("From Location State and To location State should be different in case of interstate. ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "From Location State and To location State should be different in case of interstate. ", Me.Text)
                 fndNewToLocCode.Value = ""
             End If
             txtNewToLocationName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_desc from tspl_location_master where Location_code='" & fndNewToLocCode.Value & "'"))
         Else
-            clsCommon.MyMessageBoxShow("Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
         End If
     End Sub
 
     Private Sub fndTankerNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndTankerNo._MYValidating
         If clsCommon.myLen(fndFromLocationOld.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location First.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Location First.", Me.Text)
             fndFromLocationOld.Focus()
             Exit Sub
         End If
@@ -193,9 +193,9 @@ Public Class FrmDispatchTransfer
                 trans.Commit()
                 If Not isPostbtnClick Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 LoadData(obj.Doc_No, NavigatorType.Current)
@@ -222,7 +222,7 @@ Public Class FrmDispatchTransfer
                 If clsCommon.MyMessageBoxShow("Want To Delete The Doc No : " & fndDocNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     If clsDispatchTransfer.deleteData(fndDocNo.Value, tran) Then
                         tran.Commit()
-                        clsCommon.MyMessageBoxShow("Deleted successFully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Deleted successFully", Me.Text)
                         Reset()
                     End If
                 End If
@@ -231,7 +231,7 @@ Public Class FrmDispatchTransfer
             End If
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal navType As NavigatorType)
