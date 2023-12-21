@@ -207,7 +207,7 @@ Public Class frmMilkPurchaseInvoiceMCC
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -328,7 +328,7 @@ Public Class frmMilkPurchaseInvoiceMCC
             Return True
         Catch ex As Exception
             ' trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -345,20 +345,20 @@ Public Class frmMilkPurchaseInvoiceMCC
                 Dim strchk As String = "select POSTED from TSPL_MILK_PURCHASE_INVOICE_HEAD where DOC_COde='" + txtCode.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk, trans)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
 
             If clsCommon.myLen(Me.FndMccCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter MCC", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter MCC", Me.Text)
                 FndMccCode.Focus()
                 Return False
             End If
 
 
             If clsCommon.myLen(Me.fndVSPCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter VSP Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter VSP Code", Me.Text)
                 fndVSPCode.Focus()
                 Return False
             End If
@@ -485,7 +485,7 @@ Public Class frmMilkPurchaseInvoiceMCC
 
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
         If SaveData() Then
-            clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             LoadData(txtCode.Value)
         End If
     End Sub
@@ -514,12 +514,12 @@ Public Class frmMilkPurchaseInvoiceMCC
                     End If
                 End If
                 If (clsMilkPurchaseInvoiceMCC.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -725,7 +725,7 @@ Public Class frmMilkPurchaseInvoiceMCC
             btnPrint.Enabled = True
             btnBillOfSupply.Enabled = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2125,7 +2125,7 @@ Public Class frmMilkPurchaseInvoiceMCC
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2244,7 +2244,7 @@ Public Class frmMilkPurchaseInvoiceMCC
 
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please select an invoice to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)
         End If
         frmCRV = Nothing
     End Sub
@@ -2261,13 +2261,13 @@ Public Class frmMilkPurchaseInvoiceMCC
             tran.Rollback()
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnBillOfSupply_Click(sender As Object, e As EventArgs) Handles btnBillOfSupply.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
         Else
             Dim isVendorRegister As Boolean = clsDBFuncationality.getSingleValue("select  GSTRegistered from TSPL_VENDOR_MASTER where vendor_code='" + fndVSPCode.Value + "' ")
             If isVendorRegister = False Then
@@ -2275,10 +2275,10 @@ Public Class frmMilkPurchaseInvoiceMCC
                 If clsCommon.myLen(strPurchaseTaxInvoiceNo) > 0 Then
                     PrintData(True)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to print")
+                    clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No data found to print")
+                clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
             End If
 
         End If
@@ -2301,7 +2301,7 @@ Public Class frmMilkPurchaseInvoiceMCC
             'objRemittance = frm.ObjReturn
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

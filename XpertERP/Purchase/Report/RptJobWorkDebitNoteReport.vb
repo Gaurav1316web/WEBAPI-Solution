@@ -21,12 +21,12 @@ Public Class RptJobWorkDebitNoteReport
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Location")
+            clsCommon.MyMessageBoxShow(Me, "Select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(fndcustNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Vendor")
+            clsCommon.MyMessageBoxShow(Me, "Select Vendor", Me.Text)
             fndcustNo.Focus()
             Exit Sub
         End If
@@ -53,7 +53,7 @@ Public Class RptJobWorkDebitNoteReport
     Private Sub fndcustNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndcustNo._MYValidating
         fndcustNo.Focus()
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Location")
+            clsCommon.MyMessageBoxShow(Me, "Select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
         End If

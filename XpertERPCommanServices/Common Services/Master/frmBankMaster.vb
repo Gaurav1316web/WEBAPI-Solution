@@ -1,28 +1,10 @@
-﻿'--21/12/2012--Updation By --Pankaj Kumar--- Applied Validations
-'' updation by richa agarwal 12/03/201-----BM00000005818--'Add IBAN No,Swift code fields on form as well as in import/export functionality
-'' work done agaist tcket no. BHA/29/08/18-000497
-Imports Microsoft.VisualBasic
-Imports System
-Imports System.Collections.Generic
-Imports System.ComponentModel
-Imports System.Data
-Imports System.Drawing
-Imports System.Data.SqlClient
-Imports Telerik.WinControls.UI
-Imports Telerik.WinControls
-Imports Telerik.WinControls.Data
-Imports System.Text.RegularExpressions
-Imports Excel = Microsoft.Office.Interop.Excel
+﻿Imports System.Data.SqlClient
 Imports common
 
-'created by --> Vipin
-'createddate --> 10/05/2011
-'modifiedby --> Vipin
-'Modified date -->03/06/2011
-'Tables Used --> tspl_bank_master,Tspl_gl_Accounts
-Public Class frmBankMaster
 
+Public Class frmBankMaster
     Inherits FrmMainTranScreen
+
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim Qry As String
     Dim userCode, companyCode As String
@@ -807,7 +789,12 @@ End if
         If chkUnpaid.Checked Then
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set Unpaid = 0")
         End If
-        clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set  Unpaid = " + IIf(chkUnpaid.Checked, "1", "0") + " , NEFT_DBT_Default='" + IIf(chkDefaultNEFTDBT.Checked, "1", "0") + "' , IsSettlementBankForAD='" & IIf(chkSettlementBankForAD.Checked = True, "1", "0") & "', cheque_validity_in_days=" & clsCommon.myCdbl(txtChequeValidity.Text) & ",LCCreditLimit=" & clsCommon.myCdbl(txtLCCreditLimit.Value) & ",FDPercentage=" & clsCommon.myCdbl(txtFDPer.Value) & ",Transfer_Clearing_Account='" & fndtransferclearing.Value & "',  IBAN_No='" & TxtIbanno.Text & "',Swift_Code='" & txtswiftcode.Text & "',Is_Clearance_Bank='" & IIf(chkClearanceBank.Checked, "Y", "N") & "',Main_Bank_Code='" & clsCommon.myCstr(TxtMainBankCode.Value) & "' ,IsProvisionBank = '" + IIf(chkProvisionBank.Checked = True, "1", "0") + "' where bank_code='" & clsCommon.myCstr(fndbank.Value) & "'")
+
+        If chkOnlineBank.Checked Then
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set Online_Bank = 0")
+        End If
+
+        clsDBFuncationality.ExecuteNonQuery("Update TSPL_BANK_MASTER set  Unpaid = " + IIf(chkUnpaid.Checked, "1", "0") + " , NEFT_DBT_Default='" + IIf(chkDefaultNEFTDBT.Checked, "1", "0") + "' , IsSettlementBankForAD='" & IIf(chkSettlementBankForAD.Checked = True, "1", "0") & "', cheque_validity_in_days=" & clsCommon.myCdbl(txtChequeValidity.Text) & ",LCCreditLimit=" & clsCommon.myCdbl(txtLCCreditLimit.Value) & ",FDPercentage=" & clsCommon.myCdbl(txtFDPer.Value) & ",Transfer_Clearing_Account='" & fndtransferclearing.Value & "',  IBAN_No='" & TxtIbanno.Text & "',Swift_Code='" & txtswiftcode.Text & "',Is_Clearance_Bank='" & IIf(chkClearanceBank.Checked, "Y", "N") & "',Main_Bank_Code='" & clsCommon.myCstr(TxtMainBankCode.Value) & "' ,IsProvisionBank = '" + IIf(chkProvisionBank.Checked = True, "1", "0") + "',Online_Bank=" + IIf(chkOnlineBank.Checked, "1", "0") + " where bank_code='" & clsCommon.myCstr(fndbank.Value) & "'")
     End Sub
 
     Function SaveBankCheckData(ByVal strDocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
@@ -889,7 +876,7 @@ End if
     'It will fill the all controls if value exist in database according to fndbank
     Public Sub funfill()
         Try
-            Dim strquery As String = "select bank_code,description,add1,add2,add3,add4,city,state,postal,country,contact,phone,fax,inactive,bankaccnumber,bankacc,writeoffacc,creditacc, Bank_Type ,cheque_validity_in_Days,LCCreditLimit,FDPercentage,Sub_Account,Transfer_Clearing_Account,IBAN_No,Swift_Code,Gateway_type,Default_Bank,Unpaid,Branch_Code,Is_Clearance_Bank,Main_Bank_Code, Bank_Opening_Clearing_Account,IsProvisionBank,IsSettlementBankForAD,TSPL_Bank_MASTER.NEFT_DBT_Default, TSPL_Bank_MASTER.Email, TSPL_Bank_MASTER.BANK_GROUP_CODE   from TSPL_Bank_MASTER where bank_code='" + fndbank.Value + "'"
+            Dim strquery As String = "select bank_code,description,add1,add2,add3,add4,city,state,postal,country,contact,phone,fax,inactive,bankaccnumber,bankacc,writeoffacc,creditacc, Bank_Type ,cheque_validity_in_Days,LCCreditLimit,FDPercentage,Sub_Account,Transfer_Clearing_Account,IBAN_No,Swift_Code,Gateway_type,Default_Bank,Unpaid,Branch_Code,Is_Clearance_Bank,Main_Bank_Code, Bank_Opening_Clearing_Account,IsProvisionBank,IsSettlementBankForAD,TSPL_Bank_MASTER.NEFT_DBT_Default, TSPL_Bank_MASTER.Email, TSPL_Bank_MASTER.BANK_GROUP_CODE,TSPL_Bank_MASTER.Online_Bank   from TSPL_Bank_MASTER where bank_code='" + fndbank.Value + "'"
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(strquery)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -965,6 +952,7 @@ End if
                     End If
                     fndBranchName.Value = row("Branch_Code").ToString()
                     chkSettlementBankForAD.Checked = IIf(clsCommon.myCdbl(row("IsSettlementBankForAD")) = 1, True, False)
+                    chkOnlineBank.Checked = IIf(clsCommon.myCdbl(row("Online_Bank")) = 1, True, False)
                     chkDefaultNEFTDBT.Checked = IIf(clsCommon.myCdbl(row("NEFT_DBT_Default")) = 1, True, False)
                     chkClearanceBank.Checked = IIf(clsCommon.CompairString(clsCommon.myCstr(row("Is_Clearance_Bank")), "Y") = CompairStringResult.Equal, True, False)
                     TxtMainBankCode.Value = clsCommon.myCstr(row("Main_Bank_Code"))
@@ -1281,6 +1269,7 @@ End if
         txtfax.Text = ""
         chkDefaultBank.Checked = False
         chkSettlementBankForAD.Checked = False
+        chkOnlineBank.Checked = False
         chkDefaultNEFTDBT.Checked = False
         btnsave.Text = "Save"
         btndelete.Enabled = False
@@ -1753,6 +1742,7 @@ End if
                 chkactive.Checked = False
                 chkProvisionBank.Checked = False
                 chkSettlementBankForAD.Checked = False
+                chkOnlineBank.Checked = False
                 txtbankaccno.Text = ""
                 fndbankacc.Value = ""
                 fndwriteoff.Value = ""

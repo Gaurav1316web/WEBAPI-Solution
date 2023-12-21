@@ -362,15 +362,15 @@ Public Class FrmPendingMrn_Qty
     Sub PrintData()
 
         If chk_Doc_Select.IsChecked AndAlso cbgDoc.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chk_Vendor_Select.IsChecked AndAlso cbgVendor1.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Location", Me.Text)
             Return
         End If
 
@@ -383,14 +383,14 @@ Public Class FrmPendingMrn_Qty
         Dim dtCompany As DataTable = clsDBFuncationality.GetDataTable(CompanyQry)
 
         If isDocSelect AndAlso ArrDoc.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Document")
+            common.clsCommon.MyMessageBoxShow("Please select at least one Document", Me.Text)
             Return
         ElseIf isVendorSelect AndAlso ArrVendor.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Vendor For Print")
+            common.clsCommon.MyMessageBoxShow("Please select at least one Vendor For Print", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Location", Me.Text)
             Return
         End If
         Dim qry As String = "select code,max(ICode)as ICode,max(IName) as IName,max(Unit)as Unit,max(Location) as Location" & _
@@ -452,7 +452,7 @@ Public Class FrmPendingMrn_Qty
        
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If chkCancel.Checked = True Then
-            clsCommon.MyMessageBoxShow("No Print For Cancel Document")
+            clsCommon.MyMessageBoxShow("No Print For Cancel Document", Me.Text)
         Else
             Dim frmCRV As New frmCrystalReportViewer()
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "Pending MRN", "Pending MRN Qty")
@@ -461,15 +461,15 @@ Public Class FrmPendingMrn_Qty
     End Sub
     Private Sub btnRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
         If chk_Doc_Select.IsChecked AndAlso cbgDoc.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chk_Vendor_Select.IsChecked AndAlso cbgVendor1.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Location", Me.Text)
             Return
         End If
         PageSetupReport_ID = MyBase.Form_ID
@@ -625,7 +625,7 @@ Public Class FrmPendingMrn_Qty
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

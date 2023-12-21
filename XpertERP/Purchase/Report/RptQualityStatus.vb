@@ -153,7 +153,7 @@ Public Class RptQualityStatus
             ReStoreGridLayout()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found..")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found..", Me.Text)
         End If
     End Sub
 
@@ -295,7 +295,7 @@ Public Class RptQualityStatus
                 End If
 
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)

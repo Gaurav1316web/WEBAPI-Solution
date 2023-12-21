@@ -30,8 +30,9 @@ Public Class clsDemandSheet
     Public Function SaveData(ByVal obj As clsDemandSheet, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim colCount As Decimal = 0
-            Dim StrQry As String = "select Count(*) from TSPL_DEMAND_SHEET where DEMAND_Date='" + clsCommon.GetPrintDate(obj.DEMAND_Date) + "' and ShiftType='" + obj.ShiftType + "' and Item_Code='" + obj.Item_Code + "' and Cust_Code='" + obj.Cust_Code + "'"
+            Dim StrQry As String = "select Count(*) from TSPL_DEMAND_SHEET where DEMAND_Date='" + clsCommon.GetPrintDate(obj.DEMAND_Date) + "' and ShiftType='" + obj.ShiftType + "' and Item_Code='" + obj.Item_Code + "' and Cust_Code='" + obj.Cust_Code + "' and Created_By='" + objCommonVar.CurrentUserCode + "'"
             colCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(StrQry, trans))
+
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "DEMAND_Date", clsCommon.GetPrintDate(obj.DEMAND_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
@@ -59,15 +60,7 @@ Public Class clsDemandSheet
     Public Shared Function GetData(ByVal CurrDate As Date, ByVal Shift As String, ByVal CurrUser As String, ByVal trans As SqlTransaction) As List(Of clsDemandSheet)
         Dim lstobj As List(Of clsDemandSheet) = Nothing
         Try
-            'Dim arr As New List(Of String)
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select distinct Item_code from TSPL_Demand_Sheet where DEMAND_Date='" + clsCommon.GetPrintDate(CurrDate) + "' and ShiftType='" + Shift + "' and Created_By='" + CurrUser + "'", trans)
-            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '    For Each dr As DataRow In dt.Rows
-            '        arr.Add(clsCommon.myCstr(dr("Item_code")))
-            '    Next
 
-            'End If
-            'Dim str As String = clsCommon.GetMulcallStringWithComma(Arr)
             lstobj = New List(Of clsDemandSheet)
             Dim obj As clsDemandSheet = Nothing
             Dim StrQry As String = " select distinct Cust_Code from TSPL_Demand_Sheet where DEMAND_Date='" + clsCommon.GetPrintDate(CurrDate) + "' and ShiftType='" + Shift + "' and Created_By='" + CurrUser + "'"
@@ -105,6 +98,7 @@ Public Class clsDemandSheet
         End Try
         Return lstobj
     End Function
+
     'Public Shared Function SaveDemandData(ByVal CurrDate As Date, ByVal Shift As String, ByVal CurrUser As String) As Boolean
     '    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
@@ -168,7 +162,32 @@ Public Class clsDemandSheet
     '    Return True
 
     'End Function
+    Public Class clsDemandBookingSaleDetail
+#Region "Variable"
+        Public Document_No As String = Nothing
+        Public Line_No As Integer
+        Public Item_Code As String = Nothing
+        Public Cust_Code As String = Nothing
+        Public Item_Desc As String = Nothing
+        Public Unit_code As String = Nothing
+        Public TotalCrates_ItemWise As Decimal = 0
+        Public TotalLtr_ItemWise As Decimal = 0
+        Public ItemNetAmount As Decimal = 0
+        Public IsGatePassGenerated As String = "N"
+        Public IsTruckSheetGenerated As String = "N"
+        Public Is_Posted As String = Nothing
+        Public Qty As Double = 0
+        Public Rate As Double = 0
+        Public Price_Code As String = Nothing
+        Public Vehicle_Code As String = ""
+        Public ShiftType As String = ""
+        Public TR_CODE As String = Nothing
+        Public IsItemUpdate As Integer = 0
 
+#End Region
+
+
+    End Class
 
 End Class
 Public Class clsDemandSheetDetails
@@ -177,4 +196,57 @@ Public Class clsDemandSheetDetails
     Public Item_Code As String = Nothing
     Public Set_Zero As Decimal = 0
     Public Qty As Decimal = 0
+End Class
+Public Class clsUpdateDemandDetails
+#Region "Variable"
+    Public Document_No As String = Nothing
+    Public Line_No As Integer
+    Public Item_Code As String = Nothing
+    Public Cust_Code As String = Nothing
+    Public Item_Desc As String = Nothing
+    Public Unit_code As String = Nothing
+    Public TotalCrates_ItemWise As Decimal = 0
+    Public TotalLtr_ItemWise As Decimal = 0
+    Public ItemNetAmount As Decimal = 0
+    Public IsGatePassGenerated As String = "N"
+    Public IsTruckSheetGenerated As String = "N"
+    Public Is_Posted As String = Nothing
+    Public Qty As Double = 0
+    Public Rate As Double = 0
+    Public Price_Code As String = Nothing
+    Public Vehicle_Code As String = ""
+    Public ShiftType As String = ""
+    Public TR_CODE As String = Nothing
+    Public IsItemUpdate As Integer = 0
+
+#End Region
+    Public Shared Function InsertNewItem(ByVal obj As clsUpdateDemandDetails, ByVal DocDate As Date) As Boolean
+
+        If clsCommon.myLen(obj.Document_No) > 0 Then
+
+            Dim coll As New Hashtable()
+            obj.TR_CODE = clsERPFuncationality.GetNextCode(Nothing, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "")
+            clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
+            clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
+            clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
+            clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
+            clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+            clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
+            clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+            clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Rate)
+            clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
+            clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
+            clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
+            clsCommon.AddColumnsForChange(coll, "IsItemUpdate", obj.IsItemUpdate)
+            clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
+            clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
+            clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
+            clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
+            clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", Nothing)
+        End If
+
+
+        Return True
+    End Function
 End Class

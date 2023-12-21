@@ -172,10 +172,10 @@ Public Class clsDistributorRouteTagging
                 Throw New Exception("Code No. not found to Delete")
             End If
             Dim qry As String = ""
-        qry = "delete from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER where Code='" + StrCode + "'"
-        isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        qry = "delete from TSPL_DISTRIBUTOR_ROUTE where Code='" + StrCode + "'"
-        isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER where Code='" + StrCode + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_DISTRIBUTOR_ROUTE where Code='" + StrCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

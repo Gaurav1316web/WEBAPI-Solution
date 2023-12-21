@@ -133,32 +133,32 @@ Public Class FrmRptPurchaseReturnBook
             Dim type As String = ""
             gvReport.DataSource = Nothing
             If chkCatgSelect.IsChecked AndAlso cbgCategory.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Category", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Category", Me.Text)
                 Exit Sub
             End If
 
             If chkSubCatgSelect.IsChecked AndAlso cbgSubcategory.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Sub Category", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Sub Category", Me.Text)
                 Exit Sub
             End If
 
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location", Me.Text)
                 Exit Sub
             End If
 
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Vendor", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Vendor", Me.Text)
                 Exit Sub
             End If
 
             If chkItemSelect.IsChecked AndAlso cbgItem.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Item", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item", Me.Text)
                 Exit Sub
             End If
 
             If chkPRSelect.IsChecked AndAlso cbgPR.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Purchase Return", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Purchase Return", Me.Text)
                 Exit Sub
             End If
             If rbtnFG.IsChecked Then
@@ -476,7 +476,7 @@ Public Class FrmRptPurchaseReturnBook
             clsCommon.MyExportToExcel("Purchase Return Book", gvReport, arrHeader, Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try

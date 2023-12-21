@@ -124,10 +124,10 @@ Public Class FrmMccMilkTransferPrice
                 If (clsMccMilkTransferPrice.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
                     If isNewEntry Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         LoadData(obj.Price_Code, NavigatorType.Current)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                         LoadData(obj.Price_Code, NavigatorType.Current)
                     End If
                 End If
@@ -410,7 +410,7 @@ Public Class FrmMccMilkTransferPrice
         Try
             If (deleteConfirm()) Then
                 If (clsMccMilkTransferPrice.DeleteData(fndPriceCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

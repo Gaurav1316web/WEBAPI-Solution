@@ -383,14 +383,14 @@ Public Class FrmVSPCSASetOff
                     vndorforInvoice = vndorforInvoice.Substring(0, vndorforInvoice.Length - 2)
                     clsCommon.MyMessageBoxShow("Data Saved Successfully and Invoices are not found for Vendor(s) " & vndorforInvoice & " ")
                 Else
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                 End If
                 'RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Visible
                 'RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
                 ResetOnDate()
 
             Else
-                clsCommon.MyMessageBoxShow("Please select atleast one customer to set off.")
+                clsCommon.MyMessageBoxShow("Please select atleast one customer to set off.", Me.Text)
             End If
 
         Catch ex As Exception
@@ -610,7 +610,7 @@ Public Class FrmVSPCSASetOff
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub AutoApplyAmt(ByVal tempAmt As Decimal)
@@ -878,14 +878,14 @@ Public Class FrmVSPCSASetOff
                     obj.EXCHANGE_GAIN_AMT = 0
                 ElseIf diff > 0 Then
                     If clsCommon.myLen(obj.EXCHANGE_LOSS_ACCOUNT) = 0 Then
-                        clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.")
+                        clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.", Me.Text)
                         Return False
                     End If
                     obj.EXCHANGE_LOSS_AMT = diff
                     obj.EXCHANGE_GAIN_AMT = 0
                 Else
                     If clsCommon.myLen(obj.EXCHANGE_GAIN_ACCOUNT) = 0 Then
-                        clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.")
+                        clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.", Me.Text)
                         Return False
                     End If
                     obj.EXCHANGE_LOSS_AMT = 0

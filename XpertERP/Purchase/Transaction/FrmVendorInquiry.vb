@@ -180,7 +180,7 @@ Public Class FrmVendorInquiry
             LoadBlankGridGV1()
             LoadBlankGridGV2()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -241,11 +241,11 @@ Public Class FrmVendorInquiry
                 Next
                 gridformatgv1()
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -265,7 +265,7 @@ Public Class FrmVendorInquiry
             docno = gv1.CurrentRow.Cells(colDocNo).Value.ToString()
             fillGV2(docno)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -310,10 +310,10 @@ Public Class FrmVendorInquiry
                 Next
                 gridformat()
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -328,7 +328,7 @@ Public Class FrmVendorInquiry
             gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -346,7 +346,7 @@ Public Class FrmVendorInquiry
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

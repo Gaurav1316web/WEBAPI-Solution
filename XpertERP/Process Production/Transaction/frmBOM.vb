@@ -571,7 +571,7 @@ Public Class frmBOM
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -889,7 +889,7 @@ Public Class frmBOM
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1045,7 +1045,7 @@ Public Class frmBOM
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsinsideLoaddata = False
         End Try
@@ -1208,7 +1208,7 @@ Public Class frmBOM
 
                 If clsBOM.SaveData(obj, isNewEntry) Then
                     If Not isPost Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     txtCode.Value = obj.BOM_CODE
@@ -1222,7 +1222,7 @@ Public Class frmBOM
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -1233,7 +1233,7 @@ Public Class frmBOM
                 Return False
             End If
             If chkOSP_JW.Checked AndAlso clsCommon.myLen(txtVendorCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Vendor for OSP Job-Work.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Vendor for OSP Job-Work.", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 txtVendorCode.Focus()
                 txtVendorCode.Select()
@@ -1244,7 +1244,7 @@ Public Class frmBOM
             End If
 
             If clsCommon.myLen(fndItemCategory.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Production Category Detail", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Production Category Detail", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 fndItemCategory.Focus()
                 fndItemCategory.Select()
@@ -1266,7 +1266,7 @@ Public Class frmBOM
             End If
 
             If clsCommon.CompairString(TxtitemType.SelectedValue, "") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Select Main Item Type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Main Item Type", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 TxtitemType.Select()
                 Errorcontrol.SetError(TxtitemType, "Select Main Item Type")
@@ -1276,7 +1276,7 @@ Public Class frmBOM
             End If
 
             If clsCommon.myLen(txtUomCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Fill Unit", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Fill Unit", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 txtUomCode.Focus()
                 txtUomCode.Select()
@@ -1287,7 +1287,7 @@ Public Class frmBOM
             End If
 
             If clsCommon.myCdbl(txtBuildQty.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Fill Build Qty", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Fill Build Qty", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 txtBuildQty.Focus()
                 txtBuildQty.Select()
@@ -1304,7 +1304,7 @@ Public Class frmBOM
             'End If
 
             If clsCommon.myLen(txtvalid.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill BOM valid from date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill BOM valid from date", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 txtvalid.Focus()
                 txtvalid.Select()
@@ -1315,7 +1315,7 @@ Public Class frmBOM
             End If
 
             If clsCommon.myLen(txtvalidupto.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill BOM valid upto date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill BOM valid upto date", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 txtvalidupto.Focus()
                 txtvalidupto.Select()
@@ -1326,7 +1326,7 @@ Public Class frmBOM
             End If
 
             If clsCommon.myCDate(txtvalidupto.Text) < clsCommon.myCDate(txtvalid.Text) Then
-                clsCommon.MyMessageBoxShow("BOM valid upto date should be greater than from date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "BOM valid upto date should be greater than from date", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 txtvalidupto.Focus()
                 txtvalidupto.Select()
@@ -1363,7 +1363,7 @@ Public Class frmBOM
             If clsCommon.CompairString(ActivateProductionWithoutBatch, "0") = CompairStringResult.Equal Then
                 If clsCommon.myLen(fndSection.Value) <= 0 AndAlso Not chkOSP_JW.Checked Then
                     RadPageView.SelectedPage = RadPageViewSectionDetail
-                    clsCommon.MyMessageBoxShow("Select Section Detail", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Select Section Detail", Me.Text)
                     fndSection.Focus()
                     fndSection.Select()
                     Errorcontrol.SetError(TxtSection, "Select Section Detail")
@@ -1511,7 +1511,7 @@ Public Class frmBOM
 
             If arrIcode Is Nothing OrElse arrIcode.Count <= 0 Then
                 RadPageView.SelectedPage = RadPageItemDetails
-                clsCommon.MyMessageBoxShow("Fill atleast one row of item detail", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Fill atleast one row of item detail", Me.Text)
                 gvBOM.Focus()
                 gvBOM.Select()
                 Errorcontrol.SetError(gvBOM, "Fill atleast one row of item detail")
@@ -1530,7 +1530,7 @@ Public Class frmBOM
                 Throw New Exception("Main Item SNF KG(" + clsCommon.myCstr(dclMainTotSNFKg) + ") can't be more than Detail Item SNF KG (" + clsCommon.myCstr(dclDetailTotSNFKg) + ")")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1600,7 +1600,7 @@ Public Class frmBOM
             If clsCommon.CompairString(ActivateProductionWithoutBatch, "0") = CompairStringResult.Equal Then
                 If (arrStage Is Nothing OrElse arrStage.Count <= 0) AndAlso Not chkOSP_JW.Checked Then
                     RadPageView.SelectedPage = RadPageViewSectionDetail
-                    clsCommon.MyMessageBoxShow("Do mapping of section with stages.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Do mapping of section with stages.", Me.Text)
                     gvStages.Focus()
                     gvStages.Select()
                     Errorcontrol.SetError(gvStages, "Do mapping of section with stages.")
@@ -1613,7 +1613,7 @@ Public Class frmBOM
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -1687,7 +1687,7 @@ Public Class frmBOM
                 txtbuildUnit.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1706,7 +1706,7 @@ Public Class frmBOM
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1736,7 +1736,7 @@ Public Class frmBOM
     Sub PostData()
         Try
             If clsCommon.CompairString(cboBOMStatus.Text, "Approved") <> CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Bom status must be Approved.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Bom status must be Approved.", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
                 cboBOMStatus.Select()
                 Errorcontrol.SetError(cboBOMStatus, "Bom status must be Approved.")
@@ -1760,7 +1760,7 @@ Public Class frmBOM
                     If AllowToSave() Then
                         SavingData(True)
                         If (clsBOM.PostData(txtCode.Value, True)) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                             LoadData(txtCode.Value, NavigatorType.Current)
                         End If
                     End If
@@ -1768,7 +1768,7 @@ Public Class frmBOM
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1806,7 +1806,7 @@ Public Class frmBOM
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1850,11 +1850,11 @@ Public Class frmBOM
                 'ProductionReportViewer.funsubreport(qry, qry1, "crptPPBOMPrint", "Bill Of Material", "crptPPBOMSUBPrint.rpt")
                 'PurchaseOrderViewer.funsubreport(qry, qry1, "crptPPBOMPrint", "Bill Of Material", "crptPPBOMSUBPrint.rpt")
             Else
-                clsCommon.MyMessageBoxShow("No data found.")
+                clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1889,7 +1889,7 @@ Public Class frmBOM
     Private Sub fndSection__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndSection._MYValidating
         Try
             If clsCommon.myLen(fndItemCategory.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Production Category First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Production Category First.", Me.Text)
                 fndItemCategory.Focus()
                 fndItemCategory.Select()
                 Errorcontrol.SetError(TxtCategory, "Select Production Category First.")
@@ -1909,7 +1909,7 @@ Public Class frmBOM
                 TxtSection.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2084,7 +2084,7 @@ Public Class frmBOM
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2269,7 +2269,7 @@ Public Class frmBOM
 
     Private Sub txtUomCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtUomCode._MYValidating
         If clsCommon.myLen(txtProducedItem.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select item first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select item first", Me.Text)
             txtProducedItem.Focus()
             txtProducedItem.Select()
             Errorcontrol.SetError(lblMasterItemName, "Select item first")
@@ -2679,12 +2679,12 @@ Public Class frmBOM
 
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         isNewEntry = oldnewentry
@@ -2729,7 +2729,7 @@ Public Class frmBOM
             End If
         Else
             e.Cancel = True
-            clsCommon.MyMessageBoxShow("No row deleted", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No row deleted", Me.Text)
         End If
     End Sub
 
@@ -2792,7 +2792,7 @@ Public Class frmBOM
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Amended and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Amended and Recreated", Me.Text)
                         'btnReverse.Visible = False
                         LoadData(txtCode.Value, NavigatorType.Current)
                         GenerateRevisionNo()
@@ -2828,7 +2828,7 @@ Public Class frmBOM
             txtCode.Focus()
             RadPageView.SelectedPage = RadPageItemDetails
             Errorcontrol.SetError(txtCode, "Select bom code first.")
-            clsCommon.MyMessageBoxShow("Select bom code first.")
+            clsCommon.MyMessageBoxShow(Me, "Select bom code first.", Me.Text)
             Exit Sub
         Else
             Errorcontrol.ResetError(txtCode)
@@ -2984,7 +2984,7 @@ Public Class frmBOM
     Private Sub txtVendorCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVendorCode._MYValidating
         If chkOSP_JW.Checked Then
             If clsCommon.myLen(txtJobWorkLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Job Work Location")
+                clsCommon.MyMessageBoxShow(Me, "Select Job Work Location", Me.Text)
                 txtJobWorkLoc.Focus()
                 Exit Sub
             End If
@@ -3017,7 +3017,7 @@ Public Class frmBOM
                 LoadOverheadGroupData(txtCostGroup.Value, txtProducedItem.Value, txtUomCode.Value)
             End If
         Else
-            clsCommon.MyMessageBoxShow("Pleae Select MainItem & UOM First.")
+            clsCommon.MyMessageBoxShow(Me, "Pleae Select MainItem & UOM First.", Me.Text)
         End If
     End Sub
 
@@ -3166,12 +3166,12 @@ Public Class frmBOM
                 Next
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         isNewEntry = oldnewentry
@@ -3187,7 +3187,7 @@ Public Class frmBOM
         Try
             txtByproductItem.Value = clsItemMaster.getFinder("", txtByproductItem.Value, isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3196,7 +3196,7 @@ Public Class frmBOM
             Dim qry As String = "select TSPL_ITEM_UOM_DETAIL.UOM_Code as Code,TSPL_unit_master.unit_desc as Unit from TSPL_ITEM_UOM_DETAIL left outer join tspl_unit_master on tspl_unit_master.unit_code=TSPL_ITEM_UOM_DETAIL.uom_code"
             txtByproductUOM.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("UOMFND", qry, "Code", " TSPL_ITEM_UOM_DETAIL.item_code='" + txtByproductItem.Value + "'", txtByproductUOM.Value, "Code", isButtonClicked))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

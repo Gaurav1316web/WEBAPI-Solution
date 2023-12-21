@@ -51,7 +51,7 @@ Public Class FrmApprovedSuppliers
             End If
         Next
         If IsRow = False Then
-            clsCommon.MyMessageBoxShow("Please select atleast one registration no.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one registration no.", Me.Text)
             Return False
         End If
         Return True
@@ -93,7 +93,7 @@ Public Class FrmApprovedSuppliers
 
                         qry1 = "UPDATE TSPL_SUPPLIER_REGISTRATION SET Approved =" + clsCommon.myCstr(IsApproved) + ", Approved_Date = " + clsCommon.myCstr(Approved_Date) + " ,Approved_By = " + clsCommon.myCstr(Approved_By) + " WHERE Registration_No ='" + clsCommon.myCstr(gv1.Rows(i).Cells("Registration No").Value) + "' "
                         clsDBFuncationality.ExecuteNonQuery(qry1)
-                        clsCommon.MyMessageBoxShow("Record approved successfully")
+                        clsCommon.MyMessageBoxShow("Record approved successfully", Me.Text)
                         ifposted = ifposted + 1
 
                     End If
@@ -146,7 +146,7 @@ Public Class FrmApprovedSuppliers
         Try
             LoadData()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

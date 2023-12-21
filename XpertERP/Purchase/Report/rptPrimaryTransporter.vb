@@ -24,7 +24,7 @@ Public Class RptPrimaryTransporter
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -179,7 +179,7 @@ Public Class RptPrimaryTransporter
                     summaryRowItem.Add(item23)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -286,7 +286,7 @@ Public Class RptPrimaryTransporter
 
             gv.DataSource = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -303,15 +303,15 @@ Public Class RptPrimaryTransporter
                 End If
 
                 If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-                    clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+                    clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
                     Exit Sub
                 End If
                 If ChkSelectRoute.IsChecked AndAlso cbgRoute.CheckedValue.Count = 0 Then
-                    clsCommon.MyMessageBoxShow("Please select atleast single Route or select all.")
+                    clsCommon.MyMessageBoxShow(Me, "Please select atleast single Route or select all.", Me.Text)
                     Exit Sub
                 End If
                 If ChkSelectTransporter.IsChecked AndAlso cbgTransporter.CheckedValue.Count = 0 Then
-                    clsCommon.MyMessageBoxShow("Please select atleast single Transporter or select all.")
+                    clsCommon.MyMessageBoxShow(Me, "Please select atleast single Transporter or select all.", Me.Text)
                     Exit Sub
                 End If
                 Dim companyADD, CompName, CompCode As String
@@ -468,7 +468,7 @@ Public Class RptPrimaryTransporter
                     frmCRV = Nothing
                 End If
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 RadPageView1.SelectedPage = RadPageViewPage2
@@ -488,11 +488,11 @@ Public Class RptPrimaryTransporter
         End If
 
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         If ChkSelectRoute.IsChecked AndAlso cbgRoute.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Route or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Route or select all.", Me.Text)
             Exit Sub
         End If
         If ChkSelectTransporter.IsChecked AndAlso cbgTransporter.CheckedValue.Count = 0 Then
@@ -666,7 +666,7 @@ where TSPL_PROVISION_ENTRY.Prog_Code='M-Shift_End' and convert(date, TSPL_PROVIS
             frmCRV = Nothing
         End If
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         RadPageView1.SelectedPage = RadPageViewPage2
@@ -778,7 +778,7 @@ where TSPL_PROVISION_ENTRY.Prog_Code='M-Shift_End' and convert(date, TSPL_PROVIS
                     clsCommon.MyExportToPDF("Primary Transporter Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -824,7 +824,7 @@ where TSPL_PROVISION_ENTRY.Prog_Code='M-Shift_End' and convert(date, TSPL_PROVIS
             ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -871,7 +871,7 @@ where TSPL_PROVISION_ENTRY.Prog_Code='M-Shift_End' and convert(date, TSPL_PROVIS
                 LoadData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -270,7 +270,7 @@ Public Class RptPurchaseRegisterReport
             Gv1.EnableFiltering = True
             Gv1.Tag = ddlReportType.SelectedValue
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 EnableDisableAllControl(False)
@@ -284,7 +284,7 @@ Public Class RptPurchaseRegisterReport
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -834,7 +834,7 @@ Public Class RptPurchaseRegisterReport
             End If
             PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -983,7 +983,7 @@ Public Class RptPurchaseRegisterReport
             End If
             PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1038,7 +1038,7 @@ Public Class RptPurchaseRegisterReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3592,7 +3592,7 @@ Public Class RptPurchaseRegisterReport
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             Dim filecount As Integer = ExportCSVMultipleFile(Gv1, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")

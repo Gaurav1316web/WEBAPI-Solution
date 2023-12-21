@@ -84,6 +84,8 @@ Public Class clsMultipleProcDeductionHead
         End If
 
         isSaved = isSaved AndAlso clsMultipleProcDeductionDetail.SaveData(obj.Document_No, Arr, trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "TSPL_MULTIPLE_DEDUCTION_DETAIL", "Document_No", trans)
+
 
         Return isSaved
     End Function
