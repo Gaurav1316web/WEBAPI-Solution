@@ -100,14 +100,12 @@ Public Class PurchaseGateOut
 
     Private Sub txtGRNNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtGRNNo._MYValidating
         Dim whrcls As String = ""
-
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrcls = " TSPL_SRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
         End If
         whrcls += " TSPL_SRN_HEAD.Status=1"
-        Dim qry As String = "select GRN_No as Code from TSPL_GRN_HEAD inner join TSPL_SRN_HEAD on TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No"
+        Dim qry As String = "select GRN_No as Code,TSPL_SRN_HEAD.SRN_No,case when TSPL_SRN_HEAD.Status=1 then 'posted'end as [SRN Status],CAST(TSPL_SRN_HEAD.Posting_Date AS date) as [SRN Post Date]   from TSPL_GRN_HEAD inner join TSPL_SRN_HEAD on TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No"
         txtGRNNo.Value = clsCommon.ShowSelectForm("grnfunder", qry, "Code", whrcls, txtGRNNo.Value, "", isButtonClicked)
-
     End Sub
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
         Try
