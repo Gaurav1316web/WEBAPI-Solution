@@ -314,7 +314,7 @@ Public Class frmPurchaseInvoice
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -2932,7 +2932,7 @@ Public Class frmPurchaseInvoice
                                     Dim cellPrice As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colRate).Value)
                                     Dim vendorPrice As Double = clsDBFuncationality.getSingleValue("select item_rate from TSPL_VENDOR_ITEM_DETAIL where vendor_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' and item_no='" & strCode & "'")
                                     If cellPrice > vendorPrice Then
-                                        clsCommon.MyMessageBoxShow("The Larger Price Of Item is not Allowed then the Vendor Item Price ")
+                                        clsCommon.MyMessageBoxShow(Me, "The Larger Price Of Item is not Allowed then the Vendor Item Price ", Me.Text)
                                         gv1.CurrentRow.Cells(colRate).Value = vendorPrice
                                     End If
 
@@ -2996,17 +2996,17 @@ Public Class frmPurchaseInvoice
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
         If clsCommon.CompairString(strItemType, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Row type should be Misc")
+            clsCommon.MyMessageBoxShow(Me, "Row type should be Misc", Me.Text)
             Exit Sub
         Else
             ''For Open Misc Charges 
@@ -3044,7 +3044,7 @@ Public Class frmPurchaseInvoice
                 gv1.CurrentRow.Cells(colCapexCode).Value = clsCapexBudget.GetCapexCode(gv1.CurrentRow.Cells(colCapexSubCode).Value, Nothing)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub MakeColumnReadOnly(ByVal Read As Boolean)
@@ -3061,7 +3061,7 @@ Public Class frmPurchaseInvoice
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
             gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
@@ -3616,7 +3616,7 @@ Public Class frmPurchaseInvoice
             End If
             ''==========================================================================================================
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3680,7 +3680,7 @@ Public Class frmPurchaseInvoice
 
             If InvDate1.Checked = True Then
                 If clsCommon.GetDateWithStartTime(InvDate1.Value) > clsCommon.GetDateWithEndTime(txtDate.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Invoice Date can't be greater than Document Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "Invoice Date can't be greater than Document Date", Me.Text)
                     Return False
                 End If
             End If
@@ -3689,7 +3689,7 @@ Public Class frmPurchaseInvoice
                 Dim strchk As String = "select Status from TSPL_PI_HEAD where PI_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -3750,27 +3750,27 @@ Public Class frmPurchaseInvoice
 
 
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
                 txtVendorNo.Focus()
                 Return False
             End If
 
             If clsCommon.CompairString(cmbDocType.SelectedValue, "PI") = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
                     txtTaxGroup.Focus()
                     Return False
                 End If
             End If
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
                 txtBillToLocation.Focus()
                 Return False
             End If
 
             If clsCommon.CompairString("O", cboPOType.SelectedValue) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtSubLocation.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Sub Location")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Sub Location", Me.Text)
                     Return False
                 End If
             End If
@@ -3781,25 +3781,25 @@ Public Class frmPurchaseInvoice
             If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
                     If clsCommon.myLen(txtSubLocation.Value) <= 0 And chkJobWorkOutward.Checked = False Then
-                        common.clsCommon.MyMessageBoxShow("Please select Sub Location")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please select Sub Location", Me.Text)
                         txtSubLocation.Focus()
                         Return False
                     End If
                 End If
             End If
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("PI No Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "PI No Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(txtVendorInvoiceNo.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter Invoice No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter Invoice No", Me.Text)
                 txtVendorInvoiceNo.Focus()
                 Return False
             End If
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Item Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
                 cboItemType.Focus()
                 Return False
             End If
@@ -3811,13 +3811,13 @@ Public Class frmPurchaseInvoice
 
             Dim dtCurrDate As Date = clsCommon.GETSERVERDATE()
             If txtDate.Value > dtCurrDate Then
-                common.clsCommon.MyMessageBoxShow("Invoice Date can't be more then Current Date")
+                common.clsCommon.MyMessageBoxShow(Me, "Invoice Date can't be more then Current Date", Me.Text)
                 txtDate.Focus()
                 Return False
             End If
 
             If dtImportEntryDate.Value > dtCurrDate Then
-                common.clsCommon.MyMessageBoxShow("Import Bill Entry Date can't be more then Current Date")
+                common.clsCommon.MyMessageBoxShow(Me, "Import Bill Entry Date can't be more then Current Date", Me.Text)
                 dtImportEntryDate.Focus()
                 Return False
             End If
@@ -3825,7 +3825,7 @@ Public Class frmPurchaseInvoice
             If clsCommon.myLen(txtReqNo.Value) > 0 Then
                 dtCurrDate = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select SRN_Date from TSPL_SRN_HEAD where SRN_No='" + txtReqNo.Value + "'"))
                 If clsCommon.GetDateWithStartTime(dtCurrDate) > clsCommon.GetDateWithEndTime(txtDate.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Purchase invoice Date can't be less than SRN Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "Purchase invoice Date can't be less than SRN Date", Me.Text)
                     txtDate.Focus()
                     Return False
                 End If
@@ -3967,7 +3967,7 @@ Public Class frmPurchaseInvoice
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If clsCommon.myCdbl(dt.Rows(0)("NoOfSkipGSTItem")) > 0 Then
                     If clsCommon.myCdbl(dt.Rows(0)("NoOfNonSkipGSTItem")) > 0 Then
-                        clsCommon.MyMessageBoxShow("All Item should be of Skip GST or Not")
+                        clsCommon.MyMessageBoxShow(Me, "All Item should be of Skip GST or Not", Me.Text)
                         Return False
                     End If
                     isSkipGST = True
@@ -4007,7 +4007,7 @@ Public Class frmPurchaseInvoice
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -4499,7 +4499,7 @@ Public Class frmPurchaseInvoice
 
 
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -4582,7 +4582,7 @@ Public Class frmPurchaseInvoice
 
                         If ChekPostBtn = False Then
                             UcAttachment1.SaveData(obj.PI_No)
-                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         End If
                         If count > 0 Then
                             Dim xNewDesc As String = ""
@@ -4602,7 +4602,7 @@ Public Class frmPurchaseInvoice
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdate.Click
@@ -4621,11 +4621,11 @@ Public Class frmPurchaseInvoice
                 obj.VehicleDesc = Me.lblVehicle.Text
                 obj.LRNo = txtLRNo.Text
                 If clsPurchaseInvoiceHead.UpdateSecondaryInfo(obj, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub CalAddtionalAmt()
@@ -5587,7 +5587,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -5665,7 +5665,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -5724,7 +5724,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -5747,12 +5747,12 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 End If
                 If (clsPurchaseInvoiceHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -5789,7 +5789,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
@@ -5886,7 +5886,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "P", txtTaxGroup.Value, isButtonClicked)
             SetTaxDetails()
         Else
-            clsCommon.MyMessageBoxShow("You cannot select Tax Group on Merchant Trade")
+            clsCommon.MyMessageBoxShow(Me, "You cannot select Tax Group on Merchant Trade", Me.Text)
         End If
 
 
@@ -6153,7 +6153,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
     Sub SelectSRNItems()
         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
             If clsCommon.myLen(clsCommon.myCstr(txtSubLocation.Value)) <= 0 AndAlso chkJobWorkOutward.Checked = False Then
-                clsCommon.MyMessageBoxShow("Please select Sub Location")
+                clsCommon.MyMessageBoxShow(Me, "Please select Sub Location", Me.Text)
                 Exit Sub
             End If
         End If
@@ -6580,7 +6580,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 gvDeduction.AllowAddNewRow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6681,14 +6681,14 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsPurchaseInvoiceDetail.CompletePI(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv1.CellFormatting
@@ -6791,7 +6791,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             objRemittance = frm.ObjReturn
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetVendorTDSDetails()
@@ -6948,7 +6948,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
     End Sub
     Private Sub btnprintjvl_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprintjvl.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
         Else
             print(txtDocNo.Value)
         End If
@@ -7119,7 +7119,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
@@ -7329,7 +7329,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub setGridFocusAC()
@@ -7340,7 +7340,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rbtnTaxCalAutomatic_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnTaxCalManual.ToggleStateChanged, rbtnTaxCalAutomatic.ToggleStateChanged
@@ -7381,7 +7381,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv2_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv2.CellFormatting
@@ -7420,7 +7420,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 e.RowElement.ForeColor = Color.Black
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
@@ -7548,7 +7548,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     If clsPurchaseInvoiceHead.ReverseAndUnpost(txtDocNo.Value) Then
                         saveCancelLog(Reason, "Reverse and Recreate", Nothing)
                         'trans.Commit()
-                        clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
 
@@ -7559,7 +7559,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDept__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDept._MYValidating
@@ -7573,7 +7573,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub chkExciseOnQty_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkExciseOnQty.ToggleStateChanged
@@ -7642,7 +7642,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
     End Sub
     Private Sub DeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
     Private Sub SaveLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveLayoutrb.Click
         If clsCommon.myLen(MyBase.Form_ID) > 0 Then
@@ -7671,7 +7671,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
     Private Sub btnsend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
@@ -7685,13 +7685,13 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             lstUsers.Add(txtVendorNo.Value)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -7717,14 +7717,14 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             End If
             SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnpreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreview.Click
         Try
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SendSMSandEmail(ByVal lstUsers As List(Of String), ByVal isSendForApproval As Boolean)
@@ -7845,10 +7845,10 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
 
                     objEmailH.SaveData(clsUserMgtCode.mbtnPurchaseInvoice, objEmailH, Nothing)
                     objEmailH = Nothing
-                    clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("First do email and sms setting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
 
             End If
 
@@ -7933,7 +7933,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
                     objSMSH.SaveData(clsUserMgtCode.mbtnPurchaseInvoice, objSMSH, Nothing)
                     objSMSH = Nothing
-                    clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
                 End If
             End If
             'Sanjay
@@ -8024,10 +8024,10 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             If clsCommon.myLen(strErro) > 0 Then
                 common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function GetQueryForTaxInvoice(Optional ByVal strDocNo As String = Nothing) As String
@@ -8138,18 +8138,18 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 End If
 
             Else
-                clsCommon.MyMessageBoxShow("No data found to print")
+                clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
             End If
 
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
     Private Sub btnPurchaseTaxInvoice_Click(sender As Object, e As EventArgs) Handles btnPurchaseTaxInvoice.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
         Else
             Dim isVendorRegister As Boolean = clsDBFuncationality.getSingleValue("select  GSTRegistered from TSPL_VENDOR_MASTER where vendor_code='" + txtVendorNo.Value + "' ")
             If isVendorRegister = False Then
@@ -8157,10 +8157,10 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 If clsCommon.myLen(strPurchaseTaxInvoiceNo) > 0 Then
                     funPrint(txtDocNo.Value)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to print")
+                    clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No data found to print")
+                clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
             End If
 
         End If
@@ -8199,7 +8199,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
         Dim strLocations = String.Empty
 
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Bill To location code before sub location", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Bill To location code before sub location", Me.Text)
             Exit Sub
         End If
         If chkJobWorkOutward.Checked Then
@@ -8231,7 +8231,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 txttcstaxbaseamount.Value = 0
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
@@ -8263,7 +8263,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8330,7 +8330,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub CalculateInsuranceTotal(ByVal CalculateItemRow As Boolean)
@@ -8382,7 +8382,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txttcstaxbaseamount_TextChanged(sender As Object, e As EventArgs) Handles txttcstaxbaseamount.TextChanged
@@ -8398,7 +8398,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8424,18 +8424,18 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             End If
 
             If clsPurchaseInvoiceHead.CancelData(Me.Form_ID, txtDocNo.Value) Then
-                clsCommon.MyMessageBoxShow("Purchase Invoice cancelled successfully!")
+                clsCommon.MyMessageBoxShow(Me, "Purchase Invoice cancelled successfully!", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnNewHistory_Click(sender As Object, e As EventArgs) Handles btnNewHistory.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Document Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "PI_No", "TSPL_PI_HEAD", "TSPL_PI_DETAIL")
@@ -8648,7 +8648,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
 
             frmCRV = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

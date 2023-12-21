@@ -192,7 +192,7 @@ Public Class FrmPOSchChild
                 btnsave.PerformClick()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -245,13 +245,13 @@ Public Class FrmPOSchChild
                     gv.Rows(gv.Rows.Count - 1).Cells(colHPOType).Value = clsCommon.myCstr(dr("purchaseorder_type"))
                 Next
             Else
-                clsCommon.MyMessageBoxShow("No data found.")
+                clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
             End If
 
             isInsideLoadData = False
         Catch ex As Exception
             isInsideLoadData = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -273,7 +273,7 @@ Public Class FrmPOSchChild
                 End If
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         Me.Close()
@@ -380,7 +380,7 @@ Public Class FrmPOSchChild
             End If
         Catch ex As Exception
             isInsideLoadData = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -172,11 +172,11 @@ Public Class frmPendingGRN
                 Next '==detail for loop
 
                 If arrVendor.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one vendor are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one vendor are not allowed.", Me.Text)
                     Return False
                 End If
                 If arrPOType.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one type are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one type are not allowed.", Me.Text)
                     Return False
                 End If
 
@@ -908,7 +908,7 @@ Public Class frmPendingGRN
             End If
         Next
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending GRN item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending GRN item", Me.Text)
         Else
             Me.Close()
         End If
