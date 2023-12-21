@@ -88,7 +88,7 @@ Public Class frmProfitCenter
                 obj.arrCenterList = templist
                 If (obj.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
@@ -125,7 +125,7 @@ Public Class frmProfitCenter
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (ClsProfitCenterMaster.DeleteData(txtCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 funreset()
             End If
         End If
@@ -215,7 +215,7 @@ Public Class frmProfitCenter
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
@@ -311,7 +311,7 @@ Public Class frmProfitCenter
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -359,7 +359,7 @@ Public Class frmProfitCenter
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Profit Center Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Profit Center Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_PROFIT_CENTER_MASTER")

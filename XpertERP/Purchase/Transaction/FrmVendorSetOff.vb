@@ -309,12 +309,12 @@ Public Class FrmVendorSetOff
                             clsCommon.ProgressBarPercentHide()
                             ResetonDateforContinuousTransaction()
                         Else
-                            clsCommon.MyMessageBoxShow("Please select atleast one vendor to set off.")
+                            clsCommon.MyMessageBoxShow("Please select atleast one vendor to set off.", Me.Text)
                         End If
                     End While
-                    clsCommon.MyMessageBoxShow("Saved Successfully")
+                    clsCommon.MyMessageBoxShow("Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Please select atleast one vendor to set off.")
+                    clsCommon.MyMessageBoxShow("Please select atleast one vendor to set off.", Me.Text)
                 End If
             Else
                 If txtMulVendor.arrValueMember IsNot Nothing AndAlso txtMulVendor.arrValueMember.Count > 0 Then
@@ -337,11 +337,11 @@ Public Class FrmVendorSetOff
                         vndorforInvoice = vndorforInvoice.Substring(0, vndorforInvoice.Length - 2)
                         clsCommon.MyMessageBoxShow("Data Saved Successfully and Invoices are not found for Vendor(s) " & vndorforInvoice & " ")
                     Else
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     End If
                     ResetOnDate()
                 Else
-                    clsCommon.MyMessageBoxShow("Please select atleast one vendor to set off.")
+                    clsCommon.MyMessageBoxShow("Please select atleast one vendor to set off.", Me.Text)
                 End If
             End If
 
@@ -631,7 +631,7 @@ Public Class FrmVendorSetOff
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub AutoApplyAmt(ByVal tempAmt As Decimal)
@@ -935,14 +935,14 @@ Public Class FrmVendorSetOff
                     obj.EXCHANGE_GAIN_AMT = 0
                 ElseIf diff > 0 Then
                     If clsCommon.myLen(obj.EXCHANGE_LOSS_ACCOUNT) = 0 Then
-                        clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.")
+                        clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.", Me.Text)
                         Return False
                     End If
                     obj.EXCHANGE_LOSS_AMT = diff
                     obj.EXCHANGE_GAIN_AMT = 0
                 Else
                     If clsCommon.myLen(obj.EXCHANGE_GAIN_ACCOUNT) = 0 Then
-                        clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.")
+                        clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.", Me.Text)
                         Return False
                     End If
                     obj.EXCHANGE_LOSS_AMT = 0

@@ -84,7 +84,7 @@ Public Class frmProductionEntryWithoutBatch
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1156,7 +1156,7 @@ Public Class frmProductionEntryWithoutBatch
     Function SaveData(ByVal ChekBtnPost As Boolean) As Boolean
         Try
             If ClickGo = True Then
-                clsCommon.MyMessageBoxShow("Please click Go Button.")
+                clsCommon.MyMessageBoxShow(Me, "Please click Go Button.", Me.Text)
                 btnGo.Focus()
                 Exit Function
             End If
@@ -1295,7 +1295,7 @@ Public Class frmProductionEntryWithoutBatch
                 If issaved = True Then
                     UcAttachment1.SaveData(obj.PROD_ENTRY_CODE)
                     If ChekBtnPost = False AndAlso Import = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.PROD_ENTRY_CODE, NavigatorType.Current)
                     If Import Then
@@ -1325,7 +1325,7 @@ Public Class frmProductionEntryWithoutBatch
             If Import Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
 
         End Try
@@ -1522,13 +1522,13 @@ Public Class frmProductionEntryWithoutBatch
                         Exit Sub
                     End If
                     clsProductionEntryWithoutBatch.PostData(Form_ID, txtCode.Value, arrLoc, True)
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1539,7 +1539,7 @@ Public Class frmProductionEntryWithoutBatch
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -1561,7 +1561,7 @@ Public Class frmProductionEntryWithoutBatch
                 End If
                 If (clsProductionEntryWithoutBatch.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -1584,7 +1584,7 @@ Public Class frmProductionEntryWithoutBatch
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1619,7 +1619,7 @@ Public Class frmProductionEntryWithoutBatch
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1872,7 +1872,7 @@ Public Class frmProductionEntryWithoutBatch
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'If (e.Column Is gv1.Columns(colReceiptQty) AndAlso Not clsCommon.myCBool(gv1.CurrentRow.Cells(colIsPickAutoSrNo).Value)) Then
         '    OpenSerialItem()
@@ -2077,7 +2077,7 @@ Public Class frmProductionEntryWithoutBatch
             'FillSection()
             'LoadBlankScrapGrid()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2183,7 +2183,7 @@ Public Class frmProductionEntryWithoutBatch
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         btnunpost.Visible = False
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
@@ -2191,7 +2191,7 @@ Public Class frmProductionEntryWithoutBatch
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub FillRawItemGridFromBOM(ByVal import As Boolean)
@@ -2355,7 +2355,7 @@ Public Class frmProductionEntryWithoutBatch
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
         ClickGo = False
@@ -2462,7 +2462,7 @@ Public Class frmProductionEntryWithoutBatch
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'If (e.Column Is gv1.Columns(colReceiptQty) AndAlso Not clsCommon.myCBool(gv1.CurrentRow.Cells(colIsPickAutoSrNo).Value)) Then
         '    OpenSerialItem()
@@ -2778,11 +2778,11 @@ Public Class frmProductionEntryWithoutBatch
             updateImportControl()
             clsCommon.ProgressBarPercentHide()
 
-            clsCommon.MyMessageBoxShow("Documents generated Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Documents generated Successfully", Me.Text)
             Import = False
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

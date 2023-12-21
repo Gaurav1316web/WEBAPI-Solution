@@ -299,12 +299,12 @@ Public Class RptARReport
                 gv1.EnableFiltering = True
                 FormatGrid()
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -402,7 +402,7 @@ Public Class RptARReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -452,11 +452,11 @@ Public Class RptARReport
                 ' transportSql.BulkExport("AR Report", Mainqry, "order by convert(date,[Document Date],103) asc,[Document No]", "xls")
                 Exit Sub
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -488,11 +488,11 @@ Public Class RptARReport
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("AR Report" + IIf(btnSummary.IsChecked, "Summary", "Detail"), gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

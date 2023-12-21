@@ -50,26 +50,26 @@ Public Class frmPaymentAdjEntry
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Try
             If saveData() Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(fndVendorCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Vendor")
+            clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
             fndVendorCode.Focus()
             Return False
         ElseIf clsCommon.myLen(fndDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Document")
+            clsCommon.MyMessageBoxShow(Me, "Please select Document", Me.Text)
             fndDocNo.Focus()
             Return False
         End If
         Dim Post As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Post from TSPL_Payment_Adjustment_Header where Adjustment_No='" + fndFnAdj.Value + "' "))
         If clsCommon.CompairString(Post, "Y") = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Posted Transaction", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Posted Transaction", Me.Text)
             Return False
         End If
         Dim amt As Decimal = 0
@@ -84,12 +84,12 @@ Public Class frmPaymentAdjEntry
             End If
         Next
         If amt > clsCommon.myCdbl(txtBalanceAmt.Text) Then
-            clsCommon.MyMessageBoxShow("Adjustment can not be created more than Balance Amount.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Adjustment can not be created more than Balance Amount.", Me.Text)
             Return False
         End If
 
         If amt = 0 Then
-            clsCommon.MyMessageBoxShow("Adjustment can not be created with 0 Amount.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Adjustment can not be created with 0 Amount.", Me.Text)
             Return False
         End If
 
@@ -228,7 +228,7 @@ Public Class frmPaymentAdjEntry
     Public Sub funDelete()
         Try
             If (clsPaymentAdjustmentEntry.DeleteData(fndFnAdj.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                common.clsCommon.MyMessageBoxShow("Data deleted successfully ", Me.Text)
                 funReset()
             End If
         Catch ex As Exception
@@ -395,7 +395,7 @@ Public Class frmPaymentAdjEntry
                 fnDocAmt(fndDocNo.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -546,7 +546,7 @@ Public Class frmPaymentAdjEntry
     Private Sub frmAdj_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
             If saveData() Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
             postData()
@@ -599,7 +599,7 @@ Public Class frmPaymentAdjEntry
             Try
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "ReceiptAdjustmentReport", "Receipt Settlement Report")
@@ -628,7 +628,7 @@ Public Class frmPaymentAdjEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

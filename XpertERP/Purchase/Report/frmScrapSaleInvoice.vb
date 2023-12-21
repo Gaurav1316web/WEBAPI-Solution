@@ -57,19 +57,19 @@ Public Class FrmScrapSaleInvoice
 
 
         If chk_doc_select.IsChecked = True And cbgDoc.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one document")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one document", Me.Text)
             Exit Sub
         ElseIf chk_doc_select.IsChecked = True And cbgDoc.CheckedValue.Count > 0 Then
             strqry += " and h.invoice_No in( " + clsCommon.GetMulcallString(cbgDoc.CheckedValue) + ")"
         End If
         If chkCustomerSelect.IsChecked = True And cbgCustomer.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atlease one customer")
+            common.clsCommon.MyMessageBoxShow("Please select atlease one customer", Me.Text)
             Exit Sub
         ElseIf chkCustomerSelect.IsChecked = True And cbgCustomer.CheckedValue.Count > 0 Then
             strqry += " and h.cust_Code in (" + clsCommon.GetMulcallString(cbgCustomer.CheckedValue) + ")"
         End If
         If chkLocationSelect.IsChecked = True And cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Location", Me.Text)
             Exit Sub
         ElseIf chkLocationSelect.IsChecked = True And cbgLocation.CheckedValue.Count > 0 Then
             strqry += " and h.Loc_Code in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")"

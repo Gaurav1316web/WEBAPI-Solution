@@ -82,7 +82,7 @@ Public Class FrmPayableSettings
                 End If
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData()
@@ -107,10 +107,10 @@ Public Class FrmPayableSettings
                 End If
             Next
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region

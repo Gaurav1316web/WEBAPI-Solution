@@ -159,10 +159,10 @@ Public Class FrmHRBudgeting
                     End If
                 Next
                 If obj Is Nothing Then
-                    clsCommon.MyMessageBoxShow("No data found.")
+                    clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
                 Else
                     If ClsHRBudgeting.SaveData(arr) Then
-                        clsCommon.MyMessageBoxShow("Data saved successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                     End If
                 End If
 
@@ -191,7 +191,7 @@ Public Class FrmHRBudgeting
                 gvBudget.Rows.AddNew()
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -229,7 +229,7 @@ Public Class FrmHRBudgeting
         If gvBudget.Rows.Count > 0 Then
             SaveData()
         Else
-            clsCommon.MyMessageBoxShow("No data found")
+            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End If
     End Sub
 
@@ -244,7 +244,7 @@ Public Class FrmHRBudgeting
             obj.GridColumns = gvBudget.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
 
             ''richa agarwal regarding memory leakage
@@ -256,7 +256,7 @@ Public Class FrmHRBudgeting
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub rmImport_Click(sender As Object, e As EventArgs) Handles rmImport.Click

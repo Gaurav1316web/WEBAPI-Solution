@@ -109,7 +109,7 @@ Public Class FrmPurchaseHistory
             ElseIf (fndSrcCode.Value = "" AndAlso isButtonClicked = True) Then
                 newgv1.Visible = False
             Else
-                common.clsCommon.MyMessageBoxShow("choose Select By: first")
+                common.clsCommon.MyMessageBoxShow(Me, "choose Select By: first", Me.Text)
 
 
             End If
@@ -182,7 +182,7 @@ Public Class FrmPurchaseHistory
                         gv1.Visible = False
                         ReStoreGridLayout()
                     Else
-                        common.clsCommon.MyMessageBoxShow("No Data Found for this Vendor  ")
+                        common.clsCommon.MyMessageBoxShow("No Data Found for this Vendor  ", Me.Text)
                         gv1.DataSource = Nothing
 
                     End If
@@ -235,13 +235,13 @@ Public Class FrmPurchaseHistory
                         ReStoreGridLayout()
 
                     Else
-                        common.clsCommon.MyMessageBoxShow("No Data Found for this Item ")
+                        common.clsCommon.MyMessageBoxShow(Me, "No Data Found for this Item ", Me.Text)
                         gv1.DataSource = Nothing
                     End If
                 End If
 
             Else
-                common.clsCommon.MyMessageBoxShow("First fill the fields ")
+                common.clsCommon.MyMessageBoxShow("First fill the fields ", Me.Text)
             End If
 
         Catch ex As Exception
@@ -287,7 +287,7 @@ Public Class FrmPurchaseHistory
             Dim item2 As New GridViewSummaryItem("Net Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -303,7 +303,7 @@ Public Class FrmPurchaseHistory
             newgv1.Columns("Return Amount").Width = 100
             newgv1.Columns("Net Amount").Width = 100
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -499,7 +499,7 @@ Public Class FrmPurchaseHistory
             TemplateGridview = newgv1
             fillGridReport(dtpfromdate.Value, dtptodate.Value, fndSrcCode.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -661,7 +661,7 @@ Public Class FrmPurchaseHistory
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -674,7 +674,7 @@ Public Class FrmPurchaseHistory
             End If
             multiLocationFinder.arrValueMember = clsCommon.ShowMultipleSelectForm("purchaseHistoryLocsFinder", qry, "LOCATION_CODE", "Location_Desc", multiLocationFinder.arrValueMember, multiLocationFinder.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

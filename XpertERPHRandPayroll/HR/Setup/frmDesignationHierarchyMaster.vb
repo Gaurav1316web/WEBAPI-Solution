@@ -153,7 +153,7 @@ Public Class frmDesignationHierarchyMaster
             obj.HigherDesignationCode = clsCommon.myCstr(FndhigherDesg.Value)
 
             If obj.SaveData(obj, True) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
                 fnddesig.Value = obj.DesignationCode
                 LoadData(NavigatorType.Current)
             End If
@@ -254,12 +254,12 @@ Public Class frmDesignationHierarchyMaster
                     Dim strdes As String = grow.Cells(1).Value.ToString()
 
                     If (String.IsNullOrEmpty(strcode)) Or strcode.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Designation Code can not be blank or incorrect")
+                        common.clsCommon.MyMessageBoxShow(Me, "Designation Code can not be blank or incorrect", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     If (String.IsNullOrEmpty(strdes)) Or strdes.Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow(" Designation Description  can not be blank or incorrect")
+                        common.clsCommon.MyMessageBoxShow(Me, " Designation Description  can not be blank or incorrect", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -470,7 +470,7 @@ Public Class frmDesignationHierarchyMaster
 
     Private Sub FndhigherDesg__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles FndhigherDesg._MYValidating
         If clsCommon.myLen(clsCommon.myCstr(CmbLevelCode.SelectedValue)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Level First of this Designation in Dsignation Master")
+            clsCommon.MyMessageBoxShow(Me, "Please select Level First of this Designation in Dsignation Master", Me.Text)
             Exit Sub
         End If
         Dim str As String = "select count(*) from TSPL_DESIGNATION_MASTER_Hierarchy where Designation_Code ='" + FndhigherDesg.Value + "' "

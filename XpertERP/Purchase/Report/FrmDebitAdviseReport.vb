@@ -22,7 +22,7 @@ Public Class FrmDebitAdviseReport
             cbgLocations.ValueMember = "Code"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmDebitAdviseReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -37,7 +37,7 @@ Public Class FrmDebitAdviseReport
             '    If funSetUserAccess() = False Then Exit Sub
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -83,14 +83,14 @@ Public Class FrmDebitAdviseReport
         Dim Todate As String
         Try
             If chksrnselect.IsChecked AndAlso cbgSRN.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one SRN No.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one SRN No.", Me.Text)
                 Return
             Else
                 SrnNo = clsCommon.GetMulcallString(cbgSRN.CheckedValue)
                 SrnNo = SrnNo.Replace("'", "")
             End If
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vendor", Me.Text)
                 Return
             Else
                 Vendor = clsCommon.GetMulcallString(cbgVendor.CheckedValue)
@@ -172,7 +172,7 @@ Public Class FrmDebitAdviseReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

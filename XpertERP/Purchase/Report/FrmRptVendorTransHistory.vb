@@ -268,7 +268,7 @@ Public Class FrmRptVendorTransHistory
             dtMain = clsDBFuncationality.GetDataTable(DocQry)
 
             If dtMain.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Data not found")
+                clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                 gv.DataSource = Nothing
                 Exit Sub
             End If
@@ -291,7 +291,7 @@ Public Class FrmRptVendorTransHistory
             RadPageView1.SelectedPage = RadPageViewPage2
             RadGroupBox1.Enabled = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormat(ByVal IsFromDrillDown As Boolean)
@@ -504,14 +504,14 @@ Public Class FrmRptVendorTransHistory
                 transportSql.applyExportTemplate(gv, PageSetupReport_ID)
                 clsCommon.MyExportToExcelGrid("Vendor Transaction Report ", gv, arrHeader, Me.Text)
                 'transportSql.exportdataChilRows(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-                common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+                common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
                 ' Process.Start(filePath)
             Else
                 transportSql.applyExportTemplate(gv, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("Vendor Transaction Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
