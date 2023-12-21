@@ -3214,7 +3214,7 @@ Public Class frmSRN
                             Dim cellPrice As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colRate).Value)
                             Dim vendorPrice As Double = clsDBFuncationality.getSingleValue("select item_rate from TSPL_VENDOR_ITEM_DETAIL where vendor_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' and item_no='" & strCode & "'")
                             If cellPrice > vendorPrice Then
-                                clsCommon.MyMessageBoxShow("The Larger Price Of Item is not Allowed then the Vendor Item Price ")
+                                clsCommon.MyMessageBoxShow(Me, "The Larger Price Of Item is not Allowed then the Vendor Item Price ", Me.Text)
                                 gv1.CurrentRow.Cells(colRate).Value = vendorPrice
                             End If
 
@@ -3350,7 +3350,7 @@ Public Class frmSRN
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -3471,7 +3471,7 @@ Public Class frmSRN
             ''    End If
             ''End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
@@ -3482,7 +3482,7 @@ Public Class frmSRN
 
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -3499,14 +3499,14 @@ Public Class frmSRN
 
         If clsCommon.CompairString(strItemType, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Item Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
                 SetBlankOfItemColumns()
                 cboItemType.Focus()
                 Exit Sub
             End If
             If isItemfromVendorItemDetails Then
                 If clsCommon.myLen(txtVendorNo.Value) > 0 AndAlso clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select From Location First", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Select From Location First", Me.Text)
                     txtBillToLocation.Focus()
                     txtBillToLocation.Select()
                     Return
@@ -4185,7 +4185,7 @@ Public Class frmSRN
             End If
             ''==========================================================================================================
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function GetBaseOtherTaxableAmount(ByVal intEndCol As Integer) As Double
@@ -4776,7 +4776,7 @@ Public Class frmSRN
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -5469,7 +5469,7 @@ Public Class frmSRN
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -5577,7 +5577,7 @@ Public Class frmSRN
 
                     UcAttachment1.SaveData(obj.SRN_No)
                     If ChekPostBtn = False AndAlso RadButton1.Visible = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.SRN_No, NavigatorType.Current)
                 End If
@@ -5585,7 +5585,7 @@ Public Class frmSRN
                 Return
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -6438,7 +6438,7 @@ Public Class frmSRN
                 UcAttachment1.LoadData(obj.SRN_No)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -6525,7 +6525,7 @@ Public Class frmSRN
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -6550,9 +6550,9 @@ Public Class frmSRN
                             If Not clsCommon.MyMessageBoxShow("Want auto Purchase Order entry for SRN No. " + clsCommon.myCstr(txtDocNo.Value) + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                             Else
                                 If SaveData_AutoPO() Then
-                                    clsCommon.MyMessageBoxShow("Auto PO Saved Successfully", Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Auto PO Saved Successfully", Me.Text)
                                 Else
-                                    clsCommon.MyMessageBoxShow("No Data Saved For Auto PO,No SRN Post", Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "No Data Saved For Auto PO,No SRN Post", Me.Text)
                                     Return
                                 End If
                             End If
@@ -6626,7 +6626,7 @@ Public Class frmSRN
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -6649,12 +6649,12 @@ Public Class frmSRN
                 End If
                 If (clsSRNHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -6696,7 +6696,7 @@ Public Class frmSRN
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
@@ -7986,19 +7986,19 @@ Public Class frmSRN
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         If clsSRNDetail.CompleteSRN(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Document number not found")
+            clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
         Else
             PrintDataNew(txtDocNo.Value)
         End If
@@ -8094,7 +8094,7 @@ Public Class frmSRN
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     'PurchaseOrderViewer.funreport(dt, EnumTecxpertPaperSize.PaperSize10x6, "rptSRNCustomReport", "SRN Report")
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Vizag") = CompairStringResult.Equal Then
@@ -8404,7 +8404,7 @@ Public Class frmSRN
 
 
         If txtDocNo.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please select the SRN No.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the SRN No.", Me.Text)
         Else
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
             Dim frmCRV As New frmCrystalReportViewer()
