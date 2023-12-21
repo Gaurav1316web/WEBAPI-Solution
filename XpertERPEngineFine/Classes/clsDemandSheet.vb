@@ -32,7 +32,6 @@ Public Class clsDemandSheet
             Dim colCount As Decimal = 0
             Dim StrQry As String = "select Count(*) from TSPL_DEMAND_SHEET where DEMAND_Date='" + clsCommon.GetPrintDate(obj.DEMAND_Date) + "' and ShiftType='" + obj.ShiftType + "' and Item_Code='" + obj.Item_Code + "' and Cust_Code='" + obj.Cust_Code + "' and Created_By='" + objCommonVar.CurrentUserCode + "'"
             colCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(StrQry, trans))
-
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "DEMAND_Date", clsCommon.GetPrintDate(obj.DEMAND_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)

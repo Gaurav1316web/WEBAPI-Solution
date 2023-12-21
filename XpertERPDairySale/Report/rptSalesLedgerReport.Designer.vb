@@ -22,7 +22,7 @@ Partial Class rptSalesLedgerReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,11 +32,13 @@ Partial Class rptSalesLedgerReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnCustomer = New common.Controls.MyRadioButton()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnZone = New common.Controls.MyRadioButton()
-        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.rbtnCustomer = New common.Controls.MyRadioButton()
         Me.rbtnRoute = New common.Controls.MyRadioButton()
-        Me.rbtnBankAdvice = New common.Controls.MyRadioButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.rbtnSummary = New common.Controls.MyRadioButton()
         Me.txtZone = New common.UserControls.txtMultiSelectFinder()
         Me.lblCustomer = New common.Controls.MyLabel()
         Me.lblZone = New common.Controls.MyLabel()
@@ -52,6 +54,9 @@ Partial Class rptSalesLedgerReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -63,11 +68,15 @@ Partial Class rptSalesLedgerReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.rbtnCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
         CType(Me.rbtnZone, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnRoute, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnBankAdvice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblZone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +90,7 @@ Partial Class rptSalesLedgerReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -123,6 +133,7 @@ Partial Class rptSalesLedgerReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -163,11 +174,8 @@ Partial Class rptSalesLedgerReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rbtnCustomer)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnZone)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnDetail)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnRoute)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnBankAdvice)
+        Me.RadGroupBox1.Controls.Add(Me.RadGroupBox3)
+        Me.RadGroupBox1.Controls.Add(Me.RadGroupBox2)
         Me.RadGroupBox1.Controls.Add(Me.txtZone)
         Me.RadGroupBox1.Controls.Add(Me.lblZone)
         Me.RadGroupBox1.Controls.Add(Me.txtRoute)
@@ -181,23 +189,25 @@ Partial Class rptSalesLedgerReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(368, 216)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(368, 262)
         Me.RadGroupBox1.TabIndex = 389
         '
-        'rbtnCustomer
+        'RadGroupBox3
         '
-        Me.rbtnCustomer.Location = New System.Drawing.Point(120, 179)
-        Me.rbtnCustomer.MyLinkLable1 = Nothing
-        Me.rbtnCustomer.MyLinkLable2 = Nothing
-        Me.rbtnCustomer.Name = "rbtnCustomer"
-        Me.rbtnCustomer.Size = New System.Drawing.Size(96, 18)
-        Me.rbtnCustomer.TabIndex = 393
-        Me.rbtnCustomer.TabStop = False
-        Me.rbtnCustomer.Text = "Customer Wise"
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnZone)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnCustomer)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnRoute)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(5, 193)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(303, 39)
+        Me.RadGroupBox3.TabIndex = 441
         '
         'rbtnZone
         '
-        Me.rbtnZone.Location = New System.Drawing.Point(5, 179)
+        Me.rbtnZone.Location = New System.Drawing.Point(5, 9)
         Me.rbtnZone.MyLinkLable1 = Nothing
         Me.rbtnZone.MyLinkLable2 = Nothing
         Me.rbtnZone.Name = "rbtnZone"
@@ -206,40 +216,63 @@ Partial Class rptSalesLedgerReport
         Me.rbtnZone.TabStop = False
         Me.rbtnZone.Text = "Zone Wise"
         '
-        'rbtnDetail
+        'rbtnCustomer
         '
-        Me.rbtnDetail.Location = New System.Drawing.Point(120, 150)
-        Me.rbtnDetail.MyLinkLable1 = Nothing
-        Me.rbtnDetail.MyLinkLable2 = Nothing
-        Me.rbtnDetail.Name = "rbtnDetail"
-        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
-        Me.rbtnDetail.TabIndex = 393
-        Me.rbtnDetail.TabStop = False
-        Me.rbtnDetail.Text = "Detail"
+        Me.rbtnCustomer.Location = New System.Drawing.Point(95, 9)
+        Me.rbtnCustomer.MyLinkLable1 = Nothing
+        Me.rbtnCustomer.MyLinkLable2 = Nothing
+        Me.rbtnCustomer.Name = "rbtnCustomer"
+        Me.rbtnCustomer.Size = New System.Drawing.Size(96, 18)
+        Me.rbtnCustomer.TabIndex = 393
+        Me.rbtnCustomer.TabStop = False
+        Me.rbtnCustomer.Text = "Customer Wise"
         '
         'rbtnRoute
         '
         Me.rbtnRoute.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnRoute.Location = New System.Drawing.Point(239, 179)
+        Me.rbtnRoute.Location = New System.Drawing.Point(212, 9)
         Me.rbtnRoute.MyLinkLable1 = Nothing
         Me.rbtnRoute.MyLinkLable2 = Nothing
         Me.rbtnRoute.Name = "rbtnRoute"
         Me.rbtnRoute.Size = New System.Drawing.Size(77, 18)
-        Me.rbtnRoute.TabIndex = 392
-        Me.rbtnRoute.TabStop = False
+        Me.rbtnRoute.TabIndex = 395
         Me.rbtnRoute.Text = "Route Wise"
         Me.rbtnRoute.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
-        'rbtnBankAdvice
+        'RadGroupBox2
         '
-        Me.rbtnBankAdvice.Location = New System.Drawing.Point(5, 150)
-        Me.rbtnBankAdvice.MyLinkLable1 = Nothing
-        Me.rbtnBankAdvice.MyLinkLable2 = Nothing
-        Me.rbtnBankAdvice.Name = "rbtnBankAdvice"
-        Me.rbtnBankAdvice.Size = New System.Drawing.Size(67, 18)
-        Me.rbtnBankAdvice.TabIndex = 391
-        Me.rbtnBankAdvice.TabStop = False
-        Me.rbtnBankAdvice.Text = "Summary"
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(5, 150)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(303, 37)
+        Me.RadGroupBox2.TabIndex = 440
+        '
+        'rbtnDetail
+        '
+        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDetail.Location = New System.Drawing.Point(6, 9)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 396
+        Me.rbtnDetail.Text = "Detail"
+        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.Location = New System.Drawing.Point(102, 9)
+        Me.rbtnSummary.MyLinkLable1 = Nothing
+        Me.rbtnSummary.MyLinkLable2 = Nothing
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnSummary.TabIndex = 391
+        Me.rbtnSummary.TabStop = False
+        Me.rbtnSummary.Text = "Summary"
         '
         'txtZone
         '
@@ -410,7 +443,7 @@ Partial Class rptSalesLedgerReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(956, 310)
@@ -446,6 +479,28 @@ Partial Class rptSalesLedgerReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'RadSplitButton1
+        '
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(162, 15)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
+        Me.RadSplitButton1.TabIndex = 154
+        Me.RadSplitButton1.Text = "Export"
+        '
+        'btnExcel
+        '
+        Me.btnExcel.Name = "btnExcel"
+        Me.btnExcel.Text = "Excel"
+        Me.btnExcel.UseCompatibleTextRendering = False
+        '
+        'btnPDF
+        '
+        Me.btnPDF.Name = "btnPDF"
+        Me.btnPDF.Text = "PDF"
+        Me.btnPDF.UseCompatibleTextRendering = False
+        '
         'rptSalesLedgerReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -471,11 +526,17 @@ Partial Class rptSalesLedgerReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.rbtnCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
         CType(Me.rbtnZone, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnRoute, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnBankAdvice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblZone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -489,6 +550,7 @@ Partial Class rptSalesLedgerReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -520,8 +582,13 @@ Partial Class rptSalesLedgerReport
     Friend WithEvents txtZone As common.UserControls.txtMultiSelectFinder
     Friend WithEvents rbtnCustomer As common.Controls.MyRadioButton
     Friend WithEvents rbtnZone As common.Controls.MyRadioButton
-    Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
+    Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
     Friend WithEvents rbtnRoute As common.Controls.MyRadioButton
-    Friend WithEvents rbtnBankAdvice As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents RadSplitButton1 As RadSplitButton
+    Friend WithEvents btnExcel As RadMenuItem
+    Friend WithEvents btnPDF As RadMenuItem
 End Class
 

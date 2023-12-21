@@ -157,20 +157,20 @@ Public Class frmPo_action
     Sub PrintData1()
 
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number", Me.Text)
             Return
 
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkItemSelect.IsChecked AndAlso cbgItem.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please selete one Item")
+            common.clsCommon.MyMessageBoxShow("Please selete one Item", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select one location ")
+            common.clsCommon.MyMessageBoxShow("Please select one location ", Me.Text)
             Return
 
         End If
@@ -834,20 +834,20 @@ Public Class frmPo_action
     Sub refereshdata1()
 
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number", Me.Text)
             Return
 
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkItemSelect.IsChecked AndAlso cbgItem.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please selete one Item")
+            common.clsCommon.MyMessageBoxShow("Please selete one Item", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select one location ")
+            common.clsCommon.MyMessageBoxShow("Please select one location ", Me.Text)
             Return
 
         End If
@@ -1224,7 +1224,7 @@ Public Class frmPo_action
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

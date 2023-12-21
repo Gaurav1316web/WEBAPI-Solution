@@ -823,7 +823,7 @@ Public Class frmPendingPI
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending SRN item.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending SRN item.", Me.Text)
             'ElseIf ArrReturn.Count > 1 Then
             '    common.clsCommon.MyMessageBoxShow("Please select only one SRN at a time.")
         Else
@@ -971,7 +971,7 @@ Public Class frmPendingPI
                         If Not arrVendor.Contains(strVendorCode) Then
                             arrVendor.Add(strVendorCode)
                             If arrVendor.Count > 1 Then
-                                clsCommon.MyMessageBoxShow("Items of more than one vendor not acceptable ")
+                                clsCommon.MyMessageBoxShow(Me, "Items of more than one vendor not acceptable ", Me.Text)
                                 Return False
                             End If
                             VendorCode = strVendorCode
@@ -983,7 +983,7 @@ Public Class frmPendingPI
             End If
         Next
         If strheaddatacount > 1 Then
-            clsCommon.MyMessageBoxShow("Select only one PI at a time.")
+            clsCommon.MyMessageBoxShow(Me, "Select only one PI at a time.", Me.Text)
             Return False
         End If
         Return True
@@ -997,12 +997,12 @@ Public Class frmPendingPI
     Sub LoadData()
         Try
             If clsCommon.myLen(tp_FromDate.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("From Date Can't be Blank. ")
+                clsCommon.MyMessageBoxShow(Me, "From Date Can't be Blank. ", Me.Text)
                 tp_FromDate.Focus()
                 Return
             End If
             If clsCommon.myLen(tp_ToDate.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("To Date Can't be Blank.")
+                clsCommon.MyMessageBoxShow(Me, "To Date Can't be Blank.", Me.Text)
                 tp_ToDate.Focus()
                 Return
             End If
@@ -1071,7 +1071,7 @@ Public Class frmPendingPI
             LoadHeadData()
             LoadBlankGridDetail()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

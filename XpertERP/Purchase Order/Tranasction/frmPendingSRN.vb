@@ -1013,7 +1013,7 @@ Public Class frmPendingSRN
 
         Dim SecQc As String = clsCommon.myCstr(gvHead.CurrentRow.Cells(colVisualQCStatusSecond).Value)
         If clsCommon.CompairString(SecQc, "Not Ok") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Visual Qc Not Ok So PI Not Allow")
+            common.clsCommon.MyMessageBoxShow(Me, "Visual Qc Not Ok So PI Not Allow", Me.Text)
             Exit Sub
         End If
 
@@ -1104,7 +1104,7 @@ Public Class frmPendingSRN
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending SRN item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending SRN item", Me.Text)
         Else
             Me.Close()
         End If
@@ -1265,7 +1265,7 @@ Public Class frmPendingSRN
                         If Not arrVendor.Contains(strVendorCode) Then
                             arrVendor.Add(strVendorCode)
                             If arrVendor.Count > 1 Then
-                                clsCommon.MyMessageBoxShow("Items of more than one vendor not acceptable ")
+                                clsCommon.MyMessageBoxShow(Me, "Items of more than one vendor not acceptable ", Me.Text)
                                 Return False
                             End If
                             VendorCode = strVendorCode

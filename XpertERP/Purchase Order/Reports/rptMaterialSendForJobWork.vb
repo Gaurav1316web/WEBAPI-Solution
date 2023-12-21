@@ -22,7 +22,7 @@ Public Class RptMaterialSendForJobWork
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -166,7 +166,7 @@ Public Class RptMaterialSendForJobWork
     Public Sub Load_Report()
         ''Item Filter added by shivani[BM00000008607]
         If fromDate1.Value > ToDate1.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
             fromDate1.Focus()
             Exit Sub
         End If
@@ -235,7 +235,7 @@ Public Class RptMaterialSendForJobWork
 
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
 
         ElseIf (clsCommon.CompairString(cboType.SelectedIndex, 0) = CompairStringResult.Equal) Then
@@ -276,7 +276,7 @@ Public Class RptMaterialSendForJobWork
 
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
         End If
 
@@ -460,7 +460,7 @@ Public Class RptMaterialSendForJobWork
             gv.BestFitColumns()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
         End If
         'ReStoreGridLayout()
     End Sub
@@ -489,7 +489,7 @@ Public Class RptMaterialSendForJobWork
                 qry()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -513,7 +513,7 @@ Public Class RptMaterialSendForJobWork
                 RadPageView1.SelectedPage = RadPageViewPage1
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

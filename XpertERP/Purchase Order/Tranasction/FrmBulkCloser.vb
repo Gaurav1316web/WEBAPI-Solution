@@ -72,7 +72,7 @@ Public Class FrmBulkCloser
                     Dim response = MsgBox("Are you sure want to close the Purchase Order", MsgBoxStyle.YesNo, "Attention")
                     If response = MsgBoxResult.Yes Then
                         ClosePurchaseOrder()
-                        clsCommon.MyMessageBoxShow("Purchase Order closed successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Purchase Order closed successfully", Me.Text)
                     End If
                 Else
                     TxtPO.Focus()
@@ -83,7 +83,7 @@ Public Class FrmBulkCloser
                     Dim response = MsgBox("Are you sure want to close the Purchase Indent", MsgBoxStyle.YesNo, "Attention")
                     If response = MsgBoxResult.Yes Then
                         ClosePurchasIndent()
-                        clsCommon.MyMessageBoxShow("Purchase Indent closed successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Purchase Indent closed successfully", Me.Text)
                     End If
                 Else
                     txtPurchaseIndent.Focus()
@@ -91,7 +91,7 @@ Public Class FrmBulkCloser
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -163,7 +163,7 @@ Public Class FrmBulkCloser
             End If
             TxtPO.arrValueMember = clsCommon.ShowMultipleSelectForm("POSelector@BC", strQry, "PO No", "PO No", TxtPO.arrValueMember, TxtPO.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub
@@ -182,7 +182,7 @@ Public Class FrmBulkCloser
             End If
             txtPurchaseIndent.arrValueMember = clsCommon.ShowMultipleSelectForm("PISelector@BC", strQry, "PI No", "PI No", txtPurchaseIndent.arrValueMember, txtPurchaseIndent.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

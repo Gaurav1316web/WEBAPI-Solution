@@ -226,7 +226,7 @@ Public Class frmCopyPO
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one item", Me.Text)
         Else
             Me.Close()
         End If
@@ -312,10 +312,10 @@ Public Class frmCopyPO
     End Sub
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select vendor")
+            clsCommon.MyMessageBoxShow(Me, "Please select vendor", Me.Text)
             Exit Sub
         ElseIf clsCommon.myLen(cboPOType.SelectedValue) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select PO Type")
+            clsCommon.MyMessageBoxShow(Me, "Please select PO Type", Me.Text)
             Exit Sub
         End If
 
