@@ -3044,7 +3044,7 @@ Public Class frmPurchaseOrder
 
                         ElseIf e.Column Is gv1.Columns(colICode) AndAlso clsCommon.CompairString(cboItemType.SelectedValue, "N") = CompairStringResult.Equal AndAlso ShowItemInCaseofNonInventory = True Then
                             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                                clsCommon.MyMessageBoxShow(Me, "Please select Vendor")
+                                clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
                                 txtVendorNo.Focus()
                                 Return
                             End If
@@ -3142,7 +3142,7 @@ Public Class frmPurchaseOrder
                 Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
     End Function
@@ -3173,7 +3173,7 @@ Public Class frmPurchaseOrder
                 Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
     End Function
@@ -3213,13 +3213,13 @@ Public Class frmPurchaseOrder
 
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select Row Type")
+            clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
         If clsCommon.CompairString(strItemType, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Item Type")
+                clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
                 SetBlankOfItemColumns()
                 cboItemType.Focus()
                 Exit Sub
@@ -4344,7 +4344,7 @@ Public Class frmPurchaseOrder
             Else
                 If clsCommon.myLen(clsCommon.myCstr(txtReqNo.Value)) = 0 Then
                     RadPageView1.SelectedPage = RadPageViewPage1
-                    clsCommon.MyMessageBoxShow(Me, "Reqisition No is mandatory.")
+                    clsCommon.MyMessageBoxShow(Me, "Reqisition No is mandatory.", Me.Text)
                     Me.txtReqNo.Focus()
                     Return False
                 End If
@@ -4416,7 +4416,7 @@ Public Class frmPurchaseOrder
 
             If Not chkMCCPurchase.Checked Then
                 If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtBillToLocation.Focus()
                     txtBillToLocation.Select()
@@ -4424,7 +4424,7 @@ Public Class frmPurchaseOrder
                 End If
             ElseIf chkMCCPurchase.Checked Then
                 If clsCommon.myLen(fndState.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please select State")
+                    clsCommon.MyMessageBoxShow(Me, "Please select State", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     fndState.Focus()
                     fndState.Select()
@@ -4434,7 +4434,7 @@ Public Class frmPurchaseOrder
             ''richa agarwal 24/12/2014
             If Not chkIsMerchantTrade.Checked Then
                 If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please select Tax Group")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage2
                     txtTaxGroup.Focus()
                     Return False
@@ -4445,7 +4445,7 @@ Public Class frmPurchaseOrder
                 Dim locationType As String = String.Empty
                 locationType = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Location_Type,'')  from TSPL_LOCATION_MASTER where Location_Code='" & clsCommon.myCstr(txtBillToLocation.Value) & "' "))
                 If clsCommon.CompairString(locationType, "Virtual") <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(Me, "Bill to Location should be Virtual")
+                    clsCommon.MyMessageBoxShow(Me, "Bill to Location should be Virtual", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtBillToLocation.Focus()
                     Return False
@@ -4473,14 +4473,14 @@ Public Class frmPurchaseOrder
                 End If
             End If
             If clsCommon.myLen(cboPOType.SelectedValue) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Purchase Order Type")
+                clsCommon.MyMessageBoxShow(Me, "Please select Purchase Order Type", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 cboPOType.Focus()
                 Return False
             End If
             If chkJobWorkOutward.Checked = True Then  ' clsCommon.myCstr(cboPOType.SelectedValue) = "O"
                 If clsCommon.myLen(txtSubLocation.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Please select Sub Location")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Sub Location", Me.Text)
                     Return False
                 End If
             End If
@@ -4492,7 +4492,7 @@ Public Class frmPurchaseOrder
             ''    Return False
             ''End If
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Purchase Order code Not found to save")
+                clsCommon.MyMessageBoxShow(Me, "Purchase Order code Not found to save", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 cboPOType.Focus()
                 Return False
@@ -4503,7 +4503,7 @@ Public Class frmPurchaseOrder
             '    Return False
             'End If
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 And Not clsCommon.CompairString(cboPOType.SelectedValue, "j") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Item Type")
+                clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 cboItemType.Focus()
                 Return False
@@ -4516,7 +4516,7 @@ Public Class frmPurchaseOrder
 
             If chkOpenPO.Checked Then
                 If clsCommon.myCdbl(txtAmount.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Fill amount for Open PO")
+                    clsCommon.MyMessageBoxShow(Me, "Fill amount for Open PO", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtAmount.Focus()
                     txtAmount.Select()
@@ -4526,7 +4526,7 @@ Public Class frmPurchaseOrder
 
             If chkBlanket.Checked Then
                 If Not dtpExpiryDate.Checked Then
-                    clsCommon.MyMessageBoxShow(Me, "Select expiry date of PO.")
+                    clsCommon.MyMessageBoxShow(Me, "Select expiry date of PO.", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     dtpExpiryDate.Focus()
                     dtpExpiryDate.Select()
@@ -4534,7 +4534,7 @@ Public Class frmPurchaseOrder
                 End If
 
                 If clsCommon.myCdbl(txtAmount.Text) < clsCommon.myCdbl(lblTotRAmtCopy.Text) Then
-                    clsCommon.MyMessageBoxShow(Me, "Document Amount cannot be greater than Amount")
+                    clsCommon.MyMessageBoxShow(Me, "Document Amount cannot be greater than Amount", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     Return False
                 End If
@@ -4542,14 +4542,14 @@ Public Class frmPurchaseOrder
 
             '=Done By Monika===in case of open po expiry date is mandatory.
             If chkOpenPO.Checked AndAlso dtpExpiryDate.Checked = False Then
-                clsCommon.MyMessageBoxShow(Me, "Select expiry date of PO.")
+                clsCommon.MyMessageBoxShow(Me, "Select expiry date of PO.", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 dtpExpiryDate.Focus()
                 dtpExpiryDate.Select()
                 Return False
             End If
             If chkOpenPO.Checked AndAlso clsCommon.myCDate(dtpExpiryDate.Text) < clsCommon.myCDate(txtDate.Text) Then
-                clsCommon.MyMessageBoxShow(Me, "Expiry date should be greater than Document date.")
+                clsCommon.MyMessageBoxShow(Me, "Expiry date should be greater than Document date.", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 dtpExpiryDate.Focus()
                 dtpExpiryDate.Select()
@@ -4562,21 +4562,21 @@ Public Class frmPurchaseOrder
             ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
             If ShowCapexCodeandSubCode AndAlso clsCommon.CompairString(clsCommon.myCstr(ddl_category.SelectedValue), "Capex") = CompairStringResult.Equal Then
                 If clsCommon.myLen(fndcapexsubcode.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "please select capex sub code.")
+                    clsCommon.MyMessageBoxShow(Me, "please select capex sub code.", Me.Text)
                     fndcapexcode.Focus()
                     Return False
                 End If
                 If clsCommon.myCdbl(lbl_rebudgetamtwithtolerence.Text) < clsCommon.myCdbl(lblTotRAmtCopy.Text) Then
-                    clsCommon.MyMessageBoxShow(Me, "Document amount exceed budget amount and above tolerence limit.")
+                    clsCommon.MyMessageBoxShow(Me, "Document amount exceed budget amount and above tolerence limit.", Me.Text)
                     Return False
                 End If
                 If clsCommon.myCdbl(lbl_rebudgetamt.Text) < clsCommon.myCdbl(lblTotRAmtCopy.Text) Then
-                    clsCommon.MyMessageBoxShow(Me, "Warning: Document amount exceed budget amount but under tolerence limit.")
+                    clsCommon.MyMessageBoxShow(Me, "Warning: Document amount exceed budget amount but under tolerence limit.", Me.Text)
                 End If
             End If
             If ShowCapexCodeandSubCode Then
                 If clsCommon.CompairString(clsCommon.myCstr(ddl_category.SelectedValue), "") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(Me, "please select category.")
+                    clsCommon.MyMessageBoxShow(Me, "please select category.", Me.Text)
                     ddl_category.Focus()
                     Return False
                 End If
@@ -4614,14 +4614,14 @@ Public Class frmPurchaseOrder
                 DocDateLessDelivr = Date.Compare(txtDeliveryDate.Text, txtDate.Text)
                 If dtpExpiryDate.Checked Then
                     If DocDateLessExp < 0 Then
-                        clsCommon.MyMessageBoxShow(Me, "Expiry date must be greater than from document date")
+                        clsCommon.MyMessageBoxShow(Me, "Expiry date must be greater than from document date", Me.Text)
                         RadPageView1.SelectedPage = RadPageViewPage1
                         dtpExpiryDate.Focus()
                         dtpExpiryDate.Select()
                         Return False
                     End If
                     If DeilvDateLessExp < 0 Then
-                        clsCommon.MyMessageBoxShow(Me, "Expiry date must be greater than from delivery date")
+                        clsCommon.MyMessageBoxShow(Me, "Expiry date must be greater than from delivery date", Me.Text)
                         RadPageView1.SelectedPage = RadPageViewPage1
                         dtpExpiryDate.Focus()
                         dtpExpiryDate.Select()
@@ -4630,7 +4630,7 @@ Public Class frmPurchaseOrder
 
                 End If
                 If DocDateLessDelivr < 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Delivery date must be greater than from document date")
+                    clsCommon.MyMessageBoxShow(Me, "Delivery date must be greater than from document date", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtDeliveryDate.Focus()
                     txtDeliveryDate.Select()
@@ -4909,7 +4909,7 @@ Public Class frmPurchaseOrder
                     If clsCommon.myCstr(gv1.Rows(RowType).Cells(colRowType).Value) <> "Misc" Then
                         If arrICode IsNot Nothing AndAlso arrICode.Count > 0 Then
                             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select  case when min(Is_Auto_Weighment)=max(Is_Auto_Weighment) then 1 else 0 end  from TSPL_ITEM_MASTER where Item_Code in (" + clsCommon.GetMulcallString(arrICode) + " )")) = 0 Then
-                                clsCommon.MyMessageBoxShow(Me, "All Item should be of Weightment Type or Not")
+                                clsCommon.MyMessageBoxShow(Me, "All Item should be of Weightment Type or Not", Me.Text)
                                 Return False
                             End If
                         End If
@@ -4922,7 +4922,7 @@ Public Class frmPurchaseOrder
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If clsCommon.myCdbl(dt.Rows(0)("NoOfSkipGSTItem")) > 0 Then
                     If clsCommon.myCdbl(dt.Rows(0)("NoOfNonSkipGSTItem")) > 0 Then
-                        clsCommon.MyMessageBoxShow(Me, "All Item should be of Skip GST or Not")
+                        clsCommon.MyMessageBoxShow(Me, "All Item should be of Skip GST or Not", Me.Text)
                         Return False
                     End If
                     isSkipGST = True
@@ -4946,26 +4946,26 @@ Public Class frmPurchaseOrder
                 If clsCommon.myLen(TxtBeneficiary.Value) <= 0 Then
                     RadPageView1.SelectedPage = RdPaymentterms
                     TxtBeneficiary.Focus()
-                    clsCommon.MyMessageBoxShow(Me, "Please select Beneficiary")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Beneficiary", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(fndPaymenttermsGroup.Value) <= 0 Then
                     RadPageView1.SelectedPage = RdPaymentterms
                     fndPaymenttermsGroup.Focus()
-                    clsCommon.MyMessageBoxShow(Me, "Please select Payment Terms Group.")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Payment Terms Group.", Me.Text)
                     Return False
                 End If
 
                 If clsCommon.myLen(TxtBuyerPONo.Text) <= 0 Then
                     RadPageView1.SelectedPage = RdPaymentterms
                     TxtBuyerPONo.Focus()
-                    clsCommon.MyMessageBoxShow(Me, "Please enter Buyer PO No.")
+                    clsCommon.MyMessageBoxShow(Me, "Please enter Buyer PO No.", Me.Text)
                     Return False
                 End If
                 If TxtBuyerPODate.Checked = False Then
                     RadPageView1.SelectedPage = RdPaymentterms
                     TxtBuyerPODate.Focus()
-                    clsCommon.MyMessageBoxShow(Me, "Please select Buyer PO Date.")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Buyer PO Date.", Me.Text)
                     Return False
                 End If
 
@@ -4973,19 +4973,19 @@ Public Class frmPurchaseOrder
                     If clsCommon.CompairString(cmbAdvanceType.SelectedValue, "") = CompairStringResult.Equal Then
                         RadPageView1.SelectedPage = RdPaymentterms
                         cmbAdvanceType.Focus()
-                        clsCommon.MyMessageBoxShow(Me, "Please Select Advance Type")
+                        clsCommon.MyMessageBoxShow(Me, "Please Select Advance Type", Me.Text)
                         Return False
                     End If
                     If clsCommon.myCdbl(txtAdvance_Pers.Value) < 0 Then
                         RadPageView1.SelectedPage = RdPaymentterms
                         txtAdvance_Pers.Focus()
-                        clsCommon.MyMessageBoxShow(Me, "Advance Value cannot be in negative")
+                        clsCommon.MyMessageBoxShow(Me, "Advance Value cannot be in negative", Me.Text)
                         Return False
                     End If
                     If clsCommon.myCdbl(txtAdvance_Pers.Value) = 0 Then
                         RadPageView1.SelectedPage = RdPaymentterms
                         txtAdvance_Pers.Focus()
-                        clsCommon.MyMessageBoxShow(Me, "Advance Value cannot be zero")
+                        clsCommon.MyMessageBoxShow(Me, "Advance Value cannot be zero", Me.Text)
                         Return False
                     End If
                 End If
@@ -5132,7 +5132,7 @@ Public Class frmPurchaseOrder
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Function
@@ -5531,7 +5531,7 @@ Public Class frmPurchaseOrder
                 If obj.Retention >= 0 AndAlso obj.Retention <= 100 Then
                     obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Please enter a value between 0 and 100.")
+                    clsCommon.MyMessageBoxShow("Please enter a value between 0 and 100.", Me.Text)
                     TxtRetention.Focus()
                     TxtRetention.Text = ""
                 End If
@@ -5724,7 +5724,7 @@ Public Class frmPurchaseOrder
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(cboItemType.SelectedValue, "N") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboPOType.SelectedValue, "J") = CompairStringResult.Equal) Then
                 Else
                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                        clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                         Return False
                     End If
                 End If
@@ -5903,7 +5903,7 @@ Public Class frmPurchaseOrder
             End If
         Catch ex As Exception
             frmSRN.IsPoSavedAuto = False
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -6891,7 +6891,7 @@ Public Class frmPurchaseOrder
             IsLoadOk = False
             FillVendorDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -6924,7 +6924,7 @@ Public Class frmPurchaseOrder
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6996,7 +6996,7 @@ Public Class frmPurchaseOrder
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7023,7 +7023,7 @@ Public Class frmPurchaseOrder
                 End If
                 If (clsPurchaseOrderHead.DeleteData(txtDocNo.Value, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmPurchaseOrderMT) = CompairStringResult.Equal, "MT", "PO"))) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -7066,7 +7066,7 @@ Public Class frmPurchaseOrder
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
             vaddnew = "N"
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7513,7 +7513,7 @@ Public Class frmPurchaseOrder
         frm.Against_Tendor = IIf(chkTender.Checked = True, "Y", "N")
         If chkTender.Checked = True Then
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Vendor first")
+                clsCommon.MyMessageBoxShow(Me, "Please select Vendor first", Me.Text)
                 Exit Sub
             End If
         End If
@@ -7731,7 +7731,7 @@ Public Class frmPurchaseOrder
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If clsCommon.MyMessageBoxShow(Me, "Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsPurchaseOrderDetail.CompletePO(txtDocNo.Value, strICode, intSNo) Then
-                            clsCommon.MyMessageBoxShow(Me, "Successfully Completed")
+                            clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
@@ -7739,7 +7739,7 @@ Public Class frmPurchaseOrder
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7754,13 +7754,13 @@ Public Class frmPurchaseOrder
     Public Sub funprint(ByVal i As Integer)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Purchase Order No not found to Print")
+                clsCommon.MyMessageBoxShow(Me, "Purchase Order No not found to Print", Me.Text)
             End If
             Dim arr As New ArrayList()
             arr.Add(txtDocNo.Value)
             FrmPurchaseOrderReport.PrintData("", "", True, arr, False, Nothing, False, "", i, txtReqNo.Value, cboPOType.Text, lblAddCharges.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7776,7 +7776,7 @@ Public Class frmPurchaseOrder
         If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         ElseIf clsCommon.myCBool(gv1.CurrentRow.Cells(colItemUsedINGRN).Value) Then
-            clsCommon.MyMessageBoxShow(Me, "Can't Delete The Current Row.This Item is Used In GRN")
+            clsCommon.MyMessageBoxShow(Me, "Can't Delete The Current Row.This Item is Used In GRN", Me.Text)
             e.Cancel = True
         End If
     End Sub
@@ -7792,7 +7792,7 @@ Public Class frmPurchaseOrder
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7920,7 +7920,7 @@ Public Class frmPurchaseOrder
                 End If
 
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(Me, ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Else
             SelectRequistionItems()
@@ -8017,11 +8017,11 @@ Public Class frmPurchaseOrder
 
             If IsSavedData Then
                 btnAmendment.Visible = False
-                clsCommon.MyMessageBoxShow(Me, "Successfully Amendmented")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Amendmented", Me.Text)
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -8081,7 +8081,7 @@ Public Class frmPurchaseOrder
     Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ''Printing the amendment
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Purchase Order No not found to Print")
+            clsCommon.MyMessageBoxShow(Me, "Purchase Order No not found to Print", Me.Text)
         Else
             FrmPurchaseOrderReport.PrintAbandoment(txtDocNo.Value)
         End If
@@ -8110,7 +8110,7 @@ Public Class frmPurchaseOrder
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8152,7 +8152,7 @@ Public Class frmPurchaseOrder
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8249,7 +8249,7 @@ Public Class frmPurchaseOrder
                 chkAgainst_RGP.Checked = False
                 If clsCommon.CompairString(cboPOType.SelectedValue, "") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(cboItemType.SelectedValue, "N") = CompairStringResult.Equal Then
                     cboItemType.SelectedValue = ""
-                    clsCommon.MyMessageBoxShow(Me, "Non-Inventory applicable for job-work only.")
+                    clsCommon.MyMessageBoxShow(Me, "Non-Inventory applicable for job-work only.", Me.Text)
                 End If
             End If
 
@@ -8320,13 +8320,13 @@ Public Class frmPurchaseOrder
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Purchase Order No not found to Print")
+            clsCommon.MyMessageBoxShow(Me, "Purchase Order No not found to Print", Me.Text)
         Else
             i = 1
             funprint(i)
@@ -8336,7 +8336,7 @@ Public Class frmPurchaseOrder
 
     Private Sub btnpreprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Purchase Order No not found to Print")
+            clsCommon.MyMessageBoxShow(Me, "Purchase Order No not found to Print", Me.Text)
         Else
             i = 2
             funprint(i)
@@ -8515,14 +8515,14 @@ Public Class frmPurchaseOrder
         Try
             If (clsPurchaseOrderHead.closepodata(txtDocNo.Value, True, closeyn)) Then
                 If closeyn = "Y" Then
-                    clsCommon.MyMessageBoxShow(Me, "Successfully Closed")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Closed", Me.Text)
                 ElseIf closeyn = "N" Then
-                    clsCommon.MyMessageBoxShow(Me, "Successfully Opened")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Opened", Me.Text)
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8975,7 +8975,7 @@ Public Class frmPurchaseOrder
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa agarwal --------------
@@ -9085,7 +9085,7 @@ Public Class frmPurchaseOrder
                 gv1.Columns(colWeightUOMMT).IsVisible = True
             Else
                 chkIsMerchantTrade.Checked = False
-                clsCommon.MyMessageBoxShow(Me, "Please on multicurrency for merchant trade")
+                clsCommon.MyMessageBoxShow(Me, "Please on multicurrency for merchant trade", Me.Text)
                 cboPOType.Enabled = True
             End If
         Else
@@ -9132,11 +9132,11 @@ Public Class frmPurchaseOrder
                 End If
 
                 If clsPurchaseOrderHead.UpdateAfterPosting(obj, Nothing) Then
-                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''------------richa code ends here----------------------
@@ -9189,7 +9189,7 @@ Public Class frmPurchaseOrder
             Return isSaved
         Catch ex As Exception
             isSaved = False
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -9265,7 +9265,7 @@ Public Class frmPurchaseOrder
             If clsCommon.CompairString(cboItemType.SelectedValue, "N") = CompairStringResult.Equal AndAlso clsCommon.CompairString(cboPOType.SelectedValue, "J") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(cboPOType.SelectedValue, "") <> CompairStringResult.Equal Then
 
                 cboPOType.SelectedValue = ""
-                clsCommon.MyMessageBoxShow(Me, "Non-Inventory applicable for job-work only.")
+                clsCommon.MyMessageBoxShow(Me, "Non-Inventory applicable for job-work only.", Me.Text)
 
             End If
         End If
@@ -9628,7 +9628,7 @@ Public Class frmPurchaseOrder
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9654,14 +9654,14 @@ Public Class frmPurchaseOrder
                             Throw New Exception("PO can not be cancelled because it is used in SRN/GRN.")
                         Else
                             If SaveData(False, True) Then
-                                clsCommon.MyMessageBoxShow(Me, "PO cancelled successfully!")
+                                clsCommon.MyMessageBoxShow(Me, "PO cancelled successfully!", Me.Text)
                             End If
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9762,7 +9762,7 @@ Public Class frmPurchaseOrder
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9922,12 +9922,12 @@ Public Class frmPurchaseOrder
 
                 Next
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(Me, "Data Transfered Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data Transfered Successfully.", Me.Text)
             End If
 
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
 
@@ -10142,7 +10142,7 @@ Public Class frmPurchaseOrder
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub CalculateInsuranceTotal(ByVal CalculateItemRow As Boolean)
@@ -10194,7 +10194,7 @@ Public Class frmPurchaseOrder
             objRemittance = frm.ObjReturn
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetVendorTDSDetails()
@@ -10321,7 +10321,7 @@ Public Class frmPurchaseOrder
     Private Sub btnNewHistory_Click(sender As Object, e As EventArgs) Handles btnNewHistory.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select Document Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
@@ -10338,7 +10338,7 @@ Public Class frmPurchaseOrder
             txtTenderNo.Value = clsTenderHead.getFinder("Tender_Type in (2,3) and Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "') ", txtTenderNo.Value, isButtonClicked)
             txtTenderNo.Tag = clsTenderHead.GetTenderType(txtTenderNo.Value, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

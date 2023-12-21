@@ -58,7 +58,7 @@ Public Class frmNRGPBooking
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -128,7 +128,7 @@ Public Class frmNRGPBooking
             End If
             LOCATIONRIGTHS()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -332,7 +332,7 @@ Public Class frmNRGPBooking
             lbxCsaVendor.Text = "Vendor"
             rbtn_group.Visible = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -430,7 +430,7 @@ Public Class frmNRGPBooking
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -506,7 +506,7 @@ Public Class frmNRGPBooking
                 If issaved = True Then
                     'clsCommon.ProgressBarHide()
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.BOOKING_NO, NavigatorType.Current)
                     Return True
@@ -600,7 +600,7 @@ Public Class frmNRGPBooking
         Catch ex As Exception
             isInsideLoadData = False
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -624,12 +624,12 @@ Public Class frmNRGPBooking
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 cls_TSPL_NRGP_REQUEST_HEAD.PostData(txtCode.Value, arrLoc, True, Trans_Type)
-                common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -665,7 +665,7 @@ Public Class frmNRGPBooking
                 If (cls_TSPL_NRGP_REQUEST_HEAD.DeleteData(txtCode.Value, Trans_Type)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
                     'clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
                 'clsCommon.ProgressBarHide()
@@ -690,7 +690,7 @@ Public Class frmNRGPBooking
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -783,7 +783,7 @@ Public Class frmNRGPBooking
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -814,7 +814,7 @@ Public Class frmNRGPBooking
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'and TSPL_PP_BATCH_ORDER_HEAD.location_code in (" + arrLoc + ")
     End Sub
@@ -870,7 +870,7 @@ Public Class frmNRGPBooking
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -956,7 +956,7 @@ Public Class frmNRGPBooking
                 lbl_location.Text = clsLocation.GetName(Me.txtlocation.Value, Nothing)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

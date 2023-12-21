@@ -1548,7 +1548,7 @@ Public Class frmIssueReturn
 
                                 'End If
                             Else
-                                common.clsCommon.MyMessageBoxShow("Select the Location")
+                                common.clsCommon.MyMessageBoxShow(Me, "Select the Location", Me.Text)
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                             End If
                         End If
@@ -1632,7 +1632,7 @@ Public Class frmIssueReturn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1671,7 +1671,7 @@ Public Class frmIssueReturn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1690,7 +1690,7 @@ Public Class frmIssueReturn
         If clsCommon.myLen(fndReqNo.Value) <= 0 Then
             If clsCommon.myLen(txtFromLocation.Value) = 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "Return") <> CompairStringResult.Equal Then
 
-                common.clsCommon.MyMessageBoxShow("Select from location")
+                common.clsCommon.MyMessageBoxShow(Me, "Select from location", Me.Text)
                 gv1.CurrentRow.Cells(colICode).Value = ""
                 gv1.CurrentRow.Cells(colIName).Value = ""
                 gv1.CurrentRow.Cells(colUnit).Value = ""
@@ -1753,7 +1753,7 @@ Public Class frmIssueReturn
             End If
         ElseIf (clsCommon.myLen(gv1.CurrentRow.Cells(colReq_IssueNo).Value) <= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "Issue") = CompairStringResult.Equal AndAlso AllowOnlyOneIssueAgainstStoreRequisition = True) Then
             If clsCommon.myLen(txtFromLocation.Value) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Select from location")
+                common.clsCommon.MyMessageBoxShow(Me, "Select from location", Me.Text)
                 gv1.CurrentRow.Cells(colICode).Value = ""
                 gv1.CurrentRow.Cells(colIName).Value = ""
                 gv1.CurrentRow.Cells(colUnit).Value = ""
@@ -2299,11 +2299,11 @@ Public Class frmIssueReturn
                     End If
 
                     If clsCommon.myCdbl(lbl_rebudgetamtwithtolerence.Text) < clsCommon.myCdbl(lblDocAmount.Text) Then
-                        clsCommon.MyMessageBoxShow("Document amount exceed budget amount and above tolerence limit.")
+                        clsCommon.MyMessageBoxShow(Me, "Document amount exceed budget amount and above tolerence limit.", Me.Text)
                         Return False
                     End If
                     If clsCommon.myCdbl(lbl_rebudgetamt.Text) < clsCommon.myCdbl(lblDocAmount.Text) Then
-                        clsCommon.MyMessageBoxShow("Warning: Document amount exceed budget amount but under tolerence limit.")
+                        clsCommon.MyMessageBoxShow(Me, "Warning: Document amount exceed budget amount but under tolerence limit.", Me.Text)
                     End If
                 End If
             End If
@@ -2559,7 +2559,7 @@ Public Class frmIssueReturn
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -2782,7 +2782,7 @@ Public Class frmIssueReturn
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -2808,7 +2808,7 @@ Public Class frmIssueReturn
                     '    End If
                     'End If
                     If ChekPostBTn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     LoadData(obj.Doc_No, NavigatorType.Current)
@@ -3352,7 +3352,7 @@ Public Class frmIssueReturn
                 gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3386,7 +3386,7 @@ Public Class frmIssueReturn
                     End If
                 End If
                 If (clsIssueReturnHead.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     If chkReject.Checked = True Then
                         SendSMSandEmail()
                     End If
@@ -3394,7 +3394,7 @@ Public Class frmIssueReturn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3454,7 +3454,7 @@ Public Class frmIssueReturn
 
                     objEmailH.SaveData(clsUserMgtCode.mbtnIssueReturn, objEmailH, Nothing)
                     objEmailH = Nothing
-                    clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                 End If
                 'sanjay
 
@@ -3495,7 +3495,7 @@ Public Class frmIssueReturn
                 End If
                 If (clsIssueReturnHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew(True)
                 End If
             End If
@@ -3524,7 +3524,7 @@ Public Class frmIssueReturn
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3758,7 +3758,7 @@ Public Class frmIssueReturn
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4130,7 +4130,7 @@ Public Class frmIssueReturn
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4180,7 +4180,7 @@ Public Class frmIssueReturn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4760,7 +4760,7 @@ Public Class frmIssueReturn
 
                 If clsIssueReturnHead.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse and Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -4823,7 +4823,7 @@ Public Class frmIssueReturn
                 lblDepartment.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4962,7 +4962,7 @@ Public Class frmIssueReturn
                 RefreshPINo()
             End If ''end array cond.
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -5094,7 +5094,7 @@ Public Class frmIssueReturn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5110,7 +5110,7 @@ Public Class frmIssueReturn
                 lblUnitDesc.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5125,7 +5125,7 @@ Public Class frmIssueReturn
                 lblCostcenterTypeDesc.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : TEC/29/10/18-000354 By Prabhakar
@@ -5138,7 +5138,7 @@ Public Class frmIssueReturn
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If common.clsCommon.MyMessageBoxShow("Do you want to cancel the Document?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     If clsIssueReturnHead.CancelData(Me.Form_ID, txtDocNo.Value) Then
-                        clsCommon.MyMessageBoxShow("Issue/Return cancelled successfully!")
+                        clsCommon.MyMessageBoxShow(Me, "Issue/Return cancelled successfully!", Me.Text)
                         AddNew(True)
                     End If
                 End If
@@ -5204,10 +5204,10 @@ Public Class frmIssueReturn
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_JOURNAL_DETAILS ENABLE TRIGGER TRG_JD_FiscaYearEndNoUpdateNoDelete", trans)
             End If
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

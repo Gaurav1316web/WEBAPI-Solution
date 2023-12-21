@@ -2314,14 +2314,14 @@ Public Class frmMRN
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
 
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -2330,7 +2330,7 @@ Public Class frmMRN
 
 
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Item Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
                 SetBlankOfItemColumns()
                 cboItemType.Focus()
                 Exit Sub
@@ -2393,7 +2393,7 @@ Public Class frmMRN
                 gv1.CurrentRow.Cells(colCapexCode).Value = clsCapexBudget.GetCapexCode(gv1.CurrentRow.Cells(colCapexSubCode).Value, Nothing)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetBlankOfItemColumns()
@@ -2453,7 +2453,7 @@ Public Class frmMRN
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
@@ -2954,7 +2954,7 @@ Public Class frmMRN
             End If
             ''==========================================================================================================
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -3009,7 +3009,7 @@ Public Class frmMRN
         ''RICHA AGARWAL DONE ON 19 APR,2018 AGAINST TICKET NO UDL/13/04/18-000098
         If clsCommon.myLen(txtinvoiceno.Text) > 0 Then
             If clsCommon.GetDateWithStartTime(txt_invdate.Value) > clsCommon.GetDateWithEndTime(txtDate.Value) Then
-                common.clsCommon.MyMessageBoxShow("Invoice Date can't be greater than Document Date")
+                common.clsCommon.MyMessageBoxShow(Me, "Invoice Date can't be greater than Document Date", Me.Text)
                 Return False
             End If
         End If
@@ -3018,7 +3018,7 @@ Public Class frmMRN
             Dim strchk As String = "select Status from TSPL_MRN_HEAD where MRN_No='" + txtDocNo.Value + "'"
             Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -3035,7 +3035,7 @@ Public Class frmMRN
         Next
         UpdateAllTotals()
         If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
             txtVendorNo.Focus()
             Return False
         End If
@@ -3043,7 +3043,7 @@ Public Class frmMRN
         'CLEINT : UDL > DATE : 27-01-2017
         If clsCommon.myLen(txtGENo.Text) > 0 Then
             If txtGEDate.Checked = False Then
-                common.clsCommon.MyMessageBoxShow("Please Select Gate Entry Date.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Gate Entry Date.", Me.Text)
                 txtGEDate.Focus()
                 Return False
             End If
@@ -3051,12 +3051,12 @@ Public Class frmMRN
 
 
         If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
             txtTaxGroup.Focus()
             Return False
         End If
         If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
             txtBillToLocation.Focus()
             Return False
         End If
@@ -3082,12 +3082,12 @@ Public Class frmMRN
         End If
         '==================================================
         If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("MRN No Not found to save")
+            common.clsCommon.MyMessageBoxShow(Me, "MRN No Not found to save", Me.Text)
             txtDocNo.Focus()
             Return False
         End If
         If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
             cboItemType.Focus()
             Return False
         End If
@@ -3178,7 +3178,7 @@ Public Class frmMRN
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             If clsCommon.myCdbl(dt.Rows(0)("NoOfSkipGSTItem")) > 0 Then
                 If clsCommon.myCdbl(dt.Rows(0)("NoOfNonSkipGSTItem")) > 0 Then
-                    clsCommon.MyMessageBoxShow("All Item should be of Skip GST or Not")
+                    clsCommon.MyMessageBoxShow(Me, "All Item should be of Skip GST or Not", Me.Text)
                     Return False
                 End If
                 isSkipGST = True
@@ -3575,7 +3575,7 @@ Public Class frmMRN
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
                 '' CurrencConversion
@@ -3605,14 +3605,14 @@ Public Class frmMRN
                 If (obj.SaveData(obj, isNewEntry, isamendment)) Then
                     UcAttachment1.SaveData(obj.MRN_No)
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     LoadData(obj.MRN_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -4240,7 +4240,7 @@ Public Class frmMRN
             End If
         Catch ex As Exception
             isNewEntry = True
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             obj = Nothing
@@ -4272,7 +4272,7 @@ Public Class frmMRN
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -4283,7 +4283,7 @@ Public Class frmMRN
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 If (clsMRNHead.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     ''If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                     ''    Print()
@@ -4291,7 +4291,7 @@ Public Class frmMRN
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -4314,12 +4314,12 @@ Public Class frmMRN
                 End If
                 If (clsMRNHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -4356,7 +4356,7 @@ Public Class frmMRN
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
@@ -5083,19 +5083,19 @@ Public Class frmMRN
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         If clsMRNDetail.CompleteMRN(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("MRN No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "MRN No not found to Print", Me.Text)
         Else
             PrintData(txtDocNo.Value)
         End If
@@ -5212,7 +5212,7 @@ Public Class frmMRN
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("MRN No not found to Print")
+                    common.clsCommon.MyMessageBoxShow(Me, "MRN No not found to Print", Me.Text)
                 Else
                     clsSRNHead.SetItemWiseTax(dt, txtDocNo.Value)
                     If IsMRNReportQtyWise Then
@@ -5243,7 +5243,7 @@ Public Class frmMRN
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv1.CellFormatting
@@ -5351,7 +5351,7 @@ Public Class frmMRN
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub RefreshReqNo()
@@ -5580,7 +5580,7 @@ Public Class frmMRN
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub setGridFocusAC()
@@ -5616,12 +5616,12 @@ Public Class frmMRN
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If clsCommon.MyMessageBoxShow("Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     clsMRNHead.ReverseAndUnpost(txtDocNo.Value)
-                    clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Dim isValueChanginFired As Boolean = False
@@ -5673,7 +5673,7 @@ Public Class frmMRN
                     End If
 
                     If clsMRNHead.MRNCancel(Me.Form_ID, clsCommon.myCstr(txtDocNo.Value)) Then
-                        clsCommon.MyMessageBoxShow("MRN cancelled successfully!")
+                        clsCommon.MyMessageBoxShow(Me, "MRN cancelled successfully!", Me.Text)
                     End If
                     'End If
                 End If
@@ -5681,7 +5681,7 @@ Public Class frmMRN
                 AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btn_Amendment_Click(sender As Object, e As EventArgs) Handles btn_Amendment.Click
@@ -5714,14 +5714,14 @@ Public Class frmMRN
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
         Dim strLocations = String.Empty
 
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Bill To location code before sub location", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Bill To location code before sub location", Me.Text)
             Exit Sub
         End If
         txtSubLocation.Value = clsLocation.getFinder("(Main_Location_Code='" & txtBillToLocation.Value & "' and Is_Jobwork=1 and isnull(Is_Sub_Location,'N')='Y')" & strLocations, txtSubLocation.Value, isButtonClicked)
@@ -5780,7 +5780,7 @@ Public Class frmMRN
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv2_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv2.CellFormatting
@@ -5863,7 +5863,7 @@ Public Class frmMRN
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub CalculateInsuranceTotal(ByVal CalculateItemRow As Boolean)

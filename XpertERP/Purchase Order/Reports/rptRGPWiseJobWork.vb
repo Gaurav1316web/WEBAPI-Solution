@@ -19,7 +19,7 @@ Public Class RptRGPWiseJobWork
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -141,7 +141,7 @@ Public Class RptRGPWiseJobWork
     End Sub
     Public Sub Load_Report()
         If fromDate.Value > ToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
             fromDate.Focus()
             Exit Sub
         End If
@@ -226,7 +226,7 @@ Public Class RptRGPWiseJobWork
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
         End If
         gv.BestFitColumns()
         ReStoreGridLayout()

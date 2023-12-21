@@ -213,7 +213,7 @@ Public Class frmPOUnloading
             txtDate.Enabled = True
             txtGrossWeight.ReadOnly = Not isEnterManualWeight
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -292,7 +292,7 @@ Public Class frmPOUnloading
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -326,7 +326,7 @@ Public Class frmPOUnloading
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -341,7 +341,7 @@ Public Class frmPOUnloading
             Dim whrClas As String = " not exists(select 1 from TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= xxx.GRN_No and TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code not in ('" + txtCode.Value + "')) "
             LoadGateEntryData(clsCommon.ShowSelectForm("POWFGRN", qry, "GRN_No", whrClas, txtGateEntryNo.Value, "", isButtonClicked), True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -381,7 +381,7 @@ Public Class frmPOUnloading
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -418,7 +418,7 @@ Public Class frmPOUnloading
                 Throw New Exception("Not permit to save data")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -426,7 +426,7 @@ Public Class frmPOUnloading
         Try
             SaveOneItem()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

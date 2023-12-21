@@ -123,7 +123,7 @@ Public Class FrmPendingRequistion
 
 
         If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Pending item found ")
+            common.clsCommon.MyMessageBoxShow(Me, "No Pending item found ", Me.Text)
             Me.Close()
         End If
         LoadHeadData()
@@ -450,7 +450,7 @@ Public Class FrmPendingRequistion
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Requition item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Requition item", Me.Text)
         Else
             Me.Close()
         End If
