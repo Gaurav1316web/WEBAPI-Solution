@@ -414,7 +414,7 @@ Public Class frmPPStageProcessQCLogSheet
                 'gv.Rows.NewRow()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -472,7 +472,7 @@ Public Class frmPPStageProcessQCLogSheet
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
@@ -522,7 +522,7 @@ Public Class frmPPStageProcessQCLogSheet
                 Next
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return objListSP
     End Function
@@ -560,7 +560,7 @@ Public Class frmPPStageProcessQCLogSheet
                 Next
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return objListPE
     End Function
@@ -603,7 +603,7 @@ Public Class frmPPStageProcessQCLogSheet
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return objListSTD
     End Function
@@ -646,7 +646,7 @@ Public Class frmPPStageProcessQCLogSheet
             qry = "select distinct (select ',['+Description+']' from TSPL_QC_LOG_SHEET_MASTER left outer join QCLOGSHEET on QCLOGSHEET.code=TSPL_QC_LOG_SHEET_MASTER.code where TSPL_QC_LOG_SHEET_MASTER.Code in (select Code from qclogsheet) and trans_id='PRODUCTION' order by QCLOGSHEET.SeqNo for xml path('')) as code"
             columns = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
         ElseIf Not isInsideLoadData Then
-            clsCommon.MyMessageBoxShow("No Parameters.")
+            clsCommon.MyMessageBoxShow(Me, "No Parameters.", Me.Text)
             Exit Sub
 
         End If
@@ -655,7 +655,7 @@ Public Class frmPPStageProcessQCLogSheet
 
         clsDBFuncationality.ExecuteNonQuery("drop table QCLOGSHEET")
         If clsCommon.myLen(columns) <= 0 AndAlso Not isInsideLoadData Then
-            clsCommon.MyMessageBoxShow("No Parameters.")
+            clsCommon.MyMessageBoxShow(Me, "No Parameters.", Me.Text)
             Exit Sub
         End If
         LoadBlankGrid(columns)

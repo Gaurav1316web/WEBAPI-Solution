@@ -20,7 +20,7 @@ Public Class FrmPaymentUploader
     Sub LoadData()
 
         If isInsideLoadData Then
-            clsCommon.MyMessageBoxShow("Work in Progress Please Wait...")
+            clsCommon.MyMessageBoxShow(Me, "Work in Progress Please Wait...", Me.Text)
             Exit Sub
         End If
 
@@ -44,7 +44,7 @@ Public Class FrmPaymentUploader
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Sub UploaderQuery()
@@ -92,7 +92,7 @@ Public Class FrmPaymentUploader
                 'Excel(qry)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Excel(ByVal Qry As String)

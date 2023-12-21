@@ -55,7 +55,7 @@ Public Class FrmRptAPInvoiceDetailsReport
     Private Sub Print(ByVal IsPrint As Exporter)
         Try
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
@@ -111,12 +111,12 @@ Public Class FrmRptAPInvoiceDetailsReport
             gv.BestFitColumns()
             ReStoreGridLayout()
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -187,10 +187,10 @@ Public Class FrmRptAPInvoiceDetailsReport
                     clsCommon.MyExportToPDF("AP Invoice Details Report", gv, arrHeader, "AP Invoice Details Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -211,7 +211,7 @@ Public Class FrmRptAPInvoiceDetailsReport
             'End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
 

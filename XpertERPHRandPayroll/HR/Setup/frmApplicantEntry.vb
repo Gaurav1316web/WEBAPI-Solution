@@ -613,7 +613,7 @@ Public Class FrmApplicantEntry
             ''
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1340,7 +1340,7 @@ Public Class FrmApplicantEntry
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -1350,7 +1350,7 @@ Public Class FrmApplicantEntry
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsApplicantEntry.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -1469,7 +1469,7 @@ Public Class FrmApplicantEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub Save()
@@ -1687,7 +1687,7 @@ Public Class FrmApplicantEntry
                         cnt = cmd.ExecuteNonQuery()
                     End If
 
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.APPLICANT_CODE, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -1702,7 +1702,7 @@ Public Class FrmApplicantEntry
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -2023,7 +2023,7 @@ Public Class FrmApplicantEntry
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2067,7 +2067,7 @@ Public Class FrmApplicantEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2109,7 +2109,7 @@ Public Class FrmApplicantEntry
                 lblsourcedetail.Text = ""
             End If
         Else
-            clsCommon.MyMessageBoxShow("first select source type")
+            clsCommon.MyMessageBoxShow(Me, "first select source type", Me.Text)
         End If
 
 
@@ -2149,7 +2149,7 @@ Public Class FrmApplicantEntry
     Private Sub txtState__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtState._MYValidating
         Try
             If clsCommon.myLen(txtCountry.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Country First..")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country First..", Me.Text)
                 txtCountry.Focus()
                 Exit Sub
             End If
@@ -2167,7 +2167,7 @@ Public Class FrmApplicantEntry
                 txtCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2198,12 +2198,12 @@ Public Class FrmApplicantEntry
     Private Sub txtCity__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCity._MYValidating
         Try
             If clsCommon.myLen(txtCountry.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Country First..")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country First..", Me.Text)
                 txtCountry.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtState.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select state First..")
+                clsCommon.MyMessageBoxShow(Me, "Please Select state First..", Me.Text)
                 txtState.Focus()
                 Exit Sub
             End If
@@ -2216,7 +2216,7 @@ Public Class FrmApplicantEntry
                 txtCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2251,7 +2251,7 @@ Public Class FrmApplicantEntry
                 txtCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2313,7 +2313,7 @@ Public Class FrmApplicantEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2337,7 +2337,7 @@ Public Class FrmApplicantEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2353,7 +2353,7 @@ Public Class FrmApplicantEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2407,7 +2407,7 @@ Public Class FrmApplicantEntry
             End If
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2531,13 +2531,13 @@ Public Class FrmApplicantEntry
                     fs.Close()
                     System.Diagnostics.Process.Start(file_path + "\\" + filename + file_extn)
                 Else
-                    clsCommon.MyMessageBoxShow("No document found")
+                    clsCommon.MyMessageBoxShow(Me, "No document found", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No document found")
+                clsCommon.MyMessageBoxShow(Me, "No document found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2546,7 +2546,7 @@ Public Class FrmApplicantEntry
             myMessages.blankValue("Applicant ID ")
             txtcode.Focus()
         ElseIf ClsApplicantEntry.DeleteDocData(txtcode.Value, txtcode.Value) Then
-            clsCommon.MyMessageBoxShow("Document Deleted Successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Document Deleted Successfully.", Me.Text)
             'txtcode.Value = Nothing
             txtResume.Text = ""
             OpenFileDialog1.Reset()

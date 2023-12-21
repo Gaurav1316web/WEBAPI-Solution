@@ -435,7 +435,7 @@ Public Class FrmPendingSrn_Qty
         End If
 
         If dtgv.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             Exit Sub
         End If
         RadPageView1.SelectedPage = RadPageViewPage2
@@ -544,7 +544,7 @@ Public Class FrmPendingSrn_Qty
                 frm.Controls.Add(gv)
                 FillGridView(sql, gv)
                 If gv.Rows.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("There is no data for Show Excel Report.")
+                    common.clsCommon.MyMessageBoxShow("There is no data for Show Excel Report.", Me.Text)
                     Return False
                 End If
                 Dim i As Integer = 0
@@ -581,7 +581,7 @@ Public Class FrmPendingSrn_Qty
                 Return True
             Catch ex As Exception
                 frm.Controls.Remove(gv)
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 'common.clsCommon.MyMessageBoxShow("No Report Created.", "Export Error", MessageBoxButtons.OK)
                 Return False
             End Try
@@ -876,7 +876,7 @@ Public Class FrmPendingSrn_Qty
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

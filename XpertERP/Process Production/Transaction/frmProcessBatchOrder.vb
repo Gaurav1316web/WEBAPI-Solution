@@ -79,7 +79,7 @@ Public Class FrmProcessBatchOrder
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -254,7 +254,7 @@ Public Class FrmProcessBatchOrder
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -874,7 +874,7 @@ Public Class FrmProcessBatchOrder
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -988,7 +988,7 @@ Public Class FrmProcessBatchOrder
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1109,7 +1109,7 @@ Public Class FrmProcessBatchOrder
 
             If clsProcessBatchOrder.SaveData(obj, isNewEntry) Then
                 If Not isPost Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
 
                 txtCode.Value = obj.Batchcode
@@ -1214,7 +1214,7 @@ Public Class FrmProcessBatchOrder
             End If
         Catch ex As Exception
             isSavedSuccess = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             dt = Nothing
@@ -1257,7 +1257,7 @@ Public Class FrmProcessBatchOrder
             Dim SFG_Counter As Integer = 0
 
             If clsCommon.myLen(arrLoc) <= 0 Then
-                clsCommon.MyMessageBoxShow("Set location rights.")
+                clsCommon.MyMessageBoxShow(Me, "Set location rights.", Me.Text)
                 Exit Sub
             End If
 
@@ -1426,7 +1426,7 @@ Public Class FrmProcessBatchOrder
         Catch ex As Exception
             isNewEntry = True
             isSavedSuccess = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
             obj = Nothing
@@ -1456,7 +1456,7 @@ Public Class FrmProcessBatchOrder
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1511,7 +1511,7 @@ Public Class FrmProcessBatchOrder
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1525,7 +1525,7 @@ Public Class FrmProcessBatchOrder
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("Set location rights")
+            clsCommon.MyMessageBoxShow(Me, "Set location rights", Me.Text)
         End If
 
         Dim qry As String = "select count(*) from TSPL_PP_BATCH_ORDER_HEAD where batch_code='" + clsCommon.myCstr(txtCode.Value) + "'"
@@ -1552,7 +1552,7 @@ Public Class FrmProcessBatchOrder
 
     Private Sub txtlocationcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtlocationcode._MYValidating
         If clsCommon.myLen(arrLoc) <= 0 Then
-            clsCommon.MyMessageBoxShow("Set location rights")
+            clsCommon.MyMessageBoxShow(Me, "Set location rights", Me.Text)
         End If
         txtlocationcode.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y'", txtlocationcode.Value, isButtonClicked)
 
@@ -1574,7 +1574,7 @@ Public Class FrmProcessBatchOrder
 
     Private Sub txtplancode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtplancode._MYValidating
         If clsCommon.myLen(txtlocationcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select location first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select location first.", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             txtlocationcode.Focus()
             txtlocationcode.Select()
@@ -1696,7 +1696,7 @@ Public Class FrmProcessBatchOrder
                 gv.Rows.AddNew()
             Next
         Else
-            clsCommon.MyMessageBoxShow("No item found for selected Plan and Production Structure.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No item found for selected Plan and Production Structure.", Me.Text)
             txtplancode.Value = ""
         End If
         isInsideLoadData = False
@@ -1765,7 +1765,7 @@ Public Class FrmProcessBatchOrder
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2119,13 +2119,13 @@ Public Class FrmProcessBatchOrder
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 Else
                     e.Cancel = True
-                    clsCommon.MyMessageBoxShow("No row deleted,SFG BO is posted", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No row deleted,SFG BO is posted", Me.Text)
                     Exit Sub
                 End If
             End If
         Else
                 e.Cancel = True
-                clsCommon.MyMessageBoxShow("No row deleted,data is posted", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No row deleted,data is posted", Me.Text)
         End If
     End Sub
 
@@ -2166,7 +2166,7 @@ Public Class FrmProcessBatchOrder
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2233,7 +2233,7 @@ Public Class FrmProcessBatchOrder
         Dim icode As String = ""
 
         If clsCommon.myLen(AllBomCode) > 0 AndAlso clsCommon.myLen(gvraw.Rows(0).Cells(colRawIname).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Click Fill Raw-Item Detail Button First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Click Fill Raw-Item Detail Button First", Me.Text)
             btngo.Focus()
             btngo.Select()
             Errorcontrol.SetError(btngo, "Click Fill Raw-Item Detail Button First")
@@ -2325,7 +2325,7 @@ Public Class FrmProcessBatchOrder
         End If
 
         If clsCommon.myLen(txtCode) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select batch order for closing", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select batch order for closing", Me.Text)
             txtCode.Focus()
             txtCode.Select()
             Errorcontrol.SetError(txtCode, "Select batch order for closing")
@@ -2337,7 +2337,7 @@ Public Class FrmProcessBatchOrder
         Dim qry As String = "select count(*) from TSPL_PP_BATCH_ORDER_HEAD where batch_code='" + txtCode.Value + "'"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             Return
         End If
 
@@ -2384,7 +2384,7 @@ Public Class FrmProcessBatchOrder
             End If
             chkclosestatus = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2522,7 +2522,7 @@ Public Class FrmProcessBatchOrder
         Catch ex As Exception
             btnExport.Visible = False
             RadPageViewPage4.Item.Visibility = ElementVisibility.Collapsed
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2569,7 +2569,7 @@ Public Class FrmProcessBatchOrder
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                     '-----------------------------
@@ -2585,7 +2585,7 @@ Public Class FrmProcessBatchOrder
             Dim qry As String = "Select LINE_NO AS Code,MACHINE_NAME,MACHINE_RATED,CAPACITY ,TIME_FRAME  from TSPL_LINE_MASTER"
             FndLineNo.Value = clsCommon.ShowSelectForm("PPLineFND", qry, "Code", " ", FndLineNo.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2608,7 +2608,7 @@ Public Class FrmProcessBatchOrder
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

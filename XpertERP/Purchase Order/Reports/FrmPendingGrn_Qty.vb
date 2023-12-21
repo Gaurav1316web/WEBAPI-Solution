@@ -52,11 +52,11 @@ Public Class FrmPendingGrn_Qty
     Sub PrintData()
 
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
@@ -74,10 +74,10 @@ Public Class FrmPendingGrn_Qty
         Dim dtCompany As DataTable = clsDBFuncationality.GetDataTable(CompanyQry)
 
         If isDocSelect AndAlso ArrDoc.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Document")
+            common.clsCommon.MyMessageBoxShow("Please select at least one Document", Me.Text)
             Return
         ElseIf isVendorSelect AndAlso ArrVendor.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Vendor For Print")
+            common.clsCommon.MyMessageBoxShow("Please select at least one Vendor For Print", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
@@ -184,7 +184,7 @@ Public Class FrmPendingGrn_Qty
         End If
 
         If Gv1.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             Exit Sub
         End If
         RadPageView1.SelectedPage = RadPageViewPage2
@@ -196,10 +196,10 @@ Public Class FrmPendingGrn_Qty
         Dim dtCompany As DataTable = clsDBFuncationality.GetDataTable(CompanyQry)
 
         If isDocSelect AndAlso ArrDoc.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Document")
+            common.clsCommon.MyMessageBoxShow("Please select at least one Document", Me.Text)
             Return
         ElseIf isVendorSelect AndAlso ArrVendor.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Vendor For Print")
+            common.clsCommon.MyMessageBoxShow("Please select at least one Vendor For Print", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
@@ -391,11 +391,11 @@ Public Class FrmPendingGrn_Qty
 
     Private Sub btnRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
@@ -476,7 +476,7 @@ Public Class FrmPendingGrn_Qty
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

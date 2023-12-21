@@ -1274,8 +1274,8 @@ Public Class frmBulkProcurementUploader
                             grow.Cells(colChallanNo).Value = ChallanNo
                         End If
                     End If
-                Next               
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                Next
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 clsCommon.ProgressBarPercentHide()
             End If
         Catch ex As Exception

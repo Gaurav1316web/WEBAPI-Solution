@@ -71,7 +71,7 @@ Public Class FrmMultipleProcDeduction
         Try
             ERPStartDate = clsCommon.myCDate(objCommonVar.ERPStartDate)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
+            clsCommon.MyMessageBoxShow("Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
 
@@ -290,7 +290,7 @@ Public Class FrmMultipleProcDeduction
         Catch ex As Exception
             isInsideLoadData = False
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -521,7 +521,7 @@ Public Class FrmMultipleProcDeduction
             UcAttachment1.AllowToSave()
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
             'Throw New Exception(ex.Message)
         End Try
@@ -590,7 +590,7 @@ Public Class FrmMultipleProcDeduction
 
 
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one GL Acount")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one GL Acount", Me.Text)
                     Return
                 End If
 
@@ -599,14 +599,14 @@ Public Class FrmMultipleProcDeduction
                     UcAttachment1.SaveData(obj.Document_No)
                     txtDocNo.Value = obj.Document_No
                     If Not isPost Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     LoadData(obj.Document_No)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -727,7 +727,7 @@ Public Class FrmMultipleProcDeduction
                 LoadData(txtDocNo.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -752,12 +752,12 @@ Public Class FrmMultipleProcDeduction
                 End If
                 If (clsMultipleProcDeductionHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -786,7 +786,7 @@ Public Class FrmMultipleProcDeduction
             End Select
             LoadData(clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry)))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
@@ -934,7 +934,7 @@ Public Class FrmMultipleProcDeduction
             txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtlocation.Value, txtDate.Value)
             txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtlocation.Value, txtDate.Value)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -954,11 +954,11 @@ Public Class FrmMultipleProcDeduction
                 End If
 
                 clsMultipleProcDeductionHead.ReverseAndUnpost(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
                 LoadData(txtDocNo.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -978,7 +978,7 @@ Public Class FrmMultipleProcDeduction
             Dim Sql As String = " select ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
             transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -118,7 +118,7 @@ Public Class frmPrintCheck
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -168,7 +168,7 @@ Public Class frmPrintCheck
              
             Return False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -228,7 +228,7 @@ Public Class frmPrintCheck
             'End If
             Return False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -236,20 +236,20 @@ Public Class frmPrintCheck
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(clsCommon.myCstr(txtBankCode.Text)) <= 0 Then
             txtBankCode.Focus()
-            clsCommon.MyMessageBoxShow("Bank Code not found")
+            clsCommon.MyMessageBoxShow(Me, "Bank Code not found", Me.Text)
             Return False
         End If
         If Manual_Print = False Then
             If clsCommon.myLen(clsCommon.myCstr(fndCheckCode.Value)) <= 0 Then
                 fndCheckCode.Focus()
-                clsCommon.MyMessageBoxShow("Please select Check Code")
+                clsCommon.MyMessageBoxShow(Me, "Please select Check Code", Me.Text)
                 Return False
             End If
         End If
        
         If clsCommon.myLen(clsCommon.myCdbl(txtNextCheckNumber.Text)) <= 0 Then
             txtNextCheckNumber.Focus()
-            clsCommon.MyMessageBoxShow("Check No is blank")
+            clsCommon.MyMessageBoxShow(Me, "Check No is blank", Me.Text)
             Return False
         End If
 

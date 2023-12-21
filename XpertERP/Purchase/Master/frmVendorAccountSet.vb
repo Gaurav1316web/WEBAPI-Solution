@@ -475,7 +475,7 @@ Public Class frmvendoraccountset
             If chkFarmer.Checked = True Then
                 Dim farmercount As Integer = clsDBFuncationality.getSingleValue("SELECT count(IsFarmer) from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code<>'" & fndaccountsetcode.Value & "' and IsFarmer=1")
                 If farmercount > 0 Then
-                    clsCommon.MyMessageBoxShow("Account set of Farmer type already exist")
+                    clsCommon.MyMessageBoxShow(Me, "Account set of Farmer type already exist", Me.Text)
                     Exit Sub
                 End If
             End If
@@ -493,7 +493,7 @@ Public Class frmvendoraccountset
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm Then
@@ -991,7 +991,7 @@ Public Class frmvendoraccountset
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -1238,7 +1238,7 @@ Public Class frmvendoraccountset
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Account Set", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Account Set", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndaccountsetcode.Value, "acct_set_code", "TSPL_VENDOR_ACCOUNT_SET")

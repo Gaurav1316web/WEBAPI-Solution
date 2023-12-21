@@ -185,19 +185,19 @@ Public Class frmRptVendorLedger
         Dim qry As String = String.Empty
         Try
             If chkVndrSelect.IsChecked AndAlso cbgVndrGroup.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Vendor Group.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor Group.", Me.Text)
                 Return
             End If
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor", Me.Text)
                 Return
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location", Me.Text)
                 Return
             End If
             If rbtnchildslct.IsChecked AndAlso cbgchild.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Child Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Child Vendor", Me.Text)
                 Return
             End If
             If rbtnchildall.IsChecked AndAlso chkVendorSelect.IsChecked Then
@@ -488,7 +488,7 @@ Public Class frmRptVendorLedger
             'dtOpening = clsDBFuncationality.GetDataTable(strQry)
 
             If (chkNone.IsChecked = True OrElse rbntDocWiseMerge.IsChecked = True) AndAlso dtMain.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Data not found")
+                clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                 gv.DataSource = Nothing
                 gv.Columns.Clear()
                 gv.Rows.Clear()
@@ -582,7 +582,7 @@ Public Class frmRptVendorLedger
             GC.Collect()
             GC.WaitForFullGCComplete()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -1885,19 +1885,19 @@ Public Class frmRptVendorLedger
         Dim childvendrcode As String = ""
         Try
             If chkVndrSelect.IsChecked AndAlso cbgVndrGroup.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Vendor Group.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor Group.", Me.Text)
                 Return
             End If
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor", Me.Text)
                 Return
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location", Me.Text)
                 Return
             End If
             If rbtnchildslct.IsChecked AndAlso cbgchild.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast single Child Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single Child Vendor", Me.Text)
                 Return
             End If
             If rbtnchildall.IsChecked AndAlso chkVendorSelect.IsChecked Then
@@ -2151,7 +2151,7 @@ Public Class frmRptVendorLedger
             dtOpening = clsDBFuncationality.GetDataTable(strQry)
 
             If dtMain.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Data not found")
+                clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                 gv.DataSource = Nothing
                 gv.Columns.Clear()
                 gv.Rows.Clear()
@@ -2206,7 +2206,7 @@ Public Class frmRptVendorLedger
             RadGroupBox1.Enabled = False
             GC.Collect()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2537,7 +2537,7 @@ Public Class frmRptVendorLedger
                     PageSetupReport_ID = GetReportID()
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -2598,7 +2598,7 @@ Public Class frmRptVendorLedger
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2805,7 +2805,7 @@ Public Class frmRptVendorLedger
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3024,10 +3024,10 @@ Public Class frmRptVendorLedger
                 'transportSql.exportdataChilRows(gvVendorGroup, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
             End If
             'transportSql.exportdataChilRows(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
             Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3040,7 +3040,7 @@ Public Class frmRptVendorLedger
             End If
             ExportCSV(gv, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3060,7 +3060,7 @@ Public Class frmRptVendorLedger
             clsCommon.ProgressBarShow()
             IO.File.WriteAllLines(filePath, transportSql.ExportCSV(sender, AddHeader))
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Data Exported successfully")
+            clsCommon.MyMessageBoxShow(Me,"Data Exported successfully",Me.text)
             Process.Start(filePath)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3215,7 +3215,7 @@ Public Class frmRptVendorLedger
             End If
             
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

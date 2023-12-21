@@ -249,7 +249,7 @@ Public Class frmVendorGroup
     End Sub
     Private Sub rdbtndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtndelete.Click
         If clsCommon.myLen(fndbankcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm() Then
@@ -406,7 +406,7 @@ Public Class frmVendorGroup
                 Else : query = ""
 
                     rdtxtaccountset.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Account Set Code does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Account Set Code does not exist", Me.Text)
                     fndaccountset.Value = ""
 
 
@@ -488,7 +488,7 @@ End if
                 Else : query = ""
 
                     rdtxttermscode.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Terms Code does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Terms Code does not exist", Me.Text)
                     fndtermscode.Value = ""
 
 
@@ -572,7 +572,7 @@ End if
                 Else : query = ""
 
                     rdtxtbankcode.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Bank Code does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Bank Code does not exist", Me.Text)
                     fndbankcode.Value = ""
 
 
@@ -653,7 +653,7 @@ End if
                 Else : query = ""
 
                     rdtxtpayametcode.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Payment Code does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Payment Code does not exist", Me.Text)
                     fndpayamentcode.Value = ""
 
 
@@ -736,7 +736,7 @@ End if
                 Else : query = ""
 
                     rdtxttaxgroup.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Tax Group Code does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Tax Group Code does not exist", Me.Text)
                     fndtaxgroup.Value = ""
 
 
@@ -1070,7 +1070,7 @@ End if
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndgroupcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Vendor Group Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Vendor Group Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndgroupcode.Value, "ven_group_code", "TSPL_VENDOR_GROUP")

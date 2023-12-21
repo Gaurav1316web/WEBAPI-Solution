@@ -108,21 +108,21 @@ Public Class frmRouteListReport
             '"Inner Join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code = TSPL_CUSTOMER_MASTER.Cust_Group_Code"
             '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             If chkSelect.IsChecked = True AndAlso cbgroute.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Route")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Route", Me.Text)
                 Return
             Else
                 RouteCodeFilter = clsCommon.GetMulcallString(cbgroute.CheckedValue)
                 RouteCodeFilter = RouteCodeFilter.Replace("'", "")
             End If
             If chkLocSelect.IsChecked = True AndAlso dgvLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast single Location Or Select All")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast single Location Or Select All", Me.Text)
                 Return
             Else
                 LocationFilter = clsCommon.GetMulcallString(dgvLocation.CheckedValue)
                 LocationFilter = LocationFilter.Replace("'", "")
             End If
             If chkcustselect.IsChecked = True AndAlso cbgcustomertype.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast single CustomerType Or Select All")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast single CustomerType Or Select All", Me.Text)
                 Return
             Else
                 CustCodeFilter = clsCommon.GetMulcallString(cbgcustomertype.CheckedValue)
@@ -159,7 +159,7 @@ Public Class frmRouteListReport
             frmCRV.funreport(CrystalReportFolder.Purchase, dt, "rptRouteList", "Route List Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

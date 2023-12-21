@@ -116,7 +116,7 @@ Public Class FrmCostCentreConsumptionRpt
                     clsCommon.MyExportToPDF(Me.Text, gvData, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
@@ -148,7 +148,7 @@ Public Class FrmCostCentreConsumptionRpt
                                             " WHERE convert(date,TSPL_ISSUERETURN_HEAD.Doc_Date,103)>='" + strFromDate + "' and convert(date,TSPL_ISSUERETURN_HEAD.Doc_Date,103)<='" + strToDate + "' and TSPL_COST_CENTER_UNIT_MASTER.Description is not null "
         Dim isRecordExistOrNot As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(strRecordExistOrNot))
         If isRecordExistOrNot = 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         '==================================================================
@@ -189,7 +189,7 @@ Public Class FrmCostCentreConsumptionRpt
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 RadPageView1.SelectedPage = RadPageViewPage2

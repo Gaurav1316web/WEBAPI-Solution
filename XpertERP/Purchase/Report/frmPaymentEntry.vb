@@ -37,7 +37,7 @@ Public Class FrmPaymentEntry
 
             Dim ArrDoc As New ArrayList
             If ChkDocumentSelect.IsChecked And cbgDocument.CheckedValue.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single Document or select all.")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single Document or select all.", Me.Text)
                 Exit Sub
             Else
                 ArrDoc = cbgDocument.CheckedValue
@@ -45,7 +45,7 @@ Public Class FrmPaymentEntry
 
             Dim ArrVendor As New ArrayList
             If chkVendorSelect.IsChecked And cbgVendor.CheckedValue.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor or select all.", Me.Text)
                 Exit Sub
             Else
                 ArrVendor = cbgVendor.CheckedValue
@@ -53,7 +53,7 @@ Public Class FrmPaymentEntry
 
             Dim Arrlocation As New ArrayList
             If chkLocSelect.IsChecked And cbgLocation.CheckedValue.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
                 Exit Sub
             Else
                 Arrlocation = cbgLocation.CheckedValue
@@ -81,7 +81,7 @@ Public Class FrmPaymentEntry
             Dim arrVendor As ArrayList = Nothing
             Dim arrlocation As ArrayList = Nothing
             If ChkDocumentSelect.IsChecked AndAlso cbgDocument.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select at least one Document.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select at least one Document.", Me.Text)
                 Return
             ElseIf (ChkDocumentSelect.IsChecked) Then
                 arrDocument = cbgDocument.CheckedValue
@@ -91,7 +91,7 @@ Public Class FrmPaymentEntry
                 arrDocument = cbgDocument.AllValue
             End If
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select at least one Vendor.")
+                common.clsCommon.MyMessageBoxShow("Please Select at least one Vendor.", Me.Text)
                 Return
             ElseIf (chkVendorSelect.IsChecked) Then
                 arrVendor = cbgVendor.CheckedValue
@@ -99,7 +99,7 @@ Public Class FrmPaymentEntry
                 Vendor = Vendor.Replace("'", "")
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select at least one Location.")
+                common.clsCommon.MyMessageBoxShow("Please Select at least one Location.", Me.Text)
                 Return
             ElseIf (chkLocSelect.IsChecked) Then
                 arrlocation = cbgLocation.CheckedValue
@@ -272,7 +272,7 @@ Public Class FrmPaymentEntry
             frmCRV = Nothing
             ' funReport(fromdate, todate, arrDocument, arrVendor)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(me,ex.Message,Me.text)
         End Try
     End Sub
 

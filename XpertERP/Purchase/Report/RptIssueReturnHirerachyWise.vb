@@ -233,7 +233,7 @@ Public Class RptIssueReturnHirerachyWise
                 End If
 
                 If chkDepartmentSelect.IsChecked = True AndAlso cbgDepartment.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one Department")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Department", Me.Text)
                     Return
                 ElseIf cbgDepartment.CheckedValue.Count > 0 Then
                     UpperQry2 += " AND Dept IN (" + clsCommon.GetMulcallString(DepartmentArr) + ")"
@@ -243,14 +243,14 @@ Public Class RptIssueReturnHirerachyWise
                     UpperQry2 += " AND Item_Code IN   (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ") "
                 End If
                 If chkCategorySelect.IsChecked = True AndAlso cbgCategory.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one Item Code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item Code", Me.Text)
                     Return
                 ElseIf cbgCategory.CheckedValue.Count > 0 Then
                     UpperQry2 += " AND [Item Category Code] in  (" + clsCommon.GetMulcallString(CategoryArr) + ")"
                 End If
 
                 If chkSubCategroySelect.IsChecked = True AndAlso cbgSubCategroy.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one Sub Category")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Sub Category", Me.Text)
                     Return
                 ElseIf cbgSubCategroy.CheckedValue.Count > 0 Then
                     UpperQry2 += " AND [Sub_Category_Code] in  (" + clsCommon.GetMulcallString(SubCategoryArr) + ")"
@@ -262,7 +262,7 @@ Public Class RptIssueReturnHirerachyWise
                     dt = clsDBFuncationality.GetDataTable(qry)
                 End If
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found to Display", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found to Display", Me.Text)
                 Else
                     If dt IsNot Nothing And dt.Rows.Count > 0 Then
                         gv.DataSource = Nothing
@@ -501,7 +501,7 @@ Public Class RptIssueReturnHirerachyWise
             End If
             ''----------
             If chkDepartmentSelect.IsChecked = True AndAlso cbgDepartment.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Department")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Department", Me.Text)
                 Return
             ElseIf cbgDepartment.CheckedValue.Count > 0 Then
                 strInnerQry += " and issuehd .Dept in (" + clsCommon.GetMulcallString(DepartmentArr) + ")"
@@ -516,21 +516,21 @@ Public Class RptIssueReturnHirerachyWise
                 strInnerQry += " and issuertn.Item_Code in  (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ") "
             End If
             If chkCategorySelect.IsChecked = True AndAlso cbgCategory.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one ItemCode")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one ItemCode", Me.Text)
                 Return
             ElseIf cbgCategory.CheckedValue.Count > 0 Then
                 strInnerQry += " and TSPL_ITEM_MASTER .item_category in (" + clsCommon.GetMulcallString(CategoryArr) + ")"
             End If
 
             If chkSubCategroySelect.IsChecked = True AndAlso cbgSubCategroy.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one SubCategory")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one SubCategory", Me.Text)
                 Return
             ElseIf cbgSubCategroy.CheckedValue.Count > 0 Then
                 strInnerQry += " and TSPL_ITEM_SUB_CATEGORY .Sub_Category_Code in (" + clsCommon.GetMulcallString(SubCategoryArr) + ")"
             End If
 
             If chkMachineSelect.IsChecked = True AndAlso cbgMachine.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Machine")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Machine", Me.Text)
                 Return
             ElseIf cbgMachine.CheckedValue.Count > 0 Then
                 strInnerQry += " and issuehd.Machine_Id in (" + clsCommon.GetMulcallString(machine) + ")"
@@ -556,7 +556,7 @@ Public Class RptIssueReturnHirerachyWise
 
             LowerQry2 = " )xxx1 inner join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code = xxx1.Comp_code "
             If chkVehicleWise.Checked = True AndAlso chkVehicleSelect.IsChecked = True AndAlso cbgVehicle.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Vehicle")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vehicle", Me.Text)
                 Return
             ElseIf chkVehicleWise.Checked = True AndAlso cbgVehicle.CheckedValue.Count > 0 Then
                 LowerQry2 += " where xxx1.VehicleId in (" + clsCommon.GetMulcallString(vehicle) + ")"
@@ -564,7 +564,7 @@ Public Class RptIssueReturnHirerachyWise
             qry = UpperQry1 + UpperQry2 + strInnerQry + LowerQry1 + LowerQry2
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     gv.DataSource = Nothing
@@ -767,7 +767,7 @@ Public Class RptIssueReturnHirerachyWise
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -813,7 +813,7 @@ Public Class RptIssueReturnHirerachyWise
                     clsCommon.MyExportToPDF("Issue Return Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -897,7 +897,7 @@ Public Class RptIssueReturnHirerachyWise
                                  "  (select  TSPL_ITEM_SUB_CATEGORY.Sub_Category_Code, TSPL_ITEM_SUB_CATEGORY.Description, issuertn.Item_Code, issuertn.Item_Desc, issuertn.Issued_Qty, issuertn.Unit_code,issuehd.Doc_Type,isnull(issuertn .Item_Net_Amt ,0)as Value ,issuehd .Vehicle_Id as VehicleId ,(TSPL_GL_SEGMENT_CODE .Description )as Vehiclename,issuehd .Machine_Id as machineID,GlsegMach.Description as MachineDesc ,issuehd .Dept as DeptId,GlsegDepartId .Description as DeptDesc  from TSPL_IssueReturn_DETAIL as issuertn   left outer join TSPL_IssueReturn_HEAD as issuehd on issuertn .Doc_No = issuehd .Doc_No  left outer  join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code = issuertn .Item_Code  left outer join  TSPL_ITEM_SUB_CATEGORY   on TSPL_ITEM_SUB_CATEGORY .Category_Code = TSPL_ITEM_MASTER .item_category and tspl_item_sub_category.Sub_Category_Code = TSPL_ITEM_MASTER .sub_item_category  LEFT outer join TSPL_Item_Category on TSPL_Item_Category.Category_Code=TSPL_ITEM_MASTER .item_category left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE .Segment_code =issuehd  .Vehicle_Id and TSPL_GL_SEGMENT_CODE.Seg_No  = 2 left outer join TSPL_GL_SEGMENT_CODE as GlsegMach on GlsegMach  .Segment_code =issuehd  .Machine_Id  and GlsegMach.Seg_No  = 5 left outer join TSPL_GL_SEGMENT_CODE as GlsegDepartId on GlsegDepartId.Segment_code =issuehd .Dept  and GlsegDepartId.Seg_No  =3 where Doc_Type in ('Issue','Return') and Convert(Date,issuehd .Doc_Date,103) >=Convert(Date,'" + dtpFromdate1.Value.Date + "',103) and Convert(Date,issuehd .Doc_Date,103) <=Convert(Date,'" + dtpToDate.Value.Date + "',103) "
         End If
         If chkDepartmentSelect.IsChecked = True AndAlso cbgDepartment.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Department")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Department", Me.Text)
             Return
         ElseIf cbgDepartment.CheckedValue.Count > 0 Then
             qry += " and issuehd .Dept in (" + clsCommon.GetMulcallString(DepartmentArr) + ")"
@@ -914,20 +914,20 @@ Public Class RptIssueReturnHirerachyWise
         End If
         '========================
         If chkSubCategroySelect.IsChecked = True AndAlso cbgSubCategroy.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one SubCategory")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one SubCategory", Me.Text)
             Return
         ElseIf cbgSubCategroy.CheckedValue.Count > 0 Then
 
             qry += " and TSPL_ITEM_SUB_CATEGORY .Sub_Category_Code in (" + clsCommon.GetMulcallString(SubCategoryArr) + ")"
         End If
         If chkMachineSelect.IsChecked = True AndAlso cbgMachine.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Machine")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Machine", Me.Text)
             Return
         ElseIf cbgMachine.CheckedValue.Count > 0 Then
             qry += " and issuehd.Machine_Id in (" + clsCommon.GetMulcallString(machine) + ")"
         End If
         If chkVehicleSelect.IsChecked = True AndAlso cbgVehicle.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vahicle")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vahicle", Me.Text)
             Return
         ElseIf cbgVehicle.CheckedValue.Count > 0 Then
             qry += " and issuehd.Vehicle_Id in (" + clsCommon.GetMulcallString(vehicle) + ")"
@@ -1048,7 +1048,7 @@ Public Class RptIssueReturnHirerachyWise
                 frm.Controls.Add(gv)
                 FillGridView(sql, gv)
                 If gv.Rows.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("There is no data for Show Excel Report.")
+                    common.clsCommon.MyMessageBoxShow(Me, "There is no data for Show Excel Report.", Me.Text)
                     Return False
                 End If
                 Dim i As Integer = 0
@@ -1383,7 +1383,7 @@ Public Class RptIssueReturnHirerachyWise
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found to Display", Me.Text)
             Else
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     gv.DataSource = Nothing

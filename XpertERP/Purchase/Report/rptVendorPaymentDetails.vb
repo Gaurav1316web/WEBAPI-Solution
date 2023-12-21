@@ -141,12 +141,12 @@ Public Class RptVendorPaymentDetails
                 gv1.BestFitColumns()
                 gv1.EnableFiltering = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
                             End If
                             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -216,7 +216,7 @@ Public Class RptVendorPaymentDetails
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -242,11 +242,11 @@ Public Class RptVendorPaymentDetails
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -274,11 +274,11 @@ Public Class RptVendorPaymentDetails
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("Vendor Payment Details Report", gv1, arrHeader, "Vendor Payment Details Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

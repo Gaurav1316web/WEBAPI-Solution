@@ -235,13 +235,13 @@ Public Class RptServiceTaxDetail
 
 
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
 
             If chkQuarterSelect.IsChecked AndAlso cbgQuarter.CheckedValue.Count = 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single Quarter or select all.")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single Quarter or select all.", Me.Text)
                 Exit Sub
             End If
             'Change By Prabhakar : Total_Amount replace to TSPL_VENDOR_INVOICE_DETAIL.Item_Rate as Total_Amount Ticket : BM00000009442'
@@ -511,11 +511,11 @@ Public Class RptServiceTaxDetail
                 RadPageView1.SelectedPage = RadPageViewPage2
                 RadGroupBox2.Enabled = False
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1036,7 +1036,7 @@ Public Class RptServiceTaxDetail
                 clsCommon.MyExportToPDF("Service Tax Report", gv, arrHeader, "Service Tax Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

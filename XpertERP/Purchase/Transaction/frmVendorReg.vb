@@ -226,14 +226,14 @@ Public Class FrmVendorReg
 
                 If myMessages.deleteConfirm() Then
                         If clsVendorReg.DeleteData(txtcode.Value) Then
-                            clsCommon.MyMessageBoxShow("Record deleted successfully.")
-                            btnNew.PerformClick()
+                        clsCommon.MyMessageBoxShow("Record deleted successfully.", Me.Text)
+                        btnNew.PerformClick()
                         End If
                     End If
                 End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -464,7 +464,7 @@ Public Class FrmVendorReg
 
                 If (clsVendorReg.SaveData(obj, clsVendorReg.CheckNewEntry(obj.Code, Nothing))) Then
                     LoadData(obj.Code, NavigatorType.Current)
-                    clsCommon.MyMessageBoxShow("Data saved successfully.")
+                    clsCommon.MyMessageBoxShow("Data saved successfully.", Me.Text)
                 End If
 
             End If
@@ -800,11 +800,11 @@ Public Class FrmVendorReg
                 qry = "SELECT Is_VendorRegApproved FROM TSPL_VENDORREGISTRATION_MASTER where TSPL_VENDORREGISTRATION_MASTER.Registration_No= '" & txtcode.Value & "'"
                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
                 If check = 1 Then
-                    clsCommon.MyMessageBoxShow("Record Already Approved.")
+                    clsCommon.MyMessageBoxShow("Record Already Approved.", Me.Text)
                 Else
                     clsDBFuncationality.ExecuteNonQuery("update TSPL_VENDORREGISTRATION_MASTER set Is_VendorRegApproved=1 where TSPL_VENDORREGISTRATION_MASTER.Registration_No= '" & txtcode.Value & "'")
                     LoadData(txtcode.Value, NavigatorType.Current)
-                    clsCommon.MyMessageBoxShow("Record Approved Successfully.")
+                    clsCommon.MyMessageBoxShow("Record Approved Successfully.", Me.Text)
                 End If
             End If
 

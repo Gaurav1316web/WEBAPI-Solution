@@ -178,11 +178,11 @@ Public Class FrmCancelAfterPosting
             'End If
 
             If (ClsCancelAfterPosting.SaveData(Arr)) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -71,6 +71,7 @@ Public Class clsMilkCollectionMCCMulipleDays
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsMilkCollectionMCCMulipleDaysDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "TSPL_MULTIPLE_DEDUCTION_DETAIL", "Document_No", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

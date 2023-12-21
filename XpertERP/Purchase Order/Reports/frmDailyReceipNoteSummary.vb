@@ -168,19 +168,19 @@ Public Class FrmDailyReceipNoteSummary
         Dim StrVendor As String = String.Empty
 
         If chkItemselect.IsChecked = True AndAlso cbgItem.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Item Or Select All")
+            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Item Or Select All", Me.Text)
             Exit Sub
         End If
         If chkVendorSelect.IsChecked = True AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Vendor Or Select All")
+            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Vendor Or Select All", Me.Text)
             Exit Sub
         End If
         If chkLocSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Location Or Select All")
+            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Location Or Select All", Me.Text)
             Exit Sub
         End If
         If chkSubCatSelect.IsChecked = True AndAlso cbgSubCategory.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Sub Category Or Select All")
+            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Sub Category Or Select All", Me.Text)
             Exit Sub
         End If
 
@@ -257,7 +257,7 @@ Public Class FrmDailyReceipNoteSummary
 
             Dim Dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If Dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 'If rbtnItemWise.IsChecked = True Then
                 'PurchaseOrderViewer.funreport(Dt, "crptDailyRcptSummaryItemWise", "Daily Receipt Summary")

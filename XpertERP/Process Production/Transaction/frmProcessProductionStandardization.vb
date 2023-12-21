@@ -341,7 +341,7 @@ Public Class frmProcessProductionStandardization
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1859,7 +1859,7 @@ Public Class frmProcessProductionStandardization
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2180,9 +2180,9 @@ Public Class frmProcessProductionStandardization
             If clsProcessProductionStandardization.SaveData(isNewEntry, obj) Then
                 If isPost = False Then
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
 
@@ -2195,7 +2195,7 @@ Public Class frmProcessProductionStandardization
             End If
             obj = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -2225,7 +2225,7 @@ Public Class frmProcessProductionStandardization
             Dim isDeleted As Boolean = False
             If clsProcessProductionStandardization.DeleteData(txtCode.Value, trans) Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 isDeleted = True
             End If
 
@@ -2292,7 +2292,7 @@ Public Class frmProcessProductionStandardization
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2788,7 +2788,7 @@ Public Class frmProcessProductionStandardization
             FillSection()
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         isInsideLoadData = False
     End Sub
@@ -2988,7 +2988,7 @@ Public Class frmProcessProductionStandardization
             FillQCGrid(0)
             FillStageDetail()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3004,7 +3004,7 @@ Public Class frmProcessProductionStandardization
             FillStageDetail()
             FillSection()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3049,7 +3049,7 @@ Public Class frmProcessProductionStandardization
 
         Next
         If gvStage.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Standardization Stages not found for selected child batch's section and structure.")
+            clsCommon.MyMessageBoxShow(Me, "Standardization Stages not found for selected child batch's section and structure.", Me.Text)
         End If
 
         isInsideLoadData = False
@@ -3281,7 +3281,7 @@ Public Class frmProcessProductionStandardization
             If Not isCellValueChanged Then
                 If e.Column Is gvARDetail.Columns(colARItemCode) Then
                     If clsCommon.myLen(fndChildBatchNo.Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Select Child Batch Order Detail", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Select Child Batch Order Detail", Me.Text)
                         fndChildBatchNo.Select()
                         fndChildBatchNo.Focus()
                         Return
@@ -3457,7 +3457,7 @@ Public Class frmProcessProductionStandardization
 
     Private Sub OpenUOM(ByVal isButtonClicked As Boolean)
         If clsCommon.myLen(gvARDetail.CurrentRow.Cells(colARItemCode).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select item code first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select item code first", Me.Text)
             Exit Sub
         End If
         qry = "select TSPL_ITEM_UOM_DETAIL.UOM_Code as Code,TSPL_UNIT_MASTER.Unit_Desc as Description,TSPL_ITEM_UOM_DETAIL.Weight,TSPL_ITEM_UOM_DETAIL.Stocking_Unit as [Stocking Unit],TSPL_ITEM_UOM_DETAIL.Conversion_Factor as [Conversion Factor] from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code "
@@ -3473,7 +3473,7 @@ Public Class frmProcessProductionStandardization
     Private Sub gvIssue_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvIssue.CellValueChanged
         If Not isInsideLoadData Then
             If clsCommon.myLen(fndChildBatchNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Child Batch Order Detail", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Child Batch Order Detail", Me.Text)
                 fndChildBatchNo.Select()
                 fndChildBatchNo.Focus()
                 Return
@@ -3609,7 +3609,7 @@ Public Class frmProcessProductionStandardization
                     If e.RowIndex > 0 Then
                         Dim PrevStatus As String = gvStage.Rows(e.RowIndex - 1).Cells(colStatus).Value
                         If clsCommon.CompairString(PrevStatus, "1") <> CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("First complete previous stage status.")
+                            clsCommon.MyMessageBoxShow(Me, "First complete previous stage status.", Me.Text)
                             gvStage.CurrentRow.Cells(colStatus).Value = ""
                         Else
                             For Each grow As GridViewRowInfo In gvStage.Rows
@@ -3734,7 +3734,7 @@ Public Class frmProcessProductionStandardization
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                     '-----------------------------
@@ -3821,7 +3821,7 @@ Public Class frmProcessProductionStandardization
                 Exit Function
             End If
             clsProcessProductionStandardization.CancelData(Me.Form_ID, txtCode.Value)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             FunReset()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

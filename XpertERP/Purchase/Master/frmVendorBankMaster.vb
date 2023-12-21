@@ -162,13 +162,13 @@ Public Class FrmVendorBankMaster
                 'Next
             Next
             If count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please fill atleast 1 IFSC code of Branch")
+                common.clsCommon.MyMessageBoxShow(Me, "Please fill atleast 1 IFSC code of Branch", Me.Text)
                 Return False
             End If
             ''---------------------
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -215,9 +215,9 @@ Public Class FrmVendorBankMaster
             If clsVendorBankMaster.SaveData(isNewEntry, obj, trans) Then
                 trans.Commit()
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 fndBankCode.Value = obj.Bank_code
                 btnsave.Text = "Update"
@@ -230,7 +230,7 @@ Public Class FrmVendorBankMaster
                 trans.Rollback()
             Catch xxx As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -277,7 +277,7 @@ Public Class FrmVendorBankMaster
             trans = clsDBFuncationality.GetTransactin()
             If clsVendorBankMaster.DeleteData(fndBankCode.Value, trans) Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 FunReset()
             End If
         Catch ex As Exception
@@ -285,7 +285,7 @@ Public Class FrmVendorBankMaster
                 trans.Rollback()
             Catch xxx As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -313,7 +313,7 @@ Public Class FrmVendorBankMaster
                 txtcityName.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -340,7 +340,7 @@ Public Class FrmVendorBankMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -373,7 +373,7 @@ Public Class FrmVendorBankMaster
                 txtcityName.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

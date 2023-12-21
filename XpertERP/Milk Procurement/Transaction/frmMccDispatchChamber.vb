@@ -818,7 +818,7 @@ Public Class frmMccDispatchChamber
         Dim qry As String = String.Empty
 
         If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select MCC Name from which dispatch is being made, First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select MCC Name from which dispatch is being made, First", Me.Text)
             Exit Sub
         End If
 
@@ -833,7 +833,7 @@ Public Class frmMccDispatchChamber
                 lblToPlantName.Text = clsLocation.GetPlantNameFromMCC(fndPlantOrMCCCode.Value, Nothing)
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select ' Tanker Dispatch To  ' type First ", Me.Text)
         End If
     End Sub
 
@@ -1130,7 +1130,7 @@ Public Class frmMccDispatchChamber
     Private Sub FrmMccDispatch_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         If clsCommon.CompairString(BtnStart.Text, "Stop") = CompairStringResult.Equal Then
             e.Cancel = True
-            clsCommon.MyMessageBoxShow("Please stop the port before application close", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please stop the port before application close", Me.Text)
         End If
     End Sub
 
@@ -1956,9 +1956,9 @@ Public Class frmMccDispatchChamber
             If clsMccDispatch.SaveData(obj) Then
                 If Not isPostbtnClick Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 btnSave.Text = "Update"
@@ -1986,7 +1986,7 @@ Public Class frmMccDispatchChamber
                     If clsCommon.MyMessageBoxShow("Want To Delete The Challan No : " & fndChalanNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         If clsMccDispatch.deleteData(fndChalanNo.Value, tran) Then
                             tran.Commit()
-                            clsCommon.MyMessageBoxShow("Deleted successFully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Deleted successFully", Me.Text)
                             Reset()
                         End If
                     End If
@@ -2719,7 +2719,7 @@ Public Class frmMccDispatchChamber
     Private Sub mnuDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub mnuSaveLayOut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSaveLayOut.Click
@@ -2733,7 +2733,7 @@ Public Class frmMccDispatchChamber
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2745,7 +2745,7 @@ Public Class frmMccDispatchChamber
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsMccDispatch.ReverseAndUnpost(fndChalanNo.Value, Nothing) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndChalanNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -2916,7 +2916,7 @@ Public Class frmMccDispatchChamber
         If clsCommon.myLen(strItemCode) > 0 Then
         Else
             gvManualSeal.CurrentRow.Cells(colSealNo).Value = ""
-            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Item Of Seal Type Found", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -3074,7 +3074,7 @@ Public Class frmMccDispatchChamber
 
     Private Sub fndUOM__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndUOM._MYValidating
         If clsCommon.myLen(fndItemCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Item Code", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             fndItemCode.Focus()
             Exit Sub
         End If
@@ -3196,7 +3196,7 @@ Public Class frmMccDispatchChamber
                 Throw New Exception("Update of tanker is Not allowed Due to its Gate-In is Done")
             End If
             If updateTanker() Then
-                clsCommon.MyMessageBoxShow("Tanker Updated Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Tanker Updated Successfully", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -3271,7 +3271,7 @@ Public Class frmMccDispatchChamber
             qry += " where Chalan_No='" & fndChalanNo.Value & "' and IsForPrintOnDispatch=1 ) as xx"
             Dim NoofParameter As Integer = clsDBFuncationality.getSingleValue(qry, Nothing)
             If clsCommon.CompairString(NoofParameter, 5) = CompairStringResult.Greater Then
-                clsCommon.MyMessageBoxShow("Maximun 5 Parameter ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Maximun 5 Parameter ", Me.Text)
                 Exit Sub
             End If
             sQuery = "select * from (select distinct "
@@ -3315,7 +3315,7 @@ Public Class frmMccDispatchChamber
             '    frmCrystalReportViewer.funreport(CrystalReportFolder.MilkProcurement, dt, "rptTankerDispatch_Bill_of_Supply", "MCC Tanker Dispatch", clsCommon.myCDate(dtpDateAndTime.Value))
             'End If
         Else
-            clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         frmCRV = Nothing
     End Sub
@@ -3330,7 +3330,7 @@ Public Class frmMccDispatchChamber
                 End If
                 obj.Electronic_Ref_No = txtElectronicRefNo.Text
                 If clsMccDispatch.UpdateAfterPosting(obj, fndChalanNo.Value) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             Else
                 Throw New Exception("Document no not found")
@@ -3343,12 +3343,12 @@ Public Class frmMccDispatchChamber
     Private Sub btnUpdateAfterPost_Click(sender As Object, e As EventArgs) Handles btnUpdateAfterPost.Click
         Try
             If (clsCommon.myCdbl(txtOpeningKM.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Enter Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Enter Opening KM", Me.Text)
                 txtOpeningKM.Focus()
                 Exit Sub
             End If
             If (clsCommon.myCdbl(txtClosingKM.Text) <= clsCommon.myCdbl(txtOpeningKM.Text)) Then
-                clsCommon.MyMessageBoxShow("Closing KM must be greater than Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Closing KM must be greater than Opening KM", Me.Text)
                 txtClosingKM.Focus()
                 Exit Sub
             End If
@@ -3747,27 +3747,27 @@ Public Class frmMccDispatchChamber
         If CreateProvisionOfTankerDispatchWithClosingKM = True Then
             Dim strProvNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PROVISION_ENTRY where Ref_Doc_No='" + fndChalanNo.Value + "' and Prov_type='Freight'")
             If clsCommon.myLen(strProvNo) > 0 Then
-                clsCommon.MyMessageBoxShow("Provision Entry Already Exist", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Provision Entry Already Exist", Me.Text)
                 Exit Sub
             End If
             If (clsCommon.myLen(fndChalanNo.Value) <= 0) Then
-                clsCommon.MyMessageBoxShow("Document No not found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document No not found", Me.Text)
                 Exit Sub
             End If
 
             If (clsCommon.myCdbl(txtOpeningKM.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Enter Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Enter Opening KM", Me.Text)
                 txtOpeningKM.Focus()
                 Exit Sub
             End If
 
             If (clsCommon.myCdbl(txtClosingKM.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Enter Closing KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Enter Closing KM", Me.Text)
                 txtClosingKM.Focus()
                 Exit Sub
             End If
             If (clsCommon.myCdbl(txtClosingKM.Text) <= clsCommon.myCdbl(txtOpeningKM.Text)) Then
-                clsCommon.MyMessageBoxShow("Closing KM must be greater than Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Closing KM must be greater than Opening KM", Me.Text)
                 txtClosingKM.Focus()
                 Exit Sub
             End If
@@ -3784,7 +3784,7 @@ Public Class frmMccDispatchChamber
 
                 clsMccDispatch.CreateProvison(fndChalanNo.Value, MyBase.Form_ID, trans)
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Provision Created successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Provision Created successfully", Me.Text)
                 LoadData(fndChalanNo.Value, NavigatorType.Current)
             Catch ex As Exception
                 trans.Rollback()
@@ -3796,7 +3796,7 @@ Public Class frmMccDispatchChamber
     Private Sub BtnResetProv_Click(sender As Object, e As EventArgs) Handles BtnResetProv.Click
         If CreateProvisionOfTankerDispatchWithClosingKM = True Then
             If (clsCommon.myLen(fndChalanNo.Value) <= 0) Then
-                clsCommon.MyMessageBoxShow("Document No not found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document No not found", Me.Text)
                 Exit Sub
             End If
             'Dim strAPINVNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PROVISION_ENTRY where Ref_Doc_No='" + fndChalanNo.Value + "' and Prov_type='Freight'", trans)
@@ -3825,7 +3825,7 @@ Public Class frmMccDispatchChamber
 
                     'clsProvisionEntry.ReverseAndUnpost(strProvNo, trans)
                     'clsProvisionEntry.deleteData(strProvNo, trans)
-                    clsCommon.MyMessageBoxShow("Provision Delete successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Provision Delete successfully", Me.Text)
                 End If
 
                 trans.Commit()

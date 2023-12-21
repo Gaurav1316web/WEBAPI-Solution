@@ -77,7 +77,7 @@ Public Class FrmSupplierReg
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
    
@@ -279,7 +279,7 @@ Public Class FrmSupplierReg
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            Common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow("code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -400,7 +400,7 @@ Public Class FrmSupplierReg
             ''''''Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (ClsSupplierRegistration.SaveData(arr)) Then
                 If isPosted = False Then
-                    Common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                 End If
                 UcAttachment1.SaveData(obj.Registration_No)
                 LoadData(obj.Registration_No, NavigatorType.Current)
@@ -445,7 +445,7 @@ Public Class FrmSupplierReg
             End If
             'isFlag = False
         Catch ex As Exception
-            Common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             '   isFlag = False
         End Try
@@ -588,7 +588,7 @@ Public Class FrmSupplierReg
             End If
 
         Catch ex As Exception
-            Common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -660,7 +660,7 @@ Public Class FrmSupplierReg
             End If
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            Common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -738,7 +738,7 @@ Public Class FrmSupplierReg
         If clsCommon.myLen(txtcode.Value) > 0 Then
             PostData()
         Else
-            clsCommon.MyMessageBoxShow("code not found to post")
+            clsCommon.MyMessageBoxShow("code not found to post", Me.Text)
         End If
     End Sub
 
@@ -763,7 +763,7 @@ Public Class FrmSupplierReg
             Dim check As Match = Regex.Match(TxtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                Common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address", Me.Text)
                 TxtEmail.Text = ""
                 TxtEmail.Focus()
             End If

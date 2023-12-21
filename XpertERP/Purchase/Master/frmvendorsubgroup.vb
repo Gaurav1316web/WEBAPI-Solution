@@ -31,7 +31,7 @@ Public Class frmVendorsubGroup
                 obj.VendorSubCode = fndgroupcode.Value
                 obj.Description = txtDesc.Text
                 If (clsVendorSubGroup.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.VendorSubCode, NavigatorType.Current)
                     btnSave.Text = "Update"
                     btndelete.Enabled = True
@@ -77,7 +77,7 @@ Public Class frmVendorsubGroup
         Try
             LoadData(fndgroupcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtnreset.Click
@@ -108,7 +108,7 @@ Public Class frmVendorsubGroup
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(fndgroupcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Code Ends 
@@ -202,7 +202,7 @@ Public Class frmVendorsubGroup
                     Throw New Exception("At Row No" + clsCommon.myCstr(ii) + ex.Message)
                 End Try
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
