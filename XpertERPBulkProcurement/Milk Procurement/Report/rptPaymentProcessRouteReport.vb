@@ -15,7 +15,6 @@ Public Class rptPaymentProcessRouteReport
     Dim isLoad As Boolean = False
     Dim FYFromDate As Date
     Dim FYToDate As Date
-    'Public FilterON As Boolean = False
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -64,7 +63,6 @@ Public Class rptPaymentProcessRouteReport
             btnReset.Visible = True
             RadSplitExp.Visible = True
         End If
-
         isLoad = False
     End Sub
     Sub Reset()
@@ -88,54 +86,7 @@ Public Class rptPaymentProcessRouteReport
         Gv1.Columns.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
-
-        cmbFromShift.SelectedIndex = 0
-        cmbToShift.SelectedIndex = 0
     End Sub
-
-
-    'Sub LoadShiftFrom()
-    '    Dim dt As DataTable = New DataTable
-    '    dt.Columns.Add("Code")
-    '    dt.Columns.Add("Shift")
-
-    '    Dim dr As DataRow = dt.NewRow
-    '    dr("Code") = "M"
-    '    dr("Shift") = "Morning"
-    '    dt.Rows.Add(dr)
-
-    '    dr = dt.NewRow
-    '    dr("Code") = "E"
-    '    dr("Shift") = "Evening"
-    '    dt.Rows.Add(dr)
-
-    '    txtFromShift.DataSource = dt
-    '    txtFromShift.ValueMember = "Code"
-    '    'cbgShift.DisplayMember = "Shift"
-    'End Sub
-
-
-    'Sub LoadShiftTo()
-    '    Dim dt As DataTable = New DataTable
-    '    dt.Columns.Add("Code")
-    '    dt.Columns.Add("Shift")
-
-    '    Dim dr As DataRow = dt.NewRow
-    '    dr("Code") = "M"
-    '    dr("Shift") = "Morning"
-    '    dt.Rows.Add(dr)
-
-    '    dr = dt.NewRow
-    '    dr("Code") = "E"
-    '    dr("Shift") = "Evening"
-    '    dt.Rows.Add(dr)
-
-    '    cmbToShift.DataSource = dt
-    '    cmbToShift.ValueMember = "Code"
-    '    cbgShift.DisplayMember = "Shift"
-    'End Sub
-
-
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         LoadData()
@@ -1558,6 +1509,8 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLegerRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
             Else
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptPaymentProcessLeger", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction)
             End If
@@ -2304,39 +2257,133 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
             Dim SumNETPAYABLE1 As Decimal = 0
             Dim dtVSP1 As DataTable = Nothing
 
-            If dtROUTE1 IsNot Nothing And dtROUTE1.Rows.Count > 0 Then
-                For R As Integer = 0 To dtROUTE1.Rows.Count - 1
-                    Dim dr As DataRow() = dt.Select("ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'")
-                    If dr IsNot Nothing AndAlso dr.Length > 0 Then
-                        dtVSP1 = dr.CopyToDataTable()
-                        dtMain.Rows.Add("R-Code: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
-                        For V As Integer = 0 To dtVSP1.Rows.Count - 1
-                            SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            SumKGFAT1 = clsCommon.myCdbl(dt.Compute("sum(FATQTY)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            SumKGSNF1 = clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            MilkAmt = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            HeadLoadAmt = clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            AVGFAT1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(FAT_PER)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'")), 2)
-                            AVGSNF1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(SNF_PER)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'")), 2)
-                            SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                                SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'")), 0)
+            If rbtnRoute.Checked Then
+                If dtROUTE1 IsNot Nothing And dtROUTE1.Rows.Count > 0 Then
+                    For R As Integer = 0 To dtROUTE1.Rows.Count - 1
+                        Dim dr As DataRow() = dt.Select("ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'")
+                        If dr IsNot Nothing AndAlso dr.Length > 0 Then
+                            dtVSP1 = dr.CopyToDataTable()
+                            dtMain.Rows.Add("R-Code: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+
+
+                                For V As Integer = 0 To dtVSP1.Rows.Count - 1
+                                SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                SumKGFAT1 = clsCommon.myCdbl(dt.Compute("sum(FATQTY)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                SumKGSNF1 = clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                MilkAmt = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                HeadLoadAmt = clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                AVGFAT1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(FAT_PER)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'")), 2)
+                                AVGSNF1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(SNF_PER)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'")), 2)
+                                SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                    SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'")), 0)
+                                Else
+                                    SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+
+                                End If
+
+                                'clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "-" + 
+                                Sumtotal = MilkAmt + SumPayment1
+                                dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
+                                dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
+                                dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                                dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("ROUTE_CODE")), SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+
+                                    If HeadingRowCount > 4 Then
+                                    For t As Integer = 4 To HeadingRowCount - 1
+                                        dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                    Next
+                                End If
+
+                                ''Payment
+                                RowIndexForTotal = 0
+                                If dtAdditionTemp IsNot Nothing AndAlso dtAdditionTemp.Rows.Count > 0 Then
+                                    RowIndexForTotal = dtMain.Rows.Count - HeadingRowCount
+                                    For t As Integer = 0 To dtAdditionHeader.Rows.Count - 1
+                                        Math.DivRem((t + 1), 4, TempReminder)
+                                        If TempReminder = 1 Then
+                                            dtMain.Rows(RowIndexForTotal).Item("Payment1") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        ElseIf TempReminder = 2 Then
+                                            dtMain.Rows(RowIndexForTotal).Item("Payment2") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        ElseIf TempReminder = 3 Then
+                                            dtMain.Rows(RowIndexForTotal).Item("Payment3") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        ElseIf TempReminder = 0 Then
+                                            dtMain.Rows(RowIndexForTotal).Item("Payment4") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                            RowIndexForTotal = RowIndexForTotal + 1
+                                        End If
+                                    Next
+                                End If
+
+                                ''Deduction
+                                RowIndexForTotal = 0
+                                If dtDeductionTemp IsNot Nothing AndAlso dtDeductionTemp.Rows.Count > 0 Then
+                                    RowIndexForTotal = dtMain.Rows.Count - HeadingRowCount
+                                    For t As Integer = 0 To dtDeductionHeader.Rows.Count - 1
+                                        Math.DivRem((t + 1), 4, TempReminder)
+                                        If TempReminder = 1 Then
+                                            dtMain.Rows(RowIndexForTotal).Item("Deduction1") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        ElseIf TempReminder = 2 Then
+                                            dtMain.Rows(RowIndexForTotal).Item("Deduction2") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        ElseIf TempReminder = 3 Then
+                                            dtMain.Rows(RowIndexForTotal).Item("Deduction3") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        ElseIf TempReminder = 0 Then
+                                            dtMain.Rows(RowIndexForTotal).Item("Deduction4") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                            RowIndexForTotal = RowIndexForTotal + 1
+                                        End If
+                                    Next
+                                End If
+                                newBlankRow1 = dtMain.NewRow
+                                dtMain.Rows.Add(newBlankRow1)
+                                newBlankRow2 = dtMain.NewRow
+                                dtMain.Rows.Add(newBlankRow2)
+                            Next
+
+                            'Route Total
+                            newBlankRow1 = dtMain.NewRow
+                            dtMain.Rows.Add(newBlankRow1)
+                            newBlankRow2 = dtMain.NewRow
+                            dtMain.Rows.Add(newBlankRow2)
+
+                            SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            SumKGFAT1 = clsCommon.myCdbl(dt.Compute("sum(FATQTY)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            SumKGSNF1 = clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+
+                            MilkAmt = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            HeadLoadAmt = clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+
+
+                            If SumQty1 > 0 Then
+                                AVGFAT1 = Math.Round(clsCommon.myCdbl((SumKGFAT1 * 100) / SumQty1), 2)
+                                AVGSNF1 = Math.Round(clsCommon.myCdbl((SumKGSNF1 * 100) / SumQty1), 2)
                             Else
-                                SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                AVGFAT1 = 0
+                                AVGSNF1 = 0
+                            End If
+                            SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'")), 0)
+                            Else
+                                SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
 
                             End If
 
-                            'clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "-" + 
                             Sumtotal = MilkAmt + SumPayment1
-                            dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
-                            dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
-                            dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
-                            dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("ROUTE_CODE")), SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
-                            If HeadingRowCount > 4 Then
+
+                            dtMain.Rows.Add("R-Total: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
+                                dtMain.Rows.Add(DBNull.Value, SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
+                                dtMain.Rows.Add(DBNull.Value, SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                                dtMain.Rows.Add(DBNull.Value, SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+
+                                If HeadingRowCount > 4 Then
                                 For t As Integer = 4 To HeadingRowCount - 1
                                     dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                                 Next
@@ -2349,13 +2396,13 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                                 For t As Integer = 0 To dtAdditionHeader.Rows.Count - 1
                                     Math.DivRem((t + 1), 4, TempReminder)
                                     If TempReminder = 1 Then
-                                        dtMain.Rows(RowIndexForTotal).Item("Payment1") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        dtMain.Rows(RowIndexForTotal).Item("Payment1") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                     ElseIf TempReminder = 2 Then
-                                        dtMain.Rows(RowIndexForTotal).Item("Payment2") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        dtMain.Rows(RowIndexForTotal).Item("Payment2") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                     ElseIf TempReminder = 3 Then
-                                        dtMain.Rows(RowIndexForTotal).Item("Payment3") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        dtMain.Rows(RowIndexForTotal).Item("Payment3") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                     ElseIf TempReminder = 0 Then
-                                        dtMain.Rows(RowIndexForTotal).Item("Payment4") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        dtMain.Rows(RowIndexForTotal).Item("Payment4") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                         RowIndexForTotal = RowIndexForTotal + 1
                                     End If
                                 Next
@@ -2368,61 +2415,60 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                                 For t As Integer = 0 To dtDeductionHeader.Rows.Count - 1
                                     Math.DivRem((t + 1), 4, TempReminder)
                                     If TempReminder = 1 Then
-                                        dtMain.Rows(RowIndexForTotal).Item("Deduction1") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        dtMain.Rows(RowIndexForTotal).Item("Deduction1") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                     ElseIf TempReminder = 2 Then
-                                        dtMain.Rows(RowIndexForTotal).Item("Deduction2") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        dtMain.Rows(RowIndexForTotal).Item("Deduction2") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                     ElseIf TempReminder = 3 Then
-                                        dtMain.Rows(RowIndexForTotal).Item("Deduction3") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        dtMain.Rows(RowIndexForTotal).Item("Deduction3") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                     ElseIf TempReminder = 0 Then
-                                        dtMain.Rows(RowIndexForTotal).Item("Deduction4") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                                        dtMain.Rows(RowIndexForTotal).Item("Deduction4") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                                         RowIndexForTotal = RowIndexForTotal + 1
                                     End If
                                 Next
                             End If
+
                             newBlankRow1 = dtMain.NewRow
                             dtMain.Rows.Add(newBlankRow1)
                             newBlankRow2 = dtMain.NewRow
                             dtMain.Rows.Add(newBlankRow2)
-                        Next
 
-                        'Route Total
-                        newBlankRow1 = dtMain.NewRow
-                        dtMain.Rows.Add(newBlankRow1)
-                        newBlankRow2 = dtMain.NewRow
-                        dtMain.Rows.Add(newBlankRow2)
-
-                        SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                        SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                        SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                        SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                        SumKGFAT1 = clsCommon.myCdbl(dt.Compute("sum(FATQTY)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                        SumKGSNF1 = clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-
-                        MilkAmt = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                        HeadLoadAmt = clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-
-
-                        If SumQty1 > 0 Then
-                            AVGFAT1 = Math.Round(clsCommon.myCdbl((SumKGFAT1 * 100) / SumQty1), 2)
-                            AVGSNF1 = Math.Round(clsCommon.myCdbl((SumKGSNF1 * 100) / SumQty1), 2)
-                        Else
-                            AVGFAT1 = 0
-                            AVGSNF1 = 0
+                            'Route Total
                         End If
-                        SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                        SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                    Next
+
+
+                End If
+            Else
+
+                For R As Integer = 0 To dt.Rows.Count - 1
+                    Dim dr As DataRow = dt.Rows(R)
+                    If dr IsNot Nothing Then
+                        'dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+
+                        SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        SumKGFAT1 = clsCommon.myCdbl(dt.Compute("sum(FATQTY)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        SumKGSNF1 = clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        MilkAmt = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        HeadLoadAmt = clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        AVGFAT1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(FAT_PER)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'")), 2)
+                        AVGSNF1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(SNF_PER)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'")), 2)
+                        SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                            SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'")), 0)
+                            SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'")), 0)
                         Else
-                            SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                            SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
 
                         End If
 
                         Sumtotal = MilkAmt + SumPayment1
-                        dtMain.Rows.Add("R-Total: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
-                        dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
-                        dtMain.Rows.Add(DBNull.Value, SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
-                        dtMain.Rows.Add(DBNull.Value, SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                        dtMain.Rows.Add(clsCommon.myCstr(dr("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
+                        dtMain.Rows.Add(clsCommon.myCstr(dr("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
+                        dtMain.Rows.Add(clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+
                         dtMain.Rows.Add(DBNull.Value, SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                         If HeadingRowCount > 4 Then
                             For t As Integer = 4 To HeadingRowCount - 1
@@ -2437,13 +2483,13 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                             For t As Integer = 0 To dtAdditionHeader.Rows.Count - 1
                                 Math.DivRem((t + 1), 4, TempReminder)
                                 If TempReminder = 1 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Payment1") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    dtMain.Rows(RowIndexForTotal).Item("Payment1") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                                 ElseIf TempReminder = 2 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Payment2") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    dtMain.Rows(RowIndexForTotal).Item("Payment2") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                                 ElseIf TempReminder = 3 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Payment3") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    dtMain.Rows(RowIndexForTotal).Item("Payment3") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                                 ElseIf TempReminder = 0 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Payment4") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    dtMain.Rows(RowIndexForTotal).Item("Payment4") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                                     RowIndexForTotal = RowIndexForTotal + 1
                                 End If
                             Next
@@ -2456,24 +2502,34 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                             For t As Integer = 0 To dtDeductionHeader.Rows.Count - 1
                                 Math.DivRem((t + 1), 4, TempReminder)
                                 If TempReminder = 1 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Deduction1") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    dtMain.Rows(RowIndexForTotal).Item("Deduction1") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                                 ElseIf TempReminder = 2 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Deduction2") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    dtMain.Rows(RowIndexForTotal).Item("Deduction2") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                                 ElseIf TempReminder = 3 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Deduction3") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    dtMain.Rows(RowIndexForTotal).Item("Deduction3") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                                 ElseIf TempReminder = 0 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Deduction4") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    dtMain.Rows(RowIndexForTotal).Item("Deduction4") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                                     RowIndexForTotal = RowIndexForTotal + 1
                                 End If
                             Next
                         End If
-
                         newBlankRow1 = dtMain.NewRow
                         dtMain.Rows.Add(newBlankRow1)
                         newBlankRow2 = dtMain.NewRow
                         dtMain.Rows.Add(newBlankRow2)
 
-                        'Route Total
+
+                        'dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                        'dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                        'dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                        'dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                        'dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                        If HeadingRowCount > 4 Then
+                            For t As Integer = 4 To HeadingRowCount - 1
+                                dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                            Next
+                        End If
+
                     End If
                 Next
 
@@ -3401,30 +3457,15 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
         Try
 
 
-            'Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate, TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty) as Qty, cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG, sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader
-            '                      FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
-            '                      left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
-            '                      left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
-            '                      left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
-            '                      where convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103)
-            '                      group by TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code "
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
-            Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate, TSPL_MILK_RECEIPT_DETAIL.VLC_Code,sum (TSPL_MILK_RECEIPT_DETAIL.acc_weight) as Qty
- , cast( round ((sum(TSPL_MILK_SRN_DETAIL.FAT_KG) * 100 / nullif (sum (TSPL_MILK_RECEIPT_DETAIL.acc_weight),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_SRN_DETAIL.SNF_KG) * 100 / nullif (sum (TSPL_MILK_RECEIPT_DETAIL.acc_weight),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FATKG, sum(TSPL_MILK_SRN_DETAIL.SNF_KG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader
-                                  FROM 
-								 TSPL_MILK_RECEIPT_DETAIL 
- Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE 
- Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE
- Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE 
- Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO 
- Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
-                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_RECEIPT_DETAIL.VLC_Code
-                                  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = 'UDP'
-                                  where convert (date, TSPL_MILK_RECEIPT_DETAIL.Doc_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_RECEIPT_DETAIL.Doc_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103)
-								  and TSPL_MILK_RECEIPT_DETAIL.MCC_CODE not in ('MMB/000129','MMB/000130')
-                                  group by TSPL_MILK_RECEIPT_DETAIL.VLC_Code"
+            Dim qry As String = " SELECT UPPER ( max( TSPL_COMPANY_MASTER.Add1 + case when len ( TSPL_COMPANY_MASTER.Add2 ) > 0 then ' '+TSPL_COMPANY_MASTER.Add2  end +  case when len( TSPL_COMPANY_MASTER.Add3) > 0 then  ' '+  TSPL_COMPANY_MASTER.Add3 end + case when len (TSPL_COMPANY_MASTER.City_Code) > 0 then ' '+ TSPL_COMPANY_MASTER.City_Code end + case when len ( TSPL_COMPANY_MASTER.Pincode ) > 0 then '-'+ TSPL_COMPANY_MASTER.Pincode end ) ) as compAddress  , max(TSPL_COMPANY_MASTER.Comp_Name) as  Comp_Name, '" + dtpDCSWiseAvgFatSnfFromDate.Text + "' as FromDate, '" + dtpDCSWiseAvgFatSnfToDate.Text + "' as ToDate, TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty) as Qty, cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as FAT , cast( round ((sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) * 100 / nullif (sum (TSPL_MILK_COLLECTION_DCS_DETAIL.Qty),0)),2,1)  as decimal(18,2)) as SNF,sum(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG, sum(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,max(TSPL_VLC_MASTER_HEAD.VLC_Name) as VLC_Name, max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ) as  VLC_Code_VLC_Uploader
+                                  FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
+                                  left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+                                  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+                                  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+                                  where convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) > = convert (date,'" + dtpDCSWiseAvgFatSnfFromDate.Value + "',103) and convert (date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) < = convert (date,'" + dtpDCSWiseAvgFatSnfToDate.Value + "',103)
+                                  group by TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
