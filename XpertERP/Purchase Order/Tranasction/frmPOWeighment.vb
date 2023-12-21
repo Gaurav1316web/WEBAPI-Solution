@@ -11,6 +11,7 @@ Public Class frmPOWeighment
     Public chkSave As Boolean = True
     Public errorControl As clsErrorControl = New clsErrorControl()
     Private isEnterManualWeight As Boolean = False
+    Public strrptpath As String = Nothing
     Private AllowtoEnterNetWeightManuallyinPOWeighmentScreen As Boolean = False
     Const colTRNo As String = "colTRNo"
     Const colSNo As String = "colSNo"
@@ -927,9 +928,6 @@ Public Class frmPOWeighment
 					        PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                             where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code = '" + StrCode + "'  
                             group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type"
-
-
-
             Else
                 strQuery = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar(13),TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No,convert(varchar(13),TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date," &
                  "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &
@@ -942,15 +940,12 @@ Public Class frmPOWeighment
                 Dim frmCRV As New frmCrystalReportViewer()
 
                 frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip", "Tanker Weighment Slip")
-                    frmCRV = Nothing
-                End If
-            Else
-            clsCommon.MyMessageBoxShow(Me, "Please Select Weighmrnt Code first.", Me.Text)
+                frmCRV = Nothing
+            End If
+        Else
+            clsCommon.MyMessageBoxShow("Please Select Weighmrnt Code first.")
         End If
     End Sub
-
-
-
     Public Sub PrintWithGunnyBagsData(ByVal StrCode As String)
         If clsCommon.myLen(StrCode) > 0 Then
             Dim strQuery As String = Nothing
@@ -1000,9 +995,6 @@ Public Class frmPOWeighment
 					        PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                             where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code = '" + StrCode + "'  
                             group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type"
-
-
-
             Else
                 strQuery = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar(13),TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No,convert(varchar(13),TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date," &
                  "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &
@@ -1011,20 +1003,19 @@ Public Class frmPOWeighment
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             If dt.Rows.Count > 0 Then
+                Dim GunnyBag As String = "select TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,TSPL_ITEM_MASTER.Item_desc,TSPL_PO_WEIGHTMENT_GUNNY.Qty from TSPL_PO_WEIGHTMENT_GUNNY 
+							left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_PO_WEIGHTMENT_GUNNY.item_code where Weighment_Code = '" + StrCode + "'"
+                Dim dtGunnyBag As DataTable = clsDBFuncationality.GetDataTable(GunnyBag)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlipGunnyBags", "Tanker Weighment Slip Gunny Bags")
+                strrptpath = frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtGunnyBag, "TankerWeighwithBag", "Tanker Slip", "SubWithGunnyBag.rpt")
                 frmCRV = Nothing
             End If
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please Select Weighmrnt Code first.", Me.Text)
+            clsCommon.MyMessageBoxShow("Please Select Weighmrnt Code first.")
         End If
     End Sub
-
-
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-           
             PrintData(txtCode.Value)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
