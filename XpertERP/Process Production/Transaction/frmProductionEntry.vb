@@ -191,7 +191,7 @@ Public Class frmProductionEntry
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1279,7 +1279,7 @@ Public Class frmProductionEntry
             Return False
         End If
         If dtpBatchDate.Value > dtpDate.Value Then
-            common.clsCommon.MyMessageBoxShow("Batch Date can not be greater then Document Date")
+            common.clsCommon.MyMessageBoxShow(Me, "Batch Date can not be greater then Document Date", Me.Text)
             dtpBatchDate.Focus()
             Exit Function
         End If
@@ -1820,7 +1820,7 @@ Public Class frmProductionEntry
                 If issaved = True Then
                     UcAttachment1.SaveData(obj.PROD_ENTRY_CODE)
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.PROD_ENTRY_CODE, NavigatorType.Current)
                     Return True
@@ -1829,7 +1829,7 @@ Public Class frmProductionEntry
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2183,13 +2183,13 @@ Public Class frmProductionEntry
                         Exit Sub
                     End If
                     clsProductionEntry.PostData(Form_ID, txtCode.Value, arrLoc, True)
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2222,7 +2222,7 @@ Public Class frmProductionEntry
                 End If
                 If (clsProductionEntry.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -2245,7 +2245,7 @@ Public Class frmProductionEntry
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2280,7 +2280,7 @@ Public Class frmProductionEntry
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2412,7 +2412,7 @@ Public Class frmProductionEntry
                 lblEmpName.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2451,7 +2451,7 @@ Public Class frmProductionEntry
             End If
             chkJobWorkInward.Checked = clsProcessBatchOrder.IsJobWorkBatchOrder(txtBatchNo.Value, Nothing)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'and TSPL_PP_BATCH_ORDER_HEAD.location_code in (" + arrLoc + ")
     End Sub
@@ -2601,7 +2601,7 @@ Public Class frmProductionEntry
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2801,7 +2801,7 @@ Public Class frmProductionEntry
 
                     Dim currRec As Decimal = gvStage.CurrentRow.Cells(colReceived_Qty).Value
                     If currRec > GetIssueQty() Then
-                        clsCommon.MyMessageBoxShow("Received Quantity must be less than or equal to Issued Quantity.")
+                        clsCommon.MyMessageBoxShow(Me, "Received Quantity must be less than or equal to Issued Quantity.", Me.Text)
                         gvStage.CurrentRow.Cells(colReceived_Qty).Value = 0
                     End If
                     isCellValueChanged = False
@@ -3238,7 +3238,7 @@ Public Class frmProductionEntry
            
             If Not isCellValueChanged Then
                 If clsCommon.myLen(txtBatchNo.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select Batch Order Detail", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Select Batch Order Detail", Me.Text)
                     Return
                 End If
                 '==============main----------------------
@@ -3407,7 +3407,7 @@ Public Class frmProductionEntry
 
             If Not isCellValueChanged Then
                 If clsCommon.myLen(txtBatchNo.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select Batch Order Detail", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Select Batch Order Detail", Me.Text)
                     Return
                 End If
 
@@ -3563,14 +3563,14 @@ Public Class frmProductionEntry
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                     '-----------------------------
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3755,7 +3755,7 @@ Public Class frmProductionEntry
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Receipt Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Receipt Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY", "TSPL_PP_PE_ISSUE_ITEM_DETAIL")

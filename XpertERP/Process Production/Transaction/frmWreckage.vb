@@ -225,7 +225,7 @@ Public Class frmWreckage
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -480,7 +480,7 @@ Public Class frmWreckage
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -502,7 +502,7 @@ Public Class frmWreckage
                 End If
                 If (clsWreckageBooking.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -777,7 +777,7 @@ Public Class frmWreckage
 
                 If issaved = True Then
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Wrekage_ENTRY_CODE, NavigatorType.Current)
                     Return True
@@ -824,7 +824,7 @@ Public Class frmWreckage
         Dim oldicode As String = ""
         If clsCommon.myLen(colWFItem_Code) <= 0 Then
             grdWreckage.CurrentRow = grdWreckage.Rows(0)
-            clsCommon.MyMessageBoxShow("Fill atleast one row in grid.")
+            clsCommon.MyMessageBoxShow(Me, "Fill atleast one row in grid.", Me.Text)
             Return False
         End If
         For ii As Integer = 0 To grdWreckage.Rows.Count - 1
@@ -1117,7 +1117,7 @@ Public Class frmWreckage
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1125,7 +1125,7 @@ Public Class frmWreckage
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1162,7 +1162,7 @@ Public Class frmWreckage
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1178,13 +1178,13 @@ Public Class frmWreckage
                         Exit Sub
                     End If
                     clsWreckageBooking.Post(Form_ID, txtCode.Value, arrLoc, True)
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1248,7 +1248,7 @@ Public Class frmWreckage
             End If
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenUnitCode(ByVal isButtonClick As Boolean)
@@ -1278,10 +1278,10 @@ Public Class frmWreckage
                 Exit Function
             End If
             clsWreckageBooking.CancelData(Me.Form_ID, txtCode.Value)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
-            FunReset()
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+            funReset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     ''richa BHA/17/08/18-000454
@@ -1320,7 +1320,7 @@ Public Class frmWreckage
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         btnunpost.Visible = False
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
@@ -1328,7 +1328,7 @@ Public Class frmWreckage
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : TEC/29/10/18-000347 By Prabhakar
@@ -1339,7 +1339,7 @@ Public Class frmWreckage
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Receipt Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Receipt Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "WRECKAGE_ENTRY_CODE", "TSPL_WRECKAGE_ENTRY")

@@ -267,7 +267,7 @@ Public Class frmProductionEntryFinalQC
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1300,7 +1300,7 @@ Public Class frmProductionEntryFinalQC
             Return False
         End If
         If dtpBatchDate.Value > dtpDate.Value Then
-            common.clsCommon.MyMessageBoxShow("Batch Date can not be greater then Document Date")
+            common.clsCommon.MyMessageBoxShow(Me, "Batch Date can not be greater then Document Date", Me.Text)
             dtpBatchDate.Focus()
             Exit Function
         End If
@@ -1867,7 +1867,7 @@ Public Class frmProductionEntryFinalQC
                 If issaved = True Then
                     UcAttachment1.SaveData(obj.QC_Code)
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.QC_Code, NavigatorType.Current)
                     Return True
@@ -1876,7 +1876,7 @@ Public Class frmProductionEntryFinalQC
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2278,13 +2278,13 @@ Public Class frmProductionEntryFinalQC
                         Exit Sub
                     End If
                     clsProductionEntryFinalQCHead.PostData(Form_ID, txtCode.Value, arrLoc, True)
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2294,7 +2294,7 @@ Public Class frmProductionEntryFinalQC
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -2317,7 +2317,7 @@ Public Class frmProductionEntryFinalQC
                 End If
                 If (clsProductionEntryFinalQCHead.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -2340,7 +2340,7 @@ Public Class frmProductionEntryFinalQC
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2375,7 +2375,7 @@ Public Class frmProductionEntryFinalQC
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2525,7 +2525,7 @@ Public Class frmProductionEntryFinalQC
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'and TSPL_PP_BATCH_ORDER_HEAD.location_code in (" + arrLoc + ")
     End Sub
@@ -2682,7 +2682,7 @@ Public Class frmProductionEntryFinalQC
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2816,7 +2816,7 @@ Public Class frmProductionEntryFinalQC
                     If e.RowIndex > 0 Then
                         Dim PrevStatus As String = gvStage.Rows(e.RowIndex - 1).Cells(colStatus).Value
                         If clsCommon.CompairString(PrevStatus, "1") <> CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("First complete previous stage status.")
+                            clsCommon.MyMessageBoxShow(Me, "First complete previous stage status.", Me.Text)
                             gvStage.CurrentRow.Cells(colStatus).Value = ""
                         Else
                             For Each grow As GridViewRowInfo In gvStage.Rows
@@ -2849,7 +2849,7 @@ Public Class frmProductionEntryFinalQC
 
                     Dim currRec As Decimal = gvStage.CurrentRow.Cells(colReceived_Qty).Value
                     If currRec > GetIssueQty() Then
-                        clsCommon.MyMessageBoxShow("Received Quantity must be less than or equal to Issued Quantity.")
+                        clsCommon.MyMessageBoxShow(Me, "Received Quantity must be less than or equal to Issued Quantity.", Me.Text)
                         gvStage.CurrentRow.Cells(colReceived_Qty).Value = 0
                     End If
                     isCellValueChanged = False
@@ -2890,7 +2890,7 @@ Public Class frmProductionEntryFinalQC
             frm.Batch_Code = txtBatchNo.Value
             frm.arrXtime = gvStage.CurrentRow.Cells(0).Tag
             If clsCommon.myLen(gvStage.Tag) <= 0 Then
-                clsCommon.MyMessageBoxShow("Permission denied.")
+                clsCommon.MyMessageBoxShow(Me, "Permission denied.", Me.Text)
                 Exit Sub
             End If
             frm.objListUsers = clsSectionStageMapping_User.GetLogsheetUsers(gvStage.Tag, frm.Stage_Code, Nothing)
@@ -3288,7 +3288,7 @@ Public Class frmProductionEntryFinalQC
 
             If Not isCellValueChanged Then
                 If clsCommon.myLen(txtBatchNo.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select Batch Order Detail", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Select Batch Order Detail", Me.Text)
                     Return
                 End If
                 '==============main----------------------
@@ -3457,7 +3457,7 @@ Public Class frmProductionEntryFinalQC
 
             If Not isCellValueChanged Then
                 If clsCommon.myLen(txtBatchNo.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select Batch Order Detail", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Select Batch Order Detail", Me.Text)
                     Return
                 End If
 
@@ -3626,14 +3626,14 @@ Public Class frmProductionEntryFinalQC
                     obj.REASON = Reason
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Unpost and Recreated", Me.Text)
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                     '-----------------------------
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3816,11 +3816,11 @@ Public Class frmProductionEntryFinalQC
         Dim whrCls As String = String.Empty
 
         If (Not clsfrmParameterMaster.isFATParmExist(True)) Then
-            clsCommon.MyMessageBoxShow("FAT parameter For Production Does not exist. Please make it first")
+            clsCommon.MyMessageBoxShow(Me, "FAT parameter For Production Does not exist. Please make it first", Me.Text)
             Exit Sub
         End If
         If Not clsfrmParameterMaster.isSNFParmExist(True) Then
-            clsCommon.MyMessageBoxShow("SNF parameter For Production Does not exist. Please make it first")
+            clsCommon.MyMessageBoxShow(Me, "SNF parameter For Production Does not exist. Please make it first", Me.Text)
             Exit Sub
         End If
         whrCls = " where 1=1 and IsProduction=1 "
@@ -4329,16 +4329,16 @@ Public Class frmProductionEntryFinalQC
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnUpdateParameters_Click(sender As Object, e As EventArgs) Handles btnUpdateParameters.Click
         Try
             clsProductionEntryFinalQCQCParam.saveData(txtCode.Value, GetParamCollection())
-            clsCommon.MyMessageBoxShow("Parameter updated successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Parameter updated successfully", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4365,7 +4365,7 @@ Public Class frmProductionEntryFinalQC
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select QC Code")
+                clsCommon.MyMessageBoxShow(Me, "Select QC Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "QC_Code", "TSPL_PE_FINALQC_HEAD", "TSPL_PE_FINALQC_DETAIL")

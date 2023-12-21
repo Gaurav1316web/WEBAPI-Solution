@@ -145,7 +145,7 @@ Public Class FrmItemWiseDispatchLedger3
                 FormatGrid()
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
             If btnReferesh = False Then
                 'Dim str As String = "ItemWiseDispatchLedger Report"
@@ -322,7 +322,7 @@ Public Class FrmItemWiseDispatchLedger3
                 frm.Controls.Add(gv)
                 FillGridView(sql, gv)
                 If gv.Rows.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("There is no data for Show Excel Report.")
+                    common.clsCommon.MyMessageBoxShow("There is no data for Show Excel Report.", Me.Text)
                     Return False
                 End If
                 Dim i As Integer = 0
@@ -584,7 +584,7 @@ Public Class FrmItemWiseDispatchLedger3
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

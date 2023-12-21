@@ -3065,7 +3065,7 @@ Public Class frmVendorMaster
                     Save_Transport_Data(Nothing, Str_Vendor)
                 End If
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
@@ -3411,7 +3411,7 @@ Public Class frmVendorMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtgroupdes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Group Code does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Group Code does not exist in Master Table", Me.Text)
                     fndgroupcode.Value = ""
                 End If
             Catch ex As Exception
@@ -3437,7 +3437,7 @@ Public Class frmVendorMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtCity.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This City does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This City does not exist in Master Table", Me.Text)
                     fndCity.Value = ""
                 End If
             Catch ex As Exception
@@ -3463,7 +3463,7 @@ Public Class frmVendorMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txttermcodedes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Term Code does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Term Code does not exist in Master Table", Me.Text)
                     fndTrmsCode.Value = ""
                 End If
             Catch ex As Exception
@@ -3486,7 +3486,7 @@ Public Class frmVendorMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtaccsetdes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Account does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Account does not exist in Master Table", Me.Text)
                     fndAccntSet.Value = ""
                 End If
             Catch ex As Exception
@@ -3509,7 +3509,7 @@ Public Class frmVendorMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtpaymentcodedes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Payment Code does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Payment Code does not exist in Master Table", Me.Text)
                     fndPayCode.Value = ""
                 End If
             Catch ex As Exception
@@ -3532,7 +3532,7 @@ Public Class frmVendorMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtvendortypedes.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Vendor Type does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Vendor Type does not exist in Master Table", Me.Text)
                     fndvendortype.Value = ""
                 End If
             Catch ex As Exception
@@ -3555,7 +3555,7 @@ Public Class frmVendorMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     TxtBankName.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Bank Code does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Bank Code does not exist in Master Table", Me.Text)
                     fndbankcode.Value = ""
                 End If
             Catch ex As Exception
@@ -3578,7 +3578,7 @@ Public Class frmVendorMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtTxGrp.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Tax Group does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Tax Group does not exist in Master Table", Me.Text)
                     fndTxGrp.Value = ""
                     Me.grdTax.DataSource = Nothing
                     Me.grdTax.Rows.Clear()
@@ -3683,7 +3683,7 @@ Public Class frmVendorMaster
             Dim check As Match = Regex.Match(txtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtEmail.Text = ""
                 txtEmail.Focus()
             End If
@@ -3696,7 +3696,7 @@ Public Class frmVendorMaster
             Dim check As Match = Regex.Match(txtContactEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtContactEmail.Text = ""
                 txtContactEmail.Focus()
             End If
@@ -3989,11 +3989,11 @@ Public Class frmVendorMaster
                     If clsCommon.myLen(fnddeducNew.Value) <= 0 Then
                         pageCus.SelectedPage = RadPageViewPage5
                         fnddeducNew.Focus()
-                        clsCommon.MyMessageBoxShow("Nature of Deduction can't be left blank")
+                        clsCommon.MyMessageBoxShow(Me, "Nature of Deduction can't be left blank", Me.Text)
                         Exit Sub
                     ElseIf clsCommon.CompairString(qryNatureDed.ToUpper().Trim(), "Y") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtpan.Text) > 0 Then
                         txtpan.Focus()
-                        clsCommon.MyMessageBoxShow("You can not make this entry with Non PAN nature of deduction as PAN No exists.")
+                        clsCommon.MyMessageBoxShow(Me, "You can not make this entry with Non PAN nature of deduction as PAN No exists.", Me.Text)
                         Exit Sub
                     End If
                     If SettEnableTDSforServiceVendorSeparately Then
@@ -4003,11 +4003,11 @@ Public Class frmVendorMaster
                         If clsCommon.myLen(fnddeducNewService.Value) <= 0 Then
                             pageCus.SelectedPage = RadPageViewPage5
                             fnddeducNewService.Focus()
-                            clsCommon.MyMessageBoxShow("Service Nature of Deduction can't be left blank")
+                            clsCommon.MyMessageBoxShow(Me, "Service Nature of Deduction can't be left blank", Me.Text)
                             Exit Sub
                         ElseIf clsCommon.CompairString(qryNatureDed.ToUpper().Trim(), "Y") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtpan.Text) > 0 Then
                             txtpan.Focus()
-                            clsCommon.MyMessageBoxShow("You can not make this entry with Non PAN nature of deduction as PAN No exists.")
+                            clsCommon.MyMessageBoxShow(Me, "You can not make this entry with Non PAN nature of deduction as PAN No exists.", Me.Text)
                             Exit Sub
                         End If
                     End If
@@ -4018,13 +4018,13 @@ Public Class frmVendorMaster
                 fndVendorCurrency.Value = IIf(objCommonVar.IsMultiCurrencyCompany = False, objCommonVar.BaseCurrencyCode, clsCommon.myCstr(fndVendorCurrency.Value))
                 If clsCommon.myLen(clsCommon.myCstr(fndVendorCurrency.Value)) > 0 Then
                     If clsCommon.myLen(Me.fndAccntSet.Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Select Account Set.")
+                        clsCommon.MyMessageBoxShow(Me, "Select Account Set.", Me.Text)
                         Me.fndAccntSet.Focus()
                         Exit Sub
                     End If
 
                     If clsCommon.myLen(Me.fndTxGrp.Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Select Tax Group.")
+                        clsCommon.MyMessageBoxShow(Me, "Select Tax Group.", Me.Text)
                         Me.fndTxGrp.Focus()
                         Exit Sub
                     End If
@@ -4036,7 +4036,7 @@ Public Class frmVendorMaster
                     qry = "select CURRENCY_CODE from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='" & clsCommon.myCstr(Me.fndAccntSet.Value) & "' "
                     Dim accCurrCode As String = clsDBFuncationality.getSingleValue(qry).ToString
                     If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(Me.fndVendorCurrency.Value)) <> CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Account Set Currency and Vendor Currency must be same in case of Multicurrency.")
+                        clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Vendor Currency must be same in case of Multicurrency.", Me.Text)
                         Exit Sub
                     End If
                     '' match tax Group currency with vendor currency
@@ -4062,7 +4062,7 @@ Public Class frmVendorMaster
                 End If
 
                 If Not chkparentvendor.Checked AndAlso clsCommon.myLen(fndparent.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select Parent Vendor Code", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Parent Vendor Code", Me.Text)
                     fndparent.Focus()
                     fndparent.Select()
                     Return
@@ -4070,7 +4070,7 @@ Public Class frmVendorMaster
 
                 '' Anubhooti 06-Jan-2014 (Auto TC Certified)
                 If ChkTCCertified.Checked = True AndAlso clsCommon.myLen(TxtTCCertified.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow("TC certified can not be left blank.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "TC certified can not be left blank.", Me.Text)
                     TxtTCCertified.Focus()
                     TxtTCCertified.Select()
                     Return
@@ -4088,7 +4088,7 @@ Public Class frmVendorMaster
                     For Each grow As GridViewRowInfo In gvCategory.Rows
                         If clsCommon.myLen(grow.Cells(CatcolCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(CatcolValue).Value) <= 0 Then
                             pageCus.SelectedPage = RadPageViewPage3
-                            clsCommon.MyMessageBoxShow("Please select category values", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Please select category values", Me.Text)
                             gvCategory.Focus()
                             gvCategory.Select()
                             Return
@@ -4101,7 +4101,7 @@ Public Class frmVendorMaster
                 If clsCommon.myLen(txtpan.Text) > 0 Then
                     If clsCommon.myLen(txtpan.Text) < 10 Then
                         pageCus.SelectedPage = RadPageViewPage4
-                        clsCommon.MyMessageBoxShow("PAN number should have max. 10 length.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "PAN number should have max. 10 length.", Me.Text)
                         txtpan.Focus()
                         txtpan.Select()
                         Return
@@ -4125,7 +4125,7 @@ Public Class frmVendorMaster
                 If clsCommon.myLen(txtPinCode.Text) > 0 Then
                     If clsCommon.myLen(txtPinCode.Text) <> 6 Then
                         pageCus.SelectedPage = RadPageViewPage1
-                        clsCommon.MyMessageBoxShow("Invalid Pin Code.Please Enter Pin Code 6 Digit", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Invalid Pin Code.Please Enter Pin Code 6 Digit", Me.Text)
                         txtPinCode.Focus()
                         txtPinCode.Select()
                         Return
@@ -4135,7 +4135,7 @@ Public Class frmVendorMaster
                 '-----Parteek Added
 
                 If clsCommon.myLen(txtState.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select State Code", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Select State Code", Me.Text)
                     txtState.Focus()
                     txtState.Select()
                     Return
@@ -4145,7 +4145,7 @@ Public Class frmVendorMaster
 
                 If clsCommon.CompairString(CmbVenType.SelectedValue, "CHA") = CompairStringResult.Equal AndAlso clsCommon.myLen(fndCHA_Code.Value) <= 0 Then
                     pageCus.SelectedPage = RadPageViewPage1
-                    clsCommon.MyMessageBoxShow("Select CHA Detail for vendor.")
+                    clsCommon.MyMessageBoxShow(Me, "Select CHA Detail for vendor.", Me.Text)
                     fndCHA_Code.Focus()
                     fndCHA_Code.Select()
                     Return
@@ -4163,7 +4163,7 @@ Public Class frmVendorMaster
                 If AllowGSTApplicable = True Then
                     If clsCommon.myCdbl(Rchkregistered.Checked) > 0 Then
                         If clsCommon.CompairString(rdrpbusiness.SelectedValue, "Select") = CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("Select Business Condition")
+                            clsCommon.MyMessageBoxShow(Me, "Select Business Condition", Me.Text)
                             rdrpbusiness.Focus()
                             Return
                         End If
@@ -4180,7 +4180,7 @@ Public Class frmVendorMaster
                         Dim StrEmpExist As Integer = 0
                         StrEmpExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) as c from tspl_vendor_master where isnull(EMP_CODE,'')='" + EmployeeFind.Value + "'"))
                         If StrEmpExist > 0 Then
-                            common.clsCommon.MyMessageBoxShow("Employee already map with another vendor.", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Employee already map with another vendor.", Me.Text)
                             EmployeeFind.Focus()
                             EmployeeFind.Select()
                             Return

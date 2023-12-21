@@ -1578,7 +1578,7 @@ Public Class FrmPaymentNew
                 IsInsideLoadData = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1643,7 +1643,7 @@ Public Class FrmPaymentNew
                 IsInsideLoadData = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1684,7 +1684,7 @@ Public Class FrmPaymentNew
 
                         If (e.Column Is gvDetails.Columns(colAppliedAmt)) Or (e.Column Is gvDetails.Columns(colSecurityAmt)) Then
                             If gvDetails.CurrentRow.Cells(colAppliedAmt).Value > gvDetails.CurrentRow.Cells(colTemp).Value Then
-                                common.clsCommon.MyMessageBoxShow("Applied Amount Can Not Be More Than Pending Amount")
+                                common.clsCommon.MyMessageBoxShow(Me, "Applied Amount Can Not Be More Than Pending Amount", Me.Text)
                                 gvDetails.CurrentRow.Cells(colAppliedAmt).Value = gvDetails.CurrentRow.Cells(colTemp).Value
                             End If
                             Dim PaymentAmount As Double = 0
@@ -1701,7 +1701,7 @@ Public Class FrmPaymentNew
                         '============Added by Rohit to Save Security Amount against Payment===========
                         If (e.Column Is gvDetails.Columns(colSecurityAmt)) Then
                             If (clsCommon.myCdbl(gvDetails.CurrentRow.Cells(colAppliedAmt).Value) + clsCommon.myCdbl(gvDetails.CurrentRow.Cells(colSecurityAmt).Value)) > gvDetails.CurrentRow.Cells(colTemp).Value Then
-                                common.clsCommon.MyMessageBoxShow("Applied Amount + Security Amount Can Not Be More Than Pending Amount")
+                                common.clsCommon.MyMessageBoxShow(Me, "Applied Amount + Security Amount Can Not Be More Than Pending Amount", Me.Text)
                                 gvDetails.CurrentRow.Cells(colAppliedAmt).Value = gvDetails.CurrentRow.Cells(colTemp).Value
                                 gvDetails.CurrentRow.Cells(colSecurityAmt).Value = 0
                             End If
@@ -1754,7 +1754,7 @@ Public Class FrmPaymentNew
             End If
         Catch ex As Exception
             IsCellValueChanged = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1771,7 +1771,7 @@ Public Class FrmPaymentNew
             gvDetails.CurrentRow.Cells(colCostCenter).Value = clsCommon.ShowSelectForm("HierarchyPNCc", qry, "Code", " Hirerachy_Level = '" + DBLevel + "'", clsCommon.myCstr(gvDetails.CurrentRow.Cells(colCostCenter).Value), "Code", isButtonClick)
             gvDetails.CurrentRow.Cells(colCostCenterName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Center_Fin_Name from TSPL_COST_CENTRE_FINANCIAL where Cost_Center_Fin_Code='" + clsCommon.myCstr(gvDetails.CurrentRow.Cells(colCostCenter).Value) + "'"))
         Else
-            clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+            clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
         End If
     End Sub
 
@@ -1848,7 +1848,7 @@ Public Class FrmPaymentNew
         Dim strCustomerOpeningAccount As String = String.Empty
         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateOpeningEntryAutomatically, clsFixedParameterCode.CreateOpeningEntryAutomatically, Nothing)), "1") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(ddlPaymentType.SelectedValue), "MI") = CompairStringResult.Equal) And JEWithOPening = True Then
             If clsCommon.myLen(txtBankCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please first select Bank")
+                common.clsCommon.MyMessageBoxShow(Me, "Please first select Bank", Me.Text)
                 txtBankCode.Focus()
                 Return
             End If
@@ -1891,7 +1891,7 @@ Public Class FrmPaymentNew
                 e.Cancel = True
             End If
         Else
-            clsCommon.MyMessageBoxShow("Sorry! Yoy can not delete last row")
+            clsCommon.MyMessageBoxShow(Me, "Sorry! Yoy can not delete last row", Me.Text)
             e.Cancel = True
         End If
     End Sub
@@ -1934,7 +1934,7 @@ Public Class FrmPaymentNew
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1951,13 +1951,13 @@ Public Class FrmPaymentNew
                 Dim strchk As String = "select Posted from TSPL_PAYMENT_HEADER where Payment_No='" + txtPaymentNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If clsCommon.CompairString(chkpost, "1") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow("Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
             SaveData2()
             If deadLockCounter < 15 Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
             End If
             Return True
         Catch ex As Exception
@@ -2316,14 +2316,14 @@ Public Class FrmPaymentNew
                                 obj.EXCHANGE_GAIN_AMT = 0
                             ElseIf diff > 0 Then
                                 If clsCommon.myLen(obj.EXCHANGE_LOSS_ACCOUNT) = 0 Then
-                                    clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.")
+                                    clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.", Me.Text)
                                     Return False
                                 End If
                                 obj.EXCHANGE_LOSS_AMT = diff
                                 obj.EXCHANGE_GAIN_AMT = 0
                             Else
                                 If clsCommon.myLen(obj.EXCHANGE_GAIN_ACCOUNT) = 0 Then
-                                    clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.")
+                                    clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.", Me.Text)
                                     Return False
                                 End If
                                 obj.EXCHANGE_LOSS_AMT = 0
@@ -3155,7 +3155,7 @@ Public Class FrmPaymentNew
             End If
             LoadData(txtPaymentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3781,7 +3781,7 @@ Public Class FrmPaymentNew
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3808,7 +3808,7 @@ Public Class FrmPaymentNew
             objRemittance = frm.ObjReturn
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4054,7 +4054,7 @@ Public Class FrmPaymentNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4153,7 +4153,7 @@ Public Class FrmPaymentNew
             frm.SetUserMgmt(clsUserMgtCode.bankTransfer)
             frm.ShowDialog()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4274,12 +4274,12 @@ Public Class FrmPaymentNew
                 End If
                 If clsPaymentHeader.ReverseAndUnpost(txtPaymentNo.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtPaymentNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4583,10 +4583,10 @@ Public Class FrmPaymentNew
             If clsCommon.myLen(strbancode) > 0 Then
                 Dim bankcode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select BANK_CODE as [Code] from TSPL_BANK_MASTEr where TSPL_bank_master.INACTIVE ='Active' and TSPL_BANK_MASTER.bank_type<>'S' and Bank_Code='" & clsCommon.myCstr(strbancode) & "' "))
                 If clsCommon.myLen(bankcode) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please enter Bank Code into fixed parameter.")
+                    common.clsCommon.MyMessageBoxShow("Please enter Bank Code into fixed parameter.", Me.Text)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("Please enter Bank Code into fixed parameter.")
+                common.clsCommon.MyMessageBoxShow("Please enter Bank Code into fixed parameter.", Me.Text)
             End If
 
             If clsCommon.myLen(strdocumentType) > 0 AndAlso clsCommon.CompairString(strdocumentType, "D") = CompairStringResult.Equal AndAlso clsCommon.CompairString(ddlPaymentType.SelectedValue, "AD") = CompairStringResult.Equal Then
@@ -4653,7 +4653,7 @@ Public Class FrmPaymentNew
             Next
             txtPaymentAmt.Text = clsCommon.myCstr(PaymentAmt)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' Anubhooti 21-Aug-2014
@@ -4662,7 +4662,7 @@ Public Class FrmPaymentNew
             Dim qry As String = "select PurchaseOrder_No As PONo,PurchaseOrder_Date,PurchaseOrder_Type,Vendor_Code,Description,Tax_Group ,Bill_To_Location,Ship_To_Location from TSPL_PURCHASE_ORDER_HEAD "
             txtPONo.Value = clsCommon.ShowSelectForm("PONo", qry, "PONo", "Vendor_Code='" & txtVendorCode.Value & " ' ", txtPONo.Value, "PONo", isButtonClicked)
         Else
-            clsCommon.MyMessageBoxShow("Please select Vendor before selecting Purchase Order No")
+            clsCommon.MyMessageBoxShow("Please select Vendor before selecting Purchase Order No", Me.Text)
         End If
     End Sub
 
@@ -4674,7 +4674,7 @@ Public Class FrmPaymentNew
             ApplyAmount(clsCommon.myCdbl(txtPaymentAmt.Text))
             ' End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4691,7 +4691,7 @@ Public Class FrmPaymentNew
             End If
             securityRefund()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub securityRefund()
@@ -4751,7 +4751,7 @@ Public Class FrmPaymentNew
                 LblLocDesp.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4802,7 +4802,7 @@ Public Class FrmPaymentNew
             Qry = "Select '' as [Payment Date], '' as [Description], '' as [Vendor Code], '' as [Bank Code], '' as [Payment Type(A/O/R/M)], '' as [Payment Mode], '' as [Cheque No], '' as [Cheque Date], 0 as Amount,'' as [Location Code],0 as [Advance Against Salary],0 as [Is Opening],0 as [Bank Charges],0 as [Is Security],1 as [Conv Rate],'' as GLAccount,'' AS [Employee Advance Type(S/T/I)],'' AS [Employee Expense Type(TD/S/T/I)],'' as [MP Code],'' as [VLC Uploader Code]"
             transportSql.ExporttoExcel(Qry, "", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5150,26 +5150,26 @@ Public Class FrmPaymentNew
             myMessages.update()
             LoadData(txtPaymentNo.Value, NavigatorType.Current)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnVoidCheck_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnVoidCheck.Click
         If clsCommon.myLen(txtPaymentNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select document no to void check.")
+            clsCommon.MyMessageBoxShow("Select document no to void check.", Me.Text)
             Exit Sub
         End If
         Dim obj As New clsPaymentHeader()
         obj = clsPaymentHeader.GetData(Me.txtPaymentNo.Value, NavigatorType.Current)
         If clsCommon.myLen(obj.Bank_Code) <= 0 Then
-            clsCommon.MyMessageBoxShow("Bank Code not found for selected document.")
+            clsCommon.MyMessageBoxShow("Bank Code not found for selected document.", Me.Text)
             Exit Sub
             'ElseIf clsCommon.myLen(obj.CHECK_CODE) <= 0 Then
             '    clsCommon.MyMessageBoxShow("Check Code not found for selected document.")
             '    Exit Sub
         End If
         If clsPrintCheck.VoidCheck(obj.Bank_Code, obj.CHECK_CODE, "Payment Entry", obj.Payment_No) Then
-            clsCommon.MyMessageBoxShow("done successfully")
+            clsCommon.MyMessageBoxShow("done successfully", Me.Text)
         End If
         ''or  clscommon.myLen(obj.Bank_Code )<=0
     End Sub
@@ -5543,7 +5543,7 @@ Public Class FrmPaymentNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5984,7 +5984,7 @@ Public Class FrmPaymentNew
             Next
             Return dblrate
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -6093,7 +6093,7 @@ Public Class FrmPaymentNew
             'Dim dblAmtAfterTax As Double = dblAmtAfterDis + dblTotTaxAmt
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7455,7 +7455,7 @@ Public Class FrmPaymentNew
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7471,7 +7471,7 @@ Public Class FrmPaymentNew
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -7547,7 +7547,7 @@ Public Class FrmPaymentNew
                 txtBankCharges.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : TEC/07/05/19-000475
@@ -7595,7 +7595,7 @@ Public Class FrmPaymentNew
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7631,10 +7631,10 @@ Public Class FrmPaymentNew
             End If
 
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

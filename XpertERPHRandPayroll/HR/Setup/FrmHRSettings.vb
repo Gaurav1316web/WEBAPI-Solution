@@ -81,7 +81,7 @@ Public Class FrmHRSettings
                 End If
                 If (ClsHRSettings.SaveData(obj, trans)) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                 End If
             End If
 
@@ -110,7 +110,7 @@ Public Class FrmHRSettings
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

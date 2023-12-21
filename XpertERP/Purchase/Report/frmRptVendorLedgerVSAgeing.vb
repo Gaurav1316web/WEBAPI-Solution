@@ -224,7 +224,7 @@ Public Class frmRptVendorLedgerVsAgeing
 
             If dtCustomer.Rows.Count <= 0 Then
 
-                clsCommon.MyMessageBoxShow("Data not found")
+                clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                 Exit Sub
             Else
                 btnPrint.Enabled = True
@@ -260,7 +260,7 @@ Public Class frmRptVendorLedgerVsAgeing
             GC.Collect()
             GC.WaitForFullGCComplete()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -467,7 +467,7 @@ Public Class frmRptVendorLedgerVsAgeing
 
             transportSql.QuickExportToExcel(gvVendor, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -555,10 +555,10 @@ Public Class frmRptVendorLedgerVsAgeing
             transportSql.applyExportTemplate(gvVendor, PageSetupReport_ID)
             transportSql.QuickExportToExcel(gvVendor, "", Me.Text, , arrHeader)
 
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
             Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -579,7 +579,7 @@ Public Class frmRptVendorLedgerVsAgeing
             clsCommon.ProgressBarShow()
             IO.File.WriteAllLines(filePath, transportSql.ExportCSV(sender, AddHeader))
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Data Exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
             Process.Start(filePath)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -644,7 +644,7 @@ Public Class frmRptVendorLedgerVsAgeing
             clsCommon.MyExportToExcelGrid(Me.Text, gvVendor, arrHeader, Me.Text, True)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

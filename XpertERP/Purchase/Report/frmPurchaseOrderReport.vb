@@ -110,14 +110,14 @@ Public Class FrmPurchaseOrderReport
 
 
         If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select one location ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select one location ", Me.Text)
             Return
         Else
             LocCodeFilter = clsCommon.GetMulcallString(cbgLocation.CheckedValue)
             LocCodeFilter = LocCodeFilter.Replace("'", "")
         End If
         If isDocSelect AndAlso ArrDoc.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Document")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Document", Me.Text)
             Return
 
         ElseIf isVendorSelect AndAlso ArrVendor.Count <= 0 Then
@@ -157,7 +157,7 @@ Public Class FrmPurchaseOrderReport
             '" TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,TSPL_PURCHASE_ORDER_DETAIL.item_code as item_code,TSPL_PURCHASE_ORDER_DETAIL.item_desc as itemdesc,TSPL_PURCHASE_ORDER_DETAIL.purchaseorder_qty as qty,TSPL_PURCHASE_ORDER_DETAIL.unit_code as uom,TSPL_PURCHASE_ORDER_DETAIL.item_cost as itemcost,TSPL_PURCHASE_ORDER_DETAIL.amount as amount from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD  on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No =TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1 left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_PURCHASE_ORDER_HEAD.tax2 left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .TAX3 left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_PURCHASE_ORDER_HEAD .tax4 left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .tax5 left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX6 left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX7 left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX8 left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX9 left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX10    left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_PURCHASE_ORDER_HEAD.comp_code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_PURCHASE_ORDER_HEAD.Vendor_Code  where 2=2"
             If chkLocSelect.IsChecked Then
                 If cbgLocation.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select one location ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select one location ", Me.Text)
                     Return
                 End If
                 strQuery += "and TSPL_LOCATION_MASTER.Loc_Segment_Code  IN (" + clsCommon.GetMulcallString(locationArr) + ") "
@@ -178,7 +178,7 @@ Public Class FrmPurchaseOrderReport
             strQuery += " and TSPL_PURCHASE_ORDER_HEAD_Hist.PurchaseOrder_No='" + clsCommon.myCstr(ArrDoc(0)) + "' and TSPL_PURCHASE_ORDER_HEAD_Hist.Abandonment_No='" + abandomentNo + "'"
             If chkLocSelect.IsChecked Then
                 If cbgLocation.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select one location ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select one location ", Me.Text)
                     Return
                 End If
                 strQuery += "and TSPL_LOCATION_MASTER.Loc_Segment_Code  IN (" + clsCommon.GetMulcallString(locationArr) + ") "
@@ -339,7 +339,7 @@ Public Class FrmPurchaseOrderReport
 
     Private Sub btnPrintAmendment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintAmendment.Click
         If Not chkDoc_select.IsChecked OrElse cbgDocument.CheckedValue.Count <> 1 Then
-            common.clsCommon.MyMessageBoxShow("Please select only One Amendment No for Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select only One Amendment No for Print", Me.Text)
             Exit Sub
         End If
         Dim strDocNo As String = clsCommon.myCstr(cbgDocument.CheckedValue(0))
@@ -364,11 +364,11 @@ Public Class FrmPurchaseOrderReport
     End Sub
     Sub PrintData()
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vendor", Me.Text)
             Return
         End If
         Dim fromdate As String = clsCommon.GetPrintDate(dtpfromdate.Value, "dd/MM/yyyy")
@@ -397,11 +397,11 @@ Public Class FrmPurchaseOrderReport
 
     Private Sub btnPrePrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrePrint.Click
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vendor", Me.Text)
             Return
         End If
         Dim fromdate As String = clsCommon.GetPrintDate(dtpfromdate.Value, "dd/MM/yyyy")

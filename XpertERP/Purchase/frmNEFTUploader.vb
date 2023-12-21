@@ -691,7 +691,7 @@ Public Class FrmNEFTUploader
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -758,7 +758,7 @@ Public Class FrmNEFTUploader
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -806,7 +806,7 @@ Public Class FrmNEFTUploader
 
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1221,7 +1221,7 @@ Public Class FrmNEFTUploader
             Next
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Load_Blank_Grid_ForVendor()
@@ -1482,7 +1482,7 @@ Public Class FrmNEFTUploader
         Else
 
             transportSql.exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, Nothing, False, True, False, True) 'frm.Text)
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
             Process.Start(filePath)
         End If
     End Sub
@@ -1499,7 +1499,7 @@ Public Class FrmNEFTUploader
                 Export_Excel()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1529,14 +1529,14 @@ Public Class FrmNEFTUploader
                     gv.Rows(j).Cells(ColDOCUMENTREF).Value = txtNEFTUploaderREFNo.Text
                     gv.Rows(j).Cells(ColDOCUMENTREF1).Value = txtNEFTUploaderREFNo.Text
                 Next
-                clsCommon.MyMessageBoxShow("Updated Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Updated Successfully", Me.Text)
             Else
 
-                clsCommon.MyMessageBoxShow("Please Enter Document Reference No")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Document Reference No", Me.Text)
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadType()
@@ -1686,7 +1686,7 @@ Public Class FrmNEFTUploader
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1714,7 +1714,7 @@ Public Class FrmNEFTUploader
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1739,10 +1739,10 @@ Public Class FrmNEFTUploader
 
             End If
 
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
             'Process.Start(filePath)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1775,7 +1775,7 @@ Public Class FrmNEFTUploader
             Load_A_Class_Data()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1791,7 +1791,7 @@ Public Class FrmNEFTUploader
     Private Sub fndBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndBank._MYValidating
         Try
             If clsCommon.myLen(fndDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("First Select Document No.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First Select Document No.", Me.Text)
                 Return
             End If
             Dim qry As String = " select BANK_CODE as Code , DESCRIPTION as Name from TSPL_BANK_MASTER "
@@ -1818,7 +1818,7 @@ Public Class FrmNEFTUploader
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             clsCommon.MyExportToPDF("NEFT Uploader", gv, arrHeader, "NEFT Uploader", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1876,7 +1876,7 @@ Public Class FrmNEFTUploader
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1908,7 +1908,7 @@ Public Class FrmNEFTUploader
             fndPlantCode.Value = clsCommon.ShowSelectForm("NEFTUPLODER@PLANTCode@Finder221", qry, "PlantCode", "", fndPlantCode.Value, "", isButtonClicked)
             SetToDate()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1920,10 +1920,10 @@ Public Class FrmNEFTUploader
             If isDocumentNoExist = True Then
                 Load_New_Uploader_Data(qryDocNocode)
             Else
-                clsCommon.MyMessageBoxShow("Record not Found.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Record not Found.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

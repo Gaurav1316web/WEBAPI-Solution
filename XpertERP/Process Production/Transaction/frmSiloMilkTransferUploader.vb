@@ -164,10 +164,10 @@ Public Class frmSiloMilkTransferUploader
     Sub CheckAndValidate()
         Dim ValidateStatus As String = String.Empty
         If Gv1.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("There are no row is grid please select a sheet to import")
+            clsCommon.MyMessageBoxShow(Me, "There are no row is grid please select a sheet to import", Me.Text)
         End If
         If ValidatedCount = Gv1.Rows.Count Then
-            clsCommon.MyMessageBoxShow("All Rows are already validated")
+            clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
             Exit Sub
         End If
         ValidatedCount = 0
@@ -388,7 +388,7 @@ Public Class frmSiloMilkTransferUploader
                     clsCommon.ProgressBarPercentHide()
                     trans.Commit()
                     'trans.Rollback()
-                    clsCommon.MyMessageBoxShow("Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 Else
                     Throw New Exception("No Validated Rows found to save")
                 End If

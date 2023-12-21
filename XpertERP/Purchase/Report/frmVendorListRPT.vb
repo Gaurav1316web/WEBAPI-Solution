@@ -124,7 +124,7 @@ Public Class FrmVendorListRPT
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -215,7 +215,7 @@ Public Class FrmVendorListRPT
                 clsCommon.MyExportToPDF("Vendor List Report", gv, arrHeader, "Vendor List Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

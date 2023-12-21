@@ -82,7 +82,7 @@ Public Class FrmGRNReport
 
             'frmInventoryReportViewer.proShowReport("Transfer Report", clsCommon.GetPrintDate(txtFromDate.Value, "yyyy-MM-dd"), clsCommon.GetPrintDate(txtToDate.Value, "yyyy-MM-dd"), txtFromTransferNo.Value, txtToTransferNo.Value, strType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -117,13 +117,13 @@ Public Class FrmGRNReport
         Try
             Dim qry As String = ""
             If isGRNNoSelect AndAlso ArrGRNNo.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Document")
+                common.clsCommon.MyMessageBoxShow("Please select at least one Document", Me.Text)
                 Return
             ElseIf isVendorSelect AndAlso ArrVendor.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Vendor For Print")
+                common.clsCommon.MyMessageBoxShow("Please select at least one Vendor For Print", Me.Text)
                 Return
             ElseIf isLocationSelect AndAlso ArrLocation.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location For Print")
+                common.clsCommon.MyMessageBoxShow("Please select at least one Location For Print", Me.Text)
                 Return
             End If
 
@@ -300,7 +300,7 @@ Public Class FrmGRNReport
             End If
 
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -501,7 +501,7 @@ Public Class FrmGRNReport
             Dim ToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
             GridData(FromDate, ToDate, chkGRNNoSelect.IsChecked, cbgGRNNo.CheckedValue, chkVendorSelect.IsChecked, cbgVendor.CheckedValue, chkLocationSelect.IsChecked, cbgLocation.CheckedValue)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

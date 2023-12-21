@@ -78,7 +78,7 @@ Public Class frmBillChecklist
                 fndDocCode.Value = clsCommon.ShowSelectForm("BCListFND", qry, "DocumentNo", whrClas, fndDocCode.Value, "DocumentNo", isButtonClicked)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -174,14 +174,14 @@ Public Class frmBillChecklist
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(fndDocCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No not found to print")
+                common.clsCommon.MyMessageBoxShow(Me, "Document No not found to print", Me.Text)
                 Exit Sub
             End If
             Dim strDocNo As String = clsCommon.myCstr(fndDocCode.Value)
@@ -316,7 +316,7 @@ Public Class frmBillChecklist
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
