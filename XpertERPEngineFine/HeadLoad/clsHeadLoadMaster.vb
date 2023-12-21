@@ -49,8 +49,6 @@ Public Class clsHeadLoadMaster
                 Next
             End If
             Dim AutoSave As Boolean = True
-
-            Dim AutoSave As Boolean = True
             If (obj.SaveData(obj, True, Nothing, AutoSave)) Then
                 obj.PostData(clsUserMgtCode.frmHeadLoadMaster, obj.Document_No)
                 objCommonVar.CurrentUserCode = ""
