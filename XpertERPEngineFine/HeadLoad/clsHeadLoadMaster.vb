@@ -49,7 +49,6 @@ Public Class clsHeadLoadMaster
                 Next
             End If
             Dim AutoSave As Boolean = True
-
             If (obj.SaveData(obj, True, Nothing, AutoSave)) Then
                 obj.PostData(clsUserMgtCode.frmHeadLoadMaster, obj.Document_No)
                 objCommonVar.CurrentUserCode = ""
@@ -74,7 +73,6 @@ Public Class clsHeadLoadMaster
             If isNewEntry Then
                 'Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD", trans)
                 If clsCommon.CompairString(AutoSave, False) = CompairStringResult.Equal Then
-
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_date, clsDocType.HeadLoadDCS, "", "")
                 End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then

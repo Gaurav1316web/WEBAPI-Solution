@@ -458,7 +458,7 @@ Public Class frmMRPForProduction
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -645,7 +645,7 @@ Public Class frmMRPForProduction
 
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoaddata = False
@@ -857,7 +857,7 @@ Public Class frmMRPForProduction
                     End If
 
                 Catch ex As Exception
-                    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     Return False
                 End Try
             Else
@@ -866,7 +866,7 @@ Public Class frmMRPForProduction
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -878,7 +878,7 @@ Public Class frmMRPForProduction
                 Dim QryStr As String = "select POSTED from TSPL_PP_MRP_HEAD where MRP_Code = '" + txtCode.Value + "' "
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -886,7 +886,7 @@ Public Class frmMRPForProduction
             If txtMulProductionPlan.arrValueMember IsNot Nothing AndAlso txtMulProductionPlan.arrValueMember.Count > 0 Then
             Else
                 If clsCommon.myLen(TxtitemType.SelectedValue) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select production plan OR Item Type.")
+                    clsCommon.MyMessageBoxShow(Me, "Select production plan OR Item Type.", Me.Text)
                     Errorcontrol.SetError(txtMulProductionPlan, "Select production plan.")
                     Return False
                 End If
@@ -894,7 +894,7 @@ Public Class frmMRPForProduction
             End If
 
             If chkAutoIndent.IsChecked = False AndAlso chkAutoPO.IsChecked = False AndAlso isPost = True Then
-                clsCommon.MyMessageBoxShow("Please Select Auto Indent OR Auto PO")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Auto Indent OR Auto PO", Me.Text)
                 Return False
             End If
 
@@ -904,21 +904,21 @@ Public Class frmMRPForProduction
                 icode = clsCommon.myCstr(gvMRPDetal.Rows(ii).Cells(colItem_Code).Value)
 
                 If ii = 0 AndAlso clsCommon.myLen(icode) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill atleast one row for MRP.")
+                    clsCommon.MyMessageBoxShow(Me, "Fill atleast one row for MRP.", Me.Text)
                     gvMRPDetal.CurrentRow = gvMRPDetal.Rows(ii)
                     Return False
                 End If
             Next
             If chkAutoIndent.IsChecked = True Then
                 If clsCommon.myLen(txtDept.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Department Code Can not be blank,When Auto Indent Create.")
+                    clsCommon.MyMessageBoxShow(Me, "Department Code Can not be blank,When Auto Indent Create.", Me.Text)
                     Return False
                 End If
             End If
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -951,7 +951,7 @@ Public Class frmMRPForProduction
                 End If
                 If (clsProductionMRP.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -1006,14 +1006,14 @@ Public Class frmMRPForProduction
             End If
         Catch ex As Exception
             isPost = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -1022,7 +1022,7 @@ Public Class frmMRPForProduction
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1046,7 +1046,7 @@ Public Class frmMRPForProduction
             End If
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
     End Sub
@@ -1060,7 +1060,7 @@ Public Class frmMRPForProduction
             fndLocation.Value = clsLocation.getFinder(WhrCls, fndLocation.Value, isButtonClicked)
             lblLocationDesc.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1301,7 +1301,7 @@ Public Class frmMRPForProduction
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'Try
         '    If Not isInsideLoaddata Then
@@ -1898,7 +1898,7 @@ Public Class frmMRPForProduction
 
     Private Sub txtMulProductionPlan__My_Click(sender As Object, e As EventArgs) Handles txtMulProductionPlan._My_Click
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Location Code First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Location Code First", Me.Text)
             Return
         End If
         isInsideLoaddata = True
@@ -1992,11 +1992,11 @@ Public Class frmMRPForProduction
         Dim strBom As String = ""
         Dim strBaseQry As String = ""
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Location First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Location First", Me.Text)
             Return
         End If
         If gvMRPDetal.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Item first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Item first", Me.Text)
             Return
         End If
         If gvMRPDetal.Rows.Count > 0 Then
@@ -2363,7 +2363,7 @@ Public Class frmMRPForProduction
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2392,13 +2392,13 @@ Public Class frmMRPForProduction
                 If clsProductionMRP.ReverseAndUnpost(txtCode.Value, trans) Then
                     saveCancelLog(Reason, "Reverse And Recreate", trans)
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

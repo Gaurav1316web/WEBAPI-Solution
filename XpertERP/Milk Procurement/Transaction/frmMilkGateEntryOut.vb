@@ -179,11 +179,11 @@ Public Class frmMilkGateEntryOut
                 obj.Reason_Gateout_Without_Milk_Receipt = txtGateOutWithoutMilkReceipt.Text
 
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Gate_Out_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -223,7 +223,7 @@ Public Class frmMilkGateEntryOut
                 LoadGateEntryData(obj.Against_Gate_Entry_No)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -231,11 +231,11 @@ Public Class frmMilkGateEntryOut
         Try
             If (myMessages.postConfirm()) Then
                 clsMilkGateEntryOut.PostData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -251,7 +251,7 @@ Public Class frmMilkGateEntryOut
         Try
             If (myMessages.deleteConfirm()) Then
                 clsMilkGateEntryOut.DeleteData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
@@ -294,7 +294,7 @@ Public Class frmMilkGateEntryOut
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -368,7 +368,7 @@ Public Class frmMilkGateEntryOut
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -410,10 +410,10 @@ Public Class frmMilkGateEntryOut
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptGateEntryOut", "Milk Gate Entry Out")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No document for print")
+                clsCommon.MyMessageBoxShow(Me, "No document for print", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
      

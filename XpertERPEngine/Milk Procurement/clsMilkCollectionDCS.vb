@@ -67,6 +67,7 @@ Public Class clsMilkCollectionDCS
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "TSPL_MILK_COLLECTION_DCS_MCC_DETAIL", "Document_No", trans)
         Return True
     End Function
+
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMilkCollectionDCS
         Dim obj As clsMilkCollectionDCS = Nothing
         Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS.* FROM TSPL_MILK_COLLECTION_DCS where 2=2"

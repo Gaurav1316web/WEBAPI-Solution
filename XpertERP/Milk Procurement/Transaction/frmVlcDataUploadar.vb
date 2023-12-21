@@ -419,7 +419,7 @@ Public Class FrmVlcDataUploadar
                     btnDelete.Enabled = True
                     fndDocNo.MyReadOnly = True
                     If rbtnFile.IsChecked Then
-                        clsCommon.MyMessageBoxShow("Data Uploaded Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Uploaded Successfully", Me.Text)
                         LoadData(docCode, NavigatorType.Current)
                     End If
                     Exit Sub
@@ -514,7 +514,7 @@ Public Class FrmVlcDataUploadar
         Try
 
             If clsCommon.myLen(fndDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select a document to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please select a document to delete", Me.Text)
                 Exit Sub
             End If
             Dim MCCCode As String = clsDBFuncationality.getSingleValue("select mcc_code from TSPL_MCC_MASTER where mcc_code_VLC_uploader='" & txtMccCode.Text & "'")
@@ -527,7 +527,7 @@ Public Class FrmVlcDataUploadar
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1003,7 +1003,7 @@ aaa:                qry = "select TSPL_MP_MASTER.MP_Code_VLC_Uploader,TSPL_MP_MA
             transportSql.QuickExportToExcel(gvData, "", Me.Text, , arrHeader)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1020,7 +1020,7 @@ aaa:                qry = "select TSPL_MP_MASTER.MP_Code_VLC_Uploader,TSPL_MP_MA
             arrHeader.Add("Shift : " + txtShift.Text)
             clsCommon.MyExportToPDF(Me.Text, gvData, arrHeader, Me.Text, MyBase.Form_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1047,12 +1047,12 @@ aaa:                qry = "select TSPL_MP_MASTER.MP_Code_VLC_Uploader,TSPL_MP_MA
             If (clsCommon.MyMessageBoxShow("Delete " + clsCommon.myCstr(TxtMultiSelectFinder3.arrValueMember.Count) + "Documents." + Environment.NewLine + "Are You sure?", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question)) = System.Windows.Forms.DialogResult.Yes Then
                 clsVlcDataUploader.deleteData(TxtMultiSelectFinder3.arrValueMember)
                 If (ClsVLCDataUploaderManual.DeleteData(TxtMultiSelectFinder3.arrValueMember)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     TxtMultiSelectFinder3.arrValueMember = Nothing
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1166,7 +1166,7 @@ aaa:                qry = "select TSPL_MP_MASTER.MP_Code_VLC_Uploader,TSPL_MP_MA
                 clsCommon.MyMessageBoxShow(Me, "Data Imported Successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Dim objreader As New System.IO.StringReader(logFile)
             If objreader IsNot Nothing AndAlso clsCommon.myLen(objreader) > 0 Then
                 Dim str As String = clsCommon.myCstr(System.IO.File.ReadAllText(logFile))

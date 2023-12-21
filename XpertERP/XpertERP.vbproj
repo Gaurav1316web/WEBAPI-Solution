@@ -2495,6 +2495,12 @@
     <Compile Include="Purchase Order\Tranasction\frmSetPOSchedule.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Purchase Order\Tranasction\PurchaseGateOut.Designer.vb">
+      <DependentUpon>PurchaseGateOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Purchase Order\Tranasction\PurchaseGateOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Purchase\Master\frmvendorsubgroup.Designer.vb">
       <DependentUpon>frmvendorsubgroup.vb</DependentUpon>
     </Compile>
@@ -6269,6 +6275,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Tranasction\frmSetPOSchedule.resx">
       <DependentUpon>frmSetPOSchedule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase Order\Tranasction\PurchaseGateOut.resx">
+      <DependentUpon>PurchaseGateOut.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Master\frmvendorsubgroup.resx">
       <DependentUpon>frmvendorsubgroup.vb</DependentUpon>

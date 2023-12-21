@@ -452,7 +452,7 @@ Public Class frmMilkProcurementUploader
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -699,7 +699,7 @@ Public Class frmMilkProcurementUploader
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -761,12 +761,12 @@ Public Class frmMilkProcurementUploader
                     Throw New Exception("Please Fill at list one Item")
                 End If
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Document_No, NavigatorType.Current)
             End If
         Catch ex As Exception
             frmSRN.IsPoSavedAuto = False
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -859,7 +859,7 @@ Public Class frmMilkProcurementUploader
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -872,11 +872,11 @@ Public Class frmMilkProcurementUploader
             End If
             If clsCommon.MyMessageBoxShow("Delete the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsMilkProcurementUploaderHead.DeleteData(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Data delete successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data delete successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1059,7 +1059,7 @@ ExitLOOP:
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1070,11 +1070,11 @@ ExitLOOP:
             End If
             If clsCommon.MyMessageBoxShow("Delete and Clean the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsMilkProcurementUploaderHead.DeleteAndCleanData(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Data delete successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data delete successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1165,7 +1165,7 @@ ExitLOOP:
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1219,7 +1219,7 @@ ExitLOOP:
     Private Sub txtDockCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDockCode._MYValidating
         If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
             fndMCCCode.Focus()
-            clsCommon.MyMessageBoxShow("Please first select MCC", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please first select MCC", Me.Text)
             Exit Sub
         End If
         txtDockCode.Value = clsDockMaster.getFinder("TSPL_DOCK_MASTER.MCC_Code='" + fndMCCCode.Value + "'", txtDockCode.Value, isButtonClicked)
@@ -1243,11 +1243,11 @@ ExitLOOP:
             End If
             If clsCommon.MyMessageBoxShow("Reverse the current document " + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsMilkProcurementUploaderHead.RevereAndUnpost(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Unposed successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Unposed successfully", Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
