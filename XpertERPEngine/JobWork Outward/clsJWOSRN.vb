@@ -1210,33 +1210,33 @@ Public Class clsRecursiveitems
     Public Byproduct_Item_Qty As Decimal
 #End Region
 
-    Public Shared Function GetItemOfBOM(ByRef Arr As List(Of clsRecursiveitems), ByVal strICode As String, ByVal dblQty As Double, ByVal strUOM As String, ByVal strJobLocationCode As String, ByVal strVendorCode As String, ByVal TransDate As DateTime, ByVal trans As SqlTransaction, ByVal intLvl As Integer, Optional ByVal Is_For_Production As Boolean = False, Optional ByVal BOM_Code As String = "") As Boolean
-        Return GetItemOfBOM(0, 0, Arr, strICode, dblQty, strUOM, strJobLocationCode, strVendorCode, TransDate, trans, intLvl, Is_For_Production, BOM_Code)
+    Public Shared Function GetItemOfBOM(ByRef Arr As List(Of clsRecursiveitems), ByVal strICode As String, ByVal dblQty As Double, ByVal strUOM As String, ByVal strJobLocationCode As String, ByVal strVendorCode As String, ByVal TransDate As DateTime, ByVal trans As SqlTransaction, ByVal intLvl As Integer, Optional ByVal Is_For_Production As Boolean = False, Optional ByVal BOM_Code As String = "", Optional ByVal RunRecursive As Boolean = True) As Boolean
+        Return GetItemOfBOM(0, 0, Arr, strICode, dblQty, strUOM, strJobLocationCode, strVendorCode, TransDate, trans, intLvl, Is_For_Production, BOM_Code, RunRecursive)
     End Function
-    Public Shared Function GetItemOfBOM(ByRef dclExtaFATKG As Decimal, ByRef dclExtaSNFKG As Decimal, ByRef Arr As List(Of clsRecursiveitems), ByVal strICode As String, ByVal dblQty As Double, ByVal strUOM As String, ByVal strJobLocationCode As String, ByVal strVendorCode As String, ByVal TransDate As DateTime, ByVal trans As SqlTransaction, ByVal intLvl As Integer, Optional ByVal Is_For_Production As Boolean = False, Optional ByVal BOM_Code As String = "") As Boolean
-        Return GetItemOfBOM("", dclExtaFATKG, dclExtaSNFKG, Arr, strICode, dblQty, strUOM, strJobLocationCode, strVendorCode, TransDate, trans, intLvl, Is_For_Production, BOM_Code)
+    Public Shared Function GetItemOfBOM(ByRef dclExtaFATKG As Decimal, ByRef dclExtaSNFKG As Decimal, ByRef Arr As List(Of clsRecursiveitems), ByVal strICode As String, ByVal dblQty As Double, ByVal strUOM As String, ByVal strJobLocationCode As String, ByVal strVendorCode As String, ByVal TransDate As DateTime, ByVal trans As SqlTransaction, ByVal intLvl As Integer, Optional ByVal Is_For_Production As Boolean = False, Optional ByVal BOM_Code As String = "", Optional ByVal RunRecursive As Boolean = True) As Boolean
+        Return GetItemOfBOM("", dclExtaFATKG, dclExtaSNFKG, Arr, strICode, dblQty, strUOM, strJobLocationCode, strVendorCode, TransDate, trans, intLvl, Is_For_Production, BOM_Code, RunRecursive)
     End Function
-    Public Shared Function GetItemOfBOM(ByRef strLastICode As String, ByRef dclExtaFATKG As Decimal, ByRef dclExtaSNFKG As Decimal, ByRef Arr As List(Of clsRecursiveitems), ByVal strICode As String, ByVal dblQty As Double, ByVal strUOM As String, ByVal strJobLocationCode As String, ByVal strVendorCode As String, ByVal TransDate As DateTime, ByVal trans As SqlTransaction, ByVal intLvl As Integer, Optional ByVal Is_For_Production As Boolean = False, Optional ByVal BOM_Code As String = "") As Boolean
-        Dim qry As String = "select ITEM_CODE,QUANTITY*ConvFactor as QUANTITY,UNIT_CODE,FAT,SNF,FAT_KG*ConvFactor as FAT_KG,SNF_KG*ConvFactor as SNF_KG,Byproduct_Item_Code,Byproduct_Item_UOM,Byproduct_Item_Qty*ConvFactor as Byproduct_Item_Qty  from (" + Environment.NewLine + _
-               "select (" + clsCommon.myCstr(dblQty) + "/TSPL_PP_BOM_HEAD.PROD_QUANTITY)*(MulConversion.Conversion_Factor/DivideConversion.Conversion_Factor) as ConvFactor ,TSPL_PP_BOM_HEAD.PROD_ITEM_CODE,TSPL_PP_BOM_HEAD.PROD_QUANTITY,TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE, TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE,TSPL_PP_BOM_ITEM_DETAIL.QUANTITY,TSPL_PP_BOM_ITEM_DETAIL.UNIT_CODE,TSPL_PP_BOM_ITEM_DETAIL.FAT,TSPL_PP_BOM_ITEM_DETAIL.SNF,TSPL_PP_BOM_ITEM_DETAIL.FAT_KG,TSPL_PP_BOM_ITEM_DETAIL.SNF_KG,TSPL_PP_BOM_HEAD.Byproduct_Item_Code,TSPL_PP_BOM_HEAD.Byproduct_Item_Qty,TSPL_PP_BOM_HEAD.Byproduct_Item_UOM from (" + Environment.NewLine + _
+    Public Shared Function GetItemOfBOM(ByRef strLastICode As String, ByRef dclExtaFATKG As Decimal, ByRef dclExtaSNFKG As Decimal, ByRef Arr As List(Of clsRecursiveitems), ByVal strICode As String, ByVal dblQty As Double, ByVal strUOM As String, ByVal strJobLocationCode As String, ByVal strVendorCode As String, ByVal TransDate As DateTime, ByVal trans As SqlTransaction, ByVal intLvl As Integer, Optional ByVal Is_For_Production As Boolean = False, Optional ByVal BOM_Code As String = "", Optional ByVal RunRecursive As Boolean = True) As Boolean
+        Dim qry As String = "select ITEM_CODE,QUANTITY*ConvFactor as QUANTITY,UNIT_CODE,FAT,SNF,FAT_KG*ConvFactor as FAT_KG,SNF_KG*ConvFactor as SNF_KG,Byproduct_Item_Code,Byproduct_Item_UOM,Byproduct_Item_Qty*ConvFactor as Byproduct_Item_Qty  from (" + Environment.NewLine +
+               "select (" + clsCommon.myCstr(dblQty) + "/TSPL_PP_BOM_HEAD.PROD_QUANTITY)*(MulConversion.Conversion_Factor/DivideConversion.Conversion_Factor) as ConvFactor ,TSPL_PP_BOM_HEAD.PROD_ITEM_CODE,TSPL_PP_BOM_HEAD.PROD_QUANTITY,TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE, TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE,TSPL_PP_BOM_ITEM_DETAIL.QUANTITY,TSPL_PP_BOM_ITEM_DETAIL.UNIT_CODE,TSPL_PP_BOM_ITEM_DETAIL.FAT,TSPL_PP_BOM_ITEM_DETAIL.SNF,TSPL_PP_BOM_ITEM_DETAIL.FAT_KG,TSPL_PP_BOM_ITEM_DETAIL.SNF_KG,TSPL_PP_BOM_HEAD.Byproduct_Item_Code,TSPL_PP_BOM_HEAD.Byproduct_Item_Qty,TSPL_PP_BOM_HEAD.Byproduct_Item_UOM from (" + Environment.NewLine +
                "select top 1 TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE from TSPL_PP_BOM_ITEM_DETAIL left outer join TSPL_PP_BOM_HEAD on TSPL_PP_BOM_HEAD.BOM_CODE=TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE where  TSPL_PP_BOM_HEAD.PROD_ITEM_CODE='" + strICode + "' and TSPL_PP_BOM_HEAD.Is_Post=1 " + Environment.NewLine
         If intLvl = 1 Then
             If Is_For_Production Then
-                qry += " and TSPL_PP_BOM_HEAD.BOM_CODE='" & BOM_Code & "' and TSPL_PP_BOM_HEAD.Valid_FROM_DATE<='" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "' " + Environment.NewLine + _
+                qry += " and TSPL_PP_BOM_HEAD.BOM_CODE='" & BOM_Code & "' and TSPL_PP_BOM_HEAD.Valid_FROM_DATE<='" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "' " + Environment.NewLine +
                        " and 2=(case when TSPL_PP_BOM_HEAD.Valid_UPTO_DATE is null then 2 else case when TSPL_PP_BOM_HEAD.Valid_UPTO_DATE>='" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "' then 2 else 1 end end)  "
             End If
         End If
         If Not Is_For_Production Then
-            qry += " and TSPL_PP_BOM_HEAD.JobWork_Loc='" + strJobLocationCode + "' and TSPL_PP_BOM_HEAD.Vendor_Code='" + strVendorCode + "' and TSPL_PP_BOM_HEAD.Valid_FROM_DATE<='" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "' " + Environment.NewLine + _
+            qry += " and TSPL_PP_BOM_HEAD.JobWork_Loc='" + strJobLocationCode + "' and TSPL_PP_BOM_HEAD.Vendor_Code='" + strVendorCode + "' and TSPL_PP_BOM_HEAD.Valid_FROM_DATE<='" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "' " + Environment.NewLine +
                        " and 2=(case when TSPL_PP_BOM_HEAD.Valid_UPTO_DATE is null then 2 else case when TSPL_PP_BOM_HEAD.Valid_UPTO_DATE>='" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "' then 2 else 1 end end)  "
         End If
 
 
-        qry += " order by TSPL_PP_BOM_HEAD.Valid_FROM_DATE desc ) TabBomNo " + Environment.NewLine + _
-               " inner join TSPL_PP_BOM_ITEM_DETAIL on TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE=TabBomNo.BOM_CODE " + Environment.NewLine + _
-               " left outer join TSPL_PP_BOM_HEAD on TSPL_PP_BOM_HEAD.BOM_CODE=TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE" + Environment.NewLine + _
-               " left outer join TSPL_ITEM_UOM_DETAIL as MulConversion on  MulConversion.Item_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE  and MulConversion.UOM_Code='" + strUOM + "' " + Environment.NewLine + _
-               " left outer join TSPL_ITEM_UOM_DETAIL as DivideConversion on DivideConversion.Item_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and DivideConversion.UOM_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE" + Environment.NewLine + _
+        qry += " order by TSPL_PP_BOM_HEAD.Valid_FROM_DATE desc ) TabBomNo " + Environment.NewLine +
+               " inner join TSPL_PP_BOM_ITEM_DETAIL on TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE=TabBomNo.BOM_CODE " + Environment.NewLine +
+               " left outer join TSPL_PP_BOM_HEAD on TSPL_PP_BOM_HEAD.BOM_CODE=TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE" + Environment.NewLine +
+               " left outer join TSPL_ITEM_UOM_DETAIL as MulConversion on  MulConversion.Item_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE  and MulConversion.UOM_Code='" + strUOM + "' " + Environment.NewLine +
+               " left outer join TSPL_ITEM_UOM_DETAIL as DivideConversion on DivideConversion.Item_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and DivideConversion.UOM_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE" + Environment.NewLine +
                " )xx"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         intLvl += 1
@@ -1305,12 +1305,15 @@ Public Class clsRecursiveitems
                     End If
                 End If
                 Dim isFoundInner As Boolean = True
-                If (clsCommon.myLen(strLastICode) > 0 AndAlso clsCommon.CompairString(strLastICode, strBOMItemCode) = CompairStringResult.Equal) Then
-                    isFoundInner = False
+                If RunRecursive Then
+                    If (clsCommon.myLen(strLastICode) > 0 AndAlso clsCommon.CompairString(strLastICode, strBOMItemCode) = CompairStringResult.Equal) Then
+                        isFoundInner = False
+                    Else
+                        isFoundInner = GetItemOfBOM(strLastICode, dclExtaFATKG, dclExtaSNFKG, Arr, strBOMItemCode, dclBOMItemQty, strBOMItemUOM, strJobLocationCode, strVendorCode, TransDate, trans, intLvl, Is_For_Production)
+                    End If
                 Else
-                    isFoundInner = GetItemOfBOM(strLastICode, dclExtaFATKG, dclExtaSNFKG, Arr, strBOMItemCode, dclBOMItemQty, strBOMItemUOM, strJobLocationCode, strVendorCode, TransDate, trans, intLvl, Is_For_Production)
+                    isFoundInner = False
                 End If
-
                 If Not isFoundInner Then
                     Dim obj As New clsRecursiveitems
                     obj.ITEM_CODE = strBOMItemCode
@@ -1332,7 +1335,7 @@ Public Class clsRecursiveitems
         Return isFound
     End Function
 
-    
+
 End Class
 
 
