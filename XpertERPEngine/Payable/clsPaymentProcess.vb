@@ -1521,13 +1521,13 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No in   (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhr + " and RefDocType in " + strRefDocType + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        qry = "delete from TSPL_REMITTANCE where Document_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhr + " and RefDocType in " + strRefDocType + ")"
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
         qry = "delete from TSPL_VENDOR_INVOICE_DETAIL where Document_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhr + " and RefDocType in " + strRefDocType + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         qry = "delete from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhr + " and RefDocType in " + strRefDocType + ""
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         'End of Delete deduction Entry
-
-
 
         'Delete MilkReject Entry
         Dim strWhrReject As String = "( select DOC_CODE from TSPL_MILK_REJECT_HEAD  " + Environment.NewLine +
