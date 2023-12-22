@@ -186,7 +186,7 @@ Public Class FrmInvoiceCrateLinerDetail
             gv1.Rows.Clear()
             txtDocNo.Value = ""
             If dtpFromDate.Value > dtpToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("'From date' Cann't Be Greater Than 'To Date'")
+                common.clsCommon.MyMessageBoxShow(Me, "'From date' Cann't Be Greater Than 'To Date'", Me.Text)
             Else
                 qry = Nothing
                 'ShowData()
@@ -250,7 +250,7 @@ Public Class FrmInvoiceCrateLinerDetail
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -304,7 +304,7 @@ Public Class FrmInvoiceCrateLinerDetail
             'Else
 
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Plz. Select Document")
+                common.clsCommon.MyMessageBoxShow(Me, "Plz. Select Document", Me.Text)
                 Exit Sub
             End If
 
@@ -329,13 +329,13 @@ Public Class FrmInvoiceCrateLinerDetail
 
                     clsCommon.ProgressBarHide()
 
-                    common.clsCommon.MyMessageBoxShow("Document Posted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Document Posted Successfully", Me.Text)
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
                 Catch ex As Exception
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Finally
                     clsCommon.ProgressBarHide()
                 End Try
@@ -343,7 +343,7 @@ Public Class FrmInvoiceCrateLinerDetail
             'End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -425,13 +425,13 @@ Public Class FrmInvoiceCrateLinerDetail
             Next
 
             If trnsLst.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Plz. Select Atleast One Document")
+                common.clsCommon.MyMessageBoxShow(Me, "Plz. Select Atleast One Document", Me.Text)
                 Return False
             End If
 
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -474,7 +474,7 @@ Public Class FrmInvoiceCrateLinerDetail
                     'End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -487,13 +487,13 @@ Public Class FrmInvoiceCrateLinerDetail
                 If (obj.SaveData(obj, isNewEntry)) Then
 
                     If ChekPostBtn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.DOCUMENT_NO, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -508,12 +508,12 @@ Public Class FrmInvoiceCrateLinerDetail
                 txtDocNo.MyReadOnly = True
             End If
             If count = 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 LoadData(txtDocNo.Value, NavType)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -525,7 +525,7 @@ Public Class FrmInvoiceCrateLinerDetail
         'End If
         Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(*) FROM TSPL_INVOICE_CRATE_LINER_HEAD"))
         If count = 0 Then
-            common.clsCommon.MyMessageBoxShow("No Record Found")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
         Else
             LoadData(clsCommon.ShowSelectForm("Docfnde", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
         End If
@@ -594,7 +594,7 @@ Public Class FrmInvoiceCrateLinerDetail
             '    btnPost.Enabled = False
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -611,12 +611,12 @@ Public Class FrmInvoiceCrateLinerDetail
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsInvoiceCrateLinerHead.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

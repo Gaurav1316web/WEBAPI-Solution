@@ -422,7 +422,7 @@ Public Class frmDeliveryNoteFreshSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndLocation__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndLocation._MYValidating
@@ -987,7 +987,7 @@ Public Class frmDeliveryNoteFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1236,7 +1236,7 @@ Public Class frmDeliveryNoteFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnAddNew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
@@ -1272,12 +1272,12 @@ Public Class frmDeliveryNoteFreshSale
                 End If
                 If (clsDeliveryNoteFreshSale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1358,7 +1358,7 @@ Public Class frmDeliveryNoteFreshSale
     Private Sub BtnSendForApproval_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
@@ -1386,7 +1386,7 @@ Public Class frmDeliveryNoteFreshSale
           
             LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1504,7 +1504,7 @@ Public Class frmDeliveryNoteFreshSale
                 If clsCommon.myLen(dtContent.Rows(0)("Email_Text")) > 0 Then
                     objEmailH.SaveData(MyBase.Form_ID, objEmailH, Nothing)
                     objEmailH = Nothing
-                    clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -1620,7 +1620,7 @@ Public Class frmDeliveryNoteFreshSale
         Dim qry As String = "select count(*) from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Document_No='" + txtDocNo.Value + "' and comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("There is no data found for closed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "There is no data found for closed", Me.Text)
             Return
         End If
 
@@ -1689,7 +1689,7 @@ Public Class frmDeliveryNoteFreshSale
             clsDBFuncationality.ExecuteNonQuery(qry)
             LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

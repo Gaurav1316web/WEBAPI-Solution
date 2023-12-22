@@ -2422,7 +2422,7 @@ Public Class frmDispatchMultipleFreshSale
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             'isInsideLoadData = False
         End Try
@@ -2659,7 +2659,7 @@ Public Class frmDispatchMultipleFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenGetbalance(ByVal isButtonClick As Boolean)
@@ -2932,7 +2932,7 @@ Public Class frmDispatchMultipleFreshSale
             ''    End If
             ''End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2940,7 +2940,7 @@ Public Class frmDispatchMultipleFreshSale
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -3159,7 +3159,7 @@ Public Class frmDispatchMultipleFreshSale
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -3836,14 +3836,14 @@ Public Class frmDispatchMultipleFreshSale
             UpdateAllTotals("")
 
             If clsCommon.myLen(txtPONo.Text) > 0 AndAlso clsCommon.myLen(txtpodate.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Customer PO Date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Customer PO Date", Me.Text)
                 txtpodate.Focus()
                 txtpodate.Select()
                 Return False
             End If
 
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 txtVendorNo.Focus()
                 Return False
             End If
@@ -3855,7 +3855,7 @@ Public Class frmDispatchMultipleFreshSale
             'End If
             ''------------------------------------------
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
                 txtBillToLocation.Focus()
                 Return False
             End If
@@ -4070,7 +4070,7 @@ Public Class frmDispatchMultipleFreshSale
             blnPost = False
             saveDataClicked()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function saveDataClicked() As Boolean
@@ -4078,7 +4078,7 @@ Public Class frmDispatchMultipleFreshSale
             iiDeadlockErrors = 1
             Return saveDataClickedNew()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             If rdbNew.IsChecked Then
                 LoadMultipleDO()
                 btnSave.Enabled = True
@@ -4648,9 +4648,9 @@ Public Class frmDispatchMultipleFreshSale
                                 End If
                                 'Next
                                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) AndAlso clsCommon.myLen(strOuterCustomer) > 0 Then
-                                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
-                                    ' Return False
-                                End If
+                                        common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
+                                        ' Return False
+                                    End If
                             End If
                             End If
                         Next
@@ -4737,7 +4737,7 @@ Public Class frmDispatchMultipleFreshSale
                 common.clsCommon.MyMessageBoxShow(DOCompletedmsg)
             End If
             If blnInsert = True Then
-                common.clsCommon.MyMessageBoxShow("Dispatch created successfully.")
+                common.clsCommon.MyMessageBoxShow(Me, "Dispatch created successfully.", Me.Text)
             End If
             blnTransactionPending = False
             If AllowFreshInvoiceAutoPost = 0 Then
@@ -5270,12 +5270,12 @@ Public Class frmDispatchMultipleFreshSale
             End If
             If blnInsert = True Then
                 If blnPost = True Then
-                    common.clsCommon.MyMessageBoxShow("Dispatch Posted successfully.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Dispatch Posted successfully.", Me.Text)
                     LoadMultipleInvoice()
                     btnPost.Enabled = False
                     btnSave.Enabled = False
                 Else
-                    common.clsCommon.MyMessageBoxShow("Dispatch created successfully.")
+                    common.clsCommon.MyMessageBoxShow("Dispatch created successfully.", Me.Text)
                     LoadMultipleDispatch()
                 End If
 
@@ -5935,7 +5935,7 @@ Public Class frmDispatchMultipleFreshSale
                 UcAttachment1.LoadData(obj.Document_Code)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -5976,7 +5976,7 @@ Public Class frmDispatchMultipleFreshSale
                 UpdateAllTotals("")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6182,7 +6182,7 @@ Public Class frmDispatchMultipleFreshSale
             blnPost = True
             UpdateData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6228,7 +6228,7 @@ Public Class frmDispatchMultipleFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6253,12 +6253,12 @@ Public Class frmDispatchMultipleFreshSale
                 End If
                 If (clsDispatchNoteFreshSale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6297,7 +6297,7 @@ Public Class frmDispatchMultipleFreshSale
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6391,14 +6391,14 @@ Public Class frmDispatchMultipleFreshSale
                 End If
                 qry = clsAllSQLTrigger.trg_TSPL_SD_SHIPMENT_DETAIL_Scheme()
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Scheme Validation applied successfully")
+                clsCommon.MyMessageBoxShow(Me, "Scheme Validation applied successfully", Me.Text)
             Else
                 If clsCommon.MyMessageBoxShow("Scheme Validation will be de-activated, Are you sure ?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                     Exit Sub
                 End If
                 qry = "drop trigger [trg_TSPL_SD_SHIPMENT_DETAIL_Scheme]"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Scheme Validation Removed successfully")
+                clsCommon.MyMessageBoxShow(Me, "Scheme Validation Removed successfully", Me.Text)
             End If
 
         End If
@@ -6528,7 +6528,7 @@ Public Class frmDispatchMultipleFreshSale
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
         btnHistory.Enabled = True
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  "
@@ -6759,12 +6759,12 @@ Public Class frmDispatchMultipleFreshSale
 
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShipToLocation._MYValidating
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtBillToLocation.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
             txtVendorNo.Focus()
             Exit Sub
         End If
@@ -6961,14 +6961,14 @@ Public Class frmDispatchMultipleFreshSale
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         If clsDispatchNoteFreshSaleDetail.CompleteSRN(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7033,7 +7033,7 @@ Public Class frmDispatchMultipleFreshSale
 
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
 
@@ -7128,7 +7128,7 @@ Public Class frmDispatchMultipleFreshSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7337,7 +7337,7 @@ Public Class frmDispatchMultipleFreshSale
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7367,7 +7367,7 @@ Public Class frmDispatchMultipleFreshSale
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7658,7 +7658,7 @@ Public Class frmDispatchMultipleFreshSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7705,7 +7705,7 @@ Public Class frmDispatchMultipleFreshSale
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7717,7 +7717,7 @@ Public Class frmDispatchMultipleFreshSale
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7777,7 +7777,7 @@ Public Class frmDispatchMultipleFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7814,7 +7814,7 @@ Public Class frmDispatchMultipleFreshSale
                 e.RowElement.ForeColor = Color.Black
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -8009,7 +8009,7 @@ Public Class frmDispatchMultipleFreshSale
         If clsCommon.myLen(txtBarCode.Text) > 0 Then
             Dim obj As clsBarCodeGenerator = clsBarCodeGenerator.GetData(txtBarCode.Text)
             If obj Is Nothing Then
-                clsCommon.MyMessageBoxShow("Not a Valid Barcode", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Not a Valid Barcode", Me.Text)
                 txtBarCode.Text = ""
                 Exit Sub
             End If
@@ -8250,7 +8250,7 @@ Public Class frmDispatchMultipleFreshSale
             txtVehicleCapacity.Text = clsDBFuncationality.getSingleValue("Select Capacity  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
             LoadBlankGrid()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function funvalidatevehicle() As Boolean
@@ -8315,12 +8315,12 @@ Public Class frmDispatchMultipleFreshSale
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsDispatchNoteFreshSale.ReverseAndUnpost(txtDocNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8328,7 +8328,7 @@ Public Class frmDispatchMultipleFreshSale
         If clsCommon.myLen(txtReqNo.Value) > 0 Then
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSNSalesOrder, txtReqNo.Value)
         Else
-            common.clsCommon.MyMessageBoxShow("No data found")
+            common.clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End If
     End Sub
 
@@ -8505,7 +8505,7 @@ Public Class frmDispatchMultipleFreshSale
 
     Private Sub btnpreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreview.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("First Select Shipment Document No.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "First Select Shipment Document No.", Me.Text)
             txtDocNo.Focus()
             txtDocNo.Focus()
             Return
@@ -8523,7 +8523,7 @@ Public Class frmDispatchMultipleFreshSale
     Private Sub btnsend_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -8537,7 +8537,7 @@ Public Class frmDispatchMultipleFreshSale
             lstUsers.Add(txtVendorNo.Value)
             'SendEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -8546,7 +8546,7 @@ Public Class frmDispatchMultipleFreshSale
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -8572,7 +8572,7 @@ Public Class frmDispatchMultipleFreshSale
             End If
             'SendEmail(lstUsers, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9463,7 +9463,7 @@ Public Class frmDispatchMultipleFreshSale
                 iswithouterror = True
 a:          End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             iswithouterror = False
         Finally
             isInsideLoadData = False
@@ -9608,12 +9608,12 @@ a:          End If
 
                 Next
             Else
-                clsCommon.MyMessageBoxShow("No Data found")
+                clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
             isInsideLoadData = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isInsideLoadData = False
         End Try
     End Sub
@@ -9743,12 +9743,12 @@ a:          End If
                 End If
                
             Else
-                clsCommon.MyMessageBoxShow("No Data found")
+                clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
             isInsideLoadData = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isInsideLoadData = False
         End Try
     End Sub
@@ -9842,12 +9842,12 @@ a:          End If
 
                 Next
             Else
-                clsCommon.MyMessageBoxShow("No Data found")
+                clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
             isInsideLoadData = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isInsideLoadData = False
         End Try
     End Sub
@@ -9870,7 +9870,7 @@ a:          End If
             lblAlternateVehicle.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtAlternateVehcile.Value) + "'")
             'txtVehicleCapacity.Text = clsDBFuncationality.getSingleValue("Select Capacity  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
