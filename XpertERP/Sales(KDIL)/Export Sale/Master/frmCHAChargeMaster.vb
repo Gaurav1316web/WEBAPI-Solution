@@ -130,7 +130,7 @@ Public Class FrmCHAChargeMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -173,7 +173,7 @@ Public Class FrmCHAChargeMaster
 
 
             If clsCHAChargeMaster.SaveData(txtCode.Value, obj, isNewEntry) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
 
                 txtCode.Value = obj.DocNo
                 UcAttachment1.SaveData(txtCode.Value)
@@ -182,7 +182,7 @@ Public Class FrmCHAChargeMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             objtr = Nothing
@@ -226,7 +226,7 @@ Public Class FrmCHAChargeMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -283,7 +283,7 @@ Public Class FrmCHAChargeMaster
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -318,7 +318,7 @@ Public Class FrmCHAChargeMaster
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -420,15 +420,15 @@ Public Class FrmCHAChargeMaster
 
                 trans.Commit()
                 If isSaved Then
-                    clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found To Transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found To Transfer", Me.Text)
                 End If
                 FunReset()
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
             coll = New Hashtable()

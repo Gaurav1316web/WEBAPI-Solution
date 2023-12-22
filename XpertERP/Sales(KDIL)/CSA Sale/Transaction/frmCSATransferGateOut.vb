@@ -38,7 +38,7 @@ Public Class FrmCSATransferGateOut
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -73,9 +73,9 @@ Public Class FrmCSATransferGateOut
             If clsCSATransferGateOut.saveData(obj, trans) Then
                 trans.Commit()
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
 
@@ -86,7 +86,7 @@ Public Class FrmCSATransferGateOut
 
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Update"
             btnDelete.Enabled = False
 
@@ -201,12 +201,12 @@ Public Class FrmCSATransferGateOut
                     trans.Commit()
                     Reset()
                 Else
-                    clsCommon.MyMessageBoxShow("Can't delete the record")
+                    clsCommon.MyMessageBoxShow(Me, "Can't delete the record", Me.Text)
                     trans.Rollback()
                 End If
             Else
 
-                clsCommon.MyMessageBoxShow("Please Select a document to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a document to delete", Me.Text)
                 trans.Rollback()
             End If
         Catch ex As Exception

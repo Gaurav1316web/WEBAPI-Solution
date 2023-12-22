@@ -156,7 +156,7 @@ Public Class rptCrateLinerReport
             'gv1.Rows.Clear()
             gv1.DataSource = Nothing
             If dtpFromDate.Value > dtpToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("'From date' Cann't Be Greater Than 'To Date'")
+                common.clsCommon.MyMessageBoxShow("'From date' Cann't Be Greater Than 'To Date'", Me.Text)
             Else
                 qry = Nothing
                 'ShowData()
@@ -226,7 +226,7 @@ Public Class rptCrateLinerReport
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -323,7 +323,7 @@ Public Class rptCrateLinerReport
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
             If (gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
 
@@ -356,7 +356,7 @@ Public Class rptCrateLinerReport
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -386,7 +386,7 @@ Public Class rptCrateLinerReport
             clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
           
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

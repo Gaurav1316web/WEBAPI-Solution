@@ -172,7 +172,7 @@ Public Class FrmPurchaseSchedule
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1659,7 +1659,7 @@ Public Class FrmPurchaseSchedule
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             obj = Nothing
@@ -1768,7 +1768,7 @@ Public Class FrmPurchaseSchedule
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1854,7 +1854,7 @@ Public Class FrmPurchaseSchedule
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1880,7 +1880,7 @@ Public Class FrmPurchaseSchedule
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2028,7 +2028,7 @@ Public Class FrmPurchaseSchedule
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2196,7 +2196,7 @@ Public Class FrmPurchaseSchedule
 
             If clsPurchaseSchedule.SaveData(obj, isNewEntry) Then
                 If Not isPost Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                 End If
                 txtDocNo.Value = obj.Document_Code
 
@@ -2204,7 +2204,7 @@ Public Class FrmPurchaseSchedule
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -2259,12 +2259,12 @@ Public Class FrmPurchaseSchedule
 
             If clsCommon.MyMessageBoxShow("Do you want to amend this record?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 If clsPurchaseSchedule.UnPostData(txtDocNo.Value) Then
-                    clsCommon.MyMessageBoxShow("Document unposted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Document unposted successfully.", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2460,7 +2460,7 @@ Public Class FrmPurchaseSchedule
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

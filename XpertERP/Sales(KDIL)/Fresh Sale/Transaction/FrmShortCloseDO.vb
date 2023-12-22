@@ -29,7 +29,7 @@ Public Class FrmShortCloseDO
             End If
 
         Next
-        common.clsCommon.MyMessageBoxShow("DO Closed Successfully")
+        common.clsCommon.MyMessageBoxShow(Me, "DO Closed Successfully", Me.Text)
         btnShortCloseDo.Enabled = False
     End Sub
     Sub Reset()
@@ -75,7 +75,7 @@ Public Class FrmShortCloseDO
 
             FormatGrid()
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
     Sub FormatGrid()

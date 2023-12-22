@@ -76,7 +76,7 @@ Public Class FrmBankReverse
        
             If chkBankSelect.IsChecked Then
                 If cbgBankCode.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast One Bank")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast One Bank", Me.Text)
                     Return
 
                 End If
@@ -85,7 +85,7 @@ Public Class FrmBankReverse
             qry += " order by convert(date,Reversal_Date,103)"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
@@ -151,7 +151,7 @@ Public Class FrmBankReverse
 
             If chkBankSelect.IsChecked Then
                 If cbgBankCode.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast One Bank")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast One Bank", Me.Text)
                     Return
 
                 End If
@@ -165,7 +165,7 @@ Public Class FrmBankReverse
             gv1.GroupDescriptors.Clear()
             gv1.ReadOnly = True
             If dtCompany Is Nothing OrElse dtCompany.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             gv1.DataSource = dtCompany
@@ -275,7 +275,7 @@ Public Class FrmBankReverse
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -319,7 +319,7 @@ Public Class FrmBankReverse
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 

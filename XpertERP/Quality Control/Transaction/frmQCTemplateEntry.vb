@@ -469,7 +469,7 @@ Public Class frmQCTemplateEntry
                 clsERPFuncationality.closeForm(Me)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -625,7 +625,7 @@ Public Class frmQCTemplateEntry
                 Funreset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -730,13 +730,13 @@ Public Class frmQCTemplateEntry
             Next
 
             If arr.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Item details found for QC process.")
+                clsCommon.MyMessageBoxShow(Me, "No Item details found for QC process.", Me.Text)
                 Return False
             End If
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -810,7 +810,7 @@ Public Class frmQCTemplateEntry
                 If Not SettItemWiseQualityCheckInGeneralPurchase Then
                     '' added funcionality 13/10/2017
                     If clsCommon.CompairString(txtAccept.Text, "Under Deviation") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Not able to save, Item is Under Deviation")
+                        clsCommon.MyMessageBoxShow(Me, "Not able to save, Item is Under Deviation", Me.Text)
                     End If
                     '' End functionality
                 End If
@@ -819,7 +819,7 @@ Public Class frmQCTemplateEntry
                 clsERPFuncationality.closeForm(Me)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -838,7 +838,7 @@ Public Class frmQCTemplateEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -869,7 +869,7 @@ Public Class frmQCTemplateEntry
         Else
 
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from " + table_name + " where code='" & code & "' and nature='A'")) > 0 Then
-                clsCommon.MyMessageBoxShow("No record found.")
+                clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
             End If
         End If
         Return strRetValue
@@ -1031,7 +1031,7 @@ Public Class frmQCTemplateEntry
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1413,7 +1413,7 @@ Public Class frmQCTemplateEntry
             gv.Rows(IntRow).Cells("RejQty").Value = System.Math.Round(clsCommon.myCdbl(gv.Rows(IntRow).Cells(colQty).Value) * clsCommon.myCdbl(gv.Rows(IntRow).Cells(colDeductionPers).Value) / 100, 2)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -111,7 +111,7 @@ Public Class FrmBookingEntry
             '' Anubhooti 10-Sep-2014 BM00000003847
             ISFresh = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Count(Item_Code) AS Item_Code  from tspl_item_master where is_freshitem=1"))
             If ISFresh = 0 Then
-                clsCommon.MyMessageBoxShow("There is No Items For Fresh Sale..")
+                clsCommon.MyMessageBoxShow(Me, "There is No Items For Fresh Sale..", Me.Text)
                 Exit Sub
             End If
             FreshItem = clsCommon.myCstr("select Isnull(Item_Code,'') As Item_Code from tspl_item_master where is_freshitem=1 and Posted='1' And Isnull(Short_Description,'')=''")
@@ -325,7 +325,7 @@ Public Class FrmBookingEntry
             gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
             gv1.MasterTemplate.ShowRowHeaderColumn = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             strItemcode = Nothing
             strtotal = Nothing
@@ -413,7 +413,7 @@ Public Class FrmBookingEntry
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -655,7 +655,7 @@ Public Class FrmBookingEntry
             Next
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         Finally
             strCustCode = Nothing
@@ -670,7 +670,7 @@ Public Class FrmBookingEntry
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData()
@@ -789,7 +789,7 @@ Public Class FrmBookingEntry
                 End If
                 If (obj.Document_No Is Nothing OrElse obj.Arr.Count <= 0) Then
                     trans.Rollback()
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Booking")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Booking", Me.Text)
                     Return
                 End If
 
@@ -820,7 +820,7 @@ Public Class FrmBookingEntry
                     Next
                     trans.Commit()
                     LoadData(obj.Document_No, NavigatorType.Current)
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
                     trans.Rollback()
                 End If
@@ -829,7 +829,7 @@ Public Class FrmBookingEntry
         Catch ex As Exception
             'trans.Rollback()
             blnSaveTotalQTy = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
             obj = Nothing
@@ -919,7 +919,7 @@ Public Class FrmBookingEntry
 
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -1128,7 +1128,7 @@ Public Class FrmBookingEntry
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSaveTotalQTy = False
             Return False
         End Try
@@ -1164,7 +1164,7 @@ Public Class FrmBookingEntry
                 LoadBlankGrid()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             isLoadData = False
@@ -1183,7 +1183,7 @@ Public Class FrmBookingEntry
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1210,7 +1210,7 @@ Public Class FrmBookingEntry
         Try
             DeleteData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
@@ -1230,13 +1230,13 @@ Public Class FrmBookingEntry
                 End If
                 If (clsBookingEntry.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                     LoadBlankGrid()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1253,14 +1253,14 @@ Public Class FrmBookingEntry
             LoadData(txtDocNo.Value, NavigatorType.Current)
             Export()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Export()
         If gv1.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
     Private Sub ExportToExcel()
@@ -1285,7 +1285,7 @@ Public Class FrmBookingEntry
         Try
             Post()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Post()
@@ -1440,7 +1440,7 @@ Public Class FrmBookingEntry
             End If
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try

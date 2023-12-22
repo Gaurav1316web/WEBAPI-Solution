@@ -792,10 +792,10 @@ Public Class FrmReceipttNew
     Public Sub SaveDataF()
         Try
             If savedata() Then
-                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -841,14 +841,14 @@ Public Class FrmReceipttNew
                 End If
             End If
             If IsNewEntry And ddlTransType.SelectedValue = "U" Then
-                common.clsCommon.MyMessageBoxShow("You can not create 'Unapplied' Entry.")
+                common.clsCommon.MyMessageBoxShow(Me, "You can not create 'Unapplied' Entry.", Me.Text)
                 ddlTransType.Focus()
                 Return False
             End If
             If clsCommon.myLen(fndRcptNo.Value) > 0 Then
                 Dim isPosted As String = clsDBFuncationality.getSingleValue("Select Posted from TSPL_RECEIPT_HEADER Where Receipt_No='" + fndRcptNo.Value + "'")
                 If clsCommon.CompairString(isPosted, "Y") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Document already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Document already posted", Me.Text)
                     funFillDetails(fndRcptNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -878,23 +878,23 @@ Public Class FrmReceipttNew
                 If clsCommon.myLen(strbancode) > 0 Then
                     Dim bankcode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select BANK_CODE as [Code] from TSPL_BANK_MASTEr where TSPL_bank_master.INACTIVE ='Active' and TSPL_BANK_MASTER.bank_type<>'S' and Bank_Code='" & clsCommon.myCstr(strbancode) & "' "))
                     If clsCommon.myLen(bankcode) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter Bank Code into fixed parameter.")
+                        common.clsCommon.MyMessageBoxShow("Please enter Bank Code into fixed parameter.", Me.Text)
                         Return False
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Please enter Bank Code into fixed parameter.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter Bank Code into fixed parameter.", Me.Text)
                     Return False
                 End If
             Else
                 If clsCommon.myLen(fndBankCode.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Bank Code.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Bank Code.", Me.Text)
                     fndBankCode.Focus()
                     Return False
                 End If
 
                 '------------------------Payment Mode And Cheque Number-----------------------------------------------
                 If clsCommon.myLen(fndPayType.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Payment  Type .")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Payment  Type .", Me.Text)
                     fndPayType.Focus()
                     Return False
                 Else
@@ -903,7 +903,7 @@ Public Class FrmReceipttNew
                         If txtChkNo.Text = "" Then
                             If (chkCheckPrint.Visible And chkCheckPrint.Checked = False) Then
                                 txtChkNo.Focus()
-                                clsCommon.MyMessageBoxShow("Cheque No can't be blank")
+                                clsCommon.MyMessageBoxShow(Me, "Cheque No can't be blank", Me.Text)
                                 txtChkNo.Focus()
                                 Return False
                             End If
@@ -1086,7 +1086,7 @@ Public Class FrmReceipttNew
                             Return False
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Please apply atleast single document")
+                        clsCommon.MyMessageBoxShow(Me, "Please apply atleast single document", Me.Text)
                         Return False
                     End If
 
@@ -1144,33 +1144,33 @@ Public Class FrmReceipttNew
             ElseIf clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Then
                 If chkCForm.Checked = True Then
                     If clsCommon.myLen(txtCFormInvNo.Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Please Select Invoice No for applying C Form.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Select Invoice No for applying C Form.", Me.Text)
                         Return False
                     End If
                 End If
             End If
             If clsCommon.CompairString(clsCommon.myCstr(fndPayType.Value), "Cash", False) = CompairStringResult.Equal And chkAutoGeneBT.Checked And (clsCommon.CompairString(ddlTransType.SelectedValue, "R") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "M") = CompairStringResult.Equal) Then
                 If clsCommon.myLen(txtToBank.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Select To Bank for Auto Bank Transfer.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select To Bank for Auto Bank Transfer.", Me.Text)
                     Return False
                 End If
             End If
 
             If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Then '------------in advance and memorandum case---
                 If chkmemorndm.Checked = True AndAlso clsCommon.myCdbl(txtmemoamt.Text) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill Memorandum Amount")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill Memorandum Amount", Me.Text)
                     Return False
                 End If
 
                 If chkmemorndm.Checked = True AndAlso clsCommon.myCdbl(txtUnApplAmt.Text) > 0 AndAlso clsCommon.myCdbl(txtUnApplAmt.Text) <> clsCommon.myCdbl(txtmemoamt.Text) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Receipt Amount Should Be Equal To Memorandum Amount")
+                    common.clsCommon.MyMessageBoxShow(Me, "Receipt Amount Should Be Equal To Memorandum Amount", Me.Text)
                     Return False
                 End If
             End If
 
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select bank_type from tspl_bank_master where BANK_CODE='" + fndBankCode.Value + "'")), "S") = CompairStringResult.Equal Then
                 If Not clsCommon.CompairString("O", clsCommon.myCstr(ddlTransType.SelectedValue)) = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Transaction type should be on Account for settlement bank.")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction type should be on Account for settlement bank.", Me.Text)
                     ddlTransType.Focus()
                     Return False
                 End If
@@ -1196,7 +1196,7 @@ Public Class FrmReceipttNew
                     End If
 
                     If clsCommon.CompairString(strCustmer, fndCustomer.Value) <> CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Customer of Receipt should be same as DO")
+                        clsCommon.MyMessageBoxShow(Me, "Customer of Receipt should be same as DO", Me.Text)
                         fndCustomer.Focus()
                         Return False
                     End If
@@ -1670,14 +1670,14 @@ Public Class FrmReceipttNew
                                 obj.EXCHANGE_GAIN_AMT = 0
                             ElseIf diff < 0 Then
                                 If clsCommon.myLen(obj.EXCHANGE_LOSS_ACCOUNT) = 0 Then
-                                    clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.")
+                                    clsCommon.MyMessageBoxShow(Me, "Exchange Loss Account not defined.", Me.Text)
                                     Return False
                                 End If
                                 obj.EXCHANGE_LOSS_AMT = -diff
                                 obj.EXCHANGE_GAIN_AMT = 0
                             Else
                                 If clsCommon.myLen(obj.EXCHANGE_GAIN_ACCOUNT) = 0 Then
-                                    clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.")
+                                    clsCommon.MyMessageBoxShow(Me, "Exchange Gain Account not defined.", Me.Text)
                                     Return False
                                 End If
                                 obj.EXCHANGE_LOSS_AMT = 0
@@ -1947,7 +1947,7 @@ Public Class FrmReceipttNew
 
                 If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsAutoReceiptPayment, clsFixedParameterCode.IsAutoReceiptPayment, Nothing)) = 1 Then
                     If clsCommon.myLen(obj.Receipt_No) > 0 Then
-                        clsCommon.MyMessageBoxShow("Data saved successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                     End If
                     btnSave.Enabled = False
 
@@ -1998,7 +1998,7 @@ Public Class FrmReceipttNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -2085,7 +2085,7 @@ Public Class FrmReceipttNew
             'IsNewEntry = True
             dgvReceipt.Select()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             inSideLoadData = False
         End Try
@@ -2191,7 +2191,7 @@ Public Class FrmReceipttNew
             End If
             funFillDetails(fndRcptNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2339,7 +2339,7 @@ Public Class FrmReceipttNew
                 txttransfer_no.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3594,7 +3594,7 @@ Public Class FrmReceipttNew
                                 dgvReceipt.CurrentRow.Cells(colBalAmt).Value = TempAmt
                             End If
                             If dgvReceipt.CurrentRow.Cells(colAppliedAmt).Value > dgvReceipt.CurrentRow.Cells(colTemp).Value Then
-                                common.clsCommon.MyMessageBoxShow("Applied Amount can not be greater than Balance Amount.")
+                                common.clsCommon.MyMessageBoxShow(Me, "Applied Amount can not be greater than Balance Amount.", Me.Text)
                                 dgvReceipt.CurrentRow.Cells(colAppliedAmt).Value = 0
                             End If
                             dgvReceipt.CurrentRow.Cells(colBalAmt).Value = TempAmt - (clsCommon.myCdbl(dgvReceipt.CurrentRow.Cells(colAppliedAmt).Value)) ' + clsCommon.myCdbl(dgvReceipt.CurrentRow.Cells(colAdjAmt).Value) Removed
@@ -3621,7 +3621,7 @@ Public Class FrmReceipttNew
                         ''richa VIJ/18/12/19-000124
                         If EnableGoButtonofReceiptEntryWithoutEnteringReceiptAmt = False Or (EnableGoButtonofReceiptEntryWithoutEnteringReceiptAmt = True And clsCommon.CompairString(ddlTransType.SelectedValue, "R") <> CompairStringResult.Equal) Then
                             If ReceiptAmt > clsCommon.myCdbl(txtUnApplAmt.Text) Then
-                                common.clsCommon.MyMessageBoxShow("Applied Amount can not be greater than Receipt Amount.")
+                                common.clsCommon.MyMessageBoxShow(Me, "Applied Amount can not be greater than Receipt Amount.", Me.Text)
                                 dgvReceipt.CurrentRow.Cells(colAppliedAmt).Value = 0
                                 ReceiptAmt = 0
                                 For Each grow As GridViewRowInfo In dgvReceipt.Rows
@@ -3679,7 +3679,7 @@ Public Class FrmReceipttNew
             End If
         Catch ex As Exception
             IsCellValueChanged = True
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3940,7 +3940,7 @@ Public Class FrmReceipttNew
 
     Public Sub OpenICodeList(ByVal IsButtonClicked As Boolean)
         If clsCommon.myLen(fndBankCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Bank Code ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Bank Code ", Me.Text)
             fndBankCode.Focus()
             Return
         End If
@@ -4062,7 +4062,7 @@ Public Class FrmReceipttNew
                 If e.Column.Name = colAmount Then
                     If clsCommon.myLen(dgvmiscpayment.CurrentRow.Cells(colGLAccount).Value) <= 0 Then
                         If clsCommon.myCdbl(dgvmiscpayment.CurrentRow.Cells(colAmount).Value) > 0 Then
-                            clsCommon.MyMessageBoxShow("Please select Account Code First.")
+                            clsCommon.MyMessageBoxShow(Me, "Please select Account Code First.", Me.Text)
                             dgvmiscpayment.CurrentRow.Cells(colAmount).Value = 0
                             OpenICodeList(True)
                         End If
@@ -4113,7 +4113,7 @@ Public Class FrmReceipttNew
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4130,7 +4130,7 @@ Public Class FrmReceipttNew
             dgvmiscpayment.CurrentRow.Cells(colCostCenter).Value = clsCommon.ShowSelectForm("HierarchyPNCc", qry, "Code", " Hirerachy_Level = '" + DBLevel + "'", clsCommon.myCstr(dgvmiscpayment.CurrentRow.Cells(colCostCenter).Value), "Code", isButtonClick)
             dgvmiscpayment.CurrentRow.Cells(colCostCenterName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Center_Fin_Name from TSPL_COST_CENTRE_FINANCIAL where Cost_Center_Fin_Code='" + clsCommon.myCstr(dgvmiscpayment.CurrentRow.Cells(colCostCenter).Value) + "'"))
         Else
-            clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+            clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
         End If
     End Sub
 
@@ -4382,7 +4382,7 @@ Public Class FrmReceipttNew
             If fndRcptNo.Value <> "" Then
                 arrreceipt.Add(fndRcptNo.Value)
             Else
-                clsCommon.MyMessageBoxShow("Please select Receipt No.")
+                clsCommon.MyMessageBoxShow(Me, "Please select Receipt No.", Me.Text)
                 Exit Sub
             End If
             Dim DocDate As Date?
@@ -4499,7 +4499,7 @@ Public Class FrmReceipttNew
                 Frmreceiptvoucher2.PrintData(Nothing, Nothing, Nothing, arrreceipt, Nothing, Nothing, Nothing, Nothing)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4512,7 +4512,7 @@ Public Class FrmReceipttNew
             End If
             inSideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             inSideLoadData = False
         End Try
     End Sub
@@ -4547,7 +4547,7 @@ Public Class FrmReceipttNew
         'End If
         Dim InvoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Doc_No  from TSPL_Receipt_Adjustment_Header WHere Adjustment_No='" + frm.strAdjNo + "'"))
         If dgvReceipt.CurrentRow.Cells(colSINo).Value <> InvoiceNo And clsCommon.myLen(InvoiceNo) > 0 Then
-            clsCommon.MyMessageBoxShow("This adjustment is not against this document.")
+            clsCommon.MyMessageBoxShow(Me, "This adjustment is not against this document.", Me.Text)
             dgvReceipt.CurrentRow.Cells(colAdjNo).Value = ""
             dgvReceipt.CurrentRow.Cells(colAdjAmt).Value = 0
         Else
@@ -4799,7 +4799,7 @@ Public Class FrmReceipttNew
                 Dim qry As String = "select Document_Code,Document_Date from TSPL_SD_SALE_INVOICE_HEAD "
                 txtCFormInvNo.Value = clsCommon.ShowSelectForm("InvoiceNo", qry, "Document_Code", "Posting_Date is not null and Against_C_Form=1 and CFormRecd=0 and CFormApplied=0 and Customer_Code='" & fndCustomer.Value & " ' and Document_Code not in (select isnull(CForm_InvoiceNo,'')  from  TSPL_RECEIPT_HEADER) ", txtCFormInvNo.Value, "Document_Code", isButtonClicked)
             Else
-                clsCommon.MyMessageBoxShow("Please select customer before selecting Invoice No")
+                clsCommon.MyMessageBoxShow(Me, "Please select customer before selecting Invoice No", Me.Text)
             End If
         End If
     End Sub
@@ -4993,7 +4993,7 @@ Public Class FrmReceipttNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5006,7 +5006,7 @@ Public Class FrmReceipttNew
             txttransfer_no.Value = clsCommon.ShowSelectForm("TRNSFND", qry, "Code", whrcls, txttransfer_no.Value, "Code", isButtonClicked)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5026,24 +5026,24 @@ Public Class FrmReceipttNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnVoidCheck_Click(sender As Object, e As EventArgs) Handles btnVoidCheck.Click
         If clsCommon.myLen(fndRcptNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select document no to void check.")
+            clsCommon.MyMessageBoxShow(Me, "Select document no to void check.", Me.Text)
             Exit Sub
         End If
         Dim obj As New clsRcptEntryHeader
         obj = clsRcptEntryHeader.GetData(Me.fndRcptNo.Value, NavigatorType.Current)
         If clsCommon.myLen(obj.Bank_Code) <= 0 Then
-            clsCommon.MyMessageBoxShow("Bank Code not found for selected document.")
+            clsCommon.MyMessageBoxShow(Me, "Bank Code not found for selected document.", Me.Text)
             Exit Sub
 
         End If
         If clsPrintCheck.VoidCheck(obj.Bank_Code, obj.CHECK_CODE, "Receipt Entry", obj.Receipt_No) Then
-            clsCommon.MyMessageBoxShow("done successfully")
+            clsCommon.MyMessageBoxShow(Me, "done successfully", Me.Text)
         End If
     End Sub
 
@@ -5061,7 +5061,7 @@ Public Class FrmReceipttNew
                 LblLocDesp.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -5071,14 +5071,14 @@ Public Class FrmReceipttNew
             Qry = "Select '' as [Receipt Date], '' as [Description], '' as [Customer Code], '' as [Bank Code], '' as [Receipt Type(P/O/F)], '' as [Payment Mode], '' as [Cheque No], '' as [Cheque Date], 0 as Amount,'' as [Location Code],'N' as [Security Deposit],'' as [Security Deposit Type],0 as [Bank Charges],0 as [Foreign Bank Charges],1 as [Conv Rate],'' as [Distributer Code]"
             transportSql.ExporttoExcel(Qry, "", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         Try
             funImport(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5341,12 +5341,12 @@ Public Class FrmReceipttNew
 
                 End If
             Else
-                clsCommon.MyMessageBoxShow("select Apply Document ")
+                clsCommon.MyMessageBoxShow(Me, "select Apply Document ", Me.Text)
             End If
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             inSideLoadData = False
         End Try
@@ -5854,7 +5854,7 @@ Public Class FrmReceipttNew
             Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7349,7 +7349,7 @@ Public Class FrmReceipttNew
 
             Return dblrate
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'Try
         '    Dim arrTaxableAuth As New List(Of String)
@@ -7432,7 +7432,7 @@ Public Class FrmReceipttNew
             Next
             Return dblrate
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Function
@@ -7714,7 +7714,7 @@ Public Class FrmReceipttNew
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8110,7 +8110,7 @@ Public Class FrmReceipttNew
                 lblItemName.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtitem__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtitem._MYValidating
@@ -8119,7 +8119,7 @@ Public Class FrmReceipttNew
             txtitem.Value = clsCommon.ShowSelectForm("ReceipItemfndd", qry, "Code", "", txtitem.Value, "Code", isButtonClicked)
             lblItemName.Text = clsDBFuncationality.getSingleValue("select Item_Desc from tspl_item_master where item_code='" & txtitem.Value & "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8251,7 +8251,7 @@ Public Class FrmReceipttNew
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

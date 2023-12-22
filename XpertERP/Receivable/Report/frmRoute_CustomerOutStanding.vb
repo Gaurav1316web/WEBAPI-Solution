@@ -287,7 +287,7 @@ Public Class FrmRoute_CustomerOutStanding
             TemplateGridview = gvReport
             print()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -424,7 +424,7 @@ Public Class FrmRoute_CustomerOutStanding
                 clsCommon.MyExportToPDF("ROUTE And CUSTOMERS WISE OUTSTANDING REPORT (CASH)", gvReport, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

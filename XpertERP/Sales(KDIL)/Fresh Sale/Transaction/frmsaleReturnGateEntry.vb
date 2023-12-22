@@ -157,7 +157,7 @@ Public Class FrmsaleReturnGateEntry
                
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return arrloc
     End Function
@@ -349,15 +349,15 @@ Public Class FrmsaleReturnGateEntry
     End Sub
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select Doc Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
             Exit Sub
         ElseIf clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             txtVendorNo.Focus()
             Exit Sub
         ElseIf clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             txtBillToLocation.Focus()
             Exit Sub
         End If
@@ -401,7 +401,7 @@ Public Class FrmsaleReturnGateEntry
         Dim qry As String = Nothing
         Dim WhrCls As String = Nothing
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select Doc Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
             Exit Sub
         End If
@@ -454,7 +454,7 @@ Public Class FrmsaleReturnGateEntry
         'txtBillToLocation.Value = ""
         'lblBillToLocation.Text = ""
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select Doc Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
             Exit Sub
         End If
@@ -509,7 +509,7 @@ Public Class FrmsaleReturnGateEntry
 
         ElseIf clsCommon.CompairString(ddlDocType.SelectedValue, "EXPS") = CompairStringResult.Equal Then
             If clsCommon.myLen(MCCLOCATIONFINDER) <= 0 Then
-                clsCommon.MyMessageBoxShow("No location rights.")
+                clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
                 Exit Sub
             End If
 
@@ -546,7 +546,7 @@ Public Class FrmsaleReturnGateEntry
         Dim strwherecls As String = ""
         
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select Doc Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
             Exit Sub
         End If
@@ -659,22 +659,22 @@ Public Class FrmsaleReturnGateEntry
             Return False
         End If
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select Doc Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
             Return False
         ElseIf clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             txtVendorNo.Focus()
             Return False
         ElseIf clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             txtBillToLocation.Focus()
             Return False
 
         End If
         If clsCommon.CompairString(ddlDocType.SelectedValue, "FS") = CompairStringResult.Equal Then
             If clsCommon.myLen(txtVehicleCode.Value) <= 0 AndAlso clsCommon.myLen(txtManualVehicle.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vehicle")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle", Me.Text)
                 txtVehicleCode.Focus()
                 txtManualVehicle.Focus()
                 Return False
@@ -682,7 +682,7 @@ Public Class FrmsaleReturnGateEntry
 
         ElseIf clsCommon.CompairString(ddlDocType.SelectedValue, "PS") = CompairStringResult.Equal Then
             If clsCommon.myLen(txtVehicleCode.Value) <= 0 AndAlso clsCommon.myLen(txtManualVehicle.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vehicle")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle", Me.Text)
                 txtVehicleCode.Focus()
                 txtManualVehicle.Focus()
                 Return False
@@ -690,28 +690,28 @@ Public Class FrmsaleReturnGateEntry
 
         ElseIf clsCommon.CompairString(ddlDocType.SelectedValue, "MISS") = CompairStringResult.Equal Then
             If clsCommon.myLen(txtVehicleCode.Value) <= 0 AndAlso clsCommon.myLen(txtManualVehicle.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vehicle")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle", Me.Text)
                 txtVehicleCode.Focus()
                 txtManualVehicle.Focus()
                 Return False
             End If
         ElseIf clsCommon.CompairString(ddlDocType.SelectedValue, "MCCS") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDocType.SelectedValue, "BS") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlDocType.SelectedValue, "EXPS") = CompairStringResult.Equal Then
             If clsCommon.myLen(txtManualVehicle.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vehicle")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle", Me.Text)
                 txtManualVehicle.Focus()
                 Return False
             End If
 
         ElseIf clsCommon.CompairString(ddlDocType.SelectedValue, "CSATRAN") = CompairStringResult.Equal Then
             If clsCommon.myLen(txtManualVehicle.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vehicle")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle", Me.Text)
                 txtManualVehicle.Focus()
                 Return False
             End If
         End If
         '==================update by preeti Gupta against Ticket No[KDI/03/05/18-000290]'================
         If clsCommon.myLen(txtManualTransport.Text) <= 0 AndAlso clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Transport")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Transport", Me.Text)
             txtTransporterCode.Focus()
             Return False
         End If
@@ -819,7 +819,7 @@ Public Class FrmsaleReturnGateEntry
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -840,13 +840,13 @@ Public Class FrmsaleReturnGateEntry
                 If (obj.SaveData(obj, isNewEntry)) Then
 
                     If ChekPostBtn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Gate_Entry_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -920,7 +920,7 @@ Public Class FrmsaleReturnGateEntry
                 disableControl()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -961,7 +961,7 @@ Public Class FrmsaleReturnGateEntry
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub PostData()
@@ -979,7 +979,7 @@ Public Class FrmsaleReturnGateEntry
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -992,7 +992,7 @@ Public Class FrmsaleReturnGateEntry
             If (myMessages.deleteConfirm()) Then
 
                 If (clssaleReturnGateEntryHead.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     reset()
                 End If
             End If
@@ -1008,7 +1008,7 @@ Public Class FrmsaleReturnGateEntry
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Gate Entry No not found to Print", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Gate Entry No not found to Print", Me.Text)
                 Return
             End If
             Dim qry As String = "  select TSPL_Sale_Return_Gate_Entry_Detail.Gate_Entry_No , convert(varchar, TSPL_Sale_Return_Gate_Entry_Head.Gate_Entry_Date, 103) as Gate_Entry_Date , case when len(TSPL_Sale_Return_Gate_Entry_Head.Vehicle_Code) > 0 then  TSPL_Sale_Return_Gate_Entry_Head.Vehicle_Code else  TSPL_Sale_Return_Gate_Entry_Head. Man_Vehicle_code end as Vehicle_Code , " & _
@@ -1039,7 +1039,7 @@ Public Class FrmsaleReturnGateEntry
         Dim WhrCls As String = "TSPL_VENDOR_MASTER.Transporter   ='Y'"
        
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select Doc Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
             Exit Sub
         End If
@@ -1220,7 +1220,7 @@ Public Class FrmsaleReturnGateEntry
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1252,7 +1252,7 @@ Public Class FrmsaleReturnGateEntry
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1272,18 +1272,18 @@ Public Class FrmsaleReturnGateEntry
 
     Private Sub txtmulticapex__My_Click(sender As Object, e As EventArgs) Handles txtmulticapex._My_Click
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select Doc Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             txtVendorNo.Focus()
             Exit Sub
         End If
         ' Ticket No : KDI/11/05/18-000309 By Prabhakar
         If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             txtBillToLocation.Focus()
             Exit Sub
         End If
@@ -1322,7 +1322,7 @@ Public Class FrmsaleReturnGateEntry
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

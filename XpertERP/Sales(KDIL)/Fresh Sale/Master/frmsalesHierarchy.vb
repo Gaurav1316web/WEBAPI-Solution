@@ -84,7 +84,7 @@ Public Class FrmsalesHierarchy
             gv1.Columns(0).IsCurrent = True
             gv1.Focus()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Private Sub ReStoreGridLayout()

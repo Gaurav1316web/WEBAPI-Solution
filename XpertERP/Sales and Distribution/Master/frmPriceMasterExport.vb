@@ -31,10 +31,10 @@ Public Class FrmPriceMasterExport
                 'transportSql.ExporttoExcelWithoutFilter(Sql, "", "", Me)
                 clsCommon.MyExportToExcelGrid(Nothing, gv1, Nothing, Me.Text)
             Else
-                clsCommon.MyMessageBoxShow("No Data found To Export")
+                clsCommon.MyMessageBoxShow(Me, "No Data found To Export", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -68,7 +68,7 @@ Public Class FrmPriceMasterExport
             gv1.EnableFiltering = True
             'transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

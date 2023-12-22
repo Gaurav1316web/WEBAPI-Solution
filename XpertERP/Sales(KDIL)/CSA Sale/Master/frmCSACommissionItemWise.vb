@@ -78,7 +78,7 @@ Public Class FrmCSACommissionItemWise
             End If
         Catch ex As Exception
             isCellValuseChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -397,7 +397,7 @@ Public Class FrmCSACommissionItemWise
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -444,12 +444,12 @@ Public Class FrmCSACommissionItemWise
             End If
 
             If clsCSACommissionFreightMappingHead.SaveData(obj) Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
 
                 LoadData(obj.Doc_No, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             objtr = Nothing
@@ -474,7 +474,7 @@ Public Class FrmCSACommissionItemWise
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -591,7 +591,7 @@ Public Class FrmCSACommissionItemWise
                 FunReset()
             End If ''end if cond
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -665,7 +665,7 @@ Public Class FrmCSACommissionItemWise
             End If
         Catch ex As Exception
             isCellValuseChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -698,7 +698,7 @@ Public Class FrmCSACommissionItemWise
             Dim qry As String = "select convert(varchar,Doc_Date,103) as Doc_Date,Cust_Code,Vendor_Code from TSPL_ITEM_COMMISSION_FREIGHT_AC_HEAD"
             transportSql.ExporttoExcel(qry, whrcls, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -711,7 +711,7 @@ Public Class FrmCSACommissionItemWise
                                 " inner join TSPL_ITEM_COMMISSION_FREIGHT_AC_DETAIL as Detail on Head.Doc_No=Detail.Doc_No"
             transportSql.ExporttoExcel(qry, whrcls, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -814,12 +814,12 @@ Public Class FrmCSACommissionItemWise
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             End If
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Me.Controls.Remove(gv1)
     End Sub
@@ -1017,14 +1017,14 @@ Public Class FrmCSACommissionItemWise
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             End If
             
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
-      
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
         End Try
         Me.Controls.Remove(gv1)
     End Sub

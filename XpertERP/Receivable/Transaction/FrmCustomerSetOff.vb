@@ -508,10 +508,10 @@ Public Class FrmCustomerSetOff
                         clsCommon.ProgressBarPercentHide()
                         ResetonDateforContinuousTransaction()
                     Else
-                        clsCommon.MyMessageBoxShow("Please select atleast one customer to set off.")
+                        clsCommon.MyMessageBoxShow(Me, "Please select atleast one customer to set off.", Me.Text)
                     End If
                 End While
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
             Else
                 If cbgCustomer.CheckedValue.Count > 0 Then
                     Dim list As New ArrayList
@@ -531,10 +531,10 @@ Public Class FrmCustomerSetOff
                         'trans.Commit()
                     Next
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow("Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                     ResetonDate()
                 Else
-                    clsCommon.MyMessageBoxShow("Please select atleast one customer to set off.")
+                    clsCommon.MyMessageBoxShow(Me, "Please select atleast one customer to set off.", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -1627,14 +1627,14 @@ Public Class FrmCustomerSetOff
                         obj.EXCHANGE_GAIN_AMT = 0
                     ElseIf diff < 0 Then
                         If clsCommon.myLen(obj.EXCHANGE_LOSS_ACCOUNT) = 0 Then
-                            clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.")
+                            clsCommon.MyMessageBoxShow(Me, "Exchange Loss Account not defined.", Me.Text)
                             Return False
                         End If
                         obj.EXCHANGE_LOSS_AMT = -diff
                         obj.EXCHANGE_GAIN_AMT = 0
                     Else
                         If clsCommon.myLen(obj.EXCHANGE_GAIN_ACCOUNT) = 0 Then
-                            clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.")
+                            clsCommon.MyMessageBoxShow(Me, "Exchange Gain Account not defined.", Me.Text)
                             Return False
                         End If
                         obj.EXCHANGE_LOSS_AMT = 0

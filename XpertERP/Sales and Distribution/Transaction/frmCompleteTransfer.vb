@@ -131,7 +131,7 @@ Public Class FrmCompleteTransfer
         gv2.MasterTemplate.SummaryRowsBottom.Clear()
 
         If cbgTransferNo.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Transfer No", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Transfer No", Me.Text)
             Exit Sub
         End If
 
@@ -326,7 +326,7 @@ Public Class FrmCompleteTransfer
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -349,7 +349,7 @@ Public Class FrmCompleteTransfer
         Next
 
         If ii = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Invoice to post", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Invoice to post", Me.Text)
             Exit Sub
         End If
 
@@ -482,10 +482,10 @@ Public Class FrmCompleteTransfer
                 End Try
 
                 ''clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                 Me.Close()
             Else
-                common.clsCommon.MyMessageBoxShow("Transfer number not found to Post")
+                common.clsCommon.MyMessageBoxShow(Me, "Transfer number not found to Post", Me.Text)
             End If
 
         Catch ex As Exception

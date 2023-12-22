@@ -69,6 +69,10 @@ Public Class RptMatrixFreshSalesReport
                 DairyProductGatePassReport(Exporter.Refresh)
                 Exit Sub
             End If
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "MPDR") = CompairStringResult.Equal Then
+                MilkProductDemandReport(Exporter.Refresh)
+                Exit Sub
+            End If
             Print(Exporter.Refresh)
         End If
 
@@ -77,7 +81,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub ProductSaleReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -254,7 +258,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -294,7 +298,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub MilkSaleReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -466,7 +470,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -505,7 +509,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub ProductGatePassDetailReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -673,7 +677,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -691,10 +695,198 @@ Public Class RptMatrixFreshSalesReport
         End Try
     End Sub
 
-    Private Sub DairyProductGatePassReport(ByVal IsPrint As Exporter)
+    Private Sub MilkProductDemandReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
                 common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                fromDate.Focus()
+                Exit Sub
+            End If
+
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+            Dim whrcls As String = Nothing
+            Dim MainQuery As String = String.Empty
+            Dim strWhrClause As String = String.Empty
+            Dim strWhrClause2 As String = String.Empty
+            Dim itemCode As String = String.Empty
+            Dim MainQueryForScheme As String = String.Empty
+            Dim strWhrRoutSummaryPrint As String = String.Empty
+            itemCode = " and 2=2 "
+
+            Dim strDate As String = "Document_Date"
+
+            strWhrClause = " and convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) >= ''" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'' and  convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) <= ''" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'' "
+            strWhrClause2 = " and convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
+
+            Dim ShiftType As String = Nothing
+            If rbtnMrng.Checked Then
+                ShiftType = "'Morning'"
+                whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.ShiftType = (" + ShiftType + ")"
+            ElseIf rbtnEvng.Checked Then
+                ShiftType = "'Evening'"
+                whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.ShiftType = (" + ShiftType + ")"
+            ElseIf rbtnBoths.Checked Then
+                ShiftType = "'Evening'"
+                whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.ShiftType = (" + ShiftType + ")"
+            End If
+
+            If txtCustomerGroup.arrValueMember IsNot Nothing AndAlso txtCustomerGroup.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(txtCustomerGroup.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_CUSTOMER_MASTER.Cust_Group_Code in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_CUSTOMER_MASTER.Cust_Group_Code in (" + ss + ")  "
+            End If
+
+            If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(txtCustomer.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + ss + ")  "
+            End If
+
+            If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_CUSTOMER_MASTER.cust_category_code in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_CUSTOMER_MASTER.cust_category_code in (" + ss + ")  "
+            End If
+
+            If txtItemCode.arrValueMember IsNot Nothing AndAlso txtItemCode.arrValueMember.Count > 0 AndAlso chkSummary.Checked = False Then
+                itemCode = itemCode + " and TSPL_ITEM_MASTER.Item_Code in (" + clsCommon.GetMulcallString(txtItemCode.arrValueMember) + ")  "
+                strWhrClause2 += " and TSPL_ITEM_MASTER.Item_Code in (" + clsCommon.GetMulcallString(txtItemCode.arrValueMember) + ")  "
+            End If
+
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(txtLocation.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_LOCATION_MASTER.Location_Code in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_LOCATION_MASTER.Location_Code in (" + ss + ")  "
+            End If
+
+            If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(txtZone.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_CUSTOMER_MASTER.Zone_Code in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_CUSTOMER_MASTER.Zone_Code in (" + ss + ")  "
+            End If
+
+            If txtLorry.arrValueMember IsNot Nothing AndAlso txtLorry.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(txtLorry.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_VEHICLE_MASTER.Vehicle_Id in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_VEHICLE_MASTER.Vehicle_Id in (" + ss + ")  "
+            End If
+
+            If txtBookingType.arrValueMember IsNot Nothing AndAlso txtBookingType.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(txtBookingType.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_BOOKING_MATSER.Booking_Type in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_BOOKING_MATSER.Booking_Type in (" + ss + ")  "
+            End If
+
+
+            If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(TxtRoute.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in (" + ss + ")  "
+            End If
+
+            If TxtUOM.arrValueMember IsNot Nothing AndAlso TxtUOM.arrValueMember.Count > 0 Then
+                Dim ss As String = clsCommon.GetMulcallString(TxtUOM.arrValueMember)
+                Dim sss As String = ss.Replace("'", "''")
+                strWhrClause += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code in (" + ss + ")  "
+            End If
+
+            Dim ItemInUse As String = ""
+            Dim itemqry As String = Nothing
+            Dim itemName As String = Nothing
+            Dim itemNames As String = Nothing
+            Dim itemName1 As String = Nothing
+            Dim DedCode As String = Nothing
+            Dim itemamt As String = Nothing
+            Dim dtitemName As DataTable = Nothing
+            itemqry = " select TSPL_DEMAND_BOOKING_DETAIL.Item_Code,max(Alies_Name)Alies_Name
+                        from TSPL_DEMAND_BOOKING_DETAIL
+                        left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                        left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+                        left outer join TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
+                        WHERE 2=2 " + strWhrClause2 + " " + whrcls + "
+                        group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code   order by Item_Code "
+            dtitemName = clsDBFuncationality.GetDataTable(itemqry)
+            If dtitemName.Rows.Count > 0 Then
+                For i As Integer = 0 To dtitemName.Rows.Count - 1
+                    If clsCommon.myLen(itemName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
+                        DedCode += "," + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                        itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                    Else
+                        DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
+                        itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
+                    End If
+                Next
+            End If
+            Dim query As String = ""
+            MainQuery = " select Route_No,max(Route_Desc)Route_Desc " + itemNames + ",Sum(" + itemamt + ") As Total from (Select Route_No,max(Route_Desc)Route_Desc " + itemName + " from
+                        (select TSPL_DEMAND_BOOKING_DETAIL.Document_No,Document_Date,TSPL_DEMAND_BOOKING_MASTER.Route_No,Route_Desc,
+                        TSPL_DEMAND_BOOKING_DETAIL.Item_Code,Alies_Name,Qty from TSPL_DEMAND_BOOKING_DETAIL
+                        left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                        left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+                        left OUTER join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DEMAND_BOOKING_DETAIL.item_code and CurrentUnit.uom_code=	TSPL_DEMAND_BOOKING_DETAIL.unit_code 
+                        left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
+                        where 2=2 " + strWhrClause2 + "  " + whrcls + "  )  as tab1  
+                              pivot( sum(Qty) for Alies_Name in (" + itemName1 + ") ) as Tab2  group by Route_No)tmp
+                                group by Route_No"
+
+            query = MainQuery
+            Dim dtgv As New DataTable
+            dtgv = clsDBFuncationality.GetDataTable(query)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.DataSource = dtgv
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.BestFitColumns()
+
+            If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                Exit Sub
+            End If
+            RadPageView1.SelectedPage = RadPageViewPage2
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            'Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item1)
+
+            Dim item As GridViewSummaryItem
+            For dblrows As Integer = 2 To Gv1.Columns.Count - 1
+                item = New GridViewSummaryItem(Gv1.Columns(dblrows).HeaderText, "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item)
+            Next
+
+            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+            Gv1.Columns(0).IsPinned = True
+            Gv1.Columns(1).IsPinned = True
+            Gv1.Columns("Total").IsPinned = True
+            Gv1.Columns("Total").PinPosition = PinnedColumnPosition.Right
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+    Private Sub DairyProductGatePassReport(ByVal IsPrint As Exporter)
+        Try
+            If fromDate.Value > ToDate.Value Then
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -858,7 +1050,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -879,7 +1071,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub DairyMilkGatePassReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1043,7 +1235,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -1065,7 +1257,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub MilkGatePassDetailReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1233,7 +1425,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -1257,7 +1449,7 @@ Public Class RptMatrixFreshSalesReport
         Try
             'Sanjay,Add Customer Category 
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1438,7 +1630,7 @@ left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Gr
                 Dim TempDt As DataTable = clsDBFuncationality.GetDataTable(ItemInUse)
 
                 If TempDt Is Nothing OrElse TempDt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
 
@@ -1475,7 +1667,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Gv1.Rows.Clear()
                 Gv1.Columns.Clear()
                 If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     Gv1.DataSource = Nothing
@@ -1509,7 +1701,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
         Try
             'Sanjay,Add Customer Category 
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1734,7 +1926,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Gv1.Rows.Clear()
                 Gv1.Columns.Clear()
                 If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     Gv1.DataSource = dtgv
@@ -1790,7 +1982,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Dim strSchemeItem As String = Nothing
                 strSchemeItem = clsCommon.myCstr(clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + '0 as ' + QUOTENAME( " + strAliasCol + "+'(S)') as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
                 If String.IsNullOrEmpty(strSchemeItem) Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 Dim strItem As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + '0 as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
@@ -2158,7 +2350,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Gv1.BestFitColumns()
 
                 If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 RadPageView1.SelectedPage = RadPageViewPage2
@@ -2900,6 +3092,7 @@ max(TSPL_ITEM_MASTER.Sku_Seq) as Sku_Seq
         dt.Rows.Add("Milk Sale Report", "MSR")
         dt.Rows.Add("Product Sale Report", "PSR")
         dt.Rows.Add("Credit Sale Report", "CSR")
+        dt.Rows.Add("Milk Product Demand Report", "MPDR")
 
 
         ddlReportType.DataSource = dt
@@ -3016,6 +3209,12 @@ max(TSPL_ITEM_MASTER.Sku_Seq) as Sku_Seq
                 ddlInvocieType.Visible = False
                 RadGroupBox7.Visible = False
                 RadGroupBox5.Visible = False
+                If clsCommon.CompairString(ddlReportType.SelectedValue, "TS") = CompairStringResult.Equal Then
+                    RadGroupBox2.Location = New Point(21, 138)
+                Else
+                    RadGroupBox2.Location = New Point(607, 80)
+                End If
+                'RadGroupBox2.Location = New Point(21, 138)
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3225,6 +3424,39 @@ max(TSPL_ITEM_MASTER.Sku_Seq) as Sku_Seq
                 ddlInvocieType.Visible = False
                 RadGroupBox7.Visible = False
                 RadGroupBox5.Visible = True
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MPDR") = CompairStringResult.Equal Then
+                RadGroupBox2.Visible = False
+                chkBookingWise.Visible = False
+                pnlMilkPouch.Visible = False
+                chkRouteSummary.Visible = False
+                chkProduct.Visible = False
+                chkFilterByCreatedDate.Visible = False
+                chkSaleInvoiceWise.Visible = False
+                RadGroupBox3.Visible = True
+                RadGroupBox7.Visible = True
+                txtCustomerGroup.Visible = True
+                lblCustomerGroup.Visible = True
+                txtCustomer.Visible = True
+                lblCustomer.Visible = True
+                MyLabel2.Visible = True
+                txtItemCode.Visible = True
+                MyLabel3.Visible = True
+                txtLorry.Visible = True
+                lblLocation.Visible = True
+                txtLocation.Visible = True
+                MyLabel1.Visible = True
+                txtZone.Visible = True
+                MyLabel10.Visible = True
+                TxtRoute.Visible = True
+                MyLabel4.Visible = True
+                TxtUOM.Visible = True
+                MyLabel5.Visible = True
+                txtBookingType.Visible = True
+                MyLabel6.Visible = True
+                TxtMultiCustomerCategory.Visible = True
+                lblSubCategory.Visible = True
+                ddlInvocieType.Visible = True
+                RadGroupBox5.Visible = False
             End If
         End If
     End Sub

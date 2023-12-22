@@ -366,7 +366,7 @@ Public Class frmRptCSACustomerLedger
                 End If
 
                 If chkNone.Checked = True AndAlso dtMain.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("Data not found")
+                    clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                     gvDetails.DataSource = Nothing
                     gvDetails.Columns.Clear()
                     gvDetails.Rows.Clear()
@@ -509,7 +509,7 @@ Public Class frmRptCSACustomerLedger
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1196,7 +1196,7 @@ Public Class frmRptCSACustomerLedger
                 btnrefresh = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1271,7 +1271,7 @@ Public Class frmRptCSACustomerLedger
                 btnrefresh = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1478,7 +1478,7 @@ Public Class frmRptCSACustomerLedger
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
