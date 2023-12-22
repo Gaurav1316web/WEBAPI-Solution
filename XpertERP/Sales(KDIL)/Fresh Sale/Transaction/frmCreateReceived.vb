@@ -67,7 +67,7 @@ Public Class frmCreateReceived
             'txtDate.Focus()
             gv1.Focus()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenCustomerFinder(ByVal isButtonClick As Boolean)
@@ -78,14 +78,14 @@ Public Class frmCreateReceived
             gv1.CurrentRow.Cells(colCustName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name as Name from tspl_customer_master where Cust_Code ='" + gv1.CurrentRow.Cells(colCustCode).Value + "' "))
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub OpenInvoiceFinder(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(gv1.CurrentRow.Cells(colCustCode).Value) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             Else
                 Dim qry As String = "select Document_Code as Code,Document_Date,CrateQty from TSPL_SD_SALE_INVOICE_HEAD "
                 Dim whrCls As String = " customer_code ='" + gv1.CurrentRow.Cells(colCustCode).Value + "' and Status=1  and Document_Code not in (select Sale_Invoice_No from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE)"
@@ -96,7 +96,7 @@ Public Class frmCreateReceived
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenVehcileFinder(ByVal isButtonClick As Boolean)
@@ -107,7 +107,7 @@ Public Class frmCreateReceived
             gv1.CurrentRow.Cells(colVehicleNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" + gv1.CurrentRow.Cells(colVehicleCode).Value + "'"))
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -365,7 +365,7 @@ Public Class frmCreateReceived
         Dim strLocation As String = ""
 
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
 
@@ -471,7 +471,7 @@ Public Class frmCreateReceived
             Next
             SetIDs()
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         isInsideLoadData = False
     End Sub
@@ -539,7 +539,7 @@ Public Class frmCreateReceived
                 gv1.CurrentRow.Cells(colAdjustment).ReadOnly = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -572,7 +572,7 @@ Public Class frmCreateReceived
            
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -586,7 +586,7 @@ Public Class frmCreateReceived
             End If
 
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()
                 Return False
                 'ElseIf clsCommon.myLen(fndVehicle.Value) <= 0 Then
@@ -617,7 +617,7 @@ Public Class frmCreateReceived
             'Next
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -632,7 +632,7 @@ Public Class frmCreateReceived
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -692,20 +692,20 @@ Public Class frmCreateReceived
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
                 If (obj.SaveData(obj, isNewEntry)) Then
 
                     If ChekPostBtn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -787,7 +787,7 @@ Public Class frmCreateReceived
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             isInsideLoadClosingCustomer = False
@@ -972,12 +972,12 @@ Public Class frmCreateReceived
                 arrHeader.Add("Location : " + clsCommon.myCstr(fndLocation.Value))
                 clsCommon.MyExportToExcel("CRATE RECEIVED", gv1, arrHeader, "Crate Received For Fresh Sale")
             Else
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1001,12 +1001,12 @@ Public Class frmCreateReceived
                 End If
                 If (clsCrateReceivedHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1028,12 +1028,12 @@ Public Class frmCreateReceived
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 If (clsCrateReceivedHead.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
-                    clsCommon.MyMessageBoxShow("Successfully Posted ")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted ", Me.Text)
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1243,7 +1243,7 @@ Public Class frmCreateReceived
             If (deleteConfirm()) Then
                 If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Document_No ='" & txtDocNo.Value & "' ", trans) > 0 Then
                     If (clsCrateReceivedHead.ReverseAndRecrate(txtDocNo.Value, trans)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                         trans.Commit()
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If

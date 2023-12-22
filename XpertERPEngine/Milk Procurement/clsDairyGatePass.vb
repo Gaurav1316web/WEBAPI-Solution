@@ -45,16 +45,21 @@ Public Class clsDairyGatePassEntry
     Public Function SaveData(ByVal obj As clsDairyGatePassEntry, ByVal isNewEntry As Boolean, ByVal strTransType As String) As Boolean
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-
-
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
             End If
-            Dim qry As String = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPcode='" + obj.GPCode + "'"
+            Dim qry As String
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPcode='" + obj.GPCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = ""
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPcode='" + obj.GPCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
 
             Dim strDocNo As String = ""
             If isNewEntry Then
@@ -88,7 +93,6 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "TotalCrate", obj.TotalCrate)
             '============================================================================
             clsCommon.AddColumnsForChange(coll, "Opening_Km", obj.Opening_Km)
-
             clsCommon.AddColumnsForChange(coll, "IsTransfer", obj.IsTransfer)
             clsCommon.AddColumnsForChange(coll, "AgainstTransferNo", obj.AgainstTransferNo, True)
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType, True)
@@ -103,19 +107,18 @@ Public Class clsDairyGatePassEntry
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAIRYSALE_GATEPASS_MASTER", OMInsertOrUpdate.Update, "TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" + obj.GPCode + "'", trans)
             End If
-
             isSaved = isSaved AndAlso clsDairyGPDetail.SaveData(obj.GPCode, obj.Arr, trans)
             ''richa agarwal 22 Nov,2019 ERO/22/11/19-001129
             '' qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
 
+            qry = ""
             If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
                 qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Production_Remarks='" & obj.Remarks & "',GPCode='" & obj.GPCode & "' from TSPL_DEMAND_BOOKING_DETAIL left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and TSPL_DEMAND_BOOKING_MASTER.Location_code='" & obj.Location_Code & "' and TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code ='" & obj.Vehicle_Id & "' and TSPL_DEMAND_BOOKING_MASTER.route_no='" & obj.Route_No & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & obj.ShiftType & "'"
-            Else
-                'qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" & obj.Vehicle_Id & "'  and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
-                qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
+                'Else
+                '    'qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" & obj.Vehicle_Id & "'  and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
+                '    qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
-
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             If isSaved Then
                 trans.Commit()
@@ -395,6 +398,10 @@ Public Class clsDairyGatePassEntry
                 Throw New Exception("Already Posted")
             End If
             Dim qry As String = ""
+
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" + obj.GPCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
                 qry = "Update TSPL_DEMAND_BOOKING_DETAIL set GPCode = null where GPCode='" + obj.GPCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -492,6 +499,7 @@ Public Class clsDairyGPDetail
     Public Unit_Code As String = Nothing
     Public Qty As Double = 0
     Public HSN_Code As String = Nothing
+    Public PK_ID As Integer
 
 #End Region
 
@@ -504,9 +512,18 @@ Public Class clsDairyGPDetail
                 clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "HSN_Code", obj.HSN_Code)
-
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAIRYSALE_GATEPASS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-
+            Next
+        End If
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each obj As clsDairyGPDetail In Arr
+                Dim coll1 As New Hashtable()
+                clsCommon.AddColumnsForChange(coll1, "PK_ID", obj.PK_ID)
+                clsCommon.AddColumnsForChange(coll1, "GPCode", strDocNo)
+                clsCommon.AddColumnsForChange(coll1, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll1, "Unit_Code", obj.Unit_Code)
+                clsCommon.AddColumnsForChange(coll1, "GP_Qty", obj.Qty)
+                clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True

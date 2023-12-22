@@ -42,7 +42,7 @@ Public Class RptZoneWiseFreshSaleReport
     Private Sub Print(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -101,7 +101,7 @@ Public Class RptZoneWiseFreshSaleReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
@@ -189,7 +189,7 @@ Public Class RptZoneWiseFreshSaleReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
     End Sub
@@ -270,7 +270,7 @@ Public Class RptZoneWiseFreshSaleReport
                 transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -318,7 +318,7 @@ Public Class RptZoneWiseFreshSaleReport
                 clsCommon.MyExportToPDF("Zone Wise Fresh Sale Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

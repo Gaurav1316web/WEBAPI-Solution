@@ -181,7 +181,7 @@ Public Class RptSchemeReport
             gv.BestFitColumns()
         Else
             gv.DataSource = Nothing
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

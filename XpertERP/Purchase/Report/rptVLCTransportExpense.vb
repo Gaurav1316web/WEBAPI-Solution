@@ -26,7 +26,7 @@ Public Class rptVLCTransportExpense
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -92,7 +92,7 @@ Public Class rptVLCTransportExpense
 
             gv.DataSource = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -492,7 +492,7 @@ where Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >='" + fromDate + "' and Cas
                     clsCommon.MyExportToPDF("VLC Transport Expense Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -538,7 +538,7 @@ where Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >='" + fromDate + "' and Cas
             LoadShiftFrom()
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -633,7 +633,7 @@ where Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >='" + fromDate + "' and Cas
             TemplateGridview = gv
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

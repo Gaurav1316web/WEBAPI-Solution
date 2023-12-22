@@ -59,7 +59,7 @@ Public Class FrmVendorItemQCMapping
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -263,7 +263,7 @@ Public Class FrmVendorItemQCMapping
     Private Sub btndelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btndelete.Click
         Try
             If clsCommon.myLen(fndCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select document code first.")
+                clsCommon.MyMessageBoxShow(Me, "Select document code first.", Me.Text)
                 fndCode.Focus()
                 fndCode.Select()
                 Errorcontrol.SetError(fndCode, "Select document code first.")
@@ -279,7 +279,7 @@ Public Class FrmVendorItemQCMapping
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -295,7 +295,7 @@ Public Class FrmVendorItemQCMapping
         Try
             If clsCommon.myLen(fndVendor_code.Value) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage1
-                clsCommon.MyMessageBoxShow("Select vendor detail.")
+                clsCommon.MyMessageBoxShow(Me, "Select vendor detail.", Me.Text)
                 fndVendor_code.Focus()
                 fndVendor_code.Select()
                 Errorcontrol.SetError(TxtVendor_desc, "Select vendor detail.")
@@ -320,7 +320,7 @@ Public Class FrmVendorItemQCMapping
 
             If clsCommon.myLen(icode) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage1
-                clsCommon.MyMessageBoxShow("Fill atleast one row.")
+                clsCommon.MyMessageBoxShow(Me, "Fill atleast one row.", Me.Text)
                 gv1.CurrentRow = gv1.Rows(0)
                 Return False
             End If
@@ -353,7 +353,7 @@ Public Class FrmVendorItemQCMapping
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -407,7 +407,7 @@ Public Class FrmVendorItemQCMapping
             End If
 
             If clsVendorItemQCMapping.SaveData(obj, isNewEntry) Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                 fndCode.Value = obj.Document_Code
 
                 UcAttachment1.SaveData(fndCode.Value)
@@ -416,7 +416,7 @@ Public Class FrmVendorItemQCMapping
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             objtr = Nothing
             obj = Nothing
@@ -488,7 +488,7 @@ Public Class FrmVendorItemQCMapping
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             obj = Nothing
@@ -519,7 +519,7 @@ Public Class FrmVendorItemQCMapping
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try

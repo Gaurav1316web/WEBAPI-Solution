@@ -157,7 +157,7 @@ Public Class frmCustomerListRpt
             frmCRV.funreport(CrystalReportFolder.Purchase, dt, "crptCustomerLstReport", "Customer List Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
     End Sub
@@ -250,10 +250,10 @@ Public Class frmCustomerListRpt
                 ReStoreGridLayout()
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

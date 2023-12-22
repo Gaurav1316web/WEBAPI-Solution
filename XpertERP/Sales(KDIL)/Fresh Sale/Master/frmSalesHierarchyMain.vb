@@ -91,7 +91,7 @@ Public Class FrmSalesHierarchyMain
                 SalesHier.Source_Doc = fndSource.Value
 
                 If clsSalesHierarchy.savedata(SalesHier, isnewentry) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     entry = SalesHier.DOC_CODE
                     getdata(SalesHier.DOC_CODE, NavigatorType.Current)
                     BtnSave.Text = "Update"
@@ -133,7 +133,7 @@ Public Class FrmSalesHierarchyMain
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsSalesHierarchy.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     resetdata()
                 End If
             End If

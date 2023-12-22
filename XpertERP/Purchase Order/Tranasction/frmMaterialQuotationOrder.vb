@@ -222,7 +222,7 @@ Public Class frmMaterialQuotationOrder
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -342,7 +342,7 @@ Public Class frmMaterialQuotationOrder
             Next
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -391,19 +391,19 @@ Public Class frmMaterialQuotationOrder
                 Next
 
                 If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
                 If (obj.SaveData(obj, isNewEntry, False, True)) Then
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -463,7 +463,7 @@ Public Class frmMaterialQuotationOrder
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -485,7 +485,7 @@ Public Class frmMaterialQuotationOrder
                 Exit Sub
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         PostData()
     End Sub
@@ -495,12 +495,12 @@ Public Class frmMaterialQuotationOrder
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 If (ClsMaterialQuotationOrderHead.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -525,12 +525,12 @@ Public Class frmMaterialQuotationOrder
                 End If
                 If (ClsMaterialQuotationOrderHead.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -568,7 +568,7 @@ Public Class frmMaterialQuotationOrder
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -690,11 +690,11 @@ Public Class frmMaterialQuotationOrder
             saveCancelLog(Reason, "Amendment", Nothing)
 
             If IsSavedData Then
-                common.clsCommon.MyMessageBoxShow("Successfully Amendmented")
+                common.clsCommon.MyMessageBoxShow(Me, "Successfully Amendmented", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -780,7 +780,7 @@ Public Class frmMaterialQuotationOrder
             txtcustdesc.Text = clsDBFuncationality.getSingleValue("select isnull(TSPL_customer_MASTER.Customer_Name,'') from TSPL_customer_MASTER where TSPL_customer_MASTER.cust_code='" + txtCustomer.Value + "'")
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -822,7 +822,7 @@ Public Class frmMaterialQuotationOrder
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try

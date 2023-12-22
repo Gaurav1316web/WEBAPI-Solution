@@ -24,16 +24,16 @@ Public Class RptMultipleRTGS
     End Sub
     Public Sub loadReport()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkBankSelect.IsChecked AndAlso cbgBank.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Bank or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Bank or select all.", Me.Text)
             Exit Sub
         End If
         If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = String.Empty
@@ -72,7 +72,7 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -197,12 +197,12 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
 
 
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkBankSelect.IsChecked AndAlso cbgBank.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Bank or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Bank or select all.", Me.Text)
             Exit Sub
         End If
         If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
@@ -392,10 +392,10 @@ where TSPL_PAYMENT_HEADER.Payment_type in ('AV','OA','PY')"
                     clsCommon.MyExportToPDF("Multiple RTGS Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

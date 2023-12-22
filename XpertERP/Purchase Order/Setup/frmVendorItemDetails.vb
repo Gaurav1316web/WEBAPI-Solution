@@ -106,7 +106,7 @@ Public Class frmVendorItemDetails
 
 
                 If (Arr Is Nothing OrElse Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at least one Item")
+                    common.clsCommon.MyMessageBoxShow("Please Fill at least one Item", Me.Text)
                     Return
                 End If
 
@@ -114,7 +114,7 @@ Public Class frmVendorItemDetails
                 'objHist.SaveDataHistory(fndvendor.Value)
 
                 If (obj.SaveData(fndvendor.Value, txtdesc.Text, companyCode, Arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     'LoadData(obj.vendor_code, NavigatorType.Current)
 
                     If clsCommon.myLen(IsProceed) > 0 Then
@@ -128,7 +128,7 @@ Public Class frmVendorItemDetails
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -137,7 +137,7 @@ Public Class frmVendorItemDetails
         Try
 
             If clsCommon.myLen(fndvendor.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vendor No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor No", Me.Text)
                 fndvendor.Focus()
                 Return False
             End If
@@ -206,7 +206,7 @@ Public Class frmVendorItemDetails
            
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -246,7 +246,7 @@ Public Class frmVendorItemDetails
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -355,7 +355,7 @@ Public Class frmVendorItemDetails
 
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -927,7 +927,7 @@ Public Class frmVendorItemDetails
     Sub Print()
 
         If clsCommon.myLen(fndvendor.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Vendor", Me.Text)
             fndvendor.Focus()
             Return
         End If
@@ -935,14 +935,14 @@ Public Class frmVendorItemDetails
             Dim Qry As String = "Select '" + clsCommon.GETSERVERDATE() + "' as PrintDate,  (vendor_code+' - '+ convert(varchar, vendor_desc, 103)) as Vendor, item_no, item_desc, uom, MRP, item_rate, vendor_item_no, Convert(date,Start_Date, 103) as Start_Date , COnvert(date,End_Date, 103) as End_Date, Comp_Name, Logo_Img, Logo_Img2,CONVERT(date, History_Date, 103) as History_Date,TSPL_VENDOR_ITEM_DETAIL_HIST.location_code,TSPL_VENDOR_ITEM_DETAIL_HIST.location_name    from TSPL_VENDOR_ITEM_DETAIL_HIST Left outer join TSPL_COMPANY_MASTER on TSPL_VENDOR_ITEM_DETAIL_HIST.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  Where vendor_code='" + fndvendor.Value + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Exit Sub
             End If
             Dim frmCRV As New frmCrystalReportViewer()
             frmCRV.funreport(CrystalReportFolder.Purchase, dt, "crptVendorItemHistory", "Vendor Item History Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -977,7 +977,7 @@ Public Class frmVendorItemDetails
                     Dim purrate As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
 
                     If purrate <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please Set Standard Purchase Price In Item Master", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please Set Standard Purchase Price In Item Master", Me.Text)
                         Return
                     End If
                     If clsCommon.CompairString(Is_stdpurrate_check, "1") = CompairStringResult.Equal AndAlso rate > purrate Then

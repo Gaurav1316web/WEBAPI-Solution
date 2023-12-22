@@ -93,7 +93,7 @@ Public Class FrmPJVReport
 
         Try
             If rdopjvselect.IsChecked AndAlso cbgpjv.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Invoice Number")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Invoice Number", Me.Text)
                 Return
 
             Else
@@ -101,14 +101,14 @@ Public Class FrmPJVReport
                 DocNoFilter = DocNoFilter.Replace("'", "")
             End If
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vendor", Me.Text)
                 Return
             Else
                 VendorFilter = clsCommon.GetMulcallString(cbgVendor.CheckedValue)
                 VendorFilter = VendorFilter.Replace("'", "")
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location", Me.Text)
                 Return
             Else
                 LocCodeFilter = clsCommon.GetMulcallString(cbgLocation.CheckedValue)
@@ -170,7 +170,7 @@ Public Class FrmPJVReport
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

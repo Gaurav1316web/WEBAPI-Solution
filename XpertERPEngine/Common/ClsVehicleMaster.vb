@@ -226,7 +226,7 @@ Public Class ClsVehicleMaster
             clsCommon.AddColumnsForChange(coll, "Engine_NO", obj.EngineNo)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Brand", obj.VehicleBrand)
             clsCommon.AddColumnsForChange(coll, "Vehicle_No", obj.VehicleName)
-            clsCommon.AddColumnsForChange(coll, "CrateCapacity", obj.CrateCapacity, True)
+            clsCommon.AddColumnsForChange(coll, "CrateCapacity", obj.CrateCapacity, False)
             clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
             clsCommon.AddColumnsForChange(coll, "Employee_Id", obj.EmployeeNo, True)
             clsCommon.AddColumnsForChange(coll, "MTCapacity", obj.MTCapacity)

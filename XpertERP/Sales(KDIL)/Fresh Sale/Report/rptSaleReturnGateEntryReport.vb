@@ -84,8 +84,8 @@ Public Class RptSaleReturnGateEntryReport
             PageSetupReport_ID = MyBase.Form_ID + IIf(rbtnSummary.Checked = True, "S", "D")
             TemplateGridview = Gv1
             If fromdate.Value > todate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
-                fromdate.Focus()
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
+                fromDate.Focus()
                 Exit Sub
             End If
             Dim fromdates As String = clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")
@@ -170,7 +170,7 @@ Public Class RptSaleReturnGateEntryReport
             'SetGridFormationOFgv()
             Gv1.BestFitColumns()
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
@@ -179,7 +179,7 @@ Public Class RptSaleReturnGateEntryReport
             ReStoreGridLayout()
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub EnabledisableControl(ByVal isEnable As Boolean)
@@ -252,7 +252,7 @@ Public Class RptSaleReturnGateEntryReport
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -324,7 +324,7 @@ Public Class RptSaleReturnGateEntryReport
                 clsCommon.MyExportToPDF("Sale Return Gate Entry Report", Gv1, arrHeader, "Sale Return Gate Entry Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

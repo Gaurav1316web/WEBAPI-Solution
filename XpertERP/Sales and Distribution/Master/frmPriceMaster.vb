@@ -102,7 +102,7 @@ Public Class FrmPriceMaster
             ''RICHA TEC/30/07/19-000971 TEC/30/07/19-000971
             RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -301,7 +301,7 @@ Public Class FrmPriceMaster
             grdTax.DataSource = dt
             FillTaxAmounts()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadTaxData = False
         End Try
@@ -759,12 +759,12 @@ Public Class FrmPriceMaster
                             clsPOSCommissionMapping.SaveData(arrCommission, txtPriceId.Value)
                         End If
                     End If
-                    clsCommon.MyMessageBoxShow("Data saved succesfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved succesfully.", Me.Text)
                     LoadData(obj.Item_Price_ID, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function SetData(ByVal Arr As List(Of clsPOSCommissionMapping)) As List(Of clsPOSCommissionMapping)
@@ -794,7 +794,7 @@ Public Class FrmPriceMaster
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1007,7 +1007,7 @@ Public Class FrmPriceMaster
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsInsideLoadData = False
         End Try
@@ -1089,12 +1089,12 @@ Public Class FrmPriceMaster
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, clsCommon.myCstr(txtPriceId.Value), "tspl_item_price_master", "Item_Price_ID", trans)
                 clsDBFuncationality.ExecuteNonQuery("delete from tspl_item_price_master where Item_Price_ID ='" & clsCommon.myCstr(txtPriceId.Value) & "'", trans)
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Record Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Record Deleted Successfully", Me.Text)
                 ResetScreen()
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1247,7 +1247,7 @@ Public Class FrmPriceMaster
 
     Public Sub print()
         If txtPriceId.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please select the item code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the item code", Me.Text)
         Else
             Try
                 Dim StrQuery As String = "SELECT i.Item_Code, ISNULL(i.Item_Basic_Net, 0) AS item_MRP, i.Price_Comp1, ISNULL(i.Price_Amount1, 0) AS price_Amount1, i.Price_Comp2,    ISNULL(i.Price_Amount2, 0) AS price_Amount2, i.Price_Comp3, ISNULL(i.Price_Amount3, 0) AS price_Amount3, i.Price_Comp4, ISNULL(i.Price_Amount4,   0) AS price_Amount4, i.Price_Comp5, ISNULL(i.Price_Amount5, 0) AS price_Amount5, ISNULL(i.Item_Basic_Price, 0) AS item_baisc_price,  ISNULL(i.TAX1_Amt, 0) AS tax1_amt, ISNULL(i.TAX2_Amt, 0) AS tax2_amt, ISNULL(i.TAX3_Amt, 0) AS tax3_amt, ISNULL(i.TAX4_Amt, 0) AS tax4_amt, m.Item_Desc, ISNULL(i.Item_Basic_Price, 0) + ISNULL(i.TAX1_Amt, 0) + ISNULL(i.TAX2_Amt, 0) + ISNULL(i.TAX3_Amt, 0) + ISNULL(i.TAX4_Amt, 0) + ISNULL(i.Price_Amount5, 0) AS Total, ISNULL(i.Item_Basic_Net, 0) - i.Price_Amount1 AS Retail_Price, ISNULL(i.Item_Basic_Net, 0) - (ISNULL(i.Price_Amount1, 0) + ISNULL(i.Price_Amount2, 0) + ISNULL(i.Price_Amount3, 0) + ISNULL(i.Price_Amount4, 0) + ISNULL(i.Price_Amount5, 0)) AS Net, i.Price_Amount5 AS TDT, i.Price_Comp_Desc1 AS desc1, i.Price_Comp_Desc2 AS desc2, i.Price_Comp_Desc3 AS desc3, i.Price_Comp_Desc4 AS desc4, i.Price_Comp_Desc5 AS desc5, CONVERT(VARCHAR(10), i.Start_Date, 103) AS start_date, '' AS From_date, '' AS To_date,i.UOM as UOM, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2,(select Price_Amount1 from TSPL_ITEM_PRICE_MASTER where Price_Comp1 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT1,(select Price_Amount2 from TSPL_ITEM_PRICE_MASTER where Price_Comp2 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT2,(select Price_Amount3 from TSPL_ITEM_PRICE_MASTER where Price_Comp3 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT3,(select Price_Amount4 from TSPL_ITEM_PRICE_MASTER where Price_Comp4 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT4,(select Price_Amount5 from TSPL_ITEM_PRICE_MASTER where Price_Comp5 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT5,(select Price_Amount6 from TSPL_ITEM_PRICE_MASTER where Price_Comp6 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT6,(select Price_Amount7 from TSPL_ITEM_PRICE_MASTER where Price_Comp7 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT7,(select Price_Amount8 from TSPL_ITEM_PRICE_MASTER where Price_Comp8 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT8,(select Price_Amount9 from TSPL_ITEM_PRICE_MASTER where Price_Comp9 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT9,(select Price_Amount10 from TSPL_ITEM_PRICE_MASTER where Price_Comp10 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT10       FROM     TSPL_ITEM_PRICE_MASTER AS i INNER JOIN                      TSPL_ITEM_MASTER AS m ON i.Item_Code = m.Item_Code INNER JOIN TSPL_COMPANY_MASTER ON i.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code      WHERE i.item_code='" + txtPriceId.Value + "'"
@@ -1256,7 +1256,7 @@ Public Class FrmPriceMaster
                 frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "ItemPrice", "ItemPriceReport")
                 frmCRV = Nothing
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
         End If
@@ -1298,7 +1298,7 @@ Public Class FrmPriceMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1329,7 +1329,7 @@ Public Class FrmPriceMaster
             End If
             LoadData(txtPriceId.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1347,7 +1347,7 @@ Public Class FrmPriceMaster
             grdTax.DataSource = dt
             FillTaxAmounts()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadTaxData = False
         End Try
@@ -2695,7 +2695,7 @@ Public Class FrmPriceMaster
             FrmPriceMasterExport.IsForBackCalculation = True
             FrmPriceMasterExport.ShowDialog()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2703,7 +2703,7 @@ Public Class FrmPriceMaster
         Try
             backCalculationChecked(chkBackCalculation.Checked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2757,7 +2757,7 @@ Public Class FrmPriceMaster
                 LoadItemUOM(txtItemCode.Value, fnduom.Value)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3441,7 +3441,7 @@ Public Class FrmPriceMaster
 
             obj.ShowDialog()
         Else
-            clsCommon.MyMessageBoxShow("Please Enter Basic Price")
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Basic Price", Me.Text)
         End If
     End Sub
 
@@ -3453,11 +3453,11 @@ Public Class FrmPriceMaster
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 clsPriceMaster.UnPostData(txtPriceId.Value)
-                clsCommon.MyMessageBoxShow("Unposted successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Unposted successfully", Me.Text)
                 LoadData(txtPriceId.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3471,7 +3471,7 @@ Public Class FrmPriceMaster
                 clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(txtPriceId.Value), "Item_Price_Id", "TSPL_ITEM_PRICE_MASTER")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

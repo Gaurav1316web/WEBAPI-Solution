@@ -67,7 +67,7 @@ Public Class frmPurchaseJobwork
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -198,11 +198,11 @@ Public Class frmPurchaseJobwork
 
                 End If
                 If isPosted Then
-                    clsCommon.MyMessageBoxShow("Successfully Post")
+                    clsCommon.MyMessageBoxShow("Successfully Post", Me.Text)
                 End If
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -224,7 +224,7 @@ Public Class frmPurchaseJobwork
                 txtTotalDOc.Text = dt.Rows.Count.ToString()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     

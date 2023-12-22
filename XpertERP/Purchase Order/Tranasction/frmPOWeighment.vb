@@ -11,6 +11,7 @@ Public Class frmPOWeighment
     Public chkSave As Boolean = True
     Public errorControl As clsErrorControl = New clsErrorControl()
     Private isEnterManualWeight As Boolean = False
+    Public strrptpath As String = Nothing
     Private AllowtoEnterNetWeightManuallyinPOWeighmentScreen As Boolean = False
     Const colTRNo As String = "colTRNo"
     Const colSNo As String = "colSNo"
@@ -54,7 +55,7 @@ Public Class frmPOWeighment
             AddNew()
             RefreshSNo()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -346,12 +347,12 @@ Public Class frmPOWeighment
                                 End If
                             Next
                             If Not isfound Then
-                                clsCommon.MyMessageBoxShow("No Unloaded item found to save", Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, "No Unloaded item found to save", Me.Text)
                             End If
                         End If
                     End If
                 Catch ex As Exception
-                    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnnew.Enabled Then
                 AddNew()
@@ -380,7 +381,7 @@ Public Class frmPOWeighment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -412,7 +413,7 @@ Public Class frmPOWeighment
             tenp_unloding = False
             RefreshSNo()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -498,12 +499,12 @@ Public Class frmPOWeighment
                     End If
                 Next
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 chkSave = False
                 LoadData(obj.Weighment_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -630,7 +631,7 @@ Public Class frmPOWeighment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -638,11 +639,11 @@ Public Class frmPOWeighment
         Try
             If (myMessages.postConfirm()) Then
                 clsPOWeighment.PostData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -658,7 +659,7 @@ Public Class frmPOWeighment
         Try
             If (myMessages.deleteConfirm()) Then
                 clsPOWeighment.DeleteData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
@@ -705,7 +706,7 @@ Public Class frmPOWeighment
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -726,7 +727,7 @@ Public Class frmPOWeighment
             End If
             LoadGateEntryData(clsCommon.ShowSelectForm("POWFGRN", qry, "GRN_No", whrClas, txtGateEntryNo.Value, "", isButtonClicked), True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -773,7 +774,7 @@ Public Class frmPOWeighment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -856,7 +857,7 @@ Public Class frmPOWeighment
                 Throw New Exception("Not permit to save data")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -874,7 +875,7 @@ Public Class frmPOWeighment
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -927,9 +928,6 @@ Public Class frmPOWeighment
 					        PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                             where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code = '" + StrCode + "'  
                             group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type"
-
-
-
             Else
                 strQuery = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar(13),TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No,convert(varchar(13),TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date," &
                  "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &
@@ -942,15 +940,12 @@ Public Class frmPOWeighment
                 Dim frmCRV As New frmCrystalReportViewer()
 
                 frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip", "Tanker Weighment Slip")
-                    frmCRV = Nothing
-                End If
-            Else
+                frmCRV = Nothing
+            End If
+        Else
             clsCommon.MyMessageBoxShow("Please Select Weighmrnt Code first.")
         End If
     End Sub
-
-
-
     Public Sub PrintWithGunnyBagsData(ByVal StrCode As String)
         If clsCommon.myLen(StrCode) > 0 Then
             Dim strQuery As String = Nothing
@@ -1000,9 +995,6 @@ Public Class frmPOWeighment
 					        PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                             where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code = '" + StrCode + "'  
                             group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type"
-
-
-
             Else
                 strQuery = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar(13),TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No,convert(varchar(13),TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date," &
                  "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &
@@ -1011,20 +1003,19 @@ Public Class frmPOWeighment
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             If dt.Rows.Count > 0 Then
+                Dim GunnyBag As String = "select TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,TSPL_ITEM_MASTER.Item_desc,TSPL_PO_WEIGHTMENT_GUNNY.Qty from TSPL_PO_WEIGHTMENT_GUNNY 
+							left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_PO_WEIGHTMENT_GUNNY.item_code where Weighment_Code = '" + StrCode + "'"
+                Dim dtGunnyBag As DataTable = clsDBFuncationality.GetDataTable(GunnyBag)
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlipGunnyBags", "Tanker Weighment Slip Gunny Bags")
+                strrptpath = frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtGunnyBag, "TankerWeighwithBag", "Tanker Slip", "SubWithGunnyBag.rpt")
                 frmCRV = Nothing
             End If
         Else
             clsCommon.MyMessageBoxShow("Please Select Weighmrnt Code first.")
         End If
     End Sub
-
-
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-           
             PrintData(txtCode.Value)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -1062,7 +1053,7 @@ Public Class frmPOWeighment
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1119,7 +1110,7 @@ Public Class frmPOWeighment
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1153,7 +1144,7 @@ Public Class frmPOWeighment
 
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
@@ -1210,7 +1201,7 @@ Public Class frmPOWeighment
         Try
             PrintWithGunnyBagsData(txtCode.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -89,7 +89,7 @@ Public Class FrmQualityCheckForSRN
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -130,7 +130,7 @@ Public Class FrmQualityCheckForSRN
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -605,7 +605,7 @@ Public Class FrmQualityCheckForSRN
     Private Sub btndelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btndelete.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select document no. for deletion.")
+                clsCommon.MyMessageBoxShow(Me, "Select document no. for deletion.", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtDocNo.Focus()
                 txtDocNo.Select()
@@ -622,14 +622,14 @@ Public Class FrmQualityCheckForSRN
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnpost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnpost.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select document no. for post.")
+                clsCommon.MyMessageBoxShow(Me, "Select document no. for post.", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtDocNo.Focus()
                 txtDocNo.Select()
@@ -647,7 +647,7 @@ Public Class FrmQualityCheckForSRN
             End If
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -775,7 +775,7 @@ Public Class FrmQualityCheckForSRN
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -795,7 +795,7 @@ Public Class FrmQualityCheckForSRN
                 RadPageView1.SelectedPage = RadPageViewPage1
                 fndVendor_code.Focus()
                 fndVendor_code.Select()
-                clsCommon.MyMessageBoxShow("Select Vendor")
+                clsCommon.MyMessageBoxShow(Me, "Select Vendor", Me.Text)
                 Errorcontrol.SetError(TxtVendor_desc, "Select vendor detail")
                 Return False
             Else
@@ -806,7 +806,7 @@ Public Class FrmQualityCheckForSRN
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtBillToLocation.Focus()
                 txtBillToLocation.Select()
-                clsCommon.MyMessageBoxShow("Select from location")
+                clsCommon.MyMessageBoxShow(Me, "Select from location", Me.Text)
                 Errorcontrol.SetError(lblBillToLocation, "Select from location")
                 Return False
             Else
@@ -817,7 +817,7 @@ Public Class FrmQualityCheckForSRN
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtGEDate.Focus()
                 txtGEDate.Select()
-                clsCommon.MyMessageBoxShow("Select gate entry date.")
+                clsCommon.MyMessageBoxShow(Me, "Select gate entry date.", Me.Text)
                 Errorcontrol.SetError(txtGEDate, "Select gate entry date.")
                 Return False
             Else
@@ -850,7 +850,7 @@ Public Class FrmQualityCheckForSRN
 
             If arrMRN.Count <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage1
-                clsCommon.MyMessageBoxShow("No MRN details found for QC process.")
+                clsCommon.MyMessageBoxShow(Me, "No MRN details found for QC process.", Me.Text)
                 Return False
             End If
 
@@ -896,13 +896,13 @@ Public Class FrmQualityCheckForSRN
 
             If arr.Count <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage1
-                clsCommon.MyMessageBoxShow("No Item details found for QC process.")
+                clsCommon.MyMessageBoxShow(Me, "No Item details found for QC process.", Me.Text)
                 Return False
             End If
             If Not SettItemWiseQualityCheckInGeneralPurchase Then
                 '' added funcionality 13/10/2017
                 If clsCommon.CompairString(txtAccept.Text, "Under Deviation") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Not able to save, Item is Under Deviation")
+                    clsCommon.MyMessageBoxShow(Me, "Not able to save, Item is Under Deviation", Me.Text)
                     Return False
                 End If
                 '' End functionality
@@ -910,7 +910,7 @@ Public Class FrmQualityCheckForSRN
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -1008,7 +1008,7 @@ Public Class FrmQualityCheckForSRN
 
                 If clsQualityCheckForSRNHead.SaveData(obj, isNewEntry) Then
                     If Not isPost Then
-                        clsCommon.MyMessageBoxShow("Data saved successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                     End If
 
                     txtDocNo.Value = obj.Document_Code
@@ -1019,7 +1019,7 @@ Public Class FrmQualityCheckForSRN
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj_MRN = Nothing
             objtr = Nothing
@@ -1214,7 +1214,7 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
 
             End If ''dt cond.
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             dt = Nothing
@@ -1255,7 +1255,7 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
             End If ''loaddata
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1329,7 +1329,7 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
             RefreshLineNo()
@@ -1702,7 +1702,7 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1716,7 +1716,7 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1726,7 +1726,7 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
             Dim qry As String = "select isnull(email,'') as email from TSPL_vendor_MASTER where vendor_Code in ('" + fndVendor_code.Value + "') "
             Dim emailId As String = clsDBFuncationality.getSingleValue(qry)
             If clsCommon.myLen(emailId) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter vendor email id.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter vendor email id.", Me.Text)
                 Exit Sub
             End If
 
@@ -1774,15 +1774,15 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
 
                         objEmailH.SaveData(clsUserMgtCode.frmQualityCheckForSRN, objEmailH, Nothing)
                         objEmailH = Nothing
-                        clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("First do email and sms setting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
                 Return
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1804,13 +1804,13 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
                                 " where TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCEntry", "Quality Control Report", clsCommon.myCDate(dtpDate.Value))
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1933,7 +1933,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1946,7 +1946,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             TxtFinderVendorPrint.Value = clsVendorMaster.getFinder(" TSPL_VENDOR_MASTER.Status='N'", TxtFinderVendorPrint.Value, isButtonClicked)
             lblVendorPrint.Text = clsVendorMaster.GetName(TxtFinderVendorPrint.Value, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1965,7 +1965,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 lblItemPrint.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1973,7 +1973,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
         Try
             AnalysisPrint(True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1982,29 +1982,29 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             Dim StrWhere As String = ""
             If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found")
+                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
                     txtDocNo.Focus()
                     Exit Sub
                 End If
                 StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
             ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
                 If fromDate.Value > ToDate.Value Then
-                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                     fromDate.Focus()
                     Exit Sub
                 End If
                 If clsCommon.myLen(txtLoationPrintFinder.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
                     txtLoationPrintFinder.Focus()
                     Exit Sub
                 End If
                 If clsCommon.myLen(TxtFinderVendorPrint.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Select vendor first")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select vendor first", Me.Text)
                     TxtFinderVendorPrint.Focus()
                     Exit Sub
                 End If
                 If clsCommon.myLen(TxtFinderItemPrint.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Select item first")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select item first", Me.Text)
                     TxtFinderItemPrint.Focus()
                     Exit Sub
                 End If
@@ -2049,7 +2049,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 If IsPrintVertical = True Then
                     frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportVertical", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
@@ -2069,7 +2069,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2078,24 +2078,24 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             Dim StrWhere As String = ""
             If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found")
+                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
                     txtDocNo.Focus()
                     Exit Sub
                 End If
                 StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
             ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
                 If fromDate.Value > ToDate.Value Then
-                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                     fromDate.Focus()
                     Exit Sub
                 End If
                 If clsCommon.myLen(txtLoationPrintFinder.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
                     txtLoationPrintFinder.Focus()
                     Exit Sub
                 End If
                 If clsCommon.myLen(TxtFinderVendorPrint.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Select vendor first")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select vendor first", Me.Text)
                     TxtFinderVendorPrint.Focus()
                     Exit Sub
                 End If
@@ -2145,7 +2145,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal AndAlso isA4Size = True Then
                     frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReport", "Analysis Report", clsCommon.myCDate(dtpDate.Value))
@@ -2158,7 +2158,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2176,19 +2176,19 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             Dim StrWhere As String = ""
             If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found")
+                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
                     txtDocNo.Focus()
                     Exit Sub
                 End If
                 StrWhere += " AND TSPL_QC_CHECK_HEAD.Document_Code = '" + txtDocNo.Value + "'"
             ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
                 If fromDate.Value > ToDate.Value Then
-                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                     fromDate.Focus()
                     Exit Sub
                 End If
                 If clsCommon.myLen(txtLoationPrintFinder.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
                     txtLoationPrintFinder.Focus()
                     Exit Sub
                 End If
@@ -2236,7 +2236,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Exit Sub
             Else
                 If clsCommon.CompairString(strBtnText, "English") = CompairStringResult.Equal Then
@@ -2246,7 +2246,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2274,19 +2274,19 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             Dim StrWhere As String = ""
             If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found")
+                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found", Me.Text)
                     txtDocNo.Focus()
                     Exit Sub
                 End If
                 StrWhere += " AND TSPL_QC_CHECK_HEAD.Document_Code = '" + txtDocNo.Value + "'"
             ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage3.Name) = CompairStringResult.Equal Then
                 If fromDate.Value > ToDate.Value Then
-                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                     fromDate.Focus()
                     Exit Sub
                 End If
                 If clsCommon.myLen(txtLoationPrintFinder.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Location first", Me.Text)
                     txtLoationPrintFinder.Focus()
                     Exit Sub
                 End If
@@ -2322,7 +2322,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 'Exit Sub
             Else
                 frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCRALWiseRMReportMultiple", "RL Wise Report")
@@ -2330,7 +2330,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

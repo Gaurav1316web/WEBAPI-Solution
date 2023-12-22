@@ -27,7 +27,7 @@ Public Class RptHierarchyWiseReport
     End Sub
     Sub Print(ByVal IsPrint As Exporter)
         If fromDate.Value > ToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             fromDate.Focus()
             Exit Sub
         End If
@@ -117,7 +117,7 @@ Public Class RptHierarchyWiseReport
 
 
         If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         RadPageView1.SelectedPage = RadPageViewPage2
@@ -289,7 +289,7 @@ Public Class RptHierarchyWiseReport
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Print(Exporter.Excel)
@@ -297,7 +297,7 @@ Public Class RptHierarchyWiseReport
 
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Print(Exporter.PDF)

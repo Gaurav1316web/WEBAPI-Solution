@@ -155,23 +155,23 @@ Public Class frmPendingMISC
                 Next '==detail for loop
 
                 If arrVendor.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one customer are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one customer are not allowed.", Me.Text)
                     Return False
                 End If
                 If arrPOType.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one type are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one type are not allowed.", Me.Text)
                     Return False
                 End If
                 If arrIsCashSale.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("All Document must be Same Type(Cash/Non Cash).")
+                    clsCommon.MyMessageBoxShow(Me, "All Document must be Same Type(Cash/Non Cash).", Me.Text)
                     Return False
                 End If
                 If arrTaxGroup.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("All Document must have same Tax Group.")
+                    clsCommon.MyMessageBoxShow(Me, "All Document must have same Tax Group.", Me.Text)
                     Return False
                 End If
                 If arrLocation.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("All Document must be from same Location.")
+                    clsCommon.MyMessageBoxShow(Me, "All Document must be from same Location.", Me.Text)
                     Return False
                 End If
 
@@ -693,7 +693,7 @@ Public Class frmPendingMISC
             End If
         Next
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Shipment item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Shipment item", Me.Text)
         Else
             Me.Close()
         End If

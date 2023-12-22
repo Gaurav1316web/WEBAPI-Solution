@@ -230,6 +230,8 @@ Public Class clsLocation
             Throw New Exception(ex.Message)
         End Try
     End Function
+
+
     Public Shared Function GetGITMainLocation(ByVal strLocation As String, ByVal trans As SqlTransaction) As String
         Try
             Dim qry As String = "select Location_Code from TSPL_LOCATION_MASTER where GIT_Location='" + strLocation + "'"

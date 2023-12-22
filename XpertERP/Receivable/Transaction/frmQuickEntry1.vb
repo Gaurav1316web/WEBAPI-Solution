@@ -327,7 +327,7 @@ Public Class FrmQuickEntry1
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -671,10 +671,10 @@ Public Class FrmQuickEntry1
                 IsNewEntry = False
             End If
             If SaveData(IsNewEntry) Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1566,7 +1566,7 @@ Public Class FrmQuickEntry1
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -1614,7 +1614,7 @@ Public Class FrmQuickEntry1
             End If
             clicked = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1762,7 +1762,7 @@ Public Class FrmQuickEntry1
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1818,7 +1818,7 @@ Public Class FrmQuickEntry1
             End If
             If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
                 If SaveData(IsNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                 End If
             ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
                 PostData()
@@ -1848,7 +1848,7 @@ Public Class FrmQuickEntry1
                           "AutoRecieptPaymentMode")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1886,7 +1886,7 @@ Public Class FrmQuickEntry1
             End If
         ElseIf ddlType.Text = "Misc Receipt" Then
             If clsCommon.myLen(fndBankCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Bank Code ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Bank Code ", Me.Text)
                 fndBankCode.Focus()
                 Exit Sub
             End If
@@ -1959,7 +1959,7 @@ Public Class FrmQuickEntry1
         If clsCommon.myLen(txtEntryNo.Value) > 0 Then
             funprint(txtEntryNo.Value)
         Else
-            common.clsCommon.MyMessageBoxShow("Select the Entry No. ")
+            common.clsCommon.MyMessageBoxShow(Me, "Select the Entry No. ", Me.Text)
         End If
 
     End Sub
@@ -2017,7 +2017,7 @@ Public Class FrmQuickEntry1
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2077,7 +2077,7 @@ Public Class FrmQuickEntry1
             End If
             ' Return Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2603,7 +2603,7 @@ Public Class FrmQuickEntry1
                                 MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvNarration").Value = clsCommon.myCstr(grow.Cells("Narration").Value)
                             Catch ex As Exception
                                 MasterTemplate.Rows.RemoveAt(MasterTemplate.Rows.Count - 1)
-                                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                             End Try
                         End If
                     Next
@@ -2630,7 +2630,7 @@ Public Class FrmQuickEntry1
                                 MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvNarration").Value = clsCommon.myCstr(grow.Cells("Narration").Value)
                             Catch ex As Exception
                                 MasterTemplate.Rows.RemoveAt(MasterTemplate.Rows.Count - 1)
-                                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                             End Try
                         End If
                     Next
@@ -2652,7 +2652,7 @@ Public Class FrmQuickEntry1
                                 MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvNarration").Value = clsCommon.myCstr(grow.Cells("Narration").Value)
                             Catch ex As Exception
                                 MasterTemplate.Rows.RemoveAt(MasterTemplate.Rows.Count - 1)
-                                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                             End Try
                         End If
                     Next

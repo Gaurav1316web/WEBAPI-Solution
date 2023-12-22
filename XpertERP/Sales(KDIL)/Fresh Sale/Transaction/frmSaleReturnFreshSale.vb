@@ -2483,7 +2483,7 @@ Public Class frmSaleReturnFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2568,14 +2568,14 @@ Public Class frmSaleReturnFreshSale
             '    End If
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenICodeListCurrentCalaculation(ByVal isButtonClick As Boolean)
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -2729,7 +2729,7 @@ Public Class frmSaleReturnFreshSale
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -3414,7 +3414,7 @@ Public Class frmSaleReturnFreshSale
 
             UpdateAllTotals()
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 txtVendorNo.Focus()
                 Return False
             End If
@@ -3423,20 +3423,20 @@ Public Class frmSaleReturnFreshSale
                 If CheckInvoiceWithGateEntry(txtReqNo.Value, fndGateEntryNo.Value) = False Then
                     Dim strCustomerOfGateEntry As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Customer_Code from  TSPL_Sale_Return_Gate_Entry_Head where Gate_Entry_No =  '" + fndGateEntryNo.Value + "'"))
                     If clsCommon.CompairString(strCustomerOfGateEntry, txtVendorNo.Value) <> CompairStringResult.Equal Then
-                        common.clsCommon.MyMessageBoxShow("Document Customer Not match to Customer of [Gate Entry No].", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Document Customer Not match to Customer of [Gate Entry No].", Me.Text)
                         fndGateEntryNo.Focus()
                         Return False
                     End If
                     Dim isGateEntryNoUsed As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select count(*) from TSPL_SD_SALE_RETURN_HEAD where Gate_Entry_No = '" + fndGateEntryNo.Value + "' "))
                     If isGateEntryNoUsed > 0 AndAlso isNewEntry Then
-                        common.clsCommon.MyMessageBoxShow("[Gate Entry No] already used another Document.", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] already used another Document.", Me.Text)
                         fndGateEntryNo.Focus()
                         Return False
                     End If
                 End If
 
                 If isGateEntryLocAndSaleRetrunLocSame(txtBillToLocation.Value, fndGateEntryNo.Value) = False Then
-                    common.clsCommon.MyMessageBoxShow("[Gate Entry No] location and Sale Return Location Should be Same.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] location and Sale Return Location Should be Same.", Me.Text)
                     fndGateEntryNo.Focus()
                     Return False
                 End If
@@ -3454,12 +3454,12 @@ Public Class frmSaleReturnFreshSale
             '    Return False
             'End If
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
                 txtBillToLocation.Focus()
                 Return False
             End If
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Return No Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "Return No Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
@@ -3574,7 +3574,7 @@ Public Class frmSaleReturnFreshSale
             Return True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -3944,7 +3944,7 @@ Public Class frmSaleReturnFreshSale
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -3978,13 +3978,13 @@ Public Class frmSaleReturnFreshSale
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Document_Code)
                     If ChekPostBtn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Document_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSave = False
         End Try
     End Sub
@@ -4574,7 +4574,7 @@ Public Class frmSaleReturnFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4651,7 +4651,7 @@ Public Class frmSaleReturnFreshSale
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4712,7 +4712,7 @@ Public Class frmSaleReturnFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSave = False
         End Try
     End Sub
@@ -4737,12 +4737,12 @@ Public Class frmSaleReturnFreshSale
                 End If
                 If (clsSalesReturnFreshSale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -4825,7 +4825,7 @@ Public Class frmSaleReturnFreshSale
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5134,7 +5134,7 @@ Public Class frmSaleReturnFreshSale
             txtVehcileCode.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehcileCode.Value, "vehicle_id", isButtonClicked)
             txtVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehcileCode.Value) + "'")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
@@ -5577,14 +5577,14 @@ Public Class frmSaleReturnFreshSale
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         If clsSalesReturnFreshSaleDetail.CompleteSRN(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function GetColumnsForTaxRateType(ByVal dt As DataTable)
@@ -5747,7 +5747,7 @@ Public Class frmSaleReturnFreshSale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5966,7 +5966,7 @@ Public Class frmSaleReturnFreshSale
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5997,7 +5997,7 @@ Public Class frmSaleReturnFreshSale
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6496,7 +6496,7 @@ Public Class frmSaleReturnFreshSale
                 txtCrateQty.Value = 0
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6543,7 +6543,7 @@ Public Class frmSaleReturnFreshSale
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6555,7 +6555,7 @@ Public Class frmSaleReturnFreshSale
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6615,7 +6615,7 @@ Public Class frmSaleReturnFreshSale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6652,7 +6652,7 @@ Public Class frmSaleReturnFreshSale
                 e.RowElement.ForeColor = Color.Black
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -6867,13 +6867,13 @@ Public Class frmSaleReturnFreshSale
 
                     objEmailH.SaveData(clsUserMgtCode.frmSaleReturnFreshSale, objEmailH, Nothing)
                     objEmailH = Nothing
-                    clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                     If Not clsSMSAtPost_Sales.SMSATPOST_SALE() Then
                         SMSSENDONLY(False)
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("First do email and sms setting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
                 Return
             End If
 
@@ -6955,7 +6955,7 @@ Public Class frmSaleReturnFreshSale
                     objSMSH.SaveData(clsUserMgtCode.frmSaleReturnFreshSale, objSMSH, Nothing)
                     objSMSH = Nothing
                     If Not isPost Then
-                        clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
                     End If
                 End If
             End If
@@ -6975,7 +6975,7 @@ Public Class frmSaleReturnFreshSale
 
     Private Sub btnpreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreview.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select First Sale Return No.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select First Sale Return No.", Me.Text)
             txtDocNo.Focus()
             txtDocNo.Select()
             Return
@@ -6994,7 +6994,7 @@ Public Class frmSaleReturnFreshSale
     Private Sub btnsend_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -7008,7 +7008,7 @@ Public Class frmSaleReturnFreshSale
             lstUsers.Add(txtVendorNo.Value)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -7017,7 +7017,7 @@ Public Class frmSaleReturnFreshSale
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -7043,7 +7043,7 @@ Public Class frmSaleReturnFreshSale
             End If
             SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -7070,12 +7070,12 @@ Public Class frmSaleReturnFreshSale
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsSalesReturnFreshSale.ReverseAndUnpost(txtDocNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

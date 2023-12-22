@@ -1015,9 +1015,10 @@ Public Class frmRCDFStandardization
         lblTotNetFATKG.Text = ""
         lblTotNetSNFKG.Text = ""
 
-        txtLocation.Value = ""
+
+
         txtBatchNo.Text = ""
-        lblLocation.Text = ""
+
         txtComment.Text = ""
         txtRemarks.Text = ""
 
@@ -1041,8 +1042,10 @@ Public Class frmRCDFStandardization
         isNewEntry = True
         LOCATIONRIGTHS()
         DisableAllTabPages()
-
         isCellValueChangedProduce = False
+
+        txtLocation.Value = clsUserMaster.GetDetaultLocation(Nothing)
+        lblLocation.Text = clsLocation.GetName(txtLocation.Value, Nothing)
     End Sub
     Sub DisableAllTabPages()
         'For Each page As RadPageViewPage In RadPageView1.Pages

@@ -197,7 +197,7 @@ Public Class frmAdvanceRegister
             SetGridLayout()
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGenrate.Enabled = True
         End Try
     End Sub
@@ -478,7 +478,7 @@ Public Class frmAdvanceRegister
         Try
             If gv3.Rows.Count <= 0 Then
                 gv3.Focus()
-                clsCommon.MyMessageBoxShow("Data not found.")
+                clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -510,7 +510,7 @@ Public Class frmAdvanceRegister
                 clsCommon.MyExportToPDF("Customer Advance Register", gv3, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -167,7 +167,7 @@ Public Class FrmCSATransferReturn
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -283,7 +283,7 @@ Public Class FrmCSATransferReturn
 
         Catch ex As Exception
             isCellValueChnaged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1786,7 +1786,7 @@ Public Class FrmCSATransferReturn
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -1965,7 +1965,7 @@ Public Class FrmCSATransferReturn
 
                 If clsCSATransferReturnHead.SaveData(obj, isNewEntry) Then
                     If Not isPost Then
-                        clsCommon.MyMessageBoxShow("Data saved successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                     End If
 
                     txtCode.Value = obj.Document_Code
@@ -1976,7 +1976,7 @@ Public Class FrmCSATransferReturn
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             objtr = Nothing
@@ -2019,7 +2019,7 @@ Public Class FrmCSATransferReturn
                 RadPageView1.SelectedPage = RadPageViewPage1
                 dtpdate.Focus()
                 dtpdate.Select()
-                clsCommon.MyMessageBoxShow("Fill document date.")
+                clsCommon.MyMessageBoxShow(Me, "Fill document date.", Me.Text)
                 Errorcontrol.SetError(dtpdate, "Select document date.")
                 Return False
             Else
@@ -2030,7 +2030,7 @@ Public Class FrmCSATransferReturn
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtcustcode.Focus()
                 txtcustcode.Select()
-                clsCommon.MyMessageBoxShow("Select CSA")
+                clsCommon.MyMessageBoxShow(Me, "Select CSA", Me.Text)
                 Errorcontrol.SetError(txtcustName, "Select CSA")
                 Return False
             Else
@@ -2041,7 +2041,7 @@ Public Class FrmCSATransferReturn
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txt_loc_code.Focus()
                 txt_loc_code.Select()
-                clsCommon.MyMessageBoxShow("Select location detail")
+                clsCommon.MyMessageBoxShow(Me, "Select location detail", Me.Text)
                 Errorcontrol.SetError(txt_loc_name, "Select location detail")
                 Return False
             Else
@@ -2052,7 +2052,7 @@ Public Class FrmCSATransferReturn
                 cmbType.Focus()
                 cmbType.Select()
                 Errorcontrol.SetError(cmbType, "Select return type.")
-                clsCommon.MyMessageBoxShow("Select return type.")
+                clsCommon.MyMessageBoxShow(Me, "Select return type.", Me.Text)
                 Return False
             Else
                 Errorcontrol.ResetError(cmbType)
@@ -2082,13 +2082,13 @@ Public Class FrmCSATransferReturn
                 End If
 
                 If isGateEntryLocAndSaleRetrunLocSame(txt_loc_code.Value, fndGateEntryNo.Value) = False Then
-                    common.clsCommon.MyMessageBoxShow("[Gate Entry No] location and Sale Return Location Should be Same.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] location and Sale Return Location Should be Same.", Me.Text)
                     fndGateEntryNo.Focus()
                     Return False
                 End If
 
                 If isCancelGateEntry(fndGateEntryNo.Value) = True Then
-                    common.clsCommon.MyMessageBoxShow("[Gate Entry No] canceled.Select another gate entry no.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] canceled.Select another gate entry no.", Me.Text)
                     fndGateEntryNo.Focus()
                     Return False
                 End If
@@ -2198,7 +2198,7 @@ Public Class FrmCSATransferReturn
             Return True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2216,7 +2216,7 @@ Public Class FrmCSATransferReturn
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtCode.Focus()
                 txtCode.Select()
-                clsCommon.MyMessageBoxShow("Select document for deletion.")
+                clsCommon.MyMessageBoxShow(Me, "Select document for deletion.", Me.Text)
                 Errorcontrol.SetError(txtCode, "Select document for deletion.")
                 Exit Sub
             Else
@@ -2232,7 +2232,7 @@ Public Class FrmCSATransferReturn
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2242,7 +2242,7 @@ Public Class FrmCSATransferReturn
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtCode.Focus()
                 txtCode.Select()
-                clsCommon.MyMessageBoxShow("Select document for posting.")
+                clsCommon.MyMessageBoxShow(Me, "Select document for posting.", Me.Text)
                 Errorcontrol.SetError(txtCode, "Select document for posting.")
                 Exit Sub
             Else
@@ -2263,7 +2263,7 @@ Public Class FrmCSATransferReturn
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2334,7 +2334,7 @@ Public Class FrmCSATransferReturn
 
         Catch ex As Exception
             isCellValueChnaged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2391,7 +2391,7 @@ Public Class FrmCSATransferReturn
             End If
         Catch ex As Exception
             isCellValueChnaged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2763,7 +2763,7 @@ Public Class FrmCSATransferReturn
                 FillTransferDetail(gv_Item.CurrentRow.Index, False, False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2831,7 +2831,7 @@ Public Class FrmCSATransferReturn
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
@@ -2849,7 +2849,7 @@ Public Class FrmCSATransferReturn
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtCode.Focus()
                 txtCode.Select()
-                clsCommon.MyMessageBoxShow("Select document for unposting.")
+                clsCommon.MyMessageBoxShow(Me, "Select document for unposting.", Me.Text)
                 Errorcontrol.SetError(txtCode, "Select document for unposting.")
                 Exit Sub
             Else
@@ -2862,14 +2862,14 @@ Public Class FrmCSATransferReturn
             End If
 
             If clsCSATransferReturnHead.UnPostData(MyBase.Form_ID, txtCode.Value, arrLoc) Then
-                clsCommon.MyMessageBoxShow("Record UnPosted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Record UnPosted Successfully", Me.Text)
 
                 LoadData(txtCode.Value, NavigatorType.Current)
                 btnRev_Unpost.Visible = False
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3132,7 +3132,7 @@ Public Class FrmCSATransferReturn
 
             Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 #End Region
@@ -3140,7 +3140,7 @@ Public Class FrmCSATransferReturn
     Private Sub gv_KeyDown(sender As Object, e As KeyEventArgs) Handles gv.KeyDown
         If e.KeyCode = Keys.F5 Then
             If gv.CurrentRow.Tag Is Nothing OrElse clsCommon.myLen(gv.CurrentRow.Tag) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select transfer detail first.")
+                clsCommon.MyMessageBoxShow(Me, "Please select transfer detail first.", Me.Text)
                 Exit Sub
             End If
             OpenBatchItem()
@@ -3160,7 +3160,7 @@ Public Class FrmCSATransferReturn
             txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(txt_loc_code.Value, txtcustcode.Value, "S", txtTaxGroup.Value, isButtonClicked, OpenALLTaxes)
             SetTaxDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

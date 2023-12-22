@@ -841,12 +841,12 @@ Public Class frmRGP
                             '-----------------check when thrd party location on----------------------------------------
                             If chkthirdparty.Checked Then
                                 If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                                    clsCommon.MyMessageBoxShow("Please Select Item Type First", Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Please Select Item Type First", Me.Text)
                                     isInsideLoadData = False
                                     isCellValueChangedOpen = False
                                     Return
                                 ElseIf clsCommon.myLen(txtLocation.Value) <= 0 Then
-                                    clsCommon.MyMessageBoxShow("Please Select Location First", Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Please Select Location First", Me.Text)
                                     isInsideLoadData = False
                                     isCellValueChangedOpen = False
                                     Return
@@ -914,7 +914,7 @@ Public Class frmRGP
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1414,7 +1414,7 @@ Public Class frmRGP
 
             '------------------------------------------------
             If chkthirdparty.Checked AndAlso clsCommon.myLen(txtsrnlocation_code.Value) <= 0 AndAlso cboDocType.SelectedIndex = 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Location For SRN Entry", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Location For SRN Entry", Me.Text)
                 txtsrnlocation_code.Focus()
                 txtsrnlocation_code.Select()
                 Return False
@@ -1425,7 +1425,7 @@ Public Class frmRGP
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1443,11 +1443,11 @@ Public Class frmRGP
                     obj.RoadPermit_Date = txtRoadPermitDate.Value
                 End If
                 If clsRGPHead.UpdateAfterPosting(obj, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1585,7 +1585,7 @@ Public Class frmRGP
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -1633,7 +1633,7 @@ Public Class frmRGP
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.RGP_No)
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     LoadData(obj.RGP_No, NavigatorType.Current, False)
@@ -1641,7 +1641,7 @@ Public Class frmRGP
             End If
         Catch ex As Exception
             If Not ChekBtnPost Then
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Else
                 Throw New Exception(ex.Message)
             End If
@@ -2099,7 +2099,7 @@ Public Class frmRGP
                 AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             IsRefDoc = False
@@ -2135,7 +2135,7 @@ Public Class frmRGP
                     End If
 
                     If AutoSRNFromRGP() Then
-                        clsCommon.MyMessageBoxShow("Auto SRN Transfer Successfully,For Post GoTo Store Received Note", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Auto SRN Transfer Successfully,For Post GoTo Store Received Note", Me.Text)
                     Else
                         Dim qry As String = ""
                         clsDBFuncationality.ExecuteNonQuery(qry)
@@ -2145,7 +2145,7 @@ Public Class frmRGP
                 '-------------------------------------------------------------
 
                 If (clsRGPHead.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
 
                     LoadData(txtDocNo.Value, NavigatorType.Current, False)
 
@@ -2159,7 +2159,7 @@ Public Class frmRGP
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2184,12 +2184,12 @@ Public Class frmRGP
                 End If
                 If (clsRGPHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2206,7 +2206,7 @@ Public Class frmRGP
         Try
             LoadData(txtDocNo.Value, NavType, False)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2230,7 +2230,7 @@ Public Class frmRGP
 
                 '-----------------check when thrd party location on----------------------------------------
                 If chkthirdparty.Checked AndAlso clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select Item Type First", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Item Type First", Me.Text)
                     Return
                 End If
                 '--------------------------------------------------------------------------------------------
@@ -2448,7 +2448,7 @@ Public Class frmRGP
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub print()
@@ -2509,7 +2509,7 @@ Public Class frmRGP
             frmCRV = Nothing
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2611,7 +2611,7 @@ Public Class frmRGP
         Catch ex As Exception
             isInsideLoadData = False
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2710,7 +2710,7 @@ Public Class frmRGP
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2867,12 +2867,12 @@ Public Class frmRGP
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsRGPHead.ReverseAndUnpost(txtDocNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current, False)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2912,7 +2912,7 @@ Public Class frmRGP
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2922,7 +2922,7 @@ Public Class frmRGP
 
     Private Sub deleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles deleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub chkthirdparty_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkthirdparty.ToggleStateChanged
@@ -2999,7 +2999,7 @@ Public Class frmRGP
         'Dim qry As String = "select TSPL_SRN_HEAD.SRN_No As [Code],TSPL_SRN_HEAD.Vendor_Code AS [Vendor Code],TSPL_SRN_HEAD.Bill_To_Location As [Bill To Location],TSPL_SRN_HEAD.Ship_To_Location AS [Ship To Location] From TSPL_SRN_HEAD Left Outer Join TSPL_SRN_DETAIL On TSPL_SRN_HEAD.SRN_No =TSPL_SRN_DETAIL.SRN_No "
         'Dim WhrCls As String = " Bill_To_Location in (Select ISNULL(Location_Code ,'') As Location_Code From TSPL_LOCATION_MASTER Where Rejected_Location='" & clsCommon.myCstr(txtLocation.Value) & "') AND TSPL_SRN_DETAIL.Rejected_Qty >0 Group By TSPL_SRN_HEAD.SRN_No,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.Bill_To_Location,TSPL_SRN_HEAD.Ship_To_Location  " 'location comes other than third party
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select location first.")
+            clsCommon.MyMessageBoxShow(Me, "Please select location first.", Me.Text)
             txtLocation.Focus()
             Exit Sub
         End If
@@ -3076,7 +3076,7 @@ Public Class frmRGP
 
             Next
         Else
-            clsCommon.MyMessageBoxShow("No data found")
+            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             gv1.Columns(colRejSRNQty).IsVisible = False
         End If
         isInsideLoadData = False
@@ -3270,7 +3270,7 @@ Public Class frmRGP
 
             RadPageView2.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3448,7 +3448,7 @@ Public Class frmRGP
 
             RadPageView2.SelectedPage = RadPageViewPage3
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3874,7 +3874,7 @@ Public Class frmRGP
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3981,7 +3981,7 @@ Public Class frmRGP
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4093,7 +4093,7 @@ Public Class frmRGP
 
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -4110,7 +4110,7 @@ Public Class frmRGP
                 LoadNRGP_Request()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -4183,7 +4183,7 @@ Public Class frmRGP
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Document Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "RGP_No", "TSPL_RGP_HEAD", "TSPL_RGP_DETAIL")

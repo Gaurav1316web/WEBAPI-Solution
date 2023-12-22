@@ -564,7 +564,7 @@ Public Class frmPendingDispatchNoteFreshSale
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Dispatch item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Dispatch item", Me.Text)
         Else
             Me.Close()
         End If

@@ -267,7 +267,7 @@ Public Class FrmGatePassFS
                 funLoadGrid(txtCode.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -364,11 +364,11 @@ Public Class FrmGatePassFS
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Document", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(obj, isNewEntry, "FS")) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.GPCode, NavigatorType.Current)
                 End If
 
@@ -376,7 +376,7 @@ Public Class FrmGatePassFS
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -546,7 +546,7 @@ Public Class FrmGatePassFS
 
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -577,7 +577,7 @@ Public Class FrmGatePassFS
 
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Post Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Post Record", Me.Text)
             Exit Sub
         End If
         If myMessages.postConfirm() Then
@@ -615,7 +615,7 @@ Public Class FrmGatePassFS
             frmStock.LoadDispatchData(strQuery)
             frmStock.Show()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '============================Changes by preeti gupta [09/01/2017]
@@ -658,12 +658,12 @@ Public Class FrmGatePassFS
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to Print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
         Else
             funPrint(txtCode.Value)
         End If

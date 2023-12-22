@@ -59,7 +59,7 @@ Public Class FrmHRParameterMaster
                 End If
                 If (ClsHRParameterMaster.SaveData(obj, isNewEntry)) Then
                     '                    trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Parameter_Code, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -98,7 +98,7 @@ Public Class FrmHRParameterMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -111,7 +111,7 @@ Public Class FrmHRParameterMaster
 
                 Dim qry As String = "DELETE FROM TSPL_HR_PARAMETER_MASTER WHERE Parameter_Code='" + txtcode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
@@ -157,7 +157,7 @@ Public Class FrmHRParameterMaster
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

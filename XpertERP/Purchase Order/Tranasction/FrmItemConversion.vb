@@ -230,7 +230,7 @@ Public Class FrmItemConversion
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -248,7 +248,7 @@ Public Class FrmItemConversion
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select  UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL "
@@ -302,7 +302,7 @@ Public Class FrmItemConversion
     Private Function AllowToSave() As Boolean
 
         If clsCommon.myLen(frnItemCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Fill Main Item...")
+            clsCommon.MyMessageBoxShow(Me, "Please Fill Main Item...", Me.Text)
             Return False
         End If
 
@@ -351,7 +351,7 @@ Public Class FrmItemConversion
                 End If
 
                 Dim isSaved As Boolean = obj.SaveData(obj, isNewEntry, clsCommon.myCstr(txtDocNo.Value), Nothing)
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Doc_Code, NavigatorType.Current)
                 Return isSaved
             End If
@@ -421,7 +421,7 @@ Public Class FrmItemConversion
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -490,7 +490,7 @@ Public Class FrmItemConversion
                 UsLock1.Status = ERPTransactionStatus.Pending
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -505,7 +505,7 @@ Public Class FrmItemConversion
             If (AllowToSave()) Then
                 If (myMessages.postConfirm()) Then
                     If (clsItemConversion.PostData(txtDocNo.Value, True)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
@@ -536,7 +536,7 @@ Public Class FrmItemConversion
                 End If
                 If (clsItemConversion.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -564,7 +564,7 @@ Public Class FrmItemConversion
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

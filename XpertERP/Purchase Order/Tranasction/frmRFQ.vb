@@ -90,7 +90,7 @@ Public Class FrmRFQ
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -118,7 +118,7 @@ Public Class FrmRFQ
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -132,13 +132,13 @@ Public Class FrmRFQ
             End If
 
             If clsCommon.myLen(txtReqNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Requision No.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Requision No.", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -161,7 +161,7 @@ Public Class FrmRFQ
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Vendor")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Vendor", Me.Text)
                     Return False
                 End If
                 Dim isSaved As Boolean = obj.SaveData(obj, isNewEntry)
@@ -169,7 +169,7 @@ Public Class FrmRFQ
                 Return isSaved
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -183,12 +183,12 @@ Public Class FrmRFQ
                 SavingData(True)
                 If (clsRFQ.PostData(txtRFQNo.Value, True)) Then
                     CreateEmailContent(txtRFQNo.Value, Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtRFQNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub CreateEmailContent(ByVal RFQNo As String, ByVal trans As SqlTransaction)
@@ -301,7 +301,7 @@ Public Class FrmRFQ
             End If
         Catch ex As Exception
             isNewEntry = True
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -326,7 +326,7 @@ Public Class FrmRFQ
                 End If
                 If (clsRFQ.DeleteData(txtRFQNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funreset()
                 End If
             End If
@@ -476,7 +476,7 @@ Public Class FrmRFQ
                 gv1.CurrentRow.Tag = clsCommon.ShowMultipleSelectForm("RFGItem", qry, "Item_Code", "", arr, Nothing)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

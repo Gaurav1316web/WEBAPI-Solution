@@ -193,7 +193,7 @@ Public Class frmRptVendorCustomerLedger
             dtOpening = clsDBFuncationality.GetDataTable(strFinalustomerVendorqryclosing)
 
             If dtOpening.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Data not found")
+                clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                 gv.DataSource = Nothing
                 Exit Sub
             Else
@@ -222,7 +222,7 @@ Public Class frmRptVendorCustomerLedger
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -670,7 +670,7 @@ Public Class frmRptVendorCustomerLedger
                 btnBack.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -714,7 +714,7 @@ Public Class frmRptVendorCustomerLedger
                 btnBack.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -870,7 +870,7 @@ Public Class frmRptVendorCustomerLedger
                 clsCommon.MyExportToPDF("Vendor Ledger Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

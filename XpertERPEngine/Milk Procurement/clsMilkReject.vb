@@ -1545,7 +1545,16 @@ Public Class clsMilkRejectDetail
                     End If
                 End If
                 clsCommon.AddColumnsForChange(coll, "Defaulter", obj.Defaulter)
-                Dim intRejectApplicableOn As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Applicable_On from TSPL_MILK_REJECT_TYPE where Code='" + obj.Reject_Type + "'", trans))
+
+                Dim dtMilkReject As DataTable = clsDBFuncationality.GetDataTable("select Applicable_On,Applicable_Per,Item_Code from TSPL_MILK_REJECT_TYPE where Code='" + obj.Reject_Type + "'", trans)
+                Dim MRRejectApplicableOn As Decimal = 0
+                Dim MRPenaltyPerUnit As Decimal = 0
+                Dim MRItemCode As String = ""
+                If dtMilkReject IsNot Nothing AndAlso dtMilkReject.Rows.Count > 0 Then
+                    MRRejectApplicableOn = clsCommon.myCDecimal(dtMilkReject.Rows(0)("Applicable_On"))
+                    MRPenaltyPerUnit = clsCommon.myCDecimal(dtMilkReject.Rows(0)("Applicable_Per"))
+                    MRItemCode = clsCommon.myCstr(dtMilkReject.Rows(0)("Item_Code"))
+                End If
                 If obj.Is_Return = 1 OrElse obj.Is_Return = 2 OrElse obj.Is_Return = 3 Then
                     If settAlwaysVSPDefaulter Then
                         obj.Item_CODE = clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, trans)
@@ -1565,8 +1574,12 @@ Public Class clsMilkRejectDetail
                             End If
                         End If
                     End If
-                ElseIf intRejectApplicableOn = 1 Then ''1-Reject Type is Rate 
-                    obj.dblPenaltyPerUnit = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Applicable_Per from TSPL_MILK_REJECT_TYPE where Code='" + obj.Reject_Type + "'", trans))
+                ElseIf MRRejectApplicableOn = 1 Then ''1-Reject Type is Rate 
+                    obj.Item_CODE = MRItemCode
+                    coll.Remove("Item_CODE")
+                    clsCommon.AddColumnsForChange(coll, "Item_CODE", obj.Item_CODE)
+
+                    obj.dblPenaltyPerUnit = MRPenaltyPerUnit
                     clsCommon.AddColumnsForChange(coll, "SNF_RATE", 0)
                     clsCommon.AddColumnsForChange(coll, "SNF_Amount", 0)
                     clsCommon.AddColumnsForChange(coll, "FAT_RATE", 0)

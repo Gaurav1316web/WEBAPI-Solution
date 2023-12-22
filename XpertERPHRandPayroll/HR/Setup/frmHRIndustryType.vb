@@ -91,7 +91,7 @@ Public Class frmHRIndustryType
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub DeleteData()
@@ -103,7 +103,7 @@ Public Class frmHRIndustryType
 
                 Dim qry As String = "DELETE FROM TSPL_HR_INDUSTRY_TYPE_MASTER WHERE Code='" + txtcode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception

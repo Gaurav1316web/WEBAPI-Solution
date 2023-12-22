@@ -141,19 +141,19 @@ Public Class FrmStoresLedger
             Stritemsubcategory = itemsubcategory.Replace("'", "")
         End If
         If chkItemSelect.IsChecked = True AndAlso cbgItem.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Item Or Select All")
+            common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Item Or Select All", Me.Text)
             Return
         End If
         If chkLocSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Location Or Select All")
+            common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Location Or Select All", Me.Text)
             Return
         End If
         If chkItemCatSelect.IsChecked = True AndAlso cbgItmCategory.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Item Category Or Select All")
+            common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Item Category Or Select All", Me.Text)
             Return
         End If
         If chkItemSubCatSelect.IsChecked = True AndAlso cbgItemSubCategory.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Item Sub Category Or Select All")
+            common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Item Sub Category Or Select All", Me.Text)
             Return
         End If
 
@@ -533,7 +533,7 @@ Public Class FrmStoresLedger
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub gridformat()
@@ -555,7 +555,7 @@ Public Class FrmStoresLedger
             End If
             
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

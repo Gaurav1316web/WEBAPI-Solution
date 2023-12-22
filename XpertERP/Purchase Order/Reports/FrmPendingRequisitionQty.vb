@@ -79,7 +79,7 @@ Public Class FrmPendingRequisitionQty
             '    If funSetUserAccess() = False Then Exit Sub
             ' End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnreset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnreset.Click
@@ -100,7 +100,7 @@ Public Class FrmPendingRequisitionQty
             txtVendor.arrValueMember = Nothing
             txtItem.arrValueMember = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''This will check the authorization of user to access the screen.If authorize then it will allow user to access the screen.
@@ -141,11 +141,11 @@ Public Class FrmPendingRequisitionQty
     Sub PrintData()
 
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
@@ -279,7 +279,7 @@ Public Class FrmPendingRequisitionQty
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "RequisitionPendingQty", "Pending Requisition Qty")
             frmCRV = Nothing
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found ")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found ", Me.Text)
             gv.DataSource = Nothing
         End If
         'dt = clsDBFuncationality.GetDataTable(qry)
@@ -329,12 +329,12 @@ Public Class FrmPendingRequisitionQty
                     Load_StoreRequistion_Report()
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' UDL > DOING AS PER PRASHANT SIR AND SHRUTI MADAM TICKET BY EMAIL [27-03-2017]
@@ -434,7 +434,7 @@ Public Class FrmPendingRequisitionQty
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Load_PendingIndent_Report()
@@ -806,7 +806,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1060,7 +1060,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
             gv.AllowAddNewRow = False
             gv.ShowGroupPanel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
@@ -1074,7 +1074,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
                 Load_StoreRequistion_Report()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rmSaveLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmSaveLayout.Click
@@ -1137,7 +1137,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
                     clsCommon.MyExportToPDF("Pending Indent Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
                 gv.DataSource = Nothing
             End If
 
@@ -1490,7 +1490,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1553,7 +1553,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub FillFiscalYear()
@@ -1583,7 +1583,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1632,7 +1632,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
                 btnBack.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv.CellDoubleClick
@@ -1687,7 +1687,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
@@ -1704,7 +1704,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadPageView1_SelectedPageChanged(sender As Object, e As EventArgs) Handles RadPageView1.SelectedPageChanged

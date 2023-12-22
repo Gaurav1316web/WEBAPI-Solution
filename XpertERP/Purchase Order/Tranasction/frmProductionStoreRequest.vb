@@ -799,7 +799,7 @@ Public Class frmProductionStoreRequest
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -818,14 +818,14 @@ Public Class frmProductionStoreRequest
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
 
         If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
             gv1.CurrentRow.Cells(colUnit).Value = ""
             cboItemType.Focus()
             Exit Sub
         ElseIf clsCommon.myLen(txtLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
             gv1.CurrentRow.Cells(colUnit).Value = ""
@@ -1022,26 +1022,26 @@ Public Class frmProductionStoreRequest
                 Dim strchk As String = "select Status from TSPL_PP_REQUISITION_HEAD where Requisition_Id='" + txtReqNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
 
             'UpdateAllTotals()
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 txtLocation.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Item Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
                 cboItemType.Focus()
                 Return False
             End If
 
             If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsLocation.isLocatinExcisable(txtLocation.Value) Then
-                common.clsCommon.MyMessageBoxShow("Location Can't be excisable of finished goods")
+                common.clsCommon.MyMessageBoxShow(Me, "Location Can't be excisable of finished goods", Me.Text)
                 Return False
             End If
 
@@ -1136,7 +1136,7 @@ Public Class frmProductionStoreRequest
             'End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1241,7 +1241,7 @@ Public Class frmProductionStoreRequest
 
 
                 If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -1259,7 +1259,7 @@ Public Class frmProductionStoreRequest
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Requisition_Id)
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Requisition_Id, NavigatorType.Current)
                     'If objCommonVar.IsDemoERP Then
@@ -1270,7 +1270,7 @@ Public Class frmProductionStoreRequest
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1497,7 +1497,7 @@ Public Class frmProductionStoreRequest
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1529,7 +1529,7 @@ Public Class frmProductionStoreRequest
                 'End If
 
                 If (clsProductionRequistionHead.PostData(txtReqNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ", Me.Text)
                     LoadData(txtReqNo.Value, NavigatorType.Current)
                     '=send sms at post if setting is on===================
                     'If clsSMSAtPost_Purchase.SMSATPOST_PUR() Then
@@ -1542,7 +1542,7 @@ Public Class frmProductionStoreRequest
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1566,12 +1566,12 @@ Public Class frmProductionStoreRequest
                 End If
                 If (clsProductionRequistionHead.DeleteData(txtReqNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1613,7 +1613,7 @@ Public Class frmProductionStoreRequest
             LoadData(txtReqNo.Value, NavType)
         Catch ex As Exception
             vaddnew = "N"
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1644,7 +1644,7 @@ Public Class frmProductionStoreRequest
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1718,7 +1718,7 @@ Public Class frmProductionStoreRequest
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1731,14 +1731,14 @@ Public Class frmProductionStoreRequest
                 If clsCommon.myLen(txtReqNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "N") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsProductionRequistionDetail.CompleteRequition(txtReqNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtReqNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1833,18 +1833,18 @@ Public Class frmProductionStoreRequest
             If clsCommon.myLen(txtReqNo.Value) > 0 Then
                 Dim chkTransfer As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(" select  count(*) from TSPL_TRANSFER_ORDER_HEAD where TransferIndent_No = '" + txtReqNo.Value + "' "))
                 If chkTransfer = True Then
-                    clsCommon.MyMessageBoxShow("Document Used in transfer.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Document Used in transfer.", Me.Text)
                     Exit Sub
                 End If
                 Dim qry As String = ""
                 If clsCommon.MyMessageBoxShow("Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                     clsProductionRequistionHead.ReverseAndUnpost(txtReqNo.Value)
-                    clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
                     LoadData(txtReqNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1973,21 +1973,21 @@ Public Class frmProductionStoreRequest
         Try
             If (clsProductionRequistionHead.CloseprData(txtReqNo.Value, closeyn)) Then
                 If closeyn = "Y" Then
-                    common.clsCommon.MyMessageBoxShow("Data Closed Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Closed Successfully ", Me.Text)
                 ElseIf closeyn = "N" Then
-                    common.clsCommon.MyMessageBoxShow("Data Opened Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Opened Successfully ", Me.Text)
                 End If
                 LoadData(txtReqNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub chkprclose_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkprclose.CheckedChanged
         'If chkprclose.Checked = True Then
         Dim isTransferedDoc As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count(*) from TSPL_TRANSFER_ORDER_HEAD where TransferIndent_No = '" + txtReqNo.Value + "' "))
         If isTransferedDoc = True Then
-            clsCommon.MyMessageBoxShow("Document already used in transfer.")
+            clsCommon.MyMessageBoxShow(Me, "Document already used in transfer.", Me.Text)
             chkprclose.Checked = True
             Exit Sub
             End If
@@ -2051,7 +2051,7 @@ Public Class frmProductionStoreRequest
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2340,13 +2340,13 @@ Public Class frmProductionStoreRequest
             If clsCommon.myLen(txtReqNo.Value) > 0 Then
                 If common.clsCommon.MyMessageBoxShow("Do you want to cancel the Request?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     If clsProductionRequistionHead.CancelData(Me.Form_ID, txtReqNo.Value) Then
-                        clsCommon.MyMessageBoxShow("Request cancelled successfully!")
+                        clsCommon.MyMessageBoxShow(Me, "Request cancelled successfully!", Me.Text)
                         AddNew()
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
