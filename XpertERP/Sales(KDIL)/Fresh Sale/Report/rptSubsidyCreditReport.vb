@@ -121,7 +121,7 @@ Public Class rptSubsidyCreditReport
     Public Sub loadReport()
 
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
@@ -159,7 +159,7 @@ Public Class rptSubsidyCreditReport
             gv.ReadOnly = True
         Else
             gv.DataSource = Nothing
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

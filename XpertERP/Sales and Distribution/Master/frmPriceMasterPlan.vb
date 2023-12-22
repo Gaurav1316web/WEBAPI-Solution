@@ -434,7 +434,7 @@ Public Class frmPriceMasterPlan
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -621,7 +621,7 @@ Public Class frmPriceMasterPlan
                     End If
                 Next
                 If obj.SaveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     isLoadCopy = False
                     LoadData(obj.Plan_Code, NavigatorType.Current)
                 End If
@@ -630,7 +630,7 @@ Public Class frmPriceMasterPlan
                 btndelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -662,7 +662,7 @@ Public Class frmPriceMasterPlan
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -721,7 +721,7 @@ Public Class frmPriceMasterPlan
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -889,7 +889,7 @@ Public Class frmPriceMasterPlan
             End If
             If clsCommon.MyMessageBoxShow("Post the current plan" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsPricePlanHead.PostData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 ''richa MIL/30/07/19-000114 comment loaddata
                 'LoadData(txtCode.Value, NavigatorType.Current)
                 btndelete.Enabled = False
@@ -899,7 +899,7 @@ Public Class frmPriceMasterPlan
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -946,7 +946,7 @@ Public Class frmPriceMasterPlan
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -1279,7 +1279,7 @@ Public Class frmPriceMasterPlan
                 UpdateAllRows()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1298,7 +1298,7 @@ Public Class frmPriceMasterPlan
                 gv1.CurrentColumn = gv1.Columns(oldCurrentColumne)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1309,7 +1309,7 @@ Public Class frmPriceMasterPlan
                 UpdateAllRows()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1320,7 +1320,7 @@ Public Class frmPriceMasterPlan
             ListImpExpColumnsSuperMandatory = New List(Of String)({"ItemCode"})
             transportSql.ExporttoExcel(query, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Segment Code")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Segment Code")
         End Try
     End Sub
 
@@ -1443,7 +1443,7 @@ Public Class frmPriceMasterPlan
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(dgv)
         End Try
@@ -1519,7 +1519,7 @@ Public Class frmPriceMasterPlan
                 Dim qry As String = "select  Item_Price_ID as PriceID,UOM,Item_MRP as MRP,convert(decimal(18,2), (Price_Amount1+Price_Amount2+Price_Amount3+Price_Amount4+Price_Amount5+Price_Amount6+Price_Amount7+Price_Amount8+Price_Amount9+Price_Amount10)) as ComponentAmount,convert(decimal(18,2), Item_Basic_Price) as BasicPrice,convert(decimal(18,2),(TAX1_Amt+TAX2_Amt+TAX3_Amt+TAX4_Amt+TAX5_Amt+TAX6_Amt+TAX7_Amt+TAX8_Amt+TAX9_Amt+TAX10_Amt)) as TotalTaxAmount,  convert(decimal(18,2), Item_Selling_Price) as SelePrice from TSPL_ITEM_PRICE_MASTER where Against_Plan_TR_Code in('" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTRCode).Value) + "') order by PriceID"
                 frm.dt = clsDBFuncationality.GetDataTable(qry)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "All UOM Sale Price For : " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
@@ -1528,7 +1528,7 @@ Public Class frmPriceMasterPlan
                 frm.Show()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1551,7 +1551,7 @@ Public Class frmPriceMasterPlan
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv1, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1621,7 +1621,7 @@ Public Class frmPriceMasterPlan
                 clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtCode.Value), "plan_code", "TSPL_ITEM_PRICE_PLAN_HEADER", "TSPL_ITEM_PRICE_PLAN_DETAIL")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

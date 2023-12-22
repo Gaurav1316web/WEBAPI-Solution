@@ -63,12 +63,12 @@ Public Class FrmPurchaseOrderAuto
                     Arr.Add(obj)
                 Next
                 If (clsItemReorderLevel.SaveData(Arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(clsCommon.myCstr(txtCategory.Value))
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -87,7 +87,7 @@ Public Class FrmPurchaseOrderAuto
                 FormatGrid()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -151,7 +151,7 @@ Public Class FrmPurchaseOrderAuto
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -159,7 +159,7 @@ Public Class FrmPurchaseOrderAuto
         Try
             ImportItems()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

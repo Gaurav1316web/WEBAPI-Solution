@@ -56,27 +56,27 @@ Public Class frmAdj
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Try
             If saveData() Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(fndCusCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             fndCusCode.Focus()
             Return False
         ElseIf clsCommon.myLen(fndDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Document")
+            clsCommon.MyMessageBoxShow(Me, "Please select Document", Me.Text)
             fndDocNo.Focus()
             Return False
         End If
       
         Dim Post As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Post from TSPL_Receipt_Adjustment_Header where Adjustment_No='" + fndFnAdj.Value + "' "))
         If clsCommon.CompairString(Post, "Y") = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Posted Transaction", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Posted Transaction", Me.Text)
             Return False
         End If
         Dim amt As Decimal = 0
@@ -87,7 +87,7 @@ Public Class frmAdj
         Next
 
         If amt > clsCommon.myCdbl(txtBalanceAmt.Text) Then
-            clsCommon.MyMessageBoxShow("Adjustment can not be created more than Balance Amount.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Adjustment can not be created more than Balance Amount.", Me.Text)
             Return False
         End If
         '' Anubhooti 13-Sep-2014 BM00000003735
@@ -182,7 +182,7 @@ Public Class frmAdj
         If fndFnAdj.Value <> "" Then
             Dim Post As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Post from TSPL_Receipt_Adjustment_Header where Adjustment_No='" + fndFnAdj.Value + "' "))
             If clsCommon.CompairString(Post, "Y") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Already Posted Transaction", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Already Posted Transaction", Me.Text)
                 Exit Sub
             End If
             If saveData() Then
@@ -385,7 +385,7 @@ Public Class frmAdj
                 ''--------------
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -447,7 +447,7 @@ Public Class frmAdj
 
             fnDocAmt(fndDocNo.Value)
         Else
-            clsCommon.MyMessageBoxShow("Please select Customer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
         End If
        
     End Sub
@@ -545,7 +545,7 @@ Public Class frmAdj
     Private Sub frmAdj_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
             If saveData() Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
             postData()
@@ -588,7 +588,7 @@ Public Class frmAdj
         If clsCommon.myLen(fndFnAdj.Value) > 0 Then
             PrintData(fndFnAdj.Value)
         Else
-            clsCommon.MyMessageBoxShow("No data found")
+            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End If
 
     End Sub
@@ -606,7 +606,7 @@ Public Class frmAdj
             Try
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "AdjustmentReport", "Settlement Report")
@@ -630,12 +630,12 @@ Public Class frmAdj
         Try
             If common.clsCommon.MyMessageBoxShow("reverse and unpost the current document" + Environment.NewLine + "are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsAdjustmentEntryReceivables.ReverseAndUnpost(fndFnAdj.Value) Then
-                    common.clsCommon.MyMessageBoxShow("successfully reversed and recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "successfully reversed and recreated", Me.Text)
                     LoadData(fndFnAdj.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

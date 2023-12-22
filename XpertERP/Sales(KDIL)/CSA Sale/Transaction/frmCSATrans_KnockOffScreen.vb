@@ -214,7 +214,7 @@ Public Class FrmCSATrans_KnockOffScreen
                 Me.Close()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -319,7 +319,7 @@ Public Class FrmCSATrans_KnockOffScreen
             'End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -640,7 +640,7 @@ Public Class FrmCSATrans_KnockOffScreen
             If ComeFromImport Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -676,7 +676,7 @@ Public Class FrmCSATrans_KnockOffScreen
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -230,7 +230,7 @@ Public Class frmCSATransfer
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -334,7 +334,7 @@ Public Class frmCSATransfer
             ''---------------------
             OpenForDrillDown()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2341,7 +2341,7 @@ Public Class frmCSATransfer
 
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2930,7 +2930,7 @@ Public Class frmCSATransfer
             UpdateAllTotals()
             'CalculateDiscountAmount()
             If clsCommon.myLen(txtCustCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtCustCode.Select()
                 txtCustCode.Focus()
@@ -2941,7 +2941,7 @@ Public Class frmCSATransfer
             End If
 
             If clsCommon.CompairString(cmbEXType.SelectedValue, "") = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Select Transfer type.")
+                common.clsCommon.MyMessageBoxShow(Me, "Select Transfer type.", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 cmbEXType.Select()
                 cmbEXType.Focus()
@@ -2952,7 +2952,7 @@ Public Class frmCSATransfer
             End If
 
             If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage2
                 txtTaxGroup.Select()
                 txtTaxGroup.Focus()
@@ -2982,7 +2982,7 @@ Public Class frmCSATransfer
             '=======================================================================
 
             If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtFromLocation.Select()
                 txtFromLocation.Focus()
@@ -3043,7 +3043,7 @@ Public Class frmCSATransfer
             '===================================================================
 
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Transfer No not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "Transfer No not found to save", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtDocNo.Select()
                 txtDocNo.Focus()
@@ -3057,7 +3057,7 @@ Public Class frmCSATransfer
                 RadPageView1.SelectedPage = RadPageViewPage1
                 dtpGR.Focus()
                 dtpGR.Select()
-                clsCommon.MyMessageBoxShow("Fill GR Date")
+                clsCommon.MyMessageBoxShow(Me, "Fill GR Date", Me.Text)
                 ErrorControl.SetError(dtpGR, "Fill GR Date")
                 Return False
             Else
@@ -3068,7 +3068,7 @@ Public Class frmCSATransfer
                 RadPageView1.SelectedPage = RadPageViewPage1
                 TxtTransportorMName.Focus()
                 'Throw New Exception("Please fill transpoter name")
-                clsCommon.MyMessageBoxShow("Please fill transpoter name")
+                clsCommon.MyMessageBoxShow(Me, "Please fill transpoter name", Me.Text)
                 ErrorControl.SetError(TxtTransportorMName, "Please fill transpoter name")
                 Return False
             Else
@@ -3076,7 +3076,7 @@ Public Class frmCSATransfer
             End If
             If chkownvehicle.Checked = False AndAlso clsCommon.myLen(clsCommon.myCstr(txtTransporter_Code.Value)) > 0 Then
                 If clsCommon.myLen(txtvehicle_code.Text) = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Pls enter vehicle no")
+                    common.clsCommon.MyMessageBoxShow(Me, "Pls enter vehicle no", Me.Text)
                     txtvehicle_code.Focus()
                     ErrorControl.SetError(TxtTransportorMName, "Pls enter vehicle no")
                     Return False
@@ -3186,7 +3186,7 @@ Public Class frmCSATransfer
                 RadPageView1.SelectedPage = RadPageViewPage1
                 gv1.Focus()
                 gv1.Select()
-                clsCommon.MyMessageBoxShow("Fill item detail in grid.")
+                clsCommon.MyMessageBoxShow(Me, "Fill item detail in grid.", Me.Text)
                 Return False
             End If
 
@@ -3233,7 +3233,7 @@ Public Class frmCSATransfer
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -3802,7 +3802,7 @@ Public Class frmCSATransfer
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill atleast one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill atleast one Item", Me.Text)
                     Return False
                 End If
                 ''For Custom Fields
@@ -3843,7 +3843,7 @@ Public Class frmCSATransfer
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -3982,7 +3982,7 @@ Public Class frmCSATransfer
                 lblTaxGrpName.Text = obj.TaxGroupName
                 TxtTransportorMName.Text = clsCommon.myCstr(obj.Transporter_Name_Manual)
                 If obj.Approvel_Required = 1 And obj.Is_Approved = 0 Then
-                    clsCommon.MyMessageBoxShow("Approval is required for this order")
+                    clsCommon.MyMessageBoxShow(Me, "Approval is required for this order", Me.Text)
                     btnPost.Enabled = False
                     'Else
                     '    btnPost.Enabled = True
@@ -4414,7 +4414,7 @@ Public Class frmCSATransfer
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -4450,7 +4450,7 @@ Public Class frmCSATransfer
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4471,7 +4471,7 @@ Public Class frmCSATransfer
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtTransporter_Code.Focus()
                 txtTransporter_Code.Select()
-                clsCommon.MyMessageBoxShow("Select transporter detail.")
+                clsCommon.MyMessageBoxShow(Me, "Select transporter detail.", Me.Text)
                 ErrorControl.SetError(txtTransporter_desc, "Select transporter detail.")
                 Exit Sub
             Else
@@ -4482,7 +4482,7 @@ Public Class frmCSATransfer
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtvehicle_code.Focus()
                 txtvehicle_code.Select()
-                clsCommon.MyMessageBoxShow("Fill vehicle no. for provision booking.")
+                clsCommon.MyMessageBoxShow(Me, "Fill vehicle no. for provision booking.", Me.Text)
                 ErrorControl.SetError(txtvehicle_code, "Fill vehicle no. for provision booking.")
                 Exit Sub
             Else
@@ -4493,7 +4493,7 @@ Public Class frmCSATransfer
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtVehicle_Capacity.Focus()
                 txtVehicle_Capacity.Select()
-                clsCommon.MyMessageBoxShow("Fill vehicle capacity for provision booking.")
+                clsCommon.MyMessageBoxShow(Me, "Fill vehicle capacity for provision booking.", Me.Text)
                 ErrorControl.SetError(txtVehicle_Capacity, "Fill vehicle capacity for provision booking.")
                 Exit Sub
             Else
@@ -4504,7 +4504,7 @@ Public Class frmCSATransfer
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtGross_Wt.Focus()
                 txtGross_Wt.Select()
-                clsCommon.MyMessageBoxShow("Fill Gross weight for provision booking.")
+                clsCommon.MyMessageBoxShow(Me, "Fill Gross weight for provision booking.", Me.Text)
                 ErrorControl.SetError(txtGross_Wt, "Fill Gross weight for provision booking.")
                 Exit Sub
             Else
@@ -4556,7 +4556,7 @@ Public Class frmCSATransfer
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4583,7 +4583,7 @@ Public Class frmCSATransfer
                 'clsCommon.ProgressBarShow()
                 If (clsCSATransfer.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -4638,7 +4638,7 @@ Public Class frmCSATransfer
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4711,7 +4711,7 @@ Public Class frmCSATransfer
                 If frm.isPasswordCorrect Then
                     If ShowDocumentCancel = True AndAlso UsLock1.Status = ERPTransactionStatus.Cancel Then
                         btnReverse.Visible = False
-                        clsCommon.MyMessageBoxShow("No Reverse Document Apply", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "No Reverse Document Apply", Me.Text)
                     Else
                         btnReverse.Visible = True
                     End If
@@ -4736,7 +4736,7 @@ Public Class frmCSATransfer
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4766,7 +4766,7 @@ Public Class frmCSATransfer
             txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(txtFromLocation.Value, txtCustCode.Value, "S", txtTaxGroup.Value, isButtonClicked, OpenALLTaxes)
             SetTaxDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -5022,12 +5022,12 @@ Public Class frmCSATransfer
 
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtToLocation._MYValidating
         If clsCommon.myLen(txtFromLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtFromLocation.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtCustCode.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
             txtCustCode.Focus()
             Exit Sub
         End If
@@ -5440,13 +5440,13 @@ Public Class frmCSATransfer
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("CSA Transfer No not found to Print")
+            clsCommon.MyMessageBoxShow(Me, "CSA Transfer No not found to Print", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             txtDocNo.Focus()
             txtDocNo.Select()
@@ -5688,14 +5688,14 @@ Public Class frmCSATransfer
             frmCRV = Nothing
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
 
     Private Sub BtnPrintChallan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnPrintChallan.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("CSA Transfer No not found to Print")
+            clsCommon.MyMessageBoxShow(Me, "CSA Transfer No not found to Print", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             txtDocNo.Focus()
             txtDocNo.Select()
@@ -5775,7 +5775,7 @@ Public Class frmCSATransfer
 
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5883,7 +5883,7 @@ Public Class frmCSATransfer
         Else
             If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colFOC).Value), "Y") = CompairStringResult.Equal Then
                 e.Cancel = True
-                clsCommon.MyMessageBoxShow("Free item cannot deleted.")
+                clsCommon.MyMessageBoxShow(Me, "Free item cannot deleted.", Me.Text)
                 Exit Sub
             End If
 
@@ -5906,7 +5906,7 @@ Public Class frmCSATransfer
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5975,12 +5975,12 @@ Public Class frmCSATransfer
             If clsCSATransfer.UpdateCustomerAfterSavePost(obj) Then
                 txtCustCode.Enabled = False
                 btnAmendment.Visible = False
-                clsCommon.MyMessageBoxShow("CSA Changed Successfully")
+                clsCommon.MyMessageBoxShow(Me, "CSA Changed Successfully", Me.Text)
             End If
         Catch ex As Exception
             txtCustCode.Enabled = False
             btnAmendment.Visible = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         LoadData(txtDocNo.Value, NavigatorType.Current)
     End Sub
@@ -6046,7 +6046,7 @@ Public Class frmCSATransfer
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6074,7 +6074,7 @@ Public Class frmCSATransfer
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6845,7 +6845,7 @@ Public Class frmCSATransfer
 
             txtDate.Enabled = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isbtnDOClick = False
             obj = Nothing
@@ -6900,14 +6900,14 @@ Public Class frmCSATransfer
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnupdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnupdate.Click
         If clsCommon.myLen(txtWayBill_No.Text) > 0 Then
             clsDBFuncationality.ExecuteNonQuery("update tspl_csa_transfer_head set waybill_no='" + txtWayBill_No.Text + "',WayBill_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(ttxway_bill_date.Text), "dd/MMM/yyyy") + "' where doc_code='" + txtDocNo.Value + "'")
-            clsCommon.MyMessageBoxShow("Waybill No. Updated successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Waybill No. Updated successfully.", Me.Text)
         End If
     End Sub
 
@@ -6934,7 +6934,7 @@ Public Class frmCSATransfer
                         Dim qrySaveCancel = "Update TSPL_CSA_TRANSFER_HEAD set CancelFlag=1 where Doc_Code='" & txtDocNo.Value & "'"
                         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qrySaveCancel)
                         If isSaved = True Then
-                            clsCommon.MyMessageBoxShow("CSA Transfer cancelled successfully!")
+                            clsCommon.MyMessageBoxShow(Me, "CSA Transfer cancelled successfully!", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
 
@@ -6942,7 +6942,7 @@ Public Class frmCSATransfer
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FillVehicleCharges()
@@ -6960,7 +6960,7 @@ Public Class frmCSATransfer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -6980,14 +6980,14 @@ Public Class frmCSATransfer
 
     Private Sub txtship_to_loc_code__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtship_to_loc_code._MYValidating
         If clsCommon.myLen(txtCustCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select customer detail.")
+            clsCommon.MyMessageBoxShow(Me, "Select customer detail.", Me.Text)
             txtCustCode.Focus()
             txtCustCode.Focus()
             Exit Sub
         End If
 
         If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select from location.")
+            clsCommon.MyMessageBoxShow(Me, "Select from location.", Me.Text)
             txtFromLocation.Focus()
             txtFromLocation.Select()
             Exit Sub
@@ -7022,12 +7022,12 @@ Public Class frmCSATransfer
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsCSATransfer.UnPostData(txtDocNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7040,7 +7040,7 @@ Public Class frmCSATransfer
     ''richa agarwal 29 Nov,2016
     Private Sub btn_exciseinvoice_Click(sender As Object, e As EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("CSA Transfer No not found to Print")
+            clsCommon.MyMessageBoxShow(Me, "CSA Transfer No not found to Print", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             txtDocNo.Focus()
             txtDocNo.Select()
@@ -7050,7 +7050,7 @@ Public Class frmCSATransfer
     End Sub
     Private Sub btn_nonexciseinvoice_Click(sender As Object, e As EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("CSA Transfer No not found to Print")
+            clsCommon.MyMessageBoxShow(Me, "CSA Transfer No not found to Print", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             txtDocNo.Focus()
             txtDocNo.Select()
@@ -7195,7 +7195,7 @@ Public Class frmCSATransfer
     Private Sub btnEwaybillnoupdate_Click(sender As Object, e As EventArgs) Handles btnEwaybillnoupdate.Click
         If clsCommon.myLen(txtDocNo.Value) > 0 Then
             clsDBFuncationality.ExecuteNonQuery("update tspl_csa_transfer_head set EWayBillNo='" + TxtEWayBillNo.Text + "',EWayBillDate='" + clsCommon.GetPrintDate(clsCommon.myCDate(TxtEWayBillDate.Value), "dd/MMM/yyyy") + "', Electronic_Ref_No= '" + txtElectronicRefNo.Text + "' where doc_code='" + txtDocNo.Value + "'")
-            clsCommon.MyMessageBoxShow("E-Waybill No. Updated successfully.")
+            clsCommon.MyMessageBoxShow(Me, "E-Waybill No. Updated successfully.", Me.Text)
         End If
     End Sub
     Private Sub txtVehicle_Capacity_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtVehicle_Capacity.TextChanged
@@ -7212,13 +7212,13 @@ Public Class frmCSATransfer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnPrintMandi_Click(sender As Object, e As EventArgs) Handles btnPrintMandi.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("CSA Transfer No not found to Print")
+            clsCommon.MyMessageBoxShow(Me, "CSA Transfer No not found to Print", Me.Text)
             RadPageView1.SelectedPage = RadPageViewPage1
             txtDocNo.Focus()
             txtDocNo.Select()
@@ -7497,7 +7497,7 @@ Public Class frmCSATransfer
             frmCRV = Nothing
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

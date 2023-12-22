@@ -28,7 +28,7 @@ Public Class frmGateEntryReturnCSA
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -48,9 +48,9 @@ Public Class frmGateEntryReturnCSA
             If clsGateEntryReturnCSA.SaveData(obj, isNewEntry, trans) Then
                 trans.Commit()
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
 
@@ -61,7 +61,7 @@ Public Class frmGateEntryReturnCSA
 
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Update"
             btnDelete.Enabled = False
 
@@ -70,7 +70,7 @@ Public Class frmGateEntryReturnCSA
 
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -110,13 +110,13 @@ Public Class frmGateEntryReturnCSA
                     myMessages.delete()
                     Reset()
                 Else
-                    clsCommon.MyMessageBoxShow("Can't delete the record")
+                    clsCommon.MyMessageBoxShow(Me, "Can't delete the record", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Select a document to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a document to delete", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -188,13 +188,13 @@ Public Class frmGateEntryReturnCSA
                     myMessages.post()
                     loadData(fndDocNo.Value, NavigatorType.Current)
                 Else
-                    clsCommon.MyMessageBoxShow("Can't Post the record")
+                    clsCommon.MyMessageBoxShow(Me, "Can't Post the record", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Select a document to Post")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a document to Post", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

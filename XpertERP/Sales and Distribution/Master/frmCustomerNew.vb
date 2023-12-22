@@ -209,14 +209,14 @@ Public Class frmCustomer
     Function AllowToSave() As Boolean
         Try
             If CmbTransaction.SelectedValue = "T" AndAlso clsCommon.myLen(txtTinNo.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Tin No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Tin No", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 txtTinNo.Focus()
                 Return False
 
             End If
             If TxtLocation.Value = "RCDF" OrElse TxtLocation.Value = "" Then
-                common.clsCommon.MyMessageBoxShow("Customer cannot be mapped without Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Customer cannot be mapped without Location", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 TxtLocation.Focus()
                 Return False
@@ -292,7 +292,7 @@ Public Class frmCustomer
             ''richa  ERO/01/07/21-001425
             If chkITRfilledinLast2Years.Checked = True Then
                 If clsCommon.myLen(clsCommon.myCstr(txtpan.Text)) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "PAN No. can not be blank")
+                    common.clsCommon.MyMessageBoxShow(Me, "PAN No. can not be blank", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage4
                     txtpan.Focus()
                     Return False
@@ -395,7 +395,7 @@ Public Class frmCustomer
             '' validation for multicurrency
             If clsCommon.myLen(clsCommon.myCstr(fndCustCurrency.Value)) > 0 Then
                 If clsCommon.myLen(Me.fndAccntSet.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Select Account Set. Under Process Tab")
+                    clsCommon.MyMessageBoxShow(Me, "Select Account Set. Under Process Tab", Me.Text)
                     Me.fndAccntSet.Focus()
                     Return False
                 End If
@@ -414,7 +414,7 @@ Public Class frmCustomer
                 qry = "select CURRENCY_CODE from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" & clsCommon.myCstr(Me.fndAccntSet.Value) & "' "
                 Dim accCurrCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
                 If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(Me.fndCustCurrency.Value)) <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Customer Currency must be same in case of Multicurrency.")
+                    clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Customer Currency must be same in case of Multicurrency.", Me.Text)
                     Return False
                 End If
                 '' match tax Group currency with vendor currency
@@ -589,7 +589,7 @@ Public Class frmCustomer
             If GstApplicable Then
                 If chkGstRegistered.Checked Then
                     If clsCommon.myLen(txtpan.Text) <= 0 Then
-                        clsCommon.MyMessageBoxShow(Me, "Please Enter Customer Pan No.")
+                        clsCommon.MyMessageBoxShow(Me, "Please Enter Customer Pan No.", Me.Text)
                         txtpan.Focus()
                         txtpan.Select()
                         Return False
@@ -608,7 +608,7 @@ Public Class frmCustomer
             Return True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -1523,7 +1523,7 @@ Public Class frmCustomer
             obj.location = clsCommon.myCstr(TxtLocation.Value)
 
             If clsCommon.myLen(obj.location) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Select Location For Mapping")
+                common.clsCommon.MyMessageBoxShow(Me, "Select Location For Mapping", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 TxtLocation.Focus()
                 Exit Sub
@@ -1849,11 +1849,11 @@ Public Class frmCustomer
             End If
 
             If btnSave.Text = "Save" Then
-                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
             End If
             isLoadCopy = False
             LoadData() '-Fills data
@@ -4204,7 +4204,7 @@ Public Class frmCustomer
             Dim check As Match = Regex.Match(txtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtEmail.Text = ""
                 txtEmail.Focus()
             End If
@@ -4219,7 +4219,7 @@ Public Class frmCustomer
             Dim check As Match = Regex.Match(txtContactEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtContactEmail.Text = ""
                 txtContactEmail.Focus()
             End If
@@ -4416,7 +4416,7 @@ Public Class frmCustomer
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -4566,7 +4566,7 @@ Public Class frmCustomer
             dgvVisi.DataSource = dt
             FormatGrid()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4939,7 +4939,7 @@ Public Class frmCustomer
                 End Try
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -5424,7 +5424,7 @@ Public Class frmCustomer
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5559,11 +5559,11 @@ Public Class frmCustomer
 
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv1)
@@ -5618,7 +5618,7 @@ Public Class frmCustomer
                 'fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5644,7 +5644,7 @@ Public Class frmCustomer
                 txtGstPanNo.Text = txtpan.Text.Trim()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa agarwal
@@ -5654,7 +5654,7 @@ Public Class frmCustomer
             txtParentCstmrNo.Text = ""
             txtParentCstNo.Enabled = Not Chkparntcutmr.Checked
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''=====================
@@ -5800,11 +5800,11 @@ Public Class frmCustomer
 
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv1)
@@ -5828,7 +5828,7 @@ Public Class frmCustomer
             Whrcls = " Login_Type is null and EmployeeCode is not null "
             txtDriverFinder.Value = clsCustomerMaster.getDriverFinder(Whrcls, txtDriverFinder.Value, isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5880,14 +5880,14 @@ Public Class frmCustomer
     Private Sub btnGetHistory_Click(sender As Object, e As EventArgs) Handles btnGetHistory.Click
         Try
             If clsCommon.myLen(fndCustomer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Customer")
+                clsCommon.MyMessageBoxShow(Me, "Select Customer", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndCustomer.Value, "Cust_Code", "TSPL_CUSTOMER_MASTER")
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5966,7 +5966,7 @@ Public Class frmCustomer
                 gvCan.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenCanLocationList(ByVal isButtonClick As Boolean)
@@ -6156,11 +6156,11 @@ Public Class frmCustomer
 
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv1)
@@ -6215,7 +6215,7 @@ Public Class frmCustomer
             SaveData()
             saveCancelLog(Reason, "Updated", Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6283,7 +6283,7 @@ Public Class frmCustomer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6310,7 +6310,7 @@ Public Class frmCustomer
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub GetSecurityDetails(ByVal customer As String)
