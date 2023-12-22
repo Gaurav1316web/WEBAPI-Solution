@@ -158,13 +158,12 @@ Public Class frmDemand_Sheet
                     If e.Column.Name = colCustCode Then
                         gv1.CurrentRow.Cells(colCustCode).Value = clsDistributorRouteTagging.getFinder(" IsDistributor='N' and form_type not in('TPT','VSP') ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False)
                         Dim isExistingCust As Boolean = FindCustInGrid(gv1.CurrentRow.Cells(colCustCode).Value)
-                        If Not isExistingCust Then
-                            gv1.CurrentRow.Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
-                            gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
+                        gv1.CurrentRow.Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
+                        gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
                             gv1.CurrentRow.Cells(colSetZero).Value = 1
 
                             FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
-                        End If
+
 
                         'UpdateCurrentRow(gv1.CurrentRow.Index)
                     End If
@@ -622,10 +621,31 @@ Public Class frmDemand_Sheet
                     End If
                 Else
                     'LoadData(clsCommon.GetPrintDate(txtDate.Value), clsCommon.myCstr(txtShift.Text), objCommonVar.CurrentUserCode, False)
-                    gv1.CurrentRow.Delete()
+                    'gv1.CurrentRow.Delete()
+                    strQry = "select Item_Code,Qty from TSPL_DEMAND_SHEET where convert(date,DEMAND_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Cust_Code='" + CustCode + "'and Created_By='" + objCommonVar.CurrentUserCode + "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                    If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                        For Each dr As DataRow In dt.Rows
+                            Dim k As Integer = 1
+                            For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                                Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                                k = k + 1
+                                If obj1 IsNot Nothing Then
+                                    If clsCommon.CompairString(clsCommon.myCstr(dr.Item("Item_Code")), obj1.itemCode) = CompairStringResult.Equal Then
+
+                                        gv1.CurrentRow.Cells(dblcolumns).Value = clsCommon.myCdbl(dr.Item("qty"))
+
+
+                                    End If
+                                End If
+                            Next
+                        Next
+
+                    End If
 
                 End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -637,11 +657,12 @@ Public Class frmDemand_Sheet
         isInsideLoadData = False
     End Sub
     Public Function FindCustInGrid(ByVal CustCode As String) As Boolean
-        If gv1.Rows.Count > 0 Then
-            For dblrows As Integer = 0 To gv1.Rows.Count - 1
+        If gv1.Rows.Count > 2 Then
+            For dblrows As Integer = 0 To gv1.Rows.Count - 3
                 If clsCommon.myLen(CustCode) > 0 Then
                     If clsCommon.CompairString(gv1.Rows(dblrows).Cells(colCustCode).Value, CustCode) = CompairStringResult.Equal Then
-                        gv1.CurrentColumn = gv1.Columns(colCustCode)
+                        gv1.Rows.Remove(gv1.Rows(dblrows))
+
                         Return True
                     End If
                 End If
