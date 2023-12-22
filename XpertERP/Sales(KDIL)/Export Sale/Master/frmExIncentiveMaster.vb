@@ -305,7 +305,7 @@ Public Class FrmExIncentiveMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -382,7 +382,7 @@ Public Class FrmExIncentiveMaster
                 '===============end here=====================================
 
                 If clsExIncentiveMasterHead.SaveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
 
                     fndCode.Value = obj.Doc_Code
                     fndCode.MyReadOnly = True
@@ -466,7 +466,7 @@ Public Class FrmExIncentiveMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -599,10 +599,10 @@ Public Class FrmExIncentiveMaster
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Finally
                 clsCommon.ProgressBarHide()
             End Try
@@ -630,7 +630,7 @@ Public Class FrmExIncentiveMaster
         Try
             LoadData(fndCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -706,7 +706,7 @@ Public Class FrmExIncentiveMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -777,7 +777,7 @@ Public Class FrmExIncentiveMaster
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

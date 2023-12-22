@@ -180,13 +180,13 @@ Public Class RptCustomerSetOff
     Sub Print(ByVal IsPrint As Exporter)
         LoadBlankGrid()
         If fromDate.Value > ToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             fromDate.Focus()
             Exit Sub
         End If
 
         If ChkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Customer or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Customer or select all.", Me.Text)
             Exit Sub
         End If
 
@@ -223,7 +223,7 @@ Public Class RptCustomerSetOff
             Gv1.BestFitColumns()
 
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
 
     End Sub
@@ -419,7 +419,7 @@ Public Class RptCustomerSetOff
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
             If (Gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -452,7 +452,7 @@ Public Class RptCustomerSetOff
                 clsCommon.MyExportToPDF("Customer Set Off Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -42,7 +42,7 @@ Public Class frmVendorComparisonApproval
 
             If dt.Rows.Count <= 0 Then
                 gv1.DataSource = Nothing
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -152,7 +152,7 @@ Public Class frmVendorComparisonApproval
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Add Tool tip Task No- TEC/22/05/18-000245

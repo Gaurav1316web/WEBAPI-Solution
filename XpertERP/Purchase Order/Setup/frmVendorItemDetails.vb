@@ -137,7 +137,7 @@ Public Class frmVendorItemDetails
         Try
 
             If clsCommon.myLen(fndvendor.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vendor No", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor No", Me.Text)
                 fndvendor.Focus()
                 Return False
             End If

@@ -130,7 +130,7 @@ Public Class rptVehicleWiseReport
     Public Sub loadReport()
         ''changes by Shivani [BM00000007756]
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
@@ -169,7 +169,7 @@ Public Class rptVehicleWiseReport
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
             gv.DataSource = Nothing
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -298,7 +298,7 @@ Public Class rptVehicleWiseReport
 
         Dim InvoiceNo As String = ""
         If gv.Columns("Against_Shipment_No") Is Nothing Then
-            clsCommon.MyMessageBoxShow("Please refresh report again")
+            clsCommon.MyMessageBoxShow(Me, "Please refresh report again", Me.Text)
             Exit Sub
         End If
         For Each grow As GridViewRowInfo In gv.Rows
@@ -315,7 +315,7 @@ Public Class rptVehicleWiseReport
 
 
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater than to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
@@ -457,7 +457,7 @@ Public Class rptVehicleWiseReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

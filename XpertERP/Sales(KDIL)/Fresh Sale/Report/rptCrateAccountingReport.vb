@@ -36,7 +36,7 @@ Public Class RptCrateAccountingReport
     End Enum
     Sub Print(ByVal IsPrint As Exporter)
         If fromDate.Value > ToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             fromDate.Focus()
             Exit Sub
         End If
@@ -250,7 +250,7 @@ Public Class RptCrateAccountingReport
         End If
 
         If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         RadPageView1.SelectedPage = RadPageViewPage2
@@ -529,7 +529,7 @@ Public Class RptCrateAccountingReport
     Private Sub rmExcel_Click(sender As Object, e As EventArgs) Handles rmExcel.Click
         Try
             If (Gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
 
@@ -566,7 +566,7 @@ Public Class RptCrateAccountingReport
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -663,7 +663,7 @@ Public Class RptCrateAccountingReport
     Private Sub rmPDF_Click(sender As Object, e As EventArgs) Handles rmPDF.Click
         Try
             If (Gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
 
@@ -688,7 +688,7 @@ Public Class RptCrateAccountingReport
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

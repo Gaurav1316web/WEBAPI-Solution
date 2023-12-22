@@ -344,7 +344,7 @@ Public Class frmCSAPendingDO
             Next
 
             If ArrReturn.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending DO item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending DO item", Me.Text)
             Else
                 clsERPFuncationality.closeForm(Me)
             End If
@@ -372,7 +372,7 @@ Public Class frmCSAPendingDO
             Next
 
             If ArrCSARequest.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending DO item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending DO item", Me.Text)
             Else
                 clsERPFuncationality.closeForm(Me)
             End If
@@ -400,7 +400,7 @@ Public Class frmCSAPendingDO
                 Next '==detail for loop
 
                 If arrVendor.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one customer are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one customer are not allowed.", Me.Text)
                     Return False
                 End If
 
@@ -473,7 +473,7 @@ Public Class frmCSAPendingDO
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

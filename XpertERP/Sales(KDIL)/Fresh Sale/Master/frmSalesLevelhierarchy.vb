@@ -90,26 +90,26 @@ Public Class FrmSalesLevelhierarchy
                 End If
                 Dim count As Integer = clsDBFuncationality.getSingleValue("select count(Seq_No) from TSPL_Sales_Hierarchy_Levels where Level_Code <>'" + obj.Level_Code + "' and Seq_No='" + txtSeqNo.Text + "' and Level_Type='" + cboLevelType.Text + "'")
                 If (count > 0) Then
-                    clsCommon.MyMessageBoxShow("This Sequence no. is already exist for this Type of Level")
+                    clsCommon.MyMessageBoxShow(Me, "This Sequence no. is already exist for this Type of Level", Me.Text)
                     Exit Sub
                 End If
                 If chkIsFirstLevel.Checked Then
                     Dim CheckFirst As String = clsDBFuncationality.getSingleValue("select count(Is_First_Level) from TSPL_Sales_Hierarchy_Levels where Level_Code <>'" & obj.Level_Code & "' and Level_Type='" & cboLevelType.Text & "' and Is_First_Level='" & obj.Is_First_Level & "' ")
                     If clsCommon.myCdbl(CheckFirst) > 0 Then
-                        clsCommon.MyMessageBoxShow("First Level is Already exist for this Type of Level")
+                        clsCommon.MyMessageBoxShow(Me, "First Level is Already exist for this Type of Level", Me.Text)
                         Exit Sub
                     End If
                 End If
                 If chkIsLastLevel.Checked Then
                     Dim CheckLast As String = clsDBFuncationality.getSingleValue("select count(Is_Last_Level) from TSPL_Sales_Hierarchy_Levels where Level_Code <>'" & obj.Level_Code & "' and Level_Type='" & cboLevelType.Text & "'and Is_Last_Level='" & obj.Is_Last_Level & "' ")
                     If clsCommon.myCdbl(CheckLast) > 0 Then
-                        clsCommon.MyMessageBoxShow("Last Level is Already exist for this Type of Level")
+                        clsCommon.MyMessageBoxShow(Me, "Last Level is Already exist for this Type of Level", Me.Text)
                         Exit Sub
                     End If
                 End If
                 If ClsSaleLevelHierarchy.SaveData(obj, isnewentry) Then
 
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
 
                     LoadData(obj.Level_Code, NavigatorType.Current)
                     btnsave.Text = "Update"
@@ -121,7 +121,7 @@ Public Class FrmSalesLevelhierarchy
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -213,7 +213,7 @@ Public Class FrmSalesLevelhierarchy
 
                 Dim qry As String = "DELETE FROM TSPL_Sales_Hierarchy_Levels WHERE Level_code='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
@@ -280,7 +280,7 @@ Public Class FrmSalesLevelhierarchy
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

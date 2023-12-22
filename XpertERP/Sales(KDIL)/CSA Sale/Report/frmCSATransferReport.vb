@@ -211,7 +211,7 @@ Public Class FrmCSATransferReport
 
         Catch ex As Exception
             RadGroupBox1.Enabled = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -337,7 +337,7 @@ Public Class FrmCSATransferReport
             summaryRowItem.Add(item6)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -362,7 +362,7 @@ Public Class FrmCSATransferReport
             txtFromDate.Text = New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
             txtToDate.Text = clsCommon.GETSERVERDATE
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -396,7 +396,7 @@ Public Class FrmCSATransferReport
             TemplateGridview = gv1
             PrintData(EnumExportTo.Print)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -417,7 +417,7 @@ Public Class FrmCSATransferReport
             cbgLocations.DisplayMember = "Name"
             cbgLocations.ValueMember = "Code"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -431,7 +431,7 @@ Public Class FrmCSATransferReport
             LoadLocations()
             FunReset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -539,10 +539,10 @@ Public Class FrmCSATransferReport
                     clsCommon.MyExportToPDF("Transfer " + strType + " Report", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'KUNAL > TICKET : BM00000009581 > DATE 27-SEP-2016 > ADDED LOCATION FILTER

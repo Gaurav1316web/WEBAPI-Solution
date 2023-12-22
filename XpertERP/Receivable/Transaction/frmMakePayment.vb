@@ -314,7 +314,7 @@ Public Class FrmMakePayment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -485,10 +485,10 @@ Public Class FrmMakePayment
                 IsNewEntry = False
             End If
             If SaveData(IsNewEntry) Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -880,7 +880,7 @@ Public Class FrmMakePayment
             fillCustomerRouteOrZoneWise(fndRouteNo.Value, "", "")
             IsLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1157,7 +1157,7 @@ Public Class FrmMakePayment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -1325,7 +1325,7 @@ Public Class FrmMakePayment
             End If
             clicked = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1453,7 +1453,7 @@ Public Class FrmMakePayment
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1508,7 +1508,7 @@ Public Class FrmMakePayment
             End If
             If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
                 If SaveData(IsNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                 End If
             ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
                 PostData()
@@ -1546,7 +1546,7 @@ Public Class FrmMakePayment
                           "AutoRecieptPaymentMode")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1583,7 +1583,7 @@ Public Class FrmMakePayment
 
         ElseIf ddlType.Text = "Misc Receipt" Then
             If clsCommon.myLen(fndRouteNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Bank Code ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Bank Code ", Me.Text)
                 fndRouteNo.Focus()
                 Exit Sub
             End If
@@ -1653,7 +1653,7 @@ Public Class FrmMakePayment
         If clsCommon.myLen(txtEntryNo.Value) > 0 Then
             funprint(txtEntryNo.Value)
         Else
-            common.clsCommon.MyMessageBoxShow("Select the Entry No. ")
+            common.clsCommon.MyMessageBoxShow(Me, "Select the Entry No. ", Me.Text)
         End If
 
     End Sub
@@ -1705,7 +1705,7 @@ Public Class FrmMakePayment
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1734,7 +1734,7 @@ Public Class FrmMakePayment
             End If
             ' Return Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub OpenPaymentModeList(ByVal isButtonClick As Boolean)
@@ -1747,7 +1747,7 @@ Public Class FrmMakePayment
             MasterTemplate.CurrentRow.Cells("gvBankName").Value = clsBankMaster.GetName(clsCommon.myCstr(MasterTemplate.CurrentRow.Cells("gvBankCode").Value))
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2207,7 +2207,7 @@ Public Class FrmMakePayment
             IsLoadData = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2233,7 +2233,7 @@ Public Class FrmMakePayment
             IsLoadData = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2260,14 +2260,14 @@ Public Class FrmMakePayment
                         clsRcptEntryHeader.ReverseAndUnpost(clsCommon.myCstr(dr("Receipt_No")))
                     Next
                     saveCancelLog(Reason, "Reverse and Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     fillData(txtEntryNo.Value)
                 End If
 
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

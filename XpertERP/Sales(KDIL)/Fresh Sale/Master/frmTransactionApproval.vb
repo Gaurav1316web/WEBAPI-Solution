@@ -257,7 +257,7 @@ Public Class FrmTransactionApproval
             'Gv1.BestFitColumns()
             Gv1.AutoSizeRows = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub loadUnapprovedQcDataForBulkMilkProcData()
@@ -303,11 +303,11 @@ Public Class FrmTransactionApproval
                 FndDocumnetNo.Enabled = True
                 ddApprovalType.Text = "Rate"
                 Gv1.Visible = False
-                clsCommon.MyMessageBoxShow("No QC Found to approve")
+                clsCommon.MyMessageBoxShow(Me, "No QC Found to approve", Me.Text)
                 btnReset.PerformClick()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -443,11 +443,11 @@ Public Class FrmTransactionApproval
                 FndDocumnetNo.Enabled = True
                 ddApprovalType.Text = ""
                 Gv1.Visible = False
-                clsCommon.MyMessageBoxShow("No Document Found to approve")
+                clsCommon.MyMessageBoxShow(Me, "No Document Found to approve", Me.Text)
                 btnReset.PerformClick()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -541,10 +541,10 @@ Public Class FrmTransactionApproval
                             End If
                         End If
                     Next
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     AddNew()
                 Else
-                    clsCommon.MyMessageBoxShow("No SRN Found To Approve", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No SRN Found To Approve", Me.Text)
                 End If
                 Exit Sub
             End If
@@ -576,10 +576,10 @@ Public Class FrmTransactionApproval
                             End If
                         End If
                     Next
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     AddNew()
                 Else
-                    clsCommon.MyMessageBoxShow("No QC Found To Approve", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No QC Found To Approve", Me.Text)
                 End If
                 Exit Sub
             End If
@@ -608,10 +608,10 @@ Public Class FrmTransactionApproval
                             End If
                         End If
                     Next
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     AddNew()
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found To Approve", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found To Approve", Me.Text)
                 End If
                 Exit Sub
             End If
@@ -670,10 +670,10 @@ Public Class FrmTransactionApproval
                             End If
                         End If
                     Next
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     AddNew()
                 Else
-                    clsCommon.MyMessageBoxShow("No Document Found To Approve", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Document Found To Approve", Me.Text)
                 End If
                 Exit Sub
             End If
@@ -704,10 +704,10 @@ Public Class FrmTransactionApproval
                             End If
                         End If
                     Next
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     AddNew()
                 Else
-                    clsCommon.MyMessageBoxShow("No Document Found To Approve", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Document Found To Approve", Me.Text)
                 End If
                 Exit Sub
             End If
@@ -742,12 +742,12 @@ Public Class FrmTransactionApproval
 
                 ''------------
             End If
-            clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
             AddNew()
             'End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -939,11 +939,11 @@ Public Class FrmTransactionApproval
                         End If
                     Next
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     AddNew()
                 Else
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("No QC Found To Unpprove", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No QC Found To Unpprove", Me.Text)
                 End If
             Catch ex As Exception
                 trans.Rollback()
@@ -1053,7 +1053,7 @@ Public Class FrmTransactionApproval
 
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
         If clsCommon.CompairString(cmbScreenName.Text, "Select") = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Please Select At least one document.")
+            clsCommon.MyMessageBoxShow(Me, "Please Select At least one document.", Me.Text)
             Exit Sub
         End If
         Dim rowsCount As Integer = 0
@@ -1411,7 +1411,7 @@ Public Class FrmTransactionApproval
             ' Gv1.BestFitColumns()
             Gv1.AutoSizeRows = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1452,7 +1452,7 @@ Public Class FrmTransactionApproval
 
             GridQC.AutoSizeRows = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1605,7 +1605,7 @@ Public Class FrmTransactionApproval
             'Gv1.BestFitColumns()
             Gv1.AutoSizeRows = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadSRNDATA()
@@ -1663,11 +1663,11 @@ Public Class FrmTransactionApproval
                 FndDocumnetNo.Enabled = True
                 ddApprovalType.Text = ""
                 Gv1.Visible = False
-                clsCommon.MyMessageBoxShow("No SRN Found to approve")
+                clsCommon.MyMessageBoxShow(Me, "No SRN Found to approve", Me.Text)
                 btnReset.PerformClick()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1853,7 +1853,7 @@ Public Class FrmTransactionApproval
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1872,7 +1872,7 @@ Public Class FrmTransactionApproval
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         isInsideLoadData = False
     End Sub
@@ -1918,7 +1918,7 @@ Public Class FrmTransactionApproval
     Private Sub btnUnapprove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnUnapprove.Click
         Try
             If clsCommon.CompairString(cmbScreenName.Text, "Select") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Please Select At least one document.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select At least one document.", Me.Text)
                 Exit Sub
             End If
             Dim rowsCount As Integer = 0
@@ -1942,7 +1942,7 @@ Public Class FrmTransactionApproval
                 Unapprove()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

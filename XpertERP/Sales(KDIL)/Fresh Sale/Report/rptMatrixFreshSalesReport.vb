@@ -77,7 +77,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub ProductSaleReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -254,7 +254,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -294,7 +294,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub MilkSaleReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -466,7 +466,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -505,7 +505,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub ProductGatePassDetailReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -673,7 +673,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -694,7 +694,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub DairyProductGatePassReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -858,7 +858,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -879,7 +879,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub DairyMilkGatePassReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1043,7 +1043,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -1065,7 +1065,7 @@ Public Class RptMatrixFreshSalesReport
     Private Sub MilkGatePassDetailReport(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1233,7 +1233,7 @@ Public Class RptMatrixFreshSalesReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -1257,7 +1257,7 @@ Public Class RptMatrixFreshSalesReport
         Try
             'Sanjay,Add Customer Category 
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1438,7 +1438,7 @@ left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Gr
                 Dim TempDt As DataTable = clsDBFuncationality.GetDataTable(ItemInUse)
 
                 If TempDt Is Nothing OrElse TempDt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
 
@@ -1475,7 +1475,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Gv1.Rows.Clear()
                 Gv1.Columns.Clear()
                 If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     Gv1.DataSource = Nothing
@@ -1509,7 +1509,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
         Try
             'Sanjay,Add Customer Category 
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1734,7 +1734,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Gv1.Rows.Clear()
                 Gv1.Columns.Clear()
                 If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     Gv1.DataSource = dtgv
@@ -1790,7 +1790,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Dim strSchemeItem As String = Nothing
                 strSchemeItem = clsCommon.myCstr(clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + '0 as ' + QUOTENAME( " + strAliasCol + "+'(S)') as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
                 If String.IsNullOrEmpty(strSchemeItem) Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 Dim strItem As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + '0 as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
@@ -2158,7 +2158,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Gv1.BestFitColumns()
 
                 If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 RadPageView1.SelectedPage = RadPageViewPage2
