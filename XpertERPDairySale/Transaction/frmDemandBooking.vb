@@ -3866,7 +3866,7 @@ from
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarShow()
                 For Each dr As DataRow In dt.Rows
-                    AddNew()
+                    'AddNew()
                     QuickDemamd(clsCommon.GetPrintDate(dr.Item("DemandDate")), objCommonVar.CurrentUserCode, clsCommon.myCstr(dr.Item("ShiftType")), clsCommon.myCstr(dr.Item("Route_No")))
                 Next
                 AddNew()
