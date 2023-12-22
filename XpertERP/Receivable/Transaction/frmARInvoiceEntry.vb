@@ -464,7 +464,7 @@ Public Class FrmARInvoiceEntry
     Private Sub TxtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles TxtCustomer._MYValidating
         Try
             If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please first select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
                 txtlocation.Focus()
                 Return
             End If
@@ -501,7 +501,7 @@ Public Class FrmARInvoiceEntry
             Me.txtCurrencyCode.Value = ""
             Me.txtConversionRate.Text = 1
             Me.txtApplicableFrom.Text = ""
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1374,13 +1374,13 @@ Public Class FrmARInvoiceEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa agarwal 11/10/2019 
     Private Sub OpenAdditionCharges(ByVal isButtonClick As Boolean)
         If txtlocation.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please first select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
             txtlocation.Focus()
             Return
         End If
@@ -1437,7 +1437,7 @@ Public Class FrmARInvoiceEntry
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+                clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
             End If
         End If
     End Sub
@@ -1483,7 +1483,7 @@ Public Class FrmARInvoiceEntry
                     gv1.CurrentRow.Cells(colCostCenterCode).Value = clsCommon.ShowSelectForm("Hierarchy", qry, "Code", " Hirerachy_Level = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevelNumber).Value) + "'", clsCommon.myCstr(gv1.CurrentRow.Cells(colCostCenterCode).Value), "Code", isButtonClick)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+                clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
             End If
         End If
     End Sub
@@ -1506,7 +1506,7 @@ Public Class FrmARInvoiceEntry
                 gv1.Columns(colHierarchyLevel4).HeaderText = "Hierarchy Level 4"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+            clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
         End Try
     End Sub
     ''-------------
@@ -1535,7 +1535,7 @@ Public Class FrmARInvoiceEntry
     Private Sub OpenGLAccount(ByVal isButtonClick As Boolean)
         Dim qry As String
         If txtlocation.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please first select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
             txtlocation.Focus()
             Return
         End If
@@ -1573,7 +1573,7 @@ Public Class FrmARInvoiceEntry
         Dim strCustomerOpeningAccount As String = String.Empty
         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateOpeningEntryAutomatically, clsFixedParameterCode.CreateOpeningEntryAutomatically, Nothing)), "1") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "C") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "D") = CompairStringResult.Equal) And JEWithOPening = True Then
             If clsCommon.myLen(TxtCustomer.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please first select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please first select Customer", Me.Text)
                 TxtCustomer.Focus()
                 Return
             End If
@@ -1956,20 +1956,20 @@ Public Class FrmARInvoiceEntry
                 Dim strchk As String = "select Status from TSPL_Customer_Invoice_Head where Document_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
             If chkSecurityDposit.Checked Then
                 If clsCommon.myLen(ddlSecDepositType.SelectedValue) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select security deposit type.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select security deposit type.", Me.Text)
                     ddlSecDepositType.Focus()
                     Return False
                 End If
             End If
             UpdateAllTotals()
             If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please first select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
                 txtlocation.Focus()
                 Return False
             End If
@@ -1979,24 +1979,24 @@ Public Class FrmARInvoiceEntry
             Dim LocSegName As String = clsDBFuncationality.getSingleValue(qry1)
 
             If clsCommon.myLen(TxtCustomer.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 TxtCustomer.Focus()
                 Return False
             End If
             If clsCommon.myLen(txtACSet.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer Account Set")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer Account Set", Me.Text)
                 txtACSet.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
                 txtTaxGroup.Focus()
                 Return False
             End If
             '' Anubhooti 03-Dec-2014 (Terms Code is manadatory)
             If clsCommon.myLen(txtTermCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Terms Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Terms Code", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage2
                 txtTermCode.Focus()
                 Return False
@@ -2005,7 +2005,7 @@ Public Class FrmARInvoiceEntry
             If clsCommon.CompairString(cboDocType.SelectedValue, "D") = CompairStringResult.Equal Or clsCommon.CompairString(cboDocType.SelectedValue, "C") = CompairStringResult.Equal Then
                 DrCr = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) AS ROW FROM TSPL_CUSTOMER_INVOICE_HEAD WHERE DOCUMENT_NO='" + clsCommon.myCstr(txtRefDocNo.Value) + "' AND Document_Type IN ('C','D')"))
                 If clsCommon.myCdbl(DrCr) > 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select ref doc type.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select ref doc type.", Me.Text)
                     txtRefDocNo.Focus()
                     Return False
                 End If
@@ -2041,7 +2041,7 @@ Public Class FrmARInvoiceEntry
                     Dim grouptype As String = clsPaymentHeader.CheckGLAccountType(clsCommon.myCstr(gv1.Rows(ii).Cells(colACCode).Value), Nothing)
                     If Not clsCommon.CompairString(grouptype, "Balance Sheet") = CompairStringResult.Equal Then
                         If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colHierarchyCode).Value)) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(" Please select Hierarchy ")
+                            common.clsCommon.MyMessageBoxShow(Me, " Please select Hierarchy ", Me.Text)
                             Return False
                         End If
                         If SettingCostCenterlevel Then
@@ -2057,7 +2057,7 @@ Public Class FrmARInvoiceEntry
                             End If
                         End If
                         If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colCostCenterCode).Value)) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(" Please select Cost Center ")
+                            common.clsCommon.MyMessageBoxShow(Me, " Please select Cost Center ", Me.Text)
                             Return False
                         End If
                     End If
@@ -2073,7 +2073,7 @@ Public Class FrmARInvoiceEntry
                         Dim strtaxgroup As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select distinct Tax_Group_Code from TSPL_TAX_GROUP_MASTER  where TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted=1 and Tax_Group_Type='S' and TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(txtTaxGroup.Value) & "'"))
                         If clsCommon.myLen(strtaxgroup) <= 0 Then
                             If clsCommon.myLen(clsCommon.myCstr(txtRefDocNo.Value)) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow(" Please select Invoice No ")
+                                common.clsCommon.MyMessageBoxShow(Me, " Please select Invoice No ", Me.Text)
                                 Return False
                             End If
                         End If
@@ -2089,7 +2089,7 @@ Public Class FrmARInvoiceEntry
                         End If
                         If JEWithOPening = False Then
                             If clsCommon.myLen(clsCommon.myCstr(txtRefDocNo.Value)) <= 0 AndAlso Not chkAgainstSecurityReceiptNo.Checked Then
-                                common.clsCommon.MyMessageBoxShow(" Please select Invoice No ")
+                                common.clsCommon.MyMessageBoxShow(Me, " Please select Invoice No ", Me.Text)
                                 Return False
                             End If
                         End If
@@ -2133,7 +2133,7 @@ Public Class FrmARInvoiceEntry
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -2447,7 +2447,7 @@ Public Class FrmARInvoiceEntry
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill atleast one GL Account with Amount.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill atleast one GL Account with Amount.", Me.Text)
                     Return
                 End If
 
@@ -2482,7 +2482,7 @@ Public Class FrmARInvoiceEntry
                     UcAttachment1.SaveData(obj.Document_No)
                     txtDocNo.Value = obj.Document_No
                     If clicked = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     ''approval work 11/02/2020
@@ -2498,7 +2498,7 @@ Public Class FrmARInvoiceEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3021,7 +3021,7 @@ Public Class FrmARInvoiceEntry
                 UcAttachment1.LoadData(obj.Document_No)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3047,7 +3047,7 @@ Public Class FrmARInvoiceEntry
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3097,7 +3097,7 @@ Public Class FrmARInvoiceEntry
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clicked = False
     End Sub
@@ -3124,12 +3124,12 @@ Public Class FrmARInvoiceEntry
                 clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
                 If (clsCustomerInvoiceHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3183,7 +3183,7 @@ Public Class FrmARInvoiceEntry
             End Select
             LoadData(clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry)))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '============BM00000008196==================
@@ -3217,7 +3217,7 @@ Public Class FrmARInvoiceEntry
 
     Sub PrintData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to print")
+            common.clsCommon.MyMessageBoxShow(Me, "Document No not found to print", Me.Text)
         End If
         Dim Arr As New ArrayList
         Arr.Add(txtDocNo.Value)
@@ -3340,7 +3340,7 @@ Public Class FrmARInvoiceEntry
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -3493,10 +3493,10 @@ Public Class FrmARInvoiceEntry
                 End If
 
             Else
-                common.clsCommon.MyMessageBoxShow("Please select Customer", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3565,7 +3565,7 @@ Public Class FrmARInvoiceEntry
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3577,7 +3577,7 @@ Public Class FrmARInvoiceEntry
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3702,7 +3702,7 @@ Public Class FrmARInvoiceEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3949,7 +3949,7 @@ Public Class FrmARInvoiceEntry
             End If
             ''
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3975,12 +3975,12 @@ Public Class FrmARInvoiceEntry
 
                 If clsCustomerInvoiceHead.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4004,7 +4004,7 @@ Public Class FrmARInvoiceEntry
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
@@ -4030,14 +4030,14 @@ Public Class FrmARInvoiceEntry
             End If
             SendSMSandEmail(lstUsers, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnsend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
@@ -4051,7 +4051,7 @@ Public Class FrmARInvoiceEntry
             lstUsers.Add(TxtCustomer.Value)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4209,7 +4209,7 @@ Public Class FrmARInvoiceEntry
                 objSMSH = Nothing
             End If
             If clsCommon.myLen(dtContent.Rows(0)("Email_Text")) > 0 Or clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
-                clsCommon.MyMessageBoxShow("E-Mail/SMS Send Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "E-Mail/SMS Send Successfully", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -4339,7 +4339,7 @@ Public Class FrmARInvoiceEntry
             strQry += ",'N' as [Service Invoice],'' as [Additional Charge Code]"
             transportSql.ExporttoExcel(strQry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4664,7 +4664,7 @@ Public Class FrmARInvoiceEntry
             strQry = "select '' as [Date], '' as Customer, 0 as Amount,'' as LocSegment"
             transportSql.ExporttoExcel(strQry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4674,7 +4674,7 @@ Public Class FrmARInvoiceEntry
             strQry = "select '' as [Date], '' as Customer, 0 as Amount,'' as LocSegment"
             transportSql.ExporttoExcel(strQry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4966,7 +4966,7 @@ Public Class FrmARInvoiceEntry
             Qry = "select * from ( " + Qry + " )xxx"
             txtSercurityReceiptNo.Value = clsCommon.ShowSelectForm("ARInvSecReceipt", Qry, "ReceiptNo", " Amount<>0 ", txtSercurityReceiptNo.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5019,7 +5019,7 @@ Public Class FrmARInvoiceEntry
     Private Sub btnPrintServiceInvoice_Click(sender As Object, e As EventArgs) Handles btnPrintServiceInvoice.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select document first!")
+                clsCommon.MyMessageBoxShow(Me, "Please select document first!", Me.Text)
                 Return
             End If
 
@@ -5102,10 +5102,10 @@ Public Class FrmARInvoiceEntry
                 frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dt2, "crptAPServiceInvc", "rptAPInvBySAC.rpt", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptAPInvBySAC.rpt", "Address.rpt")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5183,10 +5183,10 @@ Public Class FrmARInvoiceEntry
             End If
 
             clsCustomerInvoiceHead.CancelData(txtDocNo.Value)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -5220,10 +5220,10 @@ Public Class FrmARInvoiceEntry
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_JOURNAL_DETAILS ENABLE TRIGGER TRG_JD_FiscaYearEndNoUpdateNoDelete", trans)
             End If
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

@@ -122,7 +122,7 @@ strMilkSRNBaseQry + Environment.NewLine + _
             ReStoreGridLayout()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGenrate.Enabled = True
         End Try
     End Sub
@@ -326,7 +326,7 @@ strMilkSRNBaseQry + Environment.NewLine + _
 
         If gv3.Rows.Count <= 0 Then
             gv3.Focus()
-            clsCommon.MyMessageBoxShow("Data not found.")
+            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
         Else
             transportSql.applyExportTemplate(gv3, PageSetupReport_ID)
             clsCommon.MyExportToExcelGrid("Payable Clearing Report", gv3, arr, "Payable Clearing Report", False)
@@ -357,7 +357,7 @@ strMilkSRNBaseQry + Environment.NewLine + _
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv3, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -434,7 +434,7 @@ strMilkSRNBaseQry + Environment.NewLine + _
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

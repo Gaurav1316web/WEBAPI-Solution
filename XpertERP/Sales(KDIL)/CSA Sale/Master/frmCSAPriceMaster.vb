@@ -358,7 +358,7 @@ Public Class FrmCSAPriceMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -470,7 +470,7 @@ Public Class FrmCSAPriceMaster
 
             If clsCSAPriceMaster.SaveData(obj, isNewentry) Then
                 If Not isPriceAmended Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
                 txtCode.Value = obj.docno
                 UcAttachment1.SaveData(txtCode.Value)
@@ -480,7 +480,7 @@ Public Class FrmCSAPriceMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -493,13 +493,13 @@ Public Class FrmCSAPriceMaster
             Dim msg As String = ""
             If (myMessages.postConfirm()) Then
                 If (clsCSAPriceMaster.PostData(MyBase.Form_ID, txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Record posted successfully.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Record posted successfully.", Me.Text)
 
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -519,11 +519,11 @@ Public Class FrmCSAPriceMaster
             End If
 
             If clsCSAPriceMaster.DeleteData(txtCode.Value) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -688,7 +688,7 @@ Public Class FrmCSAPriceMaster
 
         Catch ex As Exception
             isNewentry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -791,7 +791,7 @@ Public Class FrmCSAPriceMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1212,7 +1212,7 @@ Public Class FrmCSAPriceMaster
             End If
         Catch ex As Exception
             cmbCSAType.SelectedValue = "None"
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1261,7 +1261,7 @@ Public Class FrmCSAPriceMaster
         Catch ex As Exception
             isCellValueChanged = False
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -1275,7 +1275,7 @@ Public Class FrmCSAPriceMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1337,7 +1337,7 @@ Public Class FrmCSAPriceMaster
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1430,7 +1430,7 @@ Public Class FrmCSAPriceMaster
                 CalDiffrate(0, False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1503,7 +1503,7 @@ Public Class FrmCSAPriceMaster
 
             transportSql.ExporttoExcel(qry, whrcls, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1521,7 +1521,7 @@ Public Class FrmCSAPriceMaster
 
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1756,13 +1756,13 @@ Public Class FrmCSAPriceMaster
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             End If
 
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Me.Controls.Remove(gv1)
     End Sub
@@ -1859,14 +1859,14 @@ Public Class FrmCSAPriceMaster
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             End If
 
             FunReset()
         Catch ex As Exception
             clsCommon.ProgressBarHide()
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         Me.Controls.Remove(gv1)
@@ -1883,7 +1883,7 @@ Public Class FrmCSAPriceMaster
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No document found to Print")
+            clsCommon.MyMessageBoxShow(Me, "No document found to Print", Me.Text)
         Else
             If txtCode.Value.Length > 0 Then
                 funPrint(txtCode.Value)
@@ -1901,10 +1901,10 @@ Public Class FrmCSAPriceMaster
                 frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptCPDPriceMaster", "CPD Price Master")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No data found to Print")
+                clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1983,7 +1983,7 @@ Public Class FrmCSAPriceMaster
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -2580,12 +2580,12 @@ Public Class FrmCSAPriceMaster
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             End If
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
         Me.Controls.Remove(gv1)
@@ -2605,7 +2605,7 @@ Public Class FrmCSAPriceMaster
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2622,16 +2622,16 @@ Public Class FrmCSAPriceMaster
 
                 If AllowToSave() AndAlso SaveData(isAmendmentNo) Then
                     clsCSAPriceMaster.PostData(MyBase.Form_ID, clsCommon.myCstr(txtCode.Value))
-                    common.clsCommon.MyMessageBoxShow("Record Successfully Amendmented.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Record Successfully Amendmented.", Me.Text)
 
                     LoadData(clsCommon.myCstr(txtCode.Value), NavigatorType.Current)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Post record first.")
+                clsCommon.MyMessageBoxShow(Me, "Post record first.", Me.Text)
             End If ''approved cond. check
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

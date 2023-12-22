@@ -128,7 +128,7 @@ Public Class FrmCSAAccountSet
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -155,9 +155,9 @@ Public Class FrmCSAAccountSet
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 If clsCSAAccountSet.SaveData(obj, isNewentry, trans) Then
                     If clsCommon.CompairString(rdbtnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
 
                     fndaccountsetcode.MyReadOnly = True
@@ -167,7 +167,7 @@ Public Class FrmCSAAccountSet
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -189,7 +189,7 @@ Public Class FrmCSAAccountSet
 
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsCSAAccountSet.DeleteData(fndaccountsetcode.Value, trans) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 FunReset()
             End If
         Catch ex As Exception
@@ -227,7 +227,7 @@ Public Class FrmCSAAccountSet
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -292,7 +292,7 @@ Public Class FrmCSAAccountSet
                 txtloss_name.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -30,12 +30,12 @@ Public Class FrmVendorSecurity
     Sub Print(ByVal IsPrint As Exporter)
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
             If ChkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vendor or select all.", Me.Text)
                 Exit Sub
             End If
 
@@ -144,7 +144,7 @@ where 2=2 "
             End If
 
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -202,7 +202,7 @@ where 2=2 "
                 clsCommon.MyExportToPDF("Vendor Security Report" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, "Security Level", True)
             End If
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -268,7 +268,7 @@ where 2=2 "
                 clsCommon.MyExportToPDF("Vendor Security Report" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, "Security Level", True)
             End If
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -752,7 +752,7 @@ where 2=2 "
                 clsCommon.MyExportToPDF("Vendor " + IIf(rbtnSaving.IsChecked, "Saving", "Security") + "  Report" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

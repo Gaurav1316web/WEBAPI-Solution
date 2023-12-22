@@ -254,13 +254,13 @@ Public Class FrmReceiptInvoiceMapping
             End If
         Catch ex As Exception
             isCellValueChangedOpen = True
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(fndReceiptNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Receipt No First.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Receipt No First.", Me.Text)
             Exit Sub
         End If
         If clsCommon.myLen(gv1.CurrentRow.Cells(colInvoiceNo).Value) <= 0 Then
@@ -416,13 +416,13 @@ Public Class FrmReceiptInvoiceMapping
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If SaveData() Then
-            clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         End If
     End Sub
 
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(fndReceiptNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Receipt No.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Receipt No.", Me.Text)
             Return False
         End If
         If gv1.Rows.Count = 0 Then
@@ -431,7 +431,7 @@ Public Class FrmReceiptInvoiceMapping
         End If
         CalculateTotal()
         If clsCommon.myCdbl(txtInvoiceTaxAmt.Text) > clsCommon.myCdbl(lblBalanceRectTaxAmt.Text) Then
-            clsCommon.MyMessageBoxShow("Invoice tax amount cant be more than balance tax amount")
+            clsCommon.MyMessageBoxShow(Me, "Invoice tax amount cant be more than balance tax amount", Me.Text)
             Return False
         End If
 
@@ -489,7 +489,7 @@ Public Class FrmReceiptInvoiceMapping
                 Return isSaved
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -547,7 +547,7 @@ Public Class FrmReceiptInvoiceMapping
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -564,14 +564,14 @@ Public Class FrmReceiptInvoiceMapping
                 If (myMessages.postConfirm()) Then
                     If SaveData() Then
                         If (clsReceiptInvoiceHead.PostData(txtDocNo.Value, True)) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -596,7 +596,7 @@ Public Class FrmReceiptInvoiceMapping
                 End If
                 If (clsReceiptInvoiceHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -624,7 +624,7 @@ Public Class FrmReceiptInvoiceMapping
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -678,12 +678,12 @@ Public Class FrmReceiptInvoiceMapping
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsReceiptInvoiceHead.ReverseAndUnpost(txtDocNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

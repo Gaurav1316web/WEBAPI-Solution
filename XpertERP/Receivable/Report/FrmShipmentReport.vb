@@ -172,7 +172,7 @@ Public Class FrmShipmentReport
             PageSetupReport_ID = MyBase.Form_ID
             Print(Exporter.Refresh)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -223,7 +223,7 @@ Public Class FrmShipmentReport
             arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -283,7 +283,7 @@ Public Class FrmShipmentReport
             End If
             ExportExcel_PDF(Exporter.Excel)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -294,7 +294,7 @@ Public Class FrmShipmentReport
             End If
             ExportExcel_PDF(Exporter.PDF)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : BHA/21/01/19-000787 By Prabhakar
@@ -319,7 +319,7 @@ Public Class FrmShipmentReport
                 clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterial, clsCommon.myCstr(Gv1.CurrentRow.Cells("shipmentno").Value))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -301,11 +301,11 @@ Public Class frmDeliveryNoteFreshSale
     End Sub
     Private Sub fndBookingNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndBookingNo._MYValidating
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
         ElseIf clsCommon.myLen(fndCustomerNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             fndCustomerNo.Focus()
             Exit Sub
         End If
@@ -446,7 +446,7 @@ Public Class frmDeliveryNoteFreshSale
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' Anubhooti 16-Mar-2015 (Fetch Alies Name On Finder)
@@ -511,7 +511,7 @@ Public Class frmDeliveryNoteFreshSale
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -661,8 +661,8 @@ Public Class frmDeliveryNoteFreshSale
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-      
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
         End Try
     End Sub
     Sub setBalance()
@@ -736,7 +736,7 @@ Public Class frmDeliveryNoteFreshSale
             gv1.Rows(IntRowNo).Cells(colOrgUnit).Value = strOrgUnit
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub UpdateAllTotals()
@@ -751,7 +751,7 @@ Public Class frmDeliveryNoteFreshSale
                 lblTotRAmt1.Text = clsCommon.myFormat(dblTotAmt)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function CustomerOutstandingAmount(ByVal strCustomer As String, ByVal ChekPostBtn As Boolean) As Boolean
@@ -780,7 +780,7 @@ Public Class frmDeliveryNoteFreshSale
             End If
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Private Sub RadMenuItem1_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles RadMenuItem1.Click
@@ -823,12 +823,12 @@ Public Class frmDeliveryNoteFreshSale
 
             UpdateAllTotals()
             If clsCommon.myLen(fndCustomerNo.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select Customer", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 fndCustomerNo.Focus()
                 Return False
             End If
             If clsCommon.myLen(fndLocation.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select Location", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()
                 Return False
             End If
@@ -890,7 +890,7 @@ Public Class frmDeliveryNoteFreshSale
             End If
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -968,14 +968,14 @@ Public Class frmDeliveryNoteFreshSale
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Document_No)
                     If ChekPostBtn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     ''done by stuti approval work 08/12/2016
@@ -1178,7 +1178,7 @@ Public Class frmDeliveryNoteFreshSale
                 '============================================
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1187,7 +1187,7 @@ Public Class frmDeliveryNoteFreshSale
     Private Sub BtnSend_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnSend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
@@ -1201,7 +1201,7 @@ Public Class frmDeliveryNoteFreshSale
             lstUsers.Add(fndCustomerNo.Value)
             SendEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub SetMailRight()

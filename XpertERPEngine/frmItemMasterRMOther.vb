@@ -322,7 +322,7 @@ Public Class FrmItemMasterRMOther
         chkChangeRate.Checked = False
         fndCSA_AC_Code.Value = ""
         txtCSA_AC_Name.Text = ""
-        txtBmBdQty.Text=""
+        txtBmBdQty.Text = ""
         txtRackNo.Text = ""
         txtPartNo.Value = ""
         txtDescription.Text = ""
@@ -2073,6 +2073,13 @@ Public Class FrmItemMasterRMOther
                 End If
             End If
 
+            If clsCommon.CompairString(clsCommon.myCstr(fndProductType.SelectedValue), "MI") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(fndProductType.SelectedValue), "MP") = CompairStringResult.Equal Then
+                If clsCommon.myLen(gv_param.Rows(0).Cells(colparamCode).Value) = 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill QC Parameters.")
+                    RadPageView1.SelectedPage = RadPageViewPage5
+                    Return False
+                End If
+            End If
             Dim paramcode As String = ""
             Dim paramlrange As Decimal = Nothing
             Dim paramurange As Decimal = Nothing

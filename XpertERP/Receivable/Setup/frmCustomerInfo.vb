@@ -185,10 +185,10 @@ Public Class FrmCustomerInfo
                 Dim isSaved As Boolean = obj.SaveData(obj, obj.ArrVisi, isNewEntry)
 
                 If btnSave.Text = "Save" Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved SuccessFully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved SuccessFully", Me.Text)
                     btnSave.Text = "Update"
                 Else
-                    common.clsCommon.MyMessageBoxShow("Data Updated SuccessFully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Updated SuccessFully", Me.Text)
                 End If
                 LoadData(fndCustomer.Value, NavigatorType.Current)
             Catch ex As Exception
@@ -276,7 +276,7 @@ Public Class FrmCustomerInfo
             End If
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -451,7 +451,7 @@ Public Class FrmCustomerInfo
             dgvVisi.DataSource = dt
             FormatGrid()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -511,7 +511,7 @@ Public Class FrmCustomerInfo
                     If (clsCustomerInfo.DeleteData(fndCustomer.Value)) Then
                         Dim QryVisi As String = "Update TSPL_VISI_MASTER set Customer_Id='', Customer_name='' where Customer_Id='" + fndCustomer.Value + "'"
                         clsDBFuncationality.ExecuteNonQuery(QryVisi)
-                        common.clsCommon.MyMessageBoxShow("Record Deleted Successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Record Deleted Successfully ", Me.Text)
                         Reset()
                     End If
                 End If
@@ -693,7 +693,7 @@ Public Class FrmCustomerInfo
                 End Try
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -1115,7 +1115,7 @@ Public Class FrmCustomerInfo
                 ddlCustType.Focus()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub grdTax_EditorRequired(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.EditorRequiredEventArgs) Handles grdTax.EditorRequired
@@ -1190,7 +1190,7 @@ Public Class FrmCustomerInfo
             Dim check As Match = Regex.Match(txtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtEmail.Text = ""
                 txtEmail.Focus()
             End If
@@ -1205,7 +1205,7 @@ Public Class FrmCustomerInfo
             Dim check As Match = Regex.Match(txtContactEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
             If check.Success Then
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtContactEmail.Text = ""
                 txtContactEmail.Focus()
             End If
@@ -1307,7 +1307,7 @@ Public Class FrmCustomerInfo
         Try
             LoadData(fndCustomer.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1340,7 +1340,7 @@ Public Class FrmCustomerInfo
             fndcust.Value = clsCommon.ShowSelectForm("Customer", qry, "CustomerCode", whr, fndcust.Value, "", isButtonClicked)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

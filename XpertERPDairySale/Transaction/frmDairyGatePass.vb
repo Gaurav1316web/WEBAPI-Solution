@@ -32,6 +32,7 @@ Public Class frmDairyGatePass
     Const colUnit As String = "colUnit"
     Const colQty As String = "colQty"
     Const colLineNo As String = "colLineNo"
+    Const colPKID As String = "colPKID"
     Const colHSNCode As String = "colHSNCode"
     Dim atchqry As String = ""
     Dim AlternateVechileforGatePass As Double
@@ -81,6 +82,7 @@ Public Class frmDairyGatePass
         LoadBlankGrid()
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtGatepassDate.Value = clsCommon.GETSERVERDATE()
+        'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
         isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
         IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
         SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
@@ -178,7 +180,27 @@ Public Class frmDairyGatePass
         coll.Add("Driver_Name", "varchar(100) NULL")
         coll.Add("Driver_ContactNo", "varchar(15) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
+        AlterShipmentTable()
+        CreateBalancingTable()
+    End Sub
 
+    Private Sub AlterShipmentTable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
+    End Sub
+
+    Private Sub CreateBalancingTable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_ID", "integer NOT NULL REFERENCES TSPL_SD_SHIPMENT_DETAIL(PK_ID)")
+        coll.Add("GPCode", "Varchar(30) NOT NULL REFERENCES TSPL_DAIRYSALE_GATEPASS_MASTER(GPCode)")
+        coll.Add("Item_Code", "Varchar(50) NULL")
+        coll.Add("Unit_Code", "Varchar(12) NULL")
+        coll.Add("GP_Qty", "Decimal(18,2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
+        '=====================
     End Sub
 
     Private Sub LoadBlankGrid()
@@ -188,6 +210,17 @@ Public Class frmDairyGatePass
 
         Gv1.AllowDeleteRow = True
         Gv1.AllowAddNewRow = False
+
+        Dim repoPK_ID As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoPK_ID = New GridViewDecimalColumn()
+        repoPK_ID.FormatString = ""
+        repoPK_ID.HeaderText = "ID"
+        repoPK_ID.Name = colPKID
+        repoPK_ID.Width = 50
+        repoPK_ID.ReadOnly = True
+        repoPK_ID.IsVisible = False
+        repoPK_ID.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Gv1.MasterTemplate.Columns.Add(repoPK_ID)
 
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
@@ -238,7 +271,11 @@ Public Class frmDairyGatePass
         repoQty.Name = colQty
         repoQty.Width = 80
         repoQty.Minimum = 0
-        repoQty.ReadOnly = True
+        If clsCommon.myCstr(txtCode.Value) IsNot Nothing AndAlso clsCommon.myLen(txtCode.Value) > 0 Then
+            repoQty.ReadOnly = True
+        Else
+            repoQty.ReadOnly = False
+        End If
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         Gv1.MasterTemplate.Columns.Add(repoQty)
 
@@ -313,7 +350,7 @@ Public Class frmDairyGatePass
                     End If
                 End If
             Else
-                strQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                strQuery = "select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                       "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
                       "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
                       "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
@@ -404,12 +441,13 @@ Public Class frmDairyGatePass
             End If
         Else
             strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type],TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
-                    "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
+                    "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,(Case When UsedGPDetail.GPUsedQty>0 Then (Qty-UsedGPDetail.GPUsedQty) Else Qty End) As [Balance Qty],TSPL_ITEM_MASTER.HSN_Code  " &
                     "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
                     "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                     "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
-                    "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' and GPCode ='" + txtCode.Value + "' and " &
-                    "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and TSPL_SD_SHIPMENT_HEAD.Vehicle_Code='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
+                    " left outer Join (Select PK_ID,	Max(GPCode)GPCode,	Item_Code,	Unit_Code,	Sum(IsNull(GP_Qty,0))GPUsedQty from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID,Item_Code,Unit_Code)UsedGPDetail On UsedGPDetail.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID " &
+                    "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' " & 'and TSPL_SD_SHIPMENT_DETAIL.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(colPKID).Value) + "'" &'GPCode ='" + txtCode.Value + "' and " &
+                    " and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and TSPL_SD_SHIPMENT_HEAD.Vehicle_Code='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " '" & strItem & "  "
 
             If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                 strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
@@ -436,7 +474,6 @@ Public Class frmDairyGatePass
 
     Private Sub funFillGrid()
         Try
-
             LoadBlankGrid()
             Dim totalCrate As Integer = 0
             Dim totalCan As Integer = 0
@@ -445,30 +482,38 @@ Public Class frmDairyGatePass
                 qry += " and TSPL_SD_SHIPMENT_HEAD.Document_Code in (" + clsCommon.GetMulcallString(arrShipmentFromMultiple) + ") "
             End If
 
-            strQuery = "select [Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code from ( " & qry & " ) final group by [Item Code],Unit "
-
+            strQuery = "Select xxfinal.PK_ID,xxfinal.[Item Code],max(xxfinal.[Item Desc]) as [Item Desc],xxfinal.Unit,xxfinal.Quantity,Case When Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)>0 Then IsNull(((xxfinal.Quantity)-Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)),0) Else xxfinal.Quantity End As BalanceQty,max(xxfinal.HSN_Code) as HSN_Code from (select PK_ID,[Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code from ( " & qry & " ) final  group by [Item Code],Unit,PK_ID )xxfinal
+                        left Outer Join TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL ON TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.PK_ID=xxfinal.PK_ID and TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.Item_Code=xxfinal.[Item Code]
+                        Group By xxfinal.PK_ID,xxfinal.[Item Code],xxfinal.Unit,xxfinal.Quantity Having (Case When Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)>0 Then IsNull(((xxfinal.Quantity)-Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)),0) Else xxfinal.Quantity End )>0 Order By PK_ID"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQuery)
             Dim intLineNo As Integer = 0
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 For Each dr As DataRow In dt.Rows
-                    Gv1.Rows.AddNew()
-                    intLineNo += 1
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colLineNo).Value = intLineNo
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(dr("Item Code"))
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Item Desc"))
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("Unit"))
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCstr(dr("Quantity"))
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = clsCommon.myCstr(dr("HSN_Code"))
-                    If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Crate") = CompairStringResult.Equal Then
-                        totalCrate += clsCommon.myCdbl(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value)
-                    End If
-                    If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Can") = CompairStringResult.Equal Then
-                        totalCan += clsCommon.myCdbl(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value)
+                    If clsCommon.myCDecimal(dr("BalanceQty")) > 0 Then
+                        Gv1.Rows.AddNew()
+                        intLineNo += 1
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCDecimal(dr("PK_ID"))
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Tag = clsCommon.myCDecimal(dr("PK_ID"))
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colLineNo).Value = intLineNo
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(dr("Item Code"))
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Item Desc"))
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("Unit"))
+                        If clsCommon.myCDecimal(dr("BalanceQty")) > 0 Then
+                            Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(dr("BalanceQty"))
+                        Else
+                            Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(dr("Quantity"))
+                        End If
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = clsCommon.myCstr(dr("HSN_Code"))
+                        If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Crate") = CompairStringResult.Equal Then
+                            totalCrate += clsCommon.myCdbl(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value)
+                        End If
+                        If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Can") = CompairStringResult.Equal Then
+                            totalCan += clsCommon.myCdbl(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value)
 
+                        End If
+                        txtDate.Enabled = False
                     End If
-                    txtDate.Enabled = False
-
                 Next
                 ' **************************************************************************************************
                 txtmultiBooking.Enabled = True
@@ -499,7 +544,11 @@ Public Class frmDairyGatePass
             Dim qry As String = GetQuery("", strGPCOde)
             Dim totalCrate As Integer = 0
             Dim totalCan As Integer = 0
-            strQuery = "select [Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code from ( " & qry & " ) final group by [Item Code],Unit "
+            'strQuery = "select [Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code from ( " & qry & " ) final group by [Item Code],Unit "
+
+            strQuery = "select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID,[Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code from ( " & qry & " ) final
+                        Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode=final.[Document No] and TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code=final.[Item Code]
+                        group by [Item Code],Unit,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID "
 
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQuery)
@@ -508,6 +557,7 @@ Public Class frmDairyGatePass
                 For Each dr As DataRow In dt.Rows
                     Gv1.Rows.AddNew()
                     intLineNo += 1
+                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCDecimal(dr("PK_ID"))
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colLineNo).Value = intLineNo
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(dr("Item Code"))
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Item Desc"))
@@ -537,6 +587,7 @@ Public Class frmDairyGatePass
             btnPost.Visible = True
             btnSave.Enabled = True
             btnPost.Enabled = True
+            isInsideLoadData = True
             Addnew()
             LoadBlankGrid()
 
@@ -544,6 +595,13 @@ Public Class frmDairyGatePass
             obj = clsDairyGatePassEntry.GetData(strCode, NavTyep, "FS")
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GPCode) > 0) Then
                 isNewEntry = False
+                If clsCommon.myLen(obj.GPCode) > 0 Then
+                    btnGo.Enabled = False
+                    RadGroupBox3.Enabled = False
+                Else
+                    RadGroupBox3.Enabled = True
+                    btnGo.Enabled = True
+                End If
                 btnSave.Text = "Update"
                 If isCreateProvisionOfTransporterInDairyDispatch = True Then
                     If obj.Post = "Y" Then
@@ -627,6 +685,7 @@ Public Class frmDairyGatePass
                 txtDriverMobNo.Text = obj.Driver_ContactNo
                 funLoadGrid(txtCode.Value)
             End If
+            isInsideLoadData = False
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         Finally
@@ -664,6 +723,13 @@ Public Class frmDairyGatePass
             If clsCommon.myLen(txtLoadingSlip.Text) <= 0 Then
                 txtLoadingSlip.Focus()
                 Throw New Exception("Please Enter Loading Slip")
+            End If
+        End If
+        If clsCommon.myCdbl(txtCrateQty.Text) > 0 Then
+            Dim CheckQty As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select IsNull(CrateCapacity,0)CrateCapacity from TSPL_VEHICLE_MASTER where Vehicle_Id='" + clsCommon.myCstr(txtVehicle.Value) + "'"))
+            If clsCommon.myCdbl(txtCrateQty.Text) > CheckQty AndAlso CheckQty > 0 Then
+                Throw New Exception("Vehicle Capacity:" + clsCommon.myCstr(CheckQty) + Environment.NewLine + "Allow only maximum " + clsCommon.myCstr(CheckQty) + " crate according vehicle crate capacity.")
+                Return False
             End If
         End If
         Return funvalidatevehicle()
@@ -727,7 +793,7 @@ Public Class frmDairyGatePass
                 obj.GPDate = clsCommon.myCDate(txtDate.Value)
                 obj.GatePassDate = clsCommon.myCDate(txtGatepassDate.Value)
                 obj.Vehicle_Id = txtVehicle.Value
-                If clsCommon.CompairString(lblVehicleDesc.Text, VehicleDesc) = CompairStringResult.Equal Then
+                If clsCommon.myLen(VehicleDesc) > 0 AndAlso clsCommon.CompairString(lblVehicleDesc.Text, VehicleDesc) = CompairStringResult.Equal Then
                     obj.Vehicle_Number = lblVehicleDesc.Text
                 Else
                     obj.Vehicle_Number = VehicleDesc
@@ -771,13 +837,12 @@ Public Class frmDairyGatePass
                 obj.Arr = New List(Of clsDairyGPDetail)
                 For Each grow As GridViewRowInfo In Gv1.Rows
                     Dim objTr As New clsDairyGPDetail()
+                    objTr.PK_ID = clsCommon.myCDecimal(grow.Cells(colPKID).Value)
                     objTr.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
                     objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                     objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     objTr.HSN_Code = clsCommon.myCstr(grow.Cells(colHSNCode).Value)
-
                     obj.Arr.Add(objTr)
-
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
@@ -787,6 +852,8 @@ Public Class frmDairyGatePass
                     common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     LoadData(obj.GPCode, NavigatorType.Current)
                     arrShipmentFromMultiple = Nothing
+                    btnGo.Enabled = False
+                    RadGroupBox3.Enabled = False
                 End If
             End If
         Catch ex As Exception
@@ -992,7 +1059,6 @@ Public Class frmDairyGatePass
             Else
                 txtCode.MyReadOnly = True
             End If
-
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
@@ -1011,10 +1077,14 @@ Public Class frmDairyGatePass
 
         If clsCommon.myLen(txtCode.Value) > 0 Then
             txtCode.MyReadOnly = False
+            btnGo.Enabled = False
+            RadGroupBox3.Enabled = False
         Else
             txtCode.MyReadOnly = True
+            btnGo.Enabled = True
+            RadGroupBox3.Enabled = True
         End If
-        funLoadGrid(txtCode.Value)
+        'funLoadGrid(txtCode.Value)
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -1040,6 +1110,8 @@ Public Class frmDairyGatePass
         Addnew()
         cmbitemtype.Enabled = True
         txtDate.Enabled = True
+        btnGo.Enabled = True
+        RadGroupBox3.Enabled = True
     End Sub
 
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -1110,7 +1182,7 @@ Public Class frmDairyGatePass
         Dim Qry As String = " Select Case When CFinPouch>0  Then ((Final.Crate_Qty*Final.Conversion_Factor)/CFinPouch) Else 0 End AS 'NoOfPouch',
                                 Case When CFinLTR>0 Then (((Final.Crate_Qty*Final.Conversion_Factor+Final.Pouch_Qty))/CFinLTR)  Else 0 End AS 'MilkQuantity',
                                 Case When Final.Column_Crate>0 Then Cast((Final.Crate_Qty/Final.Column_Crate) AS int)  Else 0 End AS 'CrateLine', 
-                                cast((cast(qty as int)% Column_Crate) as int) AS 'LooseCrate',Pouch_Qty AS 'LoosePouch',Final.* ,tbl_Brand.Brand,tbl_Brand.BRANDDESC ,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img2  
+                                Case When Column_Crate>0 Then cast((cast(qty as int)% Column_Crate) as int) Else 0 End AS 'LooseCrate',Pouch_Qty AS 'LoosePouch',Final.* ,tbl_Brand.Brand,tbl_Brand.BRANDDESC ,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img2  
                                 FROM								
 								(Select Max(Distributor)Distributor,Max(CFinPouch)CFinPouch,Max(CFinLTR)CFinLTR,Max(Conversion_Factor)Conversion_Factor,Max(AgainstTransferNo)AgainstTransferNo,
 Max(Comp_Code)Comp_Code,Sum(Qty * case when Unit_Code='Crate' then 1 else 0 end )Crate_Qty,Sum(Qty * case when Unit_Code='Pouch' then 1 else 0 end )Pouch_Qty,Sum(Box_Crate_Qty)Box_Crate_Qty,Max(Insurance_No)Insurance_No,Max(Insurance_Comp_Name)Insurance_Comp_Name,
@@ -1137,9 +1209,10 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
                    " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
                      left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code " &
                     "left outer join 
-                     (select  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt)Amount,Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)) AS Margin,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax from TSPL_SD_SHIPMENT_DETAIL   
+                     (select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax from TSPL_SD_SHIPMENT_DETAIL   
                        Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
-                     WHERE  TSPL_SD_SHIPMENT_HEAD.GPCode  = '" + StrCode + "'
+					   Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
+                     WHERE  TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode = '" + StrCode + "'
                      Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code)xyz ON xyz.Item_Code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code And xyz.Unit_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code" &
                     "  where 2=2 " &
                     "  and  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode = '" + StrCode + "' " &
@@ -1293,8 +1366,26 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
         Dim strAllDoc As String = " select distinct PPPP.[Document No] as code, convert (varchar, PPPP .[Document Date], 103) as [Document Date] from  ( " & qry & "    ) As PPPP   "
         txtmultiBooking.arrValueMember = clsCommon.ShowMultipleSelectForm("TransType@@@@MulSel", strAllDoc, "Code", "code", txtmultiBooking.arrValueMember, txtmultiBooking.arrDispalyMember)
         funFillGrid2()
+        TotalQty()
     End Sub
 
+    Private Sub TotalQty()
+        Dim TotalCrate As Integer = 0
+        Dim TotalCan As Integer = 0
+        For i As Integer = 0 To Gv1.Rows.Count - 1
+            If clsCommon.CompairString(clsCommon.myCstr(Gv1.Rows(i).Cells(colUnit).Value), "Crate") = CompairStringResult.Equal Then
+                TotalCrate = TotalCrate + clsCommon.myCdbl(Gv1.Rows(i).Cells(colQty).Value)
+                'ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.Rows(i).Cells(colUnit).Value), "Can") = CompairStringResult.Equal Then
+                '    TotalCan = TotalCan + clsCommon.myCdbl(Gv1.Rows(i).Cells(colQty).Value)
+            End If
+
+        Next
+        If clsCommon.myCdbl(TotalCrate) > 0 Then
+            txtCrateQty.Text = TotalCrate
+            'Else
+            '    txtCrateQty.Text = 0
+        End If
+    End Sub
     Private Sub funFillGrid2()
         Try
 
@@ -1587,4 +1678,41 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
         End Try
     End Sub
 
+    Private Sub Gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles Gv1.CellValueChanged
+        Try
+            If Not isInsideLoadData Then
+                Dim Qry As String = Nothing
+                Dim dt As DataTable = Nothing
+                If clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells(colUnit).Value), "Crate") = CompairStringResult.Equal Then
+                    Qry = "Select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_Code,IsNull(GPUsed.GP_Qty,0)GP_Qty,TSPL_SD_SHIPMENT_DETAIL.Qty As TotalQty,
+                            Case When IsNull(GPUsed.GP_Qty,0)>0 Then (TSPL_SD_SHIPMENT_DETAIL.Qty-GPUsed.GP_Qty) Else TSPL_SD_SHIPMENT_DETAIL.Qty End As BalanceQty
+                            from TSPL_SD_SHIPMENT_DETAIL Left Join(select  PK_ID,Max(GPCode)GPCode,Max(Item_Code)Item_Code,Max(Unit_Code)Unit_Code,Sum(IsNull(GP_Qty,0))GP_Qty 
+                            from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID) AS GPUsed On GPUsed.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
+                            Where TSPL_SD_SHIPMENT_DETAIL.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(colPKID).Value) + "'"
+                    dt = clsDBFuncationality.GetDataTable(Qry)
+                    If clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value) > 0 Then
+                        If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            If clsCommon.myCDecimal(Gv1.CurrentRow.Cells(colQty).Value) > clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) AndAlso clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) > 0 Then
+                                clsCommon.MyMessageBoxShow(Me, "Balance Qty: " + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + Environment.NewLine + "Allow Only Maximum " + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + " Qty.", Me.Text)
+                                Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
+                            End If
+                        End If
+                    ElseIf clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value) <= 0 AndAlso dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) > 0 Then
+                        Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
+                    End If
+                End If
+                isInsideLoadData = False
+            End If
+
+        Catch ex As Exception
+        Finally
+            TotalQty()
+        End Try
+    End Sub
+
+    Private Sub lblVehicleDesc_TextChanged(sender As Object, e As EventArgs) Handles lblVehicleDesc.TextChanged
+        If clsCommon.myCstr(VehicleDesc) Is Nothing AndAlso clsCommon.myLen(VehicleDesc) <= 0 Then
+            VehicleDesc = lblVehicleDesc.Text
+        End If
+    End Sub
 End Class

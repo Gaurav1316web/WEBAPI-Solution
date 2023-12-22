@@ -394,7 +394,7 @@ Public Class FrmQuickSettlement
                 Dim strchk As String = "select Post from tspl_QuickSettleMent where Quick_SettleMent_Id='" + fndQuickSettlement.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "Y" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Exit Sub
                 End If
             End If
@@ -406,11 +406,11 @@ Public Class FrmQuickSettlement
                 fndSalesmanCode.Focus()
             ElseIf funSave() Then
                 If clicked = False Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -575,13 +575,13 @@ Public Class FrmQuickSettlement
                 End If
                 If (ClsQuickSettlementMaster.DeleteData(fndQuickSettlement.Value)) Then
                     saveCancelLog(Reason, Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
             
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
@@ -633,7 +633,7 @@ Public Class FrmQuickSettlement
             End If
             'LoadData(clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry)))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -733,7 +733,7 @@ Public Class FrmQuickSettlement
             frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "QuickSettlement", "Quick Settlement")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -773,7 +773,7 @@ Public Class FrmQuickSettlement
         If fndTransferNumber.Value <> "" Then
             Dim s As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transfer_No  from TSPL_TRANSFER_HEAD  where Transfer_No='" + fndTransferNumber.Value + "'"))
             If s <> fndTransferNumber.Value Then
-                common.clsCommon.MyMessageBoxShow("Load Out Number doesn't exist")
+                common.clsCommon.MyMessageBoxShow(Me, "Load Out Number doesn't exist", Me.Text)
                 fndTransferNumber.Value = ""
                 txtTransferDate.Text = ""
                 txtAmount.Text = ""
@@ -1030,7 +1030,7 @@ Public Class FrmQuickSettlement
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True

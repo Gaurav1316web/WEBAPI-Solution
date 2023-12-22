@@ -1293,7 +1293,7 @@ Public Class frmScrapInvoice
                                 Dim gdpen As Double = 0
                                 gdpen = Scrappen - clsCommon.myCdbl(gv1.CurrentRow.Cells(colInQty).Value)
                                 If gdpen < 0 Then
-                                    common.clsCommon.MyMessageBoxShow("Invoice Qty can not be greater then pending qty")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Invoice Qty can not be greater then pending qty", Me.Text)
                                     gv1.CurrentRow.Cells(colInQty).Value = 0
                                 Else
                                     gv1.CurrentRow.Cells(colpending).Value = gdpen
@@ -1319,7 +1319,7 @@ Public Class frmScrapInvoice
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1548,24 +1548,24 @@ Public Class frmScrapInvoice
 
         UpdateAllTotals()
         If clsCommon.myLen(fndcustNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             fndcustNo.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
             txtTaxGroup.Focus()
             Return False
         End If
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select  From Location")
+            common.clsCommon.MyMessageBoxShow("Please select  From Location", Me.Text)
             fndLocation.Focus()
             Return False
         End If
 
         If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Invoice No Not found to save")
+            common.clsCommon.MyMessageBoxShow(Me, "Invoice No Not found to save", Me.Text)
             txtDocNo.Focus()
             Return False
         End If
@@ -1821,11 +1821,11 @@ Public Class frmScrapInvoice
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.invoice_No, NavigatorType.Current)
                 End If
 
@@ -2284,7 +2284,7 @@ Public Class frmScrapInvoice
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2365,12 +2365,12 @@ Public Class frmScrapInvoice
                 End If
                 If (ClsScrapInvoiceHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
@@ -3049,7 +3049,7 @@ Public Class frmScrapInvoice
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3081,7 +3081,7 @@ Public Class frmScrapInvoice
             End If
             '
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -3142,7 +3142,7 @@ Public Class frmScrapInvoice
         Try
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3177,13 +3177,13 @@ Public Class frmScrapInvoice
         Try
             If (myMessages.postConfirm()) Then
                 If (ClsScrapInvoiceHead.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
 
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3600,7 +3600,7 @@ Public Class frmScrapInvoice
 
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3665,7 +3665,7 @@ Public Class frmScrapInvoice
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
             frmCRV = Nothing
         Else
-            common.clsCommon.MyMessageBoxShow("Please select one Invoice")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select one Invoice", Me.Text)
         End If
     End Sub
 End Class

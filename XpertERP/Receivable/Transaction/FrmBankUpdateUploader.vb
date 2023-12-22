@@ -16,7 +16,7 @@ Public Class FrmBankUpdateUploader
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadButton148_Click(sender As Object, e As EventArgs) Handles RadButton148.Click
@@ -86,7 +86,7 @@ Public Class FrmBankUpdateUploader
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         clsCommon.MyMessageBoxShow("Problem in " + clsCommon.myCstr(dt.Rows.Count) + " transaction", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
@@ -109,7 +109,7 @@ Public Class FrmBankUpdateUploader
             End If
             txtRPLocation.Value = clsCommon.ShowSelectForm("PELoc@u", qry, "Code", WhrCls, txtRPLocation.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -371,7 +371,7 @@ Public Class FrmBankUpdateUploader
                 'End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -681,12 +681,12 @@ Public Class FrmBankUpdateUploader
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' update bank code in Payment /receipt code ends here 
@@ -722,7 +722,7 @@ Public Class FrmBankUpdateUploader
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -768,12 +768,12 @@ Public Class FrmBankUpdateUploader
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -868,7 +868,7 @@ Public Class FrmBankUpdateUploader
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -911,12 +911,12 @@ Public Class FrmBankUpdateUploader
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

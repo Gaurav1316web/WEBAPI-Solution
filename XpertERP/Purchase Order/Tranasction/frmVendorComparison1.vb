@@ -42,7 +42,7 @@ Public Class FrmVendorComparison1
 
             If dt.Rows.Count <= 0 Then
                 gv1.DataSource = Nothing
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -151,7 +151,7 @@ Public Class FrmVendorComparison1
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -256,7 +256,7 @@ Public Class FrmVendorComparison1
             End Try
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -281,12 +281,12 @@ Public Class FrmVendorComparison1
                                 " ORDER BY Final.Code,Final.Line_No  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptVendorComparison", "COMPARATIVE STATEMENT FOR PURCHASE", clsCommon.myCDate(dt.Rows(0)("VQDate")))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

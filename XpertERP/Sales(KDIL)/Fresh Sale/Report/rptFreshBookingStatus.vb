@@ -369,7 +369,7 @@ Public Class RptFreshBookingStatus
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         Try
             If (Gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
 
@@ -411,7 +411,7 @@ Public Class RptFreshBookingStatus
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -457,7 +457,7 @@ Public Class RptFreshBookingStatus
     
     Sub Print(ByVal IsPrint As Exporter)
         If fromDate.Value > ToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             fromDate.Focus()
             Exit Sub
         End If
@@ -504,7 +504,7 @@ Public Class RptFreshBookingStatus
         Gv1.BestFitColumns()
         ReStoreGridLayout()
         If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         RadPageView1.SelectedPage = RadPageViewPage2

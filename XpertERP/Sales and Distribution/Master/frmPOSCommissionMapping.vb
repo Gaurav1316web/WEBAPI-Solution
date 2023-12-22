@@ -60,7 +60,7 @@ Public Class FrmPOSCommissionMapping
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -89,7 +89,7 @@ Public Class FrmPOSCommissionMapping
             SetValueMDIChild("SetData", objArr1)
             Throw New Exception("Commission Mapped.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Shared Sub SetValueMDIChild(MethodName As String, Optional pram As Object() = Nothing)

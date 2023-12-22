@@ -65,13 +65,13 @@ Public Class FrmReceivablePaymentTerms
 
 
                 If (ClsReceivablePaymentTerms.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Terms_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -126,12 +126,12 @@ Public Class FrmReceivablePaymentTerms
         Try
             If (deleteConfirm()) Then
                 If (ClsReceivablePaymentTerms.DeleteData(fndtermscode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data deleted successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -261,7 +261,7 @@ Public Class FrmReceivablePaymentTerms
         Try
             LoadData(fndtermscode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -324,12 +324,12 @@ Public Class FrmReceivablePaymentTerms
                     End If
                  
                     If strTermsCode.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Terms Code length cannot be more than 12")
+                        common.clsCommon.MyMessageBoxShow(Me, "Terms Code length cannot be more than 12", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     If strTermsdescription.Length > 500 Then
-                        common.clsCommon.MyMessageBoxShow("Terms Description length cannot be more than 500")
+                        common.clsCommon.MyMessageBoxShow(Me, "Terms Description length cannot be more than 500", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If

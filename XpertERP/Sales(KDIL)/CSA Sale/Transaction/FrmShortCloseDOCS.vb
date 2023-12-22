@@ -27,7 +27,7 @@ Public Class FrmShortCloseDOCS
                 clsDBFuncationality.ExecuteNonQuery(Qry)
             End If
         Next
-        common.clsCommon.MyMessageBoxShow("DO Closed Successfully")
+        common.clsCommon.MyMessageBoxShow(Me, "DO Closed Successfully", Me.Text)
         btnShortCloseDo.Enabled = False
     End Sub
     Sub Reset()
@@ -82,8 +82,8 @@ Public Class FrmShortCloseDOCS
 
             FormatGrid()
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
-            End If
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+        End If
     End Sub
     Sub FormatGrid()
         GV1.TableElement.TableHeaderHeight = 25
