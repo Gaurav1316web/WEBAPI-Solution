@@ -548,7 +548,7 @@ Public Class frmPendingSaleInvoiceFS
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Invoice item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Invoice item", Me.Text)
         Else
             Me.Close()
         End If
@@ -658,17 +658,17 @@ Public Class frmPendingSaleInvoiceFS
 
         Try
             If clsCommon.myLen(tp_FromDate.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("From Date Can't be Blank. ")
+                clsCommon.MyMessageBoxShow(Me, "From Date Can't be Blank. ", Me.Text)
                 tp_FromDate.Focus()
                 Return
             End If
             If clsCommon.myLen(tp_ToDate.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("To Date Can't be Blank.")
+                clsCommon.MyMessageBoxShow(Me, "To Date Can't be Blank.", Me.Text)
                 tp_ToDate.Focus()
                 Return
             End If
             If tp_FromDate.Value > tp_ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then To Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then To Date", Me.Text)
                 tp_FromDate.Focus()
                 Return
             End If
@@ -737,7 +737,7 @@ Public Class frmPendingSaleInvoiceFS
             LoadHeadData()
             LoadBlankGridDetail()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

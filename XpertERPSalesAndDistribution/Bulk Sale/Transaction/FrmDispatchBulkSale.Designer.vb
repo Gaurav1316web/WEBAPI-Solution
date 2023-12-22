@@ -1,8 +1,8 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmDispatchBulkSale
     Inherits FrmMainTranScreen
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -19,10 +19,10 @@ Partial Class FrmDispatchBulkSale
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -1446,7 +1446,7 @@ Partial Class FrmDispatchBulkSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1630,7 +1630,7 @@ Partial Class FrmDispatchBulkSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -1688,9 +1688,9 @@ Partial Class FrmDispatchBulkSale
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(792, 4)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(842, 4)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
-        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(122, 20)
+        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(72, 20)
         Me.btnReverseAndUnpost.TabIndex = 10
         Me.btnReverseAndUnpost.Text = "Reverse and Unpost"
         Me.btnReverseAndUnpost.Visible = False
@@ -1699,9 +1699,9 @@ Partial Class FrmDispatchBulkSale
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(681, 4)
+        Me.btnShowInventory.Location = New System.Drawing.Point(763, 4)
         Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(105, 20)
+        Me.btnShowInventory.Size = New System.Drawing.Size(76, 20)
         Me.btnShowInventory.TabIndex = 8
         Me.btnShowInventory.Text = "Show Inventory"
         '
@@ -1709,9 +1709,9 @@ Partial Class FrmDispatchBulkSale
         '
         Me.btn_printproforma.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_printproforma.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_printproforma.Location = New System.Drawing.Point(551, 4)
+        Me.btn_printproforma.Location = New System.Drawing.Point(642, 4)
         Me.btn_printproforma.Name = "btn_printproforma"
-        Me.btn_printproforma.Size = New System.Drawing.Size(128, 20)
+        Me.btn_printproforma.Size = New System.Drawing.Size(118, 20)
         Me.btn_printproforma.TabIndex = 7
         Me.btn_printproforma.Text = "Print Proforma Invoice"
         Me.btn_printproforma.Visible = False
@@ -1719,9 +1719,9 @@ Partial Class FrmDispatchBulkSale
         'btnUpdateCustomer
         '
         Me.btnUpdateCustomer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateCustomer.Location = New System.Drawing.Point(420, 4)
+        Me.btnUpdateCustomer.Location = New System.Drawing.Point(539, 4)
         Me.btnUpdateCustomer.Name = "btnUpdateCustomer"
-        Me.btnUpdateCustomer.Size = New System.Drawing.Size(129, 20)
+        Me.btnUpdateCustomer.Size = New System.Drawing.Size(99, 20)
         Me.btnUpdateCustomer.TabIndex = 6
         Me.btnUpdateCustomer.Text = "Update Customer"
         '
@@ -1729,7 +1729,7 @@ Partial Class FrmDispatchBulkSale
         '
         Me.btnsetting.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnPreview, Me.btnSend, Me.btnSendforApproval})
-        Me.btnsetting.Location = New System.Drawing.Point(332, 4)
+        Me.btnsetting.Location = New System.Drawing.Point(451, 4)
         Me.btnsetting.Name = "btnsetting"
         Me.btnsetting.Size = New System.Drawing.Size(83, 20)
         Me.btnsetting.TabIndex = 4
