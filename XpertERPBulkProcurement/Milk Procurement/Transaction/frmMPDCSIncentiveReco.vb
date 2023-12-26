@@ -1424,7 +1424,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
             '    LoadData(txtDocNo.Value, NavigatorType.Current)
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

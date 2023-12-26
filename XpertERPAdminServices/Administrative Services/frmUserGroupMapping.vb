@@ -126,7 +126,7 @@ Public Class FrmUserGroupMapping
                 '    If funSetUserAccess() = False Then Exit Sub
                 'End If
             Else
-                common.clsCommon.MyMessageBoxShow("Please Check Status")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Check Status", Me.Text)
             End If
         Catch ex As Exception
             myMessages.myExceptions(ex)

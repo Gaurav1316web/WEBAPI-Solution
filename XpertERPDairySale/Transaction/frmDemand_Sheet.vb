@@ -186,18 +186,15 @@ Public Class frmDemand_Sheet
         End Try
     End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+        Dim obj As New clsDemandSheet()
+        obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
+        obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
+        obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
+        obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
+        obj.ShiftType = txtShift.Text
         If gv1.Rows(IntRowNo).Cells(colSetZero).Value = 0 Then
             For dbColumn As Integer = 4 To gv1.Columns.Count - 1
                 gv1.Rows(IntRowNo).Cells(dbColumn).Value = "0"
-            Next
-        Else
-            If gv1.Rows(IntRowNo).Cells(colCustCode).Value <> "" Then
-                Dim obj As New clsDemandSheet()
-                obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
-                obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
-                obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
-                obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
-                obj.ShiftType = txtShift.Text
                 Dim k As Integer = 1
                 For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -212,7 +209,28 @@ Public Class frmDemand_Sheet
                                 Catch ex As Exception
                                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                                 End Try
-                            ElseIf clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
+
+                            End If
+                        End If
+                    End If
+                Next
+            Next
+        Else
+            If gv1.Rows(IntRowNo).Cells(colCustCode).Value <> "" Then
+                'Dim obj As New clsDemandSheet()
+                'obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
+                'obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
+                'obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
+                'obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
+                'obj.ShiftType = txtShift.Text
+                Dim k As Integer = 1
+                For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                    k = k + 1
+                    If obj1 IsNot Nothing Then
+                        If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
+                            obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
+                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
                                 obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
                                 Try
                                     Dim status As Boolean = obj.SaveData(obj)

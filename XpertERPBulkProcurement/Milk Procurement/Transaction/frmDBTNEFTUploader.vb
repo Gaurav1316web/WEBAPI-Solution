@@ -258,12 +258,12 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
             If (deleteConfirm()) Then
                 If (clsDBTNEFT.DeleteData(txtDocumentNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -389,7 +389,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
 
             LoadData(txtDocumentNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocumentNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
@@ -411,7 +411,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DisableInputDataField()
@@ -541,7 +541,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
     End Sub
     Private Sub mtxtVLC__My_Click(sender As Object, e As EventArgs) Handles txtVLC._My_Click
         If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please Select MCC First.")
+            clsCommon.MyMessageBoxShow(Me, "Please Select MCC First.", Me.Text)
             txtMCC.Focus()
             Exit Sub
         End If
@@ -731,7 +731,7 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -865,7 +865,7 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
             End Try
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrintBankLetter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintBankLetter.Click

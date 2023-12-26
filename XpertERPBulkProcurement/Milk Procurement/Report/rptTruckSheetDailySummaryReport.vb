@@ -168,7 +168,7 @@ Public Class rptTruckSheetDailySummaryReport
                 End If
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
         Catch ex As Exception
@@ -294,7 +294,7 @@ Public Class rptTruckSheetDailySummaryReport
             Gv1.MasterView.Refresh()
 
             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt1
@@ -305,7 +305,7 @@ Public Class rptTruckSheetDailySummaryReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormat()
@@ -422,7 +422,7 @@ Public Class rptTruckSheetDailySummaryReport
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim StrReportName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptTruckSheetDailySummaryReport & "'"))
@@ -511,7 +511,7 @@ Public Class rptTruckSheetDailySummaryReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -520,7 +520,7 @@ Public Class rptTruckSheetDailySummaryReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub ReStoreGridLayout()

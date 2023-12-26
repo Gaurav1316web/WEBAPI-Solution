@@ -257,24 +257,24 @@ Public Class FrmUserGroupMaster
                 For Each grow As GridViewRowInfo In gv.Rows
                     Dim strcode As String = grow.Cells(0).Value.ToString()
                     If strcode.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Check The lenght of Group Code")
+                        common.clsCommon.MyMessageBoxShow(Me, "Check The lenght of Group Code", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
 
                     Dim strdes As String = grow.Cells(1).Value.ToString()
                     If strdes.Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow("Check the lenght of Group Name")
+                        common.clsCommon.MyMessageBoxShow(Me, "Check the lenght of Group Name", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     If String.IsNullOrEmpty(strcode) Then
-                        common.clsCommon.MyMessageBoxShow(" Group Code can not be blank")
+                        common.clsCommon.MyMessageBoxShow(Me, " Group Code can not be blank", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     If String.IsNullOrEmpty(strdes) Then
-                        common.clsCommon.MyMessageBoxShow(" Group Name can not be blank")
+                        common.clsCommon.MyMessageBoxShow(Me, " Group Name can not be blank", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -288,7 +288,7 @@ Public Class FrmUserGroupMaster
                     End If
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()

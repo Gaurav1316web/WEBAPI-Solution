@@ -324,10 +324,10 @@ Public Class frmBulkPurchaseUploader
     Sub CheckAndValidate()
         Dim ValidateStatus As String = String.Empty
         If Gv1.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("There are no row is grid please select a sheet to import")
+            clsCommon.MyMessageBoxShow(Me, "There are no row is grid please select a sheet to import")
         End If
         If ValidatedCount = Gv1.Rows.Count Then
-            clsCommon.MyMessageBoxShow("All Rows are already validated")
+            clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
             Exit Sub
         End If
         ValidatedCount = 0
@@ -1918,7 +1918,7 @@ Public Class frmBulkPurchaseUploader
                     clsCommon.ProgressBarPercentHide()
                     'Throw New Exception("Balwinder Singh Premi")
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 Else
                     Throw New Exception("No Validated Rows found to save")
                 End If
@@ -2194,7 +2194,7 @@ Public Class frmBulkPurchaseUploader
                     clsCommon.ProgressBarPercentHide()
                     trans.Commit()
                     'trans.Rollback()
-                    clsCommon.MyMessageBoxShow("Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 Else
                     Throw New Exception("No Validated Rows found to save")
                 End If
@@ -2696,7 +2696,7 @@ Public Class frmBulkPurchaseUploader
 
                     clsCommon.ProgressBarPercentHide()
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 Else
                     Throw New Exception("No Validated Rows found to save")
                 End If
@@ -3799,7 +3799,7 @@ Public Class frmBulkPurchaseUploader
             End If
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Recreated Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Recreated Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             Try
@@ -3807,7 +3807,7 @@ Public Class frmBulkPurchaseUploader
             Catch ex1 As Exception
 
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3832,7 +3832,7 @@ Public Class frmBulkPurchaseUploader
             End If
             trans.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Recreated Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Recreated Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             Try
@@ -3840,7 +3840,7 @@ Public Class frmBulkPurchaseUploader
             Catch ex1 As Exception
 
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

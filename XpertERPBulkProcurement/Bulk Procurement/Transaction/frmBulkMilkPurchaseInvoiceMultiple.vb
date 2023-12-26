@@ -223,7 +223,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because payment Cycle of Month Type", Me.Text)
                     txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -231,7 +231,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
                 txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because payment Cycle of Year Type", Me.Text)
                     txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -1460,13 +1460,13 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
                 EnableDisableControl(False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtFromDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtFromDate.Validating
         If clsCommon.myLen(txtPaymentCycle.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select payment cycle", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select payment cycle", Me.Text)
             txtPaymentCycle.Focus()
         Else
             SetToDate()
@@ -1491,7 +1491,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
                 IsInsideLoadData = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1551,7 +1551,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow("Invoice created successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Invoice created successfully", Me.Text)
                     LoadBlankGrid()
                     LoadBlankGridTax()
                     EnableDisableControl(True)
@@ -1563,7 +1563,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2175,7 +2175,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
             txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(txtLocation.Value, txtVendor.arrValueMember(0), "P", txtTaxGroup.Value, isButtonClicked)
             SetTaxDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2194,7 +2194,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
                 UpdateCurrentRow(ii)
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2255,7 +2255,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

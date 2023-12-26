@@ -206,7 +206,7 @@ Public Class FrmProvisionEntry
                 Return True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -218,7 +218,7 @@ Public Class FrmProvisionEntry
                 If clsCommon.MyMessageBoxShow("Want To Delete The Doc No : " & fndDocNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     If clsProvisionEntry.deleteData(fndDocNo.Value, tran) Then
                         tran.Commit()
-                        clsCommon.MyMessageBoxShow("Deleted successFully")
+                        clsCommon.MyMessageBoxShow(Me, "Deleted successFully", Me.Text)
                         Reset()
                     End If
                 End If
@@ -227,7 +227,7 @@ Public Class FrmProvisionEntry
             End If
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -257,7 +257,7 @@ Public Class FrmProvisionEntry
             txtVendorNAme.Text = clsCommon.myCstr(clsVendorMaster.GetName(fndVendor.Value, Nothing))
             'LoadProvisionGridData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData(ByVal isPostbtnClick As Boolean)
@@ -289,9 +289,9 @@ Public Class FrmProvisionEntry
                 trans.Commit()
                 If Not isPostbtnClick Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 LoadData(objProv.Doc_No, NavigatorType.Current)
@@ -308,7 +308,7 @@ Public Class FrmProvisionEntry
                 trans.Rollback()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -351,7 +351,7 @@ Public Class FrmProvisionEntry
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -386,7 +386,7 @@ Public Class FrmProvisionEntry
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -420,12 +420,12 @@ Public Class FrmProvisionEntry
             End If
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsProvisionEntry.ReverseAndUnpost(fndDocNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Unpost.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Unpost.", Me.Text)
                     LoadData(fndDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -467,7 +467,7 @@ Public Class FrmProvisionEntry
                     clsProvisionEntry.deleteData(strDocNo, Nothing)
                 Next
 
-                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 TxtMultiSelectProvision.arrValueMember = Nothing
 
             End If
