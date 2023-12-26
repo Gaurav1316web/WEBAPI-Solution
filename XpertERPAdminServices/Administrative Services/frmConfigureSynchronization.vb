@@ -33,7 +33,7 @@ Public Class frmConfigureSynchronization
                     End If
                 End If
                 clsSyncHeadTables.ConfigureSynchronization(fndLoc.Value, dtpStartDate.Value, chkLapseUnAvailed.Checked)
-                clsCommon.MyMessageBoxShow("Configured Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Configured Successfully", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -190,7 +190,7 @@ Public Class frmConfigureSynchronization
             clsCommon.MyMessageBoxShow(Me, "Test connection succeed", Me.Text)
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False

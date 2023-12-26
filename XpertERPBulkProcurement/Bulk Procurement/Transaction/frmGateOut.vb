@@ -121,15 +121,15 @@ Public Class FrmGateOut
             trans.Commit()
             If Not isPost Then
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
             End If
             loadData(obj.Doc_No, NavigatorType.Current)
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             fndDocNo.MyReadOnly = False
@@ -157,17 +157,17 @@ Public Class FrmGateOut
                     If clsGateOut.deleteData(fndDocNo.Value, trans) Then
                         trans.Commit()
                         reset()
-                        clsCommon.MyMessageBoxShow("Deleted Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Could Not Deleted. Try Again")
+                        clsCommon.MyMessageBoxShow(Me, "Could Not Deleted. Try Again", Me.Text)
                         trans.Rollback()
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select a Cleaning Document No To delete")
+                clsCommon.MyMessageBoxShow(Me, "Please select a Cleaning Document No To delete", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -328,7 +328,7 @@ Public Class FrmGateOut
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -553,7 +553,7 @@ Public Class FrmGateOut
             PrintData(fndGateEntryNo.Value, "BulkProc")
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -581,7 +581,7 @@ Public Class FrmGateOut
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 Dim strQry As String = "update TSPL_Gate_Out set IsPosted='1' where DOC_no='" & fndDocNo.Value & "'"
                 clsDBFuncationality.ExecuteNonQuery(strQry)
-                common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 loadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception

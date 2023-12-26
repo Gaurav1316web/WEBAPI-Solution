@@ -43,7 +43,7 @@ Public Class frmCurrencyRateMain
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
                 If isShowMsg Then
-                    clsCommon.MyMessageBoxShow("No Data found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to Display", Me.Text)
                 End If
             Else
                 'For Each dr As DataRow In dt.Rows
@@ -60,7 +60,7 @@ Public Class frmCurrencyRateMain
             ReStoreGridLayout()
             isInsideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ReStoreGridLayout()
@@ -169,7 +169,7 @@ Public Class frmCurrencyRateMain
                     obj.SaveData(obj, True)
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -191,7 +191,7 @@ Public Class frmCurrencyRateMain
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
 
             ''richa agarwal regarding memory leakage

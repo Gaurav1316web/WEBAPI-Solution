@@ -157,7 +157,7 @@ Public Class FrmBulkMilkSRNReturn
             Gv1.TableElement.TableHeaderHeight = 20
             Gv1.EnableFiltering = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadSRNDATA()
@@ -198,11 +198,11 @@ Public Class FrmBulkMilkSRNReturn
                     Gv1.Rows(i).Cells(colbtnCol).Value = "Click Here..."
                 Next
             Else
-                clsCommon.MyMessageBoxShow("No SRN Found")
+                clsCommon.MyMessageBoxShow(Me, "No SRN Found", Me.Text)
                 btnReset.PerformClick()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -244,7 +244,7 @@ Public Class FrmBulkMilkSRNReturn
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         Try
@@ -255,7 +255,7 @@ Public Class FrmBulkMilkSRNReturn
             End If
 
         Catch ex1 As Exception
-            clsCommon.MyMessageBoxShow(ex1.Message)
+            clsCommon.MyMessageBoxShow(Me, ex1.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -287,7 +287,7 @@ Public Class FrmBulkMilkSRNReturn
             End If
             LoadSRNDATA()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -333,18 +333,18 @@ Public Class FrmBulkMilkSRNReturn
             Next
             If isSaved Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Saved Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully.", Me.Text)
                 btnReset.PerformClick()
             Else
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow("Could not Saved.")
+                clsCommon.MyMessageBoxShow(Me, "Could not Saved.", Me.Text)
             End If
         Catch ex As Exception
             Try
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub

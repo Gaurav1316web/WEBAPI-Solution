@@ -570,7 +570,7 @@ Public Class frmMPIncentiveEntrty
             If clsCommon.myLen(ex.Message) > 200 Then
                 clsERPFuncationality.OpenNotepadFile(ex.Message, Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -579,12 +579,12 @@ Public Class frmMPIncentiveEntrty
             clsLockMPPaymentCycle.LockMPTransaction(txtMCC.Value, txtdate.Value)
             If (deleteConfirm()) Then
                 If (clsMPIncentiveEntry.DeleteData(txtDocumentNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -938,7 +938,7 @@ Public Class frmMPIncentiveEntrty
 
             LoadData(txtDocumentNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocumentNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
@@ -961,7 +961,7 @@ Public Class frmMPIncentiveEntrty
                 'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DisableInputDataField()
@@ -1061,7 +1061,7 @@ Public Class frmMPIncentiveEntrty
             Dim PaymentCycleValue As Integer = 0
             ' If Not isLoad Then
             If clsCommon.myLen(txtMCC.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select the MCC first")
+                clsCommon.MyMessageBoxShow(Me, "Please select the MCC first", Me.Text)
                 Exit Sub
             End If
             If SettMPIncentiveEntryApplyMonthly Then
@@ -1070,7 +1070,7 @@ Public Class frmMPIncentiveEntrty
             Else
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in ('" + txtMCC.Value + "') ")
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                    clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                     Exit Sub
                 End If
                 PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -1408,7 +1408,7 @@ where TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' and TSPL_VLC_MASTER_HEAD.V
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1425,7 +1425,7 @@ where TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' and TSPL_VLC_MASTER_HEAD.V
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isCellValueChangedOpen = False
         End Try

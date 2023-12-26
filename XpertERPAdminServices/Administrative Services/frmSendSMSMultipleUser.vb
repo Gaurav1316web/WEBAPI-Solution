@@ -44,10 +44,10 @@ Public Class FrmSendSMSMultipleUser
                 End If
                 objSMSH.SaveData("", objSMSH, Nothing)
                 objSMSH = Nothing
-                clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' for Export
@@ -102,7 +102,7 @@ Public Class FrmSendSMSMultipleUser
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try

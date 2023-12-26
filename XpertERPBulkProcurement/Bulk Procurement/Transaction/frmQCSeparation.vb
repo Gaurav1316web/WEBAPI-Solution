@@ -320,11 +320,11 @@ Public Class FrmQCSeparation
             whrCls = " where 1=1 AND (Param_for='MCC' or Param_for='BOTH') "
         Else
             If (Not clsfrmParameterMaster.isCLRParmExist()) Then
-                clsCommon.MyMessageBoxShow("CLR parameter Does not exist. Please make it first")
+                clsCommon.MyMessageBoxShow(Me, "CLR parameter Does not exist. Please make it first", Me.Text)
                 Exit Sub
             End If
             If Not clsfrmParameterMaster.isCFParmExist() Then
-                clsCommon.MyMessageBoxShow("CF parameter Does not exist. Please make it first")
+                clsCommon.MyMessageBoxShow(Me, "CF parameter Does not exist. Please make it first", Me.Text)
                 Exit Sub
             End If
             whrCls = " where 1=1 AND ( Param_for='PLANT' or Param_for='BOTH') "
@@ -808,7 +808,7 @@ Public Class FrmQCSeparation
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -935,7 +935,7 @@ Public Class FrmQCSeparation
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSave = False
             Return False
         End Try
@@ -979,7 +979,7 @@ Public Class FrmQCSeparation
                     End If
                 End If
                 If clsCommon.myLen(obj.QC_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error In QC  No Genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error In QC  No Genertion", Me.Text)
                     Exit Sub
                 End If
             Else

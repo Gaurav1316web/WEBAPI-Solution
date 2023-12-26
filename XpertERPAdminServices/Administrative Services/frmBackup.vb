@@ -39,11 +39,11 @@ Public Class FrmBackup
 
             If TakeBakup() Then
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Backup taken Sucessfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Backup taken Sucessfully", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

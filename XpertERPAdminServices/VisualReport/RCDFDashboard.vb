@@ -159,7 +159,7 @@ Public Class RCDFDashboard
             EnableDisableCntrl(False)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub EnableDisableCntrl(ByVal val As Boolean)

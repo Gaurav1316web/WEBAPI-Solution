@@ -216,7 +216,7 @@ Public Class FrmSendSMSEmailSetting
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Description", Me.Text)
             txtDescription.Focus()
             Return False
         End If
@@ -224,33 +224,33 @@ Public Class FrmSendSMSEmailSetting
         ' For Email
         If rdbEmailEveryDays.Checked = True Or rdbEmailWeekly.Checked = True Or rdbEmailMonthly.Checked = True Then
             If dtpEmailSchedulTime.Checked = False Then
-                common.clsCommon.MyMessageBoxShow("Please Check Email Schedule Time")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Check Email Schedule Time", Me.Text)
                 Return False
             End If
             If String.IsNullOrEmpty(dtpEmailSchedulTime.Text) = True Then
-                common.clsCommon.MyMessageBoxShow("Please select Email Schedule Time")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Email Schedule Time", Me.Text)
                 Return False
             End If
             If dtpEmailSchedulTime.Checked = False Then
-                common.clsCommon.MyMessageBoxShow("Please checked Email Schedule Time")
+                common.clsCommon.MyMessageBoxShow(Me, "Please checked Email Schedule Time", Me.Text)
                 Return False
             End If
         End If
 
         If rdbEmailWeekly.Checked = True Then
             If clsCommon.CompairString(cmbWeekDaysForEmail.SelectedValue, "-Select-") = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Please select WeekDays For Email")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select WeekDays For Email", Me.Text)
                 Return False
             End If
         End If
         If rdbEmailMonthly.Checked = True Then
             If chkEmailLastDayOfMonth.Checked = False AndAlso txtEmailMonthly.Checked = False Then
-                common.clsCommon.MyMessageBoxShow("Please select Monthly day / Last day of month For Email")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Monthly day / Last day of month For Email", Me.Text)
                 Return False
             End If
             If chkEmailLastDayOfMonth.Checked = True Then
                 If String.IsNullOrEmpty(txtEmailMonthly.Value) = True Then
-                    common.clsCommon.MyMessageBoxShow("Please select Monthly day For Email")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Monthly day For Email", Me.Text)
                     Return False
                 End If
             End If
@@ -259,44 +259,44 @@ Public Class FrmSendSMSEmailSetting
         ' For SMS
         If rdbSMSEveryDays.Checked = True Or rdbSMSWeekly.Checked = True Or rdbSMSMonthly.Checked = True Then
             If dtpEmailSchedulTime.Checked = False Then
-                common.clsCommon.MyMessageBoxShow("Please Check SMS Schedule Time")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Check SMS Schedule Time", Me.Text)
                 Return False
             End If
             If String.IsNullOrEmpty(dtpSMSSchedulTime.Text) = True Then
-                common.clsCommon.MyMessageBoxShow("Please select SMS Schedule Time")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select SMS Schedule Time", Me.Text)
                 Return False
             End If
             If dtpSMSSchedulTime.Checked = False Then
-                common.clsCommon.MyMessageBoxShow("Please checked SMS Schedule Time")
+                common.clsCommon.MyMessageBoxShow(Me, "Please checked SMS Schedule Time", Me.Text)
                 Return False
             End If
         End If
 
         If rdbSMSWeekly.Checked = True Then
             If clsCommon.CompairString(cmbWeekDaysForSMS.SelectedValue, "-Select-") = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Please select WeekDays For SMS")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select WeekDays For SMS", Me.Text)
                 Return False
             End If
         End If
         If rdbSMSMonthly.Checked = True Then
             If chkSMSLastDayOfMonth.Checked = False AndAlso txtSMSMonthly.Checked = False Then
-                common.clsCommon.MyMessageBoxShow("Please select Monthly day / Last day of month For SMS")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Monthly day / Last day of month For SMS", Me.Text)
                 Return False
             End If
             If chkSMSLastDayOfMonth.Checked = True Then
                 If String.IsNullOrEmpty(txtSMSMonthly.Value) = True Then
-                    common.clsCommon.MyMessageBoxShow("Please select Monthly day For SMS")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Monthly day For SMS", Me.Text)
                     Return False
                 End If
             End If
         End If
 
         If rdbEmailEveryDays.Checked = False AndAlso rdbEmailWeekly.Checked = False AndAlso rdbEmailMonthly.Checked = False AndAlso rdbSMSEveryDays.Checked = False AndAlso rdbSMSWeekly.Checked = False AndAlso rdbSMSMonthly.Checked = False Then
-            common.clsCommon.MyMessageBoxShow("Please select  Daily/Weekly/Monthly For SMS/Email")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select  Daily/Weekly/Monthly For SMS/Email", Me.Text)
             Return False
         End If
         If rdbEmailNone.Checked = True AndAlso rdbSMSNone.Checked = True Then
-            common.clsCommon.MyMessageBoxShow("You can not select Email and SMS None.")
+            common.clsCommon.MyMessageBoxShow(Me, "You can not select Email and SMS None.", Me.Text)
             Return False
         End If
 
@@ -365,12 +365,12 @@ Public Class FrmSendSMSEmailSetting
 
                 arr.Add(obj)
                 If obj.SaveData(arr, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.SCHEDULER_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -437,7 +437,7 @@ Public Class FrmSendSMSEmailSetting
                 rbtnSave.Text = "Update"
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -528,7 +528,7 @@ Public Class FrmSendSMSEmailSetting
                 LoadData(txtSchedulerCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -548,7 +548,7 @@ Public Class FrmSendSMSEmailSetting
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsSendSMSEmailSetting.DeleteData(txtSchedulerCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     Reset()
                 End If
             End If

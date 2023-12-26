@@ -65,7 +65,7 @@ Public Class FrmCompanyMaster
             myMessages.blankValue("Company Name")
             txtCompanyName.Focus()
         ElseIf check.Success = False And txtEmail.Text <> "" Then
-            common.clsCommon.MyMessageBoxShow("Please insert the proper format of e-mail address", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please insert the proper format of e-mail address", Me.Text)
             txtEmail.Text = ""
             txtEmail.Focus()
             '' Anubhooti 01-Sep-2014 BM00000003428 (Add CIN No.)
@@ -133,7 +133,7 @@ Public Class FrmCompanyMaster
                 btnDelete.Enabled = True
             Catch ex As Exception
                 If ex.Message.ToUpper.Contains("DUPLICATE") Then
-                    clsCommon.MyMessageBoxShow("Record Already Exits..")
+                    clsCommon.MyMessageBoxShow(Me, "Record Already Exits..", Me.Text)
                 Else
                     myMessages.myExceptions(ex)
                 End If
@@ -169,7 +169,7 @@ Public Class FrmCompanyMaster
             'common.clsCommon.MyMessageBoxShow("Company Name cannot be blank.")
             myMessages.blankValue("Company Name")
         ElseIf check.Success = False And txtEmail.Text <> "" Then
-            common.clsCommon.MyMessageBoxShow("Please insert the proper format of e-mail address", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please insert the proper format of e-mail address", Me.Text)
             txtEmail.Text = ""
             txtEmail.Focus()
             '' Anubhooti 01-Sep-2014 (Add CIN No.)
@@ -708,7 +708,7 @@ Public Class FrmCompanyMaster
     End Sub
     Public Sub DeleteData()
         If (clsCommon.myLen(cboDataBase.SelectedValue) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select Database Name")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Database Name", Me.Text)
             cboDataBase.Focus()
             Return
         End If
@@ -727,7 +727,7 @@ Public Class FrmCompanyMaster
     End Sub
     Public Sub SaveData()
         If (clsCommon.myLen(cboDataBase.SelectedValue) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select Database Name")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Database Name", Me.Text)
             cboDataBase.Focus()
             Return
         End If
@@ -736,19 +736,19 @@ Public Class FrmCompanyMaster
         If clsCommon.myLen(txtInsurance_Comp_Name.Text) > 0 AndAlso clsCommon.myLen(txtinsuranceno.Text) <= 0 Then
             txtinsuranceno.Focus()
             txtinsuranceno.Select()
-            clsCommon.MyMessageBoxShow("Please fill Insurance No.")
+            clsCommon.MyMessageBoxShow(Me, "Please fill Insurance No.", Me.Text)
             Return
         End If
         If clsCommon.myLen(txtInsurance_Comp_Name.Text) <= 0 AndAlso clsCommon.myLen(txtinsuranceno.Text) > 0 Then
             txtInsurance_Comp_Name.Focus()
             txtInsurance_Comp_Name.Select()
-            clsCommon.MyMessageBoxShow("Please fill Insurance Company Name.")
+            clsCommon.MyMessageBoxShow(Me, "Please fill Insurance Company Name.", Me.Text)
             Return
         End If
         If clsCommon.myLen(txtInsurance_Comp_Name.Text) > 0 AndAlso dtpInsurance_Valid_Date.Checked = False Then
             dtpInsurance_Valid_Date.Focus()
             dtpInsurance_Valid_Date.Select()
-            clsCommon.MyMessageBoxShow("Please select Insurance Valid Upto with valid date.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Insurance Valid Upto with valid date.", Me.Text)
             Return
         End If
         ''====================================================================
@@ -775,7 +775,7 @@ Public Class FrmCompanyMaster
             'Ticket No : TEC/13/08/19-000991 By Prabhakar
             Dim isCompanyExist As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_COMPANY_MASTER"))
             If isCompanyExist = True Then
-                clsCommon.MyMessageBoxShow("One company already exist,You can not create another company.")
+                clsCommon.MyMessageBoxShow(Me, "One company already exist,You can not create another company.", Me.Text)
                 Return
             End If
             funInsert()
@@ -869,10 +869,10 @@ Public Class FrmCompanyMaster
                     Dim ms As New MemoryStream()
                     BGImage.Image.Save(ms, BGImage.Image.RawFormat)
                     If BGImage.Image.Width <= 1300 Then
-                        clsCommon.MyMessageBoxShow("Image Width not match please increase width 1300 ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Image Width not match please increase width 1300 ", Me.Text)
                         Exit Sub
                     ElseIf BGImage.Image.Height <= "800" Then
-                        clsCommon.MyMessageBoxShow("Image height not match please increase height 800 ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Image height not match please increase height 800 ", Me.Text)
                         Exit Sub
                     End If
 
@@ -962,7 +962,7 @@ Public Class FrmCompanyMaster
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1028,7 +1028,7 @@ Public Class FrmCompanyMaster
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Private Sub txtCECommissionerate_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtCECommissionerate.KeyPress
@@ -1197,7 +1197,7 @@ Public Class FrmCompanyMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1221,7 +1221,7 @@ Public Class FrmCompanyMaster
                 txtcust_name.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
