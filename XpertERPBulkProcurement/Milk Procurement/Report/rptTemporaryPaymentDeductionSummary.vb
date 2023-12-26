@@ -1,6 +1,5 @@
-﻿Imports common
-Imports System.ComponentModel
-Imports System.IO
+﻿Imports System.IO
+Imports common
 
 
 'by Sanjay - Create new report 
@@ -45,7 +44,8 @@ Public Class rptTemporaryPaymentDeductionSummary
         btnPrint.Text = Nothing
         PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
-             clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+             clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse
+             clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
             PrintUDP(False)
         Else
             Print(False)
@@ -1115,7 +1115,8 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             If chkDCSWise.Checked Then
                 PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
-                    clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse
+                    clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                     PrintUDP(False)
                 Else
                     Print(False)
