@@ -438,7 +438,7 @@ Public Class frmMilkShiftUploader
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -590,7 +590,7 @@ Public Class frmMilkShiftUploader
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -663,7 +663,7 @@ Public Class frmMilkShiftUploader
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -715,12 +715,12 @@ Public Class frmMilkShiftUploader
                     Throw New Exception("Please Fill at list one Item")
                 End If
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Document_No, NavigatorType.Current)
             End If
         Catch ex As Exception
             'frmSRN.IsPoSavedAuto = False
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -833,7 +833,7 @@ Public Class frmMilkShiftUploader
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -846,11 +846,11 @@ Public Class frmMilkShiftUploader
             End If
             If clsCommon.MyMessageBoxShow("Delete the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsMilkShiftUploaderHead.DeleteData(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Data delete successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data delete successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -865,11 +865,11 @@ Public Class frmMilkShiftUploader
                 Else
                     clsMilkShiftUploaderHead.PostData(txtDocNo.Value)
                 End If
-                clsCommon.MyMessageBoxShow("Data posted successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -897,7 +897,7 @@ Public Class frmMilkShiftUploader
 
     Private Sub RadMenuItem6_Click(sender As Object, e As EventArgs) Handles RadMenuItem6.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Document Not found to export.")
+            clsCommon.MyMessageBoxShow(Me, "Document Not found to export.", Me.Text)
         End If
         Dim qry As String = "select SNo as 'S NO',TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as 'VLC Uploader Code',Milk_Weight as 'Qty (Ltr)',FAT as 'FAT%',SNF as 'SNF%',Dock_Collection_Milk_Type as [Milk Type(M/C/B)],Reject_Type as  [Reject Type],Reject_Defaulter as [Reject Defaulter]" + Environment.NewLine + _
         "from TSPL_MILK_SHIFT_UPLOADER_DETAIL" + Environment.NewLine + _
@@ -1015,7 +1015,7 @@ ExitLOOP:
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1100,7 +1100,7 @@ ExitLOOP:
     Private Sub txtDockCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDockCode._MYValidating
         If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
             fndMCCCode.Focus()
-            clsCommon.MyMessageBoxShow("Please first select MCC", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please first select MCC", Me.Text)
             Exit Sub
         End If
         txtDockCode.Value = clsDockMaster.getFinder("TSPL_DOCK_MASTER.MCC_Code='" + fndMCCCode.Value + "'", txtDockCode.Value, isButtonClicked)

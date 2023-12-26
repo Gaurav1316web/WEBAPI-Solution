@@ -12,7 +12,7 @@ Public Class frmBankOpeningReco
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -114,12 +114,12 @@ Public Class frmBankOpeningReco
         Try
             If (deleteConfirm()) Then
                 If (clsBankOpeningReco.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -127,12 +127,12 @@ Public Class frmBankOpeningReco
         Try
             If (postConfirm()) Then
                 If (clsBankOpeningReco.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data posted Successfully ", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -213,12 +213,12 @@ Public Class frmBankOpeningReco
                 obj.Cheque_Date = txtChequeDate.Value
                 obj.Bank_Code = txtBankCode.Value
                 If (clsBankOpeningReco.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funClose()

@@ -152,12 +152,12 @@ Public Class frmDBTNEFTReject
             'clsLockMPPaymentCycle.LockMPTransaction(txtMCC.Value, txtdate.Value)
             If (deleteConfirm()) Then
                 If (clsDBTNEFTReject.DeleteData(txtDocumentNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -219,7 +219,7 @@ where TSPL_DBT_NEFT_REJECT_SUCESS.Document_Code='" & txtDocumentNo.Value & "'
 
             LoadData(txtDocumentNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocumentNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
@@ -239,7 +239,7 @@ where TSPL_DBT_NEFT_REJECT_SUCESS.Document_Code='" & txtDocumentNo.Value & "'
                 arrLoc = obj.arrLocCodes
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -309,7 +309,7 @@ where TSPL_DBT_NEFT_REJECT_SUCESS.Document_Code='" & txtDocumentNo.Value & "'
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

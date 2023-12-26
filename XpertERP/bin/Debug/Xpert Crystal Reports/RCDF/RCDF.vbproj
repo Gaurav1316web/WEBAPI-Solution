@@ -335,6 +335,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceTNK.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer_Challan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer_InterState.rpt" />

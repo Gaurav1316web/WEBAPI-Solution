@@ -18,7 +18,7 @@ Public Class FrmBankBrachMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -82,15 +82,15 @@ Public Class FrmBankBrachMaster
     Public Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(fndBranchCode.Value) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Enter Branch Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter Branch Code", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(txtBranchName.Text) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Enter Branch Name")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter Branch Name", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(txtIFSCCode.Text) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Enter IFSC Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter IFSC Code", Me.Text)
                 Return False
             End If
             If clsDBFuncationality.getSingleValue("select count(*) from tspl_bank_Branch_master where IFSC_code='" & txtIFSCCode.Text.ToString.Trim & "'") > 0 AndAlso clsCommon.CompairString(rbtnSave.Text, "Save") = CompairStringResult.Equal Then
@@ -110,12 +110,12 @@ Public Class FrmBankBrachMaster
                 Return False
             End If
             If clsCommon.myLen(fndBankCode.Value) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Bank Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Bank Code", Me.Text)
                 Return False
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -135,16 +135,16 @@ Public Class FrmBankBrachMaster
             obj.BankCode = fndBankCode.Value
             Dim isSaved As Boolean = obj.SaveData(obj, Nothing)
             If isSaved Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 rbtnSave.Text = "Update"
                 rbtnDelete.Enabled = True
             Else
                 rbtnSave.Text = "Save"
                 rbtnDelete.Enabled = False
-                common.clsCommon.MyMessageBoxShow("Data Could Not Saved")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Could Not Saved", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -165,7 +165,7 @@ Public Class FrmBankBrachMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -180,7 +180,7 @@ Public Class FrmBankBrachMaster
                 txtIFSCCode.Text = obj.IFSCCode
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -206,7 +206,7 @@ Public Class FrmBankBrachMaster
             str = "select Branch_Code as Code,Branch_Name as [Branch Name], IFSC_Code as [IFSC Code], tspl_bank_branch_Master.Bank_Code as [Bank Code],tspl_bank_master.description as [Bank Name] from tspl_bank_branch_Master left outer join tspl_bank_master on tspl_bank_master.bank_code=tspl_bank_branch_master.bank_code "
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -254,7 +254,7 @@ Public Class FrmBankBrachMaster
                     obj.SaveData(obj, trans)
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 trans.Commit()
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
@@ -317,7 +317,7 @@ Public Class FrmBankBrachMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

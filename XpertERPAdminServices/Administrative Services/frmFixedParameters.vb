@@ -22,7 +22,7 @@ Public Class FrmFixedParameters
                 FormatGrid()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -80,11 +80,11 @@ Public Class FrmFixedParameters
 
             ''richa TEC/15/05/19-000481
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Data updated successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Data updated successfully.", Me.Text)
             objCommonVar.RefreshCommonVar()
             LoadData()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -111,10 +111,10 @@ Public Class FrmFixedParameters
                 gvTemp.DataSource = dt
                 transportSql.QuickExportToExcel(gvTemp, "", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gvTemp)
         End Try
@@ -166,11 +166,11 @@ Public Class FrmFixedParameters
 
 
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data updated successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data updated successfully.", Me.Text)
                 objCommonVar.RefreshCommonVar()
                 LoadData()
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 trans.Rollback()
             End Try
 

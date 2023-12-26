@@ -253,7 +253,7 @@ Public Class frmPPLogSheetMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -313,11 +313,11 @@ Public Class frmPPLogSheetMaster
 
             If clsPPLogSheetMaster.SaveData(obj.code, isNewEntry, obj) Then
                 If chkReq_Para_Mst.Checked AndAlso check <= 0 AndAlso clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Parameter is auto created in Parameter Master", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Parameter is auto created in Parameter Master", Me.Text)
                 ElseIf clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
                 btnsave.Text = "Update"
@@ -333,7 +333,7 @@ Public Class frmPPLogSheetMaster
                 btndelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             objtr = Nothing
             obj = Nothing
@@ -349,7 +349,7 @@ Public Class frmPPLogSheetMaster
 
         Try
             If clsCommon.myLen(fndNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Code For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Code For Deletion", Me.Text)
                 fndNo.Focus()
                 fndNo.Select()
                 Return
@@ -371,7 +371,7 @@ Public Class frmPPLogSheetMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -429,7 +429,7 @@ Public Class frmPPLogSheetMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -668,11 +668,11 @@ Public Class frmPPLogSheetMaster
                 Next
 
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
 
                 trans.Commit()
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 trans.Rollback()
             Finally
                 clsCommon.ProgressBarHide()
@@ -734,11 +734,11 @@ Public Class frmPPLogSheetMaster
 
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
 
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Finally
                 clsCommon.ProgressBarHide()
                 Reset()
@@ -766,7 +766,7 @@ Public Class frmPPLogSheetMaster
 
             transportSql.ExporttoExcel(qry, Whr, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -881,11 +881,11 @@ Public Class frmPPLogSheetMaster
             trans.Commit()
 
             If counter > 0 Then
-                clsCommon.MyMessageBoxShow("Data transfer successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data transfer successfully.", Me.Text)
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
             Me.Controls.Remove(gv)

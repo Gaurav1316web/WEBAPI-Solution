@@ -60,7 +60,7 @@ Public Class FrmLineMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -93,22 +93,22 @@ Public Class FrmLineMaster
            
             If clsLineMaster.saveData(obj, isNewEntry) Then
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 loadLineNoData(obj.LINE_NO, NavigatorType.Current)
                 btnSave.Text = "Update"
                 fndLine.MyReadOnly = True
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Update"
             btnDelete.Enabled = False
             fndLine.MyReadOnly = False
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -155,7 +155,7 @@ Public Class FrmLineMaster
 
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -282,11 +282,11 @@ Public Class FrmLineMaster
                 Next
 
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
 
                 trans.Commit()
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 trans.Rollback()
             Finally
                 clsCommon.ProgressBarHide()

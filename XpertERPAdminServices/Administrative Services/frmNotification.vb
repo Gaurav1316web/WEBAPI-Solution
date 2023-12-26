@@ -123,7 +123,7 @@ Public Class frmNotification
             End If
             LoadData(clsCommon.myCstr(txtCode.Value), NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -157,7 +157,7 @@ Public Class frmNotification
                         arrUserType.Add(txtUserType.arrValueMember(i))
                     Next
                 Else
-                    clsCommon.MyMessageBoxShow(Me, "Please select atleast one User type")
+                    clsCommon.MyMessageBoxShow(Me, "Please select atleast one User type", Me.Text)
                     Exit Sub
                 End If
 

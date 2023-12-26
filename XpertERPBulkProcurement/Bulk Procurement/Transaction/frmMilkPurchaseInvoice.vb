@@ -375,7 +375,7 @@ Public Class FrmMilkPurchaseInvoice
                             Next
                             saveCancelLog(Reason, "Reverse and Recreate", trans)
                             trans.Commit()
-                            clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
                             loadData(fndDocNo.Value, NavigatorType.Current)
                         Catch ex As Exception
                             trans.Rollback()
@@ -386,14 +386,14 @@ Public Class FrmMilkPurchaseInvoice
             Else
                 If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     If clsMilkPurchaseInvoiceHead.ReverseAndUnpost(fndDocNo.Value) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                         loadData(fndDocNo.Value, NavigatorType.Current)
                     End If
                 End If
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -604,7 +604,7 @@ Public Class FrmMilkPurchaseInvoice
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -618,16 +618,16 @@ Public Class FrmMilkPurchaseInvoice
                     trans.Commit()
                     reset()
                 Else
-                    clsCommon.MyMessageBoxShow("Can't delete the record")
+                    clsCommon.MyMessageBoxShow(Me, "Can't delete the record", Me.Text)
                     trans.Rollback()
                 End If
             Else
 
-                clsCommon.MyMessageBoxShow("Please Select a document to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a document to delete", Me.Text)
                 trans.Rollback()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -679,7 +679,7 @@ Public Class FrmMilkPurchaseInvoice
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub printData()
@@ -754,7 +754,7 @@ Public Class FrmMilkPurchaseInvoice
             frmCRV = Nothing
 
         Else
-            clsCommon.MyMessageBoxShow("Please select an invoice to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)
         End If
     End Sub
     Sub SaveData(ByVal isPost As Boolean)
@@ -803,7 +803,7 @@ Public Class FrmMilkPurchaseInvoice
                 '    obj.DOC_NO = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.BulkMilkPurchaseInvoice, clsDocTransactionType.WithoutVendorInvoiceNo, fndLocation.Value)
                 'End If
                 If clsCommon.myLen(obj.DOC_NO) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error In Document No Genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error In Document No Genertion", Me.Text)
                     Exit Sub
                 End If
             Else
@@ -1033,9 +1033,9 @@ Public Class FrmMilkPurchaseInvoice
                 trans.Commit()
                 If Not isPost Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 loadData(obj.DOC_NO, NavigatorType.Current)
@@ -1047,7 +1047,7 @@ Public Class FrmMilkPurchaseInvoice
                 'btnBillOfSupply.Enabled = True
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
@@ -1059,7 +1059,7 @@ Public Class FrmMilkPurchaseInvoice
             If isPost Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
 
         End Try
@@ -2610,13 +2610,13 @@ Public Class FrmMilkPurchaseInvoice
             Dim objB As clsBulkMilkSRN = Nothing
             Dim objGateEntry As clsGateEntry = Nothing
             If dtpFromDate.Value > dtpToDate.Value Then
-                clsCommon.MyMessageBoxShow(" 'From Date' can't be greator than 'To Date'")
+                clsCommon.MyMessageBoxShow(Me, " 'From Date' can't be greator than 'To Date'", Me.Text)
                 dtpFromDate.Focus()
                 Exit Sub
             End If
 
             If clsCommon.myCDate(dtpDocDate.Value, "dd/MMM/yyyy") < clsCommon.myCDate(dtpToDate.Value, "dd/MMM/yyyy") Then
-                clsCommon.MyMessageBoxShow(" 'To Date' can't be greator than 'Doc Date'")
+                clsCommon.MyMessageBoxShow(Me, " 'To Date' can't be greator than 'Doc Date'", Me.Text)
                 dtpToDate.Focus()
                 Exit Sub
             End If
@@ -3068,7 +3068,7 @@ Public Class FrmMilkPurchaseInvoice
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function GetpaymentCycle(ByVal Vendor As String)
@@ -3104,10 +3104,10 @@ Public Class FrmMilkPurchaseInvoice
                     btnUpdateVendor.Visible = True
                     btnUpdateVendor.Enabled = True
                 Else
-                    clsCommon.MyMessageBoxShow("Please post the Invoice first")
+                    clsCommon.MyMessageBoxShow(Me, "Please post the Invoice first", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select Invoice No first")
+                clsCommon.MyMessageBoxShow(Me, "Please select Invoice No first", Me.Text)
             End If
         End If
     End Sub
@@ -3425,7 +3425,7 @@ Public Class FrmMilkPurchaseInvoice
             If clsCommon.myLen(fndDocNo.Value) > 0 And btnPost.Enabled = False And clsCommon.myLen(TxtVendorUpdate.Value) > 0 Then
                 Dim ISVendorInvoice As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select IsVendorInvoiceNo from TSPL_VENDOR_MASTER where Vendor_Code =(Select vendor_code  from tspl_Bulk_milk_purchase_Invoice_head where DOC_NO ='" & fndDocNo.Value & "') "))
                 If ISVendorInvoice = 1 And clsCommon.myLen(txtVendorInvoiceNo.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please enter Vendor Invoice No.")
+                    clsCommon.MyMessageBoxShow(Me, "Please enter Vendor Invoice No.", Me.Text)
                 Else
                     fndVendor.Value = ""
                     If clsCommon.myLen(txtVendorInvoiceNo.Text) > 0 Then
@@ -3433,7 +3433,7 @@ Public Class FrmMilkPurchaseInvoice
                             clsCommon.MyMessageBoxShow("Duplicate Vendor Invoice No.,Please enter different vendor invoice no")
                         Else
                             If UpdateVendorAfterPosting() Then
-                                clsCommon.MyMessageBoxShow("Vendor updated successfully.")
+                                clsCommon.MyMessageBoxShow(Me, "Vendor updated successfully.", Me.Text)
                                 TxtVendorUpdate.Value = ""
                                 TxtVendorUpdate.Visible = False
                                 btnUpdateVendor.Enabled = False
@@ -3443,7 +3443,7 @@ Public Class FrmMilkPurchaseInvoice
                         End If
                     Else
                         If UpdateVendorAfterPosting() Then
-                            clsCommon.MyMessageBoxShow("Vendor updated successfully.")
+                            clsCommon.MyMessageBoxShow(Me, "Vendor updated successfully.", Me.Text)
                             TxtVendorUpdate.Value = ""
                             TxtVendorUpdate.Visible = False
                             btnUpdateVendor.Enabled = False
@@ -3456,10 +3456,10 @@ Public Class FrmMilkPurchaseInvoice
 
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Select Vendor first.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Vendor first.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function UpdateVendorAfterPosting() As Boolean
@@ -3473,7 +3473,7 @@ Public Class FrmMilkPurchaseInvoice
         strDescription = strDescription.Replace(strVendorName, lblVendorName.Text)
 
         If clsCommon.myLen(strPaymentNo) > 0 Then
-            clsCommon.MyMessageBoxShow("Vendor cannot be updated because Payment has been created for this invoice " & strInvoiceNo)
+            clsCommon.MyMessageBoxShow(Me, "Vendor cannot be updated because Payment has been created for this invoice " & strInvoiceNo)
             Return False
         End If
 
@@ -3586,17 +3586,17 @@ Public Class FrmMilkPurchaseInvoice
 
 
                 If clsMilkPurchaseInvoiceHead.UpdateAfterPosting(obj, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
     Private Sub btnBillOfSupply_Click(sender As Object, e As EventArgs) Handles btnBillOfSupply.Click
         If clsCommon.myLen(fndDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
         Else
             ' Dim strQuery As String = "select  GSTRegistered from TSPL_VENDOR_MASTER where vendor_code='" + fndVendor.Value + "' "
             Dim isVendorRegister As Boolean = clsDBFuncationality.getSingleValue("select  GSTRegistered from TSPL_VENDOR_MASTER where vendor_code='" + fndVendor.Value + "' ")
@@ -3605,10 +3605,10 @@ Public Class FrmMilkPurchaseInvoice
                 If clsCommon.myLen(strPurchaseTaxInvoiceNo) > 0 Then
                     printDataForBillOfSupply()
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to print")
+                    clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No data found to print")
+                clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
             End If
 
         End If
@@ -3638,7 +3638,7 @@ Public Class FrmMilkPurchaseInvoice
             frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkPurchaseInvoice_Bill_of_Supply", "Purchase Invoice", clsCommon.myCDate(dtpDocDate.Value))
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("Please select an invoice to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)
         End If
     End Sub
     Function GetQueryMuliPI(ByVal frmDate As String, ByVal ToDate As String, ByVal InvoiceNo As String) As String
@@ -3703,18 +3703,18 @@ Public Class FrmMilkPurchaseInvoice
         Try
             Dim strCode As String = fndDocNo.Value
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Invoice No Found on Current Screen")
+                clsCommon.MyMessageBoxShow(Me, "No Invoice No Found on Current Screen", Me.Text)
                 Exit Sub
             End If
             strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_vendor_Invoice_Head where Against_BulkMillkPurchaseInvoice_No ='" + strCode + "'"))
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Invoice No Found on AP Invoice Screen")
+                clsCommon.MyMessageBoxShow(Me, "No Invoice No Found on AP Invoice Screen", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = " select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" & strCode & "' "
             strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Journal Entry Found For Current Document")
+                clsCommon.MyMessageBoxShow(Me, "No Journal Entry Found For Current Document", Me.Text)
                 Exit Sub
             Else
                 clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.journalEntry, strCode)
@@ -3728,7 +3728,7 @@ Public Class FrmMilkPurchaseInvoice
             txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(fndLocation.Value, fndVendor.Value, "P", txtTaxGroup.Value, isButtonClicked)
             SetTaxDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadBlankGridTax()
@@ -4125,7 +4125,7 @@ Public Class FrmMilkPurchaseInvoice
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gv1.DoubleClick
@@ -4186,7 +4186,7 @@ Public Class FrmMilkPurchaseInvoice
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv2_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv2.CellValueChanged
@@ -4204,7 +4204,7 @@ Public Class FrmMilkPurchaseInvoice
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4223,7 +4223,7 @@ Public Class FrmMilkPurchaseInvoice
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txttcstaxbaseamount_TextChanged(sender As Object, e As EventArgs) Handles txttcstaxbaseamount.TextChanged
@@ -4239,7 +4239,7 @@ Public Class FrmMilkPurchaseInvoice
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4255,7 +4255,7 @@ Public Class FrmMilkPurchaseInvoice
             objRemittance = frm.ObjReturn
             UpdateTDSAmountValue()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -615,9 +615,9 @@ Public Class FrmMilkPurchaseReturn
                 trans.Commit()
                 If Not isPost Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 loadData(obj.Pur_Return_No, NavigatorType.Current)
@@ -628,7 +628,7 @@ Public Class FrmMilkPurchaseReturn
                 btnPrint.Enabled = True
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Update" 'PANAND
             btnDelete.Enabled = False
             btnPost.Enabled = False
@@ -639,7 +639,7 @@ Public Class FrmMilkPurchaseReturn
             If isPost Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
 
         End Try
@@ -786,7 +786,7 @@ Public Class FrmMilkPurchaseReturn
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -819,16 +819,16 @@ Public Class FrmMilkPurchaseReturn
                     trans.Commit()
                     Reset()
                 Else
-                    clsCommon.MyMessageBoxShow("Can't delete the record")
+                    clsCommon.MyMessageBoxShow(Me, "Can't delete the record", Me.Text)
                     trans.Rollback()
                 End If
             Else
 
-                clsCommon.MyMessageBoxShow("Please Select a document to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a document to delete", Me.Text)
                 trans.Rollback()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -908,7 +908,7 @@ Public Class FrmMilkPurchaseReturn
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
 
@@ -939,7 +939,7 @@ Public Class FrmMilkPurchaseReturn
               
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
