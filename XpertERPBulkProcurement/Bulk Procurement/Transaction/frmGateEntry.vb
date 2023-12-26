@@ -1081,12 +1081,12 @@ Public Class FrmGateEntry
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsGateEntry.ReverseAndUnpost(fndGateEntryNO.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me,"Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndGateEntryNO.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvItemBulk_CellEndEdit(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvItemBulk.CellEndEdit
@@ -1155,11 +1155,11 @@ Public Class FrmGateEntry
         Try
             Dim arr As List(Of String) = New List(Of String)
             If clsCommon.myLen(fndGateEntryNO.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter  Gate Entry No To delete ")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter  Gate Entry No To delete ", Me.Text)
             Else
                 Dim isUsed As Integer = clsDBFuncationality.getSingleValue("select SUM(row_Count ) from (select COUNT(*) as row_Count from  TSPL_Weighment_Detail where gate_entry_no='" & fndGateEntryNO.Value & "' union all select COUNT(*) as row_Count from tspl_quality_check where gate_entry_no='" & fndGateEntryNO.Value & "') xx ")
                 If isUsed > 0 Then
-                    clsCommon.MyMessageBoxShow("Gate Entry No is in use")
+                    clsCommon.MyMessageBoxShow(Me, "Gate Entry No is in use", Me.Text)
                     Exit Sub
                 End If
                 If myMessages.deleteConfirm() Then
@@ -1173,7 +1173,7 @@ Public Class FrmGateEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1305,7 +1305,7 @@ Public Class FrmGateEntry
                     If intcount = 0 Then
                         Throw New Exception("Please enter atleast one chamber qty. ")
                     ElseIf intcount <> gvItemBulk.Rows.Count Then
-                        If clsCommon.MyMessageBoxShow("You have not entered qty for all chamber, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                        If clsCommon.MyMessageBoxShow(Me, "You have not entered qty for all chamber, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                             Return True
                         Else
                             Return False
@@ -1591,7 +1591,7 @@ Public Class FrmGateEntry
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1635,7 +1635,7 @@ Public Class FrmGateEntry
 
 
                 If clsCommon.myLen(obj.Gate_Entry_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error in Gate Entry  No genertion", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Error in Gate Entry  No genertion", Me.Text)
                     Return False
                 End If
             Else
@@ -1787,7 +1787,7 @@ Public Class FrmGateEntry
                 LoadData(obj.Gate_Entry_No, obj.Doc_Type, NavigatorType.Current)
             End If
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
@@ -1796,7 +1796,7 @@ Public Class FrmGateEntry
             'Return False
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
         Return False
@@ -1855,7 +1855,7 @@ Public Class FrmGateEntry
             End If
             dt = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub UpdateTotal()
@@ -2150,7 +2150,7 @@ Public Class FrmGateEntry
                 reset()
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select Gate Entry Type Either MCC Procurement or Bulk Procurement ")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Gate Entry Type Either MCC Procurement or Bulk Procurement ")
             Exit Sub
         End If
         DisableIntimationControls()
@@ -2206,7 +2206,7 @@ Public Class FrmGateEntry
         ElseIf chkMccProc.IsChecked Then
             strDocType = "MccProc"
         Else
-            clsCommon.MyMessageBoxShow("Please select Gate Entry Type as Bulk Procurment or Mcc Procurement")
+            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement")
             Exit Sub
         End If
         LoadData(fndGateEntryNO.Value, strDocType, NavType)
@@ -2219,7 +2219,7 @@ Public Class FrmGateEntry
         ElseIf chkMccProc.IsChecked Then
             strDocType = "MccProc"
         Else
-            clsCommon.MyMessageBoxShow("Please select Gate Entry Type as Bulk Procurment or Mcc Procurement")
+            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement")
             Exit Sub
         End If
         Dim whrcls As String = " 2=2 "
@@ -2366,7 +2366,7 @@ Public Class FrmGateEntry
             obj.GridColumns = gvItemBulk.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2377,7 +2377,7 @@ Public Class FrmGateEntry
     Private Sub mnuDeleteLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub mnuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuExit.Click
@@ -2526,7 +2526,7 @@ Public Class FrmGateEntry
                 txtOpeningKM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select TSPL_MCC_TANKER_GATE_OUT.opening_km from TSPL_MCC_TANKER_GATE_OUT left join tspl_mcc_dispatch_challan on tspl_mcc_dispatch_challan.Against_Gate_Out=TSPL_MCC_TANKER_GATE_OUT.Gate_out_No where tspl_mcc_dispatch_challan.Chalan_No='" & fndChallanNoMcc.Value & "'"))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtTankerNoBulk.Text = ""
             txtTankerNoBulk.Focus()
         End Try
@@ -2534,7 +2534,7 @@ Public Class FrmGateEntry
     End Sub
     Private Sub txtSupplierCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSupplierCode._MYValidating
         If clsCommon.myLen(fndVendorBulk.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Vendor", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
             fndVendorBulk.Focus()
             Exit Sub
         End If
@@ -2560,12 +2560,12 @@ Public Class FrmGateEntry
     End Sub
     Private Sub fndTankerNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndTankerNo._MYValidating
         If clsCommon.myLen(fndLocationBulk.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location First.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location First.", Me.Text)
             fndLocationBulk.Focus()
             Exit Sub
         End If
         If chkBulkMilkProc.IsChecked = False AndAlso chkMccProc.IsChecked = False Then
-            clsCommon.MyMessageBoxShow("Please select Gate Entry Type.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type.", Me.Text)
             fndLocationBulk.Focus()
             Exit Sub
         End If
@@ -2573,7 +2573,7 @@ Public Class FrmGateEntry
         ''richa 22 Sep,2016 
         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowTankerBasedonVendorofGE, clsFixedParameterCode.AllowTankerBasedonVendorofGE, Nothing)), "1") = CompairStringResult.Equal AndAlso chkBulkMilkProc.IsChecked = True Then
             If clsCommon.myLen(fndVendorBulk.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Vendor First.")
+                clsCommon.MyMessageBoxShow(Me, "Please select Vendor First.", Me.Text)
                 fndVendorBulk.Focus()
                 Exit Sub
             End If
@@ -2747,7 +2747,7 @@ Public Class FrmGateEntry
             Else
                 If allowManualrate = 1 Then
                     If clsCommon.myLen(txtPO.Value) = 0 Then
-                        clsCommon.MyMessageBoxShow("Please Select PO No first", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please Select PO No first", Me.Text)
                         fndTankerNo.Value = ""
                         Exit Sub
                     End If
@@ -2846,7 +2846,7 @@ Public Class FrmGateEntry
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -2891,7 +2891,7 @@ Public Class FrmGateEntry
                     If SaveData(False, True) Then
                         clsGateEntry.postData(fndGateEntryNO.Value, strDocType, Me.Form_ID)
                         saveCancelLog(Reason, "GEBP Update", Nothing)
-                        clsCommon.MyMessageBoxShow("Amended Successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Amended Successfully.", Me.Text)
                         LoadData(fndGateEntryNO.Value, strDocType, NavigatorType.Current)
                     End If
                 End If
@@ -2904,7 +2904,7 @@ Public Class FrmGateEntry
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2996,7 +2996,7 @@ Public Class FrmGateEntry
 
     Private Sub txtPriceCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPriceCode._MYValidating
         If clsCommon.myLen(fndGateEntryNO.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Document No", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Document No", Me.Text)
             fndVendorBulk.Focus()
             Exit Sub
         End If
@@ -3025,7 +3025,7 @@ Public Class FrmGateEntry
             End If
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3049,7 +3049,7 @@ Public Class FrmGateEntry
             End If
         End If
         If clsCommon.myLen(fndLocationBulk.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select location code before sub location", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select location code before sub location", Me.Text)
             Exit Sub
         End If
         txtSubLocation.Value = clsLocation.getFinder("(Main_Location_Code='" & fndLocationBulk.Value & "' and Is_Jobwork=1 and isnull(Is_Sub_Location,'N')='Y')" & strLocations, txtSubLocation.Value, isButtonClicked)
@@ -3094,7 +3094,7 @@ Public Class FrmGateEntry
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa ERO/08/11/21-001531 on 16 Nov,2021
@@ -3132,7 +3132,7 @@ Public Class FrmGateEntry
 
                     If UpdateFatAndSnfInCaseOFcontractor() Then
                         saveCancelLog(Reason, "GEBP Update", Nothing)
-                        clsCommon.MyMessageBoxShow("Fat and Snf Updated Successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Fat and Snf Updated Successfully.", Me.Text)
                         LoadData(fndGateEntryNO.Value, strDocType, NavigatorType.Current)
                     End If
                 Else
@@ -3175,7 +3175,7 @@ Public Class FrmGateEntry
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
         Return True
@@ -3185,27 +3185,27 @@ Public Class FrmGateEntry
         If CreateProvisionOfTankerDispatchWithClosingKM = True And chkMccProc.IsChecked = True Then
             Dim strProvNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PROVISION_ENTRY where Ref_Doc_No='" + fndChallanNoMcc.Value + "' and Prov_type='Freight'")
             If clsCommon.myLen(strProvNo) > 0 Then
-                clsCommon.MyMessageBoxShow("Provision Entry Already Exist", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Provision Entry Already Exist", Me.Text)
                 Exit Sub
             End If
             If (clsCommon.myLen(fndChallanNoMcc.Value) <= 0) Then
-                clsCommon.MyMessageBoxShow("Document No not found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document No not found", Me.Text)
                 Exit Sub
             End If
 
             If (clsCommon.myCdbl(txtOpeningKM.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Enter Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Enter Opening KM", Me.Text)
                 txtOpeningKM.Focus()
                 Exit Sub
             End If
 
             If (clsCommon.myCdbl(txtClosingKM.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Enter Closing KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Enter Closing KM", Me.Text)
                 txtClosingKM.Focus()
                 Exit Sub
             End If
             If (clsCommon.myCdbl(txtClosingKM.Text) <= clsCommon.myCdbl(txtOpeningKM.Text)) Then
-                clsCommon.MyMessageBoxShow("Closing KM must be greater than Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Closing KM must be greater than Opening KM", Me.Text)
                 txtClosingKM.Focus()
                 Exit Sub
             End If
@@ -3229,7 +3229,7 @@ Public Class FrmGateEntry
                 clsGateEntry.UpdateAfterPosting(objGateEntry, fndGateEntryNO.Value, trans)
                 clsMccDispatch.CreateProvison(fndChallanNoMcc.Value, MyBase.Form_ID, trans)
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Provision Created successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Provision Created successfully", Me.Text)
                 LoadData(fndGateEntryNO.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
             Catch ex As Exception
                 trans.Rollback()
@@ -3238,27 +3238,27 @@ Public Class FrmGateEntry
         ElseIf CreateProvisionforBulkContractorInGateIn = True AndAlso chkBulkMilkProc.IsChecked = True Then
             Dim strProvNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PROVISION_ENTRY where Ref_Doc_No='" + fndGateEntryNO.Value + "' and Prov_type='Bulk Proc'")
             If clsCommon.myLen(strProvNo) > 0 Then
-                clsCommon.MyMessageBoxShow("Provision Entry Already Exist", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Provision Entry Already Exist", Me.Text)
                 Exit Sub
             End If
             If (clsCommon.myLen(fndGateEntryNO.Value) <= 0) Then
-                clsCommon.MyMessageBoxShow("Document No not found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document No not found", Me.Text)
                 Exit Sub
             End If
 
             If (clsCommon.myCdbl(txtOpeningKM.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Enter Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Enter Opening KM", Me.Text)
                 txtOpeningKM.Focus()
                 Exit Sub
             End If
 
             If (clsCommon.myCdbl(txtClosingKM.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Enter Closing KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Enter Closing KM", Me.Text)
                 txtClosingKM.Focus()
                 Exit Sub
             End If
             If (clsCommon.myCdbl(txtClosingKM.Text) <= clsCommon.myCdbl(txtOpeningKM.Text)) Then
-                clsCommon.MyMessageBoxShow("Closing KM must be greater than Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Closing KM must be greater than Opening KM", Me.Text)
                 txtClosingKM.Focus()
                 Exit Sub
             End If
@@ -3275,7 +3275,7 @@ Public Class FrmGateEntry
                 clsGateEntry.UpdateAfterPosting(objGateEntry, fndGateEntryNO.Value, trans)
                 clsGateEntry.CreateProvison(fndGateEntryNO.Value, MyBase.Form_ID, trans)
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Provision Created successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Provision Created successfully", Me.Text)
                 LoadData(fndGateEntryNO.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
             Catch ex As Exception
                 trans.Rollback()
@@ -3287,12 +3287,12 @@ Public Class FrmGateEntry
     Private Sub btnUpdateAfterPost_Click(sender As Object, e As EventArgs) Handles btnUpdateAfterPost.Click
         Try
             If (clsCommon.myCdbl(txtOpeningKM.Text) <= 0) Then
-                clsCommon.MyMessageBoxShow("Enter Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Enter Opening KM", Me.Text)
                 txtOpeningKM.Focus()
                 Exit Sub
             End If
             If (clsCommon.myCdbl(txtClosingKM.Text) <= clsCommon.myCdbl(txtOpeningKM.Text)) Then
-                clsCommon.MyMessageBoxShow("Closing KM must be greater than Opening KM", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Closing KM must be greater than Opening KM", Me.Text)
                 txtClosingKM.Focus()
                 Exit Sub
             End If
@@ -3302,7 +3302,7 @@ Public Class FrmGateEntry
                 objGateEntry.openingKM = txtOpeningKM.Text
                 objGateEntry.closingKM = txtClosingKM.Text
                 clsGateEntry.UpdateAfterPosting(objGateEntry, fndGateEntryNO.Value, Nothing)
-                clsCommon.MyMessageBoxShow("Information updated successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
             ElseIf clsCommon.myLen(fndChallanNoMcc.Value) > 0 AndAlso clsCommon.myLen(fndGateEntryNO.Value) > 0 Then
                 Dim obj As New clsMccDispatch
                 obj.openingKM = txtOpeningKM.Text
@@ -3312,7 +3312,7 @@ Public Class FrmGateEntry
                 objGateEntry.closingKM = txtClosingKM.Text
                 clsGateEntry.UpdateAfterPosting(objGateEntry, fndGateEntryNO.Value, Nothing)
                 If clsMccDispatch.UpdateAfterPosting(obj, fndChallanNoMcc.Value, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             Else
                 Throw New Exception("Document no not found")
@@ -3320,7 +3320,7 @@ Public Class FrmGateEntry
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3328,7 +3328,7 @@ Public Class FrmGateEntry
     Private Sub BtnResetProv_Click(sender As Object, e As EventArgs) Handles BtnResetProv.Click
         If CreateProvisionOfTankerDispatchWithClosingKM = True Then
             If (clsCommon.myLen(fndChallanNoMcc.Value) <= 0) Then
-                clsCommon.MyMessageBoxShow("Document No not found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document No not found", Me.Text)
                 Exit Sub
             End If
             'Dim strAPINVNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PROVISION_ENTRY where Ref_Doc_No='" + fndChalanNo.Value + "' and Prov_type='Freight'", trans)
@@ -3358,7 +3358,7 @@ Public Class FrmGateEntry
 
                     'clsProvisionEntry.ReverseAndUnpost(strProvNo, trans)
                     'clsProvisionEntry.deleteData(strProvNo, trans)
-                    clsCommon.MyMessageBoxShow("Provision Delete successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Provision Delete successfully", Me.Text)
                 End If
 
                 trans.Commit()

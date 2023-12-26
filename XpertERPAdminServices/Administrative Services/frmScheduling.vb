@@ -346,7 +346,7 @@ Public Class FrmScheduling
                     End If
                 Next
                 If clsScreenNotificationSchedule.SaveData(Arr) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                     LoadScreenData(txtModule.Value)
                     LoadLoginData(txtModule.Value)
                 End If
@@ -358,7 +358,7 @@ Public Class FrmScheduling
 
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(txtModule.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Module.")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Module.", Me.Text)
             txtModule.Focus()
             Return False
         End If
@@ -398,7 +398,7 @@ Public Class FrmScheduling
             End If
         Next
         If Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No screen found for notification.")
+            clsCommon.MyMessageBoxShow(Me, "No screen found for notification.", Me.Text)
             gv.Focus()
             Return False
         End If
@@ -428,7 +428,7 @@ Public Class FrmScheduling
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -453,7 +453,7 @@ Public Class FrmScheduling
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -498,7 +498,7 @@ Public Class FrmScheduling
         Try
             clsScrenScheduling.FillDataValues(txtModule.Value, DocType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

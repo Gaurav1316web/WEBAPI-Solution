@@ -376,12 +376,12 @@ Public Class frmDesignationMaster
                     Dim strdes As String = grow.Cells(1).Value.ToString()
 
                     If (String.IsNullOrEmpty(strcode)) Or strcode.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Designation Code can not be blank or incorrect")
+                        common.clsCommon.MyMessageBoxShow(Me, "Designation Code can not be blank or incorrect", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     If (String.IsNullOrEmpty(strdes)) Or strdes.Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow(" Designation Description  can not be blank or incorrect")
+                        common.clsCommon.MyMessageBoxShow(Me, " Designation Description  can not be blank or incorrect", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -397,7 +397,7 @@ Public Class frmDesignationMaster
                     End If
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()

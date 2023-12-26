@@ -99,7 +99,7 @@ Public Class frmCityMaster
                 obj.DISTRICT_Code = txtDistrict.Value
                 obj.IsDefault = IIf(chkIsDefault.Checked = True, 1, 0)
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     'trans.Commit()
                     LoadData(obj.City_Code, NavigatorType.Current)
                     'Else
@@ -141,7 +141,7 @@ Public Class frmCityMaster
             myMessages.blankValue("Transporter code")
         ElseIf myMessages.deleteConfirm() Then
             If (clsCityMaster.DeleteData(fndcity.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 funreset()
             End If
         End If
@@ -358,7 +358,7 @@ Public Class frmCityMaster
         Try
             LoadData(fndcity.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -431,7 +431,7 @@ Public Class frmCityMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndcity.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select City Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select City Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndcity.Value, "City_Code", "TSPL_CITY_MASTER")

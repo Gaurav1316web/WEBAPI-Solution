@@ -23,7 +23,7 @@ Public Class FrmLicenceActivate
                 Me.Close()
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Else
             clsCommon.MyMessageBoxShow("Not a valid product key" + Environment.NewLine, Me.Text)

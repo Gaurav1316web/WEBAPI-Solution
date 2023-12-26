@@ -60,7 +60,7 @@ Public Class FrmFiscalYearEndProcess
 
                     trans.Commit()
                     objCommonVar.RefreshCommonVar()
-                    clsCommon.MyMessageBoxShow("Successfully complete the process")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully complete the process", Me.Text)
                     clsERPFuncationality.closeForm(Me)
                 Catch ex As Exception
                     trans.Rollback()
@@ -68,7 +68,7 @@ Public Class FrmFiscalYearEndProcess
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -100,7 +100,7 @@ Public Class FrmFiscalYearEndProcess
             Dim WhrCls As String = "is_end_year_proceed=1"
             TxtFinder1.Value = clsCommon.ShowSelectForm("FisYEarEbdT", qry, "Code", WhrCls, TxtFinder1.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -142,13 +142,13 @@ Public Class FrmFiscalYearEndProcess
 
                 trans.Commit()
                 TxtFinder1.Value = ""
-                clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 Throw New Exception(ex.Message)
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
