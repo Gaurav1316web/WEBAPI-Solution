@@ -47,11 +47,11 @@ Public Class FrmChangePassword
                 Dim code As String = objCommonVar.CurrentUserCode
                 If SavePswd(code, (txtnewpassword.Text)) = True Then
 
-                    common.clsCommon.MyMessageBoxShow("Password Changed Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Password Changed Successfully", Me.Text)
                     Close()
                 End If
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -130,24 +130,24 @@ Public Class FrmChangePassword
         Try
 
             If (clsCommon.myLen(txtnewpassword.Text) <= 0) Then
-                common.clsCommon.MyMessageBoxShow("Please  fill  New Password")
+                common.clsCommon.MyMessageBoxShow(Me, "Please  fill  New Password", Me.Text)
                 txtnewpassword.Text = ""
                 txtnewpassword.Focus()
                 Return False
             ElseIf (clsCommon.myLen(txtconfpassword.Text) <= 0) Then
-                common.clsCommon.MyMessageBoxShow(" Please  fill  Confirm Password")
+                common.clsCommon.MyMessageBoxShow(Me, " Please  fill  Confirm Password", Me.Text)
                 txtconfpassword.Text = ""
                 txtconfpassword.Focus()
                 Return False
             ElseIf (clsCommon.myLen(txtcurpassword.Text) <= 0) Then
-                common.clsCommon.MyMessageBoxShow(" Please  fill Current Password")
+                common.clsCommon.MyMessageBoxShow(Me, " Please  fill Current Password", Me.Text)
                 txtcurpassword.Text = ""
                 txtcurpassword.Focus()
                 Return False
 
             End If
             If clsCommon.CompairString(txtnewpassword.Text, txtcurpassword.Text, True) = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("New Password should be Different from current password")
+                common.clsCommon.MyMessageBoxShow(Me, "New Password should be Different from current password", Me.Text)
                 txtconfpassword.Text = ""
                 txtnewpassword.Text = ""
                 txtnewpassword.Focus()
@@ -161,7 +161,7 @@ select distinct Password as PWD from TSPL_USER_MASTER_Hist_Data where User_Code=
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.CompairString(clsCommon.EncryptString(txtnewpassword.Text), clsCommon.myCstr(dr("PWD")), True) = CompairStringResult.Equal Then
-                        common.clsCommon.MyMessageBoxShow("New Password should be Different from Last 3 Passwords")
+                        common.clsCommon.MyMessageBoxShow(Me, "New Password should be Different from Last 3 Passwords", Me.Text)
                         txtconfpassword.Text = ""
                         txtnewpassword.Text = ""
                         txtnewpassword.Focus()
@@ -171,7 +171,7 @@ select distinct Password as PWD from TSPL_USER_MASTER_Hist_Data where User_Code=
             End If
 
             If Not clsCommon.CompairString(txtnewpassword.Text, txtconfpassword.Text, True) = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Confirm Password should  be same as new password")
+                common.clsCommon.MyMessageBoxShow(Me, "Confirm Password should  be same as new password", Me.Text)
                 txtconfpassword.Text = ""
                 txtnewpassword.Text = ""
                 txtnewpassword.Focus()
@@ -179,7 +179,7 @@ select distinct Password as PWD from TSPL_USER_MASTER_Hist_Data where User_Code=
             End If
 
             If Not clsCommon.CompairString(clsCommon.EncryptString(txtcurpassword.Text), password, True) = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Current Password is incorrect please insert valid Password")
+                common.clsCommon.MyMessageBoxShow(Me, "Current Password is incorrect please insert valid Password", Me.Text)
                 txtcurpassword.Text = ""
                 txtcurpassword.Focus()
                 Return False
@@ -195,14 +195,14 @@ select distinct Password as PWD from TSPL_USER_MASTER_Hist_Data where User_Code=
             If PasswordRules = True Then
                 ValidatePassword(txtnewpassword.Text, 8, 2, 2, 2, 2)
                 If CheckPassword = False Then
-                    common.clsCommon.MyMessageBoxShow("Password is invalid. Format not match")
+                    common.clsCommon.MyMessageBoxShow(Me, "Password is invalid. Format not match", Me.Text)
                     Return False
                 End If
             End If
 
            
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function

@@ -47,7 +47,7 @@ Public Class frmjobWorkDebitNote
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmJobWorkDebitNote_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -81,7 +81,7 @@ Public Class frmjobWorkDebitNote
     Private Sub fndcustNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndcustNo._MYValidating
         fndcustNo.Focus()
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Location")
+            clsCommon.MyMessageBoxShow(Me, "Select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
         End If
@@ -120,7 +120,7 @@ Public Class frmjobWorkDebitNote
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("'From date' Cann't Be Greater Than 'To Date'")
+                common.clsCommon.MyMessageBoxShow(Me, "'From date' Cann't Be Greater Than 'To Date'", Me.Text)
             Else
                 ShowData()
                 gv1.BestFitColumns()
@@ -129,7 +129,7 @@ Public Class frmjobWorkDebitNote
                 btnDelete.Enabled = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
     End Sub
@@ -155,7 +155,7 @@ Public Class frmjobWorkDebitNote
                 gv1.CurrentRow.Cells(colrate).Value = clsCommon.myCdbl(obj.rate)
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
    
@@ -301,7 +301,7 @@ Public Class frmjobWorkDebitNote
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -341,31 +341,31 @@ Public Class frmjobWorkDebitNote
                 End If
             Next
             If (objTr.Arr Is Nothing OrElse objTr.Arr.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("Please Fill/Select at list one Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Fill/Select at list one Item", Me.Text)
             Else
                 If objTr.SaveData(objTr, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                 End If
                 txtDocNo.Value = objTr.DocumentNo
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Document No for Posting")
+                clsCommon.MyMessageBoxShow(Me, "Select Document No for Posting", Me.Text)
             End If
             If (myMessages.postConfirm()) Then
                 clsJobWorkDebitNote.PostData(Form_ID, txtDocNo.Value, arrLoc)
-                clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
             End If
             LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtDocNo._MYNavigator
@@ -381,7 +381,7 @@ Public Class frmjobWorkDebitNote
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
@@ -445,7 +445,7 @@ Public Class frmjobWorkDebitNote
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try

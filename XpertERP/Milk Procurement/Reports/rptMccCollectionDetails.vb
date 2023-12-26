@@ -55,14 +55,14 @@ Public Class rptMccCollectionDetails
             If clsCommon.CompairString(cboShift.SelectedValue, "E") = CompairStringResult.Equal Then
                 whre += " and shift in ('E')"
             End If
-            qry = " select final.MCC_CODE as [MCC CODE] , final.MCC_NAME as [MCC NAME],final.DOC_DATE as [DOC DATE],final.SHIFT, final.FATPER as [FAT(%)],final.SNFPER as [SNF(%)],final .Amount,final.VSP_Count as [No of VSP]  from (  " & _
-                      " select ROW_NUMBER () over (order by tspl_milk_srn_Head.mcc_code,convert(varchar,DOC_DATE,103),shift desc ) as SNO, shift, max(State_Code) as State_Code,max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,TSPL_MILK_SRN_HEAD.MCC_CODE,max(MCC_NAME) as MCC_NAME, convert(varchar,DOC_DATE,103) as DOC_DATE,cast(round(sum(Qty),2,2) as float) as Qty,max(TSPL_Mcc_UOM_DETAIL.UOM_Code) as UOM_Code,count(distinct(TSPL_MILK_SRN_HEAD.ROUTE_CODE)) as Route_Count,count(distinct(TSPL_MILK_SRN_HEAD.VLC_CODE)) as VLC_Count,count(distinct(TSPL_MILK_SRN_HEAD.VSP_CODE)) as VSP_Count,convert(decimal(18,2), case when sum(Qty)>0 then sum (FAT_KG)*100/sum(Qty) else 0 end) as FATPER,convert(decimal(18,2), case when sum(Qty)>0 then sum(SNF_KG)*100/sum(Qty) else 0 end) as SNFPER,convert(decimal(18,2), case when sum(Qty)>0 then sum(Amount)/sum(Qty) else 0 end) as Rate,convert(decimal(18,2), sum(Amount) ) as Amount from TSPL_MILK_SRN_DETAIL " & _
-                      " inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE " & _
-                      " left join TSPL_Mcc_UOM_DETAIL on TSPL_Mcc_UOM_DETAIL.MCC_CODE=TSPL_MILK_SRN_HEAD.MCC_CODE and Stocking_Unit='Y' " & _
-                      " left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE " & _
-                      " where  2=2  " + whre + " " & _
-                      " and  convert(date,DOC_DATE,103) >='" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' AND convert(date,DOC_DATE,103) <='" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "'  " & _
-                      " group by tspl_milk_srn_Head.mcc_code,convert(varchar,doc_date,103),shift " & _
+            qry = " select final.MCC_CODE as [MCC CODE] , final.MCC_NAME as [MCC NAME],final.DOC_DATE as [DOC DATE],final.SHIFT,final.Qty, final.FATPER as [FAT(%)],final.SNFPER as [SNF(%)],final .Amount,final.VSP_Count as [No of VSP]  from (  " &
+                      " select ROW_NUMBER () over (order by tspl_milk_srn_Head.mcc_code,convert(varchar,DOC_DATE,103),shift desc ) as SNO, shift, max(State_Code) as State_Code,max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,TSPL_MILK_SRN_HEAD.MCC_CODE,max(MCC_NAME) as MCC_NAME, convert(varchar,DOC_DATE,103) as DOC_DATE,cast(round(sum(Qty),2,2) as float) as Qty,max(TSPL_Mcc_UOM_DETAIL.UOM_Code) as UOM_Code,count(distinct(TSPL_MILK_SRN_HEAD.ROUTE_CODE)) as Route_Count,count(distinct(TSPL_MILK_SRN_HEAD.VLC_CODE)) as VLC_Count,count(distinct(TSPL_MILK_SRN_HEAD.VSP_CODE)) as VSP_Count,convert(decimal(18,2), case when sum(Qty)>0 then sum (FAT_KG)*100/sum(Qty) else 0 end) as FATPER,convert(decimal(18,2), case when sum(Qty)>0 then sum(SNF_KG)*100/sum(Qty) else 0 end) as SNFPER,convert(decimal(18,2), case when sum(Qty)>0 then sum(Amount)/sum(Qty) else 0 end) as Rate,convert(decimal(18,2), sum(Amount) ) as Amount from TSPL_MILK_SRN_DETAIL " &
+                      " inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE " &
+                      " left join TSPL_Mcc_UOM_DETAIL on TSPL_Mcc_UOM_DETAIL.MCC_CODE=TSPL_MILK_SRN_HEAD.MCC_CODE and Stocking_Unit='Y' " &
+                      " left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE " &
+                      " where  2=2  " + whre + " " &
+                      " and  convert(date,DOC_DATE,103) >='" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' AND convert(date,DOC_DATE,103) <='" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "'  " &
+                      " group by tspl_milk_srn_Head.mcc_code,convert(varchar,doc_date,103),shift " &
                       " ) final order by SNO  asc "
 
             dt = clsDBFuncationality.GetDataTable(qry)

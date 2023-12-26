@@ -257,7 +257,7 @@ where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No='" + obj.Do
                 UpdateAllTotal(False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -344,7 +344,7 @@ where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No='" + obj.Do
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
@@ -629,7 +629,7 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub

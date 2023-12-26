@@ -3866,7 +3866,8 @@ from
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarShow()
                 For Each dr As DataRow In dt.Rows
-                    AddNew()
+                    'AddNew()
+                    txtDocNo.Value = ""
                     QuickDemamd(clsCommon.GetPrintDate(dr.Item("DemandDate")), objCommonVar.CurrentUserCode, clsCommon.myCstr(dr.Item("ShiftType")), clsCommon.myCstr(dr.Item("Route_No")))
                 Next
                 AddNew()
@@ -3888,29 +3889,22 @@ from
         Try
             Dim qry As String = " select Document_No from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "' and Route_No='" + RouteNo + "'"
             Dim DocumentNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
-            qry = "select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + DocumentNo + "' "
-            Dim isPosted As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1, True, False)
-            If Not isPosted Then
-
-
-                If clsCommon.myLen(DocumentNo) > 0 Then
-
+            If clsCommon.myLen(DocumentNo) > 0 Then
+                qry = "select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + DocumentNo + "' "
+                Dim isPosted As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1, True, False)
+                If Not isPosted Then
                     LoadData(DocumentNo, NavigatorType.Current)
                     FillQuickDemandData(DocDate, ShiftType)
                     SaveData(0, True)
                 Else
-
-                    Dim isClicked As Boolean = False
-                    txtRouteNo.Value = RouteNo
-                    RouteData(isClicked, True)
-                    FillQuickDemandData(DocDate, ShiftType)
-                    SaveData(0, True)
-
-                    ''Create New Document
-
+                    clsCommon.MyMessageBoxShow(Me, "Document Posted for Route No [ " + RouteNo + " ]", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "Document Posted for Route No [ " + RouteNo + " ]", Me.Text)
+                Dim isClicked As Boolean = False
+                txtRouteNo.Value = RouteNo
+                RouteData(isClicked, True)
+                FillQuickDemandData(DocDate, ShiftType)
+                SaveData(0, True)
             End If
 
         Catch ex As Exception

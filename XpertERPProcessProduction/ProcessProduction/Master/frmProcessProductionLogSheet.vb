@@ -226,7 +226,7 @@ Public Class FrmProcessProductionLogSheet
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -416,7 +416,7 @@ Public Class FrmProcessProductionLogSheet
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -497,9 +497,9 @@ Public Class FrmProcessProductionLogSheet
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsProcessProductionLogSheet.SaveData(txtCode.Value, obj, isNewEntry, trans) Then
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
                 txtCode.Value = obj.Doc_no
@@ -508,7 +508,7 @@ Public Class FrmProcessProductionLogSheet
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -534,7 +534,7 @@ Public Class FrmProcessProductionLogSheet
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -634,7 +634,7 @@ Public Class FrmProcessProductionLogSheet
         Catch ex As Exception
             isNewEntry = True
             isInsideLoadData = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -670,7 +670,7 @@ Public Class FrmProcessProductionLogSheet
                 columns = clsDBFuncationality.getSingleValue("select distinct (select ',['+Description+']' from TSPL_QC_LOG_SHEET_MASTER left outer join QCLOGSHEET on QCLOGSHEET.code=TSPL_QC_LOG_SHEET_MASTER.code where TSPL_QC_LOG_SHEET_MASTER.Code in (select Code from qclogsheet) and trans_id='PRODUCTION' order by QCLOGSHEET.SeqNo for xml path('')) as code")
             ElseIf Not isInsideLoadData Then
                 RadPageView1.SelectedPage = RadPageViewPage3
-                clsCommon.MyMessageBoxShow("Select atleast one parameter option.")
+                clsCommon.MyMessageBoxShow(Me, "Select atleast one parameter option.", Me.Text)
                 Exit Sub
             End If
 
@@ -679,7 +679,7 @@ Public Class FrmProcessProductionLogSheet
             clsDBFuncationality.ExecuteNonQuery("drop table QCLOGSHEET")
             If clsCommon.myLen(columns) <= 0 AndAlso Not isInsideLoadData Then
                 RadPageView1.SelectedPage = RadPageViewPage3
-                clsCommon.MyMessageBoxShow("Select atleast one parameter option.")
+                clsCommon.MyMessageBoxShow(Me, "Select atleast one parameter option.", Me.Text)
                 Exit Sub
             End If
 
@@ -687,7 +687,7 @@ Public Class FrmProcessProductionLogSheet
             '===========================================================================
             FillTime(columns)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -825,7 +825,7 @@ Public Class FrmProcessProductionLogSheet
             End If
         Catch ex As Exception
             isCellvaluechanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -48,7 +48,7 @@ Public Class FrmBankGroupMaster
                 If (obj.SaveData(obj, isNewEntry, trans)) Then
                     trans = clsDBFuncationality.GetTransactin()
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     ' LoadData(obj.BANK_CODE, NavigatorType.Current)
                 Else
                     trans.Rollback()
@@ -87,7 +87,7 @@ Public Class FrmBankGroupMaster
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (clsBankGroupMaster.DeleteData(txtCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 funreset()
             End If
         End If
@@ -206,7 +206,7 @@ Public Class FrmBankGroupMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

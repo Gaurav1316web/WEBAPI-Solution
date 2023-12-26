@@ -278,8 +278,8 @@ Public Class VisualTopProcurement
             Else
                 Exit Sub
             End If
-            '     transportSql.exportdataChilRows(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+        '     transportSql.exportdataChilRows(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
+        common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
         Process.Start(filePath)
         'common.clsCommon.MyMessageBoxShow(Me, ex.Message)
     End Sub
@@ -312,7 +312,7 @@ Public Class VisualTopProcurement
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("vrCURoute", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
             RefreshVLC()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -324,7 +324,7 @@ Public Class VisualTopProcurement
             End If
             txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("VRPCULC1", qry, "Code", "Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -469,7 +469,7 @@ Public Class VisualTopProcurement
                 Load_Report()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -525,7 +525,7 @@ Public Class VisualTopProcurement
                 RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Visible
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

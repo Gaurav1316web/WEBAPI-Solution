@@ -891,7 +891,7 @@ Public Class frmMilkCollectionDCSMultipleDays
                 UpdateAllTotal()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -950,7 +950,7 @@ Public Class frmMilkCollectionDCSMultipleDays
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating

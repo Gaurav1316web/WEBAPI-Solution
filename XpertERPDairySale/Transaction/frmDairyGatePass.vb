@@ -793,7 +793,7 @@ Public Class frmDairyGatePass
                 obj.GPDate = clsCommon.myCDate(txtDate.Value)
                 obj.GatePassDate = clsCommon.myCDate(txtGatepassDate.Value)
                 obj.Vehicle_Id = txtVehicle.Value
-                If clsCommon.myLen(VehicleDesc) > 0 AndAlso clsCommon.CompairString(lblVehicleDesc.Text, VehicleDesc) = CompairStringResult.Equal Then
+                If VehicleDesc Is Nothing AndAlso clsCommon.myLen(VehicleDesc) <= 0 Then
                     obj.Vehicle_Number = lblVehicleDesc.Text
                 Else
                     obj.Vehicle_Number = VehicleDesc
@@ -836,13 +836,15 @@ Public Class frmDairyGatePass
                 Dim totalCan As Integer = 0
                 obj.Arr = New List(Of clsDairyGPDetail)
                 For Each grow As GridViewRowInfo In Gv1.Rows
-                    Dim objTr As New clsDairyGPDetail()
-                    objTr.PK_ID = clsCommon.myCDecimal(grow.Cells(colPKID).Value)
-                    objTr.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
-                    objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
-                    objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    objTr.HSN_Code = clsCommon.myCstr(grow.Cells(colHSNCode).Value)
-                    obj.Arr.Add(objTr)
+                    If clsCommon.myCdbl(grow.Cells(colQty).Value) > 0 Then
+                        Dim objTr As New clsDairyGPDetail()
+                        objTr.PK_ID = clsCommon.myCDecimal(grow.Cells(colPKID).Value)
+                        objTr.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                        objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                        objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                        objTr.HSN_Code = clsCommon.myCstr(grow.Cells(colHSNCode).Value)
+                        obj.Arr.Add(objTr)
+                    End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
@@ -1042,7 +1044,7 @@ Public Class frmDairyGatePass
         "union all " &
         "select distinct ManualVehicle,'' as Description from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' and ManualVehicle <> '' ) final left outer join tspl_route_master on tspl_route_master.vehicle_code = Final.Vehicle_Code"
         End If
-
+        VehicleDesc = Nothing
         txtVehicle.Value = clsCommon.ShowSelectForm("Vehicle", strQuery, "Code", "", txtVehicle.Value, "Code", isButtonClicked)
         lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
         If isCreateProvisionOfTransporterInDairyDispatch = True Then
@@ -1112,6 +1114,7 @@ Public Class frmDairyGatePass
         txtDate.Enabled = True
         btnGo.Enabled = True
         RadGroupBox3.Enabled = True
+        VehicleDesc = Nothing
     End Sub
 
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -1209,11 +1212,18 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
                    " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
                      left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code " &
                     "left outer join 
-                     (select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax from TSPL_SD_SHIPMENT_DETAIL   
+                     ((select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax from TSPL_SD_SHIPMENT_DETAIL   
                        Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
 					   Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
                      WHERE  TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode = '" + StrCode + "'
-                     Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code)xyz ON xyz.Item_Code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code And xyz.Unit_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code" &
+                     Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code)
+                     Union All
+                     (select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt) Else 0 End As Amount,
+                     Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)) AS Margin,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax from TSPL_SD_SHIPMENT_DETAIL   
+                     Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
+                     WHERE  TSPL_SD_SHIPMENT_HEAD.GPCode = '" + StrCode + "'
+                     Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code)
+                     )xyz ON xyz.Item_Code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code And xyz.Unit_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code" &
                     "  where 2=2 " &
                     "  and  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode = '" + StrCode + "' " &
                     " )As Main Group by Item_code )AS Final left outer join  ( select Item_Code,max([CATEGORY RM]) as [CATEGORY RM],max([BRAND]) as [BRAND],max([SUB BRAND]) as [SUB BRAND], " &
@@ -1697,8 +1707,8 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
                                 Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
                             End If
                         End If
-                    ElseIf clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value) <= 0 AndAlso dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) > 0 Then
-                        Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
+                        'ElseIf clsCommon.myCdbl(Gv1.CurrentRow.Cells(colQty).Value) <= 0 AndAlso dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) > 0 Then
+                        '    Gv1.CurrentRow.Cells(colQty).Value = clsCommon.myCDecimal(dt.Rows(0)("BalanceQty"))
                     End If
                 End If
                 isInsideLoadData = False

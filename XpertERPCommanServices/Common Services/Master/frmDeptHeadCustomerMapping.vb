@@ -152,7 +152,7 @@ Public Class frmDeptHeadCustomerMapping
                 '    If funSetUserAccess() = False Then Exit Sub
                 'End If
             Else
-                common.clsCommon.MyMessageBoxShow("Please Check Status")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Check Status", Me.Text)
             End If
             trans.Commit()
         Catch ex As Exception
@@ -390,7 +390,7 @@ Public Class frmDeptHeadCustomerMapping
 
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()
@@ -498,7 +498,7 @@ Public Class frmDeptHeadCustomerMapping
             'End If
             If strvalue <> "" Then
             Else : strUser_Code = ""
-                common.clsCommon.MyMessageBoxShow("User Code does not exist/Mark as Dept Head in Master")
+                common.clsCommon.MyMessageBoxShow(Me, "User Code does not exist/Mark as Dept Head in Master", Me.Text)
                 fndUser_Name.Value = ""
                 TxtUserName.Text = ""
                 fndUser_Name.Focus()
