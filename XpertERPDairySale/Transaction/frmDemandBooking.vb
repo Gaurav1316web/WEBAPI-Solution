@@ -3866,8 +3866,15 @@ from
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarShow()
                 For Each dr As DataRow In dt.Rows
-                    'AddNew()
+                    AddNew()
                     txtDocNo.Value = ""
+                    txtDate.Value = clsCommon.GetPrintDate(dr.Item("DemandDate"))
+                    If clsCommon.CompairString(clsCommon.myCstr(dr.Item("ShiftType")), "Morning") = CompairStringResult.Equal Then
+                        rbtnMorning.IsChecked = True
+                    Else
+                        rbtnEvening.IsChecked = True
+                    End If
+
                     QuickDemamd(clsCommon.GetPrintDate(dr.Item("DemandDate")), objCommonVar.CurrentUserCode, clsCommon.myCstr(dr.Item("ShiftType")), clsCommon.myCstr(dr.Item("Route_No")))
                 Next
                 AddNew()
