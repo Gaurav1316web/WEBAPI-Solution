@@ -2098,7 +2098,7 @@ Public Class FrmCrateJaliReport
                       TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate from TSPL_DAIRYSALE_GATEPASS_MASTER
                       left join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no  where
                       TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate >= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  
-                      and  TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate <= '" + clsCommon.GetPrintDate(ToDate.Value) + "'" + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
+                      and  TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate <= '" + clsCommon.GetPrintDate(ToDate.Value) + "' and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
 
 
             Dim dt As New DataTable
@@ -2210,7 +2210,7 @@ Public Class FrmCrateJaliReport
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
                       CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, 
-                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
+                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
                       left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
                       left outer join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code 
@@ -2265,6 +2265,10 @@ Public Class FrmCrateJaliReport
         Gv1.Columns("Vehicle_Code").IsVisible = True
         Gv1.Columns("Vehicle_Code").Width = 100
         Gv1.Columns("Vehicle_Code").HeaderText = "Vehicle_Code"
+
+        Gv1.Columns("ShiftType").IsVisible = True
+        Gv1.Columns("ShiftType").Width = 100
+        Gv1.Columns("ShiftType").HeaderText = "ShiftType"
 
         Gv1.Columns("CrateQtyRecd").IsVisible = True
         Gv1.Columns("CrateQtyRecd").Width = 100
@@ -2328,7 +2332,7 @@ Public Class FrmCrateJaliReport
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
                       CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, 
-                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
+                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
                       left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
                       left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code
