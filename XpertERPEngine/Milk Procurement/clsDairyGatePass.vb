@@ -46,12 +46,37 @@ Public Class clsDairyGatePassEntry
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            Dim qry As String
+            If isNewEntry AndAlso obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                For jj As Integer = 0 To obj.Arr.Count - 1
+                    qry = "select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,(Case When UsedGPDetail.GPUsedQty>0 Then (Qty-UsedGPDetail.GPUsedQty) Else Qty End) As BalanceQty,TSPL_ITEM_MASTER.HSN_Code  
+                            from tspl_sd_shipment_head 
+                            left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
+                            left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code 
+                            left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  
+                            left outer Join (Select PK_ID,	Max(GPCode)GPCode,	Item_Code,	Unit_Code,	Sum(IsNull(GP_Qty,0))GPUsedQty from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID,Item_Code,Unit_Code)UsedGPDetail On UsedGPDetail.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID 
+                            where TSPL_SD_SHIPMENT_DETAIL.PK_ID in ('" + clsCommon.myCstr(obj.Arr(jj).PK_ID) + "')"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        For ii As Integer = 0 To dt.Rows.Count - 1
+                            If clsCommon.myCdbl(dt.Rows(ii)("PK_ID")) = clsCommon.myCdbl(obj.Arr(jj).PK_ID) Then
+                                If clsCommon.myCdbl(dt.Rows(ii)("BalanceQty")) < clsCommon.myCdbl(obj.Arr(jj).Qty) Then
+                                    Throw New Exception("Item Code : " + clsCommon.myCstr(obj.Arr(jj).Item_Code) + Environment.NewLine + "Dispatch Balance Qty : " + clsCommon.myCstr(dt.Rows(ii)("BalanceQty")) + Environment.NewLine + "Gatepass Entered Qty : " + clsCommon.myCstr(obj.Arr(jj).Qty) + Environment.NewLine + "Gatepass Entered Qty can't be more then Dispatch Balance Qty.")
+                                End If
+                            End If
+                        Next
+                    End If
+                Next
+            End If
+
+
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
             End If
-            Dim qry As String
+
+            qry = ""
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPcode='" + obj.GPCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -517,13 +542,15 @@ Public Class clsDairyGPDetail
         End If
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsDairyGPDetail In Arr
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "PK_ID", obj.PK_ID)
-                clsCommon.AddColumnsForChange(coll1, "GPCode", strDocNo)
-                clsCommon.AddColumnsForChange(coll1, "Item_Code", obj.Item_Code)
-                clsCommon.AddColumnsForChange(coll1, "Unit_Code", obj.Unit_Code)
-                clsCommon.AddColumnsForChange(coll1, "GP_Qty", obj.Qty)
-                clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                If clsCommon.myCdbl(obj.PK_ID) > 0 Then
+                    Dim coll1 As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll1, "PK_ID", obj.PK_ID)
+                    clsCommon.AddColumnsForChange(coll1, "GPCode", strDocNo)
+                    clsCommon.AddColumnsForChange(coll1, "Item_Code", obj.Item_Code)
+                    clsCommon.AddColumnsForChange(coll1, "Unit_Code", obj.Unit_Code)
+                    clsCommon.AddColumnsForChange(coll1, "GP_Qty", obj.Qty)
+                    clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                End If
             Next
         End If
         Return True
