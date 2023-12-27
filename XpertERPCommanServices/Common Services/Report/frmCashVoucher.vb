@@ -78,7 +78,7 @@ Public Class FrmCashVoucher
                   "   , (case TSPL_BANK_MASTER .Bank_type when 'B'then 'Bank Transfer'when 'C'then 'Cash Transfer' when 'P'then 'Petty Cash' when 'O' then 'Other' else'' end ) as  BankType, TSPL_BANK_TRANSFER.Created_By, TSPL_BANK_TRANSFER.Modify_By    from TSPL_BANK_TRANSFER  left outer join TSPL_GL_ACCOUNTS on TSPL_BANK_TRANSFER .To_Bank_Acc_No  =TSPL_GL_ACCOUNTS .Account_Code left outer join TSPL_GL_ACCOUNTS as GlAcc  on TSPL_BANK_TRANSFER .From_Bank_Acc_No =GlAcc .Account_Code   " & _
                   "   left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code = TSPL_BANK_TRANSFER .Comp_Code left outer join TSPL_BANK_MASTER on TSPL_BANK_TRANSFER .From_Bank_Code =TSPL_BANK_MASTER .BANK_CODE  where Convert(Date,Transfer_Date,103) >= CONVERT(Date,'" + dtpFromdate1.Value + "',103) and Convert(date,Transfer_Date,103) <= CONVERT (Date,'" + dtpToDate.Value + "' ,103) "
             If chkBankSelect.IsChecked = True AndAlso cbgBankCode.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select atleast one Bank Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Bank Code", Me.Text)
                 Return
             ElseIf chkBankSelect.IsChecked = True AndAlso cbgBankCode.CheckedValue.Count > 0 Then
                 qry += " and    From_Bank_Code in (" + clsCommon.GetMulcallString(BankCodeArr) + ")"
@@ -88,7 +88,7 @@ Public Class FrmCashVoucher
             If chkLocationSelect.IsChecked = True Then
                 'AndAlso cbgLocation.CheckedValue.Count = 0 Then
                 If cbgLocation.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location", Me.Text)
                     Return
                     ' ElseIf cbgLocation.CheckedValue.Count > 0 Then
                 Else
@@ -98,7 +98,7 @@ Public Class FrmCashVoucher
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
 
                 Dim FRMcrys As New frmCrystalReportViewer

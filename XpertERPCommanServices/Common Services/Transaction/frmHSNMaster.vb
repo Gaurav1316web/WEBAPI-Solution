@@ -74,7 +74,7 @@ Public Class frmHSNMaster
             obj.Description = txtName.Text
 
             If (ClsHSNMaster.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
@@ -117,7 +117,7 @@ Public Class frmHSNMaster
             Return False
         End If
         If clsCommon.myLen(txtCode.Value) > 10 Then
-            clsCommon.MyMessageBoxShow("Length is greater then 10.")
+            clsCommon.MyMessageBoxShow(Me, "Length is greater then 10.", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -130,7 +130,7 @@ Public Class frmHSNMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Code Ends 
@@ -141,7 +141,7 @@ Public Class frmHSNMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsHSNMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -178,7 +178,7 @@ Public Class frmHSNMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

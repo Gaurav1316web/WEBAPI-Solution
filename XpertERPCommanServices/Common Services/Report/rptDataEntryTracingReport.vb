@@ -59,18 +59,18 @@ Public Class rptDataEntryTracingReport
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + chkMarketing.Text
         Else
             If clsCommon.CompairString(ddlReportType.SelectedValue, "Select") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Select Report Type")
+                clsCommon.MyMessageBoxShow(Me, "Select Report Type", Me.Text)
                 ddlReportType.Focus()
                 Exit Sub
             End If
             If clsCommon.CompairString(ddlReportType.SelectedValue, "Sales Data") = CompairStringResult.Equal AndAlso clsCommon.CompairString(ddlCustomerCategory.SelectedValue, "Select") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Select Customer Category")
+                clsCommon.MyMessageBoxShow(Me, "Select Customer Category", Me.Text)
                 ddlCustomerCategory.Focus()
                 Exit Sub
             End If
             If clsCommon.CompairString(ddlReportType.SelectedValue, "SHED/BMCU/MCC") = CompairStringResult.Equal Then
                 If fromDate.Value <> ToDate.Value Then
-                    clsCommon.MyMessageBoxShow("Show only one day data at a time,So From and To date must be same.")
+                    clsCommon.MyMessageBoxShow(Me, "Show only one day data at a time,So From and To date must be same.", Me.Text)
                     ToDate.Focus()
                     Exit Sub
                 End If
@@ -410,7 +410,7 @@ Public Class rptDataEntryTracingReport
             Gv1.MasterView.Refresh()
 
             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt1
@@ -421,7 +421,7 @@ Public Class rptDataEntryTracingReport
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormat()
@@ -553,7 +553,7 @@ Public Class rptDataEntryTracingReport
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -618,7 +618,7 @@ Public Class rptDataEntryTracingReport
                 ddlCustomerCategory.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

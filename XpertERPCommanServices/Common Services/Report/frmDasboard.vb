@@ -82,7 +82,7 @@ Public Class FrmDasboard
             'btnGo_Bank_Cash_Book.PerformClick()
             chkExcludeProvisionBank.Visible = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowCheckExcludeProvisionBank, clsFixedParameterCode.ShowCheckExcludeProvisionBank, Nothing)) = 1, True, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetTabNmae()
@@ -251,10 +251,10 @@ Public Class FrmDasboard
                 'Me.RadChartView2.ChartElement.LegendElement.Items(0).Title = "Closing"
                 'RadPageView1.SelectedPage = RadPageViewPage1
             Else
-                clsCommon.MyMessageBoxShow("Record Not Found.")
+                clsCommon.MyMessageBoxShow(Me, "Record Not Found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -335,10 +335,10 @@ Public Class FrmDasboard
                 Me.RadChartView2.LegendTitle = "CPL"
 
             Else
-                clsCommon.MyMessageBoxShow("Record Not Found.")
+                clsCommon.MyMessageBoxShow(Me, "Record Not Found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -787,10 +787,10 @@ Public Class FrmDasboard
                 End If
 
             Else
-                clsCommon.MyMessageBoxShow("Record Not Found.")
+                clsCommon.MyMessageBoxShow(Me, "Record Not Found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -804,10 +804,10 @@ Public Class FrmDasboard
                 arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(dtpFromDate_Back_Cash_Book.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate_Bank_Cash_Book.Value, "dd/MM/yyyy"))
                 transportSql.QuickExportToExcel(gv3, "", "Bank Cash Book", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -824,7 +824,7 @@ Public Class FrmDasboard
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv3, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -845,7 +845,7 @@ Public Class FrmDasboard
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "Bank_Cash_Book"
                 clsCommon.MyExportToPDF("Bank Cash Book", gv3, arrHeader, "Bank Cash Book", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -918,10 +918,10 @@ Public Class FrmDasboard
                 arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(dtpFromDate_Procurement.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate_Procurement.Value, "dd/MM/yyyy"))
                 transportSql.QuickExportToExcel(gv_Procurement, "", "Procurement Milk Purchase", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -938,7 +938,7 @@ Public Class FrmDasboard
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv_Procurement, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -960,7 +960,7 @@ Public Class FrmDasboard
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "Procurement"
                 clsCommon.MyExportToPDF("Procurement Milk Purchase", gv_Procurement, arrHeader, "Procurement Milk Purchase", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me,"No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -981,7 +981,7 @@ Public Class FrmDasboard
                 common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

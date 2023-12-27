@@ -285,7 +285,7 @@ Public Class FrmTaxGroups
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -459,7 +459,7 @@ Public Class FrmTaxGroups
         'End If
         If pnlCurrConv.Visible Then
             If clsCommon.myLen(txtCurrencyCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Currency first.")
+                clsCommon.MyMessageBoxShow(Me, "Select Currency first.", Me.Text)
                 txtCurrencyCode.Focus()
                 Return
             End If
@@ -634,7 +634,7 @@ Public Class FrmTaxGroups
                     myMessages.delete()
                     btnAdd.Text = "Save"
                 Else
-                    common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used by another process")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used by another process", Me.Text)
                     trans.Rollback()
                 End If
             Catch ex As Exception
@@ -660,7 +660,7 @@ Public Class FrmTaxGroups
             If column.Index = 0 Then
                 If pnlCurrConv.Visible And findTaxGroup.MyReadOnly = False Then
                     If clsCommon.myLen(txtCurrencyCode.Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Select Currency first.")
+                        clsCommon.MyMessageBoxShow(Me, "Select Currency first.", Me.Text)
                         txtCurrencyCode.Focus()
                         Exit Sub
                     End If
@@ -1001,7 +1001,7 @@ Public Class FrmTaxGroups
 
                         Active = clsCommon.myCdbl(grow.Cells(13).Value)
                         If Active <> 0 And Active <> 1 Then
-                            common.clsCommon.MyMessageBoxShow("Active can't be left blank")
+                            common.clsCommon.MyMessageBoxShow(Me, "Active can't be left blank", Me.Text)
                             trans.Rollback()
                             Me.Controls.Remove(gv)
                             Exit Sub
@@ -1009,31 +1009,31 @@ Public Class FrmTaxGroups
                     End If
 
                     If String.IsNullOrEmpty(strexcisable) Or strexcisable.Length <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Excisable cannont be left blank")
+                        common.clsCommon.MyMessageBoxShow(Me, "Excisable cannont be left blank", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
                     If String.IsNullOrEmpty(strvat) Or strvat.Length <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Tax cannont be left blank")
+                        common.clsCommon.MyMessageBoxShow(Me, "Tax cannont be left blank", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
                     If String.IsNullOrEmpty(strstax) Or strstax.Length <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("STax cannont be left blank")
+                        common.clsCommon.MyMessageBoxShow(Me, "STax cannont be left blank", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
                     If String.IsNullOrEmpty(strTaxGrCode) Or strTaxGrCode.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Tax Authority has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Tax Authority has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
                     If String.IsNullOrEmpty(strDesc) Or strDesc.Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow("Description has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Description has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
@@ -1043,19 +1043,19 @@ Public Class FrmTaxGroups
                     ElseIf (strTaxGrType = "Purchase") Then
                         strTaxGrType = "P"
                     Else
-                        common.clsCommon.MyMessageBoxShow("Taxable has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Taxable has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
                     If String.IsNullOrEmpty(strTaxCode) Or strTaxCode.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Tax Authority has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Tax Authority has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
                     If String.IsNullOrEmpty(strTaxCodeDesc) Or strTaxCodeDesc.Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow("Authority Description has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Authority Description has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
@@ -1065,7 +1065,7 @@ Public Class FrmTaxGroups
                     ElseIf (strTaxable = "No" Or strTaxable = "False") Then
                         strTaxable = "N"
                     Else
-                        common.clsCommon.MyMessageBoxShow("Taxable has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Taxable has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
@@ -1075,19 +1075,19 @@ Public Class FrmTaxGroups
                     ElseIf (strSurtax = "No" Or strSurtax = "False") Then
                         strSurtax = "N"
                     Else
-                        common.clsCommon.MyMessageBoxShow("Surtax has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Surtax has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
                     If strSurtaxCode.Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("Surtax Code has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Surtax Code has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
                     If strSurtaxCodeDesc.Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow("Surtax Description has some incorrect values")
+                        common.clsCommon.MyMessageBoxShow(Me, "Surtax Description has some incorrect values", Me.Text)
                         trans.Rollback()
                         Me.Controls.Remove(gv)
                         Exit Sub
@@ -1130,12 +1130,12 @@ Public Class FrmTaxGroups
                         TaxGroupCode = strTaxGrCode
                         TaxGroupType = strTaxGrType
                     Catch ex As Exception
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
 
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()

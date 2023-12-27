@@ -259,13 +259,13 @@ Public Class rptPaymentProcessReport
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
