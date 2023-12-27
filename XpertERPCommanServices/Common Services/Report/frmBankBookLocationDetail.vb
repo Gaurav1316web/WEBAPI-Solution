@@ -253,7 +253,7 @@ Public Class FrmBankBookLocationDetail
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Enum Exporter
@@ -531,7 +531,7 @@ Public Class FrmBankBookLocationDetail
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -648,7 +648,7 @@ Public Class FrmBankBookLocationDetail
 
     Private Sub rmExcel_Click(sender As Object, e As EventArgs) Handles rmExcel.Click
         If (gvReport.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         'LoadExcel(Exporter.Excel)
@@ -657,7 +657,7 @@ Public Class FrmBankBookLocationDetail
 
     Private Sub rmPDF_Click(sender As Object, e As EventArgs) Handles rmPDF.Click
         If (gvReport.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         'LoadExcel(Exporter.PDF)
@@ -727,7 +727,7 @@ Public Class FrmBankBookLocationDetail
                 clsCommon.MyExportToPDF("Bank Cash Book" + IIf(chkDetail.IsChecked, "( Detail )", "( Summary )"), gvReport, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

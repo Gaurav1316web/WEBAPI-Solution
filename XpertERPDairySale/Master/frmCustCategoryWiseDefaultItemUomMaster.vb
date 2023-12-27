@@ -184,7 +184,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
@@ -228,7 +228,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
     Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (SaveData(False)) Then
             'If ChekBtnPost = False Then
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             'End If
             Return True
         Else
@@ -254,7 +254,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill atlist one Item's Default UOM ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill atlist one Item's Default UOM ", Me.Text)
                     Return False
                 End If
 
@@ -272,7 +272,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -280,7 +280,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
     Function AllowToSave() As Boolean
         Try
             If clsCommon.CompairString(cmbCustomerCategory.Text, "Select") = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer Category Code", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer Category Code", Me.Text)
                 cmbCustomerCategory.Focus()
                 Return False
             End If
@@ -299,7 +299,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True

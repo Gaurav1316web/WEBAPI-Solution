@@ -48,13 +48,13 @@ Public Class FrmFormIssueDetails
         Dim intcount, intFromN0, intToNo, intLineNo As Integer
         Dim strFormNo As String
         If txtFromNo.Text = "" Then
-            common.clsCommon.MyMessageBoxShow("Please enter From No")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter From No", Me.Text)
             Exit Sub
         ElseIf txtToNo.Text = "" Then
-            common.clsCommon.MyMessageBoxShow("Please enter To No")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter To No", Me.Text)
             Exit Sub
         ElseIf Val(txtFromNo.Text) > Val(txtToNo.Text) Then
-            common.clsCommon.MyMessageBoxShow("To No should be greater than From No")
+            common.clsCommon.MyMessageBoxShow(Me, "To No should be greater than From No", Me.Text)
             txtFromNo.Focus()
             Exit Sub
         End If
@@ -91,37 +91,37 @@ Public Class FrmFormIssueDetails
         '    Return False
         'End If
         If clsCommon.myLen(txtDemandNo.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Demand no")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Demand no")
             fndFormIssueNo.Focus()
             Return False
         End If
         If clsCommon.myLen(ddlFromType.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Form type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Form type")
             ddlFromType.Focus()
             Return False
         End If
         If clsCommon.myLen(txtFormSeries.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Form Series")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Form Series", Me.Text)
             txtFormSeries.Focus()
             Return False
         End If
         If clsCommon.myLen(txtFromNo.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Form No")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Form No", Me.Text)
             txtFromNo.Focus()
             Return False
         End If
         If clsCommon.myLen(txtToNo.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter To No")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter To No", Me.Text)
             txtToNo.Focus()
             Return False
         End If
         If (txtFromNo.Text) > txtToNo.Text Then
-            common.clsCommon.MyMessageBoxShow("To No should be greater than From No")
+            common.clsCommon.MyMessageBoxShow(Me, "To No should be greater than From No", Me.Text)
             txtFromNo.Focus()
             Return False
         End If
         If clsCommon.myLen(txtFormIssued.Text) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Click on Go button")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Click on Go button", Me.Text)
             txtToNo.Focus()
             Return False
         End If
@@ -173,19 +173,19 @@ Public Class FrmFormIssueDetails
                 Next
 
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.FormIssue_no, NavigatorType.Current)
 
                 End If
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -243,7 +243,7 @@ Public Class FrmFormIssueDetails
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -297,7 +297,7 @@ Public Class FrmFormIssueDetails
 
             LoadData(clsCommon.ShowSelectForm("FormissueNoFilter", qry, "Code", whrClas, fndFormIssueNo.Value, "Code", isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Dim blnLoaddata As Boolean = False
@@ -333,14 +333,14 @@ Public Class FrmFormIssueDetails
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsFormIssuehead.DeleteData(fndFormIssueNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfndfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfndfully ", Me.Text)
                     AddNew()
                     DgvFormIssue.Rows.Clear()
                     DgvFormIssue.DataSource = Nothing
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

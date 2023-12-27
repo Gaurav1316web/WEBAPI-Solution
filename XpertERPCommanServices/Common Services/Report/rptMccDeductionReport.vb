@@ -41,7 +41,7 @@ Public Class rptMccDeductionReport
             Dim dt As New DataTable
             Dim strDeductionNameForPivot As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ',['+Description+']'  from (select TSPL_DEDUCTION_MASTER.Description from TSPL_DEDUCTION_MASTER   ) XXX For XML Path('')),1,1,'') "))
             If clsCommon.myLen(strDeductionNameForPivot) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Dim strDeductionNameWithIsNull As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ',isnull( ['+Description+'],0) as ' + '['+Description+']' from (select TSPL_DEDUCTION_MASTER.Description from TSPL_DEDUCTION_MASTER   ) XXX For XML Path('')),1,1,'') "))
@@ -127,7 +127,7 @@ Public Class rptMccDeductionReport
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
