@@ -92,7 +92,7 @@ Public Class FrmDVAT30
             LoadLocation()
             gv.DataSource = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -130,12 +130,12 @@ Public Class FrmDVAT30
 
         Try
             If chkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One Vendor")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Vendor", Me.Text)
                 Return Nothing
                 'Exit Function
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Atleast Single Location Or select All ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Atleast Single Location Or select All ", Me.Text)
                 Return Nothing
                 'Exit Function
             End If
@@ -251,7 +251,7 @@ Public Class FrmDVAT30
             refreshGrid = "F"
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         Return Nothing
@@ -270,7 +270,7 @@ Public Class FrmDVAT30
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -454,7 +454,7 @@ Public Class FrmDVAT30
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

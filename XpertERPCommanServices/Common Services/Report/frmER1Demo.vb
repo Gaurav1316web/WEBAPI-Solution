@@ -323,7 +323,7 @@ Public Class frmER1Demo
 
             If chkLocSelect.IsChecked Then
                 If cbgLoc.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location Code.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location Code.", Me.Text)
                     Return
                 End If
                 PeriodQry += " and aa.Location in   (" + clsCommon.GetMulcallString(cbgLoc.CheckedValue) + ") and aa.Item_Code in (select Item_Code  from TSPL_ITEM_MASTER where Item_Type ='F') group by aa.Item_Code, MRP_Amt  "
@@ -352,7 +352,7 @@ Public Class frmER1Demo
 
         If chkChapterSelect.IsChecked Then
             If cbgChapter.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One Item Chapter Head Code.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Item Chapter Head Code.", Me.Text)
                 Return
             End If
             Qry += " and xxxx.[Chapter Head] in  (" + clsCommon.GetMulcallString(cbgChapter.CheckedValue) + ")  "
@@ -361,7 +361,7 @@ Public Class frmER1Demo
 
         If chkLocSelect.IsChecked Then
             If cbgLoc.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location Code.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location Code.", Me.Text)
                 Return
             End If
             Qry += " and xxxx.Location in   (" + clsCommon.GetMulcallString(cbgLoc.CheckedValue) + ")  "
@@ -372,7 +372,7 @@ Public Class frmER1Demo
 
         If chkItmSelect.IsChecked Then
             If cbgItem.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One Item Code.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Item Code.", Me.Text)
                 Return
             End If
             Qry += " and xxxx.Item_Code in  (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ")  "
@@ -611,7 +611,7 @@ Public Class frmER1Demo
 
             If chkChapterSelect.IsChecked Then
                 If cbgChapter.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Atleast One Item Chapter Head Code.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Item Chapter Head Code.", Me.Text)
                     Return
                 End If
                 Qry += " and xxxx.[Chapter Head] in  (" + clsCommon.GetMulcallString(cbgChapter.CheckedValue) + ")  "
@@ -620,7 +620,7 @@ Public Class frmER1Demo
 
             If chkLocSelect.IsChecked Then
                 If cbgLoc.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location Code.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location Code.", Me.Text)
                     Return
                 End If
                 Qry += " and xxxx.Location in   (" + clsCommon.GetMulcallString(cbgLoc.CheckedValue) + ")  "
@@ -631,7 +631,7 @@ Public Class frmER1Demo
 
             If chkItmSelect.IsChecked Then
                 If cbgItem.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Atleast One Item Code.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Item Code.", Me.Text)
                     Return
                 End If
                 Qry += " and xxxx.Item_Code in  (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ")  "
@@ -702,7 +702,7 @@ Public Class frmER1Demo
             FRMcrys.funreport(CrystalReportFolder.CommonServices, dtFinal, CrptName, "Excise Report")
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub chkChapterAll_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkChapterAll.ToggleStateChanged

@@ -201,7 +201,7 @@ Public Class rptVSPMilkNotSold
             SetGridFormat()
             'ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormat()
@@ -461,7 +461,7 @@ Public Class rptVSPMilkNotSold
                 dtpToDate.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtMultiDeduction__My_Click(sender As Object, e As EventArgs) Handles txtMultiDeduction._My_Click
@@ -469,7 +469,7 @@ Public Class rptVSPMilkNotSold
             Dim qry As String = "Select Distinct Code,Description From TSPL_DEDUCTION_MASTER Left Outer Join TSPL_PAYMENT_PROCESS_DEDUCTION On TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code"
             txtMultiDeduction.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMilkDedMulSelect", qry, "Code", "Description", txtMultiDeduction.arrValueMember, txtMultiDeduction.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub chkDeduction_CheckStateChanged(sender As Object, e As EventArgs) Handles chkDeduction.CheckStateChanged
@@ -496,7 +496,7 @@ Public Class rptVSPMilkNotSold
                     MyLabel3.Visible = True
                     txtMultiDeduction.Visible = True
                 Else
-                    clsCommon.MyMessageBoxShow("Select Payment Cycle")
+                    clsCommon.MyMessageBoxShow(Me, "Select Payment Cycle", Me.Text)
                     chkDeduction.Checked = False
                     MyLabel3.Visible = False
                     txtMultiDeduction.Visible = False
@@ -506,7 +506,7 @@ Public Class rptVSPMilkNotSold
                 txtMultiDeduction.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub TxtMCCMultifnd__My_Click(sender As Object, e As EventArgs) Handles TxtMCCMultifnd._My_Click

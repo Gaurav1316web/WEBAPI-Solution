@@ -104,7 +104,7 @@ Public Class frmTimeTable
             'End If
             Save()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -130,7 +130,7 @@ Public Class frmTimeTable
         obj.Payment_To_Time = clsCommon.GetPrintDate(tpPmtToTime.Value, "hh:mm tt")
 
         If (obj.SaveData(obj, isNewEntry)) Then
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             LoadData(obj.Document_Code, NavigatorType.Current)
 
         End If
@@ -210,12 +210,12 @@ Public Class frmTimeTable
     Sub funDelete()
         Try
             If clsCommon.myLen(fndDocCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+                common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
                 Exit Sub
             End If
             If (myMessages.deleteConfirm()) Then
                 If (clsTimeTable.DeleteData(fndDocCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -238,7 +238,7 @@ Public Class frmTimeTable
         Try
             LoadData(fndDocCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -290,7 +290,7 @@ Public Class frmTimeTable
         Try
             LoadData(fndDocCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

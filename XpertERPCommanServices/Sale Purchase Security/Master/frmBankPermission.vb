@@ -56,12 +56,12 @@ Public Class FrmBankPermission
         Dim i As Integer = 0
         Dim j As Integer = 0
         If (clsCommon.myLen(fndUser.Value) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select user ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select user ", Me.Text)
             fndUser.Focus()
             Return
         End If
         If ((cbgBankCode.CheckedValue.Count) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select atlist one Bank code ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atlist one Bank code ", Me.Text)
             cbgBankCode.Focus()
             Return
         End If
@@ -73,7 +73,7 @@ Public Class FrmBankPermission
                 arrbank.Add(obj)
             Next
             obj.SaveData(UserCode, arrbank)
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
 
         End If
     End Sub
@@ -85,7 +85,7 @@ Public Class FrmBankPermission
     End Sub
     Public Sub Refreshsub()
         If (clsCommon.myLen(fndUser.Value) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select user ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select user ", Me.Text)
             fndUser.Focus()
             Return
         End If
@@ -129,7 +129,7 @@ Public Class FrmBankPermission
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Dim qry As String = "delete from tspl_user_bank_mapping where Item_Code='" + fndUser.Value + "'"
         clsDBFuncationality.ExecuteNonQuery(qry)
-        clsCommon.MyMessageBoxShow("Delete Successfuly")
+        clsCommon.MyMessageBoxShow(Me, "Delete Successfuly", Me.Text)
         Reset()
     End Sub
 End Class

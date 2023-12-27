@@ -89,7 +89,7 @@ Public Class frmGrampanchayatMaster
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Grampanchayat Code For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Grampanchayat Code For Deletion", Me.Text)
                 Return
             End If
 

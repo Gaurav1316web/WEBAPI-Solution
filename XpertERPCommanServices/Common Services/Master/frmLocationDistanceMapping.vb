@@ -54,22 +54,22 @@ Public Class frmLocationDistanceMapping
                 Next
 
                 If (Arr Is Nothing OrElse Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at least one Customer Detail")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at least one Customer Detail", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(fndCustomer.Value, txtdesc.Text, IIf(rdbSale.IsChecked, "S", "T"), objCommonVar.CurrentCompanyCode, Arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(fndCustomer.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer No", Me.Text)
                 fndCustomer.Focus()
                 Return False
             End If
@@ -97,7 +97,7 @@ Public Class frmLocationDistanceMapping
                 End If
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -130,7 +130,7 @@ Public Class frmLocationDistanceMapping
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -151,16 +151,16 @@ Public Class frmLocationDistanceMapping
     Public Sub delete()
         Try
             If clsCommon.myLen(fndCustomer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Location found to delete.")
+                clsCommon.MyMessageBoxShow(Me, "No Location found to delete.", Me.Text)
                 fndCustomer.Focus()
             Else
                 If clsLocationDistanceMapping.DeleteData(fndCustomer.Value) Then
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     LoadData(fndCustomer.Value)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -184,7 +184,7 @@ Public Class frmLocationDistanceMapping
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try

@@ -68,7 +68,7 @@ Public Class RptBankWiseChequeIssue
             RadPageView1.SelectedPage = RadPageViewPage2
             RadGroupBox7.Enabled = False
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -268,7 +268,7 @@ Public Class RptBankWiseChequeIssue
                 common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

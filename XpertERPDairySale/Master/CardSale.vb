@@ -31,7 +31,7 @@ Public Class CardSale
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
@@ -99,7 +99,7 @@ Public Class CardSale
                 obj.isSecondSpell = chkSecondSpell.Checked
                 If obj.SaveData(obj, isNewEntry) Then
                     If isPost = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.Card_No, NavigatorType.Current)
                         Exit Sub
                     End If
@@ -111,7 +111,7 @@ Public Class CardSale
     End Sub
     Function AllowToSave() As Boolean
         If chkFirstSpell.Checked = False AndAlso chkSecondSpell.Checked = False Then
-            clsCommon.MyMessageBoxShow("Please Select 1st Spell Or 2nd Spell.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select 1st Spell Or 2nd Spell.", Me.Text)
             Return False
         End If
         Return True
@@ -146,27 +146,27 @@ Public Class CardSale
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub DeleteData(ByVal strCardNo As String)
         If clsCommon.myLen(strCardNo) = 0 Then
-            clsCommon.MyMessageBoxShow("No Card No found to delete.")
+            clsCommon.MyMessageBoxShow(Me, "No Card No found to delete.", Me.Text)
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.myLen(strCardNo) > 0 Then
                 If ClsCardSale.fundelete(strCardNo, trans) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     Reset()
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Card No. found to delete.")
+                clsCommon.MyMessageBoxShow(Me, "No Card No. found to delete.", Me.Text)
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub CardSale_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -185,11 +185,11 @@ Public Class CardSale
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 ClsCardSale.postData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
@@ -207,7 +207,7 @@ Public Class CardSale
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -318,7 +318,7 @@ Public Class CardSale
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
