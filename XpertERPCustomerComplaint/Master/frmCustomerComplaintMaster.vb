@@ -74,19 +74,19 @@ Public Class frmCustomerComplaintMaster
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
         'End If
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Description", Me.Text)
             txtDesc.Focus()
             Return False
         End If
 
         If clsCommon.CompairString(cboType.Text, "Select") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please Select Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Type", Me.Text)
             cboType.Focus()
             Return False
         End If
@@ -123,12 +123,12 @@ Public Class frmCustomerComplaintMaster
                 obj.Type = cboType.SelectedValue
                 arr.Add(obj)
                 If obj.SaveData(arr, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -146,7 +146,7 @@ Public Class frmCustomerComplaintMaster
                 cboType.SelectedValue = obj.Type
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -168,7 +168,7 @@ Public Class frmCustomerComplaintMaster
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -192,7 +192,7 @@ Public Class frmCustomerComplaintMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsCustomerComplaintMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     AddNew()
                 End If
             End If

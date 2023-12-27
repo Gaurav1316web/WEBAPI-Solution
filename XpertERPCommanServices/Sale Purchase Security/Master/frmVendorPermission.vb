@@ -74,7 +74,7 @@ Public Class FrmVendorPermission
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -125,7 +125,7 @@ Public Class FrmVendorPermission
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -176,12 +176,12 @@ Public Class FrmVendorPermission
 
             If arrCustomer.Count > 0 Then
                 If obj.SaveData(UserCode, arrCustomer) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -241,7 +241,7 @@ Public Class FrmVendorPermission
 
             If strvalue <> "" Then
             Else : strUser_Code = ""
-                common.clsCommon.MyMessageBoxShow("User Code does not exist Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "User Code does not exist Master Table", Me.Text)
                 fndUser_Name.Value = ""
                 TxtUserName.Text = ""
                 fndUser_Name.Focus()
@@ -323,12 +323,12 @@ Public Class FrmVendorPermission
         Try
             If (deleteConfirm()) Then
                 If (ClsVendorPermission.DeleteData(fndUser_Name.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

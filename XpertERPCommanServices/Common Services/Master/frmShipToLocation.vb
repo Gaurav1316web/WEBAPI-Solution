@@ -359,7 +359,7 @@ Public Class frmShipToLocation
             MasterTemplate.AllowAddNewRow = True
             Timer1.Enabled = True
         Else
-            common.clsCommon.MyMessageBoxShow("Please Select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Customer", Me.Text)
             fndCustomer.Focus()
             Exit Sub
         End If
@@ -398,7 +398,7 @@ Public Class frmShipToLocation
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(fndCustomer.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -449,7 +449,7 @@ Public Class frmShipToLocation
             fsld.ShowDialog()
             Timer1.Enabled = True
         Else
-            common.clsCommon.MyMessageBoxShow("Please Select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Customer", Me.Text)
             fndCustomer.Focus()
             Exit Sub
         End If
@@ -472,7 +472,7 @@ Public Class frmShipToLocation
             s = clsDBFuncationality.getSingleValue(sql)
 
             If s <> fndCustomer.Value Then
-                common.clsCommon.MyMessageBoxShow("Customer doesn't exist.")
+                common.clsCommon.MyMessageBoxShow(Me, "Customer doesn't exist.", Me.Text)
                 fndCustomer.Value = ""
                 txtCustomerName.Text = ""
                 fndCustomer.Focus()

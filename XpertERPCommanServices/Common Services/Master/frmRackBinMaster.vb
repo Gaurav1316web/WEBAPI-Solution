@@ -33,7 +33,7 @@ Public Class frmRackBinMaster
                     obj.Description = txtName.Text
                     obj.Location = txtLocation.Value
                     If (clsRackMaster.SaveData(obj, isNewEntry)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.Rack_Code, NavigatorType.Current)
                         btnSave.Text = "Update"
                         btnDelete.Enabled = True
@@ -48,7 +48,7 @@ Public Class frmRackBinMaster
                     objBin.Description = txtName.Text
                     objBin.Location = txtLocation.Value
                     If (clsBinMaster.SaveData(objBin, isNewEntry)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(objBin.Bin_Code, NavigatorType.Current)
                         btnSave.Text = "Update"
                         btnDelete.Enabled = True
@@ -130,7 +130,7 @@ Public Class frmRackBinMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Code Ends 
@@ -142,12 +142,12 @@ Public Class frmRackBinMaster
             If (myMessages.deleteConfirm()) Then
                 If clsCommon.CompairString(rbtnRock.IsChecked, True) = CompairStringResult.Equal Then
                     If (clsRackMaster.DeleteData(txtCode.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         funReset()
                     End If
                 Else
                     If (clsBinMaster.DeleteData(txtCode.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         funReset()
                     End If
                 End If
@@ -265,7 +265,7 @@ Public Class frmRackBinMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

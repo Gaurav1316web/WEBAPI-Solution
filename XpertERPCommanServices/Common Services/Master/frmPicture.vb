@@ -22,7 +22,7 @@ Public Class frmPicture
             Return True
             '=============================================
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Image Not Found..")
+            clsCommon.MyMessageBoxShow(Me, "Image Not Found..", Me.Text)
             Return False
             Me.Close()
         End Try

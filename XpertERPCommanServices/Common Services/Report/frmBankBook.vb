@@ -331,7 +331,7 @@ Public Class FrmBankBook
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Enum Exporter
@@ -615,7 +615,7 @@ Public Class FrmBankBook
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -841,7 +841,7 @@ Public Class FrmBankBook
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gvReport, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -948,7 +948,7 @@ Public Class FrmBankBook
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -960,7 +960,7 @@ Public Class FrmBankBook
             End If
             ExportCSV(gvReport, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub ExportCSV(ByVal sender As RadGridView, Optional ByVal AddHeader As Boolean = False)
@@ -979,7 +979,7 @@ Public Class FrmBankBook
             clsCommon.ProgressBarShow()
             IO.File.WriteAllLines(filePath, transportSql.ExportCSV(sender, AddHeader))
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Data Exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
             Process.Start(filePath)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -1033,7 +1033,7 @@ Public Class FrmBankBook
             transportSql.applyExportTemplate(gvReport, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Bank Cash Book" + IIf(chkDetail.IsChecked, "( Detail )", "( Summary )"), gvReport, arrHeader, "Bank Cash Book", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

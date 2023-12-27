@@ -103,15 +103,15 @@ Public Class FrmPendingRequisitionQty
     Sub PrintData()
 
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location", Me.Text)
             Return
         End If
 
@@ -271,7 +271,7 @@ Public Class FrmPendingRequisitionQty
     '======shivani
     Public Sub Load_Report()
         If dtpfromdate.Value > dtpTodate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             dtpfromdate.Focus()
             Exit Sub
         End If
@@ -662,7 +662,7 @@ Public Class FrmPendingRequisitionQty
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -317,6 +317,7 @@ Public Class frmMCCMaterialSale
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
+
         If objCommonVar.IsDemoERP Then
             UcAttachment1.Form_ID = MyBase.Form_ID
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
@@ -433,6 +434,8 @@ Public Class frmMCCMaterialSale
         dtpInvoice.Value = clsCommon.GETSERVERDATE()
         txtBillToLocation.Value = ""
         lblBillToLocation.Text = ""
+        txtSubLocation.Value = ""
+        lblSubLocation.Text = ""
         txtDesc.Text = ""
         txtInvNo.Text = ""
         txtComment.Text = ""
@@ -461,6 +464,7 @@ Public Class frmMCCMaterialSale
         cboItemType.SelectedIndex = 2
         cboItemType.Enabled = True
         txtBillToLocation.Enabled = True
+        txtSubLocation.Enabled = True
         chkVendorGrossReceipt.Checked = False
         lblAddCharges1.Text = ""
         lblAddCharges1.Text = ""
@@ -3350,6 +3354,13 @@ Public Class frmMCCMaterialSale
             txtBillToLocation.Focus()
             Return False
         End If
+        If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
+            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                If clsCommon.myLen(txtSubLocation.Value) <= 0 Then
+                    Throw New Exception("Please select Sub Location")
+                End If
+            End If
+        End If
         If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "Shipment No Not found to save", Me.Text)
             txtDocNo.Focus()
@@ -3454,7 +3465,18 @@ Public Class frmMCCMaterialSale
                     Next
                 End If
                 Dim dblOuterConvFac As Double = clsItemMaster.GetConvertionFactor(strICode, strUOM, Nothing)
-                Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strICode, txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, strUOM, dblMRP)
+                Dim Location As String = Nothing
+                If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                        If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                            Location = txtSubLocation.Value
+                        End If
+                    Else
+
+                        Location = txtBillToLocation.Value
+                    End If
+                End If
+                Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strICode, Location, txtDocNo.Value, txtDate.Value, Nothing, strUOM, dblMRP)
                 Dim dblEnteredQty As Double = dblQty
                 For jj As Integer = 0 To gv1.Rows.Count - 1
                     If ii = jj Then
@@ -3606,6 +3628,7 @@ Public Class frmMCCMaterialSale
                 obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
                 obj.Inv_No = txtInvNo.Text
                 obj.Bill_To_Location = txtBillToLocation.Value
+                obj.Sub_Location_code = txtSubLocation.Value
                 'obj.Ship_To_Location = txtShipToLocation.Value
                 obj.Comments = txtComment.Text
                 obj.On_Hold = chkOnHold.Checked
@@ -4033,6 +4056,8 @@ Public Class frmMCCMaterialSale
 
             Dim obj As New clsMCCMaterialSale()
             obj = clsMCCMaterialSale.GetData(strCode, NavTyep)
+            txtBillToLocation.Enabled = True
+            txtSubLocation.Enabled = False
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 btnSave.Enabled = True
                 btnPost.Enabled = True
@@ -4101,6 +4126,20 @@ Public Class frmMCCMaterialSale
                 txtComment.Text = obj.Comments
                 'txtShipToLocation.Value = obj.Ship_To_Location
                 txtBillToLocation.Value = obj.Bill_To_Location
+                txtSubLocation.Value = obj.Sub_Location_code
+
+                If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                        txtSubLocation.Enabled = True
+                    Else
+                        txtSubLocation.Enabled = False
+                    End If
+                End If
+                If (clsCommon.myLen(txtSubLocation.Value) > 0) Then
+                    lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+
+                End If
+
                 txtInvNo.Text = obj.Inv_No
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()
                 objTaxGrpMaster = objTaxGrpMaster.GetDataForSale(obj.Tax_Group)
@@ -5462,35 +5501,25 @@ Public Class frmMCCMaterialSale
         End If
 
         Dim qry As String = ""
-        If ShowAllCustomer = True AndAlso chkcashsale.Checked = True AndAlso chkOther.Checked = True Then
-            qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
-               ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number ,TSPL_VENDOR_MASTER.Vendor_Code as [VSP Code],Vendor_Name as [VSP Name],VLC_Code_VLC_Uploader as Vlc_Code,VLC_Name as [VLc Name] "
-            qry += " from TSPL_CUSTOMER_MASTER "
-            qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
-            qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
-            qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
-            qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'" & _
-            "left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  " & _
-            "left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " & _
-            " left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " & _
-            " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code " & _
-            " left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code "
-            '' " and  TSPL_VLC_MASTER_HEAD.mcc='" & txtBillToLocation.Value & "'"
+        If AllowPlandDeptMCCLocation Then
+            qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address
+           ,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  ,TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number ,TSPL_VENDOR_MASTER.Vendor_Code as [VSP Code],Vendor_Name as [VSP Name],VLC_Code_VLC_Uploader as Vlc_Code,VLC_Name as [VLc Name] 
+            from TSPL_CUSTOMER_MASTER  left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'
+            left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  
+            left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id 
+            left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code 
+            left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code 
+            left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code "
+            Dim WhrCls As String = " 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0
+            and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP'"
 
-            txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", " TSPL_CUSTOMER_MASTER.Status = 'N' ", txtVendorNo.Value, "Code", isButtonClicked)
-            qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+            txtVendorNo.Value = clsCommon.ShowSelectForm("AllCustomerInsteadMcc", qry, "Code", WhrCls, txtVendorNo.Value, "Code", isButtonClicked)
+            qry += "where 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
         Else
-            ''-------richa 30/07/2014 Ticket No. BM00000003242---------
-            Dim strwherecls As String = ""
-            strwherecls = MyBase.Cust_CustomerVendorMapping()
-            If clsCommon.myLen(strwherecls) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Customer Found", Me.Text)
-                Exit Sub
-            End If
-            '-----------------------------------------------------
-            If chkOther.Checked Then
+
+            If ShowAllCustomer = True AndAlso chkcashsale.Checked = True AndAlso chkOther.Checked = True Then
                 qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
-                     ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number ,TSPL_VENDOR_MASTER.Vendor_Code as [VSP Code],Vendor_Name as [VSP Name],VLC_Code_VLC_Uploader as Vlc_Code,VLC_Name as [VLc Name] "
+                   ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number ,TSPL_VENDOR_MASTER.Vendor_Code as [VSP Code],Vendor_Name as [VSP Name],VLC_Code_VLC_Uploader as Vlc_Code,VLC_Name as [VLc Name] "
                 qry += " from TSPL_CUSTOMER_MASTER "
                 qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
                 qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
@@ -5501,47 +5530,73 @@ Public Class frmMCCMaterialSale
                 " left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
                 " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code " &
                 " left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code "
+                '' " and  TSPL_VLC_MASTER_HEAD.mcc='" & txtBillToLocation.Value & "'"
 
-                'qry = "select Vendor_Code AS [Code],Vendor_Name As [Name],Add1 + ' ' + Add2 + ' ' + Add3 AS [Vendor Address],Closing_Date As [Closing Date] " & _
-                '                " ,Vendor_Group_Code As [Vendor Group Code],Vendor_Group_Code_Desc  AS [Vendor Group Code Desc] ,City_Code As [City Code],City_Code_Desc AS [City Code Desc], " & _
-                '                " State,Country ,Phone1 ,Phone2 ,Fax,Email ,WebSite,Contact_Person_Name As [Contact Person Name],Contact_Person_Email As [Contact Person Email] " & _
-                '                " ,Contact_Person_Phone As [Contact Person Phone],Contact_Person_Fax As [Contact Person Fax],Contact_Person_Website AS [Contact Person Website] " & _
-                '                " ,Terms_Code AS [Terms Code],Terms_Code_Desc As [Terms Code Desc],Vendor_Account As [Vendor Account],Vendor_Account_Desc As [Vendor Account Desc],Payment_Code As [Payment Code],Bank_Code As [Bank Code],Tax_Group As [Tax Group],Ven_Type_Code As [Ven Type Code],Status ,OnHold ,CURRENCY_CODE As [Currency Code],Form_Type As [Form Type],State_Code As [State Code],Country_Code AS [Country Code],IFSC_Code As [IFSC Code],Account_Type As [Account Type] from TSPL_VENDOR_MASTER "
-
-                txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", " TSPL_CUSTOMER_MASTER.Status <> 'Y' ", txtVendorNo.Value, "Code", isButtonClicked)
-                ''txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", "  TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code is null and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0", txtVendorNo.Value, "Code", isButtonClicked)
+                txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", " TSPL_CUSTOMER_MASTER.Status = 'N' ", txtVendorNo.Value, "Code", isButtonClicked)
                 qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
             Else
-                qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
-                     ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number ,TSPL_VENDOR_MASTER.Vendor_Code as [VSP Code],Vendor_Name as [VSP Name],VLC_Code_VLC_Uploader as Vlc_Code,VLC_Name as [VLc Name] "
-                qry += " from TSPL_CUSTOMER_MASTER "
-                qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
-                qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
-                qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
-                qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'" &
-                "left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  " &
-                " left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
-                " left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
-                " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code " &
-                " left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  "
-
-                '-------richa 30/07/2014 Ticket No. BM00000003242---------
-                '=============and TSPL_VLC_MASTER_HEAD.VSP_Code is null update by Preeti GUpta Against Ticket No[8543]=======
-                If UseDescInsteadOFCodeOnMCCMAterialSale = True Then
-                    LblVlc_Code.Text = clsCommon.ShowSelectForm("MCCCustomerList1", qry, "Vlc_Code", " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and mcc='" & txtBillToLocation.Value & "'", txtVendorNo.Value, "Vlc_Code", isButtonClicked)
-                    qry += " where 2=2 and VLC_Code_VLC_Uploader ='" + LblVlc_Code.Text + "' and mcc='" & txtBillToLocation.Value & "' "
-                Else
-                    If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                        txtVendorNo.Value = clsDBFuncationality.getSingleValue(" select  VSP_Code from TSPL_VLC_MASTER_HEAD  where (VSP_Code = '" + txtVendorNo.Value + "' or VLC_Code_VLC_Uploader = '" + txtVendorNo.Value + "' )")
-                    End If
-                    txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer List", qry, "Code", " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and mcc='" & txtBillToLocation.Value & "'", txtVendorNo.Value, "Code", isButtonClicked)
-                    qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+                ''-------richa 30/07/2014 Ticket No. BM00000003242---------
+                Dim strwherecls As String = ""
+                strwherecls = MyBase.Cust_CustomerVendorMapping()
+                If clsCommon.myLen(strwherecls) <= 0 Then
+                    clsCommon.MyMessageBoxShow("No Customer Found", Me.Text)
+                    Exit Sub
                 End If
+                '-----------------------------------------------------
+                If chkOther.Checked Then
+                    qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
+                         ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number ,TSPL_VENDOR_MASTER.Vendor_Code as [VSP Code],Vendor_Name as [VSP Name],VLC_Code_VLC_Uploader as Vlc_Code,VLC_Name as [VLc Name] "
+                    qry += " from TSPL_CUSTOMER_MASTER "
+                    qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
+                    qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
+                    qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
+                    qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'" &
+                    "left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  " &
+                    "left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " &
+                    " left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
+                    " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code " &
+                    " left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code "
+
+                    'qry = "select Vendor_Code AS [Code],Vendor_Name As [Name],Add1 + ' ' + Add2 + ' ' + Add3 AS [Vendor Address],Closing_Date As [Closing Date] " & _
+                    '                " ,Vendor_Group_Code As [Vendor Group Code],Vendor_Group_Code_Desc  AS [Vendor Group Code Desc] ,City_Code As [City Code],City_Code_Desc AS [City Code Desc], " & _
+                    '                " State,Country ,Phone1 ,Phone2 ,Fax,Email ,WebSite,Contact_Person_Name As [Contact Person Name],Contact_Person_Email As [Contact Person Email] " & _
+                    '                " ,Contact_Person_Phone As [Contact Person Phone],Contact_Person_Fax As [Contact Person Fax],Contact_Person_Website AS [Contact Person Website] " & _
+                    '                " ,Terms_Code AS [Terms Code],Terms_Code_Desc As [Terms Code Desc],Vendor_Account As [Vendor Account],Vendor_Account_Desc As [Vendor Account Desc],Payment_Code As [Payment Code],Bank_Code As [Bank Code],Tax_Group As [Tax Group],Ven_Type_Code As [Ven Type Code],Status ,OnHold ,CURRENCY_CODE As [Currency Code],Form_Type As [Form Type],State_Code As [State Code],Country_Code AS [Country Code],IFSC_Code As [IFSC Code],Account_Type As [Account Type] from TSPL_VENDOR_MASTER "
+
+                    txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", " TSPL_CUSTOMER_MASTER.Status <> 'Y' ", txtVendorNo.Value, "Code", isButtonClicked)
+                    ''txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", "  TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code is null and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0", txtVendorNo.Value, "Code", isButtonClicked)
+                    qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+                Else
+                    qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
+                         ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number ,TSPL_VENDOR_MASTER.Vendor_Code as [VSP Code],Vendor_Name as [VSP Name],VLC_Code_VLC_Uploader as Vlc_Code,VLC_Name as [VLc Name] "
+                    qry += " from TSPL_CUSTOMER_MASTER "
+                    qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
+                    qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
+                    qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
+                    qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'" &
+                    "left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  " &
+                    " left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
+                    " left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
+                    " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code " &
+                    " left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  "
+
+                    '-------richa 30/07/2014 Ticket No. BM00000003242---------
+                    '=============and TSPL_VLC_MASTER_HEAD.VSP_Code is null update by Preeti GUpta Against Ticket No[8543]=======
+                    If UseDescInsteadOFCodeOnMCCMAterialSale = True Then
+                        LblVlc_Code.Text = clsCommon.ShowSelectForm("MCCCustomerList1", qry, "Vlc_Code", " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and mcc='" & txtBillToLocation.Value & "'", txtVendorNo.Value, "Vlc_Code", isButtonClicked)
+                        qry += " where 2=2 and VLC_Code_VLC_Uploader ='" + LblVlc_Code.Text + "' and mcc='" & txtBillToLocation.Value & "' "
+                    Else
+                        If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                            txtVendorNo.Value = clsDBFuncationality.getSingleValue(" select  VSP_Code from TSPL_VLC_MASTER_HEAD  where (VSP_Code = '" + txtVendorNo.Value + "' or VLC_Code_VLC_Uploader = '" + txtVendorNo.Value + "' )")
+                        End If
+                        txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer List", qry, "Code", " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and mcc='" & txtBillToLocation.Value & "'", txtVendorNo.Value, "Code", isButtonClicked)
+                        qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+                    End If
 
 
+                End If
             End If
         End If
-
         '-----------------------------------------------------
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -5653,16 +5708,20 @@ Public Class frmMCCMaterialSale
         '    lblBillToLocation.Text = ""
         'End If
 
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
-        Dim WhrCls As String = "  Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
+        Dim qry As String = Nothing
+        Dim WhrCls As String = Nothing
         If AllowPlandDeptMCCLocation Then
-            WhrCls += " and (GIT_Type='' or GIT_Type='N') "
+            qry = "select Location_Code AS Code,Location_Desc as Name  from TSPL_LOCATION_MASTER"
+            WhrCls = " Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' "
+        Else
+            qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
+            WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
+            WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+
         End If
+
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
-        End If
-        If AllowPlandDeptMCCLocation = False Then
-            WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
         End If
 
         If UseDescInsteadOFCodeOnMCCMAterialSale = True Then
@@ -5672,7 +5731,11 @@ Public Class frmMCCMaterialSale
             txtBillToLocation.Value = clsCommon.ShowSelectForm("ShipmentMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
         End If
-
+        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+            txtSubLocation.Enabled = True
+        Else
+            txtSubLocation.Enabled = False
+        End If
         txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtBillToLocation.Value, txtDate.Value)
         txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtBillToLocation.Value, txtDate.Value)
 
@@ -8823,5 +8886,25 @@ a:          End If
 
     End Sub
 
+    Private Sub lblBillToLocation_Click(sender As Object, e As EventArgs) Handles lblBillToLocation.Click
 
+    End Sub
+
+    Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
+
+        If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
+            clsCommon.MyMessageBoxShow("Please select Bill To location code before sub location", Me.Text)
+            Exit Sub
+        End If
+
+        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+            txtSubLocation.Value = clsLocation.getFinder(" (isnull(is_sub_location,'N')='Y' or isnull(Is_Section,'N')='Y') and Main_Location_Code='" + txtBillToLocation.Value + "'", txtSubLocation.Value, isButtonClicked)
+        End If
+
+        If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+            lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+        Else
+            lblSubLocation.Text = ""
+        End If
+    End Sub
 End Class

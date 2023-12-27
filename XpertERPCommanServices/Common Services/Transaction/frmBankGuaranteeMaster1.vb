@@ -133,7 +133,7 @@ Public Class FrmBankGuaranteeMaster1
             Dim qry As String = "select count(*) from tspl_bank_guarantee_master where docno='" + txtcode.Value + "' and comp_code='" + objCommonVar.CurrentCompanyCode + "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
             If check = 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Reset()
                 Return
             End If
@@ -143,7 +143,7 @@ Public Class FrmBankGuaranteeMaster1
             Dim isSaved As Boolean = clsBankGuaranteeMaster.SaveData(obj, IIf(btnsave.Text = "Save", True, False))
             If isSaved Then
                 txtcode.Value = obj.code
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnsave.Text = "Update"
                 txtcode.MyReadOnly = True
                 btndelete.Enabled = True
@@ -153,7 +153,7 @@ Public Class FrmBankGuaranteeMaster1
                 txtcode.MyReadOnly = False
                 btndelete.Enabled = False
                 btnpost.Enabled = False
-                common.clsCommon.MyMessageBoxShow("Data Could Not Saved", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Could Not Saved", Me.Text)
             End If
             If obj.post = "Y" Then
                 UsLock1.Status = ERPTransactionStatus.Approved
@@ -192,14 +192,14 @@ Public Class FrmBankGuaranteeMaster1
             End If
 
             If clsCommon.myLen(txtstrtdate.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Start Date Of Guarantee", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Start Date Of Guarantee", Me.Text)
                 txtstrtdate.Focus()
                 txtstrtdate.Select()
                 Return False
             End If
 
             If clsCommon.myLen(txtenddate.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter End Date Of Guarantee", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter End Date Of Guarantee", Me.Text)
                 txtenddate.Focus()
                 txtenddate.Select()
                 Return False
@@ -210,7 +210,7 @@ Public Class FrmBankGuaranteeMaster1
                 If clsCommon.CompairString(ddltype.Text, "Vendor") = CompairStringResult.Equal Then
                     Dim VenCode As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Count(*) As Row  From TSPL_VENDOR_MASTER  Where Vendor_Code  ='" + clsCommon.myCstr(txtvendorcode.Value) + "'"))
                     If VenCode = 0 Then
-                        clsCommon.MyMessageBoxShow("Please check ! Vendor code does not exist")
+                        clsCommon.MyMessageBoxShow(Me, "Please check ! Vendor code does not exist", Me.Text)
                         txtvendorcode.Focus()
                         txtvendorcode.Select()
                         Return False
@@ -228,13 +228,13 @@ Public Class FrmBankGuaranteeMaster1
             ''
             '==========Rohit=28-Oct-2014============
             If clsCommon.myLen(CmbGuaranteeType.SelectedValue) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Guarantee Type.")
+                clsCommon.MyMessageBoxShow(Me, "Please select Guarantee Type.", Me.Text)
                 CmbGuaranteeType.Select()
                 Return False
             End If
             '==============================
             If clsCommon.myCdbl(txtamount.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Guarantee Amount", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Guarantee Amount", Me.Text)
                 txtamount.Focus()
                 txtamount.Select()
                 Return False
@@ -242,7 +242,7 @@ Public Class FrmBankGuaranteeMaster1
 
 
             If clsCommon.myCDate(txtextnddate.Value) < clsCommon.myCDate(txtenddate.Value) Then
-                clsCommon.MyMessageBoxShow("Extended Date Should Be Greater Or Equal To End Date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Extended Date Should Be Greater Or Equal To End Date", Me.Text)
                 txtextnddate.Focus()
                 txtextnddate.Select()
                 Return False
@@ -260,7 +260,7 @@ Public Class FrmBankGuaranteeMaster1
         Try
             If AllowToSave() Then SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -271,7 +271,7 @@ Public Class FrmBankGuaranteeMaster1
 
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Guarantee Code For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Guarantee Code For Deletion", Me.Text)
             txtcode.Focus()
             txtcode.Select()
             Return
@@ -280,7 +280,7 @@ Public Class FrmBankGuaranteeMaster1
         Dim qry As String = "select count(*) from tspl_bank_guarantee_master where comp_code='" + objCommonVar.CurrentCompanyCode + "' and docno='" + txtcode.Value + "'"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("No Such Record Found For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Such Record Found For Deletion", Me.Text)
             Return
         End If
 
@@ -291,10 +291,10 @@ Public Class FrmBankGuaranteeMaster1
         Dim isdelete As Boolean = clsBankGuaranteeMaster.DeleteData(txtcode.Value)
 
         If isdelete Then
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         Else
-            clsCommon.MyMessageBoxShow("Data Not Deleted", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Not Deleted", Me.Text)
         End If
     End Sub
 
@@ -305,7 +305,7 @@ Public Class FrmBankGuaranteeMaster1
     Sub PostData()
         Try
             If clsCommon.myLen(txtcode.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Guarantee Code For Posting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Guarantee Code For Posting", Me.Text)
                 txtcode.Focus()
                 txtcode.Select()
                 Return
@@ -314,20 +314,20 @@ Public Class FrmBankGuaranteeMaster1
             Dim qry As String = "select count(*) from tspl_bank_guarantee_master where comp_code='" + objCommonVar.CurrentCompanyCode + "' and docno='" + txtcode.Value + "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
             If check <= 0 Then
-                clsCommon.MyMessageBoxShow("No Such Record Found For Posting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Such Record Found For Posting", Me.Text)
                 Return
             End If
 
             qry = "update tspl_bank_guarantee_master set status='Y' where comp_code='" + objCommonVar.CurrentCompanyCode + "' and docno='" + txtcode.Value + "'"
             clsDBFuncationality.getSingleValue(qry)
-            clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
 
             UsLock1.Status = ERPTransactionStatus.Approved
             btnsave.Enabled = False
             btndelete.Enabled = False
             btnpost.Enabled = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -365,7 +365,7 @@ Public Class FrmBankGuaranteeMaster1
 
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -570,7 +570,7 @@ Public Class FrmBankGuaranteeMaster1
         Try
             Convert.ToDecimal(txtreminderdays.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtreminderdays.Text = "0"
         End Try
     End Sub
@@ -579,7 +579,7 @@ Public Class FrmBankGuaranteeMaster1
         Try
             Convert.ToDateTime(txtextnddate.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtextnddate.Value = ""
             Return
         End Try
@@ -589,7 +589,7 @@ Public Class FrmBankGuaranteeMaster1
         Try
             Convert.ToDateTime(txtstrtdate.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtstrtdate.Value = clsCommon.GETSERVERDATE()
         End Try
     End Sub
@@ -598,7 +598,7 @@ Public Class FrmBankGuaranteeMaster1
         Try
             Convert.ToDateTime(txtenddate.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtenddate.Value = ""
         End Try
     End Sub
@@ -607,7 +607,7 @@ Public Class FrmBankGuaranteeMaster1
         Try
             Convert.ToDateTime(txtdocdate.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtdocdate.Value = clsCommon.GETSERVERDATE()
         End Try
     End Sub
@@ -616,7 +616,7 @@ Public Class FrmBankGuaranteeMaster1
         Try
             Convert.ToDecimal(txtextndreminder.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtextndreminder.Text = "0"
         End Try
     End Sub

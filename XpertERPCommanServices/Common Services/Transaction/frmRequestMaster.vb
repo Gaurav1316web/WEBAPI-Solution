@@ -119,12 +119,12 @@ Public Class frmRequestMaster
             End If
             If (myMessages.postConfirm()) Then
                 If (clsRequestMaster.PostData(textRequestCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(textRequestCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -162,7 +162,7 @@ Public Class frmRequestMaster
                 UcAttachment1.LoadData(textRequestCode.Value)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -197,7 +197,7 @@ Public Class frmRequestMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(textRequestCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Request Code First")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Request Code First", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -207,7 +207,7 @@ Public Class frmRequestMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsRequestMaster.DeleteData(textRequestCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -245,7 +245,7 @@ Public Class frmRequestMaster
         Try
             LoadData(textRequestCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -266,13 +266,13 @@ Public Class frmRequestMaster
 
 
                 If obj.SaveData(obj, isNewEntry) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     UcAttachment1.SaveData(obj.REQUEST_CODE)
                     LoadData(obj.REQUEST_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
