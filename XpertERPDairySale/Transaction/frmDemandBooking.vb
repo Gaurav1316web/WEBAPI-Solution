@@ -3929,11 +3929,14 @@ from
                                 End Try
                                 If obj1 IsNot Nothing Then
                                     If clsCommon.CompairString(clsCommon.myCstr(obj1.itemCode), clsCommon.myCstr(dr.Item("Item_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString("Crate", clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
-                                        ' If clsCommon.myCdbl(dr.Item("Qty")) > 0 Then
-                                        gv1.Rows(dblrow).Cells(dblcolumns).Value = clsCommon.myCdbl(dr.Item("Qty"))
-                                        ' End If
+                                        If clsCommon.myCdbl(dr.Item("Qty")) > 0 Then
+                                            gv1.Rows(dblrow).Cells(dblcolumns).Value = clsCommon.myCdbl(dr.Item("Qty"))
+                                        Else
+                                            gv1.Rows(dblrow).Cells(dblcolumns).Value = ""
+
+                                        End If
                                     End If
-                                End If
+                                    End If
                                 k = k + 1
                             Next
                         End If
