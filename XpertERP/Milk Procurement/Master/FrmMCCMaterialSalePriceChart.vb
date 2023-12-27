@@ -56,13 +56,11 @@ Public Class FrmMCCMaterialSalePriceChart
 
     Sub LoadMCC()
         Dim qry As String = Nothing
-        qry = "select MCC_Code as Code ,MCC_NAME as Name from TSPL_MCC_MASTER "
         If AllowPlandDeptMCCLocation Then
-        qry += " union all " & _
-        " select Location_Code AS Code, Location_Desc as Name  from TSPL_LOCATION_MASTER " & _
-        " where type in ('Depot','Plant') and location_category<>'MCC' and  Is_Section='N' and Is_Sub_Location='N' " & _
-        " and (GIT_Type='' or GIT_Type='N') and MCC_Type='N' order by Code "
-         End If      
+            qry = "select Location_Code AS Code, Location_Desc as Name  from TSPL_LOCATION_MASTER where Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' order by Code "
+        Else
+            qry = "select MCC_Code as Code ,MCC_NAME as Name from TSPL_MCC_MASTER "
+        End If
 
         cbgMCC.DataSource = clsDBFuncationality.GetDataTable(qry)
         cbgMCC.ValueMember = "Code"
