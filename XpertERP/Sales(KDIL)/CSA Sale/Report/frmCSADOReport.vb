@@ -20,7 +20,7 @@ Public Class FrmCSADOReport
             TemplateGridview = gv1
             PrintData(EnumExportTo.Print)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -146,7 +146,7 @@ Public Class FrmCSADOReport
 
         Catch ex As Exception
             RadGroupBox1.Enabled = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -246,7 +246,7 @@ Public Class FrmCSADOReport
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -305,7 +305,7 @@ Public Class FrmCSADOReport
             gv1.DataSource = Nothing
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -341,7 +341,7 @@ Public Class FrmCSADOReport
             cbgMultiLocs.ValueMember = "Code"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmCSADOReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -357,7 +357,7 @@ Public Class FrmCSADOReport
             rbtnpartl.Visible = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -451,10 +451,10 @@ Public Class FrmCSADOReport
                     clsCommon.MyExportToPDF("DO " + strType + " Report", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
    

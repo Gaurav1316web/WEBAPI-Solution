@@ -32,7 +32,7 @@ Public Class frmDistrictMaster
             obj.State_Code = txtState.Value
             obj.Region_Code = txtRegion.Value
             If (clsDistrictMaster.SaveData(obj, isNewEntry, Nothing)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
@@ -96,18 +96,18 @@ Public Class frmDistrictMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         Dim discCode As String
         discCode = clsDBFuncationality.getSingleValue("select STATE_CODE  from tspl_city_master  where STATE_CODE ='" & txtCode.Value & "'")
         If clsCommon.myLen(discCode) > 0 Then
-            common.clsCommon.MyMessageBoxShow("This record can't be deleted.It is used in another process")
+            common.clsCommon.MyMessageBoxShow(Me, "This record can't be deleted.It is used in another process", Me.Text)
             Exit Sub
         End If
         discCode = clsDBFuncationality.getSingleValue("select STATE_CODE  from tspl_village_master  where STATE_CODE ='" & txtCode.Value & "'")
         If clsCommon.myLen(discCode) > 0 Then
-            common.clsCommon.MyMessageBoxShow("This record can't be deleted.It is used in another process")
+            common.clsCommon.MyMessageBoxShow(Me, "This record can't be deleted.It is used in another process", Me.Text)
             Exit Sub
         End If
         ' Code Ends 
@@ -118,7 +118,7 @@ Public Class frmDistrictMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsDistrictMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -223,7 +223,7 @@ Public Class frmDistrictMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -296,7 +296,7 @@ Public Class frmDistrictMaster
                 End Try
                 tran.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

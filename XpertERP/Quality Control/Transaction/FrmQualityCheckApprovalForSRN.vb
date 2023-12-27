@@ -66,7 +66,7 @@ Public Class FrmQualityCheckApprovalForSRN
                 Funreset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isCellValueChanged = False
         End Try
@@ -275,7 +275,7 @@ Public Class FrmQualityCheckApprovalForSRN
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -332,7 +332,7 @@ Public Class FrmQualityCheckApprovalForSRN
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -368,13 +368,13 @@ Public Class FrmQualityCheckApprovalForSRN
 
 
                 If clsQualityCheckApprovalForSRN.SaveData(obj) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
 
                     LoadData()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             objtr = Nothing
             obj = Nothing
@@ -403,7 +403,7 @@ Public Class FrmQualityCheckApprovalForSRN
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -438,7 +438,7 @@ Public Class FrmQualityCheckApprovalForSRN
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

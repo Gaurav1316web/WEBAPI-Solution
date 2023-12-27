@@ -71,12 +71,12 @@ Public Class FrmSecurityDeposit1
                                 " where (H.Receipt_Post_Date  >= CONVERT(DATE,'" + dtpFromdate1.Value.Date + "',103)) AND (H.Receipt_Post_Date  <= CONVERT(DATE,'" + dtpToDate.Value.Date + "',103))and  H.Receipt_Type='M' and H.SecurityDeposit='Y' and H.Posted='Y'  "
 
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one location", Me.Text)
                 Return
             End If
             If chkCustomerSelect.IsChecked = True Then
                 If cbgCustomer.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Atleast One Customer.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Customer.", Me.Text)
                     Return
                 End If
                 StrQuery += " and H.Cust_Code in (" + clsCommon.GetMulcallString(cbgCustomer.CheckedValue) + ")  "
@@ -92,7 +92,7 @@ Public Class FrmSecurityDeposit1
             frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "crptSecurityDeposit", "Security Deposit Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnreset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnreset.Click

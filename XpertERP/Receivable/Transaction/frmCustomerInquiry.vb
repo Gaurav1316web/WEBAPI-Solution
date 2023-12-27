@@ -57,14 +57,14 @@ Public Class FrmCustomerInquiry
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
         If dtpFrmDate.Value > dtpToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("Start Date Can Not Be Greater Then End Date")
+            common.clsCommon.MyMessageBoxShow(Me, "Start Date Can Not Be Greater Then End Date", Me.Text)
             dtpFrmDate.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(fndCustomer.Value) > 0 Then
             FillSaleInvoice()
         Else
-            common.clsCommon.MyMessageBoxShow("Please Select Customer Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Customer Code", Me.Text)
             fndCustomer.Focus()
             Exit Sub
         End If
@@ -89,7 +89,7 @@ Public Class FrmCustomerInquiry
                 Throw New Exception("No Sale Invoice Found Against '" + txtCustName.Text + "' Between '" + clsCommon.GetPrintDate(dtpFrmDate.Value, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "'")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -163,7 +163,7 @@ Public Class FrmCustomerInquiry
                 Throw New Exception("No Document Found Against Document No '" + InvNo + "'")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

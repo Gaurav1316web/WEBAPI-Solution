@@ -479,7 +479,7 @@ End if
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtbankacc.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Bank Account does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Bank Account does not exist in Master Table", Me.Text)
                     fndbankacc.Value = ""
                 End If
             Catch ex As Exception
@@ -532,7 +532,7 @@ End if
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtcredit.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Credit Card Charges Account does not exist in Master Table.")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Credit Card Charges Account does not exist in Master Table.", Me.Text)
                     fndcredit.Value = ""
                 End If
             Catch ex As Exception
@@ -579,20 +579,20 @@ End if
                 myMessages.blankValue("Credit Cards Charges")
                 fndcredit.Focus()
             ElseIf ddlbanktype.Text = "Select" Or ddlbanktype.Text = "select" Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select the bank type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select the bank type", Me.Text)
                 ddlbanktype.Focus()
                 '' Richa Againt Ticket No. BM00000003641 on 27/08/2014
             ElseIf clsCommon.myCdbl(txtFDPer.Value) > 100 Then
-                common.clsCommon.MyMessageBoxShow(Me, "FD % cannot be more than 100")
+                common.clsCommon.MyMessageBoxShow(Me, "FD % cannot be more than 100", Me.Text)
                 txtFDPer.Focus()
                 ''---------------------------------
                 '' Anubhooti 19-Dec-2014
             ElseIf clsCommon.myLen(fndtransferclearing.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Transfer clearing can not be left blank.")
+                common.clsCommon.MyMessageBoxShow(Me, "Transfer clearing can not be left blank.", Me.Text)
                 fndtransferclearing.Focus()
                 '' Anubhooti 03-Sep-2014 BM00000003437
             ElseIf clsCommon.CompairString(UseSubAcc, "1") = CompairStringResult.Equal AndAlso clsCommon.myLen(fndSubAcc.Value) = 0 AndAlso clsCommon.CompairString(ddlbanktype.Text, "Bank") = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow(Me, "Sub account can not be left blank.")
+                common.clsCommon.MyMessageBoxShow(Me, "Sub account can not be left blank.", Me.Text)
                 fndSubAcc.Focus()
                 '' Anubhooti 15-Dec-2014 BM00000004999
             ElseIf clsCommon.myCdbl(txtLCCreditLimit.Value) < 0 Then

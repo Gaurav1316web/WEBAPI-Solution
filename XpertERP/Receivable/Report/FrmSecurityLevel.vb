@@ -116,7 +116,7 @@ Public Class FrmSecurityLevel
 
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -272,7 +272,7 @@ Public Class FrmSecurityLevel
             TemplateGridview = Gv1
             Print(Exporter.Refresh)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -396,7 +396,7 @@ Public Class FrmSecurityLevel
                 clsCommon.MyExportToPDF("Security Level Report" + IIf(rbtnDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, "Security Level", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -587,7 +587,7 @@ Public Class FrmSecurityLevel
 
             clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, Me.Text, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

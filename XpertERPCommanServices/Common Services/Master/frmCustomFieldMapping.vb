@@ -173,12 +173,12 @@ Public Class frmCustomFieldMapping
                     End If
                 Next
                 If (clsCustomFieldMapping.SaveData(txtScreen.Value, Arr)) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     LoadData()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -186,7 +186,7 @@ Public Class frmCustomFieldMapping
         Try
             If clsCommon.myLen(txtScreen.Value) <= 0 Then
                 txtScreen.Focus()
-                clsCommon.MyMessageBoxShow("Please first select screen", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please first select screen", Me.Text)
                 Exit Sub
             End If
 
@@ -210,7 +210,7 @@ Public Class frmCustomFieldMapping
             gv1.Rows.AddNew()
             EnableDisableControl(False)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -263,7 +263,7 @@ Public Class frmCustomFieldMapping
                 Throw New Exception("Please select at least one item in grid.")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -366,7 +366,7 @@ Public Class frmCustomFieldMapping
     Private Sub txtScreen__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtScreen._MYValidating
         If clsCommon.myLen(txtModule.Value) <= 0 Then
             txtModule.Focus()
-            clsCommon.MyMessageBoxShow("Please first select module")
+            clsCommon.MyMessageBoxShow(Me, "Please first select module", Me.Text)
             Exit Sub
         End If
         Dim arrDoneScreen As New List(Of String)()
@@ -500,7 +500,7 @@ Public Class frmCustomFieldMapping
                             GC.Collect()
                             GC.WaitForPendingFinalizers()
                         Catch ex As Exception
-                            clsCommon.MyMessageBoxShow(ex.Message)
+                            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                         End Try
                     End If
                 End If
@@ -557,7 +557,7 @@ Public Class frmCustomFieldMapping
             GC.Collect()
             GC.WaitForPendingFinalizers()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

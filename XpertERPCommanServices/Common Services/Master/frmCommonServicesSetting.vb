@@ -79,7 +79,7 @@ Public Class frmCommonServicesSetting
                 txtIdleTimeInMnt.Text = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.Idle, clsFixedParameterCode.idleTime, Nothing))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -125,11 +125,11 @@ Public Class frmCommonServicesSetting
             End If
 
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

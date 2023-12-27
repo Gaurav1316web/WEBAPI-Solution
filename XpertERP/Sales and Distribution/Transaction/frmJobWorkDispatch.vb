@@ -1463,7 +1463,7 @@ Public Class frmJobWorkDispatch
                                     gv1.CurrentRow.Cells(colQty).Value = 0
                                 End If
                             Else
-                                common.clsCommon.MyMessageBoxShow("Select the Location")
+                                common.clsCommon.MyMessageBoxShow(Me, "Select the Location", Me.Text)
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                             End If
                         End If
@@ -1486,7 +1486,7 @@ Public Class frmJobWorkDispatch
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2062,7 +2062,7 @@ Public Class frmJobWorkDispatch
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         End If
     End Sub
 
@@ -2344,7 +2344,7 @@ Public Class frmJobWorkDispatch
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -2865,7 +2865,7 @@ Public Class frmJobWorkDispatch
                 AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2919,12 +2919,12 @@ Public Class frmJobWorkDispatch
                 End If
                 If (ClsScrapSaleHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3032,7 +3032,7 @@ Public Class frmJobWorkDispatch
 
         'fndShipToLocation.Value = clsCommon.ShowSelectForm("VendrMastr1", qry, "Code", WhrCls, fndShipToLocation.Value, "Code", isButtonClicked)
         If clsCommon.myLen(fndcustNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("First Select Customer")
+            clsCommon.MyMessageBoxShow(Me, "First Select Customer", Me.Text)
             Return
         End If
         Dim qry As String = "Select tspl_ship_To_location.Ship_To_Code as Code,tspl_ship_To_location.Ship_To_Desc as Name , tspl_ship_To_location.Add1 , tspl_ship_To_location.Add2 ,tspl_ship_To_location.Add3 , tspl_ship_To_location.Add4  from tspl_ship_To_location  "
@@ -3126,10 +3126,10 @@ Public Class frmJobWorkDispatch
             End If
         Next
         If chkExcisable.Checked = True And intCount = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select exisable tax group")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select exisable tax group", Me.Text)
             Return False
         ElseIf chkExcisable.Checked = False And intCount > 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select non excisable tax group")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select non excisable tax group", Me.Text)
             Return False
         End If
 
@@ -3561,7 +3561,7 @@ Public Class frmJobWorkDispatch
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3594,7 +3594,7 @@ Public Class frmJobWorkDispatch
             End If
             '
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -3663,7 +3663,7 @@ Public Class frmJobWorkDispatch
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3708,13 +3708,13 @@ Public Class frmJobWorkDispatch
                 End If
                 If SaveData() Then
                     If (ClsScrapSaleHead.PostData(txtDocNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3754,7 +3754,7 @@ Public Class frmJobWorkDispatch
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -3884,7 +3884,7 @@ Public Class frmJobWorkDispatch
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
                     Dim InvoiceNo As String = clsDBFuncationality.getSingleValue("select invoice_No from TSPL_SCRAPINVOICE_HEAD where shipment_No='" + clsCommon.myCstr(txtDocNo.Value) + "' ")
                     If clsCommon.myLen(InvoiceNo) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Invoice No does't exist for this loadout")
+                        common.clsCommon.MyMessageBoxShow(Me, "Invoice No does't exist for this loadout", Me.Text)
                     Else
                         Dim qry As String
                         Dim dt As DataTable
@@ -3956,12 +3956,12 @@ Public Class frmJobWorkDispatch
                         End If
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Please select one Invoice")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select one Invoice", Me.Text)
                 End If
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'PrintQry
@@ -4197,7 +4197,7 @@ Public Class frmJobWorkDispatch
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4255,7 +4255,7 @@ Public Class frmJobWorkDispatch
                 gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4288,12 +4288,12 @@ Public Class frmJobWorkDispatch
                 End If
                 If ClsScrapInvoiceHead.ReverseAndUnpost(txtDocNo.Value, lblInvoiceNo.Text) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4437,7 +4437,7 @@ Public Class frmJobWorkDispatch
     Private Sub btnInvoicePrint_Click(sender As Object, e As EventArgs) Handles btnInvoicePrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document is not found.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document is not found.", Me.Text)
                 Return
             End If
             Dim frmCRV As New frmCrystalReportViewer()
@@ -4495,14 +4495,14 @@ Public Class frmJobWorkDispatch
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Document Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "shipment_No", "TSPL_SCRAPSALE_HEAD", "TSPL_SCRAPSALE_DETAIL")

@@ -83,7 +83,7 @@ Public Class rptSalesHierarchyReport
     Sub Print(ByVal IsPrint As Exporter)
         Try
             If clsCommon.myLen(ddlReportType.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select any Report Type")
+                clsCommon.MyMessageBoxShow(Me, "Select any Report Type", Me.Text)
                 Exit Sub
             End If
            
@@ -141,7 +141,7 @@ Public Class rptSalesHierarchyReport
             ElseIf ddlReportType.SelectedValue = 9 Then
                 strRunQuery = strMain '"select  Level1.Struct_Code as Level1,Level2.Struct_Code as Level2,Level3.Struct_Code as Level3,Level4.Struct_Code as Level4,Level5.Struct_Code as Level5,Level6.Struct_Code as Level6,Level7.Struct_Code as Level7,Level8.Struct_Code as Level8,count([Customer Code]) as [Total Sale Count],sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum([Sale Amount]) as [Total Sale Amount],sum([Total Tax Amount]) as [Total Tax Amount],sum([Total Amount] ) as [Total Amount] from (" & strMain & ") as Final group by  Level1.Struct_Code ,Level2.Struct_Code,Level3.Struct_Code,Level4.Struct_Code,Level5.Struct_Code,Level6.Struct_Code,Level7.Struct_Code,Level8.Struct_Code"
             Else
-                clsCommon.MyMessageBoxShow("Select any Report Type")
+                clsCommon.MyMessageBoxShow(Me, "Select any Report Type", Me.Text)
                 Exit Sub
             End If
             RadPageViewPage2.Text = ddlReportType.Text
@@ -157,7 +157,7 @@ Public Class rptSalesHierarchyReport
             Gv1.Tag = ddlReportType.Text
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt
@@ -173,7 +173,7 @@ Public Class rptSalesHierarchyReport
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -649,7 +649,7 @@ Public Class rptSalesHierarchyReport
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
         Try
             If (Gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
 
@@ -673,7 +673,7 @@ Public Class rptSalesHierarchyReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1191,7 +1191,7 @@ Public Class rptSalesHierarchyReport
                 '    Print(Exporter.Refresh)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1262,7 +1262,7 @@ Public Class rptSalesHierarchyReport
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
         Try
             If (Gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
 
@@ -1286,7 +1286,7 @@ Public Class rptSalesHierarchyReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

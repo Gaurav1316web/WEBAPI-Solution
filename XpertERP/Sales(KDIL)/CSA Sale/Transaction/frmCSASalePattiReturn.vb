@@ -61,7 +61,7 @@ Public Class FrmCSASalePattiReturn
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -423,7 +423,7 @@ Public Class FrmCSASalePattiReturn
 
             If clsCSASalePattiReturnHead.SaveData(obj) Then
                 If Not FromPost Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                 End If
 
                 UcAttachment1.funDelete(obj.Document_Code, False)
@@ -432,7 +432,7 @@ Public Class FrmCSASalePattiReturn
                 LoadData(obj.Document_Code, arrLoc, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             objtr = Nothing
@@ -516,7 +516,7 @@ Public Class FrmCSASalePattiReturn
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -598,7 +598,7 @@ Public Class FrmCSASalePattiReturn
                 SaveData(False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -627,7 +627,7 @@ Public Class FrmCSASalePattiReturn
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -654,7 +654,7 @@ Public Class FrmCSASalePattiReturn
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -676,7 +676,7 @@ Public Class FrmCSASalePattiReturn
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -713,7 +713,7 @@ Public Class FrmCSASalePattiReturn
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -768,7 +768,7 @@ Public Class FrmCSASalePattiReturn
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -816,7 +816,7 @@ Public Class FrmCSASalePattiReturn
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -834,7 +834,7 @@ Public Class FrmCSASalePattiReturn
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

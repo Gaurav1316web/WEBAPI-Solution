@@ -163,18 +163,18 @@ Public Class rptCrateAccounting
     End Sub
     Public Sub Load_Report()
         If fromDate.Value > ToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             fromDate.Focus()
             Exit Sub
         End If
 
 
         If chkSelectLocation.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         If ChkCustomerSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Customer or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Customer or select all.", Me.Text)
             Exit Sub
         End If
 
@@ -218,7 +218,7 @@ Public Class rptCrateAccounting
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
 
         ReStoreGridLayout()
@@ -415,7 +415,7 @@ Public Class rptCrateAccounting
                 ReStoreGridLayoutDetails()
                 RadPageView1.SelectedPage = RadPageViewPage3
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
 
@@ -423,7 +423,7 @@ Public Class rptCrateAccounting
         Catch ex As Exception
             'Throw New Exception(ex.Message, Me.Text)
 
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

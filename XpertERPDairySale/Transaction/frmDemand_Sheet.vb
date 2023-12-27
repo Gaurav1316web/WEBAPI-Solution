@@ -33,6 +33,8 @@ Public Class frmDemand_Sheet
     End Sub
     Private Sub frmDemandSheet_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetShiftTimeOut = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, Nothing))
+        txtDate.Enabled = False
+        txtShift.Enabled = False
         AddNew()
         SetUserMgmtNew()
         LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode, True)
@@ -155,10 +157,14 @@ Public Class frmDemand_Sheet
                     isCellValueChangedOpen = True
                     If e.Column.Name = colCustCode Then
                         gv1.CurrentRow.Cells(colCustCode).Value = clsDistributorRouteTagging.getFinder(" IsDistributor='N' and form_type not in('TPT','VSP') ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False)
+                        Dim isExistingCust As Boolean = FindCustInGrid(gv1.CurrentRow.Cells(colCustCode).Value)
                         gv1.CurrentRow.Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
                         gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
-                        gv1.CurrentRow.Cells(colSetZero).Value = 1
-                        FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
+                            gv1.CurrentRow.Cells(colSetZero).Value = 1
+
+                            FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
+
+                        'GenerateLineNo()
                         'UpdateCurrentRow(gv1.CurrentRow.Index)
                     End If
                     If e.Column.Name = colSetZero Then
@@ -180,18 +186,15 @@ Public Class frmDemand_Sheet
         End Try
     End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+        Dim obj As New clsDemandSheet()
+        obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
+        obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
+        obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
+        obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
+        obj.ShiftType = txtShift.Text
         If gv1.Rows(IntRowNo).Cells(colSetZero).Value = 0 Then
             For dbColumn As Integer = 4 To gv1.Columns.Count - 1
                 gv1.Rows(IntRowNo).Cells(dbColumn).Value = "0"
-            Next
-        Else
-            If gv1.Rows(IntRowNo).Cells(colCustCode).Value <> "" Then
-                Dim obj As New clsDemandSheet()
-                obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
-                obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
-                obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
-                obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
-                obj.ShiftType = txtShift.Text
                 Dim k As Integer = 1
                 For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -206,7 +209,28 @@ Public Class frmDemand_Sheet
                                 Catch ex As Exception
                                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                                 End Try
-                            ElseIf clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
+
+                            End If
+                        End If
+                    End If
+                Next
+            Next
+        Else
+            If gv1.Rows(IntRowNo).Cells(colCustCode).Value <> "" Then
+                'Dim obj As New clsDemandSheet()
+                'obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
+                'obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
+                'obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
+                'obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
+                'obj.ShiftType = txtShift.Text
+                Dim k As Integer = 1
+                For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                    k = k + 1
+                    If obj1 IsNot Nothing Then
+                        If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
+                            obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
+                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
                                 obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
                                 Try
                                     Dim status As Boolean = obj.SaveData(obj)
@@ -463,19 +487,19 @@ Public Class frmDemand_Sheet
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    'Private Sub GvRowFridge()
-    '    Try
-    '        If gv1.Rows.Count > 2 Then
-    '            For rowcount As Integer = 0 To gv1.Rows.Count - 3
-    '                For colcount As Integer = 0 To gv1.Columns.Count - 1
-    '                    gv1.Rows(rowcount).Cells(colcount).ReadOnly = True
-    '                Next
-    '            Next
-    '        End If
-    '    Catch ex As Exception
-    '        Throw New Exception(ex.Message)
-    '    End Try
-    'End Sub
+    Private Sub GvRowFridge()
+        Try
+            If gv1.Rows.Count > 2 Then
+                For rowcount As Integer = 0 To gv1.Rows.Count - 3
+                    For colcount As Integer = 0 To gv1.Columns.Count - 1
+                        gv1.Rows(rowcount).Cells(colcount).ReadOnly = True
+                    Next
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Export(EnumExportTo.Excel)
     End Sub
@@ -615,10 +639,31 @@ Public Class frmDemand_Sheet
                     End If
                 Else
                     'LoadData(clsCommon.GetPrintDate(txtDate.Value), clsCommon.myCstr(txtShift.Text), objCommonVar.CurrentUserCode, False)
-                    gv1.CurrentRow.Delete()
+                    'gv1.CurrentRow.Delete()
+                    strQry = "select Item_Code,Qty from TSPL_DEMAND_SHEET where convert(date,DEMAND_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Cust_Code='" + CustCode + "'and Created_By='" + objCommonVar.CurrentUserCode + "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                    If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                        For Each dr As DataRow In dt.Rows
+                            Dim k As Integer = 1
+                            For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                                Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                                k = k + 1
+                                If obj1 IsNot Nothing Then
+                                    If clsCommon.CompairString(clsCommon.myCstr(dr.Item("Item_Code")), obj1.itemCode) = CompairStringResult.Equal Then
+
+                                        gv1.CurrentRow.Cells(dblcolumns).Value = clsCommon.myCdbl(dr.Item("qty"))
+
+
+                                    End If
+                                End If
+                            Next
+                        Next
+
+                    End If
 
                 End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -628,5 +673,40 @@ Public Class frmDemand_Sheet
     End Sub
     Private Sub gv1_CellBeginEdit(sender As Object, e As GridViewCellCancelEventArgs) Handles gv1.CellBeginEdit
         isInsideLoadData = False
+    End Sub
+    Public Function FindCustInGrid(ByVal CustCode As String) As Boolean
+        If gv1.Rows.Count > 2 Then
+            For dblrows As Integer = 0 To gv1.Rows.Count - 3
+                If clsCommon.myLen(CustCode) > 0 Then
+                    If clsCommon.CompairString(gv1.Rows(dblrows).Cells(colCustCode).Value, CustCode) = CompairStringResult.Equal Then
+                        gv1.Rows.Remove(gv1.Rows(dblrows))
+                        GenerateLineNo()
+                        Return True
+                    End If
+                End If
+            Next
+
+        End If
+        Return False
+    End Function
+
+    Private Sub gv1_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
+        Try
+            If (myMessages.deleteConfirm()) Then
+                Dim strQry As String = " delete TSPL_DEMAND_SHEET where DEMAND_Date='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Cust_Code='" + gv1.CurrentRow.Cells(colCustCode).Value + "' and Created_By='" + objCommonVar.CurrentUserCode + "' "
+                clsDBFuncationality.ExecuteNonQuery(strQry)
+            Else
+                e.Cancel = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub GenerateLineNo()
+        Dim count As Integer = 1
+        For Each grow As GridViewRowInfo In gv1.Rows
+            grow.Cells(colLineNo).Value = count
+            count += 1
+        Next
     End Sub
 End Class

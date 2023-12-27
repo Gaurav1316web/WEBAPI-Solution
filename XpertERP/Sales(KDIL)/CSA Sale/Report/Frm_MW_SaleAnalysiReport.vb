@@ -194,7 +194,7 @@ Public Class Frm_MW_SaleAnalysiReport
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         Finally
             clsCommon.ProgressBarHide()
@@ -1232,7 +1232,7 @@ Public Class Frm_MW_SaleAnalysiReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1412,7 +1412,7 @@ Public Class Frm_MW_SaleAnalysiReport
                 Print(Exporter.Refresh)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1478,10 +1478,10 @@ Public Class Frm_MW_SaleAnalysiReport
                     clsCommon.MyExportToPDF("Sale Register " + ddlReportType.SelectedValue, Gv1, arrHeader, "Sale Register", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtState__My_Click(sender As Object, e As EventArgs) Handles txtState._My_Click
@@ -1538,10 +1538,10 @@ Public Class Frm_MW_SaleAnalysiReport
 
 
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Data exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data exported successfully", Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -1576,7 +1576,7 @@ Public Class Frm_MW_SaleAnalysiReport
                 cboFiscalYear.DisplayMember = "FiscalYear"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

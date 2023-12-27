@@ -188,7 +188,7 @@ Public Class FrmNotifiedPartyMaster
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -225,7 +225,7 @@ Public Class FrmNotifiedPartyMaster
                 txtcityname.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -252,7 +252,7 @@ Public Class FrmNotifiedPartyMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -285,7 +285,7 @@ Public Class FrmNotifiedPartyMaster
                 txtcityname.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -333,7 +333,7 @@ Public Class FrmNotifiedPartyMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -427,9 +427,9 @@ Public Class FrmNotifiedPartyMaster
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsNotifiedPartyMaster.SaveData(obj, isNewEntry, trans) Then
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
                 txtcode.Value = obj.docno
@@ -439,7 +439,7 @@ Public Class FrmNotifiedPartyMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -508,7 +508,7 @@ Public Class FrmNotifiedPartyMaster
 
     Private Sub fndCustomer__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCustomer._MYValidating
         If clsCommon.myLen(txtMain_Cust_Code.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Notify Party first.")
+            clsCommon.MyMessageBoxShow(Me, "Select Notify Party first.", Me.Text)
             txtMain_Cust_Code.Focus()
             txtMain_Cust_Code.Select()
             Errorcontrol.SetError(txtMain_Cust_Name, "Select Notify Party first.")
@@ -567,7 +567,7 @@ Public Class FrmNotifiedPartyMaster
                 LoadComboLocation()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -623,7 +623,7 @@ Public Class FrmNotifiedPartyMaster
             txtname.Focus()
             txtname.Select()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -632,7 +632,7 @@ Public Class FrmNotifiedPartyMaster
             Dim check As Match = Regex.Match(txtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
 
             If check.Success = False And clsCommon.myLen(txtEmail.Text) > 0 Then
-                common.clsCommon.MyMessageBoxShow("Please insert the proper format of e-mail address", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please insert the proper format of e-mail address", Me.Text)
                 txtEmail.Text = ""
                 txtEmail.Focus()
                 txtEmail.Select()
@@ -641,7 +641,7 @@ Public Class FrmNotifiedPartyMaster
                 Errorcontrol.ResetError(txtEmail)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub

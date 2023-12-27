@@ -137,12 +137,12 @@ Public Class RptVehicleCapacityFreshSale
         Dim sQuery As String = String.Empty
         'KUNAL > TICKET : BM00000009476 > DATE : 26 - 10 - 2016 > KDIL
         If chkSelectLocation.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
 
         If ChkVehSelect.IsChecked AndAlso cbgVeh.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Vehicle or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Vehicle or select all.", Me.Text)
             Exit Sub
         End If
         Dim ToDate As String = clsCommon.myCDate(clsCommon.GetPrintDate(SearchToDate.Value, "dd/MMM/yyyy"))
@@ -194,7 +194,7 @@ Public Class RptVehicleCapacityFreshSale
             FormatGrid()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub

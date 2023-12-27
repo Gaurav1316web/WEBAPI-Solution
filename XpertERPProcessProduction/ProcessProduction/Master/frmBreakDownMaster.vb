@@ -74,7 +74,7 @@ Public Class frmBreakDownMaster
 
                 If (obj.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
@@ -111,7 +111,7 @@ Public Class frmBreakDownMaster
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (ClsBreakDownMaster.DeleteData(txtCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 funreset()
             End If
         End If
@@ -234,7 +234,7 @@ Public Class frmBreakDownMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -269,7 +269,7 @@ Public Class frmBreakDownMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Break Down Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Break Down Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_BREAK_DOWN_MASTER")

@@ -1576,7 +1576,7 @@ Public Class frmScrapSaleReturn
                                     gv1.CurrentRow.Cells(colQty).Value = 0
                                 End If
                             Else
-                                common.clsCommon.MyMessageBoxShow("Select the Location")
+                                common.clsCommon.MyMessageBoxShow(Me, "Select the Location", Me.Text)
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                             End If
                         End If
@@ -1600,7 +1600,7 @@ Public Class frmScrapSaleReturn
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1896,7 +1896,7 @@ Public Class frmScrapSaleReturn
                 Dim strchk As String = "select ispost from tspl_scrapsale_head_return where Document_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -1933,7 +1933,7 @@ Public Class frmScrapSaleReturn
             Next
             UpdateAllTotals()
             If clsCommon.myLen(fndcustNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 fndcustNo.Focus()
                 Return False
             End If
@@ -1941,26 +1941,26 @@ Public Class frmScrapSaleReturn
             GSTStatus = clsERPFuncationality.GetGSTStatus(dtpshipment.Value)
             If GSTStatus = False OrElse (chkTaxable.Checked AndAlso GSTStatus = True) Then
                 If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
                     txtTaxGroup.Focus()
                     Return False
                 End If
             End If
 
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select  From Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select  From Location", Me.Text)
                 fndLocation.Focus()
                 Return False
             End If
             If CreatVatSeriesOnExciseInvoice = 1 Then
                 If clsCommon.myLen(fndShipToLocation.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select  To Location")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select  To Location", Me.Text)
                     fndShipToLocation.Focus()
                     Return False
                 End If
             End If
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Shipment No Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "Shipment No Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
@@ -2051,7 +2051,7 @@ Public Class frmScrapSaleReturn
                     Dim qry As String = "select 1 from TSPL_TAX_GROUP_MASTER where Tax_Group_Type='s' and Excisable='Y' and Tax_Group_Code='" + txtTaxGroup.Value + "'"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Tax Group should be of excise type")
+                        common.clsCommon.MyMessageBoxShow(Me, "Tax Group should be of excise type", Me.Text)
                         Return False
                     End If
                 End If
@@ -2062,7 +2062,7 @@ Public Class frmScrapSaleReturn
                 If chkinvoice.Checked Then
                     If AllowChangeInvoiceType Then
                         If clsCommon.myLen(ddlInvoiceType.SelectedValue) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please select invoice Type for creating auto invoice")
+                            common.clsCommon.MyMessageBoxShow(Me, "Please select invoice Type for creating auto invoice", Me.Text)
                             ddlInvoiceType.Focus()
                             Return False
                         Else
@@ -2091,7 +2091,7 @@ Public Class frmScrapSaleReturn
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -2546,7 +2546,7 @@ Public Class frmScrapSaleReturn
                     End If
                 Next
                 If (obj.Arr1 Is Nothing OrElse obj.Arr1.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -2563,13 +2563,13 @@ Public Class frmScrapSaleReturn
 
                 If (obj.SaveData(obj, lblInvoice.Text, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Document_No)
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3130,7 +3130,7 @@ Public Class frmScrapSaleReturn
                 AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3207,12 +3207,12 @@ Public Class frmScrapSaleReturn
                 End If
                 If (ClsScrapSaleHeadReturn.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
@@ -3370,7 +3370,7 @@ Public Class frmScrapSaleReturn
         'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If (dt.Rows.Count > 10) Then
-                common.clsCommon.MyMessageBoxShow("Can't Handle More than 10 Tax Types in a Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Can't Handle More than 10 Tax Types in a Group", Me.Text)
                 Return
             End If
             lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
@@ -3413,10 +3413,10 @@ Public Class frmScrapSaleReturn
             End If
         Next
         If chkExcisable.Checked = True And intCount = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select exisable tax group")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select exisable tax group", Me.Text)
             Return False
         ElseIf chkExcisable.Checked = False And intCount > 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select non excisable tax group")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select non excisable tax group", Me.Text)
             Return False
         End If
 
@@ -3648,7 +3648,7 @@ Public Class frmScrapSaleReturn
 
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3870,7 +3870,7 @@ Public Class frmScrapSaleReturn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3903,7 +3903,7 @@ Public Class frmScrapSaleReturn
             End If
             '
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -3972,7 +3972,7 @@ Public Class frmScrapSaleReturn
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4017,13 +4017,13 @@ Public Class frmScrapSaleReturn
                 End If
                 ''
                 If (ClsScrapSaleHeadReturn.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
 
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4063,7 +4063,7 @@ Public Class frmScrapSaleReturn
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -4223,7 +4223,7 @@ Public Class frmScrapSaleReturn
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
                     Dim InvoiceNo As String = clsDBFuncationality.getSingleValue("select invoice_No from TSPL_SCRAPINVOICE_HEAD where shipment_No='" + clsCommon.myCstr(txtDocNo.Value) + "' ")
                     If clsCommon.myLen(InvoiceNo) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Invoice No does't exist for this loadout")
+                        common.clsCommon.MyMessageBoxShow(Me, "Invoice No does't exist for this loadout", Me.Text)
                     Else
                         Dim qry As String
                         Dim dt As DataTable
@@ -4345,12 +4345,12 @@ Public Class frmScrapSaleReturn
                         End If
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Please select one Invoice")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select one Invoice", Me.Text)
                 End If
             End If
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4680,7 +4680,7 @@ Public Class frmScrapSaleReturn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4737,7 +4737,7 @@ Public Class frmScrapSaleReturn
                 gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4774,12 +4774,12 @@ Public Class frmScrapSaleReturn
                 ''richa ERO/19/03/19-000515
                 If ClsScrapSaleHeadReturn.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5044,13 +5044,13 @@ Public Class frmScrapSaleReturn
                 End If
                 obj.Electronic_Ref_No = txtElectronicRefNo.Text
                 If ClsScrapSaleHead.UpdateAfterPosting(obj, txtDocNo.Value, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             Else
                 Throw New Exception("Document no not found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5543,7 +5543,7 @@ Public Class frmScrapSaleReturn
             qry = "select Gate_Entry_No as [Gate Entry No] , Gate_Entry_Date as [Gate Entry Date]  from TSPL_Sale_Return_Gate_Entry_Head  "
             fndGateEntryNo.Value = clsCommon.ShowSelectForm("GATE@ENTRYNO2", qry, "Gate Entry No", WhrCls, fndGateEntryNo.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
     End Sub
@@ -5562,7 +5562,7 @@ Public Class frmScrapSaleReturn
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5617,10 +5617,10 @@ Public Class frmScrapSaleReturn
             End If
 
             ClsScrapSaleHeadReturn.CancelData(Me.Form_ID, txtDocNo.Value, NavigatorType.Current)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -5628,7 +5628,7 @@ Public Class frmScrapSaleReturn
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Document Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_SCRAPSALE_HEAD_Return", "TSPL_SCRAPSALE_DETAIL_RETURN")

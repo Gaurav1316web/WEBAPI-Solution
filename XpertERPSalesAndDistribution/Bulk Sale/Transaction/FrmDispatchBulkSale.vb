@@ -924,8 +924,8 @@ Public Class FrmDispatchBulkSale
         Dim strpivotcol As String = Nothing
         Dim strQry As String = ""
         Dim rate As Double = 0
-        Qry = "select min(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,max(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,sum(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight from TSPL_WEIGHMENT_DETAIL_BULKSALE" & _
-                " left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')" & _
+        Qry = "select min(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,max(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,sum(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight from TSPL_WEIGHMENT_DETAIL_BULKSALE" &
+                " left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')" &
                 " group by TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.weighment_No"
         dt = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
@@ -937,14 +937,14 @@ Public Class FrmDispatchBulkSale
         Qry = "select stuff((select DISTINCT ',[' + TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Desc+']'  from TSPL_QC_Parameter_Detail_BulKSALE for xml path('')  ),1,1,'')"
         strpivotcol = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry))
         If clsCommon.myLen(strpivotcol) > 0 Then
-            Qry = "select Item_Code,Type,Fat,SNF,CLR,Unit_Code,Chamber_Desc,NetWeight," + strpivotcol + " from (select (TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,(TSPL_ITEM_MASTER.Product_Type) AS Type,(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,(xx.Net_Weight) as NetWeight ,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Desc,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Value" & _
-                    " from TSPL_Quality_Check_BulkSale  left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE  left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' ) as st " & _
+            Qry = "select Item_Code,Type,Fat,SNF,CLR,Unit_Code,Chamber_Desc,NetWeight," + strpivotcol + " from (select (TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,(TSPL_ITEM_MASTER.Product_Type) AS Type,(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,(xx.Net_Weight) as NetWeight ,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Desc,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Value" &
+                    " from TSPL_Quality_Check_BulkSale  left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE  left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' ) as st " &
                     " PIVOT ( MAX(PARAM_FIELD_VALUE) FOR PARAM_FIELD_DESC IN (" + strpivotcol + ")) AS PT ORDER BY Chamber_Desc"
         Else
-            Qry = "select max(TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,MAX(TSPL_ITEM_MASTER.Product_Type) AS Type,max(TSPL_Quality_Check_BulkSale.Qty) as Qty,max(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,max(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,max(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,max(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,max(xx.Net_Weight) as NetWeight from TSPL_Quality_Check_BulkSale " & _
-                    " left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE " & _
-                    " left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc " & _
-                    " left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code" & _
+            Qry = "select max(TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,MAX(TSPL_ITEM_MASTER.Product_Type) AS Type,max(TSPL_Quality_Check_BulkSale.Qty) as Qty,max(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,max(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,max(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,max(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,max(xx.Net_Weight) as NetWeight from TSPL_Quality_Check_BulkSale " &
+                    " left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE " &
+                    " left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc " &
+                    " left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code" &
                     " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' group by TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc"
         End If
 
@@ -970,42 +970,42 @@ Public Class FrmDispatchBulkSale
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQtyLtr).Value = QtyInLtr(clsCommon.myCstr(dr("Item_Code")), clsCommon.myCstr(dr("Unit_Code")), clsCommon.myCdbl(dr("NetWeight")))
                     End If
                 End If
-                    'Sanjay
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colFatPer).Value = clsCommon.myCdbl(dr("Fat"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = clsCommon.myCdbl(dr("SNF"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCLR).Value = clsCommon.myCdbl(dr("CLR"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colChamberDesc).Value = clsCommon.myCstr(dr("Chamber_Desc"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colType).Value = clsCommon.myCstr(dr("Type"))
-                    If ApplyTSPriceAtBulkSale = True Then
-                        strQry = "select TSPL_SALES_ORDER_DETAIL_BULKSALE.rate from TSPL_SALES_ORDER_DETAIL_BULKSALE"
-                        strQry += " left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No"
-                        strQry += " left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No"
-                        strQry += " left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No"
-                        strQry += " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"
-                        rate = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strQry))
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colStandardRate).Value = rate
-                    End If
-                    Dim strSOUOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code,'') from TSPL_SALES_ORDER_DETAIL_BULKSALE left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"))
-                    If clsCommon.myLen(strSOUOM) > 0 Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value = clsCommon.myCstr(strSOUOM)
-                    Else
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value = clsCommon.myCstr(dt.Rows(0)("Unit_Code"))
-                    End If
-                    Dim commsnuom As String = gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value
-                    Dim weight_uom As String = gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value
-                    If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value) > 0 Then
+                'Sanjay
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colFatPer).Value = clsCommon.myCdbl(dr("Fat"))
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = clsCommon.myCdbl(dr("SNF"))
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colCLR).Value = clsCommon.myCdbl(dr("CLR"))
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colChamberDesc).Value = clsCommon.myCstr(dr("Chamber_Desc"))
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colType).Value = clsCommon.myCstr(dr("Type"))
+                If ApplyTSPriceAtBulkSale = True Then
+                    strQry = "select TSPL_SALES_ORDER_DETAIL_BULKSALE.rate from TSPL_SALES_ORDER_DETAIL_BULKSALE"
+                    strQry += " left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No"
+                    strQry += " left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No"
+                    strQry += " left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No"
+                    strQry += " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"
+                    rate = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strQry))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colStandardRate).Value = rate
+                End If
+                Dim strSOUOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code,'') from TSPL_SALES_ORDER_DETAIL_BULKSALE left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"))
+                If clsCommon.myLen(strSOUOM) > 0 Then
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value = clsCommon.myCstr(strSOUOM)
+                Else
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value = clsCommon.myCstr(dt.Rows(0)("Unit_Code"))
+                End If
+                Dim commsnuom As String = gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value
+                Dim weight_uom As String = gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value
+                If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value) > 0 Then
                     ''richa agarwal TEC/28/03/19-000462 add item structure on setting based
                     Qry = "select top 1 CF from (select (case when (Container_UOM='" & commsnuom & "' and Contained_UOM='" & weight_uom & "') then round(Contained_Qty/Container_Qty,4) else case when (Container_UOM='" & weight_uom & "' and Contained_UOM='" & commsnuom & "') then round(Container_Qty/Contained_Qty,4) end end) as CF,product_type from TSPL_WEIGHT_CONVERSION where product_type in ('ALL','" + clsItemMaster.GetItemProductType(clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value), Nothing) + "') " & IIf(ItemStructureMandatoryOnWeightConversion = True, " and isnull(Structure_Code,'') =(select Structure_Code  from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value) & "')", "") & " )aa where isnull(cast(CF as varchar),'')<>'' order by Product_Type desc"
-                        Dim Master_Sku As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
-                        If Master_Sku = 0 Then
-                            Master_Sku = 1
-                        End If
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * Master_Sku
+                    Dim Master_Sku As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
+                    If Master_Sku = 0 Then
+                        Master_Sku = 1
                     End If
-                    Dim k As Integer = 0
-                    For k = 0 To arrList.Count - 1
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(arrList(k)).Value = clsCommon.myCstr(dr(arrListDesc(k)))
-                    Next
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * Master_Sku
+                End If
+                Dim k As Integer = 0
+                For k = 0 To arrList.Count - 1
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(arrList(k)).Value = clsCommon.myCstr(dr(arrListDesc(k)))
+                Next
             Next
 
 
@@ -2236,6 +2236,9 @@ Public Class FrmDispatchBulkSale
                     End If
                     msg = "Successfully posted"
                     common.clsCommon.MyMessageBoxShow(msg)
+                    'If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                    '    funPrintt(txtDocNo.Value)
+                    'End If
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -2616,6 +2619,22 @@ Public Class FrmDispatchBulkSale
                              " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_Dispatch_Detail_BulkSale.item_code "
         Return StrQuery
     End Function
+
+    'Public Sub funPrintt(ByVal StrCode As String)
+    '    Try
+    '        'atchqry = GetAttachQry(Code)
+    '        'Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
+    '        Dim strqry As String = "Select TSPL_location_master.gstno,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_COMPANY_MASTER.Logo_Img,Case when dtax1.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX1_Rate when  dtax2.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX2_Rate when dtax3.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX3_Rate  when dtax4.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX4_Rate  when dtax5.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX5_Rate end as TCS_Rate , Case when dtax1.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX1_Amt when  dtax2.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX2_Amt when dtax3.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX3_Amt when dtax4.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX4_Amt when dtax5.Is_TCS = 'Y' then TSPL_Dispatch_BulkSale.TAX5_Amt end  as TCS_Amount, Convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as Dispatch_date, TSPL_ITEM_MASTER.HSN_Code,STATEMASTER_CUSTOMER.GST_STATE_Code as CustomerGST_STATE_Code,STATEMASTER_LOCATION.GST_STATE_Code as CompGST_STATE_Code,TSPL_CUSTOMER_MASTER.GSTNO AS Consignee_GSTIN_NO,TSPL_LOCATION_MASTER.GSTNO AS Location_GSTIN_NO,TSPL_COMPANY_MASTER.Comp_Name as Company_Name,TSPL_CUSTOMER_MASTER.Add1 as ConAddress1,TSPL_CUSTOMER_MASTER.Add2 as ConAddress2,TSPL_CUSTOMER_MASTER.Add3 as ConAddress3,TSPL_LOCATION_MASTER.Add1  as Address1,TSPL_LOCATION_MASTER.Add2 as Address2,TSPL_LOCATION_MASTER.Add3 as Address3,  TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end  + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end  + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end  + case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end  + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end   + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ' ,Phone'+TSPL_COMPANY_MASTER.Phone1 end   +  Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End   + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end  as Company_Address, TSPL_COMPANY_MASTER .Pincode as PinNo,TSPL_COMPANY_MASTER.CINNo as CinNo,TSPL_Dispatch_BulkSale.Document_No as DispatchNo,Convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,106) as Dispatchdate,  '' as Suppliersref,TSPL_Dispatch_BulkSale.Document_No  AS DespatchDocumentNo, CityMaster.City_Name as Despatchedthrough,TSPL_CUSTOMER_MASTER.Customer_Name as Consignee,TSPL_CUSTOMER_MASTER.Add1 +case when len(TSPL_CUSTOMER_MASTER.Add2)>0 then ', '+TSPL_CUSTOMER_MASTER.Add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end as Consignee_Address,TSPL_CUSTOMER_MASTER.State as consignee_state,STATEMASTER_CUSTOMER.STATE_NAME as consignee_statename,0 as SL_No,  TSPL_Dispatch_BulkSale.Tanker_Code  TankerNo,TSPL_Dispatch_Detail_BulkSale.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,  TSPL_COMPANY_MASTER.Phone1    +  Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as  Comp_Phone, TSPL_COMPANY_MASTER.Email as Comp_Email,TSPL_COMPANY_MASTER.Tcan_No as Comp_Web,  cast(TSPL_COMPANY_MASTER.Tin_No as varchar)   as Comp_Tin_No,cast(TSPL_COMPANY_MASTER.Pan_No as varchar) as Pan_No,  cast(TSPL_COMPANY_MASTER.Access_Officer as varchar) as Comp_FSSAI_LIC_NO,  cast(TSPL_COMPANY_MASTER.CINNo as varchar) as Comp_Corp_Id_No,Format(TSPL_COMPANY_MASTER.TinNo_Issue_Date,'dd.MM.yyyy') as Comp_DT,  TSPL_LOCATION_MASTER.Add1 +case when len(TSPL_LOCATION_MASTER.Add2)>0 then ', '+TSPL_LOCATION_MASTER.Add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end  + case when len(TSPL_LOCATION_MASTER.Pin_Code    )>3 then ', Pin Code - '+ cast(TSPL_LOCATION_MASTER.Pin_Code as varchar)  else ' ' end as Comp_AddressHead,TSPL_Dispatch_BulkSale.Challan_No,  TSPL_Dispatch_BulkSale.Tanker_Code  TankerNo,TSPL_Dispatch_Detail_BulkSale.Qty  as MilkQty,TSPL_Dispatch_Detail_BulkSale.FatPer  as Fatper,TSPL_Dispatch_Detail_BulkSale.SNFPer  as Snfper, TSPL_Dispatch_Detail_BulkSale.NetMilkRate  as Rate,  TSPL_Dispatch_Detail_BulkSale.Amount  as Amount,TSPL_Dispatch_Detail_BulkSale.CLR ,TSPL_Dispatch_BulkSale.Created_By as CreatedBy,TSPL_Dispatch_BulkSale.Modified_By as ModifiedBy, TSPL_Dispatch_BulkSale.Total_Amt as DocumentAmount,TSPL_Dispatch_Detail_BulkSale.StandardRate ,TSPL_CUSTOMER_MASTER.Tin_No as ConsigneeTinno,isnull(TSPL_CUSTOMER_MASTER.PIN_Code,'') as ConsigneePin,TSPL_Dispatch_BulkSale.EWayBillNo,Convert(varchar,TSPL_Dispatch_BulkSale.EWayBillDate,106) as EWayBillDate   from TSPL_Dispatch_Detail_BulkSale  Left Outer Join TSPL_Dispatch_BulkSale  on TSPL_Dispatch_Detail_BulkSale.Document_No =TSPL_Dispatch_BulkSale.Document_No Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_Dispatch_BulkSale.Comp_Code   left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_Dispatch_BulkSale.tax1   left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_Dispatch_BulkSale.tax2   left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_Dispatch_BulkSale.TAX3  left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_Dispatch_BulkSale.tax4  left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code= TSPL_Dispatch_BulkSale.tax5 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_Dispatch_BulkSale.Location_Code  Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Dispatch_BulkSale.Customer_Code  LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code  LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State  LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_CUSTOMER ON STATEMASTER_CUSTOMER.State_Code=TSPL_CUSTOMER_MASTER.State LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_LOCATION ON STATEMASTER_LOCATION.State_Code=TSPL_LOCATION_MASTER.State  left outer join TSPL_CITY_MASTER as CityMaster on CityMaster.City_Code=TSPL_CUSTOMER_MASTER .City_Code  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_Dispatch_Detail_BulkSale.item_code where TSPL_Dispatch_BulkSale.Document_No ='" + StrCode + "'"
+    '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
+    '        If dt.Rows.Count > 0 Then
+    '            Dim frmCRV As New frmCrystalReportViewer()
+    '            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "Bulkdispath", "Milk Sales Dispatch", "Bulk dispath")
+    '            frmCRV = Nothing
+    '        End If
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 
 
     Private Sub txtStanadardrate_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtStanadardrate.TextChanged
