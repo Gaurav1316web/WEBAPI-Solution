@@ -172,7 +172,7 @@ Public Class FrmBranchAccountMapping
         If gv.CurrentRow.Index >= 0 Then
             If clsCommon.myLen(gv.CurrentRow.Cells(ColFromLocation).Value) <= 0 Then
                 gv.CurrentRow.Cells(ColBranchAccount).Value = ""
-                clsCommon.MyMessageBoxShow("Please select from location first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select from location first", Me.Text)
                 Exit Sub
             End If
 
@@ -231,16 +231,16 @@ Public Class FrmBranchAccountMapping
                     End If
                 Next
                 If arr Is Nothing OrElse arr.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data found.")
+                    clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
                 Else
                     If ClsBranchAccountMapping.SaveData(arr) Then
-                        clsCommon.MyMessageBoxShow("Data saved successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                     End If
                 End If
                 LoadData()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmBranchAccountMapping_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -367,7 +367,7 @@ Public Class FrmBranchAccountMapping
             ReStoreGridLayout()
             gv.Rows.AddNew()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -406,7 +406,7 @@ Public Class FrmBranchAccountMapping
             Dim dtSpan As TimeSpan = dtEnd.Subtract(dtStart)
             clsCommon.MyMessageBoxShow("Minutes: " + clsCommon.myCstr(dtSpan.Minutes) + " and Seconds: " + clsCommon.myCstr(dtSpan.Seconds))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -424,7 +424,7 @@ Public Class FrmBranchAccountMapping
         If gv.Rows.Count > 0 Then
             SaveData()
         Else
-            clsCommon.MyMessageBoxShow("No data found")
+            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End If
 
     End Sub
@@ -610,7 +610,7 @@ Public Class FrmBranchAccountMapping
                 trans.Commit()
                 clsCommon.ProgressBarHide()
 
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 LoadData()
             Catch ex As Exception
                 trans.Rollback()
@@ -632,7 +632,7 @@ Public Class FrmBranchAccountMapping
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
@@ -644,6 +644,6 @@ Public Class FrmBranchAccountMapping
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 End Class

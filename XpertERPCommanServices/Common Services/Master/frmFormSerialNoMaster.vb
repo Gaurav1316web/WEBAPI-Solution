@@ -132,7 +132,7 @@ Public Class FrmFormSerialNoMaster
 
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -159,9 +159,9 @@ Public Class FrmFormSerialNoMaster
 
             If clsFormSerialNoMaster.SaveData(obj, trans) Then
                 If btnsave.Text = "&Save" Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 txtDocNo.Value = obj.docno
                 txtDocNo.MyReadOnly = True
@@ -169,7 +169,7 @@ Public Class FrmFormSerialNoMaster
                 btndelete.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -190,11 +190,11 @@ Public Class FrmFormSerialNoMaster
 
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsFormSerialNoMaster.DeleteData(txtDocNo.Value, trans) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -238,7 +238,7 @@ Public Class FrmFormSerialNoMaster
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -361,10 +361,10 @@ Public Class FrmFormSerialNoMaster
 
 
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)

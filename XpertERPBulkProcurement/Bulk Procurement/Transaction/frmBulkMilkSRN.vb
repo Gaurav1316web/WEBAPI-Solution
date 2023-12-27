@@ -300,7 +300,7 @@ Public Class FrmBulkMilkSRN
                     obj2.GridColumns = gvRange.ColumnCount
                     obj2.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                     If obj2.SaveData() Then
-                        common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                        common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
                     End If
                     ''stuti regarding memory leakage
                     obj2.GridLayout.Close()
@@ -324,7 +324,7 @@ Public Class FrmBulkMilkSRN
         clsGridLayout.DeleteData(MyBase.Form_ID & "gvRange", objCommonVar.CurrentUserCode)
         ''=====================================================
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub mnuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuExit.Click
@@ -1026,9 +1026,9 @@ Public Class FrmBulkMilkSRN
                 If Not isPost Then
                     If isAutoSRN = False Then
                         If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         Else
-                            clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                            clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                         End If
                     End If
                 End If
@@ -1040,7 +1040,7 @@ Public Class FrmBulkMilkSRN
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1169,7 +1169,7 @@ Public Class FrmBulkMilkSRN
 
 
                         If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                            common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                            common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                             Return False
                         End If
 
@@ -1187,7 +1187,7 @@ Public Class FrmBulkMilkSRN
             Next
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1300,7 +1300,7 @@ a:
             If check > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("drop table TEMP_LOC_QC_PARAM")
             End If
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = "select count(*) from INFORMATION_SCHEMA.TABLES where TABLE_NAME='TEMP_LOC_QC_PARAM'"
             check = clsDBFuncationality.getSingleValue(qry)
@@ -1578,7 +1578,7 @@ a:
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1597,7 +1597,7 @@ a:
 
     Sub DeleteData()
         If clsCommon.myLen(fndSRNNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Enter SRN No To delete ")
+            clsCommon.MyMessageBoxShow(Me, "Please Enter SRN No To delete ", Me.Text)
         Else
             'Dim isUsed As Integer = clsDBFuncationality.getSingleValue("select SUM(row_Count ) from (select COUNT(*) as row_Count from  TSPL_Weighment_Detail where gate_entry_no='" & fndGateEntryNO.Value & "' union all select COUNT(*) as row_Count from tspl_quality_check where gate_entry_no='" & fndGateEntryNO.Value & "') xx ")
             'If isUsed > 0 Then
@@ -1658,7 +1658,7 @@ a:
             frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptBulkMilkSRN", "Milk SRN", clsCommon.myCDate(dtpSRNDATE.Value))
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("Please select an invoice to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)
         End If
     End Sub
 
@@ -1720,7 +1720,7 @@ a:
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2414,14 +2414,14 @@ a:
                                 End If
                                 isInsideLoadData = False
                             Catch ex4 As Exception
-                                clsCommon.MyMessageBoxShow(ex4.Message)
+                                clsCommon.MyMessageBoxShow(Me, ex4.Message, Me.Text)
                             End Try
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2539,7 +2539,7 @@ a:
                 End If
                 whrcls += ZeroRate
             Else
-                clsCommon.MyMessageBoxShow("Please select a weighment no ")
+                clsCommon.MyMessageBoxShow(Me, "Please select a weighment no ", Me.Text)
                 Exit Sub
             End If
 
@@ -2580,7 +2580,7 @@ a:
             End If
             OpenPriceChart(True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3262,7 +3262,7 @@ a:
             End If
             isInsideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3283,7 +3283,7 @@ a:
                             OpenPriceChart(False)
                         Else
                             gvItem.Rows(0).Cells(colMilkRate).Value = gvItem.Rows(0).Cells(colStandardRate).Value
-                            clsCommon.MyMessageBoxShow("Invalid Basic Rate.It must be within tolerance of standard rate")
+                            clsCommon.MyMessageBoxShow(Me, "Invalid Basic Rate.It must be within tolerance of standard rate", Me.Text)
                             gvItem.Rows(0).Cells(colMilkRate).EndEdit()
                         End If
 
@@ -3296,7 +3296,7 @@ a:
                             'OpenPriceChartGridWise(True, e.RowIndex)
                         Else
                             gvItem.CurrentRow.Cells(colMilkRate).Value = gvItem.CurrentRow.Cells(colStandardRate).Value
-                            clsCommon.MyMessageBoxShow("Invalid Basic Rate.It must be within tolerance of standard rate")
+                            clsCommon.MyMessageBoxShow(Me, "Invalid Basic Rate.It must be within tolerance of standard rate", Me.Text)
                             gvItem.CurrentRow.Cells(colMilkRate).EndEdit()
                         End If
                     End If
@@ -3305,7 +3305,7 @@ a:
             End If
             isCellValueChangedOpen = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3329,7 +3329,7 @@ a:
             End If
             isCellValueChangedOpen = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3337,12 +3337,12 @@ a:
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsBulkMilkSRN.ReverseAndUnpost(fndSRNNo.Value, True) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndSRNNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3366,7 +3366,7 @@ a:
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3438,7 +3438,7 @@ a:
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3451,7 +3451,7 @@ a:
     End Sub
 
     Sub printPoData()
-        clsCommon.MyMessageBoxShow("No Print Format Found")
+        clsCommon.MyMessageBoxShow(Me, "No Print Format Found", Me.Text)
     End Sub
 
     Sub SetParameterRange(ByVal intRow As Integer)
@@ -3591,7 +3591,7 @@ a:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3609,12 +3609,12 @@ a:
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsBulkMilkSRN.ReverseAndUnpost(fndSRNNo.Value, False) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndSRNNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

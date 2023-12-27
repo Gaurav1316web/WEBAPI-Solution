@@ -1827,6 +1827,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                             ElseIf (dblPreviousTDSAmt + appAmt) >= clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")) AndAlso clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")) > 0 Then
                                 isApplyTDS = True
                                 appAmt = ((dblPreviousTDSAmt + appAmt) - clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")))
+                                dblPreviousTDSAmt = 0
                                 TaxableAmt = appAmt
                                 TotalAmt = appAmt
                             End If

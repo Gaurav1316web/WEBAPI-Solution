@@ -24,7 +24,7 @@ Public Class FrmPOSGRoupMaster
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -71,13 +71,13 @@ Public Class FrmPOSGRoupMaster
                 obj.DOC_DATE = clsCommon.GetPrintDate(dtDocDate.Text, "dd/MMM/yyyy")
                 Dim IsNew As Boolean = IIf((clsCommon.CompairString(clsCommon.myCstr(txtCode.Value), "") = CompairStringResult.Equal), True, False)
                 If (obj.SaveData(obj, IsNew)) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
                     obj.GetData(obj.GROUP_CODE, NavigatorType.Current)
                     txtCode.Value = obj.GROUP_CODE
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -88,12 +88,12 @@ Public Class FrmPOSGRoupMaster
     Sub funDelete()
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+                common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
                 Exit Sub
             End If
             If (myMessages.deleteConfirm()) Then
                 If (clsPOSGroupMaster.Delete(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     FunReset()
                 End If
             End If
@@ -119,22 +119,22 @@ Public Class FrmPOSGRoupMaster
 
     Public Function AllowToSave() As Boolean
         If clsCommon.myLen(txtdesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Fill the Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Description", Me.Text)
             txtdesc.Focus()
             Return False
         End If
         If clsCommon.myLen(dtDocDate.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Fill the Doc Date")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Doc Date", Me.Text)
             dtDocDate.Focus()
             Return False
         End If
         If clsCommon.CompairString(clsCommon.myCdbl(txtLevel.Value), 0) = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Level will be greater than 0.")
+            clsCommon.MyMessageBoxShow(Me, "Level will be greater than 0.", Me.Text)
             txtLevel.Focus()
             Return False
         End If
         If clsCommon.myLen(txtLevel.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Fill the Level")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Level", Me.Text)
             txtLevel.Focus()
             Return False
         End If

@@ -133,9 +133,9 @@ Public Class FrmCleaning
                 trans.Commit()
                 If Not isPost Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 loadData(obj.Doc_No, NavigatorType.Current)
@@ -149,7 +149,7 @@ Public Class FrmCleaning
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
@@ -176,18 +176,18 @@ Public Class FrmCleaning
                         If clsCleaning.deleteData(fndDocNo.Value, trans) Then
                             trans.Commit()
                             reset()
-                            clsCommon.MyMessageBoxShow(Me, "Deleted Successfully")
+                            clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                         Else
-                            clsCommon.MyMessageBoxShow(Me, "Could Not Deleted. Try Again")
+                            clsCommon.MyMessageBoxShow(Me, "Could Not Deleted. Try Again", Me.Text)
                             trans.Rollback()
                         End If
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "Please select a Cleaning Document No To delete")
+                clsCommon.MyMessageBoxShow(Me, "Please select a Cleaning Document No To delete", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -235,7 +235,7 @@ Public Class FrmCleaning
                 loadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub frmCleaning_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -268,7 +268,7 @@ Public Class FrmCleaning
         PostData()
     End Sub
     Sub PrintData()
-        clsCommon.MyMessageBoxShow(Me, "No Print Format Found")
+        clsCommon.MyMessageBoxShow(Me, "No Print Format Found", Me.Text)
     End Sub
     Private Sub btnPrint_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         PrintData()
@@ -372,7 +372,7 @@ Public Class FrmCleaning
             'End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -590,7 +590,7 @@ Public Class FrmCleaning
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

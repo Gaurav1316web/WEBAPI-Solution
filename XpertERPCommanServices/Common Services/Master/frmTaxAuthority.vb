@@ -259,7 +259,7 @@ Public Class frmTaxAuthority
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtnetpay.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Account does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Account does not exist in Master Table", Me.Text)
                     fndnetpay.Value = ""
                 End If
             Catch ex As Exception
@@ -500,7 +500,7 @@ Public Class frmTaxAuthority
             End If
 
         Catch exx As Exception
-            clsCommon.MyMessageBoxShow(exx.Message)
+            clsCommon.MyMessageBoxShow(Me, exx.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -509,7 +509,7 @@ Public Class frmTaxAuthority
     End Sub
     Public Sub DeleteData()
         If clsCommon.myLen(findTaxAuthority.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm() Then
@@ -834,7 +834,7 @@ Public Class frmTaxAuthority
         If (findTaxRelAcc.Value <> String.Empty) Then
             sql = "select Description  from TSPL_GL_Accounts Where Account_code='" + findTaxRelAcc.Value + "'"
             If connectSql.RunScalar(sql) Is Nothing Then
-                common.clsCommon.MyMessageBoxShow("Tax Liability Account not found.")
+                common.clsCommon.MyMessageBoxShow(Me, "Tax Liability Account not found.", Me.Text)
                 findTaxRelAcc.Focus()
                 Return False
             End If
@@ -907,7 +907,7 @@ Public Class frmTaxAuthority
                     Dim Amount As Double
                     Amount = clsCommon.myCdbl(txtRecoverRate.Value) + clsCommon.myCdbl(txtRecovRate2.Value) + clsCommon.myCdbl(txtRecovRate3.Value) + clsCommon.myCdbl(txtRecovRate4.Value) + clsCommon.myCdbl(txtRecovRate5.Value)
                     If Amount <> Convert.ToDouble(100.0) Then
-                        common.clsCommon.MyMessageBoxShow("Sum of Recoverable Rate should be equal to 100")
+                        common.clsCommon.MyMessageBoxShow(Me, "Sum of Recoverable Rate should be equal to 100", Me.Text)
                         Return False
                     Else
 

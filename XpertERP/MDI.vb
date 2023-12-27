@@ -349,7 +349,7 @@ Public Class MDI
             connectSql.strConn = clsDBFuncationality.connectionString
             lblServerDate.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy hh:mm tt")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -508,7 +508,7 @@ Public Class MDI
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isAutoClosing = True
             Me.Close()
             Return False
@@ -8292,6 +8292,10 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDBTMilkPayment
                         frm = New rptDBTMilkPayment
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptMilkPaymentSummary
+                        frm = New rptMilkPaymentSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
                     Case clsUserMgtCode.frmPaymentProcessFarmer

@@ -93,12 +93,12 @@ Public Class frmModuleCurrencyMapping
                     End If
                 Next
                 If (clsModuleCurrencyMapping.SaveData(Arr)) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     LoadData()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -122,7 +122,7 @@ Public Class frmModuleCurrencyMapping
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try

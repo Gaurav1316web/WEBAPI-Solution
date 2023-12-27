@@ -164,7 +164,7 @@ Public Class frmDemand_Sheet
 
                             FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
 
-
+                        'GenerateLineNo()
                         'UpdateCurrentRow(gv1.CurrentRow.Index)
                     End If
                     If e.Column.Name = colSetZero Then
@@ -186,18 +186,15 @@ Public Class frmDemand_Sheet
         End Try
     End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+        Dim obj As New clsDemandSheet()
+        obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
+        obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
+        obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
+        obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
+        obj.ShiftType = txtShift.Text
         If gv1.Rows(IntRowNo).Cells(colSetZero).Value = 0 Then
             For dbColumn As Integer = 4 To gv1.Columns.Count - 1
                 gv1.Rows(IntRowNo).Cells(dbColumn).Value = "0"
-            Next
-        Else
-            If gv1.Rows(IntRowNo).Cells(colCustCode).Value <> "" Then
-                Dim obj As New clsDemandSheet()
-                obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
-                obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
-                obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
-                obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
-                obj.ShiftType = txtShift.Text
                 Dim k As Integer = 1
                 For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -212,7 +209,28 @@ Public Class frmDemand_Sheet
                                 Catch ex As Exception
                                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                                 End Try
-                            ElseIf clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
+
+                            End If
+                        End If
+                    End If
+                Next
+            Next
+        Else
+            If gv1.Rows(IntRowNo).Cells(colCustCode).Value <> "" Then
+                'Dim obj As New clsDemandSheet()
+                'obj.DEMAND_Date = clsCommon.GetPrintDate(txtDate.Value)
+                'obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
+                'obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
+                'obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
+                'obj.ShiftType = txtShift.Text
+                Dim k As Integer = 1
+                For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                    k = k + 1
+                    If obj1 IsNot Nothing Then
+                        If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
+                            obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
+                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
                                 obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
                                 Try
                                     Dim status As Boolean = obj.SaveData(obj)
@@ -469,19 +487,19 @@ Public Class frmDemand_Sheet
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    'Private Sub GvRowFridge()
-    '    Try
-    '        If gv1.Rows.Count > 2 Then
-    '            For rowcount As Integer = 0 To gv1.Rows.Count - 3
-    '                For colcount As Integer = 0 To gv1.Columns.Count - 1
-    '                    gv1.Rows(rowcount).Cells(colcount).ReadOnly = True
-    '                Next
-    '            Next
-    '        End If
-    '    Catch ex As Exception
-    '        Throw New Exception(ex.Message)
-    '    End Try
-    'End Sub
+    Private Sub GvRowFridge()
+        Try
+            If gv1.Rows.Count > 2 Then
+                For rowcount As Integer = 0 To gv1.Rows.Count - 3
+                    For colcount As Integer = 0 To gv1.Columns.Count - 1
+                        gv1.Rows(rowcount).Cells(colcount).ReadOnly = True
+                    Next
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Export(EnumExportTo.Excel)
     End Sub
@@ -662,7 +680,7 @@ Public Class frmDemand_Sheet
                 If clsCommon.myLen(CustCode) > 0 Then
                     If clsCommon.CompairString(gv1.Rows(dblrows).Cells(colCustCode).Value, CustCode) = CompairStringResult.Equal Then
                         gv1.Rows.Remove(gv1.Rows(dblrows))
-
+                        GenerateLineNo()
                         Return True
                     End If
                 End If
@@ -683,5 +701,12 @@ Public Class frmDemand_Sheet
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub GenerateLineNo()
+        Dim count As Integer = 1
+        For Each grow As GridViewRowInfo In gv1.Rows
+            grow.Cells(colLineNo).Value = count
+            count += 1
+        Next
     End Sub
 End Class

@@ -448,7 +448,7 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -504,9 +504,9 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
                 If clsfrmCustomerRouteShiftMaster.SaveData(obj.docno, arr, trans) Then
                     fndcode.Value = arr(0).docno
                     If clsCommon.CompairString(btnsave.Text, "&Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                     btnsave.Text = "&Update"
                     btndelete.Enabled = True
@@ -531,7 +531,7 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -541,7 +541,7 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(fndcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Doc Code For Deletion", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Doc Code For Deletion", Me.Text)
             fndcode.Focus()
             fndcode.Select()
             Errorcontrol.SetError(fndcode, "Please Select Doc Code For Deletion")
@@ -557,11 +557,11 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
         Try
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsfrmCustomerRouteShiftMaster.DeleteData(clsCommon.myCstr(fndcode.Value), trans) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -825,11 +825,11 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
                 clsCommon.ProgressBarHide()
                 trans.Commit()
                 Reset()
-                clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv1)
@@ -862,7 +862,7 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
 
     Sub OpenRouteMaster()
         If clsCommon.myLen(clsCommon.myCstr(gv.CurrentRow.Cells(colCustcode).Value)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select First Customer Code/Name", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select First Customer Code/Name", Me.Text)
             Return
         End If
 
@@ -984,7 +984,7 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

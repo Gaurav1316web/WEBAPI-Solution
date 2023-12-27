@@ -76,7 +76,7 @@ Public Class frmLocationLogin
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -112,12 +112,12 @@ Public Class frmLocationLogin
                 LoadData()
             End If
             If isSaved Then
-                clsCommon.MyMessageBoxShow("Location Settings Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Location Settings Saved Successfully", Me.Text)
             End If
 
            
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

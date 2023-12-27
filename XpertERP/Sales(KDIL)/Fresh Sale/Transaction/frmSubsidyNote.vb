@@ -69,7 +69,7 @@ Public Class frmSubsidyNote
                 LblLocDesp.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -128,11 +128,11 @@ Public Class frmSubsidyNote
             trans.Commit()
             fillData(EntryNo)
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                clsCommon.MyMessageBoxShow("Data Saved", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved", Me.Text)
             End If
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub fillData(ByVal EntryNo As String)
@@ -273,7 +273,7 @@ Public Class frmSubsidyNote
             fillData(txtDocNo.Value)
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating

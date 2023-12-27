@@ -113,7 +113,7 @@ Public Class frmCustomFieldEditor
                 Next
             End If
             If clsCustomFieldMapping.SaveData(obj) Then
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 LoadData(obj.Custom_Field_Code, obj.Program_Code)
             End If
         Catch ex As Exception
@@ -131,7 +131,7 @@ Public Class frmCustomFieldEditor
                 If clsCommon.MyMessageBoxShow("Sure to Delete ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     trans = clsDBFuncationality.GetTransactin()
                     If clsCustomFieldMapping.DeleteData(fndCustomFieldName.Value, formId, trans) Then
-                        clsCommon.MyMessageBoxShow("Record Deleted Successfully.")
+                        clsCommon.MyMessageBoxShow(Me, "Record Deleted Successfully.", Me.Text)
                         trans.Commit()
                     End If
                 End If
@@ -226,7 +226,7 @@ Public Class frmCustomFieldEditor
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -446,7 +446,7 @@ Public Class frmCustomFieldEditor
             checkDuplicateRows(gv3)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -640,7 +640,7 @@ Public Class frmCustomFieldEditor
             GC.Collect()
             GC.WaitForPendingFinalizers()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -648,7 +648,7 @@ Public Class frmCustomFieldEditor
         Try
             DeleteData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -658,7 +658,7 @@ Public Class frmCustomFieldEditor
                 SaveData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -723,7 +723,7 @@ Public Class frmCustomFieldEditor
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -742,7 +742,7 @@ Public Class frmCustomFieldEditor
                 fndReferenceTable.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -780,7 +780,7 @@ Public Class frmCustomFieldEditor
                 RadPageView1.SelectedPage = RadPageView1.Pages("RadPageViewPage1")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -796,7 +796,7 @@ Public Class frmCustomFieldEditor
                 gv3.Rows.Clear()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -816,7 +816,7 @@ Public Class frmCustomFieldEditor
             GC.Collect()
             GC.WaitForPendingFinalizers()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -825,7 +825,7 @@ Public Class frmCustomFieldEditor
             Dim qry As String = "SELECT  UPPER (TABLE_NAME ) as TABLE_NAME FROM INFORMATION_SCHEMA.TABLES  "
             fndReferenceTable.Value = clsCommon.ShowSelectForm("TableList", qry, "TABLE_NAME", "TABLE_TYPE='BASE TABLE'", fndReferenceTable.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -839,20 +839,20 @@ Public Class frmCustomFieldEditor
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub fndFieldName__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndFieldName._MYValidating
         Try
             If clsCommon.myLen(fndReferenceTable.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Table First")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Table First", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select  upper(sys.columns.Name) as FieldName from sys.columns inner join sys.tables on sys.tables.object_id=sys.columns.object_id   "
             fndFieldName.Value = clsCommon.ShowSelectForm("FiledList", qry, "FieldName", "sys.tables.name='" & fndReferenceTable.Value & "'", fndFieldName.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -860,7 +860,7 @@ Public Class frmCustomFieldEditor
         Try
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function LoadConditionType() As DataTable
@@ -1076,7 +1076,7 @@ Public Class frmCustomFieldEditor
                 RadPageView1.SelectedPage = RadPageView1.Pages("RadPageViewPage1")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

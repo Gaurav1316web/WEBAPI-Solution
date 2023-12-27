@@ -77,13 +77,13 @@ Public Class FrmAdditionalCharges
     End Sub
     Function AllowToSave() As Boolean
         If clsCommon.myLen(fndCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Code", Me.Text)
             fndCode.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtGLAccount.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Account")
+            common.clsCommon.MyMessageBoxShow(Me, "Me,Please select Account", Me.Text)
             txtGLAccount.Focus()
             Return False
         End If
@@ -91,7 +91,7 @@ Public Class FrmAdditionalCharges
         If GstApplicable Then
             If chkServiceType.Checked = True Then
                 If clsCommon.myLen(fndSACcode.Value) <= 0 Then '
-                    common.clsCommon.MyMessageBoxShow("Please select SAC Code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select SAC Code", Me.Text)
                     fndSACcode.Focus()
                     Return False
                 End If
@@ -101,7 +101,7 @@ Public Class FrmAdditionalCharges
     End Function
     Sub SaveData()
         If clsCommon.myLen(fndCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(" Account Code can not be left blank ")
+            common.clsCommon.MyMessageBoxShow(Me, " Account Code can not be left blank ", Me.Text)
             fndCode.Focus()
             Exit Sub
         End If
@@ -153,10 +153,10 @@ Public Class FrmAdditionalCharges
                 obj.Is_Insurance = chkInsurance.Checked
                 If (obj.SaveData(obj, isNewEntry)) Then
                     If btnSave.Text = "Save" Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         btnSave.Text = "Update"
                     Else
-                        common.clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
 
                     LoadData(obj.Code, NavigatorType.Current)
@@ -167,7 +167,7 @@ Public Class FrmAdditionalCharges
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -217,7 +217,7 @@ Public Class FrmAdditionalCharges
                 btnSave.Text = "Update"
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -229,12 +229,12 @@ Public Class FrmAdditionalCharges
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsAdditionalCharge.DeleteData(fndCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -289,7 +289,7 @@ Public Class FrmAdditionalCharges
         Try
             LoadData(fndCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -591,7 +591,7 @@ Public Class FrmAdditionalCharges
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Additional Charges Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Additional Charges Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndCode.Value, "Code", "tspl_Additional_Charges")

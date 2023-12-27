@@ -302,7 +302,7 @@ Public Class frmMilkShiftUploaderUCDF
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -375,7 +375,7 @@ Public Class frmMilkShiftUploaderUCDF
                 txtVLC.Focus()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -534,7 +534,7 @@ Public Class frmMilkShiftUploaderUCDF
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -547,11 +547,11 @@ Public Class frmMilkShiftUploaderUCDF
             End If
             If clsCommon.MyMessageBoxShow("Delete the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsMilkShiftUploaderHead.DeleteData(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Data delete successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data delete successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -566,11 +566,11 @@ Public Class frmMilkShiftUploaderUCDF
                 Else
                     clsMilkShiftUploaderHead.PostData(txtDocNo.Value)
                 End If
-                clsCommon.MyMessageBoxShow("Data posted successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -763,7 +763,7 @@ Public Class frmMilkShiftUploaderUCDF
     Private Sub BulkDelete_Click(sender As Object, e As EventArgs) Handles BulkDelete.Click
         If TxtMultiSelectFinder8.arrValueMember Is Nothing OrElse TxtMultiSelectFinder8.arrValueMember.Count < 0 Then
             TxtMultiSelectFinder8.Focus()
-            clsCommon.MyMessageBoxShow("Please First select MCC")
+            clsCommon.MyMessageBoxShow(Me, "Please First select MCC", Me.Text)
         End If
 
 
@@ -864,10 +864,10 @@ Public Class frmMilkShiftUploaderUCDF
             Next
 
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -971,7 +971,7 @@ Public Class frmMilkShiftUploaderUCDF
                 clsCommon.MyMessageBoxShow(Me, "Row not found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -156,7 +156,7 @@ Public Class frmSettingDetails
     Private Sub btnGO_Click(sender As Object, e As EventArgs) Handles btnGO.Click
         Try
             If cboModule.SelectedValue = "" Then
-                clsCommon.MyMessageBoxShow("Please select Module First ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Module First ", Me.Text)
                 Exit Sub
                 'ElseIf cboScreen.SelectedValue = "" Then
                 '    clsCommon.MyMessageBoxShow("Please select Screen First ", Me.Text)
@@ -164,7 +164,7 @@ Public Class frmSettingDetails
             End If
             LoadSettings()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

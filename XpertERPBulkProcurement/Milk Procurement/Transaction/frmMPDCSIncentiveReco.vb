@@ -950,7 +950,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         Try
             If (deleteConfirm()) Then
                 If (clsMPDCSInsentiveReco.DeleteData(txtDocumentNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -1302,7 +1302,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
 
                 Next
             Else
-                clsCommon.MyMessageBoxShow("Data Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If
         Catch ex As Exception
             loadBlankGrid()
@@ -1424,7 +1424,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
             '    LoadData(txtDocNo.Value, NavigatorType.Current)
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

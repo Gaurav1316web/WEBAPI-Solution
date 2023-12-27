@@ -196,7 +196,7 @@ Public Class frmNewDCSScreen
                 obj.PanNo = txtPanNo.Text
                 obj.LoyaltyRate = txtLoyaltyRate.Text
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     'LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
@@ -214,7 +214,7 @@ Public Class frmNewDCSScreen
                 Throw New Exception("Select DCS Code")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True

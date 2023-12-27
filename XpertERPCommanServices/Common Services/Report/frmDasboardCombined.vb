@@ -48,7 +48,7 @@ Public Class frmDasboardCombined
             SetTabNmae()
             TabHideVisible()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetTabNmae()
@@ -208,10 +208,10 @@ Public Class frmDasboardCombined
                 arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(dtpFromDate_Back_Cash_Book.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate_Bank_Cash_Book.Value, "dd/MM/yyyy"))
                 transportSql.QuickExportToExcel(gv3, "", "Bank Cash Book", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -228,7 +228,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv3, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -249,7 +249,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "Bank_Cash_Book"
                 clsCommon.MyExportToPDF("Bank Cash Book", gv3, arrHeader, "Bank Cash Book", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -322,10 +322,10 @@ Public Class frmDasboardCombined
                 arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(dtpFromDate_Procurement.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate_Procurement.Value, "dd/MM/yyyy"))
                 transportSql.QuickExportToExcel(gv_Procurement, "", "Procurement Milk Purchase", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -342,7 +342,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv_Procurement, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -364,7 +364,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "Procurement"
                 clsCommon.MyExportToPDF("Procurement Milk Purchase", gv_Procurement, arrHeader, "Procurement Milk Purchase", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -382,10 +382,10 @@ Public Class frmDasboardCombined
                 arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(dtpFromDate_MilkRec.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate_MilkRec.Value, "dd/MM/yyyy"))
                 transportSql.QuickExportToExcel(gv_MilkReceived, "", "Milk Received at Factory", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -402,7 +402,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv_MilkReceived, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -424,7 +424,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "MilkReceived"
                 clsCommon.MyExportToPDF("Milk Received at Factory", gv_MilkReceived, arrHeader, "Milk Received at Factory", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -579,10 +579,10 @@ Public Class frmDasboardCombined
                 'transportSql.QuickExportToExcel(gv_MilkSale, "", "Milk Sale", , arrHeader)
                 transportSql.exportdata(gv_MilkSale, "", "Milk Sale", , arrHeader, False, False, True)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -599,7 +599,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv_MilkSale, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -643,10 +643,10 @@ Public Class frmDasboardCombined
                 'transportSql.QuickExportToExcel(gv_ProductSale, "", "Product Sale", , arrHeader)
                 transportSql.exportdata(gv_ProductSale, "", "Product Sale", , arrHeader, False, False, True)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -663,7 +663,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv_ProductSale, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -685,7 +685,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "ProductSale"
                 clsCommon.MyExportToPDF("Product Sale", gv_ProductSale, arrHeader, "Product Sale", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -707,10 +707,10 @@ Public Class frmDasboardCombined
                 arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(dtpFromDate_Transport.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate_Transport.Value, "dd/MM/yyyy"))
                 transportSql.QuickExportToExcel(gvTransportcost, "", "Transport Costing", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -727,7 +727,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gvTransportcost, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -749,7 +749,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "Transport_cost"
                 clsCommon.MyExportToPDF("Transport Costing", gvTransportcost, arrHeader, "Transport Costing", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -765,10 +765,10 @@ Public Class frmDasboardCombined
                 arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(dtpFromDate_Store.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate_Store.Value, "dd/MM/yyyy"))
                 transportSql.QuickExportToExcel(gv_store, "", "Store Report", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -785,7 +785,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv_store, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -807,7 +807,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "StoreReport"
                 clsCommon.MyExportToPDF("Store Report", gv_store, arrHeader, "Store Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -829,10 +829,10 @@ Public Class frmDasboardCombined
                 arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(dtpFromDate_Store.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate_Store.Value, "dd/MM/yyyy"))
                 transportSql.QuickExportToExcel(gv_po, "", "PO Report", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -849,7 +849,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv_po, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -871,7 +871,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "StoreReport"
                 clsCommon.MyExportToPDF("PO Report", gv_po, arrHeader, "PO Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -888,10 +888,10 @@ Public Class frmDasboardCombined
                 arrHeader.Add("Period : " + clsCommon.myCstr(ddlProvMonth.Text) + " - " + clsCommon.myCstr(Year(dtpProvYear.Value)) + "")
                 transportSql.QuickExportToExcel(gv4, "", "Vehicle Utilization", , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -908,7 +908,7 @@ Public Class frmDasboardCombined
             End If
             Dim filecount As Integer = ExportCSVMultipleFile(gv4, filePath, True)
             If filecount <= 1 Then
-                clsCommon.MyMessageBoxShow("Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
                 clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
@@ -929,7 +929,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "Vehicle_Utilization"
                 clsCommon.MyExportToPDF("Vehicle Utilization", gv4, arrHeader, "Vehicle Utilization", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -1013,7 +1013,7 @@ Public Class frmDasboardCombined
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1084,7 +1084,7 @@ Public Class frmDasboardCombined
                 'clsCommon.MyMessageBoxShow("Record Not Found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadVehicle()
@@ -1163,7 +1163,7 @@ Public Class frmDasboardCombined
                 'clsCommon.MyMessageBoxShow("Record Not Found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadProcuremntData()
@@ -1442,7 +1442,7 @@ Public Class frmDasboardCombined
                 'clsCommon.MyMessageBoxShow("Record Not Found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub MilkReceivedAtFactory()
@@ -1746,7 +1746,7 @@ Public Class frmDasboardCombined
                 'clsCommon.MyMessageBoxShow("Record Not Found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1913,7 +1913,7 @@ Public Class frmDasboardCombined
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2082,7 +2082,7 @@ Public Class frmDasboardCombined
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2142,10 +2142,10 @@ Public Class frmDasboardCombined
 
                 gvTransportcost.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Else
-                clsCommon.MyMessageBoxShow("Record Not Found.")
+                clsCommon.MyMessageBoxShow(Me, "Record Not Found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2264,11 +2264,11 @@ Public Class frmDasboardCombined
             End If
 
             If gv_po.Rows.Count() = 0 AndAlso gv_store.Rows.Count() = 0 Then
-                clsCommon.MyMessageBoxShow("Record Not Found.")
+                clsCommon.MyMessageBoxShow(Me, "Record Not Found.", Me.Text)
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2601,7 +2601,7 @@ Public Class frmDasboardCombined
             End If
             gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2681,7 +2681,7 @@ Public Class frmDasboardCombined
             '    End If
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

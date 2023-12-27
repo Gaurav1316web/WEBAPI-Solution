@@ -40,14 +40,14 @@ Public Class frmRevenueVillageMaster
             'End If
 
             If clsCommon.myLen(txtName.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Revenue Village Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Revenue Village Name", Me.Text)
                 txtName.Focus()
                 txtName.Select()
                 Return False
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -67,7 +67,7 @@ Public Class frmRevenueVillageMaster
             obj.name = clsCommon.myCstr(txtName.Text).Replace("'", "`")
 
             If clsRevenueVillageMaster.SaveData(obj, txtCode.Value) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
                 txtCode.Value = obj.code
@@ -78,7 +78,7 @@ Public Class frmRevenueVillageMaster
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -89,7 +89,7 @@ Public Class frmRevenueVillageMaster
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Revenue Village Code For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Revenue Village Code For Deletion", Me.Text)
                 Return
             End If
 
@@ -104,10 +104,10 @@ Public Class frmRevenueVillageMaster
 
                 Reset()
             Else
-                clsCommon.MyMessageBoxShow("No Record Found For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Record Found For Deletion", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -158,7 +158,7 @@ Public Class frmRevenueVillageMaster
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -179,7 +179,7 @@ Public Class frmRevenueVillageMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -460,7 +460,7 @@ Public Class FrmCustomFieldMaster
         End If
     End Sub
     Sub test()
-        clsCommon.MyMessageBoxShow("Hi")
+        clsCommon.MyMessageBoxShow(Me, "Hi", Me.Text)
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SaveData()
@@ -529,12 +529,12 @@ Public Class FrmCustomFieldMaster
                     End If
                 End If
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -583,7 +583,7 @@ Public Class FrmCustomFieldMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -688,7 +688,7 @@ Public Class FrmCustomFieldMaster
             checkDuplicateRows(gv3)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -708,7 +708,7 @@ Public Class FrmCustomFieldMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -765,7 +765,7 @@ Public Class FrmCustomFieldMaster
 
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
 
-        clsCommon.MyMessageBoxShow("Under Development")
+        clsCommon.MyMessageBoxShow(Me, "Under Development", Me.Text)
         'Dim gv As New RadGridView()
         'Me.Controls.Add(gv)
         'Dim currentdate As Date = Date.Today
@@ -866,7 +866,7 @@ Public Class FrmCustomFieldMaster
         'transportSql.ExporttoExcel(str, Me)
 
 
-        clsCommon.MyMessageBoxShow("Under Development")
+        clsCommon.MyMessageBoxShow(Me, "Under Development", Me.Text)
     End Sub
 
     Private Sub MenuItemClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemClose.Click
@@ -879,12 +879,12 @@ Public Class FrmCustomFieldMaster
         Try
             If clsCustomFieldHead.DeleteData(txtCode.Value, trans) Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

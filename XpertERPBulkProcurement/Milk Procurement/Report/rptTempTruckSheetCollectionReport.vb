@@ -108,13 +108,13 @@ order by ROUTE_CODE asc "
                 Gv1.Columns(Gv1.Columns.Count - 1).PinPosition = PinnedColumnPosition.Right
                 ControlEnableDisable(False)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             ReStoreGridLayout()
             'View()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormationOFGV1()
@@ -243,7 +243,7 @@ order by ROUTE_CODE asc "
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -262,7 +262,7 @@ order by ROUTE_CODE asc "
                 clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -278,7 +278,7 @@ order by ROUTE_CODE asc "
                 clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

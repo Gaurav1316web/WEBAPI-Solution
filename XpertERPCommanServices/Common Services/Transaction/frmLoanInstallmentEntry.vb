@@ -19,7 +19,7 @@ Public Class frmLoanInstallmentEntry
             SetUserMgmtNew()
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -83,7 +83,7 @@ Public Class frmLoanInstallmentEntry
             btndelete.Enabled = True
             txtloanDocNo.Enabled = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -176,11 +176,11 @@ Public Class frmLoanInstallmentEntry
 
 
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Installment_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -205,7 +205,7 @@ Public Class frmLoanInstallmentEntry
                 LoadLoanData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -213,11 +213,11 @@ Public Class frmLoanInstallmentEntry
         Try
             If (myMessages.postConfirm()) Then
                 clsLoanInstallmentEntry.PostData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -234,7 +234,7 @@ Public Class frmLoanInstallmentEntry
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 clsLoanInstallmentEntry.DeleteData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
@@ -273,7 +273,7 @@ Public Class frmLoanInstallmentEntry
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -335,7 +335,7 @@ Public Class frmLoanInstallmentEntry
                 txtRemarks.Text = obj.Remarks
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

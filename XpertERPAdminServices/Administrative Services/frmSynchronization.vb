@@ -174,7 +174,7 @@ Public Class frmSynchronization
 
             Next
             If (obj.SaveData(obj)) AndAlso (obj1.SaveData(obj1)) AndAlso objSync.SaveData(objList) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData()
             End If
 
@@ -258,7 +258,7 @@ Public Class frmSynchronization
             txtClientPassword.Focus()
             Return False
         ElseIf clsCommon.CompairString(txtClientPassword.Text, txtClientRetypePWD.Text, True) <> CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Client Password and Client Retype Password must be same")
+            clsCommon.MyMessageBoxShow(Me, "Client Password and Client Retype Password must be same", Me.Text)
             txtClientPassword.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerNameIP.Text) <= 0 Then
@@ -282,7 +282,7 @@ Public Class frmSynchronization
             txtServerPassword.Focus()
             Return False
         ElseIf clsCommon.CompairString(txtServerPassword.Text, txtServerRetypePassword.Text, True) <> CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Server Password and Server Retype Password must be same")
+            clsCommon.MyMessageBoxShow(Me, "Server Password and Server Retype Password must be same", Me.Text)
             txtClientPassword.Focus()
             Return False
         End If
@@ -298,7 +298,7 @@ Public Class frmSynchronization
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsHostSettings.DeleteData("Client")) AndAlso (clsHostSettings.DeleteData("Server")) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -424,7 +424,7 @@ Public Class frmSynchronization
 
     Private Sub rdbNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbNext.Click
         If gvSourceTables.SelectedRows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Select any source table")
+            clsCommon.MyMessageBoxShow(Me, "Select any source table", Me.Text)
             Exit Sub
         Else
             For Each grow As GridViewRowInfo In gvSourceTables.SelectedRows
@@ -450,7 +450,7 @@ Public Class frmSynchronization
 
     Private Sub btnBack_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBack.Click
         If gvTargetTables.SelectedRows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Select any target table")
+            clsCommon.MyMessageBoxShow(Me, "Select any target table", Me.Text)
             Exit Sub
         Else
             For Each grow As GridViewRowInfo In gvTargetTables.SelectedRows
@@ -477,10 +477,10 @@ Public Class frmSynchronization
             conn.Open()
             conn.Close()
             'status = cm.ExecuteNonQuery()
-            clsCommon.MyMessageBoxShow("Test connection succeed")
+            clsCommon.MyMessageBoxShow(Me, "Test connection succeed", Me.Text)
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -556,7 +556,7 @@ Public Class frmSynchronization
             End If
 
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Data Syncronized successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Syncronized successfully", Me.Text)
             ' Ticket No : UDL/24/09/18-000222 By Prabhakar Anand
             If clsCommon.CompairString(_Type, "Price") = CompairStringResult.Equal Then
                 SendSMS(Nothing, "Price synced successfully")
@@ -568,7 +568,7 @@ Public Class frmSynchronization
             End If
 
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Dim objWriter As New System.IO.StreamWriter(logFile, True)
             objWriter.WriteLine("Error in synchronization : " & ex.Message & " at " & Now & "")
             If clsCommon.CompairString(_Type, "Price") = CompairStringResult.Equal Then
@@ -699,10 +699,10 @@ Public Class frmSynchronization
 
             Next
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Data Syncronized successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Syncronized successfully", Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Dim objWriter As New System.IO.StreamWriter(logFile, True)
             objWriter.WriteLine("Error in synchronization : " & ex.Message & " at " & Now & "")
             objWriter.Close()
@@ -717,7 +717,7 @@ Public Class frmSynchronization
             LoadTargetTables()
             clsCommon.MyMessageBoxShow("" & intCount & " tables updated successfully")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

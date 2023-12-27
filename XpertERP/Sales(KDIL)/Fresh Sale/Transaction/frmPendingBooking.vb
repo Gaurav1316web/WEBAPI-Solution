@@ -142,7 +142,7 @@ Public Class frmPendingBooking
             If clsCommon.myLen(VendorName) > 0 Then
                 common.clsCommon.MyMessageBoxShow("No record found for Customer " + VendorName + "")
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.")
+                common.clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
             End If
             Me.Close()
         End If
@@ -446,7 +446,7 @@ Public Class frmPendingBooking
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Booking item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Booking item", Me.Text)
         Else
             Me.Close()
         End If

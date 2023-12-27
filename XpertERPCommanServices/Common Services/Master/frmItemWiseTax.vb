@@ -305,14 +305,14 @@ Public Class FrmItemWiseTax
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_ITEM_MASTER where Item_Code='" + strItemCode + "'"))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid Item Code at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
 
                 If clsCommon.myLen(strTaxGroupCode) <= 0 And clsCommon.myLen(strSno) > 0 Then
                     Dim Msg As String = "Tax Group Code Can not be blank at Row No " + clsCommon.myCstr(ii + 1)
-                    common.clsCommon.MyMessageBoxShow(Msg)
+                    common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                     Return False
                 End If
 
@@ -321,7 +321,7 @@ Public Class FrmItemWiseTax
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_GROUP_DETAILS where Tax_Group_Type = '" + ddlTransType.SelectedValue + "' and Tax_Group_Code = '" + strGroupcodeChk + "'"))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid Tax Group Code at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -331,7 +331,7 @@ Public Class FrmItemWiseTax
                         Dim strCountDupicate As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select count(*) from TSPL_ITEM_WISE_TAX_GROUP  inner join  TSPL_ITEM_WISE_TAX on TSPL_ITEM_WISE_TAX_GROUP.HCODE =TSPL_ITEM_WISE_TAX.HCODE where  convert(varchar, TSPL_ITEM_WISE_TAX.DOC_DATE,103) = convert(varchar, '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "',103) and TSPL_ITEM_WISE_TAX.Type = '" + ddlTransType.SelectedValue + "' and TSPL_ITEM_WISE_TAX_GROUP.Item_Code = '" + strItemCode + "' and TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code = '" + strTaxGroupCode + "' "))
                         If strCountDupicate > 0 Then
                             Dim Msg As String = " Item already Exist another Document .Duplicate Entry not Possible Same Day  at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
@@ -342,7 +342,7 @@ Public Class FrmItemWiseTax
                         If clsCommon.myLen(strDocCode) > 0 Then
                             If clsCommon.CompairString(strDocCode, fndCode.Value) <> CompairStringResult.Equal Then
                                 Dim Msg As String = " Item already Exist another Document : '" + strDocCode + "'.Duplicate Entry not Possible Same Day  at Row No " + clsCommon.myCstr(ii + 1) + " "
-                                common.clsCommon.MyMessageBoxShow(Msg)
+                                common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                                 Return False
                             End If
                         End If
@@ -363,7 +363,7 @@ Public Class FrmItemWiseTax
                     Dim strInnerTaxGroupCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colTAX_GROUP_CODE).Value)
                     If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strITaxGroupCode, strInnerTaxGroupCode) = CompairStringResult.Equal Then
                         Dim Msg As String = "Same Tax Group with Item  Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 Next
@@ -382,7 +382,7 @@ Public Class FrmItemWiseTax
                     If clsCommon.myLen(strTaxCode1) > 0 AndAlso clsCommon.myLen(strTaxCode2) > 0 Then
                         If (clsCommon.CompairString(strTaxCode1, strTaxCode2) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
 
@@ -390,21 +390,21 @@ Public Class FrmItemWiseTax
                     If clsCommon.myLen(strTaxCode1) > 0 AndAlso clsCommon.myLen(strTaxCode3) > 0 Then
                         If (clsCommon.CompairString(strTaxCode1, strTaxCode3) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
                     If clsCommon.myLen(strTaxCode1) > 0 AndAlso clsCommon.myLen(strTaxCode4) > 0 Then
                         If (clsCommon.CompairString(strTaxCode1, strTaxCode4) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
                     If clsCommon.myLen(strTaxCode1) > 0 AndAlso clsCommon.myLen(strTaxCode5) > 0 Then
                         If (clsCommon.CompairString(strTaxCode1, strTaxCode5) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
@@ -412,7 +412,7 @@ Public Class FrmItemWiseTax
                     If clsCommon.myLen(strTaxCode2) > 0 AndAlso clsCommon.myLen(strTaxCode3) > 0 Then
                         If (clsCommon.CompairString(strTaxCode2, strTaxCode3) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
@@ -420,7 +420,7 @@ Public Class FrmItemWiseTax
                     If clsCommon.myLen(strTaxCode2) > 0 AndAlso clsCommon.myLen(strTaxCode4) > 0 Then
                         If (clsCommon.CompairString(strTaxCode2, strTaxCode3) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
@@ -428,7 +428,7 @@ Public Class FrmItemWiseTax
                     If clsCommon.myLen(strTaxCode2) > 0 AndAlso clsCommon.myLen(strTaxCode5) > 0 Then
                         If (clsCommon.CompairString(strTaxCode2, strTaxCode5) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
@@ -436,7 +436,7 @@ Public Class FrmItemWiseTax
                     If clsCommon.myLen(strTaxCode3) > 0 AndAlso clsCommon.myLen(strTaxCode4) > 0 Then
                         If (clsCommon.CompairString(strTaxCode3, strTaxCode4) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
@@ -444,7 +444,7 @@ Public Class FrmItemWiseTax
                     If clsCommon.myLen(strTaxCode3) > 0 AndAlso clsCommon.myLen(strTaxCode5) > 0 Then
                         If (clsCommon.CompairString(strTaxCode3, strTaxCode5) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
@@ -475,7 +475,7 @@ Public Class FrmItemWiseTax
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_GROUP_DETAILS where Tax_Group_Type = '" + ddlTransType.SelectedValue + "' and Tax_Group_Code = '" + strGroupcodeChk + "' and Tax_Code ='" + strTaxCodeChk1 + "'"))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid Tax1 Code at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -484,7 +484,7 @@ Public Class FrmItemWiseTax
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_RATES where Tax_Code = '" + strTaxCodeChk1 + "' and Tax_Type = '" + ddlTransType.SelectedValue + "' and Tax_Rate = '" + strTaxRateChk1 + "' "))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid [Tax1 Rate]  at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -756,7 +756,7 @@ Public Class FrmItemWiseTax
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -864,7 +864,7 @@ Public Class FrmItemWiseTax
     Sub OpenTax1CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Code_Desc as Descriiption from TSPL_TAX_GROUP_DETAILS"
@@ -879,11 +879,11 @@ Public Class FrmItemWiseTax
     Sub OpenRate1CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX1_Code).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Tax1 Code  Not Avilable")
+                common.clsCommon.MyMessageBoxShow(Me, "Tax1 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
@@ -896,11 +896,11 @@ Public Class FrmItemWiseTax
     Sub OpenRate2CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX2_Code).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Tax2 Code  Not Avilable")
+                common.clsCommon.MyMessageBoxShow(Me, "Tax2 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
@@ -913,11 +913,11 @@ Public Class FrmItemWiseTax
     Sub OpenRate3CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX3_Code).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Tax3 Code  Not Avilable")
+                common.clsCommon.MyMessageBoxShow(Me, "Tax3 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
@@ -931,11 +931,11 @@ Public Class FrmItemWiseTax
     Sub OpenRate4CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX4_Code).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Tax4 Code  Not Avilable")
+                common.clsCommon.MyMessageBoxShow(Me, "Tax4 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
@@ -949,11 +949,11 @@ Public Class FrmItemWiseTax
     Sub OpenRate5CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX4_Code).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Tax5 Code  Not Avilable")
+                common.clsCommon.MyMessageBoxShow(Me, "Tax5 Code  Not Avilable", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Type as Type,Tax_Rate as Rate  from TSPL_TAX_RATES "
@@ -997,7 +997,7 @@ Public Class FrmItemWiseTax
     Sub OpenTax4CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Code_Desc as Descriiption from TSPL_TAX_GROUP_DETAILS"
@@ -1012,7 +1012,7 @@ Public Class FrmItemWiseTax
     Sub OpenTax5CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Code_Desc as Descriiption from TSPL_TAX_GROUP_DETAILS"
@@ -1116,11 +1116,11 @@ Public Class FrmItemWiseTax
             End If
             If clsCommon.MyMessageBoxShow("Delete the current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsItemWiseTax.DeleteData(fndCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1162,7 +1162,7 @@ Public Class FrmItemWiseTax
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1404,7 +1404,7 @@ Public Class FrmItemWiseTax
                         ElseIf clsCommon.myLen(grow.Cells("Item_Code").Value) > 0 Then
                             Dim isValidItemcode As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Item_code)  from TSPL_ITEM_MASTER  where Item_Code ='" + grow.Cells("Item_Code").Value.ToString() + "'"))
                             If isValidItemcode <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Invalid Item code.")
+                                common.clsCommon.MyMessageBoxShow(Me, "Invalid Item code.", Me.Text)
                                 isError = True
                                 Exit Sub
                             End If
@@ -1416,13 +1416,13 @@ Public Class FrmItemWiseTax
 
                         '***********************  Comment Part ********************
                         If clsCommon.myLen(grow.Cells("Tax_Group_Code").Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Tax Group Code cannot be blank.")
+                            common.clsCommon.MyMessageBoxShow(Me, "Tax Group Code cannot be blank.", Me.Text)
                             isError = True
                             Exit Sub
                         ElseIf clsCommon.myLen(grow.Cells("Tax_Group_Code").Value) > 0 Then
                             Dim isValidGroupcode As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Tax_Group_Code)  from TSPL_TAX_GROUP_MASTER  where Tax_Group_Code ='" + grow.Cells("Tax_Group_Code").Value.ToString() + "'"))
                             If isValidGroupcode <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Invalid Item code.")
+                                common.clsCommon.MyMessageBoxShow(Me, "Invalid Item code.", Me.Text)
                                 isError = True
                                 Exit Sub
                             End If
@@ -1548,13 +1548,13 @@ Public Class FrmItemWiseTax
                     btnPost.PerformClick()
                 Else
                     btnAdd.PerformClick()
-                    clsCommon.MyMessageBoxShow("Please Click on Post Button for Post Data.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Click on Post Button for Post Data.", Me.Text)
                 End If
 
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(dgv)
             isImport = False
@@ -1575,7 +1575,7 @@ Public Class FrmItemWiseTax
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Item Tax")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Item Tax")
         End Try
     End Sub
 
@@ -1671,7 +1671,7 @@ Public Class FrmItemWiseTax
            
                 If obj.SaveData(obj, isNewEntry) Then
                     If chkPostClick = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.HCODE, NavigatorType.Current)
                     btnAdd.Text = "Update"
@@ -1682,7 +1682,7 @@ Public Class FrmItemWiseTax
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -1695,7 +1695,7 @@ Public Class FrmItemWiseTax
             If (myMessages.postConfirm()) Then
                 If SaveData() Then
                     If clsItemWiseTax.PostData(fndCode.Value) Then
-                        clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(fndCode.Value, NavigatorType.Current)
                     End If
                 End If
@@ -2085,13 +2085,13 @@ Public Class FrmItemWiseTax
                         btnPost.PerformClick()
                     Else
                         btnAdd.PerformClick()
-                        clsCommon.MyMessageBoxShow("Please Click on Post Button for Post Data.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please Click on Post Button for Post Data.", Me.Text)
                     End If
 
 
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Finally
                 Me.Controls.Remove(dgv)
                 isImport = False
@@ -2108,7 +2108,7 @@ Public Class FrmItemWiseTax
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Doc_Code"})
             transportSql.ExporttoExcel(query, " ", " ", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "HSN")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Item Tax")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Item Tax")
         End Try
     End Sub
 

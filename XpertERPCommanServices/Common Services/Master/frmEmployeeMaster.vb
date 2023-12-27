@@ -240,7 +240,7 @@ Public Class frmEmployeeMaster
             'End While
             If strvalue <> "" Or fnddesignation.Value = "" Then
             Else : strvalue = ""
-                common.clsCommon.MyMessageBoxShow("This Designation does not exist in Master Table", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "This Designation does not exist in Master Table", Me.Text)
                 fnddesignation.Value = ""
             End If
         Catch ex As Exception
@@ -261,7 +261,7 @@ Public Class frmEmployeeMaster
             'End While
             If strvalue <> "" Or fndempcode.Value = "" Then
             Else : strvalue = ""
-                common.clsCommon.MyMessageBoxShow("This Employee code does not exist in Master Table", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "This Employee code does not exist in Master Table", Me.Text)
                 fndempcode.Value = ""
                 txtname.Text = ""
             End If
@@ -679,7 +679,7 @@ Public Class frmEmployeeMaster
             For jj As Integer = ii + 1 To dgstate.Rows.Count - 1
 
                 If clsCommon.myCstr(dgstate.Rows(0).Cells("State Code").Value) Is Nothing OrElse clsCommon.myLen(dgstate.Rows(0).Cells(ColStateCode).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill the state details")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill the state details", Me.Text)
                     Return False
                 End If
             Next
@@ -805,7 +805,7 @@ Public Class frmEmployeeMaster
                 ddlempstatus.Focus()
 
             ElseIf txtEmailId.Text IsNot Nothing AndAlso clsCommon.myLen(txtEmailId.Text) > 100 Then
-                clsCommon.MyMessageBoxShow("E-Mail Id should be of 100 characters max.")
+                clsCommon.MyMessageBoxShow(Me, "E-Mail Id should be of 100 characters max.", Me.Text)
                 txtEmailId.Focus()
                 txtEmailId.Select()
                 Return
@@ -1255,7 +1255,7 @@ Public Class frmEmployeeMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1590,7 +1590,7 @@ Public Class frmEmployeeMaster
 
                 'obj.SaveData(obj.empcode, arr, Nothing)
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 trans.Commit()
             Catch ex As Exception
                 clsCommon.ProgressBarHide()

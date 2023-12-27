@@ -25,6 +25,7 @@ Public Class frmMCCMaterialSaleUploader
     Public ValidatedCount As Integer = 0
     Dim dtmain As DataTable = Nothing
     Dim arrVendorInvoiceNo As List(Of String) = Nothing
+    Dim AllowPlandDeptMCCLocation As Boolean = False
 
     Private Sub frmMCCMaterialSaleUploader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -33,6 +34,7 @@ Public Class frmMCCMaterialSaleUploader
         coll = New Dictionary(Of String, String)()
         coll.Add("MCCSaleDate", "date NULL")
         coll.Add("Location", "varchar(30)  NUll")
+        coll.Add("Sub_Location_code", "varchar(30)  NUll")
         coll.Add("Customer", "varchar(30)  NUll")
         coll.Add("VLCCode", "varchar(30)  NUll")
         coll.Add("Item_code", "varchar(30)  NUll")
@@ -54,6 +56,7 @@ Public Class frmMCCMaterialSaleUploader
         AllowManualItemPriceOnMCCSale = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualItemPriceOnMCCSale, clsFixedParameterCode.AllowManualItemPriceOnMCCSale, Nothing)) = 0, False, True)
         Gv1.Visible = True
         btnSaveAndPost.Enabled = True
+        AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
     End Sub
 
     Private Sub btnSelectSheet_Click(sender As Object, e As EventArgs) Handles btnSelectSheet.Click
@@ -62,97 +65,193 @@ Public Class frmMCCMaterialSaleUploader
         Gv1.DataSource = Nothing
         btnSaveAndPost.Enabled = True
         If rdbAgainstBulkSale.IsChecked Then
-            If transportSql.importExcel(Gv1, "BILL TO LOCATION", "DATE", "CUSTOMER NO", "CUSTOMER NAME", "VLC CODE", "VLC NAME", "ITEM CODE", "ITEM NAME", "QTY", "RATE", "AMOUNT", "Taxable", "UOM") Then
-                If Gv1.Columns.Count > 0 Then
-                    TextCol = New GridViewTextBoxColumn()
-                    TextCol.Name = colSlno
-                    TextCol.HeaderText = "SL. No."
-                    TextCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(0, TextCol)
+            Dim colImport As String = Nothing
+            If AllowPlandDeptMCCLocation Then
+                If transportSql.importExcel(Gv1, "BILL TO LOCATION", "SUB LOCATION", "DATE", "CUSTOMER NO", "CUSTOMER NAME", "VLC CODE", "VLC NAME", "ITEM CODE", "ITEM NAME", "QTY", "RATE", "AMOUNT", "Taxable", "UOM") Then
+                    If Gv1.Columns.Count > 0 Then
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = colSlno
+                        TextCol.HeaderText = "SL. No."
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(0, TextCol)
 
-                    ChkBoxColumn = New GridViewCheckBoxColumn()
-                    ChkBoxColumn.Name = colIsValidated
-                    ChkBoxColumn.HeaderText = "Validated"
-                    ChkBoxColumn.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(1, ChkBoxColumn)
+                        ChkBoxColumn = New GridViewCheckBoxColumn()
+                        ChkBoxColumn.Name = colIsValidated
+                        ChkBoxColumn.HeaderText = "Validated"
+                        ChkBoxColumn.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(1, ChkBoxColumn)
 
-                    TextCol = New GridViewTextBoxColumn()
-                    TextCol.Name = colErrorStatus
-                    TextCol.HeaderText = "Error Status"
-                    TextCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(2, TextCol)
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = colErrorStatus
+                        TextCol.HeaderText = "Error Status"
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(2, TextCol)
 
-                    TextCol = New GridViewTextBoxColumn()
-                    TextCol.Name = colDispatchCode
-                    TextCol.HeaderText = "DispatchCode"
-                    TextCol.ReadOnly = True
-                    TextCol.IsVisible = False
-                    Gv1.MasterTemplate.Columns.Insert(3, TextCol)
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = colDispatchCode
+                        TextCol.HeaderText = "DispatchCode"
+                        TextCol.ReadOnly = True
+                        TextCol.IsVisible = False
+                        Gv1.MasterTemplate.Columns.Insert(3, TextCol)
 
-                    TextCol = New GridViewTextBoxColumn()
-                    TextCol.Name = colTaxGroup
-                    TextCol.HeaderText = "Tax group"
-                    TextCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(4, TextCol)
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = colTaxGroup
+                        TextCol.HeaderText = "Tax group"
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(4, TextCol)
 
-                    TextCol = New GridViewTextBoxColumn()
-                    TextCol.Name = coltax1
-                    TextCol.HeaderText = "Tax1"
-                    TextCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(5, TextCol)
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = coltax1
+                        TextCol.HeaderText = "Tax1"
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(5, TextCol)
 
-                    DecCol = New GridViewDecimalColumn()
-                    DecCol.Name = coltax1rate
-                    DecCol.HeaderText = "Tax1Rate"
-                    DecCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(6, DecCol)
+                        DecCol = New GridViewDecimalColumn()
+                        DecCol.Name = coltax1rate
+                        DecCol.HeaderText = "Tax1Rate"
+                        DecCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(6, DecCol)
 
-                    DecCol = New GridViewDecimalColumn()
-                    DecCol.Name = coltax1Amt
-                    DecCol.HeaderText = "Tax1Amt"
-                    DecCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(7, DecCol)
+                        DecCol = New GridViewDecimalColumn()
+                        DecCol.Name = coltax1Amt
+                        DecCol.HeaderText = "Tax1Amt"
+                        DecCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(7, DecCol)
 
 
-                    TextCol = New GridViewTextBoxColumn()
-                    TextCol.Name = coltax2
-                    TextCol.HeaderText = "Tax2"
-                    TextCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(8, TextCol)
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = coltax2
+                        TextCol.HeaderText = "Tax2"
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(8, TextCol)
 
-                    DecCol = New GridViewDecimalColumn()
-                    DecCol.Name = coltax2rate
-                    DecCol.HeaderText = "Tax2Rate"
-                    DecCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(9, DecCol)
+                        DecCol = New GridViewDecimalColumn()
+                        DecCol.Name = coltax2rate
+                        DecCol.HeaderText = "Tax2Rate"
+                        DecCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(9, DecCol)
 
-                    DecCol = New GridViewDecimalColumn()
-                    DecCol.Name = coltax2Amt
-                    DecCol.HeaderText = "Tax2Amt"
-                    DecCol.ReadOnly = True
-                    Gv1.MasterTemplate.Columns.Insert(10, DecCol)
+                        DecCol = New GridViewDecimalColumn()
+                        DecCol.Name = coltax2Amt
+                        DecCol.HeaderText = "Tax2Amt"
+                        DecCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(10, DecCol)
 
-                    For i As Integer = 0 To Gv1.Rows.Count - 1
-                        Gv1.Rows(i).Cells(colSlno).Value = (i + 1)
-                        Gv1.Rows(i).Cells(colIsValidated).Value = False
-                        ValidatedCount = 0
-                        Gv1.Rows(i).Cells(colErrorStatus).Value = ""
-                    Next
-                    For i As Integer = 0 To Gv1.Columns.Count - 1
-                        Gv1.Columns(i).ReadOnly = True
-                    Next
-                    Gv1.AllowAddNewRow = False
-                    Gv1.AllowDeleteRow = True
-                    Gv1.EnableFiltering = True
-                    Gv1.EnableSorting = False
-                    Gv1.EnableGrouping = False
-                    Gv1.AllowColumnChooser = False
-                    Gv1.AllowColumnReorder = True
-                    Gv1.BestFitColumns()
-                    Gv1.AutoSizeRows = True
-                    Gv1.TableElement.TableHeaderHeight = 30
+                        For i As Integer = 0 To Gv1.Rows.Count - 1
+                            Gv1.Rows(i).Cells(colSlno).Value = (i + 1)
+                            Gv1.Rows(i).Cells(colIsValidated).Value = False
+                            ValidatedCount = 0
+                            Gv1.Rows(i).Cells(colErrorStatus).Value = ""
+                        Next
+                        For i As Integer = 0 To Gv1.Columns.Count - 1
+                            Gv1.Columns(i).ReadOnly = True
+                        Next
+                        Gv1.AllowAddNewRow = False
+                        Gv1.AllowDeleteRow = True
+                        Gv1.EnableFiltering = True
+                        Gv1.EnableSorting = False
+                        Gv1.EnableGrouping = False
+                        Gv1.AllowColumnChooser = False
+                        Gv1.AllowColumnReorder = True
+                        Gv1.BestFitColumns()
+                        Gv1.AutoSizeRows = True
+                        Gv1.TableElement.TableHeaderHeight = 30
+                    End If
+                End If
+            Else
+                If transportSql.importExcel(Gv1, "BILL TO LOCATION ", "DATE", "CUSTOMER NO", "CUSTOMER NAME", "VLC CODE", "VLC NAME", "ITEM CODE", "ITEM NAME", "QTY", "RATE", "AMOUNT", "Taxable", "UOM") Then
+                    If Gv1.Columns.Count > 0 Then
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = colSlno
+                        TextCol.HeaderText = "SL. No."
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(0, TextCol)
+
+                        ChkBoxColumn = New GridViewCheckBoxColumn()
+                        ChkBoxColumn.Name = colIsValidated
+                        ChkBoxColumn.HeaderText = "Validated"
+                        ChkBoxColumn.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(1, ChkBoxColumn)
+
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = colErrorStatus
+                        TextCol.HeaderText = "Error Status"
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(2, TextCol)
+
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = colDispatchCode
+                        TextCol.HeaderText = "DispatchCode"
+                        TextCol.ReadOnly = True
+                        TextCol.IsVisible = False
+                        Gv1.MasterTemplate.Columns.Insert(3, TextCol)
+
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = colTaxGroup
+                        TextCol.HeaderText = "Tax group"
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(4, TextCol)
+
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = coltax1
+                        TextCol.HeaderText = "Tax1"
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(5, TextCol)
+
+                        DecCol = New GridViewDecimalColumn()
+                        DecCol.Name = coltax1rate
+                        DecCol.HeaderText = "Tax1Rate"
+                        DecCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(6, DecCol)
+
+                        DecCol = New GridViewDecimalColumn()
+                        DecCol.Name = coltax1Amt
+                        DecCol.HeaderText = "Tax1Amt"
+                        DecCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(7, DecCol)
+
+
+                        TextCol = New GridViewTextBoxColumn()
+                        TextCol.Name = coltax2
+                        TextCol.HeaderText = "Tax2"
+                        TextCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(8, TextCol)
+
+                        DecCol = New GridViewDecimalColumn()
+                        DecCol.Name = coltax2rate
+                        DecCol.HeaderText = "Tax2Rate"
+                        DecCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(9, DecCol)
+
+                        DecCol = New GridViewDecimalColumn()
+                        DecCol.Name = coltax2Amt
+                        DecCol.HeaderText = "Tax2Amt"
+                        DecCol.ReadOnly = True
+                        Gv1.MasterTemplate.Columns.Insert(10, DecCol)
+
+                        For i As Integer = 0 To Gv1.Rows.Count - 1
+                            Gv1.Rows(i).Cells(colSlno).Value = (i + 1)
+                            Gv1.Rows(i).Cells(colIsValidated).Value = False
+                            ValidatedCount = 0
+                            Gv1.Rows(i).Cells(colErrorStatus).Value = ""
+                        Next
+                        For i As Integer = 0 To Gv1.Columns.Count - 1
+                            Gv1.Columns(i).ReadOnly = True
+                        Next
+                        Gv1.AllowAddNewRow = False
+                        Gv1.AllowDeleteRow = True
+                        Gv1.EnableFiltering = True
+                        Gv1.EnableSorting = False
+                        Gv1.EnableGrouping = False
+                        Gv1.AllowColumnChooser = False
+                        Gv1.AllowColumnReorder = True
+                        Gv1.BestFitColumns()
+                        Gv1.AutoSizeRows = True
+                        Gv1.TableElement.TableHeaderHeight = 30
+                    End If
                 End If
             End If
+
         End If
     End Sub
     Sub LoadBlankGrid()
@@ -164,8 +263,12 @@ Public Class frmMCCMaterialSaleUploader
 
     Private Sub btnExportFormat_Click(sender As Object, e As EventArgs) Handles btnExportFormat.Click
         Dim qry As String = String.Empty
-       If rdbAgainstBulkSale.IsChecked Then
-            qry = "select '' as [BILL TO LOCATION], '' as [DATE], '' as [CUSTOMER NO], '' as [CUSTOMER NAME], '' as [VLC CODE], '' as [VLC NAME], '' as [ITEM CODE], '' as [ITEM NAME], '' as [QTY], '' as [RATE], '' as [AMOUNT],'' as [Taxable],'' as UOM"
+        If rdbAgainstBulkSale.IsChecked Then
+            If AllowPlandDeptMCCLocation Then
+                qry = "select '' as [BILL TO LOCATION],'' as [SUB LOCATION], '' as [DATE], '' as [CUSTOMER NO], '' as [CUSTOMER NAME], '' as [VLC CODE], '' as [VLC NAME], '' as [ITEM CODE], '' as [ITEM NAME], '' as [QTY], '' as [RATE], '' as [AMOUNT],'' as [Taxable],'' as UOM"
+            Else
+                qry = "select '' as [BILL TO LOCATION], '' as [DATE], '' as [CUSTOMER NO], '' as [CUSTOMER NAME], '' as [VLC CODE], '' as [VLC NAME], '' as [ITEM CODE], '' as [ITEM NAME], '' as [QTY], '' as [RATE], '' as [AMOUNT],'' as [Taxable],'' as UOM"
+            End If
             transportSql.ExporttoExcel(qry, Me)
         End If
         qry = Nothing
@@ -198,6 +301,7 @@ Public Class frmMCCMaterialSaleUploader
         End If
         ValidatedCount = 0
         Dim strCellValue
+        Dim strSubLocation
         If rdbAgainstBulkSale.IsChecked Then
             For i As Integer = 0 To Gv1.Rows.Count - 1
 
@@ -206,14 +310,27 @@ Public Class frmMCCMaterialSaleUploader
                 End If
                 clsCommon.ProgressBarPercentUpdate((i + 1) / Gv1.Rows.Count * 100, "Validating  Record(s) " & (i + 1) & "   of  Total " & Gv1.Rows.Count)
                 ValidateStatus = ""
-             
+
 
                 strCellValue = clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value)
                 If clsCommon.myLen(strCellValue) <= 0 Then
                     ValidateStatus = ValidateStatus & "Bill To Location Must not be Blank" & Environment.NewLine
                 End If
+
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from tspl_location_master where Location_code='" & strCellValue & "'")) <= 0 Then
                     ValidateStatus = ValidateStatus & "Bill To Location not found in master" & Environment.NewLine
+                End If
+                If AllowPlandDeptMCCLocation Then
+
+                    strSubLocation = clsCommon.myCstr(Gv1.Rows(i).Cells("SUB LOCATION").Value)
+                    If clsCommon.myLen(strSubLocation) <= 0 Then
+                        ValidateStatus = ValidateStatus & "SUB Location Must not be Blank" & Environment.NewLine
+                    End If
+                    Dim Sub_LocationExist As Integer = clsDBFuncationality.getSingleValue("select count(Location_Code) from TSPL_Location_MASTER  left join TSPL_GL_SEGMENT_CODE as Seg on TSPL_Location_MASTER.Loc_Segment_Code=Seg.Segment_Code   
+ where  (isnull(is_sub_location,'N')='Y' or isnull(Is_Section,'N')='Y') and Main_Location_Code='" & strCellValue & "' and Location_Code = '" & strSubLocation & "'")
+                    If clsCommon.myCdbl(Sub_LocationExist) < 1 Then
+                        ValidateStatus = ValidateStatus & "Sub Location not found in master" & Environment.NewLine
+                    End If
                 End If
 
                 Dim LocationType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(Location_Type,'')  as Location_Type from tspl_location_master where Location_code='" & strCellValue & "'"))
@@ -245,9 +362,12 @@ Public Class frmMCCMaterialSaleUploader
                     strCellValue = clsCommon.myCstr(CustCode)
                     Gv1.Rows(i).Cells("CUSTOMER NO").Value = clsCommon.myCstr(CustCode)
                 End If
-                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCellValue & "'")) <= 0 Then
-                    ValidateStatus = ValidateStatus & "Customer No not found in master" & Environment.NewLine
+                If clsCommon.CompairString(AllowPlandDeptMCCLocation, False) = CompairStringResult.Equal Then
+                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCellValue & "'")) <= 0 Then
+                        ValidateStatus = ValidateStatus & "Customer No not found in master" & Environment.NewLine
+                    End If
                 End If
+
 
 
                 strCellValue = clsCommon.myCstr(Gv1.Rows(i).Cells("Date").Value)
@@ -269,11 +389,27 @@ Public Class frmMCCMaterialSaleUploader
                 End If
 
 
-                Dim vlcCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Code_VLC_Uploader as [Vlc Code]   from TSPL_CUSTOMER_MASTER  left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No   left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code  left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  and mcc='" & clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value) & "' where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" & clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value) & "'"))
-                If clsCommon.CompairString(vlcCode, clsCommon.myCstr(Gv1.Rows(i).Cells("VLC CODE").Value)) = CompairStringResult.Equal Then
+                Dim vlcCode As String = Nothing
+                If AllowPlandDeptMCCLocation Then
+                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select  count(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(Gv1.Rows(i).Cells("VLC CODE").Value) & "'")) <= 0 Then
+                        ValidateStatus = ValidateStatus & "VLC Code not found in master" & Environment.NewLine
+                    End If
+                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_CUSTOMER_MASTER where Cust_Code = '" & clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value) & "'")) <= 0 Then
+                        ValidateStatus = ValidateStatus & "Customer No not found in master" & Environment.NewLine
+                    End If
+                    vlcCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Code_VLC_Uploader as [Vlc Code]   from TSPL_CUSTOMER_MASTER  left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No   left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code  left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" & clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value) & "'"))
+                    If clsCommon.CompairString(vlcCode, clsCommon.myCstr(Gv1.Rows(i).Cells("VLC CODE").Value)) = CompairStringResult.Equal Then
+                    Else
+                        ValidateStatus = ValidateStatus & "VLC Code is Not correct according to mapping Customer" & clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value) & Environment.NewLine
+                    End If
                 Else
-                    ValidateStatus = ValidateStatus & "VLC Code is Not correct according to mapping " & Environment.NewLine
+                    vlcCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Code_VLC_Uploader as [Vlc Code]   from TSPL_CUSTOMER_MASTER  left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No   left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code  left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  and mcc='" & clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value) & "' where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" & clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value) & "'"))
+                    If clsCommon.CompairString(vlcCode, clsCommon.myCstr(Gv1.Rows(i).Cells("VLC CODE").Value)) = CompairStringResult.Equal Then
+                    Else
+                        ValidateStatus = ValidateStatus & "VLC Code is Not correct according to mapping " & Environment.NewLine
+                    End If
                 End If
+
 
 
                 strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("QTY").Value)
@@ -305,7 +441,7 @@ Public Class frmMCCMaterialSaleUploader
                     End If
 
                 End If
-               
+
 
                 strCellValue = clsCommon.myCstr(Gv1.Rows(i).Cells("TAXABLE").Value)
                 If clsCommon.myLen(strCellValue) <= 0 Then
@@ -351,7 +487,7 @@ Public Class frmMCCMaterialSaleUploader
                         Next
                     Else
                         ValidateStatus = ValidateStatus & "create tax of exempted type for this location and customer." & Environment.NewLine
-                        End If
+                    End If
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.Rows(i).Cells("TAXABLE").Value).ToUpper, "Y") = CompairStringResult.Equal Then
                     Gv1.Rows(i).Cells(colTaxGroup).Value = clsLocationWiseTax.GetDefaultTaxGroup(clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value), clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value), "S", clsCommon.myCstr(Gv1.Rows(i).Cells("Date").Value))
                     Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(clsCommon.myCstr(Gv1.Rows(i).Cells(colTaxGroup).Value), "S", clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value), clsCommon.myCstr(Gv1.Rows(i).Cells("BILL TO LOCATION").Value))
@@ -366,13 +502,13 @@ Public Class frmMCCMaterialSaleUploader
                                 Gv1.Rows(i).Cells(coltax2).Value = clsCommon.myCstr(dr("Tax_Code"))
                                 Gv1.Rows(i).Cells(coltax2rate).Value = clsCommon.myCdbl(dr("TaxRate"))
                                 Gv1.Rows(i).Cells(coltax2Amt).Value = (clsCommon.myCdbl(dr("TaxRate")) * clsCommon.myCdbl(Gv1.Rows(i).Cells("Amount").Value)) / 100
-                                End If
+                            End If
                             j = j + 1
                         Next
                     Else
                         ValidateStatus = ValidateStatus & "create tax for this location and customer." & Environment.NewLine
-                        End If
                     End If
+                End If
 
 
 
@@ -388,7 +524,7 @@ Public Class frmMCCMaterialSaleUploader
                     Gv1.Rows(i).Cells(colErrorStatus).Style.DrawFill = True
                     Gv1.Rows(i).Cells(colErrorStatus).Style.CustomizeFill = True
                     Gv1.Rows(i).Cells(colErrorStatus).Style.BackColor = Color.Red
-                    End If
+                End If
 
             Next
         End If
@@ -437,7 +573,7 @@ Public Class frmMCCMaterialSaleUploader
                     clsCommon.ProgressBarPercentShow()
                     trans = clsDBFuncationality.GetTransactin()
 
-                   
+
                     CreateAutoInvoiceAgainstMultipleDispatch(trans)
                     objCommonVar.CurrentUserCode = CurrentUserCode
 
@@ -477,6 +613,7 @@ Public Class frmMCCMaterialSaleUploader
 
     Private Sub CreateAutoInvoiceAgainstMultipleDispatch(ByVal trans As SqlTransaction)
         Dim LocationCode As String = String.Empty
+        Dim SubLocationCode As String = String.Empty
         Dim CustomerCode As String = String.Empty
         Dim SalePriceCode As String = String.Empty
         Dim ItemCode As String = String.Empty
@@ -496,7 +633,12 @@ Public Class frmMCCMaterialSaleUploader
                     For Each grow As GridViewRowInfo In Gv1.Rows
                         If clsCommon.myCBool(grow.Cells(colIsValidated).Value) Then
                             ''dt1.Rows.Add("" + clsCommon.myCstr(grow.Cells("Date").Value) + "", "" + clsCommon.myCstr(grow.Cells("BILL TO LOCATION").Value) + "", "" + clsCommon.myCstr(grow.Cells("CUSTOMER NO").Value) + "", "" + clsCommon.myCstr(grow.Cells("VLC CODE").Value) + "", "" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "", "" + clsCommon.myCstr(grow.Cells("QTY").Value) + "", "" + clsCommon.myCstr(grow.Cells("UOM").Value) + "", " " + clsCommon.myCstr(grow.Cells("RATE").Value) + "", "" + clsCommon.myCstr(grow.Cells("AMOUNT").Value) + "", "" + clsCommon.myCstr(grow.Cells("TAXABLE").Value) + "", "" + clsCommon.myCstr(grow.Cells(colTaxGroup).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax1).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax1rate).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax1Amt).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax2).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax2rate).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax2Amt).Value) + "")
-                            clsDBFuncationality.ExecuteNonQuery("Insert into Temp_table_MCC_Material_Sale_uploader values ('" + clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MMM/yyyy") + "', '" + clsCommon.myCstr(grow.Cells("BILL TO LOCATION").Value) + "', '" + clsCommon.myCstr(grow.Cells("CUSTOMER NO").Value) + "', '" + clsCommon.myCstr(grow.Cells("VLC CODE").Value) + "', '" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "', " + clsCommon.myCstr(grow.Cells("QTY").Value) + ", '" + clsCommon.myCstr(grow.Cells("UOM").Value) + "',  " + clsCommon.myCstr(grow.Cells("RATE").Value) + ", " + clsCommon.myCstr(grow.Cells("AMOUNT").Value) + ", '" + clsCommon.myCstr(grow.Cells("TAXABLE").Value) + "', '" + clsCommon.myCstr(grow.Cells(colTaxGroup).Value) + "', '" + clsCommon.myCstr(grow.Cells(coltax1).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax1rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax1Amt).Value) + ", '" + clsCommon.myCstr(grow.Cells(coltax2).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax2rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax2Amt).Value) + ")", trans)
+                            If AllowPlandDeptMCCLocation Then
+                                clsDBFuncationality.ExecuteNonQuery("Insert into Temp_table_MCC_Material_Sale_uploader values ('" + clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MMM/yyyy") + "', '" + clsCommon.myCstr(grow.Cells("BILL TO LOCATION").Value) + "', '" + clsCommon.myCstr(grow.Cells("CUSTOMER NO").Value) + "', '" + clsCommon.myCstr(grow.Cells("VLC CODE").Value) + "', '" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "', " + clsCommon.myCstr(grow.Cells("QTY").Value) + ", '" + clsCommon.myCstr(grow.Cells("UOM").Value) + "',  " + clsCommon.myCstr(grow.Cells("RATE").Value) + ", " + clsCommon.myCstr(grow.Cells("AMOUNT").Value) + ", '" + clsCommon.myCstr(grow.Cells("TAXABLE").Value) + "', '" + clsCommon.myCstr(grow.Cells(colTaxGroup).Value) + "', '" + clsCommon.myCstr(grow.Cells(coltax1).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax1rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax1Amt).Value) + ", '" + clsCommon.myCstr(grow.Cells(coltax2).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax2rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax2Amt).Value) + ",'" + clsCommon.myCstr(grow.Cells("SUB LOCATION").Value) + "'" + ")", trans)
+                            Else
+                                clsDBFuncationality.ExecuteNonQuery("Insert into Temp_table_MCC_Material_Sale_uploader values ('" + clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MMM/yyyy") + "', '" + clsCommon.myCstr(grow.Cells("BILL TO LOCATION").Value) + "', '" + clsCommon.myCstr(grow.Cells("CUSTOMER NO").Value) + "', '" + clsCommon.myCstr(grow.Cells("VLC CODE").Value) + "', '" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "', " + clsCommon.myCstr(grow.Cells("QTY").Value) + ", '" + clsCommon.myCstr(grow.Cells("UOM").Value) + "',  " + clsCommon.myCstr(grow.Cells("RATE").Value) + ", " + clsCommon.myCstr(grow.Cells("AMOUNT").Value) + ", '" + clsCommon.myCstr(grow.Cells("TAXABLE").Value) + "', '" + clsCommon.myCstr(grow.Cells(colTaxGroup).Value) + "', '" + clsCommon.myCstr(grow.Cells(coltax1).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax1rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax1Amt).Value) + ", '" + clsCommon.myCstr(grow.Cells(coltax2).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax2rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax2Amt).Value) + ", " + "NULL" + ")", trans)
+
+                            End If
                         End If
                     Next
                 End If
@@ -506,9 +648,9 @@ Public Class frmMCCMaterialSaleUploader
             'dt1.DefaultView.Sort = "Location,Customer,InvoiceType,MCCSaleDate,Item_code,UOM"
             'dtout = dt1.DefaultView.ToTable()
 
-            dtout = clsDBFuncationality.GetDataTable("sELECT MCCSaleDate,Location,Customer,MAX(VLCCode) AS VLCCode,Item_code,SUM(Qty) AS Qty, UOM,max(rate) as rate,sum(Amount) as Amount,InvoiceType,max(taxGroup) as taxGroup,max(Tax1) as Tax1,max(TAx1rate) as TAx1rate,sum(Tax1Amt) as Tax1Amt,max(Tax2) as Tax2,max(TAx2rate) as TAx2rate,sum(Tax2Amt) as Tax2Amt from Temp_table_MCC_Material_Sale_uploader GROUP BY Location,Customer,InvoiceType,MCCSaleDate,Item_code,UOM", trans)
+            dtout = clsDBFuncationality.GetDataTable("Select MCCSaleDate,Location,Customer,MAX(VLCCode) As VLCCode,Item_code,SUM(Qty) As Qty, UOM,max(rate) As rate,sum(Amount) As Amount,InvoiceType,max(taxGroup) As taxGroup,max(Tax1) As Tax1,max(TAx1rate) As TAx1rate,sum(Tax1Amt) As Tax1Amt,max(Tax2) As Tax2,max(TAx2rate) As TAx2rate,sum(Tax2Amt) As Tax2Amt, ISNULL(Sub_Location_code,'')Sub_Location_code from Temp_table_MCC_Material_Sale_uploader GROUP BY Location,Sub_Location_code,Customer,InvoiceType,MCCSaleDate,Item_code,UOM", trans)
 
-            dtmain = clsDBFuncationality.GetDataTable("Select '' as SrNo,'' as MCCSaleDate,'' as Location,'' as Customer,'' as VLCCode,'' as Item_code,'' as Qty,'' as UOM,'' as rate,'' as Amount,'' as InvoiceType,'' as taxGroup,'' as Tax1,''as TAx1rate,'' as Tax1Amt,'' as Tax2,'' as TAx2rate,'' as Tax2Amt", trans)
+            dtmain = clsDBFuncationality.GetDataTable("Select '' as SrNo,'' as MCCSaleDate,'' as Location,'' as Customer,'' as VLCCode,'' as Item_code,'' as Qty,'' as UOM,'' as rate,'' as Amount,'' as InvoiceType,'' as taxGroup,'' as Tax1,''as TAx1rate,'' as Tax1Amt,'' as Tax2,'' as TAx2rate,'' as Tax2Amt, '' as Sub_Location_code", trans)
             dtmain.Rows.RemoveAt(0)
 
 
@@ -525,10 +667,11 @@ Public Class frmMCCMaterialSaleUploader
                     End If
                     CustomerCode = clsCommon.myCstr(dr("Customer"))
                     LocationCode = clsCommon.myCstr(dr("Location"))
+                    SubLocationCode = clsCommon.myCstr(dr("Sub_Location_code"))
                     SalePriceCode = clsCommon.myCstr(dr("InvoiceType"))
                     strdocdate = clsCommon.myCDate(dr("MCCSaleDate"))
 
-                    dtmain.Rows.Add("" + clsCommon.myCstr(CustomerCount) + "", "" + clsCommon.myCstr(dr("MCCSaleDate")) + "", "" + clsCommon.myCstr(dr("Location")) + "", "" + clsCommon.myCstr(dr("Customer")) + "", "" + clsCommon.myCstr(dr("VLCCode")) + "", "" + clsCommon.myCstr(dr("Item_code")) + "", "" + clsCommon.myCstr(dr("Qty")) + "", "" + clsCommon.myCstr(dr("UOM")) + "", "" + clsCommon.myCstr(dr("rate")) + "", "" + clsCommon.myCstr(dr("Amount")) + "", " " + clsCommon.myCstr(dr("InvoiceType")) + "", "" + clsCommon.myCstr(dr("taxGroup")) + "", "" + clsCommon.myCstr(dr("Tax1")) + "", "" + clsCommon.myCstr(dr("TAx1rate")) + "", "" + clsCommon.myCstr(dr("Tax1Amt")) + "", " " + clsCommon.myCstr(dr("Tax2")) + "", "" + clsCommon.myCstr(dr("TAx2rate")) + "", "" + clsCommon.myCstr(dr("Tax2Amt")) + "")
+                    dtmain.Rows.Add("" + clsCommon.myCstr(CustomerCount) + "", "" + clsCommon.myCstr(dr("MCCSaleDate")) + "", "" + clsCommon.myCstr(dr("Location")) + "", "" + clsCommon.myCstr(dr("Customer")) + "", "" + clsCommon.myCstr(dr("VLCCode")) + "", "" + clsCommon.myCstr(dr("Item_code")) + "", "" + clsCommon.myCstr(dr("Qty")) + "", "" + clsCommon.myCstr(dr("UOM")) + "", "" + clsCommon.myCstr(dr("rate")) + "", "" + clsCommon.myCstr(dr("Amount")) + "", " " + clsCommon.myCstr(dr("InvoiceType")) + "", "" + clsCommon.myCstr(dr("taxGroup")) + "", "" + clsCommon.myCstr(dr("Tax1")) + "", "" + clsCommon.myCstr(dr("TAx1rate")) + "", "" + clsCommon.myCstr(dr("Tax1Amt")) + "", " " + clsCommon.myCstr(dr("Tax2")) + "", "" + clsCommon.myCstr(dr("TAx2rate")) + "", "" + clsCommon.myCstr(dr("Tax2Amt")) + "", "" + clsCommon.myCstr(dr("Sub_Location_code")) + "")
                 Next
                 'If AllowToSave(False, trans) Then
 
@@ -554,7 +697,7 @@ Public Class frmMCCMaterialSaleUploader
                 Dim strUOM As String = clsCommon.myCstr(dtmain.Rows(ii)("UOM"))
                 Dim intCurrInvNo As Integer = clsCommon.myCdbl(dtmain.Rows(ii)("SrNo"))
 
-              
+
                 If clsCommon.CompairString(strcountno, clsCommon.myCdbl(dtmain.Rows(ii)("SrNo"))) <> CompairStringResult.Equal Then
                     Dim dblOuterConvFac As Double = clsItemMaster.GetConvertionFactor(strICode, strUOM, trans)
                     dblBalQty = clsItemLocationDetails.getBalance(strICode, strLocation, "", clsCommon.myCstr(dtmain.Rows(ii)("MCCSaleDate")), trans, strUOM, 0)
@@ -661,6 +804,11 @@ Public Class frmMCCMaterialSaleUploader
                     obj.Customer_Code = clsCommon.myCstr(dr("Customer"))
                     obj.Customer_Name = clsCustomerMaster.GetName(clsCommon.myCstr(dr("Customer")), trans)
                     obj.Bill_To_Location = clsCommon.myCstr(dr("Location"))
+                    If AllowPlandDeptMCCLocation Then
+                        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(obj.Bill_To_Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
+                            obj.Sub_Location_code = clsCommon.myCstr(dr("Sub_Location_code"))
+                        End If
+                    End If
                     obj.Comments = "Entry created through MCC Material Sale uploader"
                     obj.Tax_Group = clsCommon.myCstr(dr("TaxGroup"))
                     obj.Is_Create_Auto_Invoice = 1
@@ -733,7 +881,7 @@ Public Class frmMCCMaterialSaleUploader
                     obj.Arr.Add(objTr)
                 Else
                     objTr = New clsMCCMaterialSaleDetail()
-                  
+
                     objTr.Line_No = 1
                     Dim Rate_Mcc_Item As Double = GetRateMccSale(clsCommon.myCstr(dr("Location")), clsCommon.myCstr(dr("Item_Code")), clsCommon.myCstr(dr("UOM")), clsCommon.myCstr(dr("MCCSaleDate")), trans)
                     If Rate_Mcc_Item <> clsCommon.myCdbl(dr("Rate")) Then

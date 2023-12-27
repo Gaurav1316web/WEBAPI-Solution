@@ -264,7 +264,7 @@ Public Class FrmMilkTransferIn
             End If
             UpdateTotal()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Calculate()
@@ -346,7 +346,7 @@ Public Class FrmMilkTransferIn
                         obj.Receipt_Challan_No = clsERPFuncationality.GetNextCode(trans, dtpRcptDateAndTime.Value, clsDocType.MilkTransferIn, clsDocTransactionType.NA, clsCommon.myCstr(txtMccPlantCode.Value))
                     End If
                     If clsCommon.myLen(obj.Receipt_Challan_No) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Error in Receipt Challan  No genertion")
+                        clsCommon.MyMessageBoxShow(Me, "Error in Receipt Challan  No genertion", Me.Text)
                         'Exit Function
                     End If
                 Else
@@ -450,7 +450,7 @@ Public Class FrmMilkTransferIn
                     Return True
                     'Exit Function
                 End If
-                clsCommon.MyMessageBoxShow("Data Not Saved ")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
                 btnSave.Text = "Save"
                 btnDelete.Enabled = False
                 btnPost.Enabled = False
@@ -463,7 +463,7 @@ Public Class FrmMilkTransferIn
             'Return True
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'Return False
         End Try
         Return True
@@ -521,7 +521,7 @@ Public Class FrmMilkTransferIn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strRcptChallanNo As String, ByVal nav As NavigatorType)
@@ -1308,7 +1308,7 @@ Public Class FrmMilkTransferIn
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         Return True
@@ -1326,12 +1326,12 @@ Public Class FrmMilkTransferIn
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsMilkTransferIn.ReverseAndUnpost(fndRcptChalanNo.Value, Nothing) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndRcptChalanNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1413,7 +1413,7 @@ Public Class FrmMilkTransferIn
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1446,7 +1446,7 @@ Public Class FrmMilkTransferIn
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1479,7 +1479,7 @@ Public Class FrmMilkTransferIn
                 txtRcptControlSampleFAT.Focus()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1516,7 +1516,7 @@ Public Class FrmMilkTransferIn
         Dim strItemCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Item_Code  from TSPL_ITEM_MASTER where Product_Type='MS' "))
         If clsCommon.myLen(strItemCode) > 0 Then
         Else
-            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found")
+            clsCommon.MyMessageBoxShow(Me, "No Item Of Seal Type Found", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -1558,7 +1558,7 @@ Public Class FrmMilkTransferIn
         Dim strItemCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Item_Code  from TSPL_ITEM_MASTER where Product_Type='PS' "))
         If clsCommon.myLen(strItemCode) > 0 Then
         Else
-            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found")
+            clsCommon.MyMessageBoxShow(Me, "No Item Of Seal Type Found", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -1587,11 +1587,11 @@ Public Class FrmMilkTransferIn
 
     Private Sub txtKmReadingRecpt_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtKmReadingRecpt.Validating
         If clsCommon.myCdbl(txtKMReadingDisp.Text) > clsCommon.myCdbl(txtKmReadingRecpt.Text) AndAlso clsCommon.myCdbl(txtKmReadingRecpt.Text) > 0 Then
-            clsCommon.MyMessageBoxShow("Receipt KM reading must be more then Dispatch KM reading")
+            clsCommon.MyMessageBoxShow(Me, "Receipt KM reading must be more then Dispatch KM reading", Me.Text)
             txtKmReadingRecpt.Focus()
         End If
         If clsCommon.myCdbl(txtKmReadingRecpt.Text) < 0 Then
-            clsCommon.MyMessageBoxShow("Receipt KM reading must not be  Negative")
+            clsCommon.MyMessageBoxShow(Me, "Receipt KM reading must not be  Negative", Me.Text)
             txtKmReadingRecpt.Focus()
         End If
     End Sub
@@ -1740,7 +1740,7 @@ Public Class FrmMilkTransferIn
 
 
                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                        common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                         Return False
                     End If
 
@@ -1758,7 +1758,7 @@ Public Class FrmMilkTransferIn
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1870,7 +1870,7 @@ a:
             If check > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("drop table TEMP_LOC_QC_PARAM")
             End If
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = "select count(*) from INFORMATION_SCHEMA.TABLES where TABLE_NAME='TEMP_LOC_QC_PARAM'"
             check = clsDBFuncationality.getSingleValue(qry)

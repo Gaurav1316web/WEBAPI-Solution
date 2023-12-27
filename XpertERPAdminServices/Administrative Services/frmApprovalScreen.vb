@@ -340,7 +340,7 @@ Public Class frmApprovalScreen
             cboTransaction.ValueMember = "Code"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -379,7 +379,7 @@ Public Class frmApprovalScreen
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -481,7 +481,7 @@ Public Class frmApprovalScreen
                 End If ''no of level
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             isInsideLoadData = False
@@ -588,7 +588,7 @@ Public Class frmApprovalScreen
                 Throw New Exception("Set approval level are not match with grid level.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -669,12 +669,12 @@ Public Class frmApprovalScreen
             End If
 
             If clsApprovalScreen.SaveData(obj) Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
 
                 LoadData(cboModule.SelectedValue, cboTransaction.SelectedValue, clsCommon.myCdbl(txtLevelNo.Text))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             obj1 = Nothing
@@ -711,7 +711,7 @@ Public Class frmApprovalScreen
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -750,7 +750,7 @@ Public Class frmApprovalScreen
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
@@ -761,7 +761,7 @@ Public Class frmApprovalScreen
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click '' delete layout
         If clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode) Then
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
         End If
     End Sub
 
@@ -787,7 +787,7 @@ Public Class frmApprovalScreen
             CheckPOAndIndent()
             LoadData(clsCommon.myCstr(cboModule.SelectedValue), clsCommon.myCstr(cboTransaction.SelectedValue), clsCommon.myCdbl(txtLevelNo.Text))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -805,7 +805,7 @@ Public Class frmApprovalScreen
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -831,7 +831,7 @@ Public Class frmApprovalScreen
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -903,7 +903,7 @@ Public Class frmApprovalScreen
                 'End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1179,14 +1179,14 @@ Public Class frmApprovalScreen
                         End If
                     Next
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data imported successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data imported successfully.", Me.Text)
                 Catch ex As Exception
                     trans.Rollback()
                     Throw New Exception("Error at Line No " + clsCommon.myCstr(lineNo + 2) + Environment.NewLine + ex.Message)
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             Me.Controls.Remove(dgv)
