@@ -321,7 +321,7 @@ Public Class FrmShipToLocationDetails
             If GstApplicable Then
                 If chkGstRegistered.Checked Then
                     If clsCommon.myLen(txtpan.Text) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please Enter Customer Pan No.")
+                        clsCommon.MyMessageBoxShow(Me, "Please Enter Customer Pan No.", Me.Text)
                         txtpan.Focus()
                         txtpan.Select()
                         Exit Sub
@@ -385,7 +385,7 @@ Public Class FrmShipToLocationDetails
                     End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -408,7 +408,7 @@ Public Class FrmShipToLocationDetails
         Dim check As Match = Regex.Match(txtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
 
         If check.Success = False And txtEmail.Text <> "" Then
-            common.clsCommon.MyMessageBoxShow("Please insert the proper format of e-mail address", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please insert the proper format of e-mail address", Me.Text)
             txtEmail.Text = ""
             txtEmail.Focus()
             Return False
@@ -460,7 +460,7 @@ Public Class FrmShipToLocationDetails
 
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Return False
             End Try
         End If
@@ -472,7 +472,7 @@ Public Class FrmShipToLocationDetails
 
         If check.Success = False And txtEmail.Text <> "" Then
 
-            common.clsCommon.MyMessageBoxShow("Please insert the proper format of e-mail address", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please insert the proper format of e-mail address", Me.Text)
             txtEmail.Text = ""
             txtEmail.Focus()
             Return False
@@ -528,7 +528,7 @@ Public Class FrmShipToLocationDetails
     Private Sub funDelete()
         Try
             If txtShipToLocation.Text = "" Then
-                clsCommon.MyMessageBoxShow("Empty Ship To Code")
+                clsCommon.MyMessageBoxShow(Me, "Empty Ship To Code", Me.Text)
                 Exit Sub
             End If
             connectSql.RunSp("sp_TSPL_SHIP_TO_LOCATION_delete", New SqlParameter("@ShipToCode", txtShipToLocation.Text), New SqlParameter("@ShipToTypeCode", fndCustomer.Text))
@@ -666,7 +666,7 @@ Public Class FrmShipToLocationDetails
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''reset Ship To Location Details
@@ -738,7 +738,7 @@ Public Class FrmShipToLocationDetails
         If fndCustomer.Text <> "" Then
             Dim s As String = clsDBFuncationality.getSingleValue("select Cust_Code  from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustomer.Text + "'")
             If s <> fndCustomer.Text Then
-                common.clsCommon.MyMessageBoxShow("Customer doesn't exist.")
+                common.clsCommon.MyMessageBoxShow(Me, "Customer doesn't exist.", Me.Text)
                 fndCustomer.Text = ""
                 txtCustomerName.Text = ""
                 funReset()
@@ -1141,7 +1141,7 @@ Public Class FrmShipToLocationDetails
             LoadData()
         End If
         If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from tspl_customer_master where cust_code='" & txtcustomer.Value & "'")) = 0 Then
-            clsCommon.MyMessageBoxShow("Customer Not Found")
+            clsCommon.MyMessageBoxShow(Me, "Customer Not Found", Me.Text)
             txtcustomer.Value = ""
             txtcustomerdesc.Text = ""
             LoadData()
@@ -1443,7 +1443,7 @@ Public Class FrmShipToLocationDetails
                 txtCityName.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndstate__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtState._MYValidating
@@ -1471,7 +1471,7 @@ Public Class FrmShipToLocationDetails
             Whrcls = " Login_Type is null and EmployeeCode is not null "
             txtDriverFinder.Value = clsCustomerMaster.getDriverFinder(Whrcls, txtDriverFinder.Value, isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

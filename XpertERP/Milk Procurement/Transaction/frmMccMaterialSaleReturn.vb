@@ -482,6 +482,9 @@ Public Class frmMccMaterialSaleReturn
         dtpInvoice.Value = clsCommon.GETSERVERDATE()
         txtBillToLocation.Value = ""
         lblBillToLocation.Text = ""
+        txtSubLocation.Value = ""
+        lblSubLocation.Text = ""
+        txtSubLocation.Enabled = True
         txtShipToLocation.Value = ""
         lblShipToLocation.Text = ""
         txtDesc.Text = ""
@@ -3529,7 +3532,6 @@ Public Class frmMccMaterialSaleReturn
         txtDate.Enabled = True
         txtVendorNo.Enabled = True
         btnHistory.Enabled = False
-
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.SetDefaultValues()
@@ -3567,6 +3569,13 @@ Public Class frmMccMaterialSaleReturn
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
                 txtBillToLocation.Focus()
                 Return False
+            End If
+            If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                    If clsCommon.myLen(txtSubLocation.Value) <= 0 Then
+                        Throw New Exception("Please select Sub Location")
+                    End If
+                End If
             End If
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Return No Not found to save", Me.Text)
@@ -3780,6 +3789,7 @@ Public Class frmMccMaterialSaleReturn
                 obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
                 obj.Inv_No = txtInvNo.Text
                 obj.Bill_To_Location = txtBillToLocation.Value
+                obj.Sub_Location_code = txtSubLocation.Value
                 obj.Ship_To_Location = txtShipToLocation.Value
                 obj.Comments = txtComment.Text
                 obj.On_Hold = chkOnHold.Checked
@@ -4142,7 +4152,6 @@ Public Class frmMccMaterialSaleReturn
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
-
             Dim obj As New clsMccMaterialSaleReturn()
             obj = clsMccMaterialSaleReturn.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
@@ -4167,6 +4176,7 @@ Public Class frmMccMaterialSaleReturn
                     'repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                 End If
+
                 chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(obj.Customer_Code)
                 UsLock1.Status = obj.Status
                 txtInvoiceType.Text = obj.Invoice_Type
@@ -4205,6 +4215,18 @@ Public Class frmMccMaterialSaleReturn
                 txtComment.Text = obj.Comments
                 txtShipToLocation.Value = obj.Ship_To_Location
                 txtBillToLocation.Value = obj.Bill_To_Location
+                If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                        txtSubLocation.Enabled = True
+                    Else
+                        txtSubLocation.Enabled = False
+                    End If
+                End If
+                txtSubLocation.Value = obj.Sub_Location_code
+                If (clsCommon.myLen(txtSubLocation.Value) > 0) Then
+                    lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+
+                End If
                 txtInvNo.Text = obj.Inv_No
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()
                 objTaxGrpMaster = objTaxGrpMaster.GetDataForSale(obj.Tax_Group)
@@ -5226,13 +5248,24 @@ Public Class frmMccMaterialSaleReturn
         qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'"
 
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
+        If AllowPlandDeptMCCLocation Then
+            If clsCommon.myLen(strwherecls) > 0 Then
+                strwhrcondition = "TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and"
+            Else
+                strwhrcondition = "TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP'"
+            End If
+        End If
         If clsCommon.myLen(strwherecls) > 0 Then
-            strwhrcondition = " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ")"
+            strwhrcondition += " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ")"
         End If
         '-----------------------------------------------------'
-        txtVendorNo.Value = clsCommon.ShowSelectForm("PSSaleRetCustfnd", qry, "Code", strwhrcondition, txtVendorNo.Value, "Code", isButtonClicked)
 
-        qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+        txtVendorNo.Value = clsCommon.ShowSelectForm("PSSaleRetCustfnd", qry, "Code", strwhrcondition, txtVendorNo.Value, "Code", isButtonClicked)
+        If AllowPlandDeptMCCLocation Then
+            qry += " where 2=2 and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+        Else
+            qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+        End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
@@ -5333,21 +5366,28 @@ Public Class frmMccMaterialSaleReturn
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
 
 
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = "  Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N'  "
+        Dim qry As String = Nothing
+        Dim WhrCls As String = Nothing
         If AllowPlandDeptMCCLocation Then
-            WhrCls += " and (GIT_Type='' or GIT_Type='N') "
+            qry = "select Location_Code AS Code,Location_Desc as Name  from TSPL_LOCATION_MASTER"
+            WhrCls = " Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' "
+        Else
+            qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
+            WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
+            WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+
         End If
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-        If AllowPlandDeptMCCLocation = False Then
-            WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
-        End If
 
         txtBillToLocation.Value = clsCommon.ShowSelectForm("PSSaleRetBillLoca", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-
+        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+            txtSubLocation.Enabled = True
+        Else
+            txtSubLocation.Enabled = False
+        End If
     End Sub
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
 
@@ -5416,6 +5456,11 @@ Public Class frmMccMaterialSaleReturn
                     'If (clsCommon.myLen(txtBillToLocation.Value) <= 0) Then
                     txtBillToLocation.Value = objOrderHead.Bill_To_Location
                     lblBillToLocation.Text = objOrderHead.BillToLocationName
+                    txtSubLocation.Value = objOrderHead.Sub_Location_code
+                    If (clsCommon.myLen(txtSubLocation.Value) > 0) Then
+                        lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+
+                    End If
                     txtInvoiceType.Text = objOrderHead.Invoice_Type
                     'End If
                     If (clsCommon.myLen(lblProject.Text) <= 0) Then
@@ -7159,5 +7204,22 @@ Public Class frmMccMaterialSaleReturn
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
+        If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
+            clsCommon.MyMessageBoxShow("Please select Bill To location code before sub location", Me.Text)
+            Exit Sub
+        End If
+
+        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+            txtSubLocation.Value = clsLocation.getFinder(" (isnull(is_sub_location,'N')='Y' or isnull(Is_Section,'N')='Y') and Main_Location_Code='" + txtBillToLocation.Value + "'", txtSubLocation.Value, isButtonClicked)
+        End If
+
+        If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+            lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+        Else
+            lblSubLocation.Text = ""
+        End If
     End Sub
 End Class

@@ -558,11 +558,11 @@ Public Class FrmQualityCheck
             whrCls = " where 1=1 AND (Param_for='MCC' or Param_for='BOTH') "
         Else
             If (Not clsfrmParameterMaster.isCLRParmExist()) Then
-                clsCommon.MyMessageBoxShow("CLR parameter Does not exist. Please make it first")
+                clsCommon.MyMessageBoxShow(Me, "CLR parameter Does not exist. Please make it first", Me.Text)
                 Exit Sub
             End If
             If Not clsfrmParameterMaster.isCFParmExist() Then
-                clsCommon.MyMessageBoxShow("CF parameter Does not exist. Please make it first")
+                clsCommon.MyMessageBoxShow(Me, "CF parameter Does not exist. Please make it first", Me.Text)
                 Exit Sub
             End If
             whrCls = " where 1=1 AND ( Param_for='PLANT' or Param_for='BOTH') "
@@ -1250,7 +1250,7 @@ Public Class FrmQualityCheck
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1345,7 +1345,7 @@ Public Class FrmQualityCheck
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function allowToSave(ByVal isPost As Boolean) As Boolean
@@ -1629,7 +1629,7 @@ Public Class FrmQualityCheck
             '===================================================================================================================
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSave = False
             Return False
         End Try
@@ -1674,7 +1674,7 @@ Public Class FrmQualityCheck
                     End If
                 End If
                 If clsCommon.myLen(obj.QC_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error In QC  No Genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error In QC  No Genertion", Me.Text)
                     Exit Sub
                 End If
             Else
@@ -1857,9 +1857,9 @@ Public Class FrmQualityCheck
                 trans.Commit()
                 If Not isPost Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 btnSave.Text = "Update"
@@ -1871,7 +1871,7 @@ Public Class FrmQualityCheck
                 loadData(obj.QC_No, obj.Doc_Type, NavigatorType.Current)
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
@@ -1881,7 +1881,7 @@ Public Class FrmQualityCheck
             trans.Rollback()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSave = False
 
         End Try
@@ -2139,7 +2139,7 @@ Public Class FrmQualityCheck
 
 
                         Catch exx As Exception
-                            common.clsCommon.MyMessageBoxShow(exx.Message, Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, exx.Message, Me.Text)
                         End Try
 
                     Next
@@ -2284,19 +2284,19 @@ Public Class FrmQualityCheck
                             clsQCManualSealDetail.DeleteData(txtChallanNo.Text, trans)
                             trans.Commit()
                             reset(False, True)
-                            clsCommon.MyMessageBoxShow("Deleted Successfully")
+                            clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                         Else
-                            clsCommon.MyMessageBoxShow("Could Not Deleted. Try Again")
+                            clsCommon.MyMessageBoxShow(Me, "Could Not Deleted. Try Again", Me.Text)
                             trans.Rollback()
                         End If
                     End If
 
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select a QC No To delete")
+                clsCommon.MyMessageBoxShow(Me, "Please select a QC No To delete", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -2583,7 +2583,7 @@ Public Class FrmQualityCheck
                 loadData(fndQcNo.Value, strDocType, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2743,7 +2743,7 @@ Public Class FrmQualityCheck
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2920,7 +2920,7 @@ Public Class FrmQualityCheck
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsQualityCheck.ReverseAndUnpost(fndQcNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     loadData(fndQcNo.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
                 End If
             End If

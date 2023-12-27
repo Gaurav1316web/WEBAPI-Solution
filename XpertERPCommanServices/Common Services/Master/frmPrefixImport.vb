@@ -58,7 +58,7 @@ Public Class FrmPrefixImport
             gv1.MasterTemplate.ShowRowHeaderColumn = False
             repoError.Width = 500
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -259,11 +259,11 @@ Public Class FrmPrefixImport
                     End Try
                 End If
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Counters set successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Counters set successfully", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

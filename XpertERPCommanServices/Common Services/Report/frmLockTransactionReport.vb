@@ -148,7 +148,7 @@ Public Class FrmLockTransactionReport
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     gv.MasterTemplate.SummaryRowsBottom.Clear()
                     gv.DataSource = Nothing
@@ -180,7 +180,7 @@ Public Class FrmLockTransactionReport
                 clsCommon.MyExportToExcelGrid(" Lock Transaction Report", gv, arrHeader, Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -201,7 +201,7 @@ Public Class FrmLockTransactionReport
                 txtLocationMult.arrValueMember = clsCommon.ShowMultipleSelectForm("MulLoc", qry, "Code", "Name", txtLocationMult.arrValueMember, txtLocationMult.arrDispalyMember)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -210,7 +210,7 @@ Public Class FrmLockTransactionReport
 
     Private Sub btnExportExcel_Click(sender As Object, e As EventArgs) Handles btnExportExcel.Click
         If (gv.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         'LoadData(Exporter.Excel)
@@ -271,7 +271,7 @@ Public Class FrmLockTransactionReport
                 clsCommon.MyExportToPDF("Lock Transaction Report", gv, arrHeader, "Lock Transaction Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -283,7 +283,7 @@ Public Class FrmLockTransactionReport
 
     Private Sub btnExportPDF_Click(sender As Object, e As EventArgs) Handles btnExportPDF.Click
         If (gv.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Export(EnumExportTo.PDF)

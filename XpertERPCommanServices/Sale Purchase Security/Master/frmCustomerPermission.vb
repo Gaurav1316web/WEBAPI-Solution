@@ -73,7 +73,7 @@ Public Class FrmCustomerPermission
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -151,7 +151,7 @@ Public Class FrmCustomerPermission
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -205,12 +205,12 @@ Public Class FrmCustomerPermission
            
             If arrCustomer.Count > 0 Then
                 If obj.SaveData(UserCode, arrCustomer) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -281,7 +281,7 @@ Public Class FrmCustomerPermission
           
             If strvalue <> "" Then
             Else : strUser_Code = ""
-                common.clsCommon.MyMessageBoxShow("User Code does not exist Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "User Code does not exist Master Table", Me.Text)
                 fndUser_Name.Value = ""
                 TxtUserName.Text = ""
                 fndUser_Name.Focus()
@@ -364,12 +364,12 @@ Public Class FrmCustomerPermission
         Try
             If (deleteConfirm()) Then
                 If (ClsCustomerPermission.DeleteData(fndUser_Name.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -380,7 +380,7 @@ Public Class FrmCustomerPermission
                 " from TSPL_CUSTOMER_MAPPING left outer join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code=TSPL_CUSTOMER_MAPPING.User_Code left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MAPPING.Cust_Group_Code left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code = TSPL_CUSTOMER_MAPPING.cust_code "
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

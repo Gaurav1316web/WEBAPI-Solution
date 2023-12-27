@@ -259,7 +259,7 @@ Public Class frmRequestAproval
         Next
 
         If trnsLst.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Select Atleast One Document")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Atleast One Document", Me.Text)
         Else
             If myMessages.RequestRejectConfirm Then
                 For j As Integer = 0 To trnsLst.Count - 1
@@ -270,7 +270,7 @@ Public Class frmRequestAproval
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         countPostedDoc = countPostedDoc + 1
                         trans.Commit()
-                        common.clsCommon.MyMessageBoxShow("Data Canceled Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Canceled Successfully", Me.Text)
                         LoadPendingData(True)
                     Catch ex As Exception
                         trans.Rollback()

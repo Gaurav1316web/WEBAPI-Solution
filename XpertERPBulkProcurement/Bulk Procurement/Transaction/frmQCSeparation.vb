@@ -1111,9 +1111,9 @@ Public Class FrmQCSeparation
                 trans.Commit()
                 If Not isPost Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
                 btnSave.Text = "Update"
@@ -1123,7 +1123,7 @@ Public Class FrmQCSeparation
                 loadData(obj.QC_No, obj.Doc_Type, NavigatorType.Current)
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
@@ -1132,7 +1132,7 @@ Public Class FrmQCSeparation
             trans.Rollback()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSave = False
 
         End Try
@@ -1247,7 +1247,7 @@ Public Class FrmQCSeparation
 
 
                         Catch exx As Exception
-                            common.clsCommon.MyMessageBoxShow(exx.Message, Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, exx.Message, Me.Text)
                         End Try
 
                     Next
@@ -1364,19 +1364,19 @@ Public Class FrmQCSeparation
                             clsQCManualSealDetail.DeleteData(txtChallanNo.Text, trans)
                             trans.Commit()
                             reset(False, True)
-                            clsCommon.MyMessageBoxShow("Deleted Successfully")
+                            clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                         Else
-                            clsCommon.MyMessageBoxShow("Could Not Deleted. Try Again")
+                            clsCommon.MyMessageBoxShow(Me, "Could Not Deleted. Try Again", Me.Text)
                             trans.Rollback()
                         End If
                     End If
 
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select a QC No To delete")
+                clsCommon.MyMessageBoxShow(Me, "Please select a QC No To delete", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -1482,7 +1482,7 @@ Public Class FrmQCSeparation
                 loadData(fndQcNo.Value, strDocType, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1606,7 +1606,7 @@ Public Class FrmQCSeparation
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1667,7 +1667,7 @@ Public Class FrmQCSeparation
                     fracValue1 = Math.Round((fracValue1 - CInt(fracValue1)) * 100, 2)
                     If CInt(fracValue1) Mod settMODValueForFAT <> 0 Then
                         If Not isContractorJobWork Then
-                            clsCommon.MyMessageBoxShow(" FAT value in Grid, must have its decimal part multiple of 5")
+                            clsCommon.MyMessageBoxShow(Me, " FAT value in Grid, must have its decimal part multiple of 5", Me.Text)
                             gvParam.Rows(0).Cells(FATColName).Value = 0
                             gvParam.CurrentRow = gvParam.Rows(0)
                             gvParam.CurrentColumn = gvParam.Columns(FATColName)
@@ -1681,7 +1681,7 @@ Public Class FrmQCSeparation
                     fracValue1 = Math.Round((fracValue1 - CInt(fracValue1)) * 100, 2)
                     If CInt(fracValue1) Mod settMODValueForFAT <> 0 Then
                         If Not isContractorJobWork Then
-                            clsCommon.MyMessageBoxShow(" FAT value in Grid, must have its decimal part multiple of 5")
+                            clsCommon.MyMessageBoxShow(Me, " FAT value in Grid, must have its decimal part multiple of 5", Me.Text)
                             gvParam.CurrentRow.Cells(FATColName).Value = 0
                             gvParam.CurrentRow = gvParam.Rows(0)
                             gvParam.CurrentColumn = gvParam.Columns(FATColName)
@@ -1788,12 +1788,12 @@ Public Class FrmQCSeparation
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsQualityCheck.ReverseAndUnpost(fndQcNo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     loadData(fndQcNo.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1812,8 +1812,8 @@ Public Class FrmQCSeparation
                 obj1.GridColumns = gvParam.ColumnCount
                 obj1.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj1.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
-                End If
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+            End If
                 obj1.GridLayout.Close()
                 obj1.GridLayout.Dispose()
         End If
@@ -1822,7 +1822,7 @@ Public Class FrmQCSeparation
     Private Sub mnuDeleteLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID & "gvParam", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub mnuEmailSmsSetting_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuEmailSmsSetting.Click
@@ -1878,10 +1878,10 @@ Public Class FrmQCSeparation
             Dim qryp As String = "select Program_Name a   from TSPL_PROGRAM_MASTER where  Program_Code ='" & Me.Form_ID & "'"
             objApprov.Screen_Name = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qryp))
             ClsTransactionApproval.SaveData(objApprov, True)
-            clsCommon.MyMessageBoxShow("Document Sent For special Approval Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Document Sent For special Approval Successfully", Me.Text)
             loadData(fndQcNo.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2031,7 +2031,7 @@ Public Class FrmQCSeparation
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

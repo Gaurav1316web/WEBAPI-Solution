@@ -428,7 +428,7 @@ Public Class FrmTransactionCancelScreen
                 ' clsCommon.MyMessageBoxShow("Data saved successfully.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -546,7 +546,7 @@ Public Class FrmTransactionCancelScreen
                                 Dim qry As String = "select count(*) from tspl_complaint_detail where comp_id='" & clsCommon.myCstr(row.Cells("gvComplaintId").Value) & "'"
                                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry, tran)
                                 If check = 0 Then
-                                    clsCommon.MyMessageBoxShow("No Data Found")
+                                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                                 End If
                             End If
 
@@ -555,16 +555,16 @@ Public Class FrmTransactionCancelScreen
                                 Dim isSaved As Boolean = clscomplaintdetail.SaveData(Obj, False, tran)
                                 row.Cells("gvComplaintId").Value = Obj.comp_id
                                 If isSaved Then
-                                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                                     btnSave.Text = "Update"
                                     'btnPost.Enabled = True
 
                                 Else
                                     btnSave.Text = "Save"
-                                    common.clsCommon.MyMessageBoxShow("Data Could Not Saved", Me.Text)
+                                    common.clsCommon.MyMessageBoxShow(Me, "Data Could Not Saved", Me.Text)
                                 End If
                             Catch ex As Exception
-                                clsCommon.MyMessageBoxShow(ex.Message)
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                             End Try
 
                         End If
@@ -643,10 +643,10 @@ Public Class FrmTransactionCancelScreen
                     '----------------------------------------------------------------
                 Next
             Else
-                clsCommon.MyMessageBoxShow("No Data Found.")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -716,7 +716,7 @@ Public Class FrmTransactionCancelScreen
                 funReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

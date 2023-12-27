@@ -396,7 +396,7 @@ Public Class FrmNotificationScreen
 
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -446,9 +446,9 @@ Public Class FrmNotificationScreen
 
                 If clsfrmNotificationScreen.SaveData(obj, arr, trans) Then
                     If clsCommon.CompairString(btnsave.Text, "&Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
 
                     btnsave.Text = "&Update"
@@ -456,7 +456,7 @@ Public Class FrmNotificationScreen
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
@@ -486,7 +486,7 @@ Public Class FrmNotificationScreen
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -589,11 +589,11 @@ Public Class FrmNotificationScreen
 
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsfrmNotificationScreen.DeleteData(obj.modulecode, obj.doctype, trans) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -657,7 +657,7 @@ Public Class FrmNotificationScreen
             End If
         Catch ex As Exception
             RadGroupBox1.Visible = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -677,7 +677,7 @@ Public Class FrmNotificationScreen
                 Groupbox_criteria.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -746,7 +746,7 @@ Public Class FrmNotificationScreen
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -834,7 +834,7 @@ Public Class FrmNotificationScreen
             End If
         Catch ex As Exception
             Groupbox_criteria.Visible = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -765,7 +765,7 @@ Public Class FrmCustomFieldMaster
 
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
 
-        clsCommon.MyMessageBoxShow("Under Development")
+        clsCommon.MyMessageBoxShow(Me, "Under Development", Me.Text)
         'Dim gv As New RadGridView()
         'Me.Controls.Add(gv)
         'Dim currentdate As Date = Date.Today
