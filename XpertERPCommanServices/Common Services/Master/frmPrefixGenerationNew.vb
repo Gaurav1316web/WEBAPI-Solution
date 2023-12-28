@@ -388,7 +388,7 @@ Public Class FrmPrefixGenerationNew
                         Dim qry As String = "select Is_State_Wise,Is_MCC_Wise from TSPL_DOCUMENT_TYPE where Doc_Type='" + clsCommon.myCstr(txtDocument.Value) + "' and ISNULL(Doc_Trans_Type,'')='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTransType).Value) + "'"
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                            clsCommon.MyMessageBoxShow("Doc Transaction Type is not correct")
+                            clsCommon.MyMessageBoxShow(Me, "Doc Transaction Type is not correct", Me.Text)
                             gv1.CurrentRow.Cells(colLoaction).Value = ""
                             Exit Sub
                         End If
@@ -447,7 +447,7 @@ Public Class FrmPrefixGenerationNew
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -501,16 +501,16 @@ Public Class FrmPrefixGenerationNew
                         End If
                     Next
                     If clsDocPrefix.SaveData(clsCommon.myCstr(txtDocument.Value), IIf(chkFinYear.Checked = True, Convert.ToInt32(clsCommon.myCdbl(cboFiscalYear.SelectedValue)), 0), Arr) Then
-                        common.clsCommon.MyMessageBoxShow("Counters set successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Counters set successfully", Me.Text)
                         LoadData()
                     Else
-                        common.clsCommon.MyMessageBoxShow("Error occured in Counters")
+                        common.clsCommon.MyMessageBoxShow(Me, "Error occured in Counters", Me.Text)
                     End If
                 End If
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -616,7 +616,7 @@ Public Class FrmPrefixGenerationNew
 
             funSetUserAccess = True
         Catch er As Exception
-            clsCommon.MyMessageBoxShow(er.Message)
+            clsCommon.MyMessageBoxShow(Me, er.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -654,7 +654,7 @@ Public Class FrmPrefixGenerationNew
                 trans.Commit()
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Else
             e.Cancel = True
@@ -676,7 +676,7 @@ Public Class FrmPrefixGenerationNew
             End If
         Catch ex As Exception
             isInsidechkFinancialYearStyle = False
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -752,7 +752,7 @@ Public Class FrmPrefixGenerationNew
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         If clsCommon.myLen(txtDocument.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select document type.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select document type.", Me.Text)
             txtDocument.Select()
             Exit Sub
         End If

@@ -108,7 +108,7 @@ Public Class frmRG1Demo
                 print()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnExportToExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportToExcel.Click
@@ -117,7 +117,7 @@ Public Class frmRG1Demo
             printMRPWISE()
             IsExportToExcel = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -212,7 +212,7 @@ Public Class frmRG1Demo
 
         If chkLocSelect.IsChecked Then
             If cbgLoc.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location Code.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location Code.", Me.Text)
                 Return
             End If
             Qry += " and xxxx.Location in  (" + clsCommon.GetMulcallString(cbgLoc.CheckedValue) + ")  "
@@ -223,7 +223,7 @@ Public Class frmRG1Demo
 
         If chkItmSelect.IsChecked Then
             If cbgItem.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One Item Code.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Item Code.", Me.Text)
                 Return
             End If
             Qry += " and xxxx.Item_Code in  (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ")  "
@@ -418,7 +418,7 @@ Public Class frmRG1Demo
                                 " (Sale_Invoice_Date <= convert(datetime,'" + EndDate + "',103)) "
             If chkLocSelect.IsChecked Then
                 If cbgLoc.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location Code.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location Code.", Me.Text)
                     Return
                 End If
                 Qry += " and xxxx.Location in  (" + clsCommon.GetMulcallString(cbgLoc.CheckedValue) + ")  "
@@ -429,7 +429,7 @@ Public Class frmRG1Demo
 
             If chkItmSelect.IsChecked Then
                 If cbgItem.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Atleast One Item Code.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Item Code.", Me.Text)
                     Return
                 End If
                 Qry += " and xxxx.Item_Code in  (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ")  "

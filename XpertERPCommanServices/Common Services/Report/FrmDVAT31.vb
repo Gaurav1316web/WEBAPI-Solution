@@ -18,7 +18,7 @@ Public Class FrmDVAT31
             chkLocAll.IsChecked = True
             gv.DataSource = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -115,12 +115,12 @@ Public Class FrmDVAT31
     Function print() As String
         Try
             If chkselectcustomer.IsChecked AndAlso cbgCustomer.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One customer", Me.Text)
                 Return Nothing
                 Exit Function
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Atleast Single Location Or select All ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Atleast Single Location Or select All ", Me.Text)
                 Return Nothing
                 Exit Function
             End If
@@ -319,7 +319,7 @@ Public Class FrmDVAT31
             'End If
             'refreshGrid = "F"
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return Nothing
     End Function
@@ -363,7 +363,7 @@ Public Class FrmDVAT31
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub printcrystal()
@@ -377,7 +377,7 @@ Public Class FrmDVAT31
                 fRMcrys.funreport(CrystalReportFolder.CommonServices, dt, "RptDVAT31", "DVAT-31")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -728,7 +728,7 @@ Public Class FrmDVAT31
             gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

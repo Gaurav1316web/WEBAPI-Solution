@@ -74,7 +74,7 @@ Public Class frmDocumentCancelledReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -203,7 +203,7 @@ Public Class frmDocumentCancelledReport
             Exit Sub
         End If
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Select") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Select Transaction Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Transaction Type", Me.Text)
             cboTransaction.Focus()
             Exit Sub
         End If
@@ -243,7 +243,7 @@ Public Class frmDocumentCancelledReport
             FillData()
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -391,7 +391,7 @@ Public Class frmDocumentCancelledReport
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count <= 0 Then
                 lblNoOfRecords.Text = "No Record Found"
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 gv1.DataSource = dt
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()

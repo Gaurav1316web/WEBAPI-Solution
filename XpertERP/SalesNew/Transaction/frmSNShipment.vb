@@ -5078,7 +5078,6 @@ Public Class frmSNShipment
                                 Else
                                     dblEnteredQty += (dblQtyInner * dblConvFInner)
                                 End If
-
                             End If
                         Next
                         dblEnteredQty = Math.Round(dblEnteredQty, 2, MidpointRounding.ToEven)
@@ -5126,10 +5125,6 @@ Public Class frmSNShipment
                         Return True
                         Exit Function
                     End If
-
-
-
-
                     obj.SaveData(obj, True, False, trans)
                     obj.Document_No = obj.Document_No
                     clsTransferDCC.postTransfer(obj.Document_No, trans)
@@ -5232,8 +5227,6 @@ Public Class frmSNShipment
                         End If
 
                     End If
-
-
                     objIn.SaveData(objIn, True, False, trans)
                     objIn.Document_No = objIn.Document_No
                     clsTransferDCC.postTransfer(objIn.Document_No, trans)
@@ -5272,7 +5265,6 @@ Public Class frmSNShipment
                         isCreateAutoInvoice = True
                     End If
                 End If
-
                 If (clsSNShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, isCreateAutoInvoice)) Then
                     msg = "Successfully Posted"
                 Else

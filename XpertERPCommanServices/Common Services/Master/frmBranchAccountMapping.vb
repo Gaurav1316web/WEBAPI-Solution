@@ -172,7 +172,7 @@ Public Class FrmBranchAccountMapping
         If gv.CurrentRow.Index >= 0 Then
             If clsCommon.myLen(gv.CurrentRow.Cells(ColFromLocation).Value) <= 0 Then
                 gv.CurrentRow.Cells(ColBranchAccount).Value = ""
-                clsCommon.MyMessageBoxShow("Please select from location first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select from location first", Me.Text)
                 Exit Sub
             End If
 

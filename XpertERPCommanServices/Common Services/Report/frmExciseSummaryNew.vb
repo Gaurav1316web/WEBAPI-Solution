@@ -55,7 +55,7 @@ Public Class FrmExciseSummaryNew
 
         If chkLocSelect.IsChecked Then
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location Code.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location Code.", Me.Text)
                 Return
             End If
         End If
@@ -67,11 +67,11 @@ Public Class FrmExciseSummaryNew
 
         If rdUOMSelect.IsChecked Then
             If ChkUOM.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One UOM.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One UOM.", Me.Text)
                 Return
             End If
             If ChkUOM.CheckedValue.Count > 1 Then
-                common.clsCommon.MyMessageBoxShow("Please Select only one UOM at a time.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select only one UOM at a time.", Me.Text)
                 Return
             End If
         End If
@@ -253,7 +253,7 @@ Public Class FrmExciseSummaryNew
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -459,7 +459,7 @@ Public Class FrmExciseSummaryNew
 
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             'clsCommon.ProgressBarHide()
         End Try
@@ -642,10 +642,10 @@ Public Class FrmExciseSummaryNew
                 clsCommon.MyExportToPDF("EXCISE DUTY CALCULATION", gv1, arrHeader, "EXCISE DUTY CALCULATION", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                RadMessageBox.Show("No Data Found to Display", Me.Text)
+                RadMessageBox.Show(Me, "No Data Found to Display", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -693,7 +693,7 @@ Public Class FrmExciseSummaryNew
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 

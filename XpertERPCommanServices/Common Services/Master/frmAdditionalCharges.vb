@@ -83,7 +83,7 @@ Public Class FrmAdditionalCharges
         End If
 
         If clsCommon.myLen(txtGLAccount.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Me,Please select Account", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Me,Please select Account", Me.Text)
             txtGLAccount.Focus()
             Return False
         End If
