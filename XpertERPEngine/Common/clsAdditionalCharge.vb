@@ -2470,6 +2470,15 @@ Public Class clsCustomerMaster
                 End If
 
                 strtempBaseQry += Environment.NewLine + "----------------- Apply Document --------------------------------" + Environment.NewLine
+                strtempBaseQry += Environment.NewLine + " UNION ALL " + Environment.NewLine &
+                              "select TSPL_SD_SHIPMENT_head.Customer_Code as ACode,(TSPL_SD_SHIPMENT_head.Customer_Code) as Child,'' as AName,TSPL_SD_SHIPMENT_head.Document_Code as DocNo,'' as AgainstInvoiceNo,(CONVERT(DATE, TSPL_SD_SHIPMENT_head.Document_Date ,103)) as DocDate,'MI' as docType,(TSPL_SD_SHIPMENT_head.Remarks) as DocNarr,'' as ChequeDetails,
+                             'INR' as Currency_Code, 1 as ConvRate,Total_Amt as DrAmt,0 as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], 0 as [DrNote],0 as [CrNote],(TSPL_SD_SHIPMENT_head.Bill_To_Location) as Location,'' as SourceCode,'' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,(TSPL_CUSTOMER_MASTER.Cust_Type_Code) as Cust_Type_Code,(TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc) as  Cust_Type_Desc,(TSPL_CUSTOMER_MASTER.Cust_Category_Code) as Cust_Category_Code,(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC ) as  CUST_CATEGORY_DESC
+                             from TSPL_SD_SHIPMENT_head
+                             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_head.Customer_Code
+                             LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE
+                             LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   
+                             where Document_Code not in (select TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No from TSPL_SD_SALE_INVOICE_HEAD)   "
+                strtempBaseQry += " and  TSPL_SD_SHIPMENT_head.Customer_Code  in(" & strCustomer & ")"
                 If Docwise = False Then
                     ''richa aagwral changes done on 11 Aug,2016 against ticket no BM00000009448
                     'strtempBaseQry += " UNION ALL " + Environment.NewLine & _
