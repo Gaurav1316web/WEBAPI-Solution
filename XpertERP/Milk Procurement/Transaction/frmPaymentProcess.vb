@@ -4258,414 +4258,454 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
     End Sub
 
     Sub LoadData(ByVal strCode As String, ByVal navType As NavigatorType)
-        Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(strCode, navType)
-        If obj IsNot Nothing Then
-            Reset()
-            fndLoc.Enabled = False
-            isNewEntry = False
-            btnSave.Text = "Update"
-            btnDelete.Enabled = True
-            btnProcess.Enabled = True
-            fndDocNo.MyReadOnly = True
-            fndDocNo.Value = obj.Doc_No
-            fndLoc.Value = obj.Loc_Seg_Code
-            If clsCommon.myLen(clsCommon.myCstr(obj.Loc_Seg_Code)) > 0 Then
-                txtLocName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Description  from TSPL_GL_SEGMENT_CODE WHERE  Segment_code='" & fndLoc.Value & "' "))
+        clsCommon.ProgressBarPercentShow()
+        Dim ii As Integer = 0
+        Dim iiTotal As Integer = 13
+        Try
+            ii = ii + 1
+            clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Gettting Payment process Data")
+            Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(strCode, navType)
+            If obj IsNot Nothing Then
+                Reset()
+                fndLoc.Enabled = False
+                isNewEntry = False
+                btnSave.Text = "Update"
+                btnDelete.Enabled = True
+                btnProcess.Enabled = True
+                fndDocNo.MyReadOnly = True
+                fndDocNo.Value = obj.Doc_No
+                fndLoc.Value = obj.Loc_Seg_Code
+                If clsCommon.myLen(clsCommon.myCstr(obj.Loc_Seg_Code)) > 0 Then
+                    txtLocName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Description  from TSPL_GL_SEGMENT_CODE WHERE  Segment_code='" & fndLoc.Value & "' "))
+                Else
+                    txtLocName.Text = ""
+                End If
+
+                dtpFromDate.Value = obj.From_Date
+                dtpToDate.Value = obj.To_Date
+                dtpDate.Value = obj.Doc_Date
+                txtNEFTUploaderREFNo.Text = obj.DocRefNoForUploader
+                txtNEFTUploaderREFNo.Tag = obj.PaymentDesc
+
+                txtMCC.Text = obj.MCC_Code_Selected
+                lblMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select MCC_Name from tspl_MCC_Master where mcc_code='" + obj.MCC_Code_Selected + "' "))
+
+                chkSkipPrevItemIssue.Checked = obj.Is_Skip_Previous_Item_Issue
+                chkSkipPrevItemIssueReturn.Checked = obj.Is_Skip_Previous_Item_Issue_Return
+                chkSkipPrevMccSale.Checked = obj.Is_Skip_Previous_MCC_Sale
+                ChkSkipMccSaleReturn.Checked = obj.Is_Skip_Previous_MCC_Sale_Return
+                chkSkipPrevCreditNote.Checked = obj.Is_Skip_Previous_Credit_Note
+                chkSkipPrevDeduction.Checked = obj.Is_Skip_Previous_Debit_Note
+                chkSkipPreviousDocumentOfAdvancePayment.Checked = obj.Is_Skip_Previous_Advacee_Payment
+                SetTagOFCheckBox()
+
+                If obj.isPosted = 0 Then
+                    lblPending.Status = ERPTransactionStatus.Pending
+                    btnPrintBillMobUser.Enabled = False
+                Else
+                    btnSave.Enabled = False
+                    btnProcess.Enabled = False
+                    btnDelete.Enabled = False
+                    lblPending.Status = ERPTransactionStatus.Approved
+                    btnPrintBillMobUser.Enabled = True
+                End If
+                isLoad = True
+                Dim i As Integer = 0
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Invoice Data")
+                If obj.arrClsPaymentProcessInvoices IsNot Nothing AndAlso obj.arrClsPaymentProcessInvoices.Count > 0 Then
+                    gvInvoice.Rows.Clear()
+                    For i = 0 To obj.arrClsPaymentProcessInvoices.Count - 1
+                        gvInvoice.Rows.AddNew()
+                        gvInvoice.Rows(i).Cells(colSlno).Value = (i + 1)
+                        gvInvoice.Rows(i).Cells(colSelect).Value = True
+                        gvInvoice.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessInvoices.Item(i).AP_Invoice_No
+                        gvInvoice.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessInvoices.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
+                        gvInvoice.Rows(i).Cells(colPurchaseInvoiceNo).Value = obj.arrClsPaymentProcessInvoices.Item(i).Milk_Purchase_Invoice_No
+                        gvInvoice.Rows(i).Cells(colPurchaseInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessInvoices.Item(i).Milk_Purchase_Invoice_Date, "dd/MMM/yyyy")
+                        gvInvoice.Rows(i).Cells(colVLCCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).VLC_CODE
+                        gvInvoice.Rows(i).Cells(colVLCName).Value = getVLCNameByVSPCode(obj.arrClsPaymentProcessInvoices.Item(i).VSP_CODE)
+                        gvInvoice.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessInvoices.Item(i).VSP_CODE))
+                        gvInvoice.Rows(i).Cells(colMCCCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).MCC_Code
+                        gvInvoice.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).VSP_CODE
+                        gvInvoice.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessInvoices.Item(i).VSP_NAME
+                        gvInvoice.Rows(i).Cells(colPayeeJointName).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Name
+                        gvInvoice.Rows(i).Cells(colPayeeJointBankCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Bank_Code
+                        gvInvoice.Rows(i).Cells(colPayeeJointBankDesc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Bank_Name
+                        gvInvoice.Rows(i).Cells(colPayeeJointBranchCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Branch_Code
+                        gvInvoice.Rows(i).Cells(colPayeeJointBranchDesc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Branch_Name
+                        gvInvoice.Rows(i).Cells(colPayeeJointIFSC).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_IFSC_Code
+                        gvInvoice.Rows(i).Cells(colPayeeJointAcNo).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Ac_No
+                        gvInvoice.Rows(i).Cells(colMilkQty).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Milk_Qty)
+                        gvInvoice.Rows(i).Cells(colInvAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Amount)
+                        gvInvoice.Rows(i).Cells(colEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_EMP_Amount)
+                        gvInvoice.Rows(i).Cells(colInvAndEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Amt_EMP_Amount)
+                        gvInvoice.Rows(i).Cells(colIncenAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Incentive_Amount)
+                        gvInvoice.Rows(i).Cells(colIncenEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Incentive_EMP_Amount)
+                        gvInvoice.Rows(i).Cells(colTDSAmt).Value = clsCommon.myCDecimal(obj.arrClsPaymentProcessInvoices.Item(i).TDS_Amount)
+                        gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Gross_Amount)
+                        gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).Vsp_Own_System_Amount
+                        gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Tag = obj.arrClsPaymentProcessInvoices.Item(i).Vsp_Own_System_Doc_No
+                        gvInvoice.Rows(i).Cells(colHeadLoadAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).Head_Load_Amount
+                        gvInvoice.Rows(i).Cells(colHeadLoadAmt).Tag = obj.arrClsPaymentProcessInvoices.Item(i).Head_Load_Doc_No
+                        gvInvoice.Rows(i).Cells(colInvDeduc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Deduction_Amount
+                        gvInvoice.Rows(i).Cells(colInvDeduc).Tag = obj.arrClsPaymentProcessInvoices.Item(i).Deduction_Doc_No
+                        gvInvoice.Rows(i).Cells(colReduceDeduc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Reduce_Deduc_Amt
+                        gvInvoice.Rows(i).Cells(colReduceDeduc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Reduce_Deduc_Amt
+                        gvInvoice.Rows(i).Cells(colBankCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).Bank_Code
+                        gvInvoice.Rows(i).Cells(colBankDesc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Bank_Desc
+                        gvInvoice.Rows(i).Cells(colPayMode).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payment_Mode
+                        gvInvoice.Rows(i).Cells(colChequeNo).Value = obj.arrClsPaymentProcessInvoices.Item(i).Cheque_No
+                        gvInvoice.Rows(i).Cells(colServiceChargeAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).Service_Charge_Amt
+                        gvInvoice.Rows(i).Cells(colActualVSPCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).ActualVSPCode
+                        gvInvoice.Rows(i).Cells(colActualVSPName).Value = obj.arrClsPaymentProcessInvoices.Item(i).ActualVSPName
+                        gvInvoice.Rows(i).Cells(colHandlingCharges).Value = obj.arrClsPaymentProcessInvoices.Item(i).Handling_Charges_Amount
+                        gvInvoice.Rows(i).Cells(colSRNROAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).SRN_RO_Amount
+                        gvInvoice.Rows(i).Cells(colSRNNetAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).SRN_Net_Amount
+                        gvInvoice.Rows(i).Cells(colMPAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_Amount
+                        gvInvoice.Rows(i).Cells(colMPEMPAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_EMP
+                        gvInvoice.Rows(i).Cells(colMPIncentiveAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_Incentive
+                        gvInvoice.Rows(i).Cells(colMPEMPIncentiveAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_IncentiveEMP
+                        gvInvoice.Rows(i).Cells(colMPNetAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_Net_Amount
+
+
+                        gvInvoice.Rows(i).Cells(colFATKG).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalFATKG
+                        gvInvoice.Rows(i).Cells(colFATPer).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalFATPer
+                        gvInvoice.Rows(i).Cells(colSNFKG).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalSNFKg
+                        gvInvoice.Rows(i).Cells(colSNFPer).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalSNFPer
+
+
+                    Next
+
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load MCC Sale Data")
+                If obj.arrClsPaymentProcessMccSale IsNot Nothing AndAlso obj.arrClsPaymentProcessMccSale.Count > 0 Then
+                    gvMccSale.Rows.Clear()
+                    For i = 0 To obj.arrClsPaymentProcessMccSale.Count - 1
+                        gvMccSale.Rows.AddNew()
+                        gvMccSale.Rows(i).Cells(colSlno).Value = (i + 1)
+                        gvMccSale.Rows(i).Cells(colSelect).Value = True
+                        gvMccSale.Rows(i).Cells(colShipmentNo).Value = obj.arrClsPaymentProcessMccSale.Item(i).Shipment_Doc_No
+                        gvMccSale.Rows(i).Cells(colShipmentDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSale.Item(i).Shipment_Doc_Date, "dd/MMM/yyyy")
+                        gvMccSale.Rows(i).Cells(colSaleInvNo).Value = obj.arrClsPaymentProcessMccSale.Item(i).Sale_Doc_No
+                        gvMccSale.Rows(i).Cells(colSaleInvDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSale.Item(i).Sale_Doc_Date, "dd/MMM/yyyy")
+                        gvMccSale.Rows(i).Cells(colARInvoiceNo).Value = obj.arrClsPaymentProcessMccSale.Item(i).AR_Invoice_No
+                        gvMccSale.Rows(i).Cells(colARInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSale.Item(i).AR_Invoice_Date, "dd/MMM/yyyy")
+                        gvMccSale.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessMccSale.Item(i).Customer_CODE))
+                        gvMccSale.Rows(i).Cells(colCustomerCode).Value = obj.arrClsPaymentProcessMccSale.Item(i).Customer_CODE
+                        gvMccSale.Rows(i).Cells(colCustomerName).Value = obj.arrClsPaymentProcessMccSale.Item(i).Customer_NAME
+                        'gvMccSale.Rows(i).Cells(colItemCode).Value = obj.arrClsPaymentProcessMccSale.Item(i).Item_Code
+                        'gvMccSale.Rows(i).Cells(colItemDesc).Value = obj.arrClsPaymentProcessMccSale.Item(i).Item_Desc
+                        gvMccSale.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale.Item(i).Amount)
+                        gvMccSale.Rows(i).Cells(colReduceDeduc).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale.Item(i).Reduce_Deduc_Amt)
+
+                        gvMccSale.Rows(i).Cells(colOrgBalanceAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale.Item(i).Original_Balance_Amount)
+                        gvMccSale.Rows(i).Cells(colInstallmentAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale.Item(i).Instalment_Amt)
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Item Issue Data")
+                If obj.arrClsPaymentProcessItemIssue IsNot Nothing AndAlso obj.arrClsPaymentProcessItemIssue.Count > 0 Then
+                    gvItemIssue.Rows.Clear()
+                    For i = 0 To obj.arrClsPaymentProcessItemIssue.Count - 1
+                        gvItemIssue.Rows.AddNew()
+                        gvItemIssue.Rows(i).Cells(colSlno).Value = (i + 1)
+                        gvItemIssue.Rows(i).Cells(colSelect).Value = True
+                        gvItemIssue.Rows(i).Cells(colVspItemIssueNo).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Item_Issue_Doc_No
+                        gvItemIssue.Rows(i).Cells(colVspItemIssueDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessItemIssue.Item(i).Item_Issue_Doc_Date, "dd/MMM/yyyy")
+                        gvItemIssue.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessItemIssue.Item(i).AP_Invoice_No
+                        gvItemIssue.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessItemIssue.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
+                        gvItemIssue.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessItemIssue.Item(i).Vendor_CODE))
+                        gvItemIssue.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Vendor_CODE
+                        gvItemIssue.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Vendor_NAME
+                        'gvItemIssue.Rows(i).Cells(colItemCode).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Item_Code
+                        'gvItemIssue.Rows(i).Cells(colItemDesc).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Item_Desc
+                        gvItemIssue.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssue.Item(i).Amount)
+                        gvItemIssue.Rows(i).Cells(colReduceDeduc).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssue.Item(i).Reduce_Deduc_Amt)
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Item Issue Return Data")
+                If obj.arrClsPaymentProcessItemIssueReturn IsNot Nothing AndAlso obj.arrClsPaymentProcessItemIssueReturn.Count > 0 Then
+                    gvItemIssueReturn.Rows.Clear()
+                    For i = 0 To obj.arrClsPaymentProcessItemIssueReturn.Count - 1
+                        gvItemIssueReturn.Rows.AddNew()
+                        gvItemIssueReturn.Rows(i).Cells(colSlno).Value = (i + 1)
+                        gvItemIssueReturn.Rows(i).Cells(colSelect).Value = True
+                        gvItemIssueReturn.Rows(i).Cells(colVspItemIssueReturnNo).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).Item_Issue_Return_No
+                        gvItemIssueReturn.Rows(i).Cells(colVspItemIssueNo).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).Item_Issue_Doc_No
+                        gvItemIssueReturn.Rows(i).Cells(colVspItemIssueDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessItemIssueReturn.Item(i).Item_Issue_Return_Date, "dd/MMM/yyyy")
+                        gvItemIssueReturn.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).AP_Invoice_No
+                        gvItemIssueReturn.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessItemIssueReturn.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
+                        gvItemIssueReturn.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessItemIssueReturn.Item(i).Vendor_CODE))
+                        gvItemIssueReturn.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).Vendor_CODE
+                        gvItemIssueReturn.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).Vendor_NAME
+                        gvItemIssueReturn.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssueReturn.Item(i).Amount)
+                        'gvItemIssueReturn.Rows(i).Cells(colReduceDeduc).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssueReturn.Item(i).Reduce_Deduc_Amt)
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Deduction Data")
+                If obj.arrClsPaymentProcessDeductions IsNot Nothing AndAlso obj.arrClsPaymentProcessDeductions.Count > 0 Then
+                    gvDeduction.Rows.Clear()
+                    For i = 0 To obj.arrClsPaymentProcessDeductions.Count - 1
+                        gvDeduction.Rows.AddNew()
+                        gvDeduction.Rows(i).Cells(colSlno).Value = (i + 1)
+                        gvDeduction.Rows(i).Cells(colSelect).Value = True
+                        gvDeduction.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessDeductions.Item(i).AP_Invoice_No
+                        gvDeduction.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessDeductions.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
+                        gvDeduction.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessDeductions.Item(i).Vendor_CODE))
+                        gvDeduction.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessDeductions.Item(i).Vendor_CODE
+                        gvDeduction.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessDeductions.Item(i).Vendor_NAME
+                        gvDeduction.Rows(i).Cells(colDeductionCode).Value = obj.arrClsPaymentProcessDeductions.Item(i).Ded_Code
+                        gvDeduction.Rows(i).Cells(colDeductionDesc).Value = obj.arrClsPaymentProcessDeductions.Item(i).Ded_Desc
+                        gvDeduction.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessDeductions.Item(i).Amount)
+                        gvDeduction.Rows(i).Cells(colReduceDeduc).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessDeductions.Item(i).Reduce_Deduc_Amt)
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Addition Data ")
+                If obj.arrClsPaymentProcessCreditNote IsNot Nothing AndAlso obj.arrClsPaymentProcessCreditNote.Count > 0 Then
+                    gvCreditNote.Rows.Clear()
+                    For i = 0 To obj.arrClsPaymentProcessCreditNote.Count - 1
+                        gvCreditNote.Rows.AddNew()
+                        gvCreditNote.Rows(i).Cells(colSlno).Value = (i + 1)
+                        gvCreditNote.Rows(i).Cells(colSelect).Value = True
+                        gvCreditNote.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessCreditNote.Item(i).AP_Invoice_No
+                        gvCreditNote.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessCreditNote.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
+                        gvCreditNote.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_CODE))
+                        gvCreditNote.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_CODE
+                        gvCreditNote.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_NAME
+                        gvCreditNote.Rows(i).Cells(colTDSAmt).Value = obj.arrClsPaymentProcessCreditNote.Item(i).TDS_Amount
+                        gvCreditNote.Rows(i).Cells(colItemAmt).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Amount
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Saving Data")
+                If obj.arrclsPaymentProcessSaving IsNot Nothing AndAlso obj.arrclsPaymentProcessSaving.Count > 0 Then
+                    gvSaving.Rows.Clear()
+                    For i = 0 To obj.arrclsPaymentProcessSaving.Count - 1
+                        gvSaving.Rows.AddNew()
+                        gvSaving.Rows(i).Cells(colSlno).Value = (i + 1)
+                        gvSaving.Rows(i).Cells(colSelect).Value = True
+                        gvSaving.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrclsPaymentProcessSaving.Item(i).AP_Invoice_No
+                        gvSaving.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrclsPaymentProcessSaving.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
+                        gvSaving.Rows(i).Cells(colAPInvoiceType).Value = obj.arrclsPaymentProcessSaving.Item(i).AP_Invoice_Type
+                        gvSaving.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrclsPaymentProcessSaving.Item(i).Vendor_CODE))
+                        gvSaving.Rows(i).Cells(colVendorCode).Value = obj.arrclsPaymentProcessSaving.Item(i).Vendor_CODE
+                        gvSaving.Rows(i).Cells(colVendorDesc).Value = obj.arrclsPaymentProcessSaving.Item(i).Vendor_NAME
+                        gvSaving.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrclsPaymentProcessSaving.Item(i).Amount)
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Compulsory Data")
+                If obj.arrclsPaymentProcessCompulsory IsNot Nothing AndAlso obj.arrclsPaymentProcessCompulsory.Count > 0 Then
+                    gvCompulsory.Rows.Clear()
+                    For i = 0 To obj.arrclsPaymentProcessCompulsory.Count - 1
+                        gvCompulsory.Rows.AddNew()
+                        gvCompulsory.Rows(i).Cells(colSlno).Value = (i + 1)
+                        gvCompulsory.Rows(i).Cells(colSelect).Value = True
+                        gvCompulsory.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrclsPaymentProcessCompulsory.Item(i).AP_Invoice_No
+                        gvCompulsory.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrclsPaymentProcessCompulsory.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
+                        gvCompulsory.Rows(i).Cells(colAPInvoiceType).Value = obj.arrclsPaymentProcessCompulsory.Item(i).AP_Invoice_Type
+                        gvCompulsory.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrclsPaymentProcessCompulsory.Item(i).Vendor_CODE))
+                        gvCompulsory.Rows(i).Cells(colVendorCode).Value = obj.arrclsPaymentProcessCompulsory.Item(i).Vendor_CODE
+                        gvCompulsory.Rows(i).Cells(colVendorDesc).Value = obj.arrclsPaymentProcessCompulsory.Item(i).Vendor_NAME
+                        gvCompulsory.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrclsPaymentProcessCompulsory.Item(i).Amount)
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load MCC Sale Return Data")
+                If obj.arrClsPaymentProcessMccSaleReturn IsNot Nothing AndAlso obj.arrClsPaymentProcessMccSaleReturn.Count > 0 Then
+                    GvMccSaleReturn.Rows.Clear()
+                    For i = 0 To obj.arrClsPaymentProcessMccSaleReturn.Count - 1
+                        GvMccSaleReturn.Rows.AddNew()
+                        GvMccSaleReturn.Rows(i).Cells(colSlno).Value = (i + 1)
+                        GvMccSaleReturn.Rows(i).Cells(colSelect).Value = True
+                        GvMccSaleReturn.Rows(i).Cells(colReturnDocNo).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Return_Doc_No
+                        GvMccSaleReturn.Rows(i).Cells(colReturnDocType).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Return_Doc_Type
+                        GvMccSaleReturn.Rows(i).Cells(colReturnDocDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Return_Doc_Date, "dd/MMM/yyyy")
+                        GvMccSaleReturn.Rows(i).Cells(colShipmentNo).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Shipment_Doc_No
+                        GvMccSaleReturn.Rows(i).Cells(colShipmentDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Shipment_Doc_Date, "dd/MMM/yyyy")
+                        GvMccSaleReturn.Rows(i).Cells(colSaleInvNo).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Sale_Doc_No
+                        GvMccSaleReturn.Rows(i).Cells(colSaleInvDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Sale_Doc_Date, "dd/MMM/yyyy")
+                        GvMccSaleReturn.Rows(i).Cells(colARInvoiceNo).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).AR_Invoice_No
+                        GvMccSaleReturn.Rows(i).Cells(colARInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSaleReturn.Item(i).AR_Invoice_Date, "dd/MMM/yyyy")
+                        GvMccSaleReturn.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Customer_CODE))
+                        GvMccSaleReturn.Rows(i).Cells(colCustomerCode).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Customer_CODE
+                        GvMccSaleReturn.Rows(i).Cells(colCustomerName).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Customer_NAME
+                        'gvMccSaleReturn.Rows(i).Cells(colItemCode).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Item_Code
+                        'gvMccSaleReturn.Rows(i).Cells(colItemDesc).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Item_Desc
+                        GvMccSaleReturn.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Amount)
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Advance Payment Data")
+                If obj.ArrPPAdvancePayment IsNot Nothing AndAlso obj.ArrPPAdvancePayment.Count > 0 Then
+                    gvAdvancePayment.Rows.Clear()
+                    For i = 0 To obj.ArrPPAdvancePayment.Count - 1
+                        gvAdvancePayment.Rows.AddNew()
+                        gvAdvancePayment.Rows(i).Cells(colAPSNo).Value = (i + 1)
+                        gvAdvancePayment.Rows(i).Cells(colAPSelect).Value = True
+                        gvAdvancePayment.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.ArrPPAdvancePayment.Item(i).Vendor_Code))
+                        gvAdvancePayment.Rows(i).Cells(colAPVendorCode).Value = obj.ArrPPAdvancePayment.Item(i).Vendor_Code
+                        gvAdvancePayment.Rows(i).Cells(colAPVendorName).Value = obj.ArrPPAdvancePayment.Item(i).Vendor_Name
+                        gvAdvancePayment.Rows(i).Cells(colAPPaymentCode).Value = obj.ArrPPAdvancePayment.Item(i).Payment_No
+                        gvAdvancePayment.Rows(i).Cells(colAPPaymentDate).Value = obj.ArrPPAdvancePayment.Item(i).Payment_Date
+                        gvAdvancePayment.Rows(i).Cells(colAPPaymentAmt).Value = obj.ArrPPAdvancePayment.Item(i).Payment_Amount
+                        gvAdvancePayment.Rows(i).Cells(colAPInstallmentAmt).Value = obj.ArrPPAdvancePayment.Item(i).Installment_Amount
+                        gvAdvancePayment.Rows(i).Cells(colAPPaymentAmtBalance).Value = obj.ArrPPAdvancePayment.Item(i).Payment_Balance
+                        gvAdvancePayment.Rows(i).Cells(colAPNoOfInstallment).Value = obj.ArrPPAdvancePayment.Item(i).No_Of_EMI
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Asset Lost Data")
+                If obj.ArrPPAssetLost IsNot Nothing AndAlso obj.ArrPPAssetLost.Count > 0 Then
+                    gvAssetLost.Rows.Clear()
+                    For i = 0 To obj.ArrPPAssetLost.Count - 1
+                        gvAssetLost.Rows.AddNew()
+                        gvAssetLost.Rows(i).Cells(colALSNo).Value = (i + 1)
+                        gvAssetLost.Rows(i).Cells(colALSelect).Value = True
+                        gvAssetLost.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.ArrPPAssetLost.Item(i).Vendor_Code))
+                        gvAssetLost.Rows(i).Cells(colALVendorCode).Value = obj.ArrPPAssetLost.Item(i).Vendor_Code
+                        gvAssetLost.Rows(i).Cells(colALVendorName).Value = obj.ArrPPAssetLost.Item(i).Vendor_Name
+                        gvAssetLost.Rows(i).Cells(colALPaymentCode).Value = obj.ArrPPAssetLost.Item(i).Payment_No
+                        gvAssetLost.Rows(i).Cells(colALPaymentDate).Value = obj.ArrPPAssetLost.Item(i).Payment_Date
+                        gvAssetLost.Rows(i).Cells(colALPaymentAmt).Value = obj.ArrPPAssetLost.Item(i).Payment_Amount
+                    Next
+                End If
+
+                ii = ii + 1
+                clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Detail Data")
+                LoadBlankGridGV()
+                If obj.ArrPPDetail IsNot Nothing AndAlso obj.ArrPPDetail.Count > 0 Then
+                    Dim arr As New ArrayList()
+                    Dim arrMcc As New ArrayList()
+                    For i = 0 To obj.ArrPPDetail.Count - 1
+                        If Not arr.Contains(obj.ArrPPDetail.Item(i).VSP_CODE) Then
+                            arr.Add(obj.ArrPPDetail.Item(i).VSP_CODE)
+                        End If
+                        If Not arrMcc.Contains(obj.ArrPPDetail.Item(i).MCC_Code) Then
+                            arrMcc.Add(obj.ArrPPDetail.Item(i).MCC_Code)
+                        End If
+
+                        gv.Rows.AddNew()
+                        gv.Rows(i).Cells(colSlno).Value = obj.ArrPPDetail.Item(i).SNo
+                        gv.Rows(i).Cells(colSelect).Value = obj.ArrPPDetail.Item(i).Is_select
+                        gv.Rows(i).Cells(colIsPaymentProcessHold).Value = obj.ArrPPDetail.Item(i).is_Hold_Payment_Process
+                        gv.Rows(i).Cells(colPurchaseInvoiceNo).Value = obj.ArrPPDetail.Item(i).Milk_Purchase_Invoice_No
+                        gv.Rows(i).Cells(colPurchaseInvoiceDate).Value = obj.ArrPPDetail.Item(i).Milk_Purchase_Invoice_Date
+                        gv.Rows(i).Cells(colAPInvoiceNo).Value = obj.ArrPPDetail.Item(i).AP_Invoice_No
+                        gv.Rows(i).Cells(colAPInvoiceDate).Value = obj.ArrPPDetail.Item(i).AP_Invoice_Date
+                        gv.Rows(i).Cells(colVLCUploaderCode).Value = obj.ArrPPDetail.Item(i).VLC_CODE_Uploader
+                        gv.Rows(i).Cells(colVLCName).Value = obj.ArrPPDetail.Item(i).VLC_Name
+                        gv.Rows(i).Cells(colMCCCode).Value = obj.ArrPPDetail.Item(i).MCC_Code
+                        gv.Rows(i).Cells(colVendorCode).Value = obj.ArrPPDetail.Item(i).VSP_CODE
+                        gv.Rows(i).Cells(colVendorDesc).Value = obj.ArrPPDetail.Item(i).VSP_NAME
+                        gv.Rows(i).Cells(colActualVSPCode).Value = obj.ArrPPDetail.Item(i).Main_VSP_CODE
+                        gv.Rows(i).Cells(colActualVSPName).Value = obj.ArrPPDetail.Item(i).Main_VSP_NAME
+                        gv.Rows(i).Cells(colPayeeJointName).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Name
+                        gv.Rows(i).Cells(colPayeeJointBankCode).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Bank_Code
+                        gv.Rows(i).Cells(colPayeeJointBankDesc).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Bank_Name
+                        gv.Rows(i).Cells(colPayeeJointBranchCode).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Branch_Code
+                        gv.Rows(i).Cells(colPayeeJointBranchDesc).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Branch_Name
+                        gv.Rows(i).Cells(colPayeeJointAcNo).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Account_No
+                        gv.Rows(i).Cells(colPayeeJointIFSC).Value = obj.ArrPPDetail.Item(i).Payee_Joint_IFSC_Code
+                        gv.Rows(i).Cells(colBankCode).Value = obj.ArrPPDetail.Item(i).Bank_Code
+                        gv.Rows(i).Cells(colBankDesc).Value = obj.ArrPPDetail.Item(i).Bank_Desc
+                        gv.Rows(i).Cells(colPayMode).Value = obj.ArrPPDetail.Item(i).Payment_Mode
+                        gv.Rows(i).Cells(colChequeNo).Value = obj.ArrPPDetail.Item(i).Cheque_No
+                        If clsCommon.CompairString(obj.ArrPPDetail.Item(i).Payment_Mode, "Cheque") = CompairStringResult.Equal Then
+                            gv.Rows(i).Cells(colChequeDate).Value = obj.ArrPPDetail.Item(i).Cheque_Dated
+                        Else
+                            gv.Rows(i).Cells(colChequeDate).Value = Nothing
+                        End If
+
+                        gv.Rows(i).Cells(colMilkQty).Value = obj.ArrPPDetail.Item(i).Milk_Qty
+                        gv.Rows(i).Cells(colVSPAmount).Value = obj.ArrPPDetail.Item(i).VSP_Amount
+                        gv.Rows(i).Cells(colHandlingCharges).Value = obj.ArrPPDetail.Item(i).Handling_Charges_Amount
+                        gv.Rows(i).Cells(colSRNROAmt).Value = obj.ArrPPDetail.Item(i).SRN_RO_Amount
+                        gv.Rows(i).Cells(colSRNNetAmount).Value = obj.ArrPPDetail.Item(i).SRN_Net_Amount
+                        gv.Rows(i).Cells(colMPAmount).Value = obj.ArrPPDetail.Item(i).MP_Amount
+                        gv.Rows(i).Cells(colMPEMPAmount).Value = obj.ArrPPDetail.Item(i).MP_EMP
+                        gv.Rows(i).Cells(colMPIncentiveAmount).Value = obj.ArrPPDetail.Item(i).MP_Incentive
+                        gv.Rows(i).Cells(colMPEMPIncentiveAmount).Value = obj.ArrPPDetail.Item(i).MP_IncentiveEMP
+                        gv.Rows(i).Cells(colMPNetAmount).Value = obj.ArrPPDetail.Item(i).MP_Net_Amount
+
+                        gv.Rows(i).Cells(colMPVSPDiffAmount).Value = obj.ArrPPDetail.Item(i).MP_VSP_Diff_Amount
+                        gv.Rows(i).Cells(colIncenAmt).Value = obj.ArrPPDetail.Item(i).Incentive_Amount
+                        gv.Rows(i).Cells(colEmpAmt).Value = obj.ArrPPDetail.Item(i).EMP_Amount
+                        gv.Rows(i).Cells(colIncenEmpAmt).Value = obj.ArrPPDetail.Item(i).Incentive_EMP_Amount
+                        gv.Rows(i).Cells(colTotalEmp).Value = obj.ArrPPDetail.Item(i).Total_EMP_Amount
+                        gv.Rows(i).Cells(colInvAmt).Value = obj.ArrPPDetail.Item(i).Milk_Amount
+                        gv.Rows(i).Cells(colInvAndEmpAmt).Value = obj.ArrPPDetail.Item(i).Incentive_EMP_Amount
+                        gv.Rows(i).Cells(colInvAndEmpAmt).Value = obj.ArrPPDetail.Item(i).Total
+                        gv.Rows(i).Cells(colTDSAmt).Value = obj.ArrPPDetail.Item(i).TDS_Amount
+                        gv.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = obj.ArrPPDetail.Item(i).Total_Invoice_Amount
+                        gv.Rows(i).Cells(colVSPOwnSystemAmt).Value = obj.ArrPPDetail.Item(i).Vsp_Own_System_Amount
+                        gv.Rows(i).Cells(colHeadLoadAmt).Value = obj.ArrPPDetail.Item(i).Head_Load_Amount
+                        gv.Rows(i).Cells(colInvDeduc).Value = obj.ArrPPDetail.Item(i).Invoice_Deduction_Amount
+                        gv.Rows(i).Cells(colReduceDeduc).Value = obj.ArrPPDetail.Item(i).Reduce_Deduc_Amt
+                        gv.Rows(i).Cells(colMccSaleTotalAmount).Value = obj.ArrPPDetail.Item(i).MCC_Sale_Amount
+                        gv.Rows(i).Cells(colMccSaleReturnTotalAmount).Value = obj.ArrPPDetail.Item(i).MCC_Sale_Return_Amount
+                        gv.Rows(i).Cells(colItemIssueTotalAmount).Value = obj.ArrPPDetail.Item(i).Item_Issue_Amount
+                        gv.Rows(i).Cells(colItemIssueReturnTotalAmount).Value = obj.ArrPPDetail.Item(i).Item_Issue_Return_Amount
+                        gv.Rows(i).Cells(colDeductionTotalAmount).Value = obj.ArrPPDetail.Item(i).Deduction_Amount
+                        gv.Rows(i).Cells(colAssetLostAmount).Value = obj.ArrPPDetail.Item(i).Asset_Lost_Amount
+                        gv.Rows(i).Cells(colTotalCreditNoteAmount).Value = obj.ArrPPDetail.Item(i).Credit_Note_Amount
+                        gv.Rows(i).Cells(colTotalCompulsoryAmount).Value = obj.ArrPPDetail.Item(i).Compulsory_Amount
+                        gv.Rows(i).Cells(colPaybleAmt).Value = obj.ArrPPDetail.Item(i).Payable_Amount
+                        gv.Rows(i).Cells(colServiceChargeAmt).Value = obj.ArrPPDetail.Item(i).Service_Charge_Amt
+
+                        gv.Rows(i).Cells(colAdvanceAmount).Value = obj.ArrPPDetail.Item(i).Advance_Payment_Amount
+                        gv.Rows(i).Cells(colAdvanceKnockOffAmount).Value = obj.ArrPPDetail.Item(i).Advance_Payment_Amount_Knock_Off
+
+
+                        gv.Rows(i).Cells(colFATKG).Value = obj.ArrPPDetail.Item(i).CalFATKG
+                        gv.Rows(i).Cells(colFATPer).Value = obj.ArrPPDetail.Item(i).CalFATPer
+                        gv.Rows(i).Cells(colSNFKG).Value = obj.ArrPPDetail.Item(i).CalSNFKg
+                        gv.Rows(i).Cells(colSNFPer).Value = obj.ArrPPDetail.Item(i).CalSNFPer
+
+                    Next
+                    txtVSP.arrValueMember = arr
+                    mfndMcc.arrValueMember = arrMcc
+                    AddSummary()
+                    ReStoreGridLayout()
+                Else
+                    loadGvData()
+                End If
+
+                If clsCommon.myLen(txtMCC.Text) > 0 Then
+                    txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtMCC.Text, dtpToDate.Value)
+                    txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtMCC.Text, dtpToDate.Value)
+                Else
+                    txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(fndLoc.Value, dtpToDate.Value)
+                    txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(fndLoc.Value, dtpToDate.Value)
+                End If
+
+                isLoad = False
             Else
-                txtLocName.Text = ""
+                Reset()
             End If
-
-            dtpFromDate.Value = obj.From_Date
-            dtpToDate.Value = obj.To_Date
-            dtpDate.Value = obj.Doc_Date
-            txtNEFTUploaderREFNo.Text = obj.DocRefNoForUploader
-            txtNEFTUploaderREFNo.Tag = obj.PaymentDesc
-
-            txtMCC.Text = obj.MCC_Code_Selected
-            lblMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select MCC_Name from tspl_MCC_Master where mcc_code='" + obj.MCC_Code_Selected + "' "))
-
-            chkSkipPrevItemIssue.Checked = obj.Is_Skip_Previous_Item_Issue
-            chkSkipPrevItemIssueReturn.Checked = obj.Is_Skip_Previous_Item_Issue_Return
-            chkSkipPrevMccSale.Checked = obj.Is_Skip_Previous_MCC_Sale
-            ChkSkipMccSaleReturn.Checked = obj.Is_Skip_Previous_MCC_Sale_Return
-            chkSkipPrevCreditNote.Checked = obj.Is_Skip_Previous_Credit_Note
-            chkSkipPrevDeduction.Checked = obj.Is_Skip_Previous_Debit_Note
-            chkSkipPreviousDocumentOfAdvancePayment.Checked = obj.Is_Skip_Previous_Advacee_Payment
-            SetTagOFCheckBox()
-
-            If obj.isPosted = 0 Then
-                lblPending.Status = ERPTransactionStatus.Pending
-                btnPrintBillMobUser.Enabled = False
-            Else
-                btnSave.Enabled = False
-                btnProcess.Enabled = False
-                btnDelete.Enabled = False
-                lblPending.Status = ERPTransactionStatus.Approved
-                btnPrintBillMobUser.Enabled = True
-            End If
-            isLoad = True
-            Dim i As Integer = 0
-            If obj.arrClsPaymentProcessInvoices IsNot Nothing AndAlso obj.arrClsPaymentProcessInvoices.Count > 0 Then
-                gvInvoice.Rows.Clear()
-                For i = 0 To obj.arrClsPaymentProcessInvoices.Count - 1
-                    gvInvoice.Rows.AddNew()
-                    gvInvoice.Rows(i).Cells(colSlno).Value = (i + 1)
-                    gvInvoice.Rows(i).Cells(colSelect).Value = True
-                    gvInvoice.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessInvoices.Item(i).AP_Invoice_No
-                    gvInvoice.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessInvoices.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
-                    gvInvoice.Rows(i).Cells(colPurchaseInvoiceNo).Value = obj.arrClsPaymentProcessInvoices.Item(i).Milk_Purchase_Invoice_No
-                    gvInvoice.Rows(i).Cells(colPurchaseInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessInvoices.Item(i).Milk_Purchase_Invoice_Date, "dd/MMM/yyyy")
-                    gvInvoice.Rows(i).Cells(colVLCCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).VLC_CODE
-                    gvInvoice.Rows(i).Cells(colVLCName).Value = getVLCNameByVSPCode(obj.arrClsPaymentProcessInvoices.Item(i).VSP_CODE)
-                    gvInvoice.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessInvoices.Item(i).VSP_CODE))
-                    gvInvoice.Rows(i).Cells(colMCCCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).MCC_Code
-                    gvInvoice.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).VSP_CODE
-                    gvInvoice.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessInvoices.Item(i).VSP_NAME
-                    gvInvoice.Rows(i).Cells(colPayeeJointName).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Name
-                    gvInvoice.Rows(i).Cells(colPayeeJointBankCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Bank_Code
-                    gvInvoice.Rows(i).Cells(colPayeeJointBankDesc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Bank_Name
-                    gvInvoice.Rows(i).Cells(colPayeeJointBranchCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Branch_Code
-                    gvInvoice.Rows(i).Cells(colPayeeJointBranchDesc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Branch_Name
-                    gvInvoice.Rows(i).Cells(colPayeeJointIFSC).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_IFSC_Code
-                    gvInvoice.Rows(i).Cells(colPayeeJointAcNo).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payee_Joint_Ac_No
-                    gvInvoice.Rows(i).Cells(colMilkQty).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Milk_Qty)
-                    gvInvoice.Rows(i).Cells(colInvAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Amount)
-                    gvInvoice.Rows(i).Cells(colEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_EMP_Amount)
-                    gvInvoice.Rows(i).Cells(colInvAndEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Amt_EMP_Amount)
-                    gvInvoice.Rows(i).Cells(colIncenAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Incentive_Amount)
-                    gvInvoice.Rows(i).Cells(colIncenEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Incentive_EMP_Amount)
-                    gvInvoice.Rows(i).Cells(colTDSAmt).Value = clsCommon.myCDecimal(obj.arrClsPaymentProcessInvoices.Item(i).TDS_Amount)
-                    gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Gross_Amount)
-                    gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).Vsp_Own_System_Amount
-                    gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Tag = obj.arrClsPaymentProcessInvoices.Item(i).Vsp_Own_System_Doc_No
-                    gvInvoice.Rows(i).Cells(colHeadLoadAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).Head_Load_Amount
-                    gvInvoice.Rows(i).Cells(colHeadLoadAmt).Tag = obj.arrClsPaymentProcessInvoices.Item(i).Head_Load_Doc_No
-                    gvInvoice.Rows(i).Cells(colInvDeduc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Deduction_Amount
-                    gvInvoice.Rows(i).Cells(colInvDeduc).Tag = obj.arrClsPaymentProcessInvoices.Item(i).Deduction_Doc_No
-                    gvInvoice.Rows(i).Cells(colReduceDeduc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Reduce_Deduc_Amt
-                    gvInvoice.Rows(i).Cells(colReduceDeduc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Reduce_Deduc_Amt
-                    gvInvoice.Rows(i).Cells(colBankCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).Bank_Code
-                    gvInvoice.Rows(i).Cells(colBankDesc).Value = obj.arrClsPaymentProcessInvoices.Item(i).Bank_Desc
-                    gvInvoice.Rows(i).Cells(colPayMode).Value = obj.arrClsPaymentProcessInvoices.Item(i).Payment_Mode
-                    gvInvoice.Rows(i).Cells(colChequeNo).Value = obj.arrClsPaymentProcessInvoices.Item(i).Cheque_No
-                    gvInvoice.Rows(i).Cells(colServiceChargeAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).Service_Charge_Amt
-                    gvInvoice.Rows(i).Cells(colActualVSPCode).Value = obj.arrClsPaymentProcessInvoices.Item(i).ActualVSPCode
-                    gvInvoice.Rows(i).Cells(colActualVSPName).Value = obj.arrClsPaymentProcessInvoices.Item(i).ActualVSPName
-                    gvInvoice.Rows(i).Cells(colHandlingCharges).Value = obj.arrClsPaymentProcessInvoices.Item(i).Handling_Charges_Amount
-                    gvInvoice.Rows(i).Cells(colSRNROAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).SRN_RO_Amount
-                    gvInvoice.Rows(i).Cells(colSRNNetAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).SRN_Net_Amount
-                    gvInvoice.Rows(i).Cells(colMPAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_Amount
-                    gvInvoice.Rows(i).Cells(colMPEMPAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_EMP
-                    gvInvoice.Rows(i).Cells(colMPIncentiveAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_Incentive
-                    gvInvoice.Rows(i).Cells(colMPEMPIncentiveAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_IncentiveEMP
-                    gvInvoice.Rows(i).Cells(colMPNetAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_Net_Amount
+            clsCommon.ProgressBarPercentHide()
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
 
 
-                    gvInvoice.Rows(i).Cells(colFATKG).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalFATKG
-                    gvInvoice.Rows(i).Cells(colFATPer).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalFATPer
-                    gvInvoice.Rows(i).Cells(colSNFKG).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalSNFKg
-                    gvInvoice.Rows(i).Cells(colSNFPer).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalSNFPer
-
-
-                Next
-
-            End If
-            If obj.arrClsPaymentProcessMccSale IsNot Nothing AndAlso obj.arrClsPaymentProcessMccSale.Count > 0 Then
-                gvMccSale.Rows.Clear()
-                For i = 0 To obj.arrClsPaymentProcessMccSale.Count - 1
-                    gvMccSale.Rows.AddNew()
-                    gvMccSale.Rows(i).Cells(colSlno).Value = (i + 1)
-                    gvMccSale.Rows(i).Cells(colSelect).Value = True
-                    gvMccSale.Rows(i).Cells(colShipmentNo).Value = obj.arrClsPaymentProcessMccSale.Item(i).Shipment_Doc_No
-                    gvMccSale.Rows(i).Cells(colShipmentDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSale.Item(i).Shipment_Doc_Date, "dd/MMM/yyyy")
-                    gvMccSale.Rows(i).Cells(colSaleInvNo).Value = obj.arrClsPaymentProcessMccSale.Item(i).Sale_Doc_No
-                    gvMccSale.Rows(i).Cells(colSaleInvDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSale.Item(i).Sale_Doc_Date, "dd/MMM/yyyy")
-                    gvMccSale.Rows(i).Cells(colARInvoiceNo).Value = obj.arrClsPaymentProcessMccSale.Item(i).AR_Invoice_No
-                    gvMccSale.Rows(i).Cells(colARInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSale.Item(i).AR_Invoice_Date, "dd/MMM/yyyy")
-                    gvMccSale.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessMccSale.Item(i).Customer_CODE))
-                    gvMccSale.Rows(i).Cells(colCustomerCode).Value = obj.arrClsPaymentProcessMccSale.Item(i).Customer_CODE
-                    gvMccSale.Rows(i).Cells(colCustomerName).Value = obj.arrClsPaymentProcessMccSale.Item(i).Customer_NAME
-                    'gvMccSale.Rows(i).Cells(colItemCode).Value = obj.arrClsPaymentProcessMccSale.Item(i).Item_Code
-                    'gvMccSale.Rows(i).Cells(colItemDesc).Value = obj.arrClsPaymentProcessMccSale.Item(i).Item_Desc
-                    gvMccSale.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale.Item(i).Amount)
-                    gvMccSale.Rows(i).Cells(colReduceDeduc).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale.Item(i).Reduce_Deduc_Amt)
-
-                    gvMccSale.Rows(i).Cells(colOrgBalanceAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale.Item(i).Original_Balance_Amount)
-                    gvMccSale.Rows(i).Cells(colInstallmentAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale.Item(i).Instalment_Amt)
-                Next
-            End If
-            If obj.arrClsPaymentProcessItemIssue IsNot Nothing AndAlso obj.arrClsPaymentProcessItemIssue.Count > 0 Then
-                gvItemIssue.Rows.Clear()
-                For i = 0 To obj.arrClsPaymentProcessItemIssue.Count - 1
-                    gvItemIssue.Rows.AddNew()
-                    gvItemIssue.Rows(i).Cells(colSlno).Value = (i + 1)
-                    gvItemIssue.Rows(i).Cells(colSelect).Value = True
-                    gvItemIssue.Rows(i).Cells(colVspItemIssueNo).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Item_Issue_Doc_No
-                    gvItemIssue.Rows(i).Cells(colVspItemIssueDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessItemIssue.Item(i).Item_Issue_Doc_Date, "dd/MMM/yyyy")
-                    gvItemIssue.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessItemIssue.Item(i).AP_Invoice_No
-                    gvItemIssue.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessItemIssue.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
-                    gvItemIssue.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessItemIssue.Item(i).Vendor_CODE))
-                    gvItemIssue.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Vendor_CODE
-                    gvItemIssue.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Vendor_NAME
-                    'gvItemIssue.Rows(i).Cells(colItemCode).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Item_Code
-                    'gvItemIssue.Rows(i).Cells(colItemDesc).Value = obj.arrClsPaymentProcessItemIssue.Item(i).Item_Desc
-                    gvItemIssue.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssue.Item(i).Amount)
-                    gvItemIssue.Rows(i).Cells(colReduceDeduc).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssue.Item(i).Reduce_Deduc_Amt)
-                Next
-            End If
-
-            If obj.arrClsPaymentProcessItemIssueReturn IsNot Nothing AndAlso obj.arrClsPaymentProcessItemIssueReturn.Count > 0 Then
-                gvItemIssueReturn.Rows.Clear()
-                For i = 0 To obj.arrClsPaymentProcessItemIssueReturn.Count - 1
-                    gvItemIssueReturn.Rows.AddNew()
-                    gvItemIssueReturn.Rows(i).Cells(colSlno).Value = (i + 1)
-                    gvItemIssueReturn.Rows(i).Cells(colSelect).Value = True
-                    gvItemIssueReturn.Rows(i).Cells(colVspItemIssueReturnNo).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).Item_Issue_Return_No
-                    gvItemIssueReturn.Rows(i).Cells(colVspItemIssueNo).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).Item_Issue_Doc_No
-                    gvItemIssueReturn.Rows(i).Cells(colVspItemIssueDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessItemIssueReturn.Item(i).Item_Issue_Return_Date, "dd/MMM/yyyy")
-                    gvItemIssueReturn.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).AP_Invoice_No
-                    gvItemIssueReturn.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessItemIssueReturn.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
-                    gvItemIssueReturn.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessItemIssueReturn.Item(i).Vendor_CODE))
-                    gvItemIssueReturn.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).Vendor_CODE
-                    gvItemIssueReturn.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessItemIssueReturn.Item(i).Vendor_NAME
-                    gvItemIssueReturn.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssueReturn.Item(i).Amount)
-                    'gvItemIssueReturn.Rows(i).Cells(colReduceDeduc).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssueReturn.Item(i).Reduce_Deduc_Amt)
-                Next
-            End If
-
-            If obj.arrClsPaymentProcessDeductions IsNot Nothing AndAlso obj.arrClsPaymentProcessDeductions.Count > 0 Then
-                gvDeduction.Rows.Clear()
-                For i = 0 To obj.arrClsPaymentProcessDeductions.Count - 1
-                    gvDeduction.Rows.AddNew()
-                    gvDeduction.Rows(i).Cells(colSlno).Value = (i + 1)
-                    gvDeduction.Rows(i).Cells(colSelect).Value = True
-                    gvDeduction.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessDeductions.Item(i).AP_Invoice_No
-                    gvDeduction.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessDeductions.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
-                    gvDeduction.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessDeductions.Item(i).Vendor_CODE))
-                    gvDeduction.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessDeductions.Item(i).Vendor_CODE
-                    gvDeduction.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessDeductions.Item(i).Vendor_NAME
-                    gvDeduction.Rows(i).Cells(colDeductionCode).Value = obj.arrClsPaymentProcessDeductions.Item(i).Ded_Code
-                    gvDeduction.Rows(i).Cells(colDeductionDesc).Value = obj.arrClsPaymentProcessDeductions.Item(i).Ded_Desc
-                    gvDeduction.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessDeductions.Item(i).Amount)
-                    gvDeduction.Rows(i).Cells(colReduceDeduc).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessDeductions.Item(i).Reduce_Deduc_Amt)
-                Next
-            End If
-
-            If obj.arrClsPaymentProcessCreditNote IsNot Nothing AndAlso obj.arrClsPaymentProcessCreditNote.Count > 0 Then
-                gvCreditNote.Rows.Clear()
-                For i = 0 To obj.arrClsPaymentProcessCreditNote.Count - 1
-                    gvCreditNote.Rows.AddNew()
-                    gvCreditNote.Rows(i).Cells(colSlno).Value = (i + 1)
-                    gvCreditNote.Rows(i).Cells(colSelect).Value = True
-                    gvCreditNote.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrClsPaymentProcessCreditNote.Item(i).AP_Invoice_No
-                    gvCreditNote.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessCreditNote.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
-                    gvCreditNote.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_CODE))
-                    gvCreditNote.Rows(i).Cells(colVendorCode).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_CODE
-                    gvCreditNote.Rows(i).Cells(colVendorDesc).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Vendor_NAME
-                    gvCreditNote.Rows(i).Cells(colTDSAmt).Value = obj.arrClsPaymentProcessCreditNote.Item(i).TDS_Amount
-                    gvCreditNote.Rows(i).Cells(colItemAmt).Value = obj.arrClsPaymentProcessCreditNote.Item(i).Amount
-                Next
-            End If
-
-            If obj.arrclsPaymentProcessSaving IsNot Nothing AndAlso obj.arrclsPaymentProcessSaving.Count > 0 Then
-                gvSaving.Rows.Clear()
-                For i = 0 To obj.arrclsPaymentProcessSaving.Count - 1
-                    gvSaving.Rows.AddNew()
-                    gvSaving.Rows(i).Cells(colSlno).Value = (i + 1)
-                    gvSaving.Rows(i).Cells(colSelect).Value = True
-                    gvSaving.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrclsPaymentProcessSaving.Item(i).AP_Invoice_No
-                    gvSaving.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrclsPaymentProcessSaving.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
-                    gvSaving.Rows(i).Cells(colAPInvoiceType).Value = obj.arrclsPaymentProcessSaving.Item(i).AP_Invoice_Type
-                    gvSaving.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrclsPaymentProcessSaving.Item(i).Vendor_CODE))
-                    gvSaving.Rows(i).Cells(colVendorCode).Value = obj.arrclsPaymentProcessSaving.Item(i).Vendor_CODE
-                    gvSaving.Rows(i).Cells(colVendorDesc).Value = obj.arrclsPaymentProcessSaving.Item(i).Vendor_NAME
-                    gvSaving.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrclsPaymentProcessSaving.Item(i).Amount)
-                Next
-            End If
-
-            If obj.arrclsPaymentProcessCompulsory IsNot Nothing AndAlso obj.arrclsPaymentProcessCompulsory.Count > 0 Then
-                gvCompulsory.Rows.Clear()
-                For i = 0 To obj.arrclsPaymentProcessCompulsory.Count - 1
-                    gvCompulsory.Rows.AddNew()
-                    gvCompulsory.Rows(i).Cells(colSlno).Value = (i + 1)
-                    gvCompulsory.Rows(i).Cells(colSelect).Value = True
-                    gvCompulsory.Rows(i).Cells(colAPInvoiceNo).Value = obj.arrclsPaymentProcessCompulsory.Item(i).AP_Invoice_No
-                    gvCompulsory.Rows(i).Cells(colAPInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrclsPaymentProcessCompulsory.Item(i).AP_Invoice_Date, "dd/MMM/yyyy")
-                    gvCompulsory.Rows(i).Cells(colAPInvoiceType).Value = obj.arrclsPaymentProcessCompulsory.Item(i).AP_Invoice_Type
-                    gvCompulsory.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrclsPaymentProcessCompulsory.Item(i).Vendor_CODE))
-                    gvCompulsory.Rows(i).Cells(colVendorCode).Value = obj.arrclsPaymentProcessCompulsory.Item(i).Vendor_CODE
-                    gvCompulsory.Rows(i).Cells(colVendorDesc).Value = obj.arrclsPaymentProcessCompulsory.Item(i).Vendor_NAME
-                    gvCompulsory.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrclsPaymentProcessCompulsory.Item(i).Amount)
-                Next
-            End If
-
-            If obj.arrClsPaymentProcessMccSaleReturn IsNot Nothing AndAlso obj.arrClsPaymentProcessMccSaleReturn.Count > 0 Then
-                GvMccSaleReturn.Rows.Clear()
-                For i = 0 To obj.arrClsPaymentProcessMccSaleReturn.Count - 1
-                    GvMccSaleReturn.Rows.AddNew()
-                    GvMccSaleReturn.Rows(i).Cells(colSlno).Value = (i + 1)
-                    GvMccSaleReturn.Rows(i).Cells(colSelect).Value = True
-                    GvMccSaleReturn.Rows(i).Cells(colReturnDocNo).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Return_Doc_No
-                    GvMccSaleReturn.Rows(i).Cells(colReturnDocType).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Return_Doc_Type
-                    GvMccSaleReturn.Rows(i).Cells(colReturnDocDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Return_Doc_Date, "dd/MMM/yyyy")
-                    GvMccSaleReturn.Rows(i).Cells(colShipmentNo).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Shipment_Doc_No
-                    GvMccSaleReturn.Rows(i).Cells(colShipmentDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Shipment_Doc_Date, "dd/MMM/yyyy")
-                    GvMccSaleReturn.Rows(i).Cells(colSaleInvNo).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Sale_Doc_No
-                    GvMccSaleReturn.Rows(i).Cells(colSaleInvDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Sale_Doc_Date, "dd/MMM/yyyy")
-                    GvMccSaleReturn.Rows(i).Cells(colARInvoiceNo).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).AR_Invoice_No
-                    GvMccSaleReturn.Rows(i).Cells(colARInvoiceDate).Value = clsCommon.GetPrintDate(obj.arrClsPaymentProcessMccSaleReturn.Item(i).AR_Invoice_Date, "dd/MMM/yyyy")
-                    GvMccSaleReturn.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Customer_CODE))
-                    GvMccSaleReturn.Rows(i).Cells(colCustomerCode).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Customer_CODE
-                    GvMccSaleReturn.Rows(i).Cells(colCustomerName).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Customer_NAME
-                    'gvMccSaleReturn.Rows(i).Cells(colItemCode).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Item_Code
-                    'gvMccSaleReturn.Rows(i).Cells(colItemDesc).Value = obj.arrClsPaymentProcessMccSaleReturn.Item(i).Item_Desc
-                    GvMccSaleReturn.Rows(i).Cells(colItemAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSaleReturn.Item(i).Amount)
-                Next
-            End If
-            LoadBlankGridGV()
-
-
-            If obj.ArrPPAdvancePayment IsNot Nothing AndAlso obj.ArrPPAdvancePayment.Count > 0 Then
-                gvAdvancePayment.Rows.Clear()
-                For i = 0 To obj.ArrPPAdvancePayment.Count - 1
-                    gvAdvancePayment.Rows.AddNew()
-                    gvAdvancePayment.Rows(i).Cells(colAPSNo).Value = (i + 1)
-                    gvAdvancePayment.Rows(i).Cells(colAPSelect).Value = True
-                    gvAdvancePayment.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.ArrPPAdvancePayment.Item(i).Vendor_Code))
-                    gvAdvancePayment.Rows(i).Cells(colAPVendorCode).Value = obj.ArrPPAdvancePayment.Item(i).Vendor_Code
-                    gvAdvancePayment.Rows(i).Cells(colAPVendorName).Value = obj.ArrPPAdvancePayment.Item(i).Vendor_Name
-                    gvAdvancePayment.Rows(i).Cells(colAPPaymentCode).Value = obj.ArrPPAdvancePayment.Item(i).Payment_No
-                    gvAdvancePayment.Rows(i).Cells(colAPPaymentDate).Value = obj.ArrPPAdvancePayment.Item(i).Payment_Date
-                    gvAdvancePayment.Rows(i).Cells(colAPPaymentAmt).Value = obj.ArrPPAdvancePayment.Item(i).Payment_Amount
-                    gvAdvancePayment.Rows(i).Cells(colAPInstallmentAmt).Value = obj.ArrPPAdvancePayment.Item(i).Installment_Amount
-                    gvAdvancePayment.Rows(i).Cells(colAPPaymentAmtBalance).Value = obj.ArrPPAdvancePayment.Item(i).Payment_Balance
-                    gvAdvancePayment.Rows(i).Cells(colAPNoOfInstallment).Value = obj.ArrPPAdvancePayment.Item(i).No_Of_EMI
-                Next
-            End If
-
-            If obj.ArrPPAssetLost IsNot Nothing AndAlso obj.ArrPPAssetLost.Count > 0 Then
-                gvAssetLost.Rows.Clear()
-                For i = 0 To obj.ArrPPAssetLost.Count - 1
-                    gvAssetLost.Rows.AddNew()
-                    gvAssetLost.Rows(i).Cells(colALSNo).Value = (i + 1)
-                    gvAssetLost.Rows(i).Cells(colALSelect).Value = True
-                    gvAssetLost.Rows(i).Cells(colVLCUploaderCode).Value = GetVLCUploderName(clsCommon.myCstr(obj.ArrPPAssetLost.Item(i).Vendor_Code))
-                    gvAssetLost.Rows(i).Cells(colALVendorCode).Value = obj.ArrPPAssetLost.Item(i).Vendor_Code
-                    gvAssetLost.Rows(i).Cells(colALVendorName).Value = obj.ArrPPAssetLost.Item(i).Vendor_Name
-                    gvAssetLost.Rows(i).Cells(colALPaymentCode).Value = obj.ArrPPAssetLost.Item(i).Payment_No
-                    gvAssetLost.Rows(i).Cells(colALPaymentDate).Value = obj.ArrPPAssetLost.Item(i).Payment_Date
-                    gvAssetLost.Rows(i).Cells(colALPaymentAmt).Value = obj.ArrPPAssetLost.Item(i).Payment_Amount
-                Next
-            End If
-
-            If obj.ArrPPDetail IsNot Nothing AndAlso obj.ArrPPDetail.Count > 0 Then
-                Dim arr As New ArrayList()
-                Dim arrMcc As New ArrayList()
-                For i = 0 To obj.ArrPPDetail.Count - 1
-                    If Not arr.Contains(obj.ArrPPDetail.Item(i).VSP_CODE) Then
-                        arr.Add(obj.ArrPPDetail.Item(i).VSP_CODE)
-                    End If
-                    If Not arrMcc.Contains(obj.ArrPPDetail.Item(i).MCC_Code) Then
-                        arrMcc.Add(obj.ArrPPDetail.Item(i).MCC_Code)
-                    End If
-
-                    gv.Rows.AddNew()
-                    gv.Rows(i).Cells(colSlno).Value = obj.ArrPPDetail.Item(i).SNo
-                    gv.Rows(i).Cells(colSelect).Value = obj.ArrPPDetail.Item(i).Is_select
-                    gv.Rows(i).Cells(colIsPaymentProcessHold).Value = obj.ArrPPDetail.Item(i).is_Hold_Payment_Process
-                    gv.Rows(i).Cells(colPurchaseInvoiceNo).Value = obj.ArrPPDetail.Item(i).Milk_Purchase_Invoice_No
-                    gv.Rows(i).Cells(colPurchaseInvoiceDate).Value = obj.ArrPPDetail.Item(i).Milk_Purchase_Invoice_Date
-                    gv.Rows(i).Cells(colAPInvoiceNo).Value = obj.ArrPPDetail.Item(i).AP_Invoice_No
-                    gv.Rows(i).Cells(colAPInvoiceDate).Value = obj.ArrPPDetail.Item(i).AP_Invoice_Date
-                    gv.Rows(i).Cells(colVLCUploaderCode).Value = obj.ArrPPDetail.Item(i).VLC_CODE_Uploader
-                    gv.Rows(i).Cells(colVLCName).Value = obj.ArrPPDetail.Item(i).VLC_Name
-                    gv.Rows(i).Cells(colMCCCode).Value = obj.ArrPPDetail.Item(i).MCC_Code
-                    gv.Rows(i).Cells(colVendorCode).Value = obj.ArrPPDetail.Item(i).VSP_CODE
-                    gv.Rows(i).Cells(colVendorDesc).Value = obj.ArrPPDetail.Item(i).VSP_NAME
-                    gv.Rows(i).Cells(colActualVSPCode).Value = obj.ArrPPDetail.Item(i).Main_VSP_CODE
-                    gv.Rows(i).Cells(colActualVSPName).Value = obj.ArrPPDetail.Item(i).Main_VSP_NAME
-                    gv.Rows(i).Cells(colPayeeJointName).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Name
-                    gv.Rows(i).Cells(colPayeeJointBankCode).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Bank_Code
-                    gv.Rows(i).Cells(colPayeeJointBankDesc).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Bank_Name
-                    gv.Rows(i).Cells(colPayeeJointBranchCode).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Branch_Code
-                    gv.Rows(i).Cells(colPayeeJointBranchDesc).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Branch_Name
-                    gv.Rows(i).Cells(colPayeeJointAcNo).Value = obj.ArrPPDetail.Item(i).Payee_Joint_Account_No
-                    gv.Rows(i).Cells(colPayeeJointIFSC).Value = obj.ArrPPDetail.Item(i).Payee_Joint_IFSC_Code
-                    gv.Rows(i).Cells(colBankCode).Value = obj.ArrPPDetail.Item(i).Bank_Code
-                    gv.Rows(i).Cells(colBankDesc).Value = obj.ArrPPDetail.Item(i).Bank_Desc
-                    gv.Rows(i).Cells(colPayMode).Value = obj.ArrPPDetail.Item(i).Payment_Mode
-                    gv.Rows(i).Cells(colChequeNo).Value = obj.ArrPPDetail.Item(i).Cheque_No
-                    If clsCommon.CompairString(obj.ArrPPDetail.Item(i).Payment_Mode, "Cheque") = CompairStringResult.Equal Then
-                        gv.Rows(i).Cells(colChequeDate).Value = obj.ArrPPDetail.Item(i).Cheque_Dated
-                    Else
-                        gv.Rows(i).Cells(colChequeDate).Value = Nothing
-                    End If
-
-                    gv.Rows(i).Cells(colMilkQty).Value = obj.ArrPPDetail.Item(i).Milk_Qty
-                    gv.Rows(i).Cells(colVSPAmount).Value = obj.ArrPPDetail.Item(i).VSP_Amount
-                    gv.Rows(i).Cells(colHandlingCharges).Value = obj.ArrPPDetail.Item(i).Handling_Charges_Amount
-                    gv.Rows(i).Cells(colSRNROAmt).Value = obj.ArrPPDetail.Item(i).SRN_RO_Amount
-                    gv.Rows(i).Cells(colSRNNetAmount).Value = obj.ArrPPDetail.Item(i).SRN_Net_Amount
-                    gv.Rows(i).Cells(colMPAmount).Value = obj.ArrPPDetail.Item(i).MP_Amount
-                    gv.Rows(i).Cells(colMPEMPAmount).Value = obj.ArrPPDetail.Item(i).MP_EMP
-                    gv.Rows(i).Cells(colMPIncentiveAmount).Value = obj.ArrPPDetail.Item(i).MP_Incentive
-                    gv.Rows(i).Cells(colMPEMPIncentiveAmount).Value = obj.ArrPPDetail.Item(i).MP_IncentiveEMP
-                    gv.Rows(i).Cells(colMPNetAmount).Value = obj.ArrPPDetail.Item(i).MP_Net_Amount
-
-                    gv.Rows(i).Cells(colMPVSPDiffAmount).Value = obj.ArrPPDetail.Item(i).MP_VSP_Diff_Amount
-                    gv.Rows(i).Cells(colIncenAmt).Value = obj.ArrPPDetail.Item(i).Incentive_Amount
-                    gv.Rows(i).Cells(colEmpAmt).Value = obj.ArrPPDetail.Item(i).EMP_Amount
-                    gv.Rows(i).Cells(colIncenEmpAmt).Value = obj.ArrPPDetail.Item(i).Incentive_EMP_Amount
-                    gv.Rows(i).Cells(colTotalEmp).Value = obj.ArrPPDetail.Item(i).Total_EMP_Amount
-                    gv.Rows(i).Cells(colInvAmt).Value = obj.ArrPPDetail.Item(i).Milk_Amount
-                    gv.Rows(i).Cells(colInvAndEmpAmt).Value = obj.ArrPPDetail.Item(i).Incentive_EMP_Amount
-                    gv.Rows(i).Cells(colInvAndEmpAmt).Value = obj.ArrPPDetail.Item(i).Total
-                    gv.Rows(i).Cells(colTDSAmt).Value = obj.ArrPPDetail.Item(i).TDS_Amount
-                    gv.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = obj.ArrPPDetail.Item(i).Total_Invoice_Amount
-                    gv.Rows(i).Cells(colVSPOwnSystemAmt).Value = obj.ArrPPDetail.Item(i).Vsp_Own_System_Amount
-                    gv.Rows(i).Cells(colHeadLoadAmt).Value = obj.ArrPPDetail.Item(i).Head_Load_Amount
-                    gv.Rows(i).Cells(colInvDeduc).Value = obj.ArrPPDetail.Item(i).Invoice_Deduction_Amount
-                    gv.Rows(i).Cells(colReduceDeduc).Value = obj.ArrPPDetail.Item(i).Reduce_Deduc_Amt
-                    gv.Rows(i).Cells(colMccSaleTotalAmount).Value = obj.ArrPPDetail.Item(i).MCC_Sale_Amount
-                    gv.Rows(i).Cells(colMccSaleReturnTotalAmount).Value = obj.ArrPPDetail.Item(i).MCC_Sale_Return_Amount
-                    gv.Rows(i).Cells(colItemIssueTotalAmount).Value = obj.ArrPPDetail.Item(i).Item_Issue_Amount
-                    gv.Rows(i).Cells(colItemIssueReturnTotalAmount).Value = obj.ArrPPDetail.Item(i).Item_Issue_Return_Amount
-                    gv.Rows(i).Cells(colDeductionTotalAmount).Value = obj.ArrPPDetail.Item(i).Deduction_Amount
-                    gv.Rows(i).Cells(colAssetLostAmount).Value = obj.ArrPPDetail.Item(i).Asset_Lost_Amount
-                    gv.Rows(i).Cells(colTotalCreditNoteAmount).Value = obj.ArrPPDetail.Item(i).Credit_Note_Amount
-                    gv.Rows(i).Cells(colTotalCompulsoryAmount).Value = obj.ArrPPDetail.Item(i).Compulsory_Amount
-                    gv.Rows(i).Cells(colPaybleAmt).Value = obj.ArrPPDetail.Item(i).Payable_Amount
-                    gv.Rows(i).Cells(colServiceChargeAmt).Value = obj.ArrPPDetail.Item(i).Service_Charge_Amt
-
-                    gv.Rows(i).Cells(colAdvanceAmount).Value = obj.ArrPPDetail.Item(i).Advance_Payment_Amount
-                    gv.Rows(i).Cells(colAdvanceKnockOffAmount).Value = obj.ArrPPDetail.Item(i).Advance_Payment_Amount_Knock_Off
-
-
-                    gv.Rows(i).Cells(colFATKG).Value = obj.ArrPPDetail.Item(i).CalFATKG
-                    gv.Rows(i).Cells(colFATPer).Value = obj.ArrPPDetail.Item(i).CalFATPer
-                    gv.Rows(i).Cells(colSNFKG).Value = obj.ArrPPDetail.Item(i).CalSNFKg
-                    gv.Rows(i).Cells(colSNFPer).Value = obj.ArrPPDetail.Item(i).CalSNFPer
-
-                Next
-                txtVSP.arrValueMember = arr
-                mfndMcc.arrValueMember = arrMcc
-                AddSummary()
-                ReStoreGridLayout()
-            Else
-                loadGvData()
-            End If
-            If clsCommon.myLen(txtMCC.Text) > 0 Then
-                txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtMCC.Text, dtpToDate.Value)
-                txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtMCC.Text, dtpToDate.Value)
-            Else
-                txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(fndLoc.Value, dtpToDate.Value)
-                txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(fndLoc.Value, dtpToDate.Value)
-            End If
-
-            isLoad = False
-        Else
-            Reset()
-        End If
     End Sub
 
     Sub AddSummary()

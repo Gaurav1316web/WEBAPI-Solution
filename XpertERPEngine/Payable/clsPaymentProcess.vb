@@ -1650,7 +1650,7 @@ select  Code , Description from TSPL_DEDUCTION_MASTER) as TSPL_DEDUCTION_MASTER 
 where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")  and Len(TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE ) > 0
 group by TSPL_DEDUCTION_MASTER.Description  
 union all
-select 'TDS' as Description,sum(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount) as Amount from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") and isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)>0
+select * from (select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
 )xx order by  xx.Description "
             dtDebit = clsDBFuncationality.GetDataTable(sQuery)
 
