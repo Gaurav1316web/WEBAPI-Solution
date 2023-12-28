@@ -704,18 +704,28 @@ Public Class frmMilkProcurementUploader
     End Sub
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
+        Dim arrLoc As String = ""
+        Dim whrcls As String = ""
+        Dim obj As New clsMCCCodes()
+        obj = clsMCCCodes.GetData(True)
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+            arrLoc = obj.arrLocCodes
+        End If
+        If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
+            whrcls = " tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
+        End If
         'Dim qry As String = "select Document_No,convert (varchar,Document_Date,103) as Document_Date,Description,case when Status=1 then 'Posted' else 'Pending' end as Status from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD"
-        Dim qry As String = "select TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) as Document_Date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Description,case when TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" & _
-        ",TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " & _
-        ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" & _
-        ",TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.DOCK_CODE as [Dock Code]" & _
-        ",TSPL_DOCK_MASTER.Description as [Dock Name]" & _
-        ", (select  convert(varchar,min(shift_date),103) + '  To  ' + convert(varchar,max(shift_date),103) from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No) AS [From Date - To Date] " & _
-        " from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD" & _
-        " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.mcc_code" & _
-        " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" & _
+        Dim qry As String = "select TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) as Document_Date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Description,case when TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" &
+        ",TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " &
+        ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" &
+        ",TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.DOCK_CODE as [Dock Code]" &
+        ",TSPL_DOCK_MASTER.Description as [Dock Name]" &
+        ", (select  convert(varchar,min(shift_date),103) + '  To  ' + convert(varchar,max(shift_date),103) from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No) AS [From Date - To Date] " &
+        " from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD" &
+        " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.mcc_code" &
+        " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" &
         " left join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.dock_code"
-        LoadData(clsCommon.ShowSelectForm("MPUFINDOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("MPUFINDOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
     End Sub
 
     Public Function SaveData() As Boolean
