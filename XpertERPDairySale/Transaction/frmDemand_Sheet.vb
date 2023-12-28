@@ -202,15 +202,15 @@ Public Class frmDemand_Sheet
                     If obj1 IsNot Nothing Then
                         If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                             obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
-                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colSetZero).Value) = 0 Then
-                                obj.Qty = 0
+                            'If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colSetZero).Value) = 0 Then
+                            obj.Qty = 0
                                 Try
                                     Dim status As Boolean = obj.SaveData(obj)
                                 Catch ex As Exception
                                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                                 End Try
 
-                            End If
+                            'End If
                         End If
                     End If
                 Next
@@ -230,14 +230,14 @@ Public Class frmDemand_Sheet
                     If obj1 IsNot Nothing Then
                         If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                             obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
-                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
-                                obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
+                            'If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
+                            obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
                                 Try
                                     Dim status As Boolean = obj.SaveData(obj)
                                 Catch ex As Exception
                                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                                 End Try
-                            End If
+                            'End If
                         End If
                     End If
                 Next

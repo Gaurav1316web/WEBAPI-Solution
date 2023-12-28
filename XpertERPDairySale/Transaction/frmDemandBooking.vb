@@ -3860,7 +3860,7 @@ from
 
     Private Sub btnQuickDemand_Click(sender As Object, e As EventArgs) Handles btnQuickDemand.Click
         Try
-            Dim qry As String = "select Route_No,max(demand_date) as DemandDate,max(shiftType) as ShiftType from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and Created_By='" + objCommonVar.CurrentUserCode + "' group by Route_No"
+            Dim qry As String = "select Route_No,max(demand_date) as DemandDate,max(shiftType) as ShiftType from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "'  group by Route_No"  ''and Created_By='" + objCommonVar.CurrentUserCode + "'
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -3920,7 +3920,8 @@ from
     End Sub
     Public Sub FillQuickDemandData(ByVal docDate As Date, ByVal ShiftType As String)
         Try
-            Dim qry As String = "select Cust_Code,Item_Code,Qty from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "' and Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and Created_By='" + objCommonVar.CurrentUserCode + "'"
+            Dim Qty As Integer = 0
+            Dim qry As String = "select Cust_Code,Item_Code,Qty from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "' and Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' "  ' and Created_By='" + objCommonVar.CurrentUserCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
@@ -3936,14 +3937,15 @@ from
                                 End Try
                                 If obj1 IsNot Nothing Then
                                     If clsCommon.CompairString(clsCommon.myCstr(obj1.itemCode), clsCommon.myCstr(dr.Item("Item_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString("Crate", clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
-                                        If clsCommon.myCdbl(dr.Item("Qty")) > 0 Then
-                                            gv1.Rows(dblrow).Cells(dblcolumns).Value = clsCommon.myCdbl(dr.Item("Qty"))
+                                        Qty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 Qty from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "'  and Item_Code='" + clsCommon.myCstr(dr.Item("Item_Code")) + "' and Cust_Code='" + clsCommon.myCstr(dr.Item("Cust_Code")) + "'  order by Modify_Date desc"))
+                                        If Qty > 0 Then
+                                            gv1.Rows(dblrow).Cells(dblcolumns).Value = Qty
                                         Else
                                             gv1.Rows(dblrow).Cells(dblcolumns).Value = ""
 
                                         End If
                                     End If
-                                    End If
+                                End If
                                 k = k + 1
                             Next
                         End If
