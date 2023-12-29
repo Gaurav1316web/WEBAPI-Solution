@@ -311,7 +311,9 @@ Public Class frmMilkShiftUploaderUCDF
         Dim whrcls As String = ""
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+            arrLoc = "'" + obj.Default_LocCode + "'"
+        Else
             arrLoc = obj.arrLocCodes
         End If
         If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
@@ -595,7 +597,9 @@ Public Class frmMilkShiftUploaderUCDF
         Dim arrLoc As String = ""
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+            arrLoc = "'" + obj.Default_LocCode + "'"
+        Else
             arrLoc = obj.arrLocCodes
         End If
 

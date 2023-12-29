@@ -708,7 +708,9 @@ Public Class frmMilkProcurementUploader
         Dim whrcls As String = ""
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+            arrLoc = "'" + obj.Default_LocCode + "'"
+        Else
             arrLoc = obj.arrLocCodes
         End If
         If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
@@ -911,11 +913,13 @@ Public Class frmMilkProcurementUploader
 
     Private Sub fndMCCCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndMCCCode._MYValidating
         'fndMCCCode.Value = clsMccMaster.getFinder("", fndMCCCode.Value, isButtonClicked)
-        Dim qry As String = ""
-        Dim arrLoc As String = ""
+        Dim qry As String
+        Dim arrLoc As String
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+            arrLoc = "'" + obj.Default_LocCode + "'"
+        Else
             arrLoc = obj.arrLocCodes
         End If
 
