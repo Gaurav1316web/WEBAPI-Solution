@@ -1644,6 +1644,14 @@ left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Gr
                         strItemHeadingSum += "+isnull([" + TempDt.Rows(i).Item("ItemDescNew") + "],0)"
                     End If
                 Next
+                Dim whr As String = String.Empty
+                If cboShift.Text = "Morning" Then
+                    whr += "where 2=2 and xx.ShiftWise= 'Morning' "
+                ElseIf cboShift.Text = "Evening" Then
+                    whr += "where 2=2 and xx.ShiftWise= 'Evening' "
+                Else
+                    whr += "where 2=2 "
+                End If
 
 
                 Dim qry As String = "select ROW_NUMBER() OVER (PARTITION BY 1 ORDER BY Cust_code asc) as Sno,Route_no AS [Route],Cust_code AS [Customer Code],customer_name as [Customer Name],ShiftWise as [Shift],
@@ -1658,7 +1666,7 @@ where 1=1 " + strWhrClause2 + "
 )final
 PIVOT(
 sum(final.Booking_qty) 
-FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
+FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + " "
 
 
                 Dim dtgv As New DataTable
