@@ -1633,7 +1633,9 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal = CompairStringResult.Equal Then
                 Flag = True
             End If
-            sQuery = " select TSPL_DEDUCTION_MASTER.Description as Description,"
+
+
+            sQuery = " select * from ( select TSPL_DEDUCTION_MASTER.Description as Description,"
             If Flag Then
                 sQuery += " sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount "
             Else
@@ -1646,7 +1648,10 @@ left outer join ( select code, Description  from TSPL_DCS_ADDITION_DEDUCTION
 union 
 select  Code , Description from TSPL_DEDUCTION_MASTER) as TSPL_DEDUCTION_MASTER on ( TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
 where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")  and Len(TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE ) > 0
-group by TSPL_DEDUCTION_MASTER.Description order by  TSPL_DEDUCTION_MASTER.Description"
+group by TSPL_DEDUCTION_MASTER.Description  
+union all
+select * from (select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
+)xx order by  xx.Description "
             dtDebit = clsDBFuncationality.GetDataTable(sQuery)
 
 

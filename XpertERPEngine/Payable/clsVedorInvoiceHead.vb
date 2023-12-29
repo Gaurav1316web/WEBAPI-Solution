@@ -2039,7 +2039,7 @@ Public Class clsVedorInvoiceHead
             ''------------------------------
         End If
 
-        qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' ,EInvoice_Type='" + ECustomerType + "' where Document_No='" + strDocNo + "'"
+        qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(strPostDate), "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Return True
 

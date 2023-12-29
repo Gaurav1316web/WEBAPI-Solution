@@ -202,15 +202,15 @@ Public Class frmDemand_Sheet
                     If obj1 IsNot Nothing Then
                         If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                             obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
-                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colSetZero).Value) = 0 Then
-                                obj.Qty = 0
+                            'If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colSetZero).Value) = 0 Then
+                            obj.Qty = 0
                                 Try
                                     Dim status As Boolean = obj.SaveData(obj)
                                 Catch ex As Exception
                                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                                 End Try
 
-                            End If
+                            'End If
                         End If
                     End If
                 Next
@@ -230,14 +230,14 @@ Public Class frmDemand_Sheet
                     If obj1 IsNot Nothing Then
                         If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                             obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
-                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
-                                obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
+                            'If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
+                            obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
                                 Try
                                     Dim status As Boolean = obj.SaveData(obj)
                                 Catch ex As Exception
                                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                                 End Try
-                            End If
+                            'End If
                         End If
                     End If
                 Next
@@ -407,13 +407,24 @@ Public Class frmDemand_Sheet
                         For columns = 5 To gv1.Columns.Count - 1
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
-                            If clsCommon.myCdbl(grow.Cells(columns).Value) > 0 Then
-                                Dim ExistsItem As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"))
+
+                            Dim ExistsItem As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"))
                                 Dim UpdateQry As String = ""
-                                If ExistsItem > 0 Then
+                            If ExistsItem > 0 Then
+                                If clsCommon.myCdbl(grow.Cells(columns).Value) > 0 Then
                                     UpdateQry = " update TSPL_DEMAND_BOOKING_DETAIL set Qty=" + clsCommon.myCstr(grow.Cells(columns).Value) + " where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"
                                     clsDBFuncationality.ExecuteNonQuery(UpdateQry)
                                 Else
+                                    Dim TRCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"))
+                                    UpdateQry = "delete TSPL_BOOKING_DETAIL  where Against_DemandBooking_TR_Code='" + TRCode + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"
+                                    clsDBFuncationality.ExecuteNonQuery(UpdateQry)
+
+                                    UpdateQry = " Delete TSPL_DEMAND_BOOKING_DETAIL  where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"
+                                    clsDBFuncationality.ExecuteNonQuery(UpdateQry)
+                                End If
+
+                            Else
+                                If clsCommon.myCdbl(grow.Cells(columns).Value) > 0 Then
                                     Dim objUDD As New clsUpdateDemandDetails()
                                     objUDD.Document_No = document
                                     objUDD.Cust_Code = grow.Cells(colCustCode).Value

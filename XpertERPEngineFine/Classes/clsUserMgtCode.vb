@@ -2132,6 +2132,7 @@ Public Class clsUserMgtCode
     Public Const frmProvisionEntry As String = "Prov-Entry"
     Public Const IncentiveEntry As String = "INC-ENT"
     Public Const frmPaymentProcess As String = "Pay-Pro"
+    Public Const frmTDSReport As String = "TDS-RPT"
     Public Const frmSendBillToDCS As String = "PMT-SND-DCS"
     'Public Const frmDispatchTransfer As String = "M-DIS-TRAN"
     Public Const frmPaymentProcessFarmer As String = "Pay-Pro-Fa"
