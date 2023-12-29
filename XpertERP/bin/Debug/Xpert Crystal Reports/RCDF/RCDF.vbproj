@@ -1358,6 +1358,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptMCCMaterialSale.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMccMilkRate.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkAnalysis.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptMilkPaymentSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkPurchaseInvoice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkTransferIn.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMPIDReport.rpt" />
