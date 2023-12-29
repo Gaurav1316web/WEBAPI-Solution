@@ -1249,9 +1249,9 @@ Public Class frmDairyBookingCustomer
                 Dim TotalTaxAmt As Decimal = GetTax(obj, IntRowNo, clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value))
                 gv1.Rows(IntRowNo).Cells(colIsKKF).ReadOnly = True
                 gv1.Rows(IntRowNo).Cells(colIsMNDTax).ReadOnly = True
-                If (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) > 0) Then
-                    gv1.Rows(IntRowNo).Cells(colItemBasicPrice).Value = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value) + (TotalTaxAmt / clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value))
-                End If
+                'If (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) > 0) Then
+                '    gv1.Rows(IntRowNo).Cells(colItemBasicPrice).Value = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value) + (TotalTaxAmt / clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value))
+                'End If
                 gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value), 2)
                 gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemBasicPrice).Value), 2)
                 lblTotalDocAmt.Text = gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value
