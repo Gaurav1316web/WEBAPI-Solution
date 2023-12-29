@@ -4262,7 +4262,6 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
         Dim ii As Integer = 0
         Dim iiTotal As Integer = 13
         Try
-            ii = ii + 1
             clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Gettting Payment process Data")
             Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(strCode, navType)
             If obj IsNot Nothing Then
@@ -4303,11 +4302,7 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
                     lblPending.Status = ERPTransactionStatus.Pending
                     btnPrintBillMobUser.Enabled = False
                 Else
-                    btnSave.Enabled = False
-                    btnProcess.Enabled = False
-                    btnDelete.Enabled = False
-                    lblPending.Status = ERPTransactionStatus.Approved
-                    btnPrintBillMobUser.Enabled = True
+                    SetApprove()
                 End If
                 isLoad = True
                 Dim i As Integer = 0
@@ -4368,16 +4363,11 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
                         gvInvoice.Rows(i).Cells(colMPIncentiveAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_Incentive
                         gvInvoice.Rows(i).Cells(colMPEMPIncentiveAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_IncentiveEMP
                         gvInvoice.Rows(i).Cells(colMPNetAmount).Value = obj.arrClsPaymentProcessInvoices.Item(i).MP_Net_Amount
-
-
                         gvInvoice.Rows(i).Cells(colFATKG).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalFATKG
                         gvInvoice.Rows(i).Cells(colFATPer).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalFATPer
                         gvInvoice.Rows(i).Cells(colSNFKG).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalSNFKg
                         gvInvoice.Rows(i).Cells(colSNFPer).Value = obj.arrClsPaymentProcessInvoices.Item(i).CalSNFPer
-
-
                     Next
-
                 End If
 
                 ii = ii + 1
@@ -4694,7 +4684,6 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
                     txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(fndLoc.Value, dtpToDate.Value)
                     txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(fndLoc.Value, dtpToDate.Value)
                 End If
-
                 isLoad = False
             Else
                 Reset()
@@ -4704,8 +4693,14 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
             clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
+    End Sub
 
-
+    Private Sub SetApprove()
+        btnSave.Enabled = False
+        btnProcess.Enabled = False
+        btnDelete.Enabled = False
+        lblPending.Status = ERPTransactionStatus.Approved
+        btnPrintBillMobUser.Enabled = True
     End Sub
 
     Sub AddSummary()
@@ -4839,7 +4834,8 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
             If clsCommon.MyMessageBoxShow("Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                 clsPaymentProcessHead.ProcessData(fndDocNo.Value, IIf(clsCommon.myLen(txtNEFTUploaderREFNo.Tag) > 0, txtNEFTUploaderREFNo.Tag, frm.desc))
                 clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
-                LoadData(fndDocNo.Value, NavigatorType.Current)
+                SetApprove()
+                'LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
             ' End If
         Catch ex As Exception
