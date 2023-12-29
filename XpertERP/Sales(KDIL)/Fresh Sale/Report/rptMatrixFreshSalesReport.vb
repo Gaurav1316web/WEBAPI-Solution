@@ -3113,7 +3113,7 @@ from
         Try
             Dim whrcls As String = Nothing
             If clsCommon.myLen(txtPTSDateFrom.Value) > 0 Then
-                whrcls = " where Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value, "dd/MMM/yyyy") + "' "
+                whrcls = " where Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value, "dd/MMM/yyyy") + "' "
             End If
 
             If clsCommon.myLen(ddlPTSShift.Text) > 0 Then
