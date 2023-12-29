@@ -3741,7 +3741,9 @@ Public Class FrmMCCMilkRegister
         Dim arrLoc As String = ""
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+            arrLoc = "'" + obj.Default_LocCode + "'"
+        Else
             arrLoc = obj.arrLocCodes
         End If
 
