@@ -192,6 +192,12 @@
     <Compile Include="Milk Procurement\Master\frmOwnBMCGainLossRate.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmTDSReport.Designer.vb">
+      <DependentUpon>frmTDSReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmTDSReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCTankerTesting.Designer.vb">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>
     </Compile>
@@ -705,6 +711,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
+      <DependentUpon>frmTDSReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptAutoMultipleAdditionDeduction.resx">
       <DependentUpon>rptAutoMultipleAdditionDeduction.vb</DependentUpon>

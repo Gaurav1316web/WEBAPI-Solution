@@ -371,8 +371,12 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             If isPrint Then
                 If rbtnBankAdvice.IsChecked Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")
-                    frmCRV = Nothing
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
+                        frmCRV = Nothing
+                    End If
                 ElseIf rbtnBankWiseSummary.CheckState Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummary", "Bank Wise Summary")
