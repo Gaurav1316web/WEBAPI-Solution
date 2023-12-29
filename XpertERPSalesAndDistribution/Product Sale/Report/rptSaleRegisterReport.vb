@@ -44,6 +44,7 @@ Public Class RptSaleRegisterReport
     Dim FORMTYPE As String = Nothing
     Dim IsFormLoad As Boolean = False
     Dim arrLoc As String = Nothing
+    Dim AllowPlandDeptMCCLocation As Boolean = False
 
 #Region "User Defined Functions and Subroutines"
     Public Sub New(ByVal formid As String)
@@ -1325,7 +1326,7 @@ Public Class RptSaleRegisterReport
         Else
             chk_amtinlacs.Visible = False
         End If
-
+        AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
         Reset()
         RadPageView1.SelectedPage = RadPageViewPage1
         Gv1.EnableGrouping = True
@@ -1806,13 +1807,26 @@ Public Class RptSaleRegisterReport
         End If
         '' change by panch raj against ticket  KDI/12/06/18-000358 on 12-06-2018  , KDI/06/06/18-000341
         '' for  location query : customization of mcc sae register location filter 
-        If clsCommon.CompairString(clsUserMgtCode.RptMccSaleRegister, FORMTYPE) = CompairStringResult.Equal Then
-            qry = "select TSPL_LOCATION_MASTER.Location_Code as [Code] ,TSPL_LOCATION_MASTER.Location_Desc as [Name] from TSPL_LOCATION_MASTER where isnull(CSA_Type,'N') ='N' and (isnull(GIT_Type,'N')='N' or isnull(GIT_Type,'N')='') and isnull(Is_Consumption_Location,0) =0  and isnull(Rejected_type,'N') ='N'  and Location_Code in (" + arrLoc + ") " & stateCond & " "
+        If AllowPlandDeptMCCLocation Then
+            If clsCommon.CompairString(clsUserMgtCode.RptMccSaleRegister, FORMTYPE) = CompairStringResult.Equal Then
+                qry = "select TSPL_LOCATION_MASTER.Location_Code as [Code] ,TSPL_LOCATION_MASTER.Location_Desc as [Name],isnull(Main_Location_Code,'') as [Main Location]  from TSPL_LOCATION_MASTER where isnull(CSA_Type,'N') ='N' and (isnull(GIT_Type,'N')='N' or isnull(GIT_Type,'N')='') and isnull(Is_Consumption_Location,0) =0  and isnull(Rejected_type,'N') ='N'  and Location_Code in (" + arrLoc + ") " & stateCond & " "
+            Else
+                qry = " select Location_Code as Code,Location_Desc as [Name],isnull(Main_Location_Code,'') as [Main Location]  from TSPL_LOCATION_MASTER where location_type IN ('Physical','Virtual') " & stateCond & " "
+            End If
         Else
-            qry = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where location_type IN ('Physical','Virtual') " & stateCond & " "
+            If clsCommon.CompairString(clsUserMgtCode.RptMccSaleRegister, FORMTYPE) = CompairStringResult.Equal Then
+                qry = "select TSPL_LOCATION_MASTER.Location_Code as [Code] ,TSPL_LOCATION_MASTER.Location_Desc as [Name] from TSPL_LOCATION_MASTER where isnull(CSA_Type,'N') ='N' and (isnull(GIT_Type,'N')='N' or isnull(GIT_Type,'N')='') and isnull(Is_Consumption_Location,0) =0  and isnull(Rejected_type,'N') ='N'  and Location_Code in (" + arrLoc + ") " & stateCond & " "
+            Else
+                qry = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where location_type IN ('Physical','Virtual') " & stateCond & " "
+            End If
         End If
+
         If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             qry += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+
+        If AllowPlandDeptMCCLocation Then
+            qry += "and Location_Category <> 'MCC' and GIT_Type  <> 'Y'"
         End If
         txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
         Dim FrmPendingRequisitionQty As New FrmPendingRequisitionQty()
@@ -1820,6 +1834,7 @@ Public Class RptSaleRegisterReport
     End Sub
 
     Private Sub txtTransaction__My_Click(sender As Object, e As EventArgs) Handles txtTransaction._My_Click
+
         ' Dim Dt As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_MODULE_PERMISSION")
         Dim Str As String = String.Empty
 

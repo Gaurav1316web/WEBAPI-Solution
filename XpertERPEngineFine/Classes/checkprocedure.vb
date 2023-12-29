@@ -1619,7 +1619,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptVSPOrVLCVarationRpt, "VSP Or VLC Varation Report", "1.17.03.39", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptMPIDReport, "Farmer ID Report ", "1.17.03.40", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptCollectionAnalysis, "Collection Analysis", "1.17.03.41", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-
+        InsertDefaultValue(clsUserMgtCode.frmTDSReport, "TDS Report", "1.17.03.42", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMCCVLCVarationReport, "MCC Or VLC Varation Report ", "1.17.03.43", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptVSPAssetIssue1, "VSP Asset Issue Report", "1.17.03.44", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         'InsertDefaultValue(clsUserMgtCode.RptPriceRateDifferenceReport, "Price Rate Difference Report", "1.17.03.45", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
