@@ -1644,6 +1644,14 @@ left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Gr
                         strItemHeadingSum += "+isnull([" + TempDt.Rows(i).Item("ItemDescNew") + "],0)"
                     End If
                 Next
+                Dim whr As String = String.Empty
+                If cboShift.Text = "Morning" Then
+                    whr += "where 2=2 and xx.ShiftWise= 'Morning' "
+                ElseIf cboShift.Text = "Evening" Then
+                    whr += "where 2=2 and xx.ShiftWise= 'Evening' "
+                Else
+                    whr += "where 2=2 "
+                End If
 
 
                 Dim qry As String = "select ROW_NUMBER() OVER (PARTITION BY 1 ORDER BY Cust_code asc) as Sno,Route_no AS [Route],Cust_code AS [Customer Code],customer_name as [Customer Name],ShiftWise as [Shift],
@@ -1658,7 +1666,7 @@ where 1=1 " + strWhrClause2 + "
 )final
 PIVOT(
 sum(final.Booking_qty) 
-FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
+FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + " "
 
 
                 Dim dtgv As New DataTable
@@ -3045,9 +3053,9 @@ from
           left outer join TSPL_DEMAND_BOOKING_DETAIL innBD on innBD.Document_No = InnBM.Document_No 
         where 
           2 = 2  "
-            If clsCommon.CompairString(ddlPTSShift.Text, "Morning") Then
+            If clsCommon.CompairString(ddlPTSShift.Text, "Morning") = CompairStringResult.Equal Then
                 Qry += " and innBD.ShiftType='Evening' and ( CONVERT(date, InnBM.Document_Date, 103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value.AddDays(-1)) + "') "
-            Else
+            ElseIf clsCommon.CompairString(ddlPTSShift.Text, "Evening") = CompairStringResult.Equal Then
                 Qry += " and innBD.ShiftType='Morning' and CONVERT(date, InnBM.Document_Date,103)='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "'" ' or CONVERT(date, InnBM.Document_Date,103)<'" + clsCommon.GetPrintDate(txtDate.Value) + "') "
             End If
             Qry += " and innBD.Cust_Code is not null ) xx  
@@ -3113,7 +3121,7 @@ from
         Try
             Dim whrcls As String = Nothing
             If clsCommon.myLen(txtPTSDateFrom.Value) > 0 Then
-                whrcls = " where Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value, "dd/MMM/yyyy") + "' "
+                whrcls = " where Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value, "dd/MMM/yyyy") + "' "
             End If
 
             If clsCommon.myLen(ddlPTSShift.Text) > 0 Then
