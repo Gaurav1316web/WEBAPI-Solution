@@ -2843,8 +2843,9 @@ Public Class clsPaymentProcessInvoices
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
+            'clsGridColumn.do 
             Dim q As String = "select 
-,TSPL_PAYMENT_PROCESS_INVOICE.Doc_No as [" + clsGridColumn.do + "]
+,TSPL_PAYMENT_PROCESS_INVOICE.Doc_No as [" + +"]
 ,TSPL_PAYMENT_PROCESS_INVOICE.SLNO as [" + +"]
 ,TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_No as [" + +"]
 ,TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_Date as [" + +"]

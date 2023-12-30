@@ -4319,8 +4319,8 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
 
                 ii = ii + 1
                 clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Invoice Data")
-                gvInvoice.DataSource = obj.dtClsPaymentProcessInvoices
-                FormatGrid(gvInvoice)
+                'gvInvoice.DataSource = obj.dtClsPaymentProcessInvoices
+                'FormatGrid(gvInvoice)
 
                 If obj.arrClsPaymentProcessInvoices IsNot Nothing AndAlso obj.arrClsPaymentProcessInvoices.Count > 0 Then
                     gvInvoice.Rows.Clear()
@@ -4706,57 +4706,57 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
             clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
-    End Sub
+        End Sub
 
-    Private Sub FormatGrid(ByVal gv As RadGridView)
-        Try
-            gv.MasterTemplate.SummaryRowsBottom.Clear()
-            For ii As Integer = 0 To gv.Columns.Count - 1
-                gv.Columns(ii).ReadOnly = True
-                gv.Columns(ii).FormatString = ""
-                gv.Columns(ii).BestFit()
-            Next
-            For ii As Integer = 0 To dtPerforma.Rows.Count - 1
-                If clsCommon.CompairString(gv.Name, "gvFarmer") = CompairStringResult.Equal Then
-                    If clsCommon.CompairString(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Name")), clsDBTNEFTPerforma.colAgainstMPIncetive) = CompairStringResult.Equal Then
-                        Continue For
-                    End If
-                End If
-                gv.Columns(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Code"))).HeaderText = clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Name"))
-                gv.Columns(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Code"))).IsVisible = Not clsCommon.myCBool(dtPerforma.Rows(ii)("NEFT_Col_Hide"))
-            Next
+    'Private Sub FormatGrid(ByVal gv As RadGridView)
+    '    Try
+    '        gv.MasterTemplate.SummaryRowsBottom.Clear()
+    '        For ii As Integer = 0 To gv.Columns.Count - 1
+    '            gv.Columns(ii).ReadOnly = True
+    '            gv.Columns(ii).FormatString = ""
+    '            gv.Columns(ii).BestFit()
+    '        Next
+    '        For ii As Integer = 0 To dtPerforma.Rows.Count - 1
+    '            If clsCommon.CompairString(gv.Name, "gvFarmer") = CompairStringResult.Equal Then
+    '                If clsCommon.CompairString(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Name")), clsDBTNEFTPerforma.colAgainstMPIncetive) = CompairStringResult.Equal Then
+    '                    Continue For
+    '                End If
+    '            End If
+    '            gv.Columns(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Code"))).HeaderText = clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Name"))
+    '            gv.Columns(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Code"))).IsVisible = Not clsCommon.myCBool(dtPerforma.Rows(ii)("NEFT_Col_Hide"))
+    '        Next
 
-            gv.Columns(clsDBTNEFTPerforma.colAmount).FormatString = "{0:n2}"
-            gv.Columns(clsDBTNEFTPerforma.colAmount).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+    '        gv.Columns(clsDBTNEFTPerforma.colAmount).FormatString = "{0:n2}"
+    '        gv.Columns(clsDBTNEFTPerforma.colAmount).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
 
-            gv.BestFitColumns()
-            gv.AllowAddNewRow = False
-            gv.AllowDeleteRow = True
-            gv.AllowRowReorder = False
-            gv.ShowGroupPanel = False
-            gv.EnableFiltering = True
-            gv.ShowFilteringRow = True
-            gv.EnableSorting = False
-            gv.EnableGrouping = False
-            gv.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-            gv.GridBehavior = New MyBehavior()
+    '        gv.BestFitColumns()
+    '        gv.AllowAddNewRow = False
+    '        gv.AllowDeleteRow = True
+    '        gv.AllowRowReorder = False
+    '        gv.ShowGroupPanel = False
+    '        gv.EnableFiltering = True
+    '        gv.ShowFilteringRow = True
+    '        gv.EnableSorting = False
+    '        gv.EnableGrouping = False
+    '        gv.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+    '        gv.GridBehavior = New MyBehavior()
 
-            'Add Summary row for Amount and S.No'
-            Dim summaryRowItem As New GridViewSummaryRowItem()
-            gv.Columns("SNo").FormatString = ""
-            Dim item1 As New GridViewSummaryItem("SNo", "", GridAggregateFunction.Count)
-            summaryRowItem.Add(item1)
+    '        'Add Summary row for Amount and S.No'
+    '        Dim summaryRowItem As New GridViewSummaryRowItem()
+    '        gv.Columns("SNo").FormatString = ""
+    '        Dim item1 As New GridViewSummaryItem("SNo", "", GridAggregateFunction.Count)
+    '        summaryRowItem.Add(item1)
 
-            gv.Columns("AMOUNT").FormatString = "{0:n2}"
-            Dim item11 As New GridViewSummaryItem("AMOUNT", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item11)
+    '        gv.Columns("AMOUNT").FormatString = "{0:n2}"
+    '        Dim item11 As New GridViewSummaryItem("AMOUNT", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item11)
 
-            gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+    '        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
     Private Sub SetApprove()
         btnSave.Enabled = False
         btnProcess.Enabled = False
