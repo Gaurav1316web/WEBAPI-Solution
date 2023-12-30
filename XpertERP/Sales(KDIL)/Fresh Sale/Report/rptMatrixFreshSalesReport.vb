@@ -3053,9 +3053,9 @@ from
           left outer join TSPL_DEMAND_BOOKING_DETAIL innBD on innBD.Document_No = InnBM.Document_No 
         where 
           2 = 2  "
-            If clsCommon.CompairString(ddlPTSShift.Text, "Morning") Then
+            If clsCommon.CompairString(ddlPTSShift.Text, "Morning") = CompairStringResult.Equal Then
                 Qry += " and innBD.ShiftType='Evening' and ( CONVERT(date, InnBM.Document_Date, 103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value.AddDays(-1)) + "') "
-            Else
+            ElseIf clsCommon.CompairString(ddlPTSShift.Text, "Evening") = CompairStringResult.Equal Then
                 Qry += " and innBD.ShiftType='Morning' and CONVERT(date, InnBM.Document_Date,103)='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "'" ' or CONVERT(date, InnBM.Document_Date,103)<'" + clsCommon.GetPrintDate(txtDate.Value) + "') "
             End If
             Qry += " and innBD.Cust_Code is not null ) xx  
