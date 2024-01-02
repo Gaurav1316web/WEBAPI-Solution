@@ -19,6 +19,7 @@ Public Class clsMilkCollectionDCSMulipleDays
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
+    Public Trip_No As Integer
     Public Arr As List(Of clsMilkCollectionDCSMulipleDaysDetail) = Nothing
 #End Region
 
@@ -50,6 +51,7 @@ Public Class clsMilkCollectionDCSMulipleDays
             clsCommon.AddColumnsForChange(coll, "MCC_Code", obj.MCC_Code)
             clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
             clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
+            clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
             clsCommon.AddColumnsForChange(coll, "Vehicle_No", obj.Vehicle_No)
             clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
             clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
@@ -113,6 +115,7 @@ where 2=2"
             obj.Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
             obj.Route_Name = clsCommon.myCstr(dt.Rows(0)("Route_Name"))
             obj.Tanker_No = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+            obj.Trip_No = clsCommon.myCstr(dt.Rows(0)("Trip_No"))
             obj.Vehicle_No = clsCommon.myCstr(dt.Rows(0)("Vehicle_No"))
             obj.Entered_Qty = clsCommon.myCDecimal(dt.Rows(0)("Entered_Qty"))
             obj.Entered_FATKg = clsCommon.myCDecimal(dt.Rows(0)("Entered_FATKg"))

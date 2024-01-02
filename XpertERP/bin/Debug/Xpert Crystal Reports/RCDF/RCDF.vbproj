@@ -1287,6 +1287,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptAssetDispatchRetailer.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptAutoAdditionDeductionNewGNG.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvice.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
