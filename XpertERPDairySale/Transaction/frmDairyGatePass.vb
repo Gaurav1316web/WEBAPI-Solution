@@ -1369,13 +1369,11 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
         End If
         If clsCommon.myLen(fndRouteNo.Value) > 0 Then
             dt = Nothing
-            strQuery = "Select distinct Bill_To_Location As Code,Location_Desc As Description from TSPL_SD_SALE_INVOICE_HEAD 
-                        Left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code
-                        where TSPL_SD_SALE_INVOICE_HEAD.Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
+            strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
             dt = clsDBFuncationality.GetDataTable(strQuery)
             If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
-                txtLocDesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
+                txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+                txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
             End If
         End If
     End Sub
