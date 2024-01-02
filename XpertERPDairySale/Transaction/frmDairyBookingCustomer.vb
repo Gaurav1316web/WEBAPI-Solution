@@ -6449,6 +6449,11 @@ from
             obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
             obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
             obj.Is_Create_Auto_Invoice = 1
+            If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
+                obj.Shift_Type = ""
+            Else
+                obj.Shift_Type = clsCommon.myCstr(cmbGatePassType.Text)
+            End If
             obj.Arr = New List(Of clsPSShipmentHeadDetail)
             Dim ii As Integer = 0
             For Each grow As GridViewRowInfo In gv1.Rows

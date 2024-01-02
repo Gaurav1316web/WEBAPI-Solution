@@ -10,13 +10,25 @@ Public Class FrmPaymentProcess
     'Check out prabhakar 22/06/2020
 #Region "Variables"
     Public isEmpOnAmtOnly As Boolean = False
+    Public Const colSelect As String = "colSelect"
     Public Const colSlno As String = "colSlno"
     Public Const colPurchaseInvoiceNo As String = "colPurchaseInvoiceNo"
+    Public Const colPurchaseInvoiceDate As String = "colPurchaseInvoiceDate"
     Public Const colAPInvoiceNo As String = "colAPInvoiceNo"
+    Public Const colAPInvoiceDate As String = "colAPInvoiceDate"
+    Public Const colVLCCode As String = "colVLCCode"
+    Public Const colVLCName As String = "colVLCName"
+    Public Const colVLCUploaderCode As String = "colVLCUploaderCode"
+    Public Const colMCCCode As String = "colMCCCode"
+    Public Const colVendorCode As String = "colVendorCode"
+    Public Const colVendorDesc As String = "colVendorDesc"
+
+
+
     Public Const colAPInvoiceType As String = "colAPInvoiceType"
     Public Const colARInvoiceNo As String = "colARInvoiceNo"
-    Public Const colPurchaseInvoiceDate As String = "colPurchaseInvoiceDate"
-    Public Const colAPInvoiceDate As String = "colAPInvoiceDate"
+
+
     Public Const colARInvoiceDate As String = "colARInvoiceDate"
     Public Const colInvAmt As String = "colInvAmt"
     Public Const colItemCode As String = "colItemCode"
@@ -26,12 +38,9 @@ Public Class FrmPaymentProcess
     Public Const colTotalEmp As String = "colTotalEmp"
     Public Const colDeductionCode As String = "colDeductionCode"
     Public Const colDeductionDesc As String = "colDeductionDesc"
-    Public Const colVLCCode As String = "colVLCCode"
-    Public Const colVLCName As String = "colVLCName"
-    Public Const colVLCUploaderCode As String = "colVLCUploaderCode"
-    Public Const colMCCCode As String = "colMCCCode"
-    Public Const colVendorCode As String = "colVendorCode"
-    Public Const colVendorDesc As String = "colVendorDesc"
+
+
+
     Public Const colCustomerCode As String = "colCustomerCode"
     Public Const colCustomerName As String = "colCustomerName"
     Public Const colPayeeJointName As String = "colPayeeJointName"
@@ -72,7 +81,7 @@ Public Class FrmPaymentProcess
     Public Const colVspItemIssueNo As String = "colVspItemIssueNo"
     Public Const colVspItemIssueReturnNo As String = "colVspItemIssueReturnNo"
     Public Const colVspItemIssueDate As String = "colVspItemIssueDate"
-    Public Const colSelect As String = "colSelect"
+
     Public Const colReturnDocNo As String = "colReturnDocNo"
     Public Const colReturnDocDate As String = "colReturnDocDate"
     Public Const colReturnDocType As String = "colReturnDocType"
@@ -108,6 +117,15 @@ Public Class FrmPaymentProcess
     Public Const colALPaymentCode As String = "colALPaymentCode"
     Public Const colALPaymentDate As String = "colALPaymentDate"
     Public Const colALPaymentAmt As String = "colALPaymentAmt"
+    Public Const colMccSaleTotalAmount As String = "colMccSaleTotalAmount"
+    Public Const colItemIssueTotalAmount As String = "colItemIssueTotalAmount"
+    Public Const colItemIssueReturnTotalAmount As String = "colItemIssueReturnTotalAmount"
+    Public Const colDeductionTotalAmount As String = "colDeductionTotalAmount"
+    Public Const colAssetLostAmount As String = "colAssetLostAmount"
+    Public Const colTotalCreditNoteAmount As String = "colTotalCreditNoteAmount"
+    Public Const colTotalCompulsoryAmount As String = "colTotalCompulsoryAmount"
+    Public Const colAdvanceAmount As String = "colAdvanceTotal"
+    Public Const colAdvanceKnockOffAmount As String = "colAdvanceKnockOffAmount"
 
     Dim colChkBox As GridViewCheckBoxColumn = Nothing
     Dim colTextBox As GridViewTextBoxColumn = Nothing
@@ -131,15 +149,7 @@ Public Class FrmPaymentProcess
 
 
 
-    Public Const colMccSaleTotalAmount As String = "colMccSaleTotalAmount"
-    Public Const colItemIssueTotalAmount As String = "colItemIssueTotalAmount"
-    Public Const colItemIssueReturnTotalAmount As String = "colItemIssueReturnTotalAmount"
-    Public Const colDeductionTotalAmount As String = "colDeductionTotalAmount"
-    Public Const colAssetLostAmount As String = "colAssetLostAmount"
-    Public Const colTotalCreditNoteAmount As String = "colTotalCreditNoteAmount"
-    Public Const colTotalCompulsoryAmount As String = "colTotalCompulsoryAmount"
-    Public Const colAdvanceAmount As String = "colAdvanceTotal"
-    Public Const colAdvanceKnockOffAmount As String = "colAdvanceKnockOffAmount"
+
 
     Public colBankCode As String = "colBankCode"
     Public colBankDesc As String = "colBankDesc"
@@ -4263,7 +4273,7 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
         Dim iiTotal As Integer = 13
         Try
             clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Gettting Payment process Data")
-            Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(strCode, navType)
+            Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(strCode, navType, Nothing, "", True)
             If obj IsNot Nothing Then
                 Reset()
                 fndLoc.Enabled = False
@@ -4309,6 +4319,9 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
 
                 ii = ii + 1
                 clsCommon.ProgressBarPercentUpdate(ii, iiTotal, "Load Invoice Data")
+                'gvInvoice.DataSource = obj.dtClsPaymentProcessInvoices
+                'FormatGrid(gvInvoice)
+
                 If obj.arrClsPaymentProcessInvoices IsNot Nothing AndAlso obj.arrClsPaymentProcessInvoices.Count > 0 Then
                     gvInvoice.Rows.Clear()
                     For i = 0 To obj.arrClsPaymentProcessInvoices.Count - 1
@@ -4693,8 +4706,57 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
             clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
-    End Sub
+        End Sub
 
+    'Private Sub FormatGrid(ByVal gv As RadGridView)
+    '    Try
+    '        gv.MasterTemplate.SummaryRowsBottom.Clear()
+    '        For ii As Integer = 0 To gv.Columns.Count - 1
+    '            gv.Columns(ii).ReadOnly = True
+    '            gv.Columns(ii).FormatString = ""
+    '            gv.Columns(ii).BestFit()
+    '        Next
+    '        For ii As Integer = 0 To dtPerforma.Rows.Count - 1
+    '            If clsCommon.CompairString(gv.Name, "gvFarmer") = CompairStringResult.Equal Then
+    '                If clsCommon.CompairString(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Name")), clsDBTNEFTPerforma.colAgainstMPIncetive) = CompairStringResult.Equal Then
+    '                    Continue For
+    '                End If
+    '            End If
+    '            gv.Columns(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Code"))).HeaderText = clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Name"))
+    '            gv.Columns(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Code"))).IsVisible = Not clsCommon.myCBool(dtPerforma.Rows(ii)("NEFT_Col_Hide"))
+    '        Next
+
+    '        gv.Columns(clsDBTNEFTPerforma.colAmount).FormatString = "{0:n2}"
+    '        gv.Columns(clsDBTNEFTPerforma.colAmount).TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+
+    '        gv.BestFitColumns()
+    '        gv.AllowAddNewRow = False
+    '        gv.AllowDeleteRow = True
+    '        gv.AllowRowReorder = False
+    '        gv.ShowGroupPanel = False
+    '        gv.EnableFiltering = True
+    '        gv.ShowFilteringRow = True
+    '        gv.EnableSorting = False
+    '        gv.EnableGrouping = False
+    '        gv.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+    '        gv.GridBehavior = New MyBehavior()
+
+    '        'Add Summary row for Amount and S.No'
+    '        Dim summaryRowItem As New GridViewSummaryRowItem()
+    '        gv.Columns("SNo").FormatString = ""
+    '        Dim item1 As New GridViewSummaryItem("SNo", "", GridAggregateFunction.Count)
+    '        summaryRowItem.Add(item1)
+
+    '        gv.Columns("AMOUNT").FormatString = "{0:n2}"
+    '        Dim item11 As New GridViewSummaryItem("AMOUNT", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item11)
+
+    '        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
     Private Sub SetApprove()
         btnSave.Enabled = False
         btnProcess.Enabled = False
