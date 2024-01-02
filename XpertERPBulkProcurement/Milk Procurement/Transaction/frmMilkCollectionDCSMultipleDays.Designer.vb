@@ -70,6 +70,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.txtTripNo = New common.MyNumBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -111,6 +113,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -138,6 +142,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtTripNo)
+        Me.Panel1.Controls.Add(Me.MyLabel5)
         Me.Panel1.Controls.Add(Me.txtTotEnteredFATPer)
         Me.Panel1.Controls.Add(Me.txtTotEnteredSNFPer)
         Me.Panel1.Controls.Add(Me.MyLabel6)
@@ -840,6 +846,43 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnPost.Text = "Post"
         Me.btnPost.Visible = False
         '
+        'txtTripNo
+        '
+        Me.txtTripNo.BackColor = System.Drawing.Color.White
+        Me.txtTripNo.CalculationExpression = Nothing
+        Me.txtTripNo.DecimalPlaces = 2
+        Me.txtTripNo.FieldCode = Nothing
+        Me.txtTripNo.FieldDesc = Nothing
+        Me.txtTripNo.FieldMaxLength = 0
+        Me.txtTripNo.FieldName = Nothing
+        Me.txtTripNo.isCalculatedField = False
+        Me.txtTripNo.IsSourceFromTable = False
+        Me.txtTripNo.IsSourceFromValueList = False
+        Me.txtTripNo.IsUnique = False
+        Me.txtTripNo.Location = New System.Drawing.Point(584, 48)
+        Me.txtTripNo.MendatroryField = False
+        Me.txtTripNo.MyLinkLable1 = Nothing
+        Me.txtTripNo.MyLinkLable2 = Nothing
+        Me.txtTripNo.Name = "txtTripNo"
+        Me.txtTripNo.ReferenceFieldDesc = Nothing
+        Me.txtTripNo.ReferenceFieldName = Nothing
+        Me.txtTripNo.ReferenceTableName = Nothing
+        Me.txtTripNo.Size = New System.Drawing.Size(106, 20)
+        Me.txtTripNo.TabIndex = 1425
+        Me.txtTripNo.Text = "1"
+        Me.txtTripNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTripNo.Value = 1.0R
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(497, 50)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel5.TabIndex = 1424
+        Me.MyLabel5.Text = "Trip No"
+        '
         'frmMilkCollectionDCSMultipleDays
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -897,6 +940,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -946,5 +991,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
     Friend WithEvents txtVehicleNo As common.Controls.MyTextBox
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Panel2 As Panel
+    Friend WithEvents txtTripNo As common.MyNumBox
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
 End Class
 
