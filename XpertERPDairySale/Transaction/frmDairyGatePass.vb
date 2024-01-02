@@ -850,7 +850,7 @@ Public Class frmDairyGatePass
                     common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
                     Return
                 End If
-                Dim CheckVehicle As String = clsDBFuncationality.getSingleValue("select Vehicle_Number from TSPL_DAIRYSALE_GATEPASS_Master where Convert(Date,GPDate,103)=Convert(Date,'" + txtDate.Value + "',103) And Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' And ShiftType='" + clsCommon.myCstr(obj.ShiftType) + "'")
+                Dim CheckVehicle As String = clsDBFuncationality.getSingleValue("select Vehicle_Number from TSPL_DAIRYSALE_GATEPASS_Master where Convert(Date,GPDate,103)=Convert(Date,'" + txtDate.Value + "',103) And Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' And ShiftType='" + clsCommon.myCstr(obj.ShiftType) + "' and Vehicle_Number='" + clsCommon.myCstr(obj.Vehicle_Number) + "'")
                 If CheckVehicle IsNot Nothing AndAlso clsCommon.myLen(CheckVehicle) > 0 Then
                     If clsCommon.MyMessageBoxShow(Me, "Vehicle No. is already used for another gatepass." + Environment.NewLine + "Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                         If (obj.SaveData(obj, isNewEntry, "DS")) Then
