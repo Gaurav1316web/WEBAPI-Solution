@@ -850,12 +850,25 @@ Public Class frmDairyGatePass
                     common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
                     Return
                 End If
-                If (obj.SaveData(obj, isNewEntry, "DS")) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
-                    LoadData(obj.GPCode, NavigatorType.Current)
-                    arrShipmentFromMultiple = Nothing
-                    btnGo.Enabled = False
-                    RadGroupBox3.Enabled = False
+                Dim CheckVehicle As String = clsDBFuncationality.getSingleValue("select Vehicle_Number from TSPL_DAIRYSALE_GATEPASS_Master where Convert(Date,GPDate,103)=Convert(Date,'" + txtDate.Value + "',103) And Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' And ShiftType='" + clsCommon.myCstr(obj.ShiftType) + "' and Vehicle_Number='" + clsCommon.myCstr(obj.Vehicle_Number) + "'")
+                If CheckVehicle IsNot Nothing AndAlso clsCommon.myLen(CheckVehicle) > 0 Then
+                    If clsCommon.MyMessageBoxShow(Me, "Vehicle No. is already used for another gatepass." + Environment.NewLine + "Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                        If (obj.SaveData(obj, isNewEntry, "DS")) Then
+                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                            LoadData(obj.GPCode, NavigatorType.Current)
+                            arrShipmentFromMultiple = Nothing
+                            btnGo.Enabled = False
+                            RadGroupBox3.Enabled = False
+                        End If
+                    End If
+                Else
+                    If (obj.SaveData(obj, isNewEntry, "DS")) Then
+                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        LoadData(obj.GPCode, NavigatorType.Current)
+                        arrShipmentFromMultiple = Nothing
+                        btnGo.Enabled = False
+                        RadGroupBox3.Enabled = False
+                    End If
                 End If
             End If
         Catch ex As Exception
@@ -1030,12 +1043,23 @@ Public Class frmDairyGatePass
 
     Private Sub txtVehicle__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtVehicle._MYValidating
         'done by priti BHA/25/07/18-000192 to remove transtype condition and added screen type condition.
+        strQuery = ReturnVehicle()
+        VehicleDesc = Nothing
+        txtVehicle.Value = clsCommon.ShowSelectForm("Vehicle", strQuery, "Code", "", txtVehicle.Value, "Code", isButtonClicked)
+        lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
+        If isCreateProvisionOfTransporterInDairyDispatch = True Then
+            txtTransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'"))
+        End If
+    End Sub
+
+    Private Function ReturnVehicle() As String
+        Dim Query As String = Nothing
         If CreateGatePassFromDemand = True Then
-            strQuery = "select distinct Final.Vehicle_Code as Code,Description,tspl_route_master.Route_No as [Route No], tspl_route_master.Route_Desc as [Route Desc]  from ( " &
+            Query = "select distinct Final.Vehicle_Code as Code,Description,tspl_route_master.Route_No as [Route No], tspl_route_master.Route_Desc as [Route Desc]  from ( " &
         "select distinct Vehicle_Code,TSPL_VEHICLE_MASTER.Description from TSPL_DEMAND_BOOKING_DETAIL left outer join " &
         "TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id  ) final left outer join tspl_route_master on tspl_route_master.vehicle_code = Final.Vehicle_Code "
         Else
-            strQuery = "select distinct Final.Vehicle_Code as Code,Description,tspl_route_master.Route_No as [Route No], tspl_route_master.Route_Desc as [Route Desc]  from ( " &
+            Query = "select distinct Final.Vehicle_Code as Code,Description,tspl_route_master.Route_No as [Route No], tspl_route_master.Route_Desc as [Route Desc]  from ( " &
         "select distinct Vehicle_Code,TSPL_VEHICLE_MASTER.Description from TSPL_SD_SHIPMENT_HEAD left outer join " &
         "TSPL_VEHICLE_MASTER on TSPL_SD_SHIPMENT_HEAD.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' " &
         "union all " &
@@ -1044,13 +1068,8 @@ Public Class frmDairyGatePass
         "union all " &
         "select distinct ManualVehicle,'' as Description from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' and ManualVehicle <> '' ) final left outer join tspl_route_master on tspl_route_master.vehicle_code = Final.Vehicle_Code"
         End If
-        VehicleDesc = Nothing
-        txtVehicle.Value = clsCommon.ShowSelectForm("Vehicle", strQuery, "Code", "", txtVehicle.Value, "Code", isButtonClicked)
-        lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
-        If isCreateProvisionOfTransporterInDairyDispatch = True Then
-            txtTransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'"))
-        End If
-    End Sub
+        Return Query
+    End Function
 
     Private Sub txtCode__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
         Try
@@ -1072,7 +1091,7 @@ Public Class frmDairyGatePass
         ' Ticket No : ERO/23/05/19-000614 By prabhakar
         'Ticket No-ERO/05/08/19-000984 ,Sanjay, add pending / approved 
         'Ticket No-ERO/27/08/19-001004 ,Add Opening_Km,Closing_Km
-        Dim qry As String = " SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)  as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_Route_Master.Route_Desc, case when TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' then 'Approved' else 'Pending' end as Status,Opening_Km,Closing_Km ,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as [Against Transfer No] FROM  TSPL_DAIRYSALE_GATEPASS_MASTER " &
+        Dim qry As String = " SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)  as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_Route_Master.Route_Desc, case when TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' then 'Approved' else 'Pending' end as Status,Opening_Km,Closing_Km ,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as [Against Transfer No], Case When TSPL_DAIRYSALE_GATEPASS_MASTER.Status='Y' Then 'Cancel' Else Null End As [GP Status] FROM  TSPL_DAIRYSALE_GATEPASS_MASTER " &
                             " left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No "
 
         LoadData(clsCommon.ShowSelectForm("GatepassEntry", qry, "GPCode", "", txtCode.Value, "GPCode", isButtonClicked), NavigatorType.Current)
@@ -1353,7 +1372,22 @@ CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Crate' and TSPL_DAIRYSALE_G
             fndRouteNo.Value = ""
             txtRouteName.Text = ""
         End If
-
+        strQuery = ReturnVehicle()
+        strQuery += " where tspl_route_master.Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
+        If dt.Rows IsNot Nothing AndAlso dt.Rows.Count = 1 Then
+            txtVehicle.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
+            lblVehicleDesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
+        End If
+        If clsCommon.myLen(fndRouteNo.Value) > 0 Then
+            dt = Nothing
+            strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
+            dt = clsDBFuncationality.GetDataTable(strQuery)
+            If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+                txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+            End If
+        End If
     End Sub
 
     Sub setRouteVehicleDetail()
