@@ -1249,9 +1249,9 @@ Public Class frmDairyBookingCustomer
                 Dim TotalTaxAmt As Decimal = GetTax(obj, IntRowNo, clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value))
                 gv1.Rows(IntRowNo).Cells(colIsKKF).ReadOnly = True
                 gv1.Rows(IntRowNo).Cells(colIsMNDTax).ReadOnly = True
-                If (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) > 0) Then
-                    gv1.Rows(IntRowNo).Cells(colItemBasicPrice).Value = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value) + (TotalTaxAmt / clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value))
-                End If
+                'If (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) > 0) Then
+                '    gv1.Rows(IntRowNo).Cells(colItemBasicPrice).Value = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value) + (TotalTaxAmt / clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value))
+                'End If
                 gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value), 2)
                 gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemBasicPrice).Value), 2)
                 lblTotalDocAmt.Text = gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value
@@ -6449,6 +6449,11 @@ from
             obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
             obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
             obj.Is_Create_Auto_Invoice = 1
+            If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
+                obj.Shift_Type = ""
+            Else
+                obj.Shift_Type = clsCommon.myCstr(cmbGatePassType.Text)
+            End If
             obj.Arr = New List(Of clsPSShipmentHeadDetail)
             Dim ii As Integer = 0
             For Each grow As GridViewRowInfo In gv1.Rows

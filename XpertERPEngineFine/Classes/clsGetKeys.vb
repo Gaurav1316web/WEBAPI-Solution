@@ -22,3 +22,8 @@ AND c.name IN (" + clsCommon.GetMulcallString(ArrColumns) + ")
         Return UKName
     End Function
 End Class
+
+Public Class clsGridColumn
+    Public Const colSelect As String = "colSelect"
+    Public Const colSNo As String = "colSlno"
+End Class
