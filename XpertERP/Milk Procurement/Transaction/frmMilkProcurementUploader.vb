@@ -714,19 +714,24 @@ Public Class frmMilkProcurementUploader
             arrLoc = obj.arrLocCodes
         End If
         If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
-            whrcls = " tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
+            whrcls = " final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & ")"
         End If
         'Dim qry As String = "select Document_No,convert (varchar,Document_Date,103) as Document_Date,Description,case when Status=1 then 'Posted' else 'Pending' end as Status from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD"
-        Dim qry As String = "select TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) as Document_Date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Description,case when TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" &
+        Dim qry As String = "select final.Document_No , FINAL.Document_Date , final.Description , final.Status , final.[MCC Code] , final.[Mcc Name] , final.[Plant Code] , final.[Plant Name] , final.[Dock Code] , final.[Dock Name] , final.Reject , final.[From Date - To Date] , final.Shift from " &
+      "(select xx.Document_No , xx.Document_Date , xx.Description , xx.Status , xx.[MCC Code] , xx.[Mcc Name] , xx.[Plant Code] , xx.[Plant Name] , xx.[Dock Code] , xx.[Dock Name] , xx.Reject , xx.[From Date - To Date] , xxx.Shift , xx.Loc_Segment_Code from " &
+        "(select TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) as Document_Date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Description,case when TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" &
         ",TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " &
         ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" &
         ",TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.DOCK_CODE as [Dock Code]" &
-        ",TSPL_DOCK_MASTER.Description as [Dock Name]" &
-        ", (select  convert(varchar,min(shift_date),103) + '  To  ' + convert(varchar,max(shift_date),103) from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No) AS [From Date - To Date] " &
+        ",TSPL_DOCK_MASTER.Description as [Dock Name] , CASE WHEN Reject = 1 THEN 'Reject Milk' ELSE 'Good Milk' END AS Reject " &
+        ", (select  convert(varchar,min(shift_date),103) + '  To  ' + convert(varchar,max(shift_date),103) from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No) AS [From Date - To Date],TSPL_LOCATION_MASTER.loc_segment_Code " &
         " from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD" &
         " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.mcc_code" &
         " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" &
-        " left join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.dock_code"
+        " left join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.dock_code " &
+        " ) xx left join (select Document_No,case when COUNT(1)=1 then max(Shift) else 'Both' end as [Shift]  from (" &
+     "select Document_No, shift from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL group by Document_No,shift " &
+   ") x group by Document_No) xxx on xx.Document_No = xxx.Document_No )final  "
         LoadData(clsCommon.ShowSelectForm("MPUFINDOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
     End Sub
 
@@ -1262,6 +1267,18 @@ ExitLOOP:
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class
