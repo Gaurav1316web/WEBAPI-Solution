@@ -3894,44 +3894,96 @@ Public Class FrmMCCMilkRegister
     Private Sub PDF_Click(sender As Object, e As EventArgs) Handles PDF.Click
         Try
 
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
-            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.MCCMilkRegister & "'"))
-
+            Dim arrMCC As List(Of String) = New List(Of String)()
+            Dim arrRoute As List(Of String) = New List(Of String)()
+            Dim arrVLC As List(Of String) = New List(Of String)()
+            Dim strMCCVLCRoute As String = ""
+            Dim strRoute As String = ""
+            Dim strVLC As String = Nothing
             Dim arr As List(Of String)
             If isShowTreeView Then
                 If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
                     arr = cbtMCCRouteVLCC.CheckedText(1)
                     If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                        arrMCC.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " " + Environment.NewLine))
                     End If
                 End If
                 If cbtMCCRouteVLCC.CheckedText.Count > 1 Then
                     arr = cbtMCCRouteVLCC.CheckedText(2)
                     If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                        arrRoute.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " " + Environment.NewLine))
                     End If
                 End If
                 If cbtMCCRouteVLCC.CheckedText.Count > 2 Then
                     arr = cbtMCCRouteVLCC.CheckedText(3)
                     If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                        arrVLC.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
                     End If
                 End If
             Else
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                    arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " "))
+                    arrMCC.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " " + Environment.NewLine))
                 End If
                 If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                    arrHeader.Add(("Route : " + clsCommon.GetMulcallStringWithComma(txtRoute.arrDispalyMember) + " "))
+                    arrRoute.Add(("Route : " + clsCommon.GetMulcallStringWithComma(txtRoute.arrDispalyMember) + " " + Environment.NewLine))
                 End If
+
                 If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
-                    arrHeader.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(txtVLC.arrDispalyMember) + " "))
+                    arrVLC.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(txtVLC.arrDispalyMember) + " "))
                 End If
             End If
-            transportSql.applyExportTemplate(gv, PageSetupReport_ID)
-            clsCommon.MyExportToPDF(Me.Text, gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            If arrMCC.Count > 0 Then
+                strMCCVLCRoute = clsCommon.GetMulcallStringWithComma(arrMCC)
+            End If
+            If arrRoute.Count > 0 Then
+                If arrMCC.Count > 0 Then
+                    strMCCVLCRoute += Environment.NewLine
+                End If
+                strMCCVLCRoute += clsCommon.GetMulcallStringWithComma(arrRoute)
+            End If
+            If arrVLC.Count > 0 Then
+                If arrMCC.Count > 0 OrElse arrRoute.Count > 0 Then
+                    strMCCVLCRoute += Environment.NewLine
+                End If
+                strMCCVLCRoute += clsCommon.GetMulcallStringWithComma(arrVLC)
+            End If
+            If gv.Rows.Count > 0 Then
+                Dim style As New GridPrintStyle()
+                style.PrintGrouping = True
+                style.HeaderCellBackColor = Color.White
+                style.GroupRowBackColor = Color.White
+                style.SummaryCellBackColor = Color.White
+                style.PrintSummaries = True
+                gv.PrintStyle = style
+
+                Dim doc As New clsMyPrintDocument()
+
+                doc.Margins.Top = 50
+                doc.Margins.Bottom = 50
+                doc.Margins.Left = 50
+                doc.Margins.Right = 50
+                doc.HeaderHeight = 90
+                doc.Landscape = True
+                doc.AssociatedObject = gv
+
+                doc.DocumentName = objCommonVar.CurrentCompanyName
+                doc.LeftHeader = "Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + Environment.NewLine & "Company : " & objCommonVar.CurrentCompanyName + Environment.NewLine & "Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.MCCMilkRegister & "'") + Environment.NewLine + strMCCVLCRoute
+
+                doc.HeaderFont = New Font("Segoe UI", 10, FontStyle.Bold)
+
+                doc.AssociatedObject = gv
+
+                doc.RightFooter = "Page [Page #] Of [Total Pages]"
+
+                Dim dialog As New RadPrintPreviewDialog
+                dialog.Document = doc
+                dialog.ToolMenu.Visible = True
+                dialog.Show()
+
+                doc.Print()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found To export", Me.Text)
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
