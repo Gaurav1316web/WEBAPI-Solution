@@ -58,12 +58,12 @@ Public Class frmDCSMilkCollectionMergeSetting
             txtTotEnteredFAT.Enabled = True
             txtTotEnteredSNF.Enabled = True
         End If
-        If SettShowDCSMerge Then
-            btnHistory.Visible = False
-            btnSave.Visible = False
-            btnDelete.Visible = False
-            btnPost.Visible = False
-        End If
+        'If SettShowDCSMerge Then
+        '    btnHistory.Visible = False
+        '    btnSave.Visible = False
+        '    btnDelete.Visible = False
+        '    btnPost.Visible = False
+        'End If
     End Sub
     Public Sub LoadFATSNFType()
         Dim dt As DataTable = New DataTable()
