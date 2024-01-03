@@ -1269,6 +1269,27 @@ CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Crate' and TSPL_DAIRYSALE_G
 
     End Function
 
+    Public Sub funPrint2(ByVal Code As String)
+        Try
+            If CreateGatePassFromDemand = True Then
+                frmDemandBooking.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+            Else
+                atchqry = GetAttachQry(Code)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
+                If dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+
+                    frmCRV = Nothing
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
     Public Sub funPrint(ByVal Code As String)
         Try
             If CreateGatePassFromDemand = True Then
@@ -1279,11 +1300,8 @@ CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Crate' and TSPL_DAIRYSALE_G
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
-                    Else
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
-                    End If
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
 
                     frmCRV = Nothing
                 End If
@@ -1334,6 +1352,14 @@ CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Crate' and TSPL_DAIRYSALE_G
             clsCommon.MyMessageBoxShow("No data found to Print")
         Else
             funPrint(txtCode.Value)
+        End If
+    End Sub
+    Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
+        '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow("No data found to Print")
+        Else
+            funPrint2(txtCode.Value)
         End If
     End Sub
 
@@ -1771,4 +1797,6 @@ CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Crate' and TSPL_DAIRYSALE_G
             VehicleDesc = lblVehicleDesc.Text
         End If
     End Sub
+
+
 End Class

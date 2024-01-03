@@ -1338,12 +1338,6 @@
     <Compile Include="Milk Procurement\Master\frmVSP_VLCMaster.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Milk Procurement\Reports\FrmMCCMilkRegister.Designer.vb">
-      <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Milk Procurement\Reports\FrmMCCMilkRegister.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Milk Procurement\Reports\FrmRpImproperMilkSample.Designer.vb">
       <DependentUpon>FrmRpImproperMilkSample.vb</DependentUpon>
     </Compile>
@@ -2339,9 +2333,7 @@
     <Compile Include="Process Production\Transaction\frmWreckage.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Purchase Order\Reports\frmDailyReceipNoteSummary.Designer.vb">
-      <DependentUpon>frmDailyReceipNoteSummary.vb</DependentUpon>
-    </Compile>
+    <Compile Include="Purchase Order\Reports\frmDailyReceipNoteSummary.Designer.vb" />
     <Compile Include="Purchase Order\Reports\frmDailyReceipNoteSummary.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -5617,10 +5609,6 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmVSP_VLCMaster.resx">
       <DependentUpon>frmVSP_VLCMaster.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Milk Procurement\Reports\FrmMCCMilkRegister.resx">
-      <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Reports\FrmRpImproperMilkSample.resx">
       <DependentUpon>FrmRpImproperMilkSample.vb</DependentUpon>
     </EmbeddedResource>
@@ -6179,9 +6167,7 @@
     <EmbeddedResource Include="Process Production\Transaction\frmWreckage.resx">
       <DependentUpon>frmWreckage.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Purchase Order\Reports\frmDailyReceipNoteSummary.resx">
-      <DependentUpon>frmDailyReceipNoteSummary.vb</DependentUpon>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase Order\Reports\frmDailyReceipNoteSummary.resx" />
     <EmbeddedResource Include="Purchase Order\Reports\frmGRNReport.resx">
       <DependentUpon>frmGRNReport.vb</DependentUpon>
       <SubType>Designer</SubType>
