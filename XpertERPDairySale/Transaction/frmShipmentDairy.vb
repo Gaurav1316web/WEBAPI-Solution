@@ -6622,7 +6622,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             obj.Screen_Type = "DS"
             obj.Scheme_Tax_Group = txtSchemeTaxGroup.Value
             obj.DO_Item_Type = cmbDisItemType.SelectedValue
-            obj.Shift_type = cmbShift.SelectedValue
+            obj.Shift_Type = cmbShift.SelectedValue
             obj.OrgCustCOde = strOrginalCust
             If txtCustPODate.Checked Then
                 obj.Podate = txtCustPODate.Value
@@ -7219,7 +7219,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 txtCrateQty.Value = obj.CrateQty
                 txtSchemeTaxGroup.Value = obj.Scheme_Tax_Group
                 cmbDisItemType.SelectedValue = obj.DO_Item_Type
-                cmbShift.SelectedValue = obj.Shift_type
+                cmbShift.SelectedValue = obj.Shift_Type
                 If obj.Trans_Type = "FS" Then
                     rbtn_Fresh.IsChecked = True
                 ElseIf obj.Trans_Type = "PS" Then
@@ -10709,8 +10709,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     lblSalesman.Text = clsCommon.myCstr(dt.Rows(0)("Salesman"))
                     'txtRouteNo.Value = clsCommon.myCstr(dt.Rows(0)("Route_No"))
                     lblRouteDesc.Text = clsCommon.myCstr(dt.Rows(0)("Route_Desc"))
-                    txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("vehicle_code"))
-                    lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
+                    'txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("vehicle_code"))
+                    'lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
                     txtVehicleCapacity.Value = clsCommon.myCdbl(dt.Rows(0)("Capacity"))
                     txtDate.Enabled = False
                     txtVendorNo.Enabled = False
@@ -10736,6 +10736,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 End If
+
                 strQry1 = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
        "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
        "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
@@ -10804,6 +10805,20 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
             txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
             fndRouteNo_TextChanged()
+        End If
+        If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+            Vehicle()
+        End If
+    End Sub
+
+    Private Sub Vehicle()
+        Dim Qry As String = "select TSPL_VEHICLE_MASTER.Vehicle_Id,TSPL_VEHICLE_MASTER.Number from TSPL_VEHICLE_MASTER
+                            left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id
+                            where TSPL_ROUTE_MASTER.Route_No='" + txtRouteNo.Value + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("Vehicle_Id"))
+            lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
         End If
     End Sub
     Private Sub fndRouteNo_TextChanged()
