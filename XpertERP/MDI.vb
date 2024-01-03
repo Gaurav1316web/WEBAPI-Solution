@@ -9289,6 +9289,9 @@ Public Class MDI
                     Case clsUserMgtCode.RCDFDashboard
                         frm = New RCDFDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.DashboardMilkUnion
+                        frm = New DashboardMilkUnion
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptSMSDetailsReport
                         frm = New rptSMSDetails
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

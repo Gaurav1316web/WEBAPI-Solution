@@ -94,14 +94,14 @@ Public Class FrmMCCMilkRegister
 
     Private Sub SetUserMgmtNew()
         MyBase.SetUserMgmt(clsUserMgtCode.MCCMilkRegister)
-        If Not (MyBase.isReadFlag) Then
-            If MDI.blnShowAllMenu = False Then
-                Throw New Exception("Permission Denied")
-            Else
-                Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
+        'If Not (MyBase.isReadFlag) Then
+        '    If MDI.blnShowAllMenu = False Then
+        '        Throw New Exception("Permission Denied")
+        '    Else
+        '        Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
 
-            End If
-        End If
+        '    End If
+        'End If
         radbtnBulkExp.Visible = MyBase.isExport
         btnLock.Enabled = MyBase.isPostFlag
     End Sub
@@ -3650,7 +3650,7 @@ Public Class FrmMCCMilkRegister
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub rbtnMCCRouteVLCCAll_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)

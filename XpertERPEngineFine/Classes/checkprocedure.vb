@@ -58,6 +58,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailSystemAdmin, "System Administrator Audit Trail Report", "1.00.03.09", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDeleteHistoryReport, "Delete History Report", "1.00.03.10", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.RCDFDashboard, "Dashboard", "1.00.03.11", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DashboardMilkUnion, "Union Dashboard", "1.00.03.12", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------
@@ -1311,6 +1312,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.BITopCustomer, "Top Customers", "1.13.02.02", clsUserMgtCode.SubModuleBISale, 37)
         InsertDefaultValue(clsUserMgtCode.BITopItemCategory, "Top Item Category", "1.13.02.03", clsUserMgtCode.SubModuleBISale, 37)
         InsertDefaultValue(clsUserMgtCode.BIDashBoadr, "Dashboard", "1.13.02.04", clsUserMgtCode.SubModuleBISale, 37)
+
 
         'Purchase
         InsertDefaultValue(clsUserMgtCode.SubModuleBIPurchase, "Purchase", "1.13.03", clsUserMgtCode.ModuleBI, "SM", 37)
