@@ -192,6 +192,12 @@
     <Compile Include="Milk Procurement\Master\frmOwnBMCGainLossRate.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
+      <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmTDSReport.Designer.vb">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
     </Compile>
@@ -262,6 +268,12 @@
       <DependentUpon>FrmDBTPayment.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\FrmDBTPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.Designer.vb">
+      <DependentUpon>frmDCSMilkCollectionMergeSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.Designer.vb">
@@ -712,6 +724,7 @@
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -744,6 +757,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmDBTPayment.resx">
       <DependentUpon>FrmDBTPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.resx">
+      <DependentUpon>frmDCSMilkCollectionMergeSetting.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.resx">
       <DependentUpon>frmMilkCollectionDCSMultipleDays.vb</DependentUpon>

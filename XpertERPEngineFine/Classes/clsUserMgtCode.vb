@@ -2082,6 +2082,7 @@ Public Class clsUserMgtCode
     Public Const MilkCollectionMCCMultipleDays As String = "MLK-COL-MLD"
     Public Const MilkCollectionDCSMultipleDays As String = "MLK-DCS-MLD"
     Public Const MilkCollectionDCSMultipleDaysMerge As String = "MLK-MLD-MRG"
+    Public Const DCSMilkCollectionSetting As String = "MLK-CLN-STN"
     Public Const MilkCollectionMCC As String = "MLK-COL-MCC"
     Public Const MilkCollectionMCCGateEntry As String = "MLK-COL-MCCG"
     Public Const MilkCollectionMCCSample As String = "MLK-COL-MCCS"
@@ -2497,6 +2498,7 @@ Public Class clsUserMgtCode
     Public Const frmPriceMasterPS As String = "PRC-MST-PS"
     Public Const rptDeleteHistoryReport As String = "DEL-HIST"
     Public Const RCDFDashboard As String = "RCDF-DSB"
+    Public Const DashboardMilkUnion As String = "UN-DSB"
     'Public Const CardSale As String = "CRD_SALE"
 
     'Eng. And Plant Management

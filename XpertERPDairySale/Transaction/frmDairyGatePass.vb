@@ -1203,17 +1203,22 @@ Public Class frmDairyGatePass
         ''richa remove ceiling from crate qty 15 Nov,2019
         Dim Qry As String = " Select Case When CFinPouch>0  Then ((Final.Crate_Qty*Final.Conversion_Factor)/CFinPouch) Else 0 End AS 'NoOfPouch',
                                 Case When CFinLTR>0 Then (((Final.Crate_Qty*Final.Conversion_Factor+Final.Pouch_Qty))/CFinLTR)  Else 0 End AS 'MilkQuantity',
+                                Case When CFinBOX>0 Then (((Final.Box_Crate_Qty*Final.Conversion_Factor)))  Else 0 End AS 'MilkQuantityKG',
                                 Case When Final.Column_Crate>0 Then Cast((Final.Crate_Qty/Final.Column_Crate) AS int)  Else 0 End AS 'CrateLine', 
                                 Case When Column_Crate>0 Then cast((cast(qty as int)% Column_Crate) as int) Else 0 End AS 'LooseCrate',Pouch_Qty AS 'LoosePouch',Final.* ,tbl_Brand.Brand,tbl_Brand.BRANDDESC ,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img2  
                                 FROM								
-								(Select Max(Distributor)Distributor,Max(CFinPouch)CFinPouch,Max(CFinLTR)CFinLTR,Max(Conversion_Factor)Conversion_Factor,Max(AgainstTransferNo)AgainstTransferNo,
+								(Select Max(Distributor)Distributor,Max(CFinPouch)CFinPouch,Max(CFinLTR)CFinLTR,Max(CFinBOX)CFinBOX,Max(CFinKG)CFinKG,Max(Conversion_Factor)Conversion_Factor,Max(AgainstTransferNo)AgainstTransferNo,
 Max(Comp_Code)Comp_Code,Sum(Qty * case when Unit_Code='Crate' then 1 else 0 end )Crate_Qty,Sum(Qty * case when Unit_Code='Pouch' then 1 else 0 end )Pouch_Qty,Sum(Box_Crate_Qty)Box_Crate_Qty,Max(Insurance_No)Insurance_No,Max(Insurance_Comp_Name)Insurance_Comp_Name,
 Max(comp_name)comp_name,Max(unit_code)unit_code,Sum(qty)qty,Max(Comp_Address)Comp_Address,Max(Loc_add)Loc_add,Max(Route_No)Route_No	,Sum(Totalcrate)Totalcrate,
 Sum(TotalCan)TotalCan,Max(Route_Desc)Route_Desc,Max(GPCode)GPCode,Max(GPDate)GPDate,Max(GPTime)GPTime,Max(vehicle_id)vehicle_id,Max(VehicleDesc)VehicleDesc	,
 Max(location_code)location_code	,Max(Location_desc)Location_desc,Max(transporter)transporter,Max(remarks)remarks,Max(comments)comments,Max(post)post,	Item_code,
 Max(item_desc)item_desc,Max(short_description)short_description,Max(sku_seq)sku_seq,Max(TranporterNameFromMaster)TranporterNameFromMaster,Max(HSN_Code)HSN_Code,
 Max(Salesman)Salesman,Sum(Column_Crate)Column_Crate,Max(Area_Code)Area_Code,Max(Zone_Code)Zone_Code,Max(ShiftType)ShiftType,Max(GSTReg_No)GSTReg_No,
-Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)GatePass_Date,Sum(Amount)Amount,Sum(Margin)Margin, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax,Max(Driver_Name)Driver_Name,Max(Driver_ContactNo)Driver_ContactNo FROM ( select TSPL_CUSTOMER_MASTER.Customer_Name As 'Distributor',ItemConversionInPouch.Conversion_Factor As 'CFinPouch',ItemConversionInLTR.Conversion_Factor AS 'CFinLTR',CurrentUnit.Conversion_Factor,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as AgainstTransferNo,TSPL_COMPANY_MASTER.Comp_Code ,CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Box' THEN convert(decimal(18,2),(TSPL_DAIRYSALE_GATEPASS_DETAIL.qty/CrateUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code='Box' THEN convert(decimal(18,2),(TSPL_DAIRYSALE_GATEPASS_DETAIL.qty/CrateUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor)  else 0 end as Box_Crate_Qty,TSPL_COMPANY_MASTER.Insurance_No,TSPL_COMPANY_MASTER.Insurance_Comp_Name,TSPL_COMPANY_MASTER.comp_name,TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code,TSPL_DAIRYSALE_GATEPASS_DETAIL.qty," &
+Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)GatePass_Date,Sum(Amount)Amount,Sum(Margin)Margin, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax,Max(Driver_Name)Driver_Name,Max(Driver_ContactNo)Driver_ContactNo FROM 
+( select TSPL_CUSTOMER_MASTER.Customer_Name As 'Distributor',ItemConversionInPouch.Conversion_Factor As 'CFinPouch',ItemConversionInLTR.Conversion_Factor AS 'CFinLTR',ItemConversionInKG.Conversion_Factor AS 'CFinKG',ItemConversionInBox.Conversion_Factor AS 'CFinBOX',
+CurrentUnit.Conversion_Factor,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as AgainstTransferNo,TSPL_COMPANY_MASTER.Comp_Code ,
+CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Box' THEN convert(decimal(18,2),(TSPL_DAIRYSALE_GATEPASS_DETAIL.qty/CrateUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) ELSE 0 END as Crate_Qty,
+CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Crate' and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code<>'Pouch' THEN convert(decimal(18,2),(TSPL_DAIRYSALE_GATEPASS_DETAIL.qty/CurrentUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor)  else 0 end as Box_Crate_Qty,TSPL_COMPANY_MASTER.Insurance_No,TSPL_COMPANY_MASTER.Insurance_Comp_Name,TSPL_COMPANY_MASTER.comp_name,TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code,TSPL_DAIRYSALE_GATEPASS_DETAIL.qty," &
                                  " TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end as Comp_Address," &
                                  " tspl_location_master.add1 +case when len(tspl_location_master.add2)>0 then ', '+tspl_location_master.add2 else '' end +case when LEN(isnull(tspl_location_master.Add3,''))>0 then ', '+isnull(tspl_location_master.Add3,'') else ' ' end as Loc_add," &
                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan,tspl_route_master.Route_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as GPDate,FORMAT(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,'hh:mm tt') as GPTime,TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc,TSPL_DAIRYSALE_GATEPASS_MASTER.location_code,tspl_location_master.Location_desc,TSPL_DAIRYSALE_GATEPASS_MASTER.transporter,TSPL_DAIRYSALE_GATEPASS_MASTER.remarks,TSPL_DAIRYSALE_GATEPASS_MASTER.comments,TSPL_DAIRYSALE_GATEPASS_MASTER.post,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code,tspl_item_master.item_desc,tspl_item_master.short_description,tspl_item_master.sku_seq,TSPL_TRANSPORT_MASTER.Transporter_Name as TranporterNameFromMaster,TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.Salesman,tspl_vehicle_master.Column_Crate,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No AS Area_Code,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,tspl_company_master.GSTReg_No,TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,(Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode='" + StrCode + "') AS 'DispatchDate',xyz.Amount,xyz.Margin, xyz.Dist_Commission_Ratewithtax,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from TSPL_DAIRYSALE_GATEPASS_DETAIL " &
@@ -1229,8 +1234,10 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
                    " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code " &
                    " left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code  and 	CrateUnit.uom_code=	'Crate' " &
                    " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
-                     left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code " &
-                    "left outer join 
+                     left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code 
+                     left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Box') as ItemConversionInBox on ItemConversionInBox.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
+                     left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code " &
+                         "left outer join 
                      ((select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax from TSPL_SD_SHIPMENT_DETAIL   
                        Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
 					   Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
@@ -1262,6 +1269,27 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
 
     End Function
 
+    Public Sub funPrint2(ByVal Code As String)
+        Try
+            If CreateGatePassFromDemand = True Then
+                frmDemandBooking.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+            Else
+                atchqry = GetAttachQry(Code)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
+                If dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+
+                    frmCRV = Nothing
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
     Public Sub funPrint(ByVal Code As String)
         Try
             If CreateGatePassFromDemand = True Then
@@ -1273,6 +1301,8 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
                     Dim frmCRV As New frmCrystalReportViewer()
                     'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+
                     frmCRV = Nothing
                 End If
             End If
@@ -1322,6 +1352,14 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
             clsCommon.MyMessageBoxShow("No data found to Print")
         Else
             funPrint(txtCode.Value)
+        End If
+    End Sub
+    Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
+        '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow("No data found to Print")
+        Else
+            funPrint2(txtCode.Value)
         End If
     End Sub
 
@@ -1759,4 +1797,6 @@ Max(Loading_Slip)Loading_Slip,Max(DispatchDate)DispatchDate,Max(GatePass_Date)Ga
             VehicleDesc = lblVehicleDesc.Text
         End If
     End Sub
+
+
 End Class

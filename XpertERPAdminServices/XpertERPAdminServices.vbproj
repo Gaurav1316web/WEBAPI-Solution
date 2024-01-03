@@ -403,6 +403,12 @@
     <Compile Include="Report\rptDeleteHistoryReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="VisualReport\DashboardMilkUnion.Designer.vb">
+      <DependentUpon>DashboardMilkUnion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\DashboardMilkUnion.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="VisualReport\RCDFDashboard.Designer.vb">
       <DependentUpon>RCDFDashboard.vb</DependentUpon>
     </Compile>

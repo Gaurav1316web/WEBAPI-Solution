@@ -1,6 +1,7 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmMilkCollectionDCSMultipleDaysMerge
+Partial Class frmDCSMilkCollectionMergeSetting
     Inherits FrmMainTranScreen
+
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
@@ -22,11 +23,10 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.txtTotEnteredFATPer = New common.MyNumBox()
@@ -59,8 +59,10 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.txtDesc = New common.Controls.MyTextBox()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.gv2 = New Telerik.WinControls.UI.RadGridView()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -68,9 +70,6 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotEnteredFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,10 +98,13 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
@@ -111,31 +113,8 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'gv1
-        '
-        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv1.ForeColor = System.Drawing.Color.Black
-        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gv1.Name = "gv1"
-        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv1.ShowGroupPanel = False
-        Me.gv1.Size = New System.Drawing.Size(269, 242)
-        Me.gv1.TabIndex = 2
-        Me.gv1.TabStop = False
         '
         'Panel1
         '
@@ -174,8 +153,8 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(627, 115)
-        Me.Panel1.TabIndex = 0
+        Me.Panel1.Size = New System.Drawing.Size(761, 115)
+        Me.Panel1.TabIndex = 1
         '
         'RadButton1
         '
@@ -683,6 +662,16 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtDesc.Size = New System.Drawing.Size(174, 18)
         Me.txtDesc.TabIndex = 10
         '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
+        Me.btnAddNew.TabIndex = 24
+        '
         'Panel2
         '
         Me.Panel2.Controls.Add(Me.SplitContainer1)
@@ -690,8 +679,8 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel2.Location = New System.Drawing.Point(0, 115)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(627, 270)
-        Me.Panel2.TabIndex = 1
+        Me.Panel2.Size = New System.Drawing.Size(761, 298)
+        Me.Panel2.TabIndex = 2
         '
         'SplitContainer1
         '
@@ -706,9 +695,31 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.gv2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(627, 242)
-        Me.SplitContainer1.SplitterDistance = 269
+        Me.SplitContainer1.Size = New System.Drawing.Size(761, 270)
+        Me.SplitContainer1.SplitterDistance = 326
         Me.SplitContainer1.TabIndex = 41
+        '
+        'gv1
+        '
+        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv1.ForeColor = System.Drawing.Color.Black
+        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.Name = "gv1"
+        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv1.ShowGroupPanel = False
+        Me.gv1.Size = New System.Drawing.Size(326, 270)
+        Me.gv1.TabIndex = 2
+        Me.gv1.TabStop = False
         '
         'gv2
         '
@@ -728,7 +739,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
-        Me.gv2.Size = New System.Drawing.Size(354, 242)
+        Me.gv2.Size = New System.Drawing.Size(431, 270)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         '
@@ -740,9 +751,9 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.Panel3.Controls.Add(Me.btnDelete)
         Me.Panel3.Controls.Add(Me.btnPost)
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel3.Location = New System.Drawing.Point(0, 242)
+        Me.Panel3.Location = New System.Drawing.Point(0, 270)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(627, 28)
+        Me.Panel3.Size = New System.Drawing.Size(761, 28)
         Me.Panel3.TabIndex = 40
         '
         'btnSave
@@ -759,7 +770,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(552, 3)
+        Me.btnClose.Location = New System.Drawing.Point(686, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(72, 22)
         Me.btnClose.TabIndex = 6
@@ -794,33 +805,19 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
-        Me.btnAddNew.TabIndex = 24
-        '
-        'frmMilkCollectionDCSMultipleDaysMerge
+        'frmDCSMilkCollectionMergeSetting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(627, 385)
-        Me.ControlBox = False
+        Me.ClientSize = New System.Drawing.Size(761, 413)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Name = "frmMilkCollectionDCSMultipleDaysMerge"
+        Me.Name = "frmDCSMilkCollectionMergeSetting"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "DCS Milk Collection Mulitple Merge"
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Text = "frmDCSMilkCollectionMergeSetting"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -850,10 +847,13 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
@@ -862,28 +862,11 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
-    Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
-    Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
-    Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
-    Friend WithEvents RadLabel3 As common.Controls.MyLabel
-    Friend WithEvents RadLabel4 As common.Controls.MyLabel
-    Friend WithEvents RadLabel1 As common.Controls.MyLabel
-    Friend WithEvents txtDocNo As common.UserControls.txtNavigator
-    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtDesc As common.Controls.MyTextBox
-    Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
-    Friend WithEvents UsLock1 As common.usLock
-    Friend WithEvents btnHistory As RadButton
-    Friend WithEvents Panel3 As Panel
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents cboFATSNFType As common.Controls.MyComboBox
+    Friend WithEvents RadButton1 As RadButton
     Friend WithEvents txtTotEnteredFATPer As common.MyNumBox
     Friend WithEvents txtTotEnteredSNFPer As common.MyNumBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
@@ -905,10 +888,25 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents txtTotEnteredQty As common.MyNumBox
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents cboFATSNFType As common.Controls.MyComboBox
+    Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents RadLabel3 As common.Controls.MyLabel
+    Friend WithEvents RadLabel4 As common.Controls.MyLabel
+    Friend WithEvents RadLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtDocNo As common.UserControls.txtNavigator
+    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtDesc As common.Controls.MyTextBox
+    Friend WithEvents btnAddNew As RadButton
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Panel2 As Panel
-    Friend WithEvents RadButton1 As RadButton
     Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents gv1 As RadGridView
     Friend WithEvents gv2 As RadGridView
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents btnSave As RadButton
+    Friend WithEvents btnClose As RadButton
+    Friend WithEvents btnHistory As RadButton
+    Friend WithEvents btnDelete As RadButton
+    Friend WithEvents btnPost As RadButton
 End Class
-
