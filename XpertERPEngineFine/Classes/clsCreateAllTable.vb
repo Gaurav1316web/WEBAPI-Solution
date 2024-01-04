@@ -8159,6 +8159,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Distributor", "Integer Default 0")
             coll.Add("BPL_Category", "varchar(50) NULL")
             coll.Add("TCSAmount", "decimal(18,2) null")
+            coll.Add("TCSBaseAmt", "decimal(18,2) null")
             coll.Add("Is_Credit_Customer", "char(1) null")
             coll.Add("LastCollectionDate", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
