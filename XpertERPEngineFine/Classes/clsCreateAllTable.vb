@@ -53640,7 +53640,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Modify_Date", "DateTime not NULL")
             coll.Add("Post_By", "VARCHAR(12) NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
             coll.Add("Post_Date", "DateTime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_PENALTY", coll, "", False, True, "", "Document_No", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_PENALTY", coll, "", True, True, "", "Document_No", "Document_Date")
 
 
             coll = New Dictionary(Of String, String)
