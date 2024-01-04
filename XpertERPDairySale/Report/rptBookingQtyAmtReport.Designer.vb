@@ -23,6 +23,9 @@ Partial Class rptBookingQtyAmtReport
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +33,7 @@ Partial Class rptBookingQtyAmtReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkDistributor = New Telerik.WinControls.UI.RadCheckBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.txtItem = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -63,7 +67,8 @@ Partial Class rptBookingQtyAmtReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.chkDistributor = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.cboDocumentType = New Telerik.WinControls.UI.RadDropDownList()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -71,6 +76,7 @@ Partial Class rptBookingQtyAmtReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,7 +107,8 @@ Partial Class rptBookingQtyAmtReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboDocumentType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -167,6 +174,8 @@ Partial Class rptBookingQtyAmtReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.cboDocumentType)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.chkDistributor)
         Me.RadPageViewPage1.Controls.Add(Me.Panel1)
         Me.RadPageViewPage1.Controls.Add(Me.lblRouteCode)
@@ -181,6 +190,14 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(671, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkDistributor
+        '
+        Me.chkDistributor.Location = New System.Drawing.Point(412, 24)
+        Me.chkDistributor.Name = "chkDistributor"
+        Me.chkDistributor.Size = New System.Drawing.Size(104, 18)
+        Me.chkDistributor.TabIndex = 401
+        Me.chkDistributor.Text = "Distributor Wise "
         '
         'Panel1
         '
@@ -321,7 +338,7 @@ Partial Class rptBookingQtyAmtReport
         Me.lblRouteCode.BorderVisible = True
         Me.lblRouteCode.FieldName = Nothing
         Me.lblRouteCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteCode.Location = New System.Drawing.Point(256, 54)
+        Me.lblRouteCode.Location = New System.Drawing.Point(281, 54)
         Me.lblRouteCode.Name = "lblRouteCode"
         Me.lblRouteCode.Size = New System.Drawing.Size(195, 18)
         Me.lblRouteCode.TabIndex = 399
@@ -338,7 +355,7 @@ Partial Class rptBookingQtyAmtReport
         Me.txtRouteCode.IsSourceFromTable = False
         Me.txtRouteCode.IsSourceFromValueList = False
         Me.txtRouteCode.IsUnique = False
-        Me.txtRouteCode.Location = New System.Drawing.Point(107, 54)
+        Me.txtRouteCode.Location = New System.Drawing.Point(132, 54)
         Me.txtRouteCode.MendatroryField = True
         Me.txtRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRouteCode.MyLinkLable1 = Nothing
@@ -409,7 +426,7 @@ Partial Class rptBookingQtyAmtReport
         '
         Me.txtCustomer.arrDispalyMember = Nothing
         Me.txtCustomer.arrValueMember = Nothing
-        Me.txtCustomer.Location = New System.Drawing.Point(107, 74)
+        Me.txtCustomer.Location = New System.Drawing.Point(132, 74)
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Me.MyLabel3
         Me.txtCustomer.MyLinkLable2 = Nothing
@@ -570,13 +587,32 @@ Partial Class rptBookingQtyAmtReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'chkDistributor
+        'MyLabel4
         '
-        Me.chkDistributor.Location = New System.Drawing.Point(412, 24)
-        Me.chkDistributor.Name = "chkDistributor"
-        Me.chkDistributor.Size = New System.Drawing.Size(104, 18)
-        Me.chkDistributor.TabIndex = 401
-        Me.chkDistributor.Text = "Distributor Wise "
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(19, 94)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
+        Me.MyLabel4.TabIndex = 402
+        Me.MyLabel4.Text = "Document Type"
+        '
+        'cboDocumentType
+        '
+        Me.cboDocumentType.AutoCompleteDisplayMember = Nothing
+        Me.cboDocumentType.AutoCompleteValueMember = Nothing
+        Me.cboDocumentType.DropDownAnimationEnabled = True
+        Me.cboDocumentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem1.Text = "Both"
+        RadListDataItem2.Text = "Posted"
+        RadListDataItem3.Text = "UnPosted"
+        Me.cboDocumentType.Items.Add(RadListDataItem1)
+        Me.cboDocumentType.Items.Add(RadListDataItem2)
+        Me.cboDocumentType.Items.Add(RadListDataItem3)
+        Me.cboDocumentType.Location = New System.Drawing.Point(132, 94)
+        Me.cboDocumentType.Name = "cboDocumentType"
+        Me.cboDocumentType.Size = New System.Drawing.Size(137, 20)
+        Me.cboDocumentType.TabIndex = 430
         '
         'rptBookingQtyAmtReport
         '
@@ -599,6 +635,7 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -633,7 +670,8 @@ Partial Class rptBookingQtyAmtReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboDocumentType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -680,5 +718,7 @@ Partial Class rptBookingQtyAmtReport
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents Panel1 As Panel
     Friend WithEvents chkDistributor As RadCheckBox
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents cboDocumentType As RadDropDownList
 End Class
 
