@@ -2348,6 +2348,23 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     rows = dtAddition.Select("ManAddDed=1")
                     If rows Is Nothing OrElse rows.Length > 0 Then
                         dtAdditionOther = rows.CopyToDataTable()
+                    Else
+                        dtAdditionOther = New DataTable()
+                        dtAdditionOther.Columns.Add("VSP_Uploader_Code", GetType(String))
+                        dtAdditionOther.Columns.Add("VSP_Code", GetType(String))
+                        dtAdditionOther.Columns.Add("Vendor_NAME", GetType(String))
+                        dtAdditionOther.Columns.Add("Addition", GetType(String))
+                        dtAdditionOther.Columns.Add("Amount", GetType(Decimal))
+                        dtAdditionOther.Columns.Add("ManAddDed", GetType(Integer))
+
+                        Dim dr As DataRow = dtAdditionOther.NewRow()
+                        dr("VSP_Uploader_Code") = ""
+                        dr("VSP_Code") = ""
+                        dr("Vendor_NAME") = ""
+                        dr("Addition") = ""
+                        dr("Amount") = 0
+                        dr("ManAddDed") = 1
+                        dtAdditionOther.Rows.Add(dr)
                     End If
 
                     Dim dtDeductionFinance As DataTable = Nothing
