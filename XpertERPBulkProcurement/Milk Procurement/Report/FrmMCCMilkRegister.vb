@@ -3545,9 +3545,6 @@ Public Class FrmMCCMilkRegister
                     clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                 End If
                 Exit Sub
-            Else
-                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
-                Exit Sub
             End If
 
 
