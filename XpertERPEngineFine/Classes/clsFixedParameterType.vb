@@ -38,10 +38,11 @@ Public Class clsFixedParameterType
     Public Const FATSNFNoDecimalMCC As String = "FAT SNF No Decimal MCC"
     Public Const FATSNFNoDecimalDCS As String = "FAT SNF No Decimal DCS"
     Public Const ShowAllMCC As String = "Show All MCC"
+    Public Const ShowDCSDetMerge As String = "Show DCS Detail in Merge"
     Public Const ShowAllDCS As String = "Show All DCS"
     Public Const ApplyGaze As String = "Apply Gaze"
     Public Const MilkCollectionFATSNFType As String = "Milk Collection FAT SNF Type"
-    Public Const MilkCollectionFATSNFTypeHeader As String = "Milk Collection FAT SNF Type Header"
+    Public Const MilkCollectionFATSNFTypeHeader As String = "Milk Collection FAT ShowDCSDetMerge Type Header"
     Public Const JanAadharNoMandatory As String = "Jan Aadhar No Mandatory"
     Public Const StopUpdateForWeigingMilkReceipt As String = "Stop Update For Weiging Milk Receipt"
     Public Const CreatePOFromMultipleLocation As String = "Create PO From Multiple Location Indent"
@@ -1356,6 +1357,7 @@ Public Class clsFixedParameterCode
     Public Const FATSNFNoDecimalMCC As String = "FAT SNF No Decimal MCC"
     Public Const FATSNFNoDecimalDCS As String = "FAT SNF No Decimal DCS"
     Public Const ShowAllMCC As String = "Show All MCC"
+    Public Const ShowDCSDetMerge As String = "Show DCS Detail in Merge"
     Public Const ShowAllDCS As String = "Show All DCS"
     Public Const ApplyGaze As String = "Apply Gaze"
     Public Const MilkCollectionFATSNFType As String = "Milk Collection FAT SNF Type"
@@ -2883,6 +2885,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FATSNFNoDecimalDCS, clsFixedParameterCode.FATSNFNoDecimalDCS, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, "0", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowDCSDetMerge, clsFixedParameterCode.ShowDCSDetMerge, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyGaze, clsFixedParameterCode.ApplyGaze, "0", "0-OFF;1-ON")
 
@@ -4533,6 +4536,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.RepeatBMCSampleNo, clsFixedParameterCode.RepeatBMCSampleNo, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge, clsFixedParameterType.ShowDCSDetMerge, clsFixedParameterCode.ShowDCSDetMerge, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.ApplyGaze, clsFixedParameterCode.ApplyGaze, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, EnumControlType.NumericBox)
