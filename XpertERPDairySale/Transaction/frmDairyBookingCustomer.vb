@@ -336,6 +336,7 @@ Public Class frmDairyBookingCustomer
         lblTotRAmt1.Text = ""
         lblTotalDocAmt.Text = ""
         lblTCSAmount.Text = ""
+        txtTCSBaseAmt.Text = ""
         txtDocNo.Value = ""
         lblDONumber.Text = ""
         txtRouteNo.Value = ""
@@ -1385,11 +1386,11 @@ Public Class frmDairyBookingCustomer
         txtCan.Text = Math.Round(clsCommon.myCdbl(TotalCan), 2)
         txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
         txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
-        Try
-            lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
-        Catch ex As Exception
+        'Try
+        '    lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
+        'Catch ex As Exception
 
-        End Try
+        'End Try
     End Sub
     'Private Function GetBaseOtherTaxableAmount(ByVal intEndCol As Integer) As Double
     ''Dim dblRetVal As Double = 0
@@ -2709,10 +2710,12 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     UpdateCurrentRow(jj)
                 Next
                 lblTotalDocAmt.Text = Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2)
-                Try
-                    lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
-                Catch ex As Exception
-                End Try
+                txtTCSBaseAmt.Text = obj.TCSBaseAmt
+                lblTCSAmount.Text = obj.TCSAmount
+                'Try
+                '    lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
+                'Catch ex As Exception
+                'End Try
                 ''to show all items other than booking in case of customer type other than others 25 Feb,2020
                 'If clsCommon.CompairString(txtBOstatus.Text, "Posted") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(txtBOstatus.Text, "Rejected") <> CompairStringResult.Equal Then
                 '    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") <> CompairStringResult.Equal Then
@@ -5672,10 +5675,10 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                         UpdateCurrentRow(gv1.Rows.Count - 1)
                     Next
                     lblTotalDocAmt.Text = Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2)
-                    Try
-                        lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
-                    Catch ex As Exception
-                    End Try
+                    'Try
+                    '    lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
+                    'Catch ex As Exception
+                    'End Try
                     ''to show all items other than booking in case of customer type other than others 25 Feb,2020
                     'If clsCommon.CompairString(txtBOstatus.Text, "Posted") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(txtBOstatus.Text, "Rejected") <> CompairStringResult.Equal Then
                     '    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") <> CompairStringResult.Equal Then

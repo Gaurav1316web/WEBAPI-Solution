@@ -22,7 +22,7 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -81,6 +81,7 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.chkRouteShiftWise = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -246,12 +247,13 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.chkRouteShiftWise)
         Me.RadGroupBox6.Controls.Add(Me.chkDairyMilkReportPrint)
         Me.RadGroupBox6.HeaderText = "Print"
         Me.RadGroupBox6.Location = New System.Drawing.Point(481, 4)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 39)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 58)
         Me.RadGroupBox6.TabIndex = 394
         Me.RadGroupBox6.Text = "Print"
         '
@@ -704,7 +706,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -840,6 +842,16 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
+        'chkRouteShiftWise
+        '
+        Me.chkRouteShiftWise.AutoSize = True
+        Me.chkRouteShiftWise.Location = New System.Drawing.Point(13, 38)
+        Me.chkRouteShiftWise.Name = "chkRouteShiftWise"
+        Me.chkRouteShiftWise.Size = New System.Drawing.Size(150, 17)
+        Me.chkRouteShiftWise.TabIndex = 394
+        Me.chkRouteShiftWise.Text = "Route Shift Wise Report"
+        Me.chkRouteShiftWise.UseVisualStyleBackColor = True
+        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -967,5 +979,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents btnBack As RadButton
     Friend WithEvents RadGroupBox6 As RadGroupBox
     Friend WithEvents chkDairyMilkReportPrint As CheckBox
+    Friend WithEvents chkRouteShiftWise As CheckBox
 End Class
 
