@@ -99,6 +99,10 @@ Public Class frmCancelledTransactions_DairySale
         dr("Code") = "Sale Invoice"
         dr("Name") = "Sale Invoice"
         dt1.Rows.Add(dr)
+        dr = dt1.NewRow()
+        dr("Code") = "Dairy GatePass"
+        dr("Name") = "Dairy GatePass"
+        dt1.Rows.Add(dr)
 
         cboTransaction.DataSource = dt1
         cboTransaction.DisplayMember = "Name"
@@ -124,8 +128,14 @@ Public Class frmCancelledTransactions_DairySale
 
     End Sub
     Sub gv1Format()
-        Me.gv1.MasterTemplate.Columns("Document Id").Width = 120      ''First Column
-        Me.gv1.MasterTemplate.Columns("Document Date").Width = 150    ''Second Column
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dairy GatePass") = CompairStringResult.Equal Then
+            Me.gv1.MasterTemplate.Columns("GatePass No").Width = 120      ''First Column
+            Me.gv1.MasterTemplate.Columns("Gate Pass Date").Width = 150
+        Else
+            Me.gv1.MasterTemplate.Columns("Document Id").Width = 120      ''First Column
+            Me.gv1.MasterTemplate.Columns("Document Date").Width = 150    ''Second Column
+        End If
+
         Dim count As Integer = gv1.MasterTemplate.Columns.Count
         For i As Integer = 2 To count - 2
             Me.gv1.MasterTemplate.Columns(i).Width = 120
@@ -188,12 +198,12 @@ Public Class frmCancelledTransactions_DairySale
     Sub FillDairySale()
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dispatch") = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
-            qry = "  Select TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code as [Document Id],convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) as [Document Date]," & _
-                " TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_delivery_Code as [Against Delivery No] ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location as [Location Code]," & _
-                " TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_By as [Created By]," & _
-                " convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_Date,103) as [Created Date],'' as Description from TSPL_SD_SHIPMENT_HEAD_Cancel_Data  " & _
-                " Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code " & _
-            " WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+            qry = "  Select TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code as [Document Id],convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) as [Document Date]," &
+                " TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_delivery_Code as [Against Delivery No] ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location as [Location Code]," &
+                " TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_By as [Created By]," &
+                " convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_Date,103) as [Created Date],'' as Description from TSPL_SD_SHIPMENT_HEAD_Cancel_Data  " &
+                " Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code " &
+            " WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
             " and convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) and  TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type='DS'"
 
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
@@ -207,13 +217,13 @@ Public Class frmCancelledTransactions_DairySale
             qry += " ORDER BY TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code "
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Sale Invoice") = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
-            qry = "  Select TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_code  as [Document Id],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date ,103) as [Document Date],  " & _
-                " TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Against_Shipment_No as [Against Shipment No],TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Bill_to_Location  as [Location Code], " & _
-                " TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Created_By as [Created By], " & _
-                " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Created_Date,103) as [Created Date],'' as Description from TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA  " & _
-                " Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Bill_to_Location  =TSPL_LOCATION_MASTER.Location_Code " & _
-                  " WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
-                  " and convert(date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) " & _
+            qry = "  Select TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_code  as [Document Id],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date ,103) as [Document Date],  " &
+                " TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Against_Shipment_No as [Against Shipment No],TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Bill_to_Location  as [Location Code], " &
+                " TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Created_By as [Created By], " &
+                " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Created_Date,103) as [Created Date],'' as Description from TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA  " &
+                " Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Bill_to_Location  =TSPL_LOCATION_MASTER.Location_Code " &
+                  " WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
+                  " and convert(date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) " &
                   " and TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Trans_Type IN ('FS','PS') and TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Screen_Type='DS' "
 
 
@@ -228,7 +238,26 @@ Public Class frmCancelledTransactions_DairySale
             End If
 
             qry += "  ORDER BY TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_code "
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dairy GatePass") = CompairStringResult.Equal Then
+            gv1.DataSource = Nothing
+            qry = "select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode as [GatePass No] , convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate ,103) as [Gate Pass Date], TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code as [Location Code] , 
+            TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Desc as [Location Name] , TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No as [Route No] , TSPL_ROUTE_MASTER.Route_Desc as [Route Description] ,TSPL_DAIRYSALE_GATEPASS_MASTER.Created_By as [Created By] ,
+            convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.Created_Date , 103) as [Created Date] ,TSPL_DAIRYSALE_GATEPASS_MASTER.Modified_By as [Canceled By] , convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.Modified_Date,103) as [Canceled Date] ,TSPL_DAIRYSALE_GATEPASS_MASTER.Remarks as Description
+            from TSPL_DAIRYSALE_GATEPASS_MASTER
+            left outer join  TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.ROUTE_NO = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No 
+            WHERE  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <= convert(date,'" + dtpToDate.Value + "',103) and TSPL_DAIRYSALE_GATEPASS_MASTER.Status = 'Y'"
 
+            If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            End If
+
+            If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+            Else
+                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+            End If
+
+            qry += "order by TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate , TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode"
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 

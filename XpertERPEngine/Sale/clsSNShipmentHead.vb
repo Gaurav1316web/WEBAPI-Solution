@@ -617,7 +617,7 @@ Public Class clsSNShipmentHead
         qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SD_SHIPMENT_HEAD.Terms_Code "
         qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code where 2=2"
         Dim whrCls As String = ""
-        '-------richa 30/07/2014 Ticket No. BM00000003242---------
+        '-------richa 30/07/2014 Ticket No. BM00000003242---------  
         Dim strwherecls As String = ""
         If clsCommon.CompairString(clsCommon.myCstr(NavType).ToUpper(), "CURRENT") <> CompairStringResult.Equal Then
             strwherecls = FrmMainTranScreen.CustomerPermission()
