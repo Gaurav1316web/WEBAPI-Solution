@@ -7,6 +7,7 @@ Public Class clsDistributorCommission
     Public Applicable_Date As DateTime = Nothing
     Public Commision_UOM As String = Nothing
     Public IS_Transpotation As Boolean = False
+    Public IS_Security As Boolean = False
     Public IsPosted As Integer = 0
     Public Posted_Date As DateTime = Nothing
     Public Distributor_Tagging_Code As String = Nothing
@@ -35,6 +36,7 @@ Public Class clsDistributorCommission
             clsCommon.AddColumnsForChange(coll, "Commision_UOM", obj.Commision_UOM)
             clsCommon.AddColumnsForChange(coll, "Distributor_Tagging_Code", obj.Distributor_Tagging_Code, True)
             clsCommon.AddColumnsForChange(coll, "IS_Transpotation", IIf(obj.IS_Transpotation, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "IS_Security", IIf(obj.IS_Security, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -63,7 +65,7 @@ Public Class clsDistributorCommission
 
         Try
             Dim Whrcls As String = ""
-            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date,IS_Transpotation from TSPL_Distributor_Commission_Head  where 2=2"
+            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date,IS_Transpotation,IS_Security from TSPL_Distributor_Commission_Head  where 2=2"
 
             Select Case NavType
                 Case NavigatorType.First
@@ -89,6 +91,7 @@ Public Class clsDistributorCommission
                 obj.Commision_UOM = clsCommon.myCstr(dt.Rows(0)("Commision_UOM"))
                 obj.Distributor_Tagging_Code = clsCommon.myCstr(dt.Rows(0)("Distributor_Tagging_Code"))
                 obj.IS_Transpotation = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Transpotation")) = 1, True, False))
+                obj.IS_Security = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Security")) = 1, True, False))
                 obj.IsPosted = IIf(clsCommon.myCDecimal(dt.Rows(0)("IsPosted")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                     obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
@@ -171,6 +174,7 @@ Public Class clsDistributorCommissionDetails
     Public Route_Code As String = Nothing
     Public Distributor_Code As String = Nothing
     Public Rate As Double = 0
+    Public Security_Rate As Double = 0
 #End Region
 
     Public Shared Function SaveData(ByVal Doc_No As String, ByVal Arr As List(Of clsDistributorCommissionDetails), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction) As Boolean
@@ -182,6 +186,7 @@ Public Class clsDistributorCommissionDetails
                     clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code)
                     clsCommon.AddColumnsForChange(coll, "Distributor_Code", obj.Distributor_Code)
                     clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
+                    clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
 
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Distributor_Commission_Detail", OMInsertOrUpdate.Insert, "", trans)
 
@@ -198,7 +203,7 @@ Public Class clsDistributorCommissionDetails
 
         Try
             Dim dt As DataTable
-            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
+            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,Rate,Security_Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -210,6 +215,7 @@ Public Class clsDistributorCommissionDetails
                     objTr.Route_Code = clsCommon.myCstr(dr("Route_Code"))
                     objTr.Distributor_Code = clsCommon.myCstr(dr("Distributor_Code"))
                     objTr.Rate = clsCommon.myCDecimal(dr("Rate"))
+                    objTr.Security_Rate = clsCommon.myCDecimal(dr("Security_Rate"))
                     arr.Add(objTr)
                 Next
             End If
