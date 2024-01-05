@@ -835,10 +835,12 @@ Public Class RptMatrixFreshSalesReport
             End If
             Dim query As String = ""
             MainQuery = " select Route_No,max(Route_Desc)Route_Desc " + itemNames + ",Sum(" + itemamt + ") As Total from (Select Route_No,max(Route_Desc)Route_Desc " + itemName + " from(
-                        select Document_No,max(Document_Date)Document_Date,max(Route_No)Route_No,max(Route_Desc)Route_Desc,Item_Code,max(Alies_Name)Alies_Name,sum(PouchQty+CrateQty) as Qty
+                        select Document_No,max(Document_Date)Document_Date,max(Route_No)Route_No,max(Route_Desc)Route_Desc,Item_Code,max(Alies_Name)Alies_Name,sum(PouchQty+CrateQty+Quantity) as Qty
                         from
                         (select ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' then sum(ISNULL(Qty/ItemConversionInCrate.Conversion_Factor,0))  end,0) as PouchQty,
-                        ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' then sum(ISNULL(Qty,0)) end,0) as CrateQty,max(TSPL_DEMAND_BOOKING_DETAIL.Document_No)Document_No,
+                        ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' then sum(ISNULL(Qty,0)) end,0) as CrateQty,
+                        ISNULL(case when TSPL_DEMAND_BOOKING_DETAIL.Unit_code<>'Crate' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code<>'Pouch' then sum(ISNULL(Qty/ItemConversionInCrate.Conversion_Factor,0)) end,0)as Quantity,
+                        max(TSPL_DEMAND_BOOKING_DETAIL.Document_No)Document_No,                        
                         max(Document_Date)Document_Date,max(TSPL_DEMAND_BOOKING_MASTER.Route_No)Route_No,max(Route_Desc)Route_Desc,max(ItemConversionInLTR.Conversion_Factor) as ItemInLTR ,
                         max(ItemConversionInPouch.Conversion_Factor) as ItemInPouch,max(ItemConversionInCrate.Conversion_Factor) as ItemInCrate,
                         TSPL_DEMAND_BOOKING_DETAIL.Item_Code,max(Alies_Name)Alies_Name,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,sum(Qty)Qty from TSPL_DEMAND_BOOKING_DETAIL

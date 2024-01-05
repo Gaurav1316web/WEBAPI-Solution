@@ -2329,9 +2329,9 @@ Public Class MDI
                 arrExcluded.Add("RcpWtDifRpt")
             End If
 
-            If Not isLoadBulkPurchaseUploader Then
-                arrExcluded.Add(clsUserMgtCode.frmBulkPurchaseUploader)
-            End If
+            'If Not isLoadBulkPurchaseUploader Then
+            '    arrExcluded.Add(clsUserMgtCode.frmBulkPurchaseUploader)
+            'End If
             If Not isLoadBankUpdateUploader Then
                 arrExcluded.Add(clsUserMgtCode.FrmBankUpdateUploader)
             End If
@@ -2776,7 +2776,7 @@ Public Class MDI
             pwd.strType = clsFixedParameterType.UploaderPassword
             pwd.ShowDialog()
             If pwd.isPasswordCorrect Then
-                isLoadBulkPurchaseUploader = True
+                'isLoadBulkPurchaseUploader = True
                 LoadMenu()
             Else
                 isLoadBulkPurchaseUploader = False
@@ -7865,6 +7865,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkMilkPurchaseInvoice
                         frm = New FrmMilkPurchaseInvoice
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.BulkProcurementUploader
+                        frm = New BulkProcurementUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.BulkMilkPurchaseInvoiceMultiple
                         frm = New frmBulkMilkPurchaseInvoiceMultiple
