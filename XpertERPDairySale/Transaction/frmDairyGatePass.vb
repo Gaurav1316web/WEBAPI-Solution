@@ -1203,7 +1203,8 @@ Public Class frmDairyGatePass
         ''richa remove ceiling from crate qty 15 Nov,2019
         Dim Qry As String = " Select Case When CFinPouch>0  Then ((Final.Crate_Qty*Final.Conversion_Factor)/CFinPouch) Else 0 End AS 'NoOfPouch',
                                 Case When CFinLTR>0 Then (((Final.Crate_Qty*Final.Conversion_Factor+Final.Pouch_Qty))/CFinLTR)  Else 0 End AS 'MilkQuantity',
-                                Case When CFinBOX>0 Then (((Final.Box_Crate_Qty*Final.Conversion_Factor)))  Else 0 End AS 'MilkQuantityKG',
+                                Case When CFinLTR>0 Then (((Final.Crate_Qty*Final.Conversion_Factor)+(Final.Pouch_Qty*Final.CFinPouch))/CFinLTR)  Else 0 End AS 'MilkQuantityltr',
+                                CAST((Final.Box_Crate_Qty * Final.Conversion_Factor) / CFinKG AS DECIMAL(10, 2)) AS 'MilkQuantityKG',
                                 Case When Final.Column_Crate>0 Then Cast((Final.Crate_Qty/Final.Column_Crate) AS int)  Else 0 End AS 'CrateLine', 
                                 Case When Column_Crate>0 Then cast((cast(qty as int)% Column_Crate) as int) Else 0 End AS 'LooseCrate',Pouch_Qty AS 'LoosePouch',Final.* ,tbl_Brand.Brand,tbl_Brand.BRANDDESC ,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img2  
                                 FROM								
