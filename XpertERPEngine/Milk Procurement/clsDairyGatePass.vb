@@ -39,6 +39,7 @@ Public Class clsDairyGatePassEntry
     Public Loading_Slip As String = Nothing
     Public Driver_Name As String = Nothing
     Public Driver_ContactNo As String = Nothing
+    Public DistributorName As String = Nothing
 
 #End Region
 
@@ -124,6 +125,7 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "Loading_Slip", obj.Loading_Slip)
             clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
             clsCommon.AddColumnsForChange(coll, "Driver_ContactNo", obj.Driver_ContactNo)
+            clsCommon.AddColumnsForChange(coll, "DistributorName", obj.DistributorName, True)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "GPCode", obj.GPCode)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -254,6 +256,7 @@ Public Class clsDairyGatePassEntry
             obj.Loading_Slip = clsCommon.myCstr(dt.Rows(0)("Loading_Slip"))
             obj.Driver_Name = clsCommon.myCstr(dt.Rows(0)("Driver_Name"))
             obj.Driver_ContactNo = clsCommon.myCstr(dt.Rows(0)("Driver_ContactNo"))
+            obj.DistributorName = clsCommon.myCstr(dt.Rows(0)("DistributorName"))
         End If
         Return obj
     End Function
