@@ -10,13 +10,13 @@ Imports System.Runtime.InteropServices
 
 
 <Assembly: AssemblyTitle("XPERT ERP")>
-<Assembly: AssemblyDescription("30-12-2023")>
+<Assembly: AssemblyDescription("04-01-2024")>
 <Assembly: AssemblyCompany("Tecxpert Software Private Limited")>
-<Assembly: AssemblyCopyright("Copyright © Tecxpert 2008-2023")>
+<Assembly: AssemblyCopyright("Copyright © Tecxpert 2008-2024")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: ComVisible(True)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("30f2e993-87ce-4f88-a9fa-ea12e3f50930")>
-<Assembly: AssemblyVersion("7.1.1.37")>
-<Assembly: AssemblyFileVersion("7.1.1.37")>
+<Assembly: AssemblyVersion("7.1.1.38")>
+<Assembly: AssemblyFileVersion("7.1.1.38")>
