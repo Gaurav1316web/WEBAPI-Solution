@@ -14,6 +14,7 @@ Public Class rptDBTMilkPayment
     Public arrBatchNo As ArrayList
     Dim arrLoc As String = Nothing
     Dim FORMTYPE As String = Nothing
+    Dim atchqry As String = ""
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.rptItemConsumptionReport)
@@ -70,26 +71,37 @@ Public Class rptDBTMilkPayment
         Load_DBT_Report()
     End Sub
 
-    Private Sub Load_DBT_Report()
+    Private Function GetAttachQry() As String
+
+        Dim dt As New DataTable()
+        Dim MCCName As String = Nothing
+        Dim whr As String = ""
+        Dim whrclsRecpt As String = Nothing
+        Dim whrclsRjt As String = Nothing
+
         Try
-            Dim qry As String = ""
-            Dim dt As New DataTable()
-            Dim MCCName As String = Nothing
-            Dim whr As String = ""
-            Dim whrclsRecpt As String = Nothing
-            Dim whrclsRjt As String = Nothing
-            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                whrclsRjt += " and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+            If txtMCC.arrValueMember.Count > 1 Then
+                MCCName = ",'' AS MCCName"
+                whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+            ElseIf txtMCC.arrValueMember.Count <= 0 Then
+                MCCName = ",'' AS MCCName"
+                whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+            Else
+                MCCName = ",aa.[MCC Name] as MCCName"
+                whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                 whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
             End If
-            If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                whrclsRjt += " and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader   IN (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ")"
-                whrclsRecpt = " and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  IN (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ")"
-            End If
-            Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
-            qry = " select aa.[MCC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name],
+        Catch
+            MCCName = ",'' AS MCCName"
+        End Try
+        Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
+
+
+        Dim Qry As String = " select aa.[MCC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name],
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
-                        (Round((aa.[SRN Qty]/aa.Conversion_Factor),2)* Incetive_Rate) as [DBT Amount],
+                        (Round((aa.[SRN Qty]/aa.Conversion_Factor),2)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
                          aa.Incetive_Rate,aa.Conversion_Factor from ( 
                          select xxx.*  from (
                          select xx.*  from ( 
@@ -157,10 +169,19 @@ Public Class rptDBTMilkPayment
                          and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(txtToDate.Text, "dd/MMM/yyyy") + "' 
                          " + whrclsRjt + " ) As final where 2=2 
                          ) as  pp group by pp.[Vlc Uploader Code])as xx ) as xxx ) as aa
-                         order by convert(int, aa.[VLC_Code_VLC_Uploader]) asc  "
+                         order by convert(int, aa.[VLC_Code_VLC_Uploader]) asc   "
 
-            If clsCommon.myLen(qry) > 0 Then
-                dt = clsDBFuncationality.GetDataTable(qry)
+        Return Qry
+    End Function
+
+    Private Sub Load_DBT_Report()
+        Try
+
+            atchqry = GetAttachQry()
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
+
+            If clsCommon.myLen(atchqry) > 0 Then
+                dt = clsDBFuncationality.GetDataTable(atchqry)
             End If
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv.DataSource = Nothing
