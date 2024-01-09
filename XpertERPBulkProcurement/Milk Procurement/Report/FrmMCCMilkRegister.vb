@@ -15,7 +15,7 @@ Public Class FrmMCCMilkRegister
     Dim TankerFromMaster As Integer
     Dim isShowTreeView As Boolean = True
     Dim StrPermission As String
-
+    Dim dtGrandTotal As DataTable
     Public FilterON As Boolean = False
     Public FilterfromDate As Date
     Public FilterToDate As Date
@@ -123,10 +123,7 @@ Public Class FrmMCCMilkRegister
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
             btnGo.Enabled = False
         Else
-            cbtMCCRouteVLCC.DataSource = dt
-            cbtMCCRouteVLCC.ValueMember = "Code"
-            cbtMCCRouteVLCC.DisplayMember = "Name"
-            cbtMCCRouteVLCC.ParentValue = "ParentCode"
+
         End If
     End Sub
 
@@ -204,13 +201,72 @@ Public Class FrmMCCMilkRegister
         Dim summaryItem As New GridViewSummaryItem()
         gv.TableElement.TableHeaderHeight = 25
         gv.MasterTemplate.ShowRowHeaderColumn = True
-        For ii As Integer = 0 To gv.Columns.Count - 1
-            gv.Columns(ii).ReadOnly = True
-            gv.Columns(ii).IsVisible = True
-            gv.Columns(ii).FormatString = "{0:n2}"
-        Next
+        If chkDateShift.Checked Then
+            For ii As Integer = 4 To gv.Columns.Count - 1
+                gv.Columns(ii).ReadOnly = True
+                gv.Columns(ii).Width = 100
+                gv.Columns(ii).FormatString = "{0:n2}"
+            Next
+        Else
+            For ii As Integer = 0 To gv.Columns.Count - 1
+                gv.Columns(ii).ReadOnly = True
+                gv.Columns(ii).IsVisible = True
+                gv.Columns(ii).FormatString = "{0:n2}"
+            Next
+        End If
 
-        If gv.Columns.Contains("Cow Milk Qty (Ltr)") = True Then
+        If chkDateShift.Checked Then
+            gv.Columns("Total FAT").IsVisible = False
+            gv.Columns("Total SNF").IsVisible = False
+            gv.Columns("Milk Weight Sweet(KG)").HeaderText = "QTY"
+            gv.Columns("Sweet FAT(KG)").HeaderText = "KGFAT"
+            gv.Columns("Sweet SNF(KG)").HeaderText = "KGSNF"
+            gv.Columns("Milk Weight Sour(KG)").HeaderText = "QTY"
+            gv.Columns("Sour FAT(KG)").HeaderText = "KGFAT"
+            gv.Columns("Sour SNF(KG)").HeaderText = "KGSNF"
+            gv.Columns("Milk Weight Curd(KG)").HeaderText = "QTY"
+            gv.Columns("No Of Cans").HeaderText = "CANS"
+            gv.Columns("TotalQty").HeaderText = "QTY"
+            gv.Columns("FAT(%)").HeaderText = "FAT"
+            gv.Columns("SNF(%)").HeaderText = "SNF"
+
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+
+            Dim item1 As New GridViewSummaryItem("Milk Weight Sweet(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+            Dim item2 As New GridViewSummaryItem("Sweet FAT(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+            Dim item3 As New GridViewSummaryItem("Sweet SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
+            Dim item4 As New GridViewSummaryItem("Milk Weight Sour(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item4)
+            Dim item5 As New GridViewSummaryItem("Sour FAT(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item5)
+            Dim item6 As New GridViewSummaryItem("Sour SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item6)
+            Dim item7 As New GridViewSummaryItem("Milk Weight Curd(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item7)
+            Dim item8 As New GridViewSummaryItem("No Of Cans", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item8)
+            Dim item9 As New GridViewSummaryItem("TotalQty", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item9)
+
+            Dim item10 As New GridViewSummaryItem()
+            item10.FormatString = "{0:F2}"
+            item10.Name = "FAT(%)"
+            item10.AggregateExpression = "sum([Total FAT])*100/sum(TotalQty)"
+            summaryRowItem.Add(item10)
+
+            Dim item11 As New GridViewSummaryItem()
+            item11.FormatString = "{0:F2}"
+            item11.Name = "SNF(%)"
+            item11.AggregateExpression = "sum([Total SNF])*100/sum(TotalQty)"
+            summaryRowItem.Add(item11)
+            View()
+            gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+        Else
+                If gv.Columns.Contains("Cow Milk Qty (Ltr)") = True Then
             gv.Columns("Cow Milk Qty (Ltr)").IsVisible = False
         End If
         If gv.Columns.Contains("Buffalo Milk Qty (Ltr)") = True Then
@@ -2489,8 +2545,51 @@ Public Class FrmMCCMilkRegister
 
 
         End If
+        End If
     End Sub
 
+    Sub View()
+        Try
+            If gv.Rows.Count > 0 Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Date").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Shift").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(3).Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("SWEET"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Sweet(KG)").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Sweet FAT(KG)").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv.Columns("Sweet SNF(KG)").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("SOUR"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Sour(KG)").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Sour FAT(KG)").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv.Columns("Sour SNF(KG)").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("CURD"))
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv.Columns("Milk Weight Curd(KG)").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("TOTAL"))
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("No Of Cans").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("TotalQty").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("FAT(%)").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv.Columns("SNF(%)").Name)
+
+
+                gv.ViewDefinition = view
+
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
     Sub Reset()
         gv.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -2510,14 +2609,14 @@ Public Class FrmMCCMilkRegister
         arrBack = New List(Of String)
         chkRouteShiftWise.Enabled = True
         If chkRouteShiftWise.Checked Then
-            RadButton1.Enabled=True
+            RadButton1.Enabled = True
         End If
+        chkDateShift.Checked = False
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
         RadGroupBox1.Enabled = val
 
-        RadGroupBox2.Enabled = val
     End Sub
 
     Private Sub LoadData(Optional ByVal BulkExport As Integer = 0)
@@ -2539,10 +2638,7 @@ Public Class FrmMCCMilkRegister
             End If
 
             If isShowTreeView Then
-                If cbtMCCRouteVLCC.CheckedValue.Count = 0 Then
-                    clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.")
-                    Exit Sub
-                End If
+
             End If
             Dim FinalQuery As String = Nothing
             Dim qry As String = Nothing
@@ -2552,39 +2648,39 @@ Public Class FrmMCCMilkRegister
 
             If isShowTreeView Then
                 Dim arr As List(Of String) = Nothing
-                If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
-                    arr = cbtMCCRouteVLCC.CheckedValue(1)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrMCC = New ArrayList
-                        For Each str As String In arr
-                            arrMCC.Add(str)
-                        Next
-                    Else
-                        Throw New Exception("Please select at least one MCC")
-                    End If
-                End If
-                If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
-                    arr = cbtMCCRouteVLCC.CheckedValue(2)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrRoute = New ArrayList
-                        For Each str As String In arr
-                            arrRoute.Add(str)
-                        Next
-                    Else
-                        Throw New Exception("Please select at least one Route")
-                    End If
-                End If
-                If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
-                    arr = cbtMCCRouteVLCC.CheckedValue(3)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrVLC = New ArrayList
-                        For Each str As String In arr
-                            arrVLC.Add(str)
-                        Next
-                    Else
-                        Throw New Exception("Please select at least one VLC Code")
-                    End If
-                End If
+                'If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
+                '    arr = cbtMCCRouteVLCC.CheckedValue(1)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrMCC = New ArrayList
+                '        For Each str As String In arr
+                '            arrMCC.Add(str)
+                '        Next
+                '    Else
+                '        Throw New Exception("Please select at least one MCC")
+                '    End If
+                'End If
+                'If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
+                '    arr = cbtMCCRouteVLCC.CheckedValue(2)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrRoute = New ArrayList
+                '        For Each str As String In arr
+                '            arrRoute.Add(str)
+                '        Next
+                '    Else
+                '        Throw New Exception("Please select at least one Route")
+                '    End If
+                'End If
+                'If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
+                '    arr = cbtMCCRouteVLCC.CheckedValue(3)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrVLC = New ArrayList
+                '        For Each str As String In arr
+                '            arrVLC.Add(str)
+                '        Next
+                '    Else
+                '        Throw New Exception("Please select at least one VLC Code")
+                '    End If
+                'End If
             Else
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                     arrMCC = txtMCC.arrValueMember
@@ -3546,9 +3642,151 @@ Public Class FrmMCCMilkRegister
                 End If
                 Exit Sub
             End If
+            Dim BaseQry1 As String = ""
+            Dim BaseQry2 As String = ""
+            If chkDateShift.Checked Then
+                qry = ""
+                BaseQry1 = "Select TSPL_MILK_SAMPLE_DETAIL.TYPE   As [Milk Type], TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name], Convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_RECEIPT_DETAIL.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_RECEIPT_DETAIL.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code],
+                    TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No], TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT As [Milk Weight Sweet(KG)],   TSPL_MILK_SRN_DETAIL.FAT_kg As [Sweet FAT(KG)], TSPL_MILK_SRN_DETAIL.SNF_kg As [Sweet SNF(KG)],0 as [Sour FAT(KG)],0 as [Sour SNF(KG)], 'SWEET' as RejectType,'' as RejectReason ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] ,
+                    0 as [Milk Weight Sour(KG)] , 0 as [Milk Weight Curd(KG)] From TSPL_MILK_RECEIPT_DETAIL 
+                    Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE 
+                    Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE
+                    Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE  Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO 
+                    Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
+                    left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code 
+                    Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
+                    Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE 
+                    Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE
+                    Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE
+                    Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE 
+                    Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_RECEIPT_HEAD.MCC_CODE 
+                    And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT 
+                    left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code 
+                    where 2 = 2  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as date) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    BaseQry1 += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    BaseQry1 += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
+                End If
+                If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                    BaseQry1 += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arrMCC) + ") "
+                Else
+                    BaseQry1 += "And TSPL_MILK_RECEIPT_HEAD.mcc_Code in (" & StrPermission & ")"
+                End If
+                If arrRoute IsNot Nothing AndAlso arrRoute.Count > 0 Then
+                    BaseQry1 += " and TSPL_MILK_RECEIPT_DETAIL .Route_Code in (" + clsCommon.GetMulcallString(arrRoute) + ")  "
+                End If
+                If arrVLC IsNot Nothing AndAlso arrVLC.Count > 0 Then
+                    BaseQry1 += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arrVLC) + ")  "
+                End If
+                BaseQry1 += "Union all  "
+                BaseQry1 += "Select 'M' As [Milk Type],  TSPL_MILK_REJECT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_REJECT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name],  Convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_REJECT_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_REJECT_DETAIL.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_REJECT_DETAIL.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_REJECT_DETAIL.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],
+                    TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_REJECT_DETAIL.SAMPLE_NO As [Sample No],TSPL_MILK_REJECT_DETAIL.NO_OF_CANS As [No Of Cans],0 as [Milk Weight Sweet(KG)] ,0 as [Sweet FAT(KG)], 0 as [Sweet SNF(KG)],case when TSPL_MILK_REJECT_TYPE.Code = 'SOUR' then Convert(decimal(18,3), TSPL_MILK_REJECT_DETAIL.FAT * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) else 0 end As [Sour FAT(KG)],
+                    case when TSPL_MILK_REJECT_TYPE.Code = 'SOUR' then Convert(decimal(18,3),TSPL_MILK_REJECT_DETAIL.SNF * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) END As [Sour SNF(KG)],TSPL_MILK_REJECT_TYPE.Code as RejectType,  case when TSPL_MILK_REJECT_DETAIL.Is_Return=0 then '' when TSPL_MILK_REJECT_DETAIL.Is_Return=1 then 'Return' when TSPL_MILK_REJECT_DETAIL.Is_Return=2 then 'Drain' when TSPL_MILK_REJECT_DETAIL.Is_Return=3 then 'COB'  end as RejectReason,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] , case when TSPL_MILK_REJECT_TYPE.Code = 'SOUR' then TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG else 0 end as [Milk Weight Sour(KG)],
+                    case when TSPL_MILK_REJECT_TYPE.Code = 'CURD' then TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT else 0 end  [Milk Weight Curd(KG)]   
+                    From   TSPL_MILK_REJECT_DETAIL 
+                    Left Outer Join TSPL_MILK_REJECT_HEAD On TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE 
+                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODe=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_REJECT_DETAIL.SAMPLE_NO 
+                    Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
+                    left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code
+                    Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
+                    Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
+                    Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_REJECT_HEAD.MCC_CODE 
+                    Left Outer Join TSPL_VLC_MASTER_HEAD On  TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE 
+                    Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_REJECT_DETAIL.VSP_CODE 
+                    Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_REJECT_DETAIL.ROUTE_CODE 
+                    Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_REJECT_HEAD.MCC_CODE  And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)  And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_REJECT_HEAD.SHIFT 
+                    left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type 
+                    where 2=2 "
+                BaseQry1 += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
 
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    BaseQry1 += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    BaseQry1 += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='E' then 3 else 2 end  )"
+                End If
+                If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                    BaseQry1 += "and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arrMCC) + ") "
+                Else
+                    If clsCommon.myLen(StrPermission) > 0 Then
+                        BaseQry1 += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ") "
+                    End If
+                End If
+                If arrRoute IsNot Nothing AndAlso arrRoute.Count > 0 Then
+                    BaseQry1 += " and TSPL_MILK_REJECT_DETAIL.Route_Code in (" + clsCommon.GetMulcallString(arrRoute) + ")  "
+                End If
+                If arrVLC IsNot Nothing AndAlso arrVLC.Count > 0 Then
+                    BaseQry1 += " and TSPL_MILK_REJECT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arrVLC) + ")  "
+                End If
+
+                BaseQry1 += ") final where 2=2 ) XXXFinal "
+
+                Dim str As String = ""
+                Dim XXXFinal As String = ""
+                Dim Final As String = ""
+
+                If rbtnBMC.Checked Then
+                    str = "[MCC Code]"
+                    Final = "final.MCC as [MCC Code]"
+                    XXXFinal = "XXXFinal.[MCC Code] as [MCC Code]"
+                ElseIf rbtnDCS.Checked Then
+                    str = "[DCS Code]"
+                    Final = "final.[Vlc Uploader Code] as [DCS Code]"
+                    XXXFinal = "XXXFinal.[DCS Code] "
+                ElseIf rbtnRoute.Checked Then
+                    str = "[Route Code]"
+                    Final = "final.[Route Code] as Route_Code"
+                    XXXFinal = "XXXFinal.[Route Code]"
+                End If
+                qry = "select convert(varchar,Date,103) as Date , Shift , " & str & " , [Milk Type] , [Milk Weight Sweet(KG)] , [Sweet FAT(KG)] , [Sweet SNF(KG)] , [Milk Weight Sour(KG)] , [Sour FAT(KG)] , [Sour SNF(KG)] , [Milk Weight Curd(KG)] , [No Of Cans] , TotalQty , CASE when TotalQty = 0 then 0 else ([Total FAT] / TotalQty)* 100 end as  [FAT(%)],
+                          case when TotalQty= 0 then 0 else ([Total SNF] / TotalQty )*100 end as [SNF(%)],([Sweet FAT(KG)] )+ ([Sour FAT(KG)])  as [Total FAT] , ([Sweet SNF(KG)] ) + ([Sour SNF(KG)]) as [Total SNF]  from (
+                        select 1 as SNo ,[Milk Type] ,  Date , Shift , " & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , 
+                      sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  From 
+                     ( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , XXXFinal.Shift," & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)] ,sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,  sum([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] ,
+                    sum(XXXFinal.[No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) +  sum([Milk Weight Curd(KG)]) as TotalQty,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] ,sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF] from    ( Select final.[Milk Type], final.[Milk Receipt Code] ," & Final & " ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name]
+                   ,final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from ( "
+
+                BaseQry2 += " union all "
+                BaseQry2 += "select 2 as SNo ,'Total' as [Milk Type] , Null as Date , '' as Shift ," & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], 
+               sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  From "
+
+                BaseQry2 += "( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , XXXFinal.Shift, " & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,
+               sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  from   
+          ( Select final.[Milk Type], final.[Milk Receipt Code] ," & Final & " ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name],final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from (  " & BaseQry1 & ""
+                If rbtnBMC.Checked Then
+                    FinalQuery = "" & qry & " " & BaseQry1 & ""
+                    FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[MCC Code] , XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift, XXXXFinal.[MCC Code] , XXXXFinal.[Milk Type] 	"
+                    FinalQuery += "" & BaseQry2 & ""
+                    FinalQuery += "group by XXXFinal.[MCC Code], XXXFinal.Date , XXXFinal.Shift , XXXFinal.[Milk Type] )
+										 XXXXFinal
+										 group by XXXXFinal.[MCC Code], XXXXFinal.[Milk Type]															
+										 ) pp 
+										 order by [MCC Code],sno ,date,shift desc, [Milk Type]"
+                ElseIf rbtnDCS.Checked Then
+                    FinalQuery = "" & qry & " " & BaseQry1 & ""
+                    FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[DCS Code], XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift, XXXXFinal.[DCS Code] , XXXXFinal.[Milk Type] 	"
+                    FinalQuery += "" & BaseQry2 & ""
+                    FinalQuery += "group by XXXFinal.[DCS Code], XXXFinal.Date , XXXFinal.Shift , XXXFinal.[Milk Type] )
+										 XXXXFinal
+										 group by XXXXFinal.[DCS Code], XXXXFinal.[Milk Type]															
+										 ) pp 
+										 order by [DCS Code],sno ,date,shift desc, [Milk Type]"
+                ElseIf rbtnRoute.Checked Then
+                    FinalQuery = "" & qry & " " & BaseQry1 & ""
+                    FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[Route Code], XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift, XXXXFinal.[Route Code] , XXXXFinal.[Milk Type] 	"
+                    FinalQuery += "" & BaseQry2 & ""
+                    FinalQuery += "group by XXXFinal.[Route Code], XXXFinal.Date , XXXFinal.Shift , XXXFinal.[Milk Type] )
+										 XXXXFinal
+										 group by XXXXFinal.[Route Code], XXXXFinal.[Milk Type]															
+										 ) pp 
+										 order by [Route Code],sno ,date,shift desc, [Milk Type]"
+                End If
+            End If
 
             dt = clsDBFuncationality.GetDataTable(FinalQuery)
+
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -3570,7 +3808,7 @@ Public Class FrmMCCMilkRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             RadPageView1.SelectedPage = RadPageViewPage2
-            ReStoreGridLayout()
+            '  ReStoreGridLayout()
             gv.BestFitColumns()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -3720,24 +3958,24 @@ Public Class FrmMCCMilkRegister
 
             Dim arr As List(Of String)
             If isShowTreeView Then
-                If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(1)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
-                    End If
-                End If
-                If cbtMCCRouteVLCC.CheckedText.Count > 1 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(2)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
-                    End If
-                End If
-                If cbtMCCRouteVLCC.CheckedText.Count > 2 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(3)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
-                    End If
-                End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(1)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                '    End If
+                'End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 1 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(2)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrHeader.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                '    End If
+                'End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 2 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(3)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrHeader.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                '    End If
+                'End If
             Else
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                     arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " "))
@@ -3768,7 +4006,7 @@ Public Class FrmMCCMilkRegister
         LoadData(2)
     End Sub
 
-    Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
+    Private Sub txtMCC__My_Click(sender As Object, e As EventArgs)
         Dim arrLoc As String = ""
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
@@ -3784,7 +4022,7 @@ Public Class FrmMCCMilkRegister
         RefreshVLC()
     End Sub
 
-    Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
+    Private Sub txtRoute__My_Click(sender As Object, e As EventArgs)
         Try
             'If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
             '    txtMCC.Focus()
@@ -3802,7 +4040,7 @@ Public Class FrmMCCMilkRegister
         End Try
     End Sub
 
-    Private Sub txtVLC__My_Click(sender As Object, e As EventArgs) Handles txtVLC._My_Click
+    Private Sub txtVLC__My_Click(sender As Object, e As EventArgs)
         Try
             'If txtRoute.arrValueMember Is Nothing OrElse txtRoute.arrValueMember.Count <= 0 Then
             '    txtRoute.Focus()
@@ -3875,24 +4113,24 @@ Public Class FrmMCCMilkRegister
             'If rbtnMCCRouteVLCCSelect.IsChecked Then
             Dim arr As List(Of String)
             If isShowTreeView Then
-                If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(1)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
-                    End If
-                End If
-                If cbtMCCRouteVLCC.CheckedText.Count > 1 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(2)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
-                    End If
-                End If
-                If cbtMCCRouteVLCC.CheckedText.Count > 2 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(3)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrHeader.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
-                    End If
-                End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(1)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                '    End If
+                'End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 1 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(2)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrHeader.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                '    End If
+                'End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 2 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(3)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrHeader.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                '    End If
+                'End If
             Else
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                     arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " "))
@@ -3938,24 +4176,24 @@ Public Class FrmMCCMilkRegister
             Dim strVLC As String = Nothing
             Dim arr As List(Of String)
             If isShowTreeView Then
-                If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(1)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrMCC.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " " + Environment.NewLine))
-                    End If
-                End If
-                If cbtMCCRouteVLCC.CheckedText.Count > 1 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(2)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrRoute.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " " + Environment.NewLine))
-                    End If
-                End If
-                If cbtMCCRouteVLCC.CheckedText.Count > 2 Then
-                    arr = cbtMCCRouteVLCC.CheckedText(3)
-                    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrVLC.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
-                    End If
-                End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(1)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrMCC.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " " + Environment.NewLine))
+                '    End If
+                'End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 1 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(2)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrRoute.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " " + Environment.NewLine))
+                '    End If
+                'End If
+                'If cbtMCCRouteVLCC.CheckedText.Count > 2 Then
+                '    arr = cbtMCCRouteVLCC.CheckedText(3)
+                '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                '        arrVLC.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                '    End If
+                'End If
             Else
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                     arrMCC.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " " + Environment.NewLine))
@@ -4102,13 +4340,13 @@ Public Class FrmMCCMilkRegister
         End Try
     End Sub
 
-    Private Sub ChkOnlyRejection_CheckStateChanged(sender As Object, e As EventArgs) Handles chkOnlyRejection.CheckStateChanged
+    Private Sub ChkOnlyRejection_CheckStateChanged(sender As Object, e As EventArgs)
         If chkOnlyRejection.Checked = True Then
             chkRejection.Checked = False
         End If
     End Sub
 
-    Private Sub ChkRejection_CheckStateChanged(sender As Object, e As EventArgs) Handles chkRejection.CheckStateChanged
+    Private Sub ChkRejection_CheckStateChanged(sender As Object, e As EventArgs)
         If chkRejection.Checked = True Then
             chkOnlyRejection.Checked = False
             If ChkDetailWise.Checked = True Then
@@ -4236,7 +4474,7 @@ Public Class FrmMCCMilkRegister
         End If
     End Sub
 
-    Private Sub chkRouteShiftWise_CheckedChanged(sender As Object, e As EventArgs) Handles chkRouteShiftWise.CheckedChanged
+    Private Sub chkRouteShiftWise_CheckedChanged(sender As Object, e As EventArgs)
         If chkRouteShiftWise.Checked Then
             RadButton1.Enabled = True
         Else
