@@ -2358,10 +2358,10 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                         dtAdditionOther.Columns.Add("ManAddDed", GetType(Integer))
 
                         Dim dr As DataRow = dtAdditionOther.NewRow()
-                        dr("VSP_Uploader_Code") = ""
-                        dr("VSP_Code") = ""
-                        dr("Vendor_NAME") = ""
-                        dr("Addition") = ""
+                        dr("VSP_Uploader_Code") = "XXXYYYZZZ"
+                        dr("VSP_Code") = "XXXYYYZZZ"
+                        dr("Vendor_NAME") = "XXXYYYZZZ"
+                        dr("Addition") = "XXXYYYZZZ"
                         dr("Amount") = 0
                         dr("ManAddDed") = 1
                         dtAdditionOther.Rows.Add(dr)
@@ -2377,6 +2377,23 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     rows = dtDeduction.Select("ManAddDed=1")
                     If rows Is Nothing OrElse rows.Length > 0 Then
                         dtDeductionOther = rows.CopyToDataTable()
+                    Else
+                        dtDeductionOther = New DataTable()
+                        dtDeductionOther.Columns.Add("VSP_Uploader_Code", GetType(String))
+                        dtDeductionOther.Columns.Add("Vendor_CODE", GetType(String))
+                        dtDeductionOther.Columns.Add("Vendor_NAME", GetType(String))
+                        dtDeductionOther.Columns.Add("Ded_Code", GetType(String))
+                        dtDeductionOther.Columns.Add("Amount", GetType(Decimal))
+                        dtDeductionOther.Columns.Add("ManAddDed", GetType(Integer))
+
+                        Dim dr As DataRow = dtDeductionOther.NewRow()
+                        dr("VSP_Uploader_Code") = "XXXYYYZZZ"
+                        dr("Vendor_CODE") = "XXXYYYZZZ"
+                        dr("Vendor_NAME") = "XXXYYYZZZ"
+                        dr("Ded_Code") = "XXXYYYZZZ"
+                        dr("Amount") = 0
+                        dr("ManAddDed") = 1
+                        dtDeductionOther.Rows.Add(dr)
                     End If
 
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
