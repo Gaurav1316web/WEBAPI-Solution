@@ -5700,6 +5700,9 @@ Public Class MDI
                     Case clsUserMgtCode.SalesmanSalesOrderReport
                         frm = New FrmSalemanSaleOrder()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmSaleAnalysisReport
+                        frm = New frmSaleAnalysisReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDealerManagementReport
                         frm = New FrmDealerManagementReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
