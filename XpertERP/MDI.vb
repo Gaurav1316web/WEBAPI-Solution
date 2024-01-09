@@ -28,7 +28,6 @@ Public Class MDI
     Private ArrImageList As New Dictionary(Of String, Integer)
     Private ArrBold As New List(Of String)
     Public arrExcluded As New List(Of String)
-    Public settDCS As Boolean
     'Public Shared IsMailSend As String = "NO"
     Public Shared IsLoc_Third_Party As String = "NO"
     Public Shared IsLoaction_NLevel As String = "NO"
@@ -369,7 +368,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.67") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.66") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -2329,9 +2328,9 @@ Public Class MDI
                 arrExcluded.Add("RcpWtDifRpt")
             End If
 
-            'If Not isLoadBulkPurchaseUploader Then
-            '    arrExcluded.Add(clsUserMgtCode.frmBulkPurchaseUploader)
-            'End If
+            If Not isLoadBulkPurchaseUploader Then
+                arrExcluded.Add(clsUserMgtCode.frmBulkPurchaseUploader)
+            End If
             If Not isLoadBankUpdateUploader Then
                 arrExcluded.Add(clsUserMgtCode.FrmBankUpdateUploader)
             End If
@@ -2776,7 +2775,7 @@ Public Class MDI
             pwd.strType = clsFixedParameterType.UploaderPassword
             pwd.ShowDialog()
             If pwd.isPasswordCorrect Then
-                'isLoadBulkPurchaseUploader = True
+                isLoadBulkPurchaseUploader = True
                 LoadMenu()
             Else
                 isLoadBulkPurchaseUploader = False
@@ -7812,26 +7811,11 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         objCommonVar.IsAutoTabOrdering = x
                     Case clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge
-                        settDCS = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowDCSDetMerge, clsFixedParameterCode.ShowDCSDetMerge, Nothing))
-                        If settDCS = True Then
-                            Dim x As Boolean = objCommonVar.IsAutoTabOrdering
-                            frm = New frmDCSMilkCollectionMergeSetting
-                            objCommonVar.IsAutoTabOrdering = False
-                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                            objCommonVar.IsAutoTabOrdering = x
-                        Else
-                            Dim x As Boolean = objCommonVar.IsAutoTabOrdering
-                            frm = New frmMilkCollectionDCSMultipleDaysMerge
-                            objCommonVar.IsAutoTabOrdering = False
-                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                            objCommonVar.IsAutoTabOrdering = x
-                        End If
-                    'Case clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge
-                    '    Dim x As Boolean = objCommonVar.IsAutoTabOrdering
-                    '    frm = New frmMilkCollectionDCSMultipleDaysMerge
-                    '    objCommonVar.IsAutoTabOrdering = False
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    '    objCommonVar.IsAutoTabOrdering = x
+                        Dim x As Boolean = objCommonVar.IsAutoTabOrdering
+                        frm = New frmMilkCollectionDCSMultipleDaysMerge
+                        objCommonVar.IsAutoTabOrdering = False
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        objCommonVar.IsAutoTabOrdering = x
                     Case clsUserMgtCode.MilkCollectionMCC
                         Dim x As Boolean = objCommonVar.IsAutoTabOrdering
                         frm = New frmMilkCollectionMCC
@@ -7865,9 +7849,6 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkMilkPurchaseInvoice
                         frm = New FrmMilkPurchaseInvoice
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BulkProcurementUploader
-                        frm = New BulkProcurementUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.BulkMilkPurchaseInvoiceMultiple
                         frm = New frmBulkMilkPurchaseInvoiceMultiple
@@ -8269,9 +8250,6 @@ Public Class MDI
                     Case clsUserMgtCode.frmPaymentProcess
                         frm = New FrmPaymentProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmTDSReport
-                        frm = New frmTDSReport
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmSendBillToDCS
                         frm = New frmSendBillToDCS
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8314,10 +8292,6 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDBTMilkPayment
                         frm = New rptDBTMilkPayment
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-
-                    Case clsUserMgtCode.rptMilkPaymentSummary
-                        frm = New rptMilkPaymentSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
                     Case clsUserMgtCode.frmPaymentProcessFarmer
@@ -9291,9 +9265,6 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.RCDFDashboard
                         frm = New RCDFDashboard
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.DashboardMilkUnion
-                        frm = New DashboardMilkUnion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptSMSDetailsReport
                         frm = New rptSMSDetails

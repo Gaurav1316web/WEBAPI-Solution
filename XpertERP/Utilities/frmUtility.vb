@@ -9186,50 +9186,23 @@ Public Class FrmUtility
                 Dim msg As String = str
                 If msg.Length > 0 Then
                     Try
-                        OldReading += msg
-                        Dim reading As String = System.Text.RegularExpressions.Regex.Replace(OldReading.Trim(), "[^0-9[.]", "")
-                        Dim strTempBreak As String() = reading.Split("[")
-                        If strTempBreak.Length > 2 Then
-                            Dim str1 As String = strTempBreak(1)
-                            If clsCommon.myLen(str1) = 7 Then
-                                Dim IntPart As String = String.Empty
-                                Dim FracPart As String = String.Empty
-                                Try
-                                    IntPart = Microsoft.VisualBasic.Mid(str1, 1, 5)
-                                    IntPart = (IIf(clsCommon.myCdbl(IntPart) > 0 And clsCommon.myCdbl(IntPart) <= 9, "0" & clsCommon.myCdbl(IntPart), clsCommon.myCdbl(IntPart))).ToString
-                                Catch ex As Exception
-                                End Try
-
-                                Try
-                                    FracPart = Microsoft.VisualBasic.Mid(str1, 6, 1) & "0"
-                                Catch ex As Exception
-                                End Try
-                                _weight = IntPart & "." & FracPart
-                                If IsNumeric(_weight) Then
-                                    clsCommon.MyMessageBoxShow(Me, _weight)
-                                End If
-                                OldReading = ""
-                            End If
-
-                        End If
-
                         'Dim strReading As String = ""
                         'For ii As Integer = 0 To msg.Length - 1
                         '    strReading += msg(ii).ToString("X") + " "
                         'Next
-                        'OldReading += msg
-                        'Dim strBreak As String() = clsCommon.myCstr(OldReading).Split(New String() {" "}, StringSplitOptions.None)
-                        'If strBreak.Length = 25 Then
-                        '    _fat = clsCommon.myCstr(clsCommon.myCdbl(strBreak(0))) + "." + strBreak(1).Substring(0, 1)
-                        '    _snf = clsCommon.myCstr(clsCommon.myCdbl(strBreak(2))) + "." + strBreak(3).Substring(0, 1)
+                        OldReading += msg
+                        Dim strBreak As String() = clsCommon.myCstr(OldReading).Split(New String() {" "}, StringSplitOptions.None)
+                        If strBreak.Length = 25 Then
+                            _fat = clsCommon.myCstr(clsCommon.myCdbl(strBreak(0))) + "." + strBreak(1).Substring(0, 1)
+                            _snf = clsCommon.myCstr(clsCommon.myCdbl(strBreak(2))) + "." + strBreak(3).Substring(0, 1)
 
-                        '    _fat = Math.Round(clsCommon.myCdbl(_fat), 1, MidpointRounding.ToEven)
-                        '    _snf = Math.Round(clsCommon.myCdbl(_snf), 1, MidpointRounding.ToEven)
-                        '    If IsNumeric(_fat) AndAlso IsNumeric(_snf) Then
-                        '        clsCommon.MyMessageBoxShow(Me, "FAT " + clsCommon.myCstr(_fat) + " and SNF " + clsCommon.myCstr(_snf))
-                        '    End If
-                        '    OldReading = ""
-                        'End If
+                            _fat = Math.Round(clsCommon.myCdbl(_fat), 1, MidpointRounding.ToEven)
+                            _snf = Math.Round(clsCommon.myCdbl(_snf), 1, MidpointRounding.ToEven)
+                            If IsNumeric(_fat) AndAlso IsNumeric(_snf) Then
+                                clsCommon.MyMessageBoxShow(Me, "FAT " + clsCommon.myCstr(_fat) + " and SNF " + clsCommon.myCstr(_snf))
+                            End If
+                            OldReading = ""
+                        End If
 
 
                         'OldReading += msg.Replace(" ", "")

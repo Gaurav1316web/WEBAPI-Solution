@@ -22,14 +22,14 @@ Partial Class frmMilkShiftUploaderUCDF
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -49,8 +49,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.txtNoOfCan = New common.MyNumBox()
         Me.lblBulkRoute = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.cboRejectType = New common.Controls.MyComboBox()
-        Me.MyLabel29 = New common.Controls.MyLabel()
         Me.txtBulkRoute = New common.UserControls.txtFinder()
         Me.cboLate = New common.Controls.MyComboBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -71,6 +69,8 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.lblTotEntry = New common.Controls.MyLabel()
         Me.MyLabel31 = New common.Controls.MyLabel()
+        Me.MyLabel29 = New common.Controls.MyLabel()
+        Me.cboRejectType = New common.Controls.MyComboBox()
         Me.lblBOMStatus = New common.Controls.MyLabel()
         Me.cboShift = New common.Controls.MyComboBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -92,7 +92,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.gvP = New Telerik.WinControls.UI.RadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,8 +110,6 @@ Partial Class frmMilkShiftUploaderUCDF
         CType(Me.txtNoOfCan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBulkRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboLate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -131,6 +128,8 @@ Partial Class frmMilkShiftUploaderUCDF
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotEntry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBOMStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -154,13 +153,11 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel2
         '
-        Me.Panel2.Controls.Add(Me.btnHistory)
         Me.Panel2.Controls.Add(Me.RadButton2)
         Me.Panel2.Controls.Add(Me.RadButton1)
         Me.Panel2.Controls.Add(Me.btnImport)
@@ -439,47 +436,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.MyLabel7.TabIndex = 30
         Me.MyLabel7.Text = "Route"
         '
-        'cboRejectType
-        '
-        Me.cboRejectType.AutoCompleteDisplayMember = Nothing
-        Me.cboRejectType.AutoCompleteValueMember = Nothing
-        Me.cboRejectType.CalculationExpression = Nothing
-        Me.cboRejectType.DropDownAnimationEnabled = True
-        Me.cboRejectType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboRejectType.FieldCode = Nothing
-        Me.cboRejectType.FieldDesc = Nothing
-        Me.cboRejectType.FieldMaxLength = 0
-        Me.cboRejectType.FieldName = Nothing
-        Me.cboRejectType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboRejectType.isCalculatedField = False
-        Me.cboRejectType.IsSourceFromTable = False
-        Me.cboRejectType.IsSourceFromValueList = False
-        Me.cboRejectType.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem5)
-        Me.cboRejectType.Items.Add(RadListDataItem6)
-        Me.cboRejectType.Location = New System.Drawing.Point(190, 102)
-        Me.cboRejectType.MendatroryField = True
-        Me.cboRejectType.MyLinkLable1 = Me.MyLabel29
-        Me.cboRejectType.MyLinkLable2 = Nothing
-        Me.cboRejectType.Name = "cboRejectType"
-        Me.cboRejectType.ReferenceFieldDesc = Nothing
-        Me.cboRejectType.ReferenceFieldName = Nothing
-        Me.cboRejectType.ReferenceTableName = Nothing
-        Me.cboRejectType.Size = New System.Drawing.Size(105, 18)
-        Me.cboRejectType.TabIndex = 8
-        '
-        'MyLabel29
-        '
-        Me.MyLabel29.FieldName = Nothing
-        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel29.Location = New System.Drawing.Point(4, 103)
-        Me.MyLabel29.Name = "MyLabel29"
-        Me.MyLabel29.Size = New System.Drawing.Size(55, 16)
-        Me.MyLabel29.TabIndex = 32
-        Me.MyLabel29.Text = "Milk Type"
-        '
         'txtBulkRoute
         '
         Me.txtBulkRoute.CalculationExpression = Nothing
@@ -522,10 +478,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboLate.IsSourceFromTable = False
         Me.cboLate.IsSourceFromValueList = False
         Me.cboLate.IsUnique = False
-        RadListDataItem7.Text = "M"
-        RadListDataItem8.Text = "E"
-        Me.cboLate.Items.Add(RadListDataItem7)
-        Me.cboLate.Items.Add(RadListDataItem8)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboLate.Items.Add(RadListDataItem3)
+        Me.cboLate.Items.Add(RadListDataItem4)
         Me.cboLate.Location = New System.Drawing.Point(672, 22)
         Me.cboLate.MendatroryField = True
         Me.cboLate.MyLinkLable1 = Me.MyLabel2
@@ -813,6 +769,47 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.MyLabel31.TabIndex = 19
         Me.MyLabel31.Text = "Total Entry"
         '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(4, 103)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel29.TabIndex = 32
+        Me.MyLabel29.Text = "Milk Type"
+        '
+        'cboRejectType
+        '
+        Me.cboRejectType.AutoCompleteDisplayMember = Nothing
+        Me.cboRejectType.AutoCompleteValueMember = Nothing
+        Me.cboRejectType.CalculationExpression = Nothing
+        Me.cboRejectType.DropDownAnimationEnabled = True
+        Me.cboRejectType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboRejectType.FieldCode = Nothing
+        Me.cboRejectType.FieldDesc = Nothing
+        Me.cboRejectType.FieldMaxLength = 0
+        Me.cboRejectType.FieldName = Nothing
+        Me.cboRejectType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboRejectType.isCalculatedField = False
+        Me.cboRejectType.IsSourceFromTable = False
+        Me.cboRejectType.IsSourceFromValueList = False
+        Me.cboRejectType.IsUnique = False
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem1)
+        Me.cboRejectType.Items.Add(RadListDataItem2)
+        Me.cboRejectType.Location = New System.Drawing.Point(190, 102)
+        Me.cboRejectType.MendatroryField = True
+        Me.cboRejectType.MyLinkLable1 = Me.MyLabel29
+        Me.cboRejectType.MyLinkLable2 = Nothing
+        Me.cboRejectType.Name = "cboRejectType"
+        Me.cboRejectType.ReferenceFieldDesc = Nothing
+        Me.cboRejectType.ReferenceFieldName = Nothing
+        Me.cboRejectType.ReferenceTableName = Nothing
+        Me.cboRejectType.Size = New System.Drawing.Size(105, 18)
+        Me.cboRejectType.TabIndex = 8
+        '
         'lblBOMStatus
         '
         Me.lblBOMStatus.FieldName = Nothing
@@ -839,10 +836,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem5)
+        Me.cboShift.Items.Add(RadListDataItem6)
         Me.cboShift.Location = New System.Drawing.Point(521, 22)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -1133,7 +1130,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         '
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1154,7 +1151,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         '
         Me.gvP.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvP.Name = "gvP"
         Me.gvP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvP.ShowGroupPanel = False
@@ -1178,16 +1175,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Size = New System.Drawing.Size(1097, 232)
         Me.SplitContainer1.SplitterDistance = 658
         Me.SplitContainer1.TabIndex = 4
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(618, 2)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(84, 22)
-        Me.btnHistory.TabIndex = 1031
-        Me.btnHistory.Text = "History"
         '
         'frmMilkShiftUploaderUCDF
         '
@@ -1224,8 +1211,6 @@ Partial Class frmMilkShiftUploaderUCDF
         CType(Me.txtNoOfCan, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBulkRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboLate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1245,6 +1230,8 @@ Partial Class frmMilkShiftUploaderUCDF
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotEntry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBOMStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1269,7 +1256,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1336,6 +1322,5 @@ Partial Class frmMilkShiftUploaderUCDF
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents cboDockCollectionMilkType As common.Controls.MyComboBox
-    Friend WithEvents btnHistory As RadButton
 End Class
 

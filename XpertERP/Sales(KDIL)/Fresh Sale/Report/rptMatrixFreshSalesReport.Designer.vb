@@ -34,6 +34,8 @@ Partial Class RptMatrixFreshSalesReport
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -50,7 +52,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.fndCustomer = New common.UserControls.txtFinder()
-        Me.lblTSDate = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnTaxable = New System.Windows.Forms.RadioButton()
         Me.rbtnNonTaxable = New System.Windows.Forms.RadioButton()
@@ -72,7 +74,9 @@ Partial Class RptMatrixFreshSalesReport
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.ddlPTSShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.MyLabel8 = New common.Controls.MyLabel()
         Me.btnPrintTrkSht = New Telerik.WinControls.UI.RadButton()
+        Me.txtPTSDateTo = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtPTSDateFrom = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkGatePass = New Telerik.WinControls.UI.RadCheckBox()
@@ -142,7 +146,7 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
-        CType(Me.lblTSDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -160,7 +164,9 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlPTSShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintTrkSht, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPTSDateTo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPTSDateFrom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -416,7 +422,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.fndCustomer.Location = New System.Drawing.Point(64, 40)
         Me.fndCustomer.MendatroryField = True
         Me.fndCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndCustomer.MyLinkLable1 = Me.lblTSDate
+        Me.fndCustomer.MyLinkLable1 = Me.MyLabel9
         Me.fndCustomer.MyLinkLable2 = Nothing
         Me.fndCustomer.MyReadOnly = False
         Me.fndCustomer.MyShowMasterFormButton = False
@@ -428,14 +434,14 @@ Partial Class RptMatrixFreshSalesReport
         Me.fndCustomer.TabIndex = 441
         Me.fndCustomer.Value = ""
         '
-        'lblTSDate
+        'MyLabel9
         '
-        Me.lblTSDate.FieldName = Nothing
-        Me.lblTSDate.Location = New System.Drawing.Point(5, 19)
-        Me.lblTSDate.Name = "lblTSDate"
-        Me.lblTSDate.Size = New System.Drawing.Size(30, 18)
-        Me.lblTSDate.TabIndex = 2
-        Me.lblTSDate.Text = "Date"
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Location = New System.Drawing.Point(5, 19)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel9.TabIndex = 2
+        Me.MyLabel9.Text = "From"
         '
         'RadGroupBox6
         '
@@ -547,8 +553,10 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadGroupBox2.Controls.Add(Me.MyLabel13)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel11)
         Me.RadGroupBox2.Controls.Add(Me.ddlPTSShift)
-        Me.RadGroupBox2.Controls.Add(Me.lblTSDate)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel8)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel9)
         Me.RadGroupBox2.Controls.Add(Me.btnPrintTrkSht)
+        Me.RadGroupBox2.Controls.Add(Me.txtPTSDateTo)
         Me.RadGroupBox2.Controls.Add(Me.txtPTSDateFrom)
         Me.RadGroupBox2.HeaderText = "Print Truck Sheet"
         Me.RadGroupBox2.Location = New System.Drawing.Point(607, 80)
@@ -606,7 +614,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtCustMultFnd.arrDispalyMember = Nothing
         Me.txtCustMultFnd.arrValueMember = Nothing
-        Me.txtCustMultFnd.Location = New System.Drawing.Point(64, 83)
+        Me.txtCustMultFnd.Location = New System.Drawing.Point(64, 62)
         Me.txtCustMultFnd.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustMultFnd.MyLinkLable1 = Me.MyLabel13
         Me.txtCustMultFnd.MyLinkLable2 = Nothing
@@ -614,18 +622,16 @@ Partial Class RptMatrixFreshSalesReport
         Me.txtCustMultFnd.Name = "txtCustMultFnd"
         Me.txtCustMultFnd.Size = New System.Drawing.Size(194, 19)
         Me.txtCustMultFnd.TabIndex = 438
-        Me.txtCustMultFnd.Visible = False
         '
         'MyLabel13
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(5, 83)
+        Me.MyLabel13.Location = New System.Drawing.Point(5, 62)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel13.TabIndex = 439
         Me.MyLabel13.Text = "Customer"
-        Me.MyLabel13.Visible = False
         '
         'btnTrkShtSummaryRW
         '
@@ -641,7 +647,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.txtMultPTSRoute.arrDispalyMember = Nothing
         Me.txtMultPTSRoute.arrValueMember = Nothing
-        Me.txtMultPTSRoute.Location = New System.Drawing.Point(64, 61)
+        Me.txtMultPTSRoute.Location = New System.Drawing.Point(64, 83)
         Me.txtMultPTSRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultPTSRoute.MyLinkLable1 = Me.MyLabel12
         Me.txtMultPTSRoute.MyLinkLable2 = Nothing
@@ -654,7 +660,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(5, 61)
+        Me.MyLabel12.Location = New System.Drawing.Point(5, 83)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel12.TabIndex = 437
@@ -676,14 +682,27 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlPTSShift.AutoCompleteValueMember = Nothing
         Me.ddlPTSShift.DropDownAnimationEnabled = True
         Me.ddlPTSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem4.Text = "Morning"
-        RadListDataItem5.Text = "Evening"
+        RadListDataItem4.Text = "Both"
+        RadListDataItem5.Text = "Morning"
+        RadListDataItem6.Text = "Evening"
+        RadListDataItem7.Text = "Shift Wise"
         Me.ddlPTSShift.Items.Add(RadListDataItem4)
         Me.ddlPTSShift.Items.Add(RadListDataItem5)
+        Me.ddlPTSShift.Items.Add(RadListDataItem6)
+        Me.ddlPTSShift.Items.Add(RadListDataItem7)
         Me.ddlPTSShift.Location = New System.Drawing.Point(64, 40)
         Me.ddlPTSShift.Name = "ddlPTSShift"
         Me.ddlPTSShift.Size = New System.Drawing.Size(194, 20)
         Me.ddlPTSShift.TabIndex = 435
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Location = New System.Drawing.Point(150, 19)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(19, 18)
+        Me.MyLabel8.TabIndex = 3
+        Me.MyLabel8.Text = "To"
         '
         'btnPrintTrkSht
         '
@@ -694,6 +713,20 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnPrintTrkSht.Size = New System.Drawing.Size(133, 22)
         Me.btnPrintTrkSht.TabIndex = 433
         Me.btnPrintTrkSht.Text = "Print Truck Sheet"
+        '
+        'txtPTSDateTo
+        '
+        Me.txtPTSDateTo.CustomFormat = "dd/MM/yyyy"
+        Me.txtPTSDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtPTSDateTo.Location = New System.Drawing.Point(177, 18)
+        Me.txtPTSDateTo.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtPTSDateTo.Name = "txtPTSDateTo"
+        Me.txtPTSDateTo.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtPTSDateTo.Size = New System.Drawing.Size(81, 20)
+        Me.txtPTSDateTo.TabIndex = 1
+        Me.txtPTSDateTo.TabStop = False
+        Me.txtPTSDateTo.Text = "24/10/2011"
+        Me.txtPTSDateTo.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
         'txtPTSDateFrom
         '
@@ -814,14 +847,14 @@ Partial Class RptMatrixFreshSalesReport
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem6.Text = "Both"
-        RadListDataItem7.Text = "Morning"
-        RadListDataItem8.Text = "Evening"
-        RadListDataItem9.Text = "Shift Wise"
-        Me.cboShift.Items.Add(RadListDataItem6)
-        Me.cboShift.Items.Add(RadListDataItem7)
+        RadListDataItem8.Text = "Both"
+        RadListDataItem9.Text = "Morning"
+        RadListDataItem10.Text = "Evening"
+        RadListDataItem11.Text = "Shift Wise"
         Me.cboShift.Items.Add(RadListDataItem8)
         Me.cboShift.Items.Add(RadListDataItem9)
+        Me.cboShift.Items.Add(RadListDataItem10)
+        Me.cboShift.Items.Add(RadListDataItem11)
         Me.cboShift.Location = New System.Drawing.Point(122, 25)
         Me.cboShift.Name = "cboShift"
         Me.cboShift.Size = New System.Drawing.Size(91, 20)
@@ -946,12 +979,12 @@ Partial Class RptMatrixFreshSalesReport
         Me.ddlInvocieType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvocieType.AutoCompleteValueMember = Nothing
         Me.ddlInvocieType.DropDownAnimationEnabled = True
-        RadListDataItem10.Text = "Both"
-        RadListDataItem11.Text = "Sale Invoice"
-        RadListDataItem12.Text = "Sale Return"
-        Me.ddlInvocieType.Items.Add(RadListDataItem10)
-        Me.ddlInvocieType.Items.Add(RadListDataItem11)
+        RadListDataItem12.Text = "Both"
+        RadListDataItem13.Text = "Sale Invoice"
+        RadListDataItem14.Text = "Sale Return"
         Me.ddlInvocieType.Items.Add(RadListDataItem12)
+        Me.ddlInvocieType.Items.Add(RadListDataItem13)
+        Me.ddlInvocieType.Items.Add(RadListDataItem14)
         Me.ddlInvocieType.Location = New System.Drawing.Point(133, 346)
         Me.ddlInvocieType.Name = "ddlInvocieType"
         Me.ddlInvocieType.Size = New System.Drawing.Size(121, 20)
@@ -1346,7 +1379,7 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
-        CType(Me.lblTSDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
@@ -1367,7 +1400,9 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlPTSShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintTrkSht, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPTSDateTo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPTSDateFrom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -1484,7 +1519,9 @@ Partial Class RptMatrixFreshSalesReport
     Friend WithEvents btnTrkShtSummaryRW As RadButton
     Friend WithEvents btnPrintTrkSht As RadButton
     Friend WithEvents RadGroupBox2 As RadGroupBox
-    Friend WithEvents lblTSDate As common.Controls.MyLabel
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents txtPTSDateTo As RadDateTimePicker
     Friend WithEvents txtPTSDateFrom As RadDateTimePicker
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents ddlPTSShift As RadDropDownList

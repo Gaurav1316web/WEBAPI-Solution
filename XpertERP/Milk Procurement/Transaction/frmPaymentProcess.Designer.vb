@@ -36,7 +36,6 @@ Partial Class FrmPaymentProcess
         Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.MyCheckBox1 = New common.Controls.MyCheckBox()
         Me.mfndMcc = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtFiscalYear = New common.Controls.MyTextBox()
@@ -120,7 +119,6 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.MyCheckBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -229,7 +227,6 @@ Partial Class FrmPaymentProcess
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.MyCheckBox1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.mfndMcc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtFiscalYear)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel6)
@@ -263,20 +260,6 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Size = New System.Drawing.Size(924, 425)
         Me.SplitContainer2.SplitterDistance = 160
         Me.SplitContainer2.TabIndex = 265
-        '
-        'MyCheckBox1
-        '
-        Me.MyCheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.MyCheckBox1.Location = New System.Drawing.Point(601, 112)
-        Me.MyCheckBox1.MyLinkLable1 = Nothing
-        Me.MyCheckBox1.MyLinkLable2 = Nothing
-        Me.MyCheckBox1.Name = "MyCheckBox1"
-        Me.MyCheckBox1.Size = New System.Drawing.Size(45, 18)
-        Me.MyCheckBox1.TabIndex = 294
-        Me.MyCheckBox1.Tag1 = Nothing
-        Me.MyCheckBox1.Text = "FAST"
-        Me.MyCheckBox1.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        Me.MyCheckBox1.Visible = False
         '
         'mfndMcc
         '
@@ -1270,7 +1253,7 @@ Partial Class FrmPaymentProcess
         Me.btnProcess.Name = "btnProcess"
         Me.btnProcess.Size = New System.Drawing.Size(68, 18)
         Me.btnProcess.TabIndex = 7
-        Me.btnProcess.Text = "Post"
+        Me.btnProcess.Text = "Process"
         '
         'btnDelete
         '
@@ -1344,7 +1327,6 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.MyCheckBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1519,6 +1501,5 @@ Partial Class FrmPaymentProcess
     Friend WithEvents RadPageViewCompulsory As RadPageViewPage
     Friend WithEvents gvCompulsory As common.UserControls.MyRadGridView
     Friend WithEvents btnPrintBillMobUser As RadButton
-    Friend WithEvents MyCheckBox1 As common.Controls.MyCheckBox
 End Class
 

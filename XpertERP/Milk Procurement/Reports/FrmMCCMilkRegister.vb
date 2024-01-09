@@ -94,14 +94,14 @@ Public Class FrmMCCMilkRegister
 
     Private Sub SetUserMgmtNew()
         MyBase.SetUserMgmt(clsUserMgtCode.MCCMilkRegister)
-        'If Not (MyBase.isReadFlag) Then
-        '    If MDI.blnShowAllMenu = False Then
-        '        Throw New Exception("Permission Denied")
-        '    Else
-        '        Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
+        If Not (MyBase.isReadFlag) Then
+            If MDI.blnShowAllMenu = False Then
+                Throw New Exception("Permission Denied")
+            Else
+                Throw New Exception("Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ")
 
-        '    End If
-        'End If
+            End If
+        End If
         radbtnBulkExp.Visible = MyBase.isExport
         btnLock.Enabled = MyBase.isPostFlag
     End Sub
@@ -2508,10 +2508,6 @@ Public Class FrmMCCMilkRegister
         'End If
         btnPrintMccDetails.Enabled = False
         arrBack = New List(Of String)
-        chkRouteShiftWise.Enabled = True
-        If chkRouteShiftWise.Checked Then
-            RadButton1.Enabled=True
-        End If
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
@@ -2600,7 +2596,7 @@ Public Class FrmMCCMilkRegister
                 qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, txtFromShift.Text, txtToShift.Text, clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
                 If ChkDetailWise.Checked Then
                     '============update by preeti gupta Against ticket no[BHA/15/05/19-000890]
-                    If BulkExport = 4 OrElse BulkExport = 5 Then
+                    If BulkExport = 4 Then
                         FinalQuery += "" & qry & " "
                     Else
                         FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
@@ -3455,7 +3451,7 @@ Public Class FrmMCCMilkRegister
                     " )as xx" & Environment.NewLine &
                     " ) as xxx" & Environment.NewLine &
                     " ) as aa" & Environment.NewLine
-                    If BulkExport <> 4 OrElse BulkExport <> 5 Then
+                    If BulkExport <> 4 Then
                         FinalQuery += " order by [MCC Code] "
                     End If
 
@@ -3481,7 +3477,7 @@ Public Class FrmMCCMilkRegister
                     " )as xx" & Environment.NewLine &
                     " ) as xxx" & Environment.NewLine &
                     " ) as aa" & Environment.NewLine
-                    If BulkExport <> 4 OrElse BulkExport <> 5 Then
+                    If BulkExport <> 4 Then
                         FinalQuery += " order by [Plant Code],[MCC Code] "
                     End If
 
@@ -3517,33 +3513,6 @@ Public Class FrmMCCMilkRegister
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtPart1, clsERPFuncationality.CompanyAddresShowinHeader(), "rptMccMilkRegisterDetail", "MCC Milk Register Report", "Address.rpt", "rptMccMilkRegisterDetailTypeWise.rpt", dtPart2)
                 frmCRV = Nothing
-                Exit Sub
-            End If
-
-            Dim ffinalQry As String
-            If ChkDetailWise.Checked AndAlso chkRouteShiftWise.Checked AndAlso BulkExport = 5 Then
-                ffinalQry = "Select ROW_NUMBER() Over (Order By Convert(int,xxxxFinal.[Route Code])) AS [SNo.],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as [To Date],xxxxFinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,Logo_Img2 
-                            from(Select Convert(int,xxxx.[Route Code])[Route Code],Max(xxxx.[Route Name])[Route Name],(xxxx.[Vlc Uploader Code])[Vlc Uploader Code],Max(xxxx.[VSP Name])[VSP Name],"
-                If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count = 1 Then
-                    ffinalQry += " Max(xxxx.[MCC Name])[MCC Name],"
-                Else
-                    ffinalQry += " Max('" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "')[MCC Name],"
-                End If
-                ffinalQry += "Sum(xxxx.[Milk Weight Mrng])[Milk Weight Mrng],Sum(xxxx.[Milk Weight Evng])[Milk Weight Evng],(Sum(xxxx.[Milk Weight Mrng])+Sum(xxxx.[Milk Weight Evng])) As [Total Milk],
-                            (Round((Sum(xxxx.[Milk Weight Mrng])+Sum(xxxx.[Milk Weight Evng]))/(Convert(int,(DATEDIFF(DAY,'01/Dec/2023','10/Dec/2023')))+Convert(int,'1')),0)) As [Average]
-                            from (Select xxFinal.[Route Code],Max(xxFinal.[Route Name])[Route Name],(xxfinal.[Vlc Uploader Code])[Vlc Uploader Code],Max(xxfinal.[VSP Name])[VSP Name],Max([MCC Name])[MCC Name],
-                            Case When Max(xxfinal.Shift)='Morning' Then Sum(xxFinal.[Milk Weight(KG)]) Else 0 End As [Milk Weight Mrng],Case When Max(xxfinal.Shift)='Evening' Then Sum(xxFinal.[Milk Weight(KG)]) Else 0 End As [Milk Weight Evng],
-                            (Sum(xxFinal.[Milk Weight(KG)])+Sum(xxFinal.[Milk Weight(KG)])) As [Total Milk],(Round((Sum(xxFinal.[Milk Weight(KG)])+Sum(xxFinal.[Milk Weight(KG)]))/(Convert(int,(DATEDIFF(DAY,'01/Dec/2023','10/Dec/2023')))+Convert(int,'1')),0)) As [Average] from 
-                            (" + FinalQuery + ") xxfinal Group By xxFinal.[Route Code],xxfinal.[Vlc Uploader Code],xxfinal.Shift) xxxx Group By xxxx.[Route Code],xxxx.[Vlc Uploader Code] ) xxxxFinal 
-                           Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' order by Convert(int,xxxxFinal.[Route Code])"
-                dt = clsDBFuncationality.GetDataTable(ffinalQry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptRouteWiseUnitMilkCollection", "UNIT MILK COLLECTION REPORT")
-                    frmCRV = Nothing
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
-                End If
                 Exit Sub
             End If
 
@@ -3671,7 +3640,7 @@ Public Class FrmMCCMilkRegister
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -3681,7 +3650,7 @@ Public Class FrmMCCMilkRegister
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rbtnMCCRouteVLCCAll_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
@@ -3769,16 +3738,7 @@ Public Class FrmMCCMilkRegister
     End Sub
 
     Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
-        Dim arrLoc As String = ""
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-            arrLoc = "'" + obj.Default_LocCode + "'"
-        Else
-            arrLoc = obj.arrLocCodes
-        End If
-
-        Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ") and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & "))"
+        Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ")"
         txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUMCC", qry, "MCC_Code", "MCC_NAME", txtMCC.arrValueMember, txtMCC.arrDispalyMember)
         RefreshRoute()
         RefreshVLC()
@@ -3850,12 +3810,7 @@ Public Class FrmMCCMilkRegister
     End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
-        If chkRouteShiftWise.Checked Then
-            LoadData(5)
-        Else
-            LoadData(3)
-        End If
-
+        LoadData(3)
     End Sub
 
     Private Sub btnPrintMccDetails_Click(sender As Object, e As EventArgs) Handles btnPrintMccDetails.Click
@@ -3930,96 +3885,44 @@ Public Class FrmMCCMilkRegister
     Private Sub PDF_Click(sender As Object, e As EventArgs) Handles PDF.Click
         Try
 
-            Dim arrMCC As List(Of String) = New List(Of String)()
-            Dim arrRoute As List(Of String) = New List(Of String)()
-            Dim arrVLC As List(Of String) = New List(Of String)()
-            Dim strMCCVLCRoute As String = ""
-            Dim strRoute As String = ""
-            Dim strVLC As String = Nothing
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
+            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.MCCMilkRegister & "'"))
+
             Dim arr As List(Of String)
             If isShowTreeView Then
                 If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
                     arr = cbtMCCRouteVLCC.CheckedText(1)
                     If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrMCC.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " " + Environment.NewLine))
+                        arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
                     End If
                 End If
                 If cbtMCCRouteVLCC.CheckedText.Count > 1 Then
                     arr = cbtMCCRouteVLCC.CheckedText(2)
                     If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrRoute.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " " + Environment.NewLine))
+                        arrHeader.Add(("Route : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
                     End If
                 End If
                 If cbtMCCRouteVLCC.CheckedText.Count > 2 Then
                     arr = cbtMCCRouteVLCC.CheckedText(3)
                     If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        arrVLC.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
+                        arrHeader.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(arr) + " "))
                     End If
                 End If
             Else
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                    arrMCC.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " " + Environment.NewLine))
+                    arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " "))
                 End If
                 If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                    arrRoute.Add(("Route : " + clsCommon.GetMulcallStringWithComma(txtRoute.arrDispalyMember) + " " + Environment.NewLine))
+                    arrHeader.Add(("Route : " + clsCommon.GetMulcallStringWithComma(txtRoute.arrDispalyMember) + " "))
                 End If
-
                 If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
-                    arrVLC.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(txtVLC.arrDispalyMember) + " "))
+                    arrHeader.Add(("VLC : " + clsCommon.GetMulcallStringWithComma(txtVLC.arrDispalyMember) + " "))
                 End If
             End If
-            If arrMCC.Count > 0 Then
-                strMCCVLCRoute = clsCommon.GetMulcallStringWithComma(arrMCC)
-            End If
-            If arrRoute.Count > 0 Then
-                If arrMCC.Count > 0 Then
-                    strMCCVLCRoute += Environment.NewLine
-                End If
-                strMCCVLCRoute += clsCommon.GetMulcallStringWithComma(arrRoute)
-            End If
-            If arrVLC.Count > 0 Then
-                If arrMCC.Count > 0 OrElse arrRoute.Count > 0 Then
-                    strMCCVLCRoute += Environment.NewLine
-                End If
-                strMCCVLCRoute += clsCommon.GetMulcallStringWithComma(arrVLC)
-            End If
-            If gv.Rows.Count > 0 Then
-                Dim style As New GridPrintStyle()
-                style.PrintGrouping = True
-                style.HeaderCellBackColor = Color.White
-                style.GroupRowBackColor = Color.White
-                style.SummaryCellBackColor = Color.White
-                style.PrintSummaries = True
-                gv.PrintStyle = style
-
-                Dim doc As New clsMyPrintDocument()
-
-                doc.Margins.Top = 50
-                doc.Margins.Bottom = 50
-                doc.Margins.Left = 50
-                doc.Margins.Right = 50
-                doc.HeaderHeight = 90
-                doc.Landscape = True
-                doc.AssociatedObject = gv
-
-                doc.DocumentName = objCommonVar.CurrentCompanyName
-                doc.LeftHeader = "Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + Environment.NewLine & "Company : " & objCommonVar.CurrentCompanyName + Environment.NewLine & "Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.MCCMilkRegister & "'") + Environment.NewLine + strMCCVLCRoute
-
-                doc.HeaderFont = New Font("Segoe UI", 10, FontStyle.Bold)
-
-                doc.AssociatedObject = gv
-
-                doc.RightFooter = "Page [Page #] Of [Total Pages]"
-
-                Dim dialog As New RadPrintPreviewDialog
-                dialog.Document = doc
-                dialog.ToolMenu.Visible = True
-                dialog.Show()
-
-                doc.Print()
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No data found To export", Me.Text)
-            End If
+            transportSql.applyExportTemplate(gv, PageSetupReport_ID)
+            clsCommon.MyExportToPDF(Me.Text, gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -4236,11 +4139,5 @@ Public Class FrmMCCMilkRegister
         End If
     End Sub
 
-    Private Sub chkRouteShiftWise_CheckedChanged(sender As Object, e As EventArgs) Handles chkRouteShiftWise.CheckedChanged
-        If chkRouteShiftWise.Checked Then
-            RadButton1.Enabled = True
-        Else
-            RadButton1.Enabled = False
-        End If
-    End Sub
+
 End Class

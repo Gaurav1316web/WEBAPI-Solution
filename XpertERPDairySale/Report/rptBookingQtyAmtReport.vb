@@ -24,11 +24,10 @@ Public Class rptBookingQtyAmtReport
         isSchemeItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowSchemeItemQty, clsFixedParameterCode.AllowSchemeItemQty, Nothing)) = 1, True, False)
         ToDate.Value = clsCommon.GETSERVERDATE()
         fromDate.Value = clsCommon.GETSERVERDATE()
-        cboDocumentType.SelectedIndex = 0
         'fromDate.Value = ToDate.Value.AddMonths(-1)
     End Sub
     Sub Reset()
-        cboDocumentType.SelectedIndex = 0
+
         txtItem.arrValueMember = Nothing
         txtCustomer.arrValueMember = Nothing
         txtTransaction.arrValueMember = Nothing
@@ -49,14 +48,7 @@ Public Class rptBookingQtyAmtReport
             Dim strDate As String = "Document_Date"
             Dim strWhrClause2 As String = String.Empty
 
-            '  strWhrClause2 = " and convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'  "
-            If cboDocumentType.SelectedIndex = 1 Then
-                strWhrClause2 = " and convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' and TSPL_BOOKING_MATSER.Posted = 1 "
-            ElseIf cboDocumentType.SelectedIndex = 2 Then
-                strWhrClause2 = " and convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' and TSPL_BOOKING_MATSER.Posted = 0 "
-            Else
-                strWhrClause2 = " and convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
-            End If
+            strWhrClause2 = " and convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_BOOKING_MATSER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'  "
 
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
                 strWhrClause2 += " and TSPL_BOOKING_DETAIL.Cust_Code  in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
