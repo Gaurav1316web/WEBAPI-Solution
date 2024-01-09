@@ -6522,6 +6522,7 @@ Public Class clsCreateAllTable
             coll.Add("Status", "char(1)  NUll")
             coll.Add("Driver_Name", "varchar(100) NULL")
             coll.Add("Driver_ContactNo", "varchar(15) NULL")
+            coll.Add("DistributorName", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
             coll = New Dictionary(Of String, String)()
@@ -28738,6 +28739,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Commision_UOM", "varchar(12) null references TSPL_UNIT_MASTER(Unit_Code)")
             coll.Add("Distributor_Tagging_Code", "varchar(30) NULL Unique references TSPL_DISTRIBUTOR_ROUTE(code)")
             coll.Add("IS_Transpotation", "integer not null default 0")
+            coll.Add("IS_Security", "integer null default 0")
             coll.Add("IsPosted", "integer NOT NULL DEFAULT 0")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
@@ -28753,6 +28755,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Route_Code", "Varchar(12) Not null  REFERENCES TSPL_ROUTE_MASTER(Route_No)")
             coll.Add("Distributor_Code", "Varchar(12) Not null references TSPL_Customer_MASTER(Cust_Code)")
             coll.Add("Rate", "Decimal(18,4) Not null")
+            coll.Add("Security_Rate", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Detail", coll, "", True)
             clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_Distributor_Commission_Detail alter column Rate  Decimal(18,4) Not null")
 
@@ -29052,6 +29055,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("SHIP_TO_DELIVERY_AT", "Varchar(100) null")
             coll.Add("Order_Qty", "decimal(18,2) null")
             coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
+            coll.Add("Security_TotalAmt", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
@@ -29226,6 +29230,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
             coll.Add("Distributor_Commission_RateWithTax", "decimal(18,4) NULL")
             coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Security_Rate", "decimal(18,2) NULL")
+            coll.Add("Security_Amt", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
 

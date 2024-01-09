@@ -21,9 +21,11 @@ Partial Class frmDistributorCommission
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.rbtnTranspotation = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnCommission = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtDistributorTagging = New common.UserControls.txtFinder()
         Me.lblDistributorTagging = New common.Controls.MyLabel()
         Me.lblStatus = New common.usLock()
@@ -47,14 +49,15 @@ Partial Class frmDistributorCommission
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnTranspotation = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnCommission = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkSecurity = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCommission, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItems, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCommission, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,8 +75,7 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnCommission, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -112,6 +114,7 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkSecurity)
         Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnTranspotation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnCommission)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDistributorTagging)
@@ -136,6 +139,22 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Size = New System.Drawing.Size(800, 407)
         Me.SplitContainer2.SplitterDistance = 120
         Me.SplitContainer2.TabIndex = 0
+        '
+        'rbtnTranspotation
+        '
+        Me.rbtnTranspotation.Location = New System.Drawing.Point(493, 58)
+        Me.rbtnTranspotation.Name = "rbtnTranspotation"
+        Me.rbtnTranspotation.Size = New System.Drawing.Size(109, 18)
+        Me.rbtnTranspotation.TabIndex = 1525
+        Me.rbtnTranspotation.Text = "TRANSPOTATION"
+        '
+        'rbtnCommission
+        '
+        Me.rbtnCommission.Location = New System.Drawing.Point(398, 59)
+        Me.rbtnCommission.Name = "rbtnCommission"
+        Me.rbtnCommission.Size = New System.Drawing.Size(91, 18)
+        Me.rbtnCommission.TabIndex = 1524
+        Me.rbtnCommission.Text = "COMMISSION"
         '
         'txtDistributorTagging
         '
@@ -373,7 +392,7 @@ Partial Class frmDistributorCommission
         '
         '
         '
-        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.GV1.Name = "GV1"
         Me.GV1.Size = New System.Drawing.Size(800, 283)
         Me.GV1.TabIndex = 0
@@ -436,21 +455,13 @@ Partial Class frmDistributorCommission
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'rbtnTranspotation
+        'chkSecurity
         '
-        Me.rbtnTranspotation.Location = New System.Drawing.Point(493, 58)
-        Me.rbtnTranspotation.Name = "rbtnTranspotation"
-        Me.rbtnTranspotation.Size = New System.Drawing.Size(109, 18)
-        Me.rbtnTranspotation.TabIndex = 1525
-        Me.rbtnTranspotation.Text = "TRANSPOTATION"
-        '
-        'rbtnCommission
-        '
-        Me.rbtnCommission.Location = New System.Drawing.Point(398, 59)
-        Me.rbtnCommission.Name = "rbtnCommission"
-        Me.rbtnCommission.Size = New System.Drawing.Size(91, 18)
-        Me.rbtnCommission.TabIndex = 1524
-        Me.rbtnCommission.Text = "COMMISSION"
+        Me.chkSecurity.Location = New System.Drawing.Point(609, 59)
+        Me.chkSecurity.Name = "chkSecurity"
+        Me.chkSecurity.Size = New System.Drawing.Size(63, 18)
+        Me.chkSecurity.TabIndex = 1526
+        Me.chkSecurity.Text = "Security "
         '
         'frmDistributorCommission
         '
@@ -471,6 +482,8 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCommission, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItems, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCommission, System.ComponentModel.ISupportInitialize).EndInit()
@@ -488,8 +501,7 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnCommission, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -522,4 +534,5 @@ Partial Class frmDistributorCommission
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents rbtnTranspotation As RadRadioButton
     Friend WithEvents rbtnCommission As RadRadioButton
+    Friend WithEvents chkSecurity As RadCheckBox
 End Class

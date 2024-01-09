@@ -10,6 +10,7 @@ Public Class frmDistributorCommission
     Const colCustCode As String = "colCustCode"
     Const colCustName As String = "colCustName"
     Const colCRate As String = "colCRate"
+    Const colSecRate As String = "colSecRate"
     Private isCellValueChangedOpen As Boolean = False
     Private isInsideLoadData As Boolean = False
 #End Region
@@ -83,8 +84,23 @@ Public Class frmDistributorCommission
         repoNumBox.Step = 0
         repoTextBox.DecimalPlaces = 4
         repoTextBox.IsVisible = True
+
         'repoTextBox.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoTextBox)
+        If chkSecurity.Checked Then
+            Dim SecRateTextBox = New GridViewDecimalColumn()
+            SecRateTextBox.FormatString = "{0:n2}"
+            SecRateTextBox.HeaderText = "Security Rate %"
+            SecRateTextBox.Name = colSecRate
+            SecRateTextBox.Width = 80
+            SecRateTextBox.Minimum = 0
+            SecRateTextBox.ShowUpDownButtons = False
+            SecRateTextBox.Step = 0
+            SecRateTextBox.DecimalPlaces = 2
+            SecRateTextBox.IsVisible = True
+            GV1.MasterTemplate.Columns.Add(SecRateTextBox)
+        End If
+
         GV1.Enabled = True
         GV1.AllowAddNewRow = False
         GV1.ShowGroupPanel = False
@@ -109,6 +125,7 @@ Public Class frmDistributorCommission
         txtApplicableDate.Value = txtDate.Value
         rbtnCommission.IsChecked = True
         rbtnTranspotation.IsChecked = False
+        chkSecurity.Checked = False
         txtDistributorTagging.Value = ""
         txtItems.arrValueMember = Nothing
         txtItems.arrDispalyMember = Nothing
@@ -197,7 +214,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             Dim currentdate As Date = Date.Today
             If clsCommon.myLen(txtUOM.Value) > 0 Then
 
-                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Is Transpotation", "Rate") Then
+                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Is Transpotation", "Rate", "Security Rate") Then
 
                     'Dim trans As SqlTransaction = Nothing
                     Dim linno As Integer = 0
@@ -233,13 +250,18 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                                     Arr.Distributor_Code = clsCommon.myCstr(grow.Cells("Distributor Code").Value)
                                 Else
                                     Continue For
-                                    End If
                                 End If
+                            End If
 
-                                If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Rate").Value))) Then
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Rate").Value))) Then
                                 Continue For
                             Else
                                 Arr.Rate = clsCommon.myCDecimal(grow.Cells("Rate").Value)
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Security Rate").Value))) Then
+                                Continue For
+                            Else
+                                Arr.Security_Rate = clsCommon.myCDecimal(grow.Cells("Security Rate").Value)
                             End If
                             obj.Add(Arr)
                         Next
@@ -290,10 +312,10 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],'' as [Is Transpotation],Rate as [Rate] from TSPL_Distributor_Commission_Detail"
+            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],'' as [Is Transpotation],Rate as [Rate],Security_Rate as [Security Rate] from TSPL_Distributor_Commission_Detail"
             Dim whrCls As String = ""
 
-            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Is Transpotation", "Rate"})
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Is Transpotation", "Rate", "Security Rate"})
             transportSql.ExporttoExcel(str, whrCls, Me)
 
         Catch ex As Exception
@@ -366,6 +388,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 Else
                     rbtnCommission.IsChecked = True
                 End If
+                If obj.IS_Security Then
+                    chkSecurity.Checked = True
+                End If
                 txtItems.arrValueMember = obj.Items
                 Dim sl As Integer = 1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -377,6 +402,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
                         sl += 1
                         GV1.Rows.AddNew()
                     Next
@@ -434,6 +460,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 ElseIf rbtnCommission.IsChecked Then
                     obj.IS_Transpotation = False
                 End If
+                If chkSecurity.Checked Then
+                    obj.IS_Security = True
+                End If
                 obj.Applicable_Date = txtApplicableDate.Value
                 obj.Commision_UOM = txtUOM.Value
                 obj.Distributor_Tagging_Code = txtDistributorTagging.Value
@@ -452,17 +481,18 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
         Dim Arr As New List(Of clsDistributorCommissionDetails)
         For ii As Integer = 0 To GV1.RowCount - 1
             If clsCommon.myLen(GV1.Rows(ii).Cells(colCustCode).Value) > 0 Then
-                If clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value) > 0 Then
+                'If clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value) > 0 Then
 
 
-                    Dim objTr As New clsDistributorCommissionDetails()
+                Dim objTr As New clsDistributorCommissionDetails()
                     'objTr.SNo = ii + 1
                     objTr.Distributor_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(colCustCode).Value)
                     objTr.Route_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(ColRouteCode).Value)
                     objTr.Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value)
+                    objTr.Security_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colSecRate).Value)
                     Arr.Add(objTr)
 
-                End If
+                'End If
             End If
         Next
         Return Arr
@@ -576,6 +606,18 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
     Private Sub rbtnTranspotation_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTranspotation.CheckStateChanged
         If rbtnTranspotation.IsChecked Then
             rbtnCommission.IsChecked = False
+        End If
+    End Sub
+
+    Private Sub chkSecurity_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkSecurity.ToggleStateChanged
+        If chkSecurity.Checked Then
+            rbtnCommission.Enabled = False
+            rbtnTranspotation.Enabled = False
+            LoadBlankGrid()
+        Else
+            rbtnCommission.Enabled = True
+            rbtnTranspotation.Enabled = True
+            LoadBlankGrid()
         End If
     End Sub
 End Class

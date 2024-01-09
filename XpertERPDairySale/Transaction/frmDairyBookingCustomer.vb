@@ -175,6 +175,11 @@ Public Class frmDairyBookingCustomer
         fndRouteNo_TextChanged()
         lblroutecode.Text = txtRouteNo.Value
         lblroutename.Text = lblRouteDesc.Text
+        txtRouteCode1.Text = txtRouteNo.Value
+        txtRouteName1.Text = lblRouteDesc.Text
+        qry = "select TSPL_VEHICLE_MASTER.Vehicle_Id from TSPL_ROUTE_MASTER left join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id where TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "'"
+        txtVehicleCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, Nothing))
+        txtVehicleName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" + clsCommon.myCstr(txtVehicleCode.Value) + "'"))
         If SettTagMultipleRouteWithCustomer Then
             ''richa ERO/15/11/19-001104
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
@@ -184,7 +189,8 @@ Public Class frmDairyBookingCustomer
                 " where TSPL_Customer_Route_Master.Route_No='" & txtRouteNo.Value & "' and TSPL_Customer_Route_Master.cust_Code='" & txtVendorNo.Value & "' "
                 txtVendorNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, Nothing))
                 lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"))
-                setRouteDetail(txtVendorNo.Value, txtRouteNo.Value)
+                'setRouteDetail(txtVendorNo.Value, txtRouteNo.Value)
+
             Else
                 txtVendorNo.Value = ""
                 lblVendorName.Text = ""
@@ -1585,7 +1591,7 @@ Public Class frmDairyBookingCustomer
             End If
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
                 If Not chkDCS.Checked Then
-                    If clsCommon.myLen(strVehicleCode) = 0 Then
+                    If clsCommon.myLen(txtVehicleCode.Value) = 0 Then
                         Throw New Exception("Please enter Vehicle ")
                         blnSaveTotalQTy = False
                         Exit Function
@@ -1595,6 +1601,13 @@ Public Class frmDairyBookingCustomer
             If clsCommon.myLen(txtLocation.Value) = 0 Then
                 Throw New Exception("Please enter Location ")
                 Exit Function
+            End If
+            If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
+
+                clsCommon.MyMessageBoxShow("Please Select GatePass Type", Me.Text)
+                    'Exit Function
+                    Return False
+
             End If
             If AllowToCreateNoOfBookingPerDay > 0 And chkGatePass.Checked = False Then
                 Dim STRSQL As String = "select count(distinct TSPL_BOOKING_MATSER.Document_No) as cc from TSPL_BOOKING_DETAIL left join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_BOOKING_DETAIL.cust_code where TSPL_BOOKING_MATSER.From_Screen_Code ='BOOK-DS-CU' and TSPL_BOOKING_MATSER.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_DETAIL.Cust_Code='" & txtVendorNo.Value & "' AND convert(date,TSPL_BOOKING_MATSER.Document_Date ,103)=convert(date,'" & txtDate.Value & "',103) and TSPL_BOOKING_MATSER.Document_No<>'" & clsCommon.myCstr(txtDocNo.Value) & "' and TSPL_BOOKING_MATSER.AgainstGatePass=0  "
@@ -1890,7 +1903,7 @@ Public Class frmDairyBookingCustomer
                 If clsCommon.myLen(lblLoginUserZone.Text) > 0 Then
                     obj.Login_User_Zone_Code = lblLoginUserZone.Text
                 End If
-                obj.TCSAmount = lblTCSAmount.Text
+                obj.TCSAmount = clsCommon.myCdbl(lblTCSAmount.Text)
                 obj.Is_Credit_Customer = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'"))
                 obj.Arr = New List(Of clsBookingDetailDairySale)
                 ''richa 4 Aug,2021 optimization related
@@ -2500,7 +2513,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     'Else
                     'CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
                 End If
-                txtLocation.Enabled = False
+                ' txtLocation.Enabled = False
                 txtVendorNo.Enabled = False
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
@@ -3306,16 +3319,16 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             txtRouteName1.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
             txtRouteNo.Value = clsCommon.myCstr(dt1.Rows(0)("Route_No"))
             lblRouteDesc.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
-            If EnableLocation Then
-                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
-                txtLocation.Enabled = False
-            Else
-                txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            ' If EnableLocation Then
+            'txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+            '    txtLocation.Enabled = False
+            'Else
+            txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
 
-            End If
-            If clsCommon.myLen(txtLocation.Value) > 0 Then
-                lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
-            End If
+            'End If
+            'If clsCommon.myLen(txtLocation.Value) > 0 Then
+            '    lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+            'End If
             If chkDCS.Checked Then
                 If clsCommon.CompairString(cmbcashcredit.Text, "CASH") = CompairStringResult.Equal Then
                     lblPriceCodeDesc.Text = clsDBFuncationality.getSingleValue("select VSP_Price_Code_Cash from TSPL_customer_group_master where Default_VSP=1")
@@ -5461,7 +5474,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
                     chkBPL.Checked = IIf(obj.Is_BPL = 1, True, False)
                     chkDistributor.Checked = IIf(obj.Is_Distributor = 1, True, False)
-                    txtLocation.Enabled = False
+                    'txtLocation.Enabled = False
                     txtVendorNo.Enabled = False
                     If chkBPL.Checked Then
                         txtCouponCode.Text = obj.BPL_Coupon_Code
@@ -6301,7 +6314,7 @@ from
                     'btnSave.Text = "Update"
                     BlankAllControls()
                     LoadBlankGrid()
-                    txtLocation.Enabled = False
+                    ' txtLocation.Enabled = False
                     txtVendorNo.Enabled = False
                     'If obj.TRANSACTION_TYPE = "FS" Then
                     '    rbtn_Fresh.IsChecked = True
