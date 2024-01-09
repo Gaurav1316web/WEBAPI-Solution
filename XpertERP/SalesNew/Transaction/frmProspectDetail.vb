@@ -2130,7 +2130,7 @@ Public Class frmProspectDetail
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2293,7 +2293,7 @@ Public Class frmProspectDetail
                         End If
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("No scheme applicable.")
+                    common.clsCommon.MyMessageBoxShow(Me, "No scheme applicable.", Me.Text)
                     For schemeRow As Integer = gv1.Rows.Count - 1 To 0 Step -1
                         If clsCommon.myLen(gv1.CurrentRow.Cells(colFromSchemeCode).Value) > 0 Then
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(colFromSchemeCode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colFromSchemeCode).Value)) = CompairStringResult.Equal Then
@@ -2353,7 +2353,7 @@ Public Class frmProspectDetail
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -2562,7 +2562,7 @@ Public Class frmProspectDetail
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
