@@ -855,7 +855,7 @@ Public Class FrmPrintFreshInvoice
             LeakageDeduction_Freshsale = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.leakagededuction_freshsale & "'"))
 
             Qry = "  select Main_Final.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,Convert(decimal(18,2),(valueInRs/((Qty_Default*ConversionFactor)/CF))) As RateLtr from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC from ( " &
-                    "select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,  
+                    "select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,  
   (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then 'IRN : '+ TSPL_SD_SALE_INVOICE_HEAD.IRN_No End) As IRN_No,Zone_Code,ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,"
             If clsCommon.myCdbl(LeakageDeduction_Freshsale) > 0 Then
                 Qry += "TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount*'" & LeakageDeduction_Freshsale & "'/100 as LeakageDeduction_Freshsale,1 as LeakageDeduction, "

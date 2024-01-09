@@ -1779,7 +1779,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "MCC Milk Collection", "1.18.02.36", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.18.02.37", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.18.02.38", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
-
+        InsertDefaultValue(clsUserMgtCode.BulkProcurementUploader, "Bulk Procurement Uploader", "1.18.02.39", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         '===========================Report Bulk========
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkMilkProcurementReport, "Report", "1.18.03", clsUserMgtCode.ModuleBulkMilkProcurement, "SM", 30)
         'InsertDefaultValue(clsUserMgtCode.rptSecondaryQuality, "Secondary Quality", "1.18.03.01", clsUserMgtCode.SubModuleBulkMilkProcurementReport, 37)

@@ -2089,6 +2089,7 @@ Public Class clsUserMgtCode
     Public Const MilkCollectionMCCSample As String = "MLK-COL-MCCS"
     Public Const MilkCollectionDCS As String = "MLK-COL-DCS"
     Public Const frmBulkMilkSRN As String = "M-SRN-B"
+    Public Const BulkProcurementUploader As String = "B-PRC-U"
     Public Const frmBulkMilkPurchaseInvoice As String = "M-PURINV-B"
     Public Const BulkMilkPurchaseInvoiceMultiple As String = "BM-PINV-M"
     Public Const frmCleaning As String = "M-CLEAN"
