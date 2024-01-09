@@ -231,7 +231,6 @@ Public Class FrmMCCMilkRegister
             gv.Columns("SNF(%)").HeaderText = "SNF"
 
             Dim summaryRowItem As New GridViewSummaryRowItem()
-
             Dim item1 As New GridViewSummaryItem("Milk Weight Sweet(KG)", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
             Dim item2 As New GridViewSummaryItem("Sweet FAT(KG)", "{0:F2}", GridAggregateFunction.Sum)
@@ -2556,8 +2555,16 @@ Public Class FrmMCCMilkRegister
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Date").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns("Shift").Name)
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(3).Name)
+                If rbtnTotal.Checked Then
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
+                ElseIf rbtnBMC.Checked Then
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(3).Name)
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(4).Name)
+                Else
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(2).Name)
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv.Columns(3).Name)
+                End If
 
                 view.ColumnGroups.Add(New GridViewColumnGroup("SWEET"))
                 view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
@@ -3728,42 +3735,52 @@ Public Class FrmMCCMilkRegister
                 Dim Final As String = ""
 
                 If rbtnBMC.Checked Then
-                    str = "[MCC Code]"
-                    Final = "final.MCC as [MCC Code]"
-                    XXXFinal = "XXXFinal.[MCC Code] as [MCC Code]"
+                    str = ",[MCC Code],  [Mcc Uploader Code]"
+                    Final = ", final.MCC as [MCC Code]"
+                    XXXFinal = " ,XXXFinal.[MCC Code] ,XXXFinal.Mcc_Uploader_Code as [Mcc Uploader Code]"
                 ElseIf rbtnDCS.Checked Then
-                    str = "[DCS Code]"
-                    Final = "final.[Vlc Uploader Code] as [DCS Code]"
-                    XXXFinal = "XXXFinal.[DCS Code] "
+                    str = " ,[DCS Code]"
+                    Final = " , final.[Vlc Uploader Code] as [DCS Code]"
+                    XXXFinal = " , XXXFinal.[DCS Code] "
                 ElseIf rbtnRoute.Checked Then
-                    str = "[Route Code]"
-                    Final = "final.[Route Code] as Route_Code"
-                    XXXFinal = "XXXFinal.[Route Code]"
+                    str = ", [Route Code]"
+                    Final = ", final.[Route Code] as Route_Code"
+                    XXXFinal = ", XXXFinal.[Route Code]"
+                ElseIf rbtnTotal.Checked Then
+                    str = ""
+                    Final = ""
+                    XXXFinal = ""
                 End If
-                qry = "select convert(varchar,Date,103) as Date , Shift , " & str & " , [Milk Type] , [Milk Weight Sweet(KG)] , [Sweet FAT(KG)] , [Sweet SNF(KG)] , [Milk Weight Sour(KG)] , [Sour FAT(KG)] , [Sour SNF(KG)] , [Milk Weight Curd(KG)] , [No Of Cans] , TotalQty , CASE when TotalQty = 0 then 0 else ([Total FAT] / TotalQty)* 100 end as  [FAT(%)],
+                qry = "select convert(varchar,Date,103) as Date , Shift  " & str & " , [Milk Type] , [Milk Weight Sweet(KG)] , [Sweet FAT(KG)] , [Sweet SNF(KG)] , [Milk Weight Sour(KG)] , [Sour FAT(KG)] , [Sour SNF(KG)] , [Milk Weight Curd(KG)] , [No Of Cans] , TotalQty , CASE when TotalQty = 0 then 0 else ([Total FAT] / TotalQty)* 100 end as  [FAT(%)],
                           case when TotalQty= 0 then 0 else ([Total SNF] / TotalQty )*100 end as [SNF(%)],([Sweet FAT(KG)] )+ ([Sour FAT(KG)])  as [Total FAT] , ([Sweet SNF(KG)] ) + ([Sour SNF(KG)]) as [Total SNF]  from (
-                        select 1 as SNo ,[Milk Type] ,  Date , Shift , " & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , 
+                        select 1 as SNo ,[Milk Type] ,  Date , Shift  " & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , 
                       sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  From 
-                     ( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , XXXFinal.Shift," & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)] ,sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,  sum([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] ,
-                    sum(XXXFinal.[No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) +  sum([Milk Weight Curd(KG)]) as TotalQty,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] ,sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF] from    ( Select final.[Milk Type], final.[Milk Receipt Code] ," & Final & " ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name]
+                     ( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , XXXFinal.Shift " & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)] ,sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,  sum([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] ,
+                    sum(XXXFinal.[No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) +  sum([Milk Weight Curd(KG)]) as TotalQty,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] ,sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF] from    ( Select final.[Milk Type], final.[Milk Receipt Code] " & Final & " ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name]
                    ,final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from ( "
+                Dim strDate As String = ""
 
+                If rbtnTotal.Checked Then
+                    strDate = "Date"
+                Else
+                    strDate = "Null as Date"
+                End If
                 BaseQry2 += " union all "
-                BaseQry2 += "select 2 as SNo ,'Total' as [Milk Type] , Null as Date , '' as Shift ," & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], 
+                BaseQry2 += "select 2 as SNo ,'Total' as [Milk Type] , " & strDate & " , '' as Shift " & str & " , sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], 
                sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  From "
 
-                BaseQry2 += "( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , XXXFinal.Shift, " & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,
+                BaseQry2 += "( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , '' as Shift " & XXXFinal & ", sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,
                sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  from   
-          ( Select final.[Milk Type], final.[Milk Receipt Code] ," & Final & " ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name],final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from (  " & BaseQry1 & ""
+          ( Select final.[Milk Type], final.[Milk Receipt Code] " & Final & " ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name],final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from (  " & BaseQry1 & ""
                 If rbtnBMC.Checked Then
                     FinalQuery = "" & qry & " " & BaseQry1 & ""
-                    FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[MCC Code] , XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift, XXXXFinal.[MCC Code] , XXXXFinal.[Milk Type] 	"
+                    FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[MCC Code], XXXFinal.Mcc_Uploader_Code , XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift, XXXXFinal.[MCC Code] ,XXXXFinal.[Mcc Uploader Code] , XXXXFinal.[Milk Type] 	"
                     FinalQuery += "" & BaseQry2 & ""
-                    FinalQuery += "group by XXXFinal.[MCC Code], XXXFinal.Date , XXXFinal.Shift , XXXFinal.[Milk Type] )
+                    FinalQuery += "group by XXXFinal.[MCC Code],XXXFinal.Mcc_Uploader_Code, XXXFinal.Date , XXXFinal.Shift , XXXFinal.[Milk Type] )
 										 XXXXFinal
-										 group by XXXXFinal.[MCC Code], XXXXFinal.[Milk Type]															
+										 group by XXXXFinal.[MCC Code],[Mcc Uploader Code], XXXXFinal.[Milk Type]															
 										 ) pp 
-										 order by [MCC Code],sno ,date,shift desc, [Milk Type]"
+										 order by [Mcc Uploader Code],sno ,date,shift desc, [Milk Type]"
                 ElseIf rbtnDCS.Checked Then
                     FinalQuery = "" & qry & " " & BaseQry1 & ""
                     FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[DCS Code], XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift, XXXXFinal.[DCS Code] , XXXXFinal.[Milk Type] 	"
@@ -3782,6 +3799,15 @@ Public Class FrmMCCMilkRegister
 										 group by XXXXFinal.[Route Code], XXXXFinal.[Milk Type]															
 										 ) pp 
 										 order by [Route Code],sno ,date,shift desc, [Milk Type]"
+                ElseIf rbtnTotal.Checked Then
+                    FinalQuery = "" & qry & " " & BaseQry1 & ""
+                    FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift , XXXXFinal.[Milk Type] "
+                    FinalQuery += "" & BaseQry2 & ""
+                    FinalQuery += "group by  XXXFinal.Date , XXXFinal.[Milk Type] )
+										 XXXXFinal
+										 group by  XXXXFinal.Date , XXXXFinal.[Milk Type]															
+										 ) pp 
+										 order by date , sno , shift desc,[Milk Type]"
                 End If
             End If
 
