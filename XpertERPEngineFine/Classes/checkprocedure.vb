@@ -58,6 +58,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailSystemAdmin, "System Administrator Audit Trail Report", "1.00.03.09", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDeleteHistoryReport, "Delete History Report", "1.00.03.10", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.RCDFDashboard, "Dashboard", "1.00.03.11", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DashboardMilkUnion, "Union Dashboard", "1.00.03.12", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------
@@ -464,8 +465,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptClaimMaster, "Claim Report", "1.05.03.52", clsUserMgtCode.SubModuleSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmTDMReport, "TDM Report", "1.05.03.53", clsUserMgtCode.SubModuleSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.SalesmanSalesOrderReport, "Salesman Sales Order", "1.05.03.54", clsUserMgtCode.SubModuleSaleReport, 37)
-
-
 
         ' shipping Report
 
@@ -1312,6 +1311,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.BITopItemCategory, "Top Item Category", "1.13.02.03", clsUserMgtCode.SubModuleBISale, 37)
         InsertDefaultValue(clsUserMgtCode.BIDashBoadr, "Dashboard", "1.13.02.04", clsUserMgtCode.SubModuleBISale, 37)
 
+
         'Purchase
         InsertDefaultValue(clsUserMgtCode.SubModuleBIPurchase, "Purchase", "1.13.03", clsUserMgtCode.ModuleBI, "SM", 37)
 
@@ -1619,7 +1619,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptVSPOrVLCVarationRpt, "VSP Or VLC Varation Report", "1.17.03.39", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptMPIDReport, "Farmer ID Report ", "1.17.03.40", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptCollectionAnalysis, "Collection Analysis", "1.17.03.41", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-
+        InsertDefaultValue(clsUserMgtCode.frmTDSReport, "TDS Report", "1.17.03.42", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMCCVLCVarationReport, "MCC Or VLC Varation Report ", "1.17.03.43", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptVSPAssetIssue1, "VSP Asset Issue Report", "1.17.03.44", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         'InsertDefaultValue(clsUserMgtCode.RptPriceRateDifferenceReport, "Price Rate Difference Report", "1.17.03.45", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -1716,6 +1716,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTSummaryMonthlyWise, "DBT Year Wise Summary", "1.17.03.109", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, "DBT Milk Payment", "1.17.03.110", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCTankerTestingReport, "BMC Tanker Testing Report", "1.17.03.111", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.112", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
@@ -1778,7 +1779,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "MCC Milk Collection", "1.18.02.36", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.18.02.37", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.18.02.38", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
-
+        InsertDefaultValue(clsUserMgtCode.BulkProcurementUploader, "Bulk Procurement Uploader", "1.18.02.39", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         '===========================Report Bulk========
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkMilkProcurementReport, "Report", "1.18.03", clsUserMgtCode.ModuleBulkMilkProcurement, "SM", 30)
         'InsertDefaultValue(clsUserMgtCode.rptSecondaryQuality, "Secondary Quality", "1.18.03.01", clsUserMgtCode.SubModuleBulkMilkProcurementReport, 37)
@@ -2062,6 +2063,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptSchemeDetail, "Scheme Details", "1.25.03.16", clsUserMgtCode.SubModuleFreshSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptLeakageDetail, "Leakage Details", "1.25.03.17", clsUserMgtCode.SubModuleFreshSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailFreshSale, "Fresh Sale Audit Trail Report", "1.25.03.18", clsUserMgtCode.SubModuleFreshSaleReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmSaleAnalysisReport, "Sale Analysis Report", "1.25.03.19", clsUserMgtCode.SubModuleSaleReport, 37)
         ' 
 
         InsertDefaultValue(clsUserMgtCode.ModuleProductSale, "Product Sale", "1.26", clsUserMgtCode.ExpertERP, "M", 23)

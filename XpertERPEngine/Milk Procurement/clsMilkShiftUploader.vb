@@ -131,6 +131,9 @@ Public Class clsMilkShiftUploaderHead
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SHIFT_UPLOADER_HEAD", OMInsertOrUpdate.Update, "TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsMilkShiftUploaderDetail.SaveData(obj.Document_No, obj.MCC_Code, obj.Arr, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "TSPL_MILK_SHIFT_UPLOADER_DETAIL", "Document_No", trans)
+
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try

@@ -2039,7 +2039,7 @@ Public Class clsVedorInvoiceHead
             ''------------------------------
         End If
 
-        qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' ,EInvoice_Type='" + ECustomerType + "' where Document_No='" + strDocNo + "'"
+        qry = "Update TSPL_VENDOR_INVOICE_HEAD set Posting_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(strPostDate), "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Return True
 
@@ -5043,6 +5043,9 @@ Public Class clsAPInvoiceAdvanceInterest
     End Function
 
     Public Shared Function GetAdvancePaymentQry(ByVal strVendorCode As String, ByVal dtFrom As DateTime?, ByVal dtTo As DateTime, ByVal skipPreviousDocumeent As Boolean, ByVal tran As SqlTransaction) As String
+        Return GetAdvancePaymentQry(strVendorCode, dtFrom, dtTo, skipPreviousDocumeent, tran, True)
+    End Function
+    Public Shared Function GetAdvancePaymentQry(ByVal strVendorCode As String, ByVal dtFrom As DateTime?, ByVal dtTo As DateTime, ByVal skipPreviousDocumeent As Boolean, ByVal tran As SqlTransaction, ByVal isOrderBy As Boolean) As String
         Dim dtToDateForQry As DateTime = dtTo ''BHA/14/09/18-000549 by balwinder on 18/09/2018
         If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotConsiderTheFutureDateOfAdvancePayment, clsFixedParameterCode.DoNotConsiderTheFutureDateOfAdvancePayment, tran)) = 0) Then
             dtToDateForQry = clsCommon.GETSERVERDATE(tran)
@@ -5064,7 +5067,10 @@ Public Class clsAPInvoiceAdvanceInterest
             qry += " and TSPL_PAYMENT_HEADER.Payment_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm tt") + "' "
         End If
         qry += " and TSPL_PAYMENT_HEADER.Payment_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtToDateForQry), "dd/MMM/yyyy hh:mm tt") + "' " &
-       " ) Final where Balance_Amt>0 order by Payment_Date"
+       " ) Final where Balance_Amt>0 "
+        If isOrderBy Then
+            qry += " order by Payment_Date"
+        End If
         Return qry
     End Function
 

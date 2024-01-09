@@ -617,7 +617,7 @@ Public Class clsSNShipmentHead
         qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SD_SHIPMENT_HEAD.Terms_Code "
         qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code where 2=2"
         Dim whrCls As String = ""
-        '-------richa 30/07/2014 Ticket No. BM00000003242---------
+        '-------richa 30/07/2014 Ticket No. BM00000003242---------  
         Dim strwherecls As String = ""
         If clsCommon.CompairString(clsCommon.myCstr(NavType).ToUpper(), "CURRENT") <> CompairStringResult.Equal Then
             strwherecls = FrmMainTranScreen.CustomerPermission()
@@ -1103,7 +1103,6 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                         End If
                         clsCommon.AddColumnsForChange(coll, "EWayBillRemarks", clsCommon.myCstr(dtPortalInfo.Rows(0)("EWayBillRemarks")))
                     End If
-
                     If coll.Count > 0 Then
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "Against_Shipment_No='" + strDocNo + "'")
                     End If
@@ -1125,7 +1124,6 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
         Return True
     End Function
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoRecreatedOnly As String = Nothing) As Boolean
-
         Try
             Dim isSaved As Boolean = True
             If (clsCommon.myLen(strDocNo) <= 0) Then
@@ -1152,11 +1150,8 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 'trans.Commit()
                 Return False
             End If
-
             Dim ArrLocationDetails As List(Of clsItemLocationDetails) = New List(Of clsItemLocationDetails)()
             Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
-
-            'Dim strFirstItemCodeNonItemRowType As String = GetFirstItemCode(obj.Arr)
             Dim strRgpNo As String = Nothing
             Dim intCounter As Integer = 0
             For Each objTr As clsSNShipmentDetail In obj.Arr
@@ -1174,7 +1169,6 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                         strItemTypeToSave = strItemType
                         'Throw New Exception("Item Type not found: " + strItemType)
                     End If
-
                     Dim objLocationDetails As New clsItemLocationDetails()
                     Dim ConvFac As Double = clsItemMaster.GetConvertionFactor(objTr.Item_Code, objTr.Unit_code, trans)
                     If ConvFac = 0 Then
