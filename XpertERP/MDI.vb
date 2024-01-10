@@ -74,6 +74,7 @@ Public Class MDI
 #End Region
 
 
+
     Private Sub MDI_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
         Try
             clsDBFuncationality._LastActiveTime = DateTime.Now()
