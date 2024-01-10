@@ -198,12 +198,15 @@
     <Compile Include="Milk Procurement\Master\frmOwnBMCGainLossRate.vb">
       <SubType>Form</SubType>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
       <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.vb">
       <SubType>Form</SubType>
     </Compile>
+=======
+>>>>>>> f6b416345be5d4aa27f5cdd8c68fec82926d89c4
     <Compile Include="Milk Procurement\Report\frmTDSReport.Designer.vb">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
     </Compile>
@@ -733,7 +736,10 @@
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
     </EmbeddedResource>
+<<<<<<< HEAD
     <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
+=======
+>>>>>>> f6b416345be5d4aa27f5cdd8c68fec82926d89c4
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
     </EmbeddedResource>
