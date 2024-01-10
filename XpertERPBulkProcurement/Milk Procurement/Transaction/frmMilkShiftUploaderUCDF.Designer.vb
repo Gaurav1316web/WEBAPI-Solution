@@ -22,15 +22,18 @@ Partial Class frmMilkShiftUploaderUCDF
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnRouteprint = New Telerik.WinControls.UI.RadButton()
+        Me.btnprint = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
@@ -92,8 +95,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.gvP = New Telerik.WinControls.UI.RadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
+        CType(Me.btnRouteprint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -154,12 +159,13 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.btnRouteprint)
+        Me.Panel2.Controls.Add(Me.btnprint)
         Me.Panel2.Controls.Add(Me.btnHistory)
         Me.Panel2.Controls.Add(Me.RadButton2)
         Me.Panel2.Controls.Add(Me.RadButton1)
@@ -173,6 +179,36 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1097, 26)
         Me.Panel2.TabIndex = 2
+        '
+        'btnRouteprint
+        '
+        Me.btnRouteprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRouteprint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnRouteprint.Location = New System.Drawing.Point(790, 2)
+        Me.btnRouteprint.Name = "btnRouteprint"
+        Me.btnRouteprint.Size = New System.Drawing.Size(84, 22)
+        Me.btnRouteprint.TabIndex = 1033
+        Me.btnRouteprint.Text = "Route Print "
+        '
+        'btnprint
+        '
+        Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnprint.Location = New System.Drawing.Point(704, 2)
+        Me.btnprint.Name = "btnprint"
+        Me.btnprint.Size = New System.Drawing.Size(84, 22)
+        Me.btnprint.TabIndex = 1032
+        Me.btnprint.Text = "Print"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(618, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(84, 22)
+        Me.btnHistory.TabIndex = 1031
+        Me.btnHistory.Text = "History"
         '
         'RadButton2
         '
@@ -455,10 +491,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboRejectType.IsSourceFromTable = False
         Me.cboRejectType.IsSourceFromValueList = False
         Me.cboRejectType.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem5)
-        Me.cboRejectType.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem1)
+        Me.cboRejectType.Items.Add(RadListDataItem2)
         Me.cboRejectType.Location = New System.Drawing.Point(190, 102)
         Me.cboRejectType.MendatroryField = True
         Me.cboRejectType.MyLinkLable1 = Me.MyLabel29
@@ -522,10 +558,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboLate.IsSourceFromTable = False
         Me.cboLate.IsSourceFromValueList = False
         Me.cboLate.IsUnique = False
-        RadListDataItem7.Text = "M"
-        RadListDataItem8.Text = "E"
-        Me.cboLate.Items.Add(RadListDataItem7)
-        Me.cboLate.Items.Add(RadListDataItem8)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboLate.Items.Add(RadListDataItem3)
+        Me.cboLate.Items.Add(RadListDataItem4)
         Me.cboLate.Location = New System.Drawing.Point(672, 22)
         Me.cboLate.MendatroryField = True
         Me.cboLate.MyLinkLable1 = Me.MyLabel2
@@ -839,10 +875,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem5)
+        Me.cboShift.Items.Add(RadListDataItem6)
         Me.cboShift.Location = New System.Drawing.Point(521, 22)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -1133,7 +1169,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         '
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1154,7 +1190,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         '
         Me.gvP.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvP.Name = "gvP"
         Me.gvP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvP.ShowGroupPanel = False
@@ -1179,16 +1215,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.SplitterDistance = 658
         Me.SplitContainer1.TabIndex = 4
         '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(618, 2)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(84, 22)
-        Me.btnHistory.TabIndex = 1031
-        Me.btnHistory.Text = "History"
-        '
         'frmMilkShiftUploaderUCDF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1206,6 +1232,9 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Milk Shift Uploader"
         Me.Panel2.ResumeLayout(False)
+        CType(Me.btnRouteprint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1269,7 +1298,6 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1337,5 +1365,7 @@ Partial Class frmMilkShiftUploaderUCDF
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents cboDockCollectionMilkType As common.Controls.MyComboBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents btnprint As RadButton
+    Friend WithEvents btnRouteprint As RadButton
 End Class
 
