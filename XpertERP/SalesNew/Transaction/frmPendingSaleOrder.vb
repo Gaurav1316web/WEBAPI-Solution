@@ -333,7 +333,7 @@ Public Class frmPendingSaleOrder
             If clsCommon.myLen(VendorName) > 0 Then
                 common.clsCommon.MyMessageBoxShow("No record found for vendor " + VendorName + "")
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
+                common.clsCommon.MyMessageBoxShow("No record found.")
             End If
             Me.Close()
         End If
@@ -772,7 +772,7 @@ Public Class frmPendingSaleOrder
                 Next
 
                 If ArrReturn_EX.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending SO item", Me.Text)
+                    common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending SO item")
                 Else
                     Me.Close()
                 End If
@@ -818,7 +818,7 @@ Public Class frmPendingSaleOrder
                 Next
 
                 If ArrReturn_EX_Comm.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending PI item", Me.Text)
+                    common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending PI item")
                 Else
                     clsERPFuncationality.closeForm(Me)
                 End If
@@ -871,7 +871,7 @@ Public Class frmPendingSaleOrder
                 Next
 
                 If ArrReturn_EX_PI.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending PI item", Me.Text)
+                    common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending PI item")
                 Else
                     Me.Close()
                 End If
@@ -923,7 +923,7 @@ Public Class frmPendingSaleOrder
                 Next
 
                 If arrReturn_MT_Purc.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending PI item", Me.Text)
+                    common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending PI item")
                 Else
                     Me.Close()
                 End If
@@ -971,13 +971,13 @@ Public Class frmPendingSaleOrder
                 Next
 
                 If ArrReturn.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending MRN item", Me.Text)
+                    common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending MRN item")
                 Else
                     Me.Close()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(ex.Message)
         End Try
 
     End Sub
@@ -1034,7 +1034,7 @@ Public Class frmPendingSaleOrder
                     If clsCommon.CompairString(strDocType, "Export COMMERCIAL") <> CompairStringResult.Equal Then
                         If isanotherrowchecked(gvHead.CurrentRow.Index) Then
                             e.Cancel = True
-                            common.clsCommon.MyMessageBoxShow(Me, "You can select only one order at a time", Me.Text)
+                            common.clsCommon.MyMessageBoxShow("You can select only one order at a time")
                             Exit Sub
                         End If
                     End If

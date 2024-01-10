@@ -174,6 +174,12 @@
     <Compile Include="Bulk Procurement\Master\frmNewDCSScreen.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bulk Procurement\Transaction\BulkProcurementUploader.Designer.vb">
+      <DependentUpon>BulkProcurementUploader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\BulkProcurementUploader.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmHeadLoadMaster.Designer.vb">
       <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
     </Compile>
@@ -190,6 +196,18 @@
       <DependentUpon>frmOwnBMCGainLossRate.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Master\frmOwnBMCGainLossRate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
+      <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmTDSReport.Designer.vb">
+      <DependentUpon>frmTDSReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmTDSReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCTankerTesting.Designer.vb">
@@ -222,6 +240,12 @@
     <Compile Include="Milk Procurement\Report\rptDBTSummaryMonthlyWise.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptMilkPaymentSummary.Designer.vb">
+      <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMilkPaymentSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMobileAppMilkCollection.Designer.vb">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
     </Compile>
@@ -250,6 +274,12 @@
       <DependentUpon>FrmDBTPayment.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\FrmDBTPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.Designer.vb">
+      <DependentUpon>frmDCSMilkCollectionMergeSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.Designer.vb">
@@ -688,6 +718,9 @@
     <EmbeddedResource Include="Bulk Procurement\Master\frmNewDCSScreen.resx">
       <DependentUpon>frmNewDCSScreen.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\BulkProcurementUploader.resx">
+      <DependentUpon>BulkProcurementUploader.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmHeadLoadMaster.resx">
       <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
     </EmbeddedResource>
@@ -700,6 +733,10 @@
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
+    <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
+      <DependentUpon>frmTDSReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptAutoMultipleAdditionDeduction.resx">
       <DependentUpon>rptAutoMultipleAdditionDeduction.vb</DependentUpon>
     </EmbeddedResource>
@@ -711,6 +748,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTSummaryMonthlyWise.resx">
       <DependentUpon>rptDBTSummaryMonthlyWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMilkPaymentSummary.resx">
+      <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMobileAppMilkCollection.resx">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
@@ -726,6 +766,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmDBTPayment.resx">
       <DependentUpon>FrmDBTPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.resx">
+      <DependentUpon>frmDCSMilkCollectionMergeSetting.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.resx">
       <DependentUpon>frmMilkCollectionDCSMultipleDays.vb</DependentUpon>

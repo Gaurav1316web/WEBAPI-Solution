@@ -1571,6 +1571,12 @@
     <Compile Include="Sales and Distribution\Report\frmSaleAccountBreakOrCashDisc.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleAnalysisReport.Designer.vb">
+      <DependentUpon>frmSaleAnalysisReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleAnalysisReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales and Distribution\Report\frmSaleDiscount1.Designer.vb">
       <DependentUpon>frmSaleDiscount1.vb</DependentUpon>
     </Compile>
@@ -2500,6 +2506,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\frmSaleAccountBreakOrCashDisc.resx">
       <DependentUpon>frmSaleAccountBreakOrCashDisc.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSaleAnalysisReport.resx">
+      <DependentUpon>frmSaleAnalysisReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\frmSaleDiscount1.resx">
       <DependentUpon>frmSaleDiscount1.vb</DependentUpon>

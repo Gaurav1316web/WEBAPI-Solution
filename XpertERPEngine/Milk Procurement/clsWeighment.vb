@@ -34,7 +34,6 @@ Public Class clsWeighment
     Public Vendor_Desc As String = String.Empty
     Public Item_Code As String = String.Empty
     Public Item_Desc As String = String.Empty
-    Public Silo_Location As String = Nothing
     Public Qty_In_Kg As Double = 0
     Public snf_Per As Double = 0
     Public fat_per As Double = 0
@@ -350,7 +349,6 @@ Public Class clsWeighment
             clsCommon.AddColumnsForChange(coll, "Dip_Value", obj.Dip_Value)
             clsCommon.AddColumnsForChange(coll, "Tare_Weight", obj.Tare_Weight)
             clsCommon.AddColumnsForChange(coll, "Net_Weight", obj.Net_Weight)
-            clsCommon.AddColumnsForChange(coll, "Silo_Location", obj.Silo_Location)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommon.AddColumnsForChange(coll, "Comp_Code", obj.comp_code)

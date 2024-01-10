@@ -7177,8 +7177,22 @@ Public Class frmMCCMaterialSale
         UcItemBalance1.ItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         UcItemBalance1.ItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
         UcItemBalance1.ItemMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
-        UcItemBalance1.LocationCode = txtBillToLocation.Value
-        UcItemBalance1.LocationName = lblBillToLocation.Text
+        If AllowPlandDeptMCCLocation Then
+            If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                    UcItemBalance1.LocationCode = txtSubLocation.Value
+                    UcItemBalance1.LocationName = lblSubLocation.Text
+                Else
+                    UcItemBalance1.LocationCode = txtBillToLocation.Value
+                    UcItemBalance1.LocationName = lblBillToLocation.Text
+                End If
+            End If
+
+        Else
+            UcItemBalance1.LocationCode = txtBillToLocation.Value
+            UcItemBalance1.LocationName = lblBillToLocation.Text
+        End If
+
         UcItemBalance1.UOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
         UcItemBalance1.TransNo = txtDocNo.Value
         UcItemBalance1.TransDate = txtDate.Value

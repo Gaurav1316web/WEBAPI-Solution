@@ -15,6 +15,7 @@ Public Class frmDemand_Sheet
     Const colRouteNo As String = "colRouteNo"
     Const colSetZero As String = "colSetZero"
     Const colItemCode As String = "colItemCode"
+    Const colCrate As String = "colCrate"
 #End Region
     Public Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
@@ -54,7 +55,7 @@ Public Class frmDemand_Sheet
         repoLineNo.Width = 50
         repoLineNo.ReadOnly = True
         repoLineNo.IsPinned = True
-        repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        'repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gv1.MasterTemplate.Columns.Add(repoLineNo)
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
@@ -93,7 +94,7 @@ Public Class frmDemand_Sheet
         repoSetZero.Width = 50
         repoSetZero.ReadOnly = False
         repoSetZero.IsPinned = True
-        repoSetZero.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        'repoSetZero.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gv1.MasterTemplate.Columns.Add(repoSetZero)
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         qry = "select * from (select 'Fresh' as FreshAmbient,tspl_item_master.Item_Code,tspl_item_master.Short_Description ,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description as ItemDescNew,1 as RowNo,tspl_item_master.Sku_Seq   from tspl_item_master 
@@ -133,6 +134,18 @@ Public Class frmDemand_Sheet
                 gv1.MasterTemplate.Columns.Add(repoIName)
             Next
         End If
+        Dim repoCrate As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoCrate = New GridViewDecimalColumn()
+        repoCrate.FormatString = ""
+        repoCrate.HeaderText = "Crate"
+        repoCrate.Name = colCrate
+        repoCrate.Width = 80
+        repoCrate.Minimum = 0
+        repoCrate.ReadOnly = True
+        repoCrate.IsVisible = True
+        repoCrate.IsPinned = True
+        repoCrate.PinPosition = PinnedColumnPosition.Right
+        gv1.MasterTemplate.Columns.Add(repoCrate)
         gv1.BestFitColumns()
     End Sub
     Sub AddNew()
@@ -193,24 +206,24 @@ Public Class frmDemand_Sheet
         obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
         obj.ShiftType = txtShift.Text
         If gv1.Rows(IntRowNo).Cells(colSetZero).Value = 0 Then
-            For dbColumn As Integer = 4 To gv1.Columns.Count - 1
+            For dbColumn As Integer = 4 To gv1.Columns.Count - 2
                 gv1.Rows(IntRowNo).Cells(dbColumn).Value = "0"
                 Dim k As Integer = 1
-                For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                For dblcolumns As Integer = 5 To gv1.Columns.Count - 2
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                     k = k + 1
                     If obj1 IsNot Nothing Then
                         If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                             obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
-                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colSetZero).Value) = 0 Then
-                                obj.Qty = 0
-                                Try
-                                    Dim status As Boolean = obj.SaveData(obj)
-                                Catch ex As Exception
-                                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-                                End Try
+                            'If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colSetZero).Value) = 0 Then
+                            obj.Qty = 0
+                            Try
+                                Dim status As Boolean = obj.SaveData(obj)
+                            Catch ex As Exception
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                            End Try
 
-                            End If
+                            'End If
                         End If
                     End If
                 Next
@@ -224,23 +237,27 @@ Public Class frmDemand_Sheet
                 'obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
                 'obj.ShiftType = txtShift.Text
                 Dim k As Integer = 1
-                For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                Dim ccount As Integer = 0
+                For dblcolumns As Integer = 5 To gv1.Columns.Count - 2
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                     k = k + 1
                     If obj1 IsNot Nothing Then
                         If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then  'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0
                             obj.Item_Code = clsCommon.myCstr(obj1.itemCode)
-                            If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
-                                obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
-                                Try
-                                    Dim status As Boolean = obj.SaveData(obj)
-                                Catch ex As Exception
-                                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-                                End Try
-                            End If
+                            'If clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value) > 0 Then
+                            obj.Qty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(dblcolumns).Value)
+                            Try
+                                Dim status As Boolean = obj.SaveData(obj)
+                            Catch ex As Exception
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                            End Try
+                            'End If
+                            ccount += obj.Qty
+                            'gv1.Rows(IntRowNo).Cells(colCrate).Value = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colCrate).Value) + obj.Qty
                         End If
                     End If
                 Next
+                gv1.Rows(IntRowNo).Cells(colCrate).Value = ccount
             End If
         End If
     End Sub
@@ -258,6 +275,7 @@ Public Class frmDemand_Sheet
             LoadBlankGrid()
             isInsideLoadData = True
             Dim IntRowNo As Decimal = 0
+            Dim ccount As Integer = 0
             Dim lstobj As List(Of clsDemandSheet)
             lstobj = clsDemandSheet.GetData(CurrDate, Shift, objCommonVar.CurrentUserCode, Nothing)
             If (lstobj IsNot Nothing AndAlso lstobj.Count > 0) Then
@@ -273,28 +291,35 @@ Public Class frmDemand_Sheet
                             'For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
-                                For columns = 5 To gv1.Columns.Count - 1
+                                For columns = 5 To gv1.Columns.Count - 2
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal Then
                                         gv1.Rows(IntRowNo).Cells(columns).Value = objTr.Qty
+
+                                        'gv1.Rows(IntRowNo).Cells(colCrate).Value = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colCrate).Value) + objTr.Qty
                                     End If
                                 Next
                             End If
                             ' Next
+                            'ccount += objTr.Qty
+                            CountTotal()
                         Next
                     End If
                     IntRowNo += 1
+                    'gv1.Rows(IntRowNo).Cells(colCrate).Value = ccount
                     gv1.Rows.AddNew()
+
                 Next
+                '
             End If
             'GvRowFridge()
             If isSummary Then
                 Dim summaryRowItem As New GridViewSummaryRowItem()
-                For colcount As Integer = 5 To gv1.Columns.Count - 1
+                For colcount As Integer = 5 To gv1.Columns.Count - 2
                     gv1.Columns(colItemCode + clsCommon.myCstr(colcount - 4)).FormatString = "{0:n2}"
                 Next
-                For colcount As Integer = 5 To gv1.Columns.Count - 1
+                For colcount As Integer = 5 To gv1.Columns.Count - 2
                     Dim TotalCount As New GridViewSummaryItem(colItemCode + clsCommon.myCstr(colcount - 4), "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(TotalCount)
                 Next
@@ -404,16 +429,27 @@ Public Class frmDemand_Sheet
                     Dim document As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_NO from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Route_No='" + clsCommon.myCstr(grow.Cells(colRouteNo).Value) + "' and IsIndividualCustomer=0"))
                     If clsCommon.myLen(document) > 0 Then
                         Dim k As Integer = 1
-                        For columns = 5 To gv1.Columns.Count - 1
+                        For columns = 5 To gv1.Columns.Count - 2
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
-                            If clsCommon.myCdbl(grow.Cells(columns).Value) > 0 Then
-                                Dim ExistsItem As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"))
-                                Dim UpdateQry As String = ""
-                                If ExistsItem > 0 Then
+
+                            Dim ExistsItem As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"))
+                            Dim UpdateQry As String = ""
+                            If ExistsItem > 0 Then
+                                If clsCommon.myCdbl(grow.Cells(columns).Value) > 0 Then
                                     UpdateQry = " update TSPL_DEMAND_BOOKING_DETAIL set Qty=" + clsCommon.myCstr(grow.Cells(columns).Value) + " where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"
                                     clsDBFuncationality.ExecuteNonQuery(UpdateQry)
                                 Else
+                                    Dim TRCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"))
+                                    UpdateQry = "delete TSPL_BOOKING_DETAIL  where Against_DemandBooking_TR_Code='" + TRCode + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"
+                                    clsDBFuncationality.ExecuteNonQuery(UpdateQry)
+
+                                    UpdateQry = " Delete TSPL_DEMAND_BOOKING_DETAIL  where Document_No='" + document + "' and Cust_Code='" + clsCommon.myCstr(grow.Cells(colCustCode).Value) + "' and Item_Code='" + clsCommon.myCstr(obj1.itemCode) + "'"
+                                    clsDBFuncationality.ExecuteNonQuery(UpdateQry)
+                                End If
+
+                            Else
+                                If clsCommon.myCdbl(grow.Cells(columns).Value) > 0 Then
                                     Dim objUDD As New clsUpdateDemandDetails()
                                     objUDD.Document_No = document
                                     objUDD.Cust_Code = grow.Cells(colCustCode).Value
@@ -448,8 +484,8 @@ Public Class frmDemand_Sheet
                 gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(1))
             ElseIf gv1.CurrentCell.ColumnInfo.Name = colSetZero Then
                 gv1.CurrentColumn = gv1.Columns(colItemCode + clsCommon.myCstr(1))
-            End If
-            If k >= 5 Then
+
+            ElseIf k >= 5 AndAlso k < gv1.Columns.Count - 2 Then
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k - 4)).Tag, ItemValueClass)
                 k = k - 3
                 r = k
@@ -475,7 +511,21 @@ Public Class frmDemand_Sheet
                     gv1.CurrentColumn = gv1.Columns(colCustCode)
                     'GvRowFridge()
                 End If
+            Else
+                If gv1.Rows.Count > gv1.CurrentRow.Index + 1 Then
+                    gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
+                End If
+                gv1.CurrentColumn = gv1.Columns(colCustCode)
             End If
+        End If
+    End Sub
+    Public Sub CountTotal()
+        Dim Ccount As Integer = 0
+        If gv1.Rows.Count > 0 Then
+            For ii As Integer = 5 To gv1.Columns.Count - 2
+                Ccount += gv1.CurrentRow.Cells(ii).Value
+            Next
+            gv1.CurrentRow.Cells(colCrate).Value = Ccount
         End If
     End Sub
     Private Sub frmDemand_Sheet_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -491,7 +541,7 @@ Public Class frmDemand_Sheet
         Try
             If gv1.Rows.Count > 2 Then
                 For rowcount As Integer = 0 To gv1.Rows.Count - 3
-                    For colcount As Integer = 0 To gv1.Columns.Count - 1
+                    For colcount As Integer = 0 To gv1.Columns.Count - 2
                         gv1.Rows(rowcount).Cells(colcount).ReadOnly = True
                     Next
                 Next
@@ -613,13 +663,14 @@ Public Class frmDemand_Sheet
                                 obj.Item_Code = clsCommon.myCstr(dr.Item("Item_Code"))
                                 obj.Qty = clsCommon.myCdbl(dr.Item("qty"))
                                 Dim k As Integer = 1
-                                For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                                For dblcolumns As Integer = 5 To gv1.Columns.Count - 2
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If obj1 IsNot Nothing Then
                                         If clsCommon.CompairString(obj.Item_Code, obj1.itemCode) = CompairStringResult.Equal Then
                                             If obj.Qty > 0 Then
                                                 gv1.CurrentRow.Cells(dblcolumns).Value = obj.Qty
+                                                'gv1.CurrentRow.Cells(colCrate).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colCrate).Value) + obj.Qty
 
                                             End If
                                         End If
@@ -645,13 +696,14 @@ Public Class frmDemand_Sheet
                     If dt IsNot Nothing And dt.Rows.Count > 0 Then
                         For Each dr As DataRow In dt.Rows
                             Dim k As Integer = 1
-                            For dblcolumns As Integer = 5 To gv1.Columns.Count - 1
+                            For dblcolumns As Integer = 5 To gv1.Columns.Count - 2
                                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                 k = k + 1
                                 If obj1 IsNot Nothing Then
                                     If clsCommon.CompairString(clsCommon.myCstr(dr.Item("Item_Code")), obj1.itemCode) = CompairStringResult.Equal Then
 
                                         gv1.CurrentRow.Cells(dblcolumns).Value = clsCommon.myCdbl(dr.Item("qty"))
+                                        'gv1.CurrentRow.Cells(colCrate).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colCrate).Value) + clsCommon.myCdbl(dr.Item("qty"))
 
 
                                     End If

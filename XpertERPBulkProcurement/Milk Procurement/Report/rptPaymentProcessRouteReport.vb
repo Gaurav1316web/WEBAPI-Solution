@@ -2040,14 +2040,15 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             '                    order by (case when len(TSPL_DCS_ADDITION_DEDUCTION.Description)>0 then TSPL_DCS_ADDITION_DEDUCTION.Description
             'when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) "
 
-            sQueryDH = " 	 select distinct (case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description
+            sQueryDH = "  	 select * from (select distinct (case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description
                              when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) as Ded_Code from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
                              left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
                              left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
                              left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
                              where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1
-                             order by (case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description
-                             when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) "
+                            UNION
+SELECT 'TDS' as Ded_Code
+)x order by Ded_Code "
             Dim dtDeductionHeader As DataTable = clsDBFuncationality.GetDataTable(sQueryDH)
             HeadingDEDUCTIONRowCount = clsCommon.myCdbl(IIf(Math.Ceiling(dtDeductionHeader.Rows.Count / 4) <= 4, 4, Math.Ceiling(dtDeductionHeader.Rows.Count / 4)))
             HeadingRowCount = clsCommon.myCdbl(Math.Max(HeadingPAYMENTRowCount, HeadingDEDUCTIONRowCount))
@@ -2198,7 +2199,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
 
             Dim dtAdditionTemp As DataTable = clsDBFuncationality.GetDataTable(sQueryAD)
 
-            sQueryDD = " select Final.Vendor_CODE as VSP_CODE, Final.Ded_Code,Final.ROUTE_NO as ROUTE_CODE, sum(Amount) as [Amount] from (
+            sQueryDD = " select xx.VSP_Uploader_Code, xx.Vendor_CODE as VSP_CODE , xx.Ded_Code,xx.ROUTE_NO as ROUTE_CODE, sum(Amount) as [Amount] from (
                          select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME,(case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description
                          when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) as Ded_Code,TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO , (ISNULL (TSPL_PAYMENT_PROCESS_DEDUCTION.Amount ,0)-ISNULL(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) ) as 'AMOUNT' from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
                          left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
@@ -2214,7 +2215,22 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                 sQueryDD += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ") "
             End If
 
-            sQueryDD += ") Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,Final.ROUTE_NO "
+
+            sQueryDD += " union all 					 
+						select TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,
+						TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME, 'TDS' as Ded_Code,TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO ,ISNULL (TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount ,0) as 'AMOUNT'  from TSPL_PAYMENT_PROCESS_HEAD
+						left outer join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_HEAD.Doc_no = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No		
+					left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+                         LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER_MCC ON TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code=TSPL_BULK_ROUTE_MASTER_MCC.MCC_CODE "
+            sQueryDD += "where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1"
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                sQueryDD += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
+            End If
+
+            If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
+                sQueryDD += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ") "
+            End If
+            sQueryDD += " ) xx where xx.AMOUNT > 0 group by   xx.VSP_Uploader_Code, xx.Vendor_CODE, Vendor_NAME, xx.Ded_Code,xx.ROUTE_NO  HAVING SUM (AMOUNT)>0 "
 
             Dim dtDeductionTemp As DataTable = clsDBFuncationality.GetDataTable(sQueryDD)
 
@@ -2266,7 +2282,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                             dtMain.Rows.Add("R-Code: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
 
 
-                                For V As Integer = 0 To dtVSP1.Rows.Count - 1
+                            For V As Integer = 0 To dtVSP1.Rows.Count - 1
                                 SumSWEET1 = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
                                 SumSOUR1 = clsCommon.myCdbl(dt.Compute("sum(SourQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
                                 SumCURD1 = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
@@ -2293,7 +2309,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                                 dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("VLC_Code_VLC_Uploader")), SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
                                 dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("ROUTE_CODE")), SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
 
-                                    If HeadingRowCount > 4 Then
+                                If HeadingRowCount > 4 Then
                                     For t As Integer = 4 To HeadingRowCount - 1
                                         dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                                     Next
@@ -2378,12 +2394,12 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                             Sumtotal = MilkAmt + SumPayment1
 
                             dtMain.Rows.Add("R-Total: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
-                                dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
-                                dtMain.Rows.Add(DBNull.Value, SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
-                                dtMain.Rows.Add(DBNull.Value, SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
-                                dtMain.Rows.Add(DBNull.Value, SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                            dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
+                            dtMain.Rows.Add(DBNull.Value, SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
+                            dtMain.Rows.Add(DBNull.Value, SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                            dtMain.Rows.Add(DBNull.Value, SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
 
-                                If HeadingRowCount > 4 Then
+                            If HeadingRowCount > 4 Then
                                 For t As Integer = 4 To HeadingRowCount - 1
                                     dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
                                 Next

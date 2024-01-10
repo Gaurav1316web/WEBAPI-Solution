@@ -726,18 +726,18 @@ Public Class BulkProcurementUploader
                 gv1.Rows(i).Cells("Amount").Value = Math.Round((gv1.Rows(i).Cells("Fat Rate").Value * gv1.Rows(i).Cells("FatKG").Value) + (gv1.Rows(i).Cells("SNF Rate").Value * gv1.Rows(i).Cells("SNFKG").Value), 2)
 
 
-                If clsCommon.myLen(ValidateStatus) <= 0 Then
-                    gv1.Rows(i).Cells(colIsValidated).Value = True
-                    ValidatedCount = ValidatedCount + 1
-                    gv1.Rows(i).Cells(colErrorStatus).Style.ForeColor = Color.White
-                    gv1.Rows(i).Cells(colErrorStatus).Value = ValidateStatus
-                    gv1.Rows(i).Cells(colErrorStatus).Style.Font = New Font("Arial", 9, FontStyle.Regular)
-                Else
-                    gv1.Rows(i).Cells(colIsValidated).Value = False
-                    gv1.Rows(i).Cells(colErrorStatus).Value = ValidateStatus
-                    gv1.Rows(i).Cells(colErrorStatus).Style.ForeColor = Color.Blue
-                    gv1.Rows(i).Cells(colErrorStatus).Style.Font = New Font("Arial", 9, FontStyle.Bold)
-                End If
+                'If clsCommon.myLen(ValidateStatus) <= 0 Then
+                '    gv1.Rows(i).Cells("Validated").Value = True
+                '    ValidatedCount = ValidatedCount + 1
+                '    gv1.Rows(i).Cells("Error Status").Style.ForeColor = Color.White
+                '    gv1.Rows(i).Cells("Error Status").Value = ValidateStatus
+                '    gv1.Rows(i).Cells("Error Status").Style.Font = New Font("Arial", 9, FontStyle.Regular)
+                'Else
+                '    gv1.Rows(i).Cells("Validated").Value = False
+                '    gv1.Rows(i).Cells("Error Status").Value = ValidateStatus
+                '    gv1.Rows(i).Cells("Error Status").Style.ForeColor = Color.Blue
+                '    gv1.Rows(i).Cells("Error Status").Style.Font = New Font("Arial", 9, FontStyle.Bold)
+                'End If
             Next
 
             gv1.BestFitColumns()
@@ -768,353 +768,352 @@ Public Class BulkProcurementUploader
                 For Each grow As GridViewRowInfo In gv1.Rows
                     'If clsCommon.myLen(grow.Cells("MCC Code").Value) > 0 And clsCommon.myLen(grow.Cells("Challan No").Value) = 0 Then
                     trans = clsDBFuncationality.GetTransactin()
-                    j = j + 1
-                    clsCommon.ProgressBarPercentUpdate(j / ValidatedCount * 100, " Saving and posting Record(s) " & j & " of Total " & ValidatedCount)
-                    obj = New clsMccDispatch()
-                    obj.isNewEntry = True
-
-                    obj.RefBulkDispatchUploader = "Auto"
-                    obj.Document_Date = clsCommon.GetPrintDate(grow.Cells("Dispatch Date").Value, "dd/MMM/yyyy hh:mm:ss tt")
-                    obj.Description = ""
-                    obj.Dispatch_Date = clsCommon.GetPrintDate(grow.Cells("Dispatch Date").Value, "dd/MMM/yyyy hh:mm:ss tt") 'clsCommon.myCDate(grow.Cells(colDispatchDate).Value)
-                    dt = obj.Dispatch_Date
-                    obj.Tanker_Dispatch_To = clsCommon.myCstr(grow.Cells("Dispatch To").Value)
-                    obj.MCC_Code = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                    'obj.MCC_Name = clsCommon.myCstr(grow.Cells(colMccName).Value)
-                    obj.Mcc_Or_Plant_Code = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                    obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No.").Value)
-                    'obj.Tanker_Full = clsCommon.myCstr(grow.Cells(colTankerFull).Value)
-                    'obj.Name_Of_Custodian = clsCommon.myCstr(grow.Cells(colName).Value)
-                    obj.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
-                    obj.UOM_Code = clsCommon.myCstr(grow.Cells("UOM").Value)
-                    obj.Tare_Weight = clsCommon.myCstr(grow.Cells("Weighment Tare").Value)
-                    obj.Gross_Weight = clsCommon.myCstr(grow.Cells("Weighment Gross").Value)
-                    obj.Net_Qty = clsCommon.myCstr(grow.Cells("Weighment Net").Value)
-                    'obj.Transfer_Price = clsCommon.myCstr(grow.Cells(colTransferPrice).Value)
-                    obj.Remarks = clsCommon.myCstr(grow.Cells("Tanker Remarks").Value)
-                    obj.PriceCode = clsCommon.myCstr(grow.Cells("Price Chart").Value)
-                    'obj.FAT_W = clsCommon.myCdbl(grow.Cells(colFat_W).Value)
-                    'obj.SNF_W = clsCommon.myCdbl(grow.Cells(colSNF_W).Value)
-                    'obj.FAT_R = clsCommon.myCdbl(grow.Cells(colFat_R).Value)
-                    'obj.SNF_R = clsCommon.myCdbl(grow.Cells(colSNF_R).Value)
-                    obj.FAT_KG = clsCommon.myCdbl(grow.Cells("FATKG").Value)
-                    obj.SNF_KG = clsCommon.myCdbl(grow.Cells("SNFKG").Value)
-                    obj.FAT_RATE = clsCommon.myCdbl(grow.Cells("FAT Rate").Value)
-                    obj.SNF_RATE = clsCommon.myCdbl(grow.Cells("SNF Rate").Value)
-                    obj.Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
-                    obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells("IsJobWork").Value)
-                    obj.Sublocation_Code = clsCommon.myCstr(grow.Cells("JobWork Location").Value)
-
-
-                    Dim jj As Integer = 0
-                    jj = intStartParam
-                    Dim intTDLastColumn As Integer = 0
-                    intTDLastColumn = intStartParam + paramcount
-
-                    Dim objParam As New Mcc_Dispatch_Chalan_Parameter
-                    obj.arrParmValue = New List(Of Mcc_Dispatch_Chalan_Parameter)
-                    For ii As Integer = jj To intTDLastColumn - 1
-                        'If clsCommon.myLen(clsCommon.myCstr(grow.Cells(ii).Value).Trim) > 0 Then
-                        Dim objImportTemp As clsImportTemp = TryCast(gv1.Columns(ii).Tag, clsImportTemp)
-
-                        objParam = New Mcc_Dispatch_Chalan_Parameter
-                        objParam.Param_Field_Code = objImportTemp.Code
-                        objParam.Param_Field_Desc = objImportTemp.Description
-                        objParam.Param_Field_Value = clsCommon.myCstr(grow.Cells(ii).Value)
-                        objParam.Param_Type = objImportTemp.Type
-                        obj.arrParmValue.Add(objParam)
-                        'End If
-                    Next
-
-                    clsMccDispatch.SaveData(obj, trans, 0, False, "Test")
-                    Dim ChallanNo As String = obj.Chalan_NO
-
-                    If (clsMccDispatch.PostData(MyBase.Form_ID, ChallanNo, trans)) Then
-                        ' Gate Entry start here
-                        Dim strJobLoc = clsCommon.myCstr(grow.Cells("JobWork Location").Value)
-                        obj = New clsGateEntry()
-                        If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells("JobWork Location").Value), "1") = CompairStringResult.Equal Then
-                            obj.Gate_Entry_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateEntry, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
-                        Else
-                            obj.Gate_Entry_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateEntry, clsDocTransactionType.MccProc, grow.Cells("MCC Code").Value)
-                        End If
-                        If clsCommon.myLen(obj.Gate_Entry_No) <= 0 Then
-                            Throw New Exception("Error in Gate Entry  No genertion")
-                        End If
-                        obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells("IsJobWork").Value)
-                        obj.Sublocation_Code = clsCommon.myCstr(grow.Cells("JobWork Location").Value)
-                        obj.Doc_Type = "MccProc"
-                        obj.Date_And_Time = clsCommon.GetPrintDate(grow.Cells("Dispatch Date").Value, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.Vendor_Code = ""
-                        obj.Vendor_Desc = ""
-                        obj.Dispatched_From_Mcc = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                        obj.location_Code = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                        obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
-                        obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No.").Value)
-                        obj.Challan_No = ChallanNo
-                        obj.Challan_Date = clsCommon.GetPrintDate(grow.Cells("Dispatch Date").Value, "dd/MMM/yyyy")
-                        obj.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
-                        obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
-                        'Dim DefaultUOm As String = clsItemMaster.GetItemDefaultUnit(obj.Item_Code, trans)
-                        obj.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
-                        obj.Qty_In_Kg = clsCommon.myCdbl(grow.Cells("Weighment Net").Value)
-                        obj.fat_per = clsCommon.myCdbl(grow.Cells("FATPer").Value)
-                        obj.snf_Per = clsCommon.myCdbl(grow.Cells("SNFPer").Value)
-                        obj.isPosted = 1
-                        obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                        j = j + 1
+                        clsCommon.ProgressBarPercentUpdate(j / ValidatedCount * 100, " Saving and posting Record(s) " & j & " of Total " & ValidatedCount)
+                        obj = New clsMccDispatch()
                         obj.isNewEntry = True
-                        obj.Modify_By = objCommonVar.CurrentUserCode
-                        obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.Created_By = objCommonVar.CurrentUserCode
-                        obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.comp_code = objCommonVar.CurrentCompanyCode
 
-                        'objCommonVar.CurrentUserCode = clsERPFuncationality.getRandomUserCode("Tspl_Gate_Entry_Details", "Created_By", obj.location_Code, "location_Code", trans)
-                        clsGateEntry.saveData(obj, trans)
-                        objCommonVar.CurrentUserCode = CurrentUserCode
-                        Dim GateEntryNo As String = obj.Gate_Entry_No
-
-                        ' Weighment start here
-
-                        obj = New clsWeighment()
-                        If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells("IsJobWork").Value), "1") = CompairStringResult.Equal Then
-                            obj.Weighment_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Weighment, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
-                        Else
-                            obj.Weighment_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Weighment, clsDocTransactionType.MccProc, grow.Cells("MCC Code").Value)
-                        End If
-                        If clsCommon.myLen(obj.Weighment_No) <= 0 Then
-                            Throw New Exception("Error in Weighment No genertion")
-                        End If
-                        obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells("IsJobWork").Value)
-                        obj.Joblocation_Code = clsCommon.myCstr(grow.Cells("JobWork Location").Value)
-                        obj.Tare_Weight_date = dt
-                        obj.Weighment_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.Gate_Entry_No = clsCommon.myCstr(GateEntryNo)
-                        obj.Doc_Type = "MccProc"
-                        obj.Date_And_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.Challan_No = ChallanNo
-                        obj.Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
-                        obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No.").Value)
-                        obj.Dispatched_From_Mcc = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                        obj.location_Code = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                        obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
-                        obj.Vendor_Code = ""
-                        obj.Vendor_Desc = ""
-                        obj.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
-                        obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
-                        obj.Qty_In_Kg = 0
-                        obj.snf_Per = clsCommon.myCdbl(grow.Cells("SNFPer").Value)
-                        obj.fat_per = clsCommon.myCdbl(grow.Cells("FATPer").Value)
-                        obj.Gross_Weight = clsCommon.myCdbl(grow.Cells("Weighment Gross").Value)
-                        obj.Tare_Weight = clsCommon.myCdbl(grow.Cells("Weighment Tare").Value)
-                        obj.Net_Weight = clsCommon.myCdbl(grow.Cells("Weighment Net").Value)
-                        obj.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
-                        obj.Weighment_Slip_No = ""
-                        obj.isPosted = 1
-                        obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.isNewEntry = True
-                        obj.Modify_By = objCommonVar.CurrentUserCode
-                        obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.Created_By = objCommonVar.CurrentUserCode
-                        obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.comp_code = objCommonVar.CurrentCompanyCode
-                        obj.Silo_Location = clsCommon.myCstr(grow.Cells("Silo Code").Value)
-                        clsWeighment.saveData(obj, trans)
-                        objCommonVar.CurrentUserCode = CurrentUserCode
-                        Dim weighmentNo As String = obj.Weighment_No
-
-                        ' Quality check start here
-                        obj = New clsQualityCheck()
-                        If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells("IsJobWork").Value), "1") = CompairStringResult.Equal Then
-                            obj.QC_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.QualityCheck, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
-                        Else
-                            obj.QC_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.QualityCheck, clsDocTransactionType.MccProc, grow.Cells("MCC Code").Value)
-                        End If
-                        If clsCommon.myLen(obj.QC_No) <= 0 Then
-                            Throw New Exception("Error in QC No genertion")
-                        End If
-                        obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells("IsJobWork").Value)
-                        obj.Joblocation_Code = clsCommon.myCstr(grow.Cells("JobWork Location").Value)
-                        obj.Gate_Entry_No = clsCommon.myCstr(GateEntryNo)
-                        obj.Doc_Type = "MccProc"
-                        obj.Gate_Entry_Date_And_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.QC_In_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.QC_Out_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.Vendor_Code = ""
-                        obj.Vendor_Desc = ""
-                        obj.Dispatched_From_Mcc_Code = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                        obj.Dispatched_From_Mcc_Desc = clsLocation.GetName(obj.Dispatched_From_Mcc_Code, trans)
-                        obj.location_Code = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                        obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
-                        obj.Challan_No = ChallanNo
-                        obj.Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
-                        obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No.").Value)
-                        obj.Weighment_No = clsCommon.myCstr(weighmentNo)
-                        obj.Weighment_Date = clsCommon.myCDate(dt, "dd/MMM/yyyy")
-                        obj.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
-                        obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
-                        obj.Remarks = ""
-                        obj.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
-                        obj.Qty_In_Kg = 0
-                        obj.snf_Per = clsCommon.myCdbl(grow.Cells("SNFPer").Value)
-                        obj.fat_per = clsCommon.myCdbl(grow.Cells("FATPer").Value)
-                        obj.snf_KG = 0
-                        obj.fat_KG = 0
-                        obj.Receipt_Control_FAT = 0
-                        obj.Receipt_Control_SNF = 0
-                        obj.DeductionAmount = 0
-                        obj.isPosted = 1
-                        obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.isNewEntry = True
-                        obj.Modify_By = objCommonVar.CurrentUserCode
-                        obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.Created_By = objCommonVar.CurrentUserCode
-                        obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.comp_code = objCommonVar.CurrentCompanyCode
-                        obj.is_Param_Accepted = 1
+                        obj.RefBulkDispatchUploader = "Auto"
+                        obj.Document_Date = clsCommon.GetPrintDate(grow.Cells(colDispatchDate).Value, "dd/MMM/yyyy hh:mm:ss tt")
+                        obj.Description = ""
+                        obj.Dispatch_Date = clsCommon.GetPrintDate(grow.Cells(colDispatchDate).Value, "dd/MMM/yyyy hh:mm:ss tt") 'clsCommon.myCDate(grow.Cells(colDispatchDate).Value)
+                        dt = obj.Dispatch_Date
+                        obj.Tanker_Dispatch_To = clsCommon.myCstr(grow.Cells(colDispatchTo).Value)
+                        obj.MCC_Code = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                        obj.MCC_Name = clsCommon.myCstr(grow.Cells(colMccName).Value)
+                        obj.Mcc_Or_Plant_Code = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                        obj.Tanker_No = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                        obj.Tanker_Full = clsCommon.myCstr(grow.Cells(colTankerFull).Value)
+                        obj.Name_Of_Custodian = clsCommon.myCstr(grow.Cells(colName).Value)
+                        obj.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                        obj.UOM_Code = clsCommon.myCstr(grow.Cells(colUOM).Value)
+                        obj.Tare_Weight = clsCommon.myCstr(grow.Cells(colWeighmentTare).Value)
+                        obj.Gross_Weight = clsCommon.myCstr(grow.Cells(colWeighmentGross).Value)
+                        obj.Net_Qty = clsCommon.myCstr(grow.Cells(colWeighmentNet).Value)
+                        obj.Transfer_Price = clsCommon.myCstr(grow.Cells(colTransferPrice).Value)
+                        obj.Remarks = clsCommon.myCstr(grow.Cells(colTankerRemarks).Value)
+                        obj.PriceCode = clsCommon.myCstr(grow.Cells(colPriceChart).Value)
+                        obj.FAT_W = clsCommon.myCdbl(grow.Cells(colFat_W).Value)
+                        obj.SNF_W = clsCommon.myCdbl(grow.Cells(colSNF_W).Value)
+                        obj.FAT_R = clsCommon.myCdbl(grow.Cells(colFat_R).Value)
+                        obj.SNF_R = clsCommon.myCdbl(grow.Cells(colSNF_R).Value)
+                        obj.FAT_KG = clsCommon.myCdbl(grow.Cells(colFatKG).Value)
+                        obj.SNF_KG = clsCommon.myCdbl(grow.Cells(colSNFKG).Value)
+                        obj.FAT_RATE = clsCommon.myCdbl(grow.Cells(colFatRate).Value)
+                        obj.SNF_RATE = clsCommon.myCdbl(grow.Cells(colSNFRate).Value)
+                        obj.Amount = clsCommon.myCdbl(grow.Cells(colAmount).Value)
+                        obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells(colIsJobWork).Value)
+                        obj.Sublocation_Code = clsCommon.myCstr(grow.Cells(colJobworkLoc).Value)
 
 
-                        Dim intQCstartrColumn As Integer = 0
+                        Dim jj As Integer = 0
+                        jj = intStartParam
+                        Dim intTDLastColumn As Integer = 0
                         intTDLastColumn = intStartParam + paramcount
 
-                        Dim objQCParam As New clsQcParam
-                        obj.arrQcParam = New List(Of clsQcParam)
-                        'For ii As Integer = intTDLastColumn To gv1.Columns.Count - 1
-                        '    'If clsCommon.myLen(clsCommon.myCstr(grow.Cells(ii).Value).Trim) > 0 Then
-                        '    Dim objImportTemp As clsImportTemp = TryCast(gv1.Columns(ii).Tag, clsImportTemp)
+                        Dim objParam As New Mcc_Dispatch_Chalan_Parameter
+                        obj.arrParmValue = New List(Of Mcc_Dispatch_Chalan_Parameter)
+                        For ii As Integer = jj To intTDLastColumn - 1
+                            'If clsCommon.myLen(clsCommon.myCstr(grow.Cells(ii).Value).Trim) > 0 Then
+                            Dim objImportTemp As clsImportTemp = TryCast(gv1.Columns(ii).Tag, clsImportTemp)
 
-                        '    objQCParam = New clsQcParam
-                        '    objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
-                        '    objQCParam.Param_Field_Code = objImportTemp.Code
-                        '    objQCParam.Param_Field_Desc = objImportTemp.Description
-                        '    objQCParam.Param_Field_Value = clsCommon.myCstr(grow.Cells(ii).Value)
-                        '    objQCParam.Param_Type = objImportTemp.Type
-                        '    obj.arrQcParam.Add(objQCParam)
-                        '    'End If
-                        'Next
-                        clsQualityCheck.saveData(obj, trans)
-                        Dim QcNo = obj.QC_No
-                        ' unloading start here 
+                            objParam = New Mcc_Dispatch_Chalan_Parameter
+                            objParam.Param_Field_Code = objImportTemp.Code
+                            objParam.Param_Field_Desc = objImportTemp.Description
+                            objParam.Param_Field_Value = clsCommon.myCstr(grow.Cells(ii).Value)
+                            objParam.Param_Type = objImportTemp.Type
+                            obj.arrParmValue.Add(objParam)
+                            'End If
+                        Next
 
-                        obj = New clsUnloading()
-                        obj.isNewEntry = True
+                        clsMccDispatch.SaveData(obj, trans, 0, False, "Test")
+                        Dim ChallanNo As String = obj.Chalan_NO
 
-                        ''  Dim dt As Date = clsCommon.GETSERVERDATE(trans, "dd/MMM/yyyy hh:mm:ss tt")
-
-                        If obj.isNewEntry Then
-                            obj.Unloading_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Unloading, clsDocTransactionType.NA, grow.Cells("MCC Code").Value)
-                            If clsCommon.myLen(obj.Unloading_No) <= 0 Then
-                                Throw New Exception("Error In Unloading  No Genertion")
+                        If (clsMccDispatch.PostData(MyBase.Form_ID, ChallanNo, trans)) Then
+                            ' Gate Entry start here
+                            Dim strJobLoc = clsCommon.myCstr(grow.Cells(colJobworkLoc).Value)
+                            obj = New clsGateEntry()
+                            If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells(colIsJobWork).Value), "1") = CompairStringResult.Equal Then
+                                obj.Gate_Entry_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateEntry, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
+                            Else
+                                obj.Gate_Entry_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateEntry, clsDocTransactionType.MccProc, grow.Cells(colMccOrPlantCOde).Value)
                             End If
-                        End If
-                        obj.Gate_Entry_No = GateEntryNo
-                        obj.Unloading_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No.").Value)
-                        obj.Weighment_No = weighmentNo
-                        obj.QC_No = QcNo
-                        obj.location_Code = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                        obj.Sub_location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select top 1 Location_Code   from TSPL_LOCATION_MASTER  where Is_Sub_Location='Y' and Main_Location_Code='" & (gv1.Rows(i).Cells("MCC Code").Value) & "'", trans))
-                        obj.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
-                        obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
-                        obj.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
-                        obj.Qty = 0
-                        obj.fat_per = 0
-                        obj.snf_Per = 0
-                        obj.SNF_KG = 0
-                        obj.fat_KG = 0
-                        obj.isPosted = 0
-                        obj.isPosted = 1
-                        obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
-                        obj.Modify_By = objCommonVar.CurrentUserCode
-                        obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.comp_code = objCommonVar.CurrentCompanyCode
-                        obj.Created_By = objCommonVar.CurrentUserCode
-                        obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        clsUnloading.saveData(obj, trans)
-                        Dim Unloading = obj.Unloading_No
+                            If clsCommon.myLen(obj.Gate_Entry_No) <= 0 Then
+                                Throw New Exception("Error in Gate Entry  No genertion")
+                            End If
+                            obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells(colIsJobWork).Value)
+                            obj.Sublocation_Code = clsCommon.myCstr(grow.Cells(colJobworkLoc).Value)
+                            obj.Doc_Type = "MccProc"
+                            obj.Date_And_Time = clsCommon.GetPrintDate(grow.Cells(colDispatchDate).Value, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.Vendor_Code = ""
+                            obj.Vendor_Desc = ""
+                            obj.Dispatched_From_Mcc = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                            obj.location_Code = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                            obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
+                            obj.Tanker_No = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                            obj.Challan_No = ChallanNo
+                            obj.Challan_Date = clsCommon.GetPrintDate(grow.Cells(colDispatchDate).Value, "dd/MMM/yyyy")
+                            obj.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                            obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
+                            'Dim DefaultUOm As String = clsItemMaster.GetItemDefaultUnit(obj.Item_Code, trans)
+                            obj.UOM = clsCommon.myCstr(grow.Cells(colUOM).Value)
+                            obj.Qty_In_Kg = clsCommon.myCdbl(grow.Cells(colWeighmentNet).Value)
+                            obj.fat_per = clsCommon.myCdbl(grow.Cells(colFatPer).Value)
+                            obj.snf_Per = clsCommon.myCdbl(grow.Cells(colSNFPer).Value)
+                            obj.isPosted = 1
+                            obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.isNewEntry = True
+                            obj.Modify_By = objCommonVar.CurrentUserCode
+                            obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.Created_By = objCommonVar.CurrentUserCode
+                            obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.comp_code = objCommonVar.CurrentCompanyCode
 
-                        'Gate out start here
-                        obj = New clsGateOut()
-                        obj.isNewEntry = True
-                        obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateOut, clsDocTransactionType.NA, clsCommon.myCstr(grow.Cells("MCC Code").Value))
-                        If clsCommon.myLen(obj.Doc_No) <= 0 Then
-                            Throw New Exception("Error In Document  No Genertion")
-                        End If
-                        obj.Gate_Entry_No = GateEntryNo
-                        obj.Doc_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No.").Value)
-                        obj.Weighment_No = weighmentNo
-                        obj.QC_No = QcNo
-                        obj.Modify_By = objCommonVar.CurrentUserCode
-                        obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.comp_code = objCommonVar.CurrentCompanyCode
-                        obj.Created_By = objCommonVar.CurrentUserCode
-                        obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        clsGateOut.saveData(obj, trans)
+                            'objCommonVar.CurrentUserCode = clsERPFuncationality.getRandomUserCode("Tspl_Gate_Entry_Details", "Created_By", obj.location_Code, "location_Code", trans)
+                            clsGateEntry.saveData(obj, trans)
+                            objCommonVar.CurrentUserCode = CurrentUserCode
+                            Dim GateEntryNo As String = obj.Gate_Entry_No
 
-                        'Cleaning start here
-                        obj = New clsCleaning()
-                        obj.isNewEntry = True
-                        If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells("IsJobWork").Value), "1") = CompairStringResult.Equal Then
-                            obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Cleaning, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
-                        Else
-                            obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Cleaning, clsDocTransactionType.NA, grow.Cells("MCC Code").Value)
-                        End If
-                        If clsCommon.myLen(obj.Doc_No) <= 0 Then
-                            Throw New Exception("Error in Cleaning No genertion")
-                        End If
-                        obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells("IsJobWork").Value)
-                        obj.Joblocation_Code = clsCommon.myCstr(grow.Cells("JobWork Location").Value)
-                        obj.Gate_Entry_No = GateEntryNo
-                        obj.Start_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.End_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No.").Value)
-                        obj.Weighment_No = weighmentNo
-                        obj.QC_No = QcNo
-                        obj.Status = "OK"
-                        obj.Remarks = ""
-                        obj.isPosted = 1
-                        obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
-                        obj.Modify_By = objCommonVar.CurrentUserCode
-                        obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.comp_code = objCommonVar.CurrentCompanyCode
-                        obj.Created_By = objCommonVar.CurrentUserCode
-                        obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.InTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.OutTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        clsCleaning.saveData(obj, trans)
-                        'Milk Transfer In
-                        obj = New clsMilkTransferIn
-                        obj.isNewEntry = True
-                        If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells("IsJobWork").Value), "1") = CompairStringResult.Equal Then
-                            obj.Receipt_Challan_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.MilkTransferIn, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
-                        Else
-                            obj.Receipt_Challan_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.MilkTransferIn, clsDocTransactionType.NA, grow.Cells("MCC Code").Value)
-                        End If
-                        If clsCommon.myLen(obj.Receipt_Challan_No) <= 0 Then
-                            Throw New Exception("Error in Milk Transfer In genertion")
-                        End If
-                        obj.Receipt_Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
-                        obj.Dispatch_Challan_No = ChallanNo
-                        obj.Weighment_No = weighmentNo
-                        obj.Qc_No = QcNo
-                        obj.Gate_Entry_no = GateEntryNo
-                        obj.location_code = clsCommon.myCstr(grow.Cells("MCC Code").Value)
-                        obj.km_reading_receipt = 0
-                        obj.Receipt_Control_FAT = 0
-                        obj.Receipt_Control_SNF = 0
-                        obj.Modified_By = objCommonVar.CurrentUserCode
-                        obj.Modified_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        obj.Comp_Code = objCommonVar.CurrentCompanyCode
-                        obj.Created_By = objCommonVar.CurrentUserCode
-                        obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
-                        clsMilkTransferIn.saveData(obj, trans)
-                        clsMilkTransferIn.postData(obj.Receipt_Challan_No, trans)
+                            ' Weighment start here
 
-                        trans.Commit()
+                            obj = New clsWeighment()
+                            If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells(colIsJobWork).Value), "1") = CompairStringResult.Equal Then
+                                obj.Weighment_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Weighment, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
+                            Else
+                                obj.Weighment_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Weighment, clsDocTransactionType.MccProc, grow.Cells(colMccOrPlantCOde).Value)
+                            End If
+                            If clsCommon.myLen(obj.Weighment_No) <= 0 Then
+                                Throw New Exception("Error in Weighment No genertion")
+                            End If
+                            obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells(colIsJobWork).Value)
+                            obj.Joblocation_Code = clsCommon.myCstr(grow.Cells(colJobworkLoc).Value)
+                            obj.Tare_Weight_date = dt
+                            obj.Weighment_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.Gate_Entry_No = clsCommon.myCstr(GateEntryNo)
+                            obj.Doc_Type = "MccProc"
+                            obj.Date_And_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.Challan_No = ChallanNo
+                            obj.Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+                            obj.Tanker_No = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                            obj.Dispatched_From_Mcc = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                            obj.location_Code = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                            obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
+                            obj.Vendor_Code = ""
+                            obj.Vendor_Desc = ""
+                            obj.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                            obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
+                            obj.Qty_In_Kg = 0
+                            obj.snf_Per = clsCommon.myCdbl(grow.Cells(colSNFPer).Value)
+                            obj.fat_per = clsCommon.myCdbl(grow.Cells(colFatPer).Value)
+                            obj.Gross_Weight = clsCommon.myCdbl(grow.Cells(colWeighmentGross).Value)
+                            obj.Tare_Weight = clsCommon.myCdbl(grow.Cells(colWeighmentTare).Value)
+                            obj.Net_Weight = clsCommon.myCdbl(grow.Cells(colWeighmentNet).Value)
+                            obj.UOM = clsCommon.myCstr(grow.Cells(colUOM).Value)
+                            obj.Weighment_Slip_No = ""
+                            obj.isPosted = 1
+                            obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.isNewEntry = True
+                            obj.Modify_By = objCommonVar.CurrentUserCode
+                            obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.Created_By = objCommonVar.CurrentUserCode
+                            obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.comp_code = objCommonVar.CurrentCompanyCode
+                            clsWeighment.saveData(obj, trans)
+                            objCommonVar.CurrentUserCode = CurrentUserCode
+                            Dim weighmentNo As String = obj.Weighment_No
 
-                        grow.Cells("Challan No").Value = ChallanNo
-                    End If
+                            ' Quality check start here
+                            obj = New clsQualityCheck()
+                            If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells(colIsJobWork).Value), "1") = CompairStringResult.Equal Then
+                                obj.QC_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.QualityCheck, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
+                            Else
+                                obj.QC_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.QualityCheck, clsDocTransactionType.MccProc, grow.Cells(colMccOrPlantCOde).Value)
+                            End If
+                            If clsCommon.myLen(obj.QC_No) <= 0 Then
+                                Throw New Exception("Error in QC No genertion")
+                            End If
+                            obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells(colIsJobWork).Value)
+                            obj.Joblocation_Code = clsCommon.myCstr(grow.Cells(colJobworkLoc).Value)
+                            obj.Gate_Entry_No = clsCommon.myCstr(GateEntryNo)
+                            obj.Doc_Type = "MccProc"
+                            obj.Gate_Entry_Date_And_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.QC_In_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.QC_Out_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.Vendor_Code = ""
+                            obj.Vendor_Desc = ""
+                            obj.Dispatched_From_Mcc_Code = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                            obj.Dispatched_From_Mcc_Desc = clsLocation.GetName(obj.Dispatched_From_Mcc_Code, trans)
+                            obj.location_Code = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                            obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
+                            obj.Challan_No = ChallanNo
+                            obj.Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+                            obj.Tanker_No = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                            obj.Weighment_No = clsCommon.myCstr(weighmentNo)
+                            obj.Weighment_Date = clsCommon.myCDate(dt, "dd/MMM/yyyy")
+                            obj.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                            obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
+                            obj.Remarks = ""
+                            obj.UOM = clsCommon.myCstr(grow.Cells(colUOM).Value)
+                            obj.Qty_In_Kg = 0
+                            obj.snf_Per = clsCommon.myCdbl(grow.Cells(colSNFPer).Value)
+                            obj.fat_per = clsCommon.myCdbl(grow.Cells(colFatPer).Value)
+                            obj.snf_KG = 0
+                            obj.fat_KG = 0
+                            obj.Receipt_Control_FAT = 0
+                            obj.Receipt_Control_SNF = 0
+                            obj.DeductionAmount = 0
+                            obj.isPosted = 1
+                            obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.isNewEntry = True
+                            obj.Modify_By = objCommonVar.CurrentUserCode
+                            obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.Created_By = objCommonVar.CurrentUserCode
+                            obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.comp_code = objCommonVar.CurrentCompanyCode
+                            obj.is_Param_Accepted = 1
+
+
+                            Dim intQCstartrColumn As Integer = 0
+                            intTDLastColumn = intStartParam + paramcount
+
+                            Dim objQCParam As New clsQcParam
+                            obj.arrQcParam = New List(Of clsQcParam)
+                            For ii As Integer = intTDLastColumn To gv1.Columns.Count - 1
+                                'If clsCommon.myLen(clsCommon.myCstr(grow.Cells(ii).Value).Trim) > 0 Then
+                                Dim objImportTemp As clsImportTemp = TryCast(gv1.Columns(ii).Tag, clsImportTemp)
+
+                                objQCParam = New clsQcParam
+                                objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
+                                objQCParam.Param_Field_Code = objImportTemp.Code
+                                objQCParam.Param_Field_Desc = objImportTemp.Description
+                                objQCParam.Param_Field_Value = clsCommon.myCstr(grow.Cells(ii).Value)
+                                objQCParam.Param_Type = objImportTemp.Type
+                                obj.arrQcParam.Add(objQCParam)
+                                'End If
+                            Next
+                            clsQualityCheck.saveData(obj, trans)
+                            Dim QcNo = obj.QC_No
+                            ' unloading start here 
+
+                            obj = New clsUnloading()
+                            obj.isNewEntry = True
+
+                            ''  Dim dt As Date = clsCommon.GETSERVERDATE(trans, "dd/MMM/yyyy hh:mm:ss tt")
+
+                            If obj.isNewEntry Then
+                                obj.Unloading_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Unloading, clsDocTransactionType.NA, grow.Cells(colMccOrPlantCOde).Value)
+                                If clsCommon.myLen(obj.Unloading_No) <= 0 Then
+                                    Throw New Exception("Error In Unloading  No Genertion")
+                                End If
+                            End If
+                            obj.Gate_Entry_No = GateEntryNo
+                            obj.Unloading_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.Tanker_No = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                            obj.Weighment_No = weighmentNo
+                            obj.QC_No = QcNo
+                            obj.location_Code = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                            obj.Sub_location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select top 1 Location_Code   from TSPL_LOCATION_MASTER  where Is_Sub_Location='Y' and Main_Location_Code='" & (gv1.Rows(i).Cells(colMccOrPlantCOde).Value) & "'", trans))
+                            obj.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                            obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
+                            obj.UOM = clsCommon.myCstr(grow.Cells(colUOM).Value)
+                            obj.Qty = 0
+                            obj.fat_per = 0
+                            obj.snf_Per = 0
+                            obj.SNF_KG = 0
+                            obj.fat_KG = 0
+                            obj.isPosted = 0
+                            obj.isPosted = 1
+                            obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+                            obj.Modify_By = objCommonVar.CurrentUserCode
+                            obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.comp_code = objCommonVar.CurrentCompanyCode
+                            obj.Created_By = objCommonVar.CurrentUserCode
+                            obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            clsUnloading.saveData(obj, trans)
+                            Dim Unloading = obj.Unloading_No
+
+                            'Gate out start here
+                            obj = New clsGateOut()
+                            obj.isNewEntry = True
+                            obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.GateOut, clsDocTransactionType.NA, clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value))
+                            If clsCommon.myLen(obj.Doc_No) <= 0 Then
+                                Throw New Exception("Error In Document  No Genertion")
+                            End If
+                            obj.Gate_Entry_No = GateEntryNo
+                            obj.Doc_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.Tanker_No = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                            obj.Weighment_No = weighmentNo
+                            obj.QC_No = QcNo
+                            obj.Modify_By = objCommonVar.CurrentUserCode
+                            obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.comp_code = objCommonVar.CurrentCompanyCode
+                            obj.Created_By = objCommonVar.CurrentUserCode
+                            obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            clsGateOut.saveData(obj, trans)
+
+                            'Cleaning start here
+                            obj = New clsCleaning()
+                            obj.isNewEntry = True
+                            If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells(colIsJobWork).Value), "1") = CompairStringResult.Equal Then
+                                obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Cleaning, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
+                            Else
+                                obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.Cleaning, clsDocTransactionType.NA, grow.Cells(colMccOrPlantCOde).Value)
+                            End If
+                            If clsCommon.myLen(obj.Doc_No) <= 0 Then
+                                Throw New Exception("Error in Cleaning No genertion")
+                            End If
+                            obj.IsAgainstJobWork = clsCommon.myCstr(grow.Cells(colIsJobWork).Value)
+                            obj.Joblocation_Code = clsCommon.myCstr(grow.Cells(colJobworkLoc).Value)
+                            obj.Gate_Entry_No = GateEntryNo
+                            obj.Start_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.End_Date_Time = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.Tanker_No = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                            obj.Weighment_No = weighmentNo
+                            obj.QC_No = QcNo
+                            obj.Status = "OK"
+                            obj.Remarks = ""
+                            obj.isPosted = 1
+                            obj.Posting_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+                            obj.Modify_By = objCommonVar.CurrentUserCode
+                            obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.comp_code = objCommonVar.CurrentCompanyCode
+                            obj.Created_By = objCommonVar.CurrentUserCode
+                            obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.InTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.OutTime = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            clsCleaning.saveData(obj, trans)
+                            'Milk Transfer In
+                            obj = New clsMilkTransferIn
+                            obj.isNewEntry = True
+                            If clsCommon.CompairString(clsCommon.myCdbl(grow.Cells(colIsJobWork).Value), "1") = CompairStringResult.Equal Then
+                                obj.Receipt_Challan_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.MilkTransferIn, clsDocTransactionType.MCCProcJobWorkOutward, strJobLoc)
+                            Else
+                                obj.Receipt_Challan_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.MilkTransferIn, clsDocTransactionType.NA, grow.Cells(colMccOrPlantCOde).Value)
+                            End If
+                            If clsCommon.myLen(obj.Receipt_Challan_No) <= 0 Then
+                                Throw New Exception("Error in Milk Transfer In genertion")
+                            End If
+                            obj.Receipt_Challan_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm:ss tt")
+                            obj.Dispatch_Challan_No = ChallanNo
+                            obj.Weighment_No = weighmentNo
+                            obj.Qc_No = QcNo
+                            obj.Gate_Entry_no = GateEntryNo
+                            obj.location_code = clsCommon.myCstr(grow.Cells(colMccOrPlantCOde).Value)
+                            obj.km_reading_receipt = 0
+                            obj.Receipt_Control_FAT = 0
+                            obj.Receipt_Control_SNF = 0
+                            obj.Modified_By = objCommonVar.CurrentUserCode
+                            obj.Modified_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            obj.Comp_Code = objCommonVar.CurrentCompanyCode
+                            obj.Created_By = objCommonVar.CurrentUserCode
+                            obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+                            clsMilkTransferIn.saveData(obj, trans)
+                            clsMilkTransferIn.postData(obj.Receipt_Challan_No, trans)
+
+                            trans.Commit()
+
+                            grow.Cells(colChallanNo).Value = ChallanNo
+                        End If
                     'End If
                 Next
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)

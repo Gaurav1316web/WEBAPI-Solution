@@ -59,7 +59,6 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.txtDesc = New common.Controls.MyTextBox()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gv2 = New Telerik.WinControls.UI.RadGridView()
@@ -69,6 +68,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -99,7 +99,6 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -112,6 +111,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -683,16 +683,6 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtDesc.Size = New System.Drawing.Size(174, 18)
         Me.txtDesc.TabIndex = 10
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
-        Me.btnAddNew.TabIndex = 24
-        '
         'Panel2
         '
         Me.Panel2.Controls.Add(Me.SplitContainer1)
@@ -804,6 +794,16 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
+        Me.btnAddNew.TabIndex = 24
+        '
         'frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -850,7 +850,6 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -863,6 +862,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
