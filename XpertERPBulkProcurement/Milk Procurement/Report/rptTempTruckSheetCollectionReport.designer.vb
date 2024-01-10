@@ -73,7 +73,6 @@ Partial Class rptTempTruckSheetCollectionReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(692, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '

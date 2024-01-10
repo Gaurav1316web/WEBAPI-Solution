@@ -307,19 +307,6 @@ Public Class frmMilkShiftUploaderUCDF
     End Sub
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim arrLoc As String = ""
-        Dim whrcls As String = ""
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-            arrLoc = "'" + obj.Default_LocCode + "'"
-        Else
-            arrLoc = obj.arrLocCodes
-        End If
-        If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
-            whrcls = " tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
-        End If
-
         Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103) as Shift_Date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Description,case when TSPL_MILK_SHIFT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" &
         ",TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " &
         ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" &
@@ -329,7 +316,7 @@ Public Class frmMilkShiftUploaderUCDF
         " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.mcc_code" &
         " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" &
         " left join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.code=TSPL_MILK_SHIFT_UPLOADER_HEAD.dock_code"
-        LoadData(clsCommon.ShowSelectForm("SMPUFINOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SMPUFINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
     End Sub
 
     Public Function SaveData() As Boolean
@@ -597,9 +584,7 @@ Public Class frmMilkShiftUploaderUCDF
         Dim arrLoc As String = ""
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-            arrLoc = "'" + obj.Default_LocCode + "'"
-        Else
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
             arrLoc = obj.arrLocCodes
         End If
 
@@ -996,15 +981,5 @@ Public Class frmMilkShiftUploaderUCDF
         Next
     End Sub
 
-    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
-        Try
-            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
-                Exit Sub
-            End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_SHIFT_UPLOADER_HEAD", "TSPL_MILK_SHIFT_UPLOADER_DETAIL")
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-    End Sub
+
 End Class

@@ -2506,7 +2506,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
             Dim chkdp As New List(Of String)
             Dim str As String = ""
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gv, "Tanker No", "Route No", "TEMP.", "FAT", "SNF", "ACIDITY", "ORG.", "Document Date", "Remark", "Qty", "Trip No") Then
+            If transportSql.importExcel(gv, "Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF", "TEMP.", "ACIDITY", "ORG.", "Remark") Then
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
                 Try
@@ -2675,7 +2675,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select  '' as [Tanker No], '' as [Route No], '' as [TEMP.], '' as [FAT], '' as [SNF],'' as [ACIDITY],'' as [ORG.],'' as [Document Date],'' as [Remark], '' as [Qty], '' as [Trip No]"
+            Dim str As String = "select '' as [Document Date], '' as [Route No], '' as [Tanker No], '' as [Trip No], '' as [Qty], '' as [FAT], '' as [SNF],'' as [TEMP.],'' as [ACIDITY],'' as [ORG.],'' as [Remark]"
             Dim whrCls As String = ""
 
             ListImpExpColumnsMandatory = New List(Of String)({"Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF"})

@@ -1947,7 +1947,6 @@ Public Class FrmCrateJaliReport
                       left OUTER join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no 
 					  LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code
 					  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code 
-                      where 2=2 and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null
                       )xx where 2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + " 
                       group by Sale_Invoice_Date
                       )xxx )
@@ -2098,8 +2097,8 @@ Public Class FrmCrateJaliReport
                       RIGHT(TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number, 4) AS Vehicle_Number1,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_route_master.Route_Desc, 
                       TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate from TSPL_DAIRYSALE_GATEPASS_MASTER
                       left join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no  where
-                      convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
-                      and  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <= convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103) and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate >= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  
+                      and  TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate <= '" + clsCommon.GetPrintDate(ToDate.Value) + "'" + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
 
 
             Dim dt As New DataTable
@@ -2210,7 +2209,7 @@ Public Class FrmCrateJaliReport
                       Convert(varchar(10),TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,105) as Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
                       CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
-                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, 
                       TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
                       left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
@@ -2266,10 +2265,6 @@ Public Class FrmCrateJaliReport
         Gv1.Columns("Vehicle_Code").IsVisible = True
         Gv1.Columns("Vehicle_Code").Width = 100
         Gv1.Columns("Vehicle_Code").HeaderText = "Vehicle_Code"
-
-        Gv1.Columns("ShiftType").IsVisible = True
-        Gv1.Columns("ShiftType").Width = 100
-        Gv1.Columns("ShiftType").HeaderText = "ShiftType"
 
         Gv1.Columns("CrateQtyRecd").IsVisible = True
         Gv1.Columns("CrateQtyRecd").Width = 100
@@ -2333,7 +2328,7 @@ Public Class FrmCrateJaliReport
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
                       CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, 
-                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType
+                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
                       left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
                       left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code
@@ -2386,16 +2381,13 @@ Public Class FrmCrateJaliReport
                 End If
 
                 Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate, 
-                      TSPL_COMPANY_MASTER.Comp_Name, 
                       TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,CAST(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE) AS GPDate,
                       TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,
                       RIGHT(TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number, 4) AS Vehicle_Number1,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
                       TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,tspl_route_master.Route_Desc from TSPL_DAIRYSALE_GATEPASS_MASTER
-                      left join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no
-                      LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code
-                        where
-                      convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
-                      and  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <= convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)   and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
+                      left join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no  where
+                      TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate >= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  
+                      and  TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate <= '" + clsCommon.GetPrintDate(ToDate.Value) + "'" + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -2473,8 +2465,7 @@ Public Class FrmCrateJaliReport
                       from TSPL_DAIRYSALE_GATEPASS_MASTER
                       left OUTER join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no 
 					  LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code
-					  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code
-                      where 2=2 and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null
+					  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code 
                       )xx where 2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + " 
                       group by Sale_Invoice_Date
                       )xxx )

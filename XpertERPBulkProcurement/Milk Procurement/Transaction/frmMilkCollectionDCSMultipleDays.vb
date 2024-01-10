@@ -121,7 +121,6 @@ Public Class frmMilkCollectionDCSMultipleDays
     End Function
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
-         txtTripNo.Value = 1
     End Sub
     Sub AddNew()
         btnSave.Enabled = True
@@ -562,7 +561,7 @@ Public Class frmMilkCollectionDCSMultipleDays
             If isPickCLRInsteadOfSNF Then
                 snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
             End If
-            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfPer / 100), 3, MidpointRounding.ToEven)
+            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfper / 100), 3, MidpointRounding.ToEven)
         Else
             txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
             txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
@@ -713,7 +712,6 @@ Public Class frmMilkCollectionDCSMultipleDays
                 obj.Description = txtDesc.Text
                 obj.Route_Code = txtRoute.Value
                 obj.Tanker_No = txtTankerNo.Value
-                obj.Trip_No = txtTripNo.Value
                 obj.MCC_Code = txtMCC.Tag
                 obj.Vehicle_No = txtVehicleNo.Text
                 obj.Entered_Qty = clsCommon.myCDecimal(txtTotEnteredQty.Text)
@@ -835,7 +833,6 @@ Public Class frmMilkCollectionDCSMultipleDays
                 txtRoute.Value = obj.Route_Code
                 lblRoute.Text = obj.Route_Name
                 txtTankerNo.Value = obj.Tanker_No
-                txtTripNo.Text = obj.Trip_No
                 txtVehicleNo.Text = obj.Vehicle_No
                 txtMCC.Value = obj.MCC_Uploader_No
                 txtMCC.Tag = obj.MCC_Code
@@ -957,7 +954,7 @@ Public Class frmMilkCollectionDCSMultipleDays
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Trip_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Status=1 then 'Posted' else 'Pending' end as Status 
+        Dim qry As String = "select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Status=1 then 'Posted' else 'Pending' end as Status 
 from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code "

@@ -587,6 +587,7 @@ Public Class FrmWeighment
                 obj.Gross_Weight = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colGrossWeight).Value)
                 obj.Tare_Weight = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colTareWeight).Value)
                 obj.Net_Weight = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colNetWeight).Value)
+                obj.Silo_Location = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSubLoc).Value)
                 obj.Vendor_Weight = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colVendorWeight).Value)
                 obj.Dip_Value = clsCommon.myCdbl(txtDipValue.Text)
                 obj.Weighment_Slip_No = clsCommon.myCstr(txtWeighmentSlipNo.Text)

@@ -24,14 +24,8 @@ Partial Class frmMilkShiftUploader
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.txtTotalQty = New common.MyNumBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.gbFatSnfDetails = New System.Windows.Forms.GroupBox()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -48,6 +42,12 @@ Partial Class frmMilkShiftUploader
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtTotalQty = New common.MyNumBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -57,6 +57,7 @@ Partial Class frmMilkShiftUploader
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.chkMixMilk = New common.Controls.MyCheckBox()
+        Me.RadLabel4 = New common.Controls.MyLabel()
         Me.lblBOMStatus = New common.Controls.MyLabel()
         Me.cboShift = New common.Controls.MyComboBox()
         Me.lblDockName = New common.Controls.MyLabel()
@@ -68,21 +69,13 @@ Partial Class frmMilkShiftUploader
         Me.fndMCCCode = New common.UserControls.txtFinder()
         Me.UsLock1 = New common.usLock()
         Me.RadLabel3 = New common.Controls.MyLabel()
-        Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
-        CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbFatSnfDetails.SuspendLayout()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,9 +92,16 @@ Partial Class frmMilkShiftUploader
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.chkMixMilk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBOMStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDockName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -110,20 +110,17 @@ Partial Class frmMilkShiftUploader
         CType(Me.LblMccName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel2
         '
-        Me.Panel2.Controls.Add(Me.btnHistory)
         Me.Panel2.Controls.Add(Me.txtTotalQty)
         Me.Panel2.Controls.Add(Me.MyLabel2)
         Me.Panel2.Controls.Add(Me.btnPost)
@@ -135,83 +132,6 @@ Partial Class frmMilkShiftUploader
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1024, 26)
         Me.Panel2.TabIndex = 1
-        '
-        'txtTotalQty
-        '
-        Me.txtTotalQty.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtTotalQty.CalculationExpression = Nothing
-        Me.txtTotalQty.DecimalPlaces = 0
-        Me.txtTotalQty.FieldCode = Nothing
-        Me.txtTotalQty.FieldDesc = Nothing
-        Me.txtTotalQty.FieldMaxLength = 0
-        Me.txtTotalQty.FieldName = Nothing
-        Me.txtTotalQty.isCalculatedField = False
-        Me.txtTotalQty.IsSourceFromTable = False
-        Me.txtTotalQty.IsSourceFromValueList = False
-        Me.txtTotalQty.IsUnique = False
-        Me.txtTotalQty.Location = New System.Drawing.Point(468, 3)
-        Me.txtTotalQty.MendatroryField = False
-        Me.txtTotalQty.MyLinkLable1 = Nothing
-        Me.txtTotalQty.MyLinkLable2 = Nothing
-        Me.txtTotalQty.Name = "txtTotalQty"
-        Me.txtTotalQty.ReferenceFieldDesc = Nothing
-        Me.txtTotalQty.ReferenceFieldName = Nothing
-        Me.txtTotalQty.ReferenceTableName = Nothing
-        Me.txtTotalQty.Size = New System.Drawing.Size(71, 20)
-        Me.txtTotalQty.TabIndex = 5
-        Me.txtTotalQty.Text = "0"
-        Me.txtTotalQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalQty.Value = 0R
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(410, 5)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(52, 16)
-        Me.MyLabel2.TabIndex = 1029
-        Me.MyLabel2.Text = "Total Qty"
-        '
-        'btnPost
-        '
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(206, 2)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(97, 22)
-        Me.btnPost.TabIndex = 2
-        Me.btnPost.Text = "Post"
-        '
-        'btnDelete
-        '
-        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(105, 2)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(97, 22)
-        Me.btnDelete.TabIndex = 1
-        Me.btnDelete.Text = "Delete"
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(924, 2)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(97, 22)
-        Me.btnClose.TabIndex = 6
-        Me.btnClose.Text = "Close"
-        '
-        'btnSave
-        '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(4, 2)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(97, 22)
-        Me.btnSave.TabIndex = 0
-        Me.btnSave.Text = "Save"
         '
         'gbFatSnfDetails
         '
@@ -387,6 +307,83 @@ Partial Class frmMilkShiftUploader
         Me.MyLabel4.TabIndex = 8
         Me.MyLabel4.Text = "Buffalo"
         '
+        'txtTotalQty
+        '
+        Me.txtTotalQty.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTotalQty.CalculationExpression = Nothing
+        Me.txtTotalQty.DecimalPlaces = 0
+        Me.txtTotalQty.FieldCode = Nothing
+        Me.txtTotalQty.FieldDesc = Nothing
+        Me.txtTotalQty.FieldMaxLength = 0
+        Me.txtTotalQty.FieldName = Nothing
+        Me.txtTotalQty.isCalculatedField = False
+        Me.txtTotalQty.IsSourceFromTable = False
+        Me.txtTotalQty.IsSourceFromValueList = False
+        Me.txtTotalQty.IsUnique = False
+        Me.txtTotalQty.Location = New System.Drawing.Point(468, 3)
+        Me.txtTotalQty.MendatroryField = False
+        Me.txtTotalQty.MyLinkLable1 = Nothing
+        Me.txtTotalQty.MyLinkLable2 = Nothing
+        Me.txtTotalQty.Name = "txtTotalQty"
+        Me.txtTotalQty.ReferenceFieldDesc = Nothing
+        Me.txtTotalQty.ReferenceFieldName = Nothing
+        Me.txtTotalQty.ReferenceTableName = Nothing
+        Me.txtTotalQty.Size = New System.Drawing.Size(71, 20)
+        Me.txtTotalQty.TabIndex = 5
+        Me.txtTotalQty.Text = "0"
+        Me.txtTotalQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotalQty.Value = 0R
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(410, 5)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(52, 16)
+        Me.MyLabel2.TabIndex = 1029
+        Me.MyLabel2.Text = "Total Qty"
+        '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPost.Location = New System.Drawing.Point(206, 2)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(97, 22)
+        Me.btnPost.TabIndex = 2
+        Me.btnPost.Text = "Post"
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Location = New System.Drawing.Point(105, 2)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(97, 22)
+        Me.btnDelete.TabIndex = 1
+        Me.btnDelete.Text = "Delete"
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(924, 2)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(97, 22)
+        Me.btnClose.TabIndex = 6
+        Me.btnClose.Text = "Close"
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Location = New System.Drawing.Point(4, 2)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(97, 22)
+        Me.btnSave.TabIndex = 0
+        Me.btnSave.Text = "Save"
+        '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
@@ -465,6 +462,16 @@ Partial Class frmMilkShiftUploader
         Me.chkMixMilk.TabIndex = 1064
         Me.chkMixMilk.Tag1 = Nothing
         Me.chkMixMilk.Text = "Mix Milk"
+        '
+        'RadLabel4
+        '
+        Me.RadLabel4.FieldName = Nothing
+        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel4.Location = New System.Drawing.Point(361, 23)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel4.TabIndex = 13
+        Me.RadLabel4.Text = "Date"
         '
         'lblBOMStatus
         '
@@ -635,16 +642,6 @@ Partial Class frmMilkShiftUploader
         Me.RadLabel3.TabIndex = 5
         Me.RadLabel3.Text = "Description"
         '
-        'RadLabel4
-        '
-        Me.RadLabel4.FieldName = Nothing
-        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(361, 23)
-        Me.RadLabel4.Name = "RadLabel4"
-        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
-        Me.RadLabel4.TabIndex = 13
-        Me.RadLabel4.Text = "Date"
-        '
         'RadLabel1
         '
         Me.RadLabel1.FieldName = Nothing
@@ -749,23 +746,13 @@ Partial Class frmMilkShiftUploader
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.Size = New System.Drawing.Size(1024, 237)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(307, 2)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(84, 22)
-        Me.btnHistory.TabIndex = 1030
-        Me.btnHistory.Text = "History"
         '
         'frmMilkShiftUploader
         '
@@ -786,12 +773,6 @@ Partial Class frmMilkShiftUploader
         Me.Text = "Milk Shift Uploader"
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
-        CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbFatSnfDetails.ResumeLayout(False)
         Me.gbFatSnfDetails.PerformLayout()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
@@ -809,10 +790,17 @@ Partial Class frmMilkShiftUploader
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.chkMixMilk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBOMStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDockName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -821,14 +809,12 @@ Partial Class frmMilkShiftUploader
         CType(Me.LblMccName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -884,6 +870,5 @@ Partial Class frmMilkShiftUploader
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
-    Friend WithEvents btnHistory As RadButton
 End Class
 

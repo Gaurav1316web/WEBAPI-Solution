@@ -3526,12 +3526,19 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
             '            qry += "  where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
 
-            qry = "  select xx.*
- ,case when xx.SNO=1 then (isnull((select sum(ItemNetAmount) as netamt  from TSPL_DEMAND_BOOKING_MASTER left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ShiftType + "'  and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtDate.Value) + "')  and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + clsCommon.myCstr(txtRouteNo.Value) + "'  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) + isnull((xx.PrevItemNetAmount),0) ) else 0 end as AmountBE,'' as TCS ,
- case when xx.SNO=1 then xx.Crate_Collect else 0 end as TotalCollectCrate
-   
-  from ( select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, max(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, max(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, max(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as Vehicle_Code, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO
-
+            qry = " select 
+XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, max(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, max(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, max(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as Vehicle_Code, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount
+,(isnull((select sum(ItemNetAmount) as netamt from TSPL_DEMAND_BOOKING_MASTER
+left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+where 
+   TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ShiftType + "' 
+  and (
+    CONVERT(
+      date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 
+      103
+    )= '" + clsCommon.GetPrintDate(txtDate.Value) + "'
+  ) 
+  and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + clsCommon.myCstr(txtRouteNo.Value) + "'  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=XXFinal.Cust_Code ),0 ) + isnull(max(XXFinal.PrevItemNetAmount),0)) as AmountBE
 from
 (
 
@@ -3690,7 +3697,7 @@ from
   )XXFinal
   where XXFinal.Cust_Code in (select Cust_Code from TSPL_Customer_Master where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + " ')
 
-            Group by XXFinal.Cust_Code,XXFinal.Sku_Seq )xx "
+            Group by XXFinal.Cust_Code,XXFinal.Sku_Seq "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
@@ -3853,21 +3860,14 @@ from
 
     Private Sub btnQuickDemand_Click(sender As Object, e As EventArgs) Handles btnQuickDemand.Click
         Try
-            Dim qry As String = "select Route_No,max(demand_date) as DemandDate,max(shiftType) as ShiftType from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "'  group by Route_No"  ''and Created_By='" + objCommonVar.CurrentUserCode + "'
+            Dim qry As String = "select Route_No,max(demand_date) as DemandDate,max(shiftType) as ShiftType from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and Created_By='" + objCommonVar.CurrentUserCode + "' group by Route_No"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarShow()
                 For Each dr As DataRow In dt.Rows
-                    AddNew()
+                    'AddNew()
                     txtDocNo.Value = ""
-                    txtDate.Value = clsCommon.GetPrintDate(dr.Item("DemandDate"))
-                    If clsCommon.CompairString(clsCommon.myCstr(dr.Item("ShiftType")), "Morning") = CompairStringResult.Equal Then
-                        rbtnMorning.IsChecked = True
-                    Else
-                        rbtnEvening.IsChecked = True
-                    End If
-
                     QuickDemamd(clsCommon.GetPrintDate(dr.Item("DemandDate")), objCommonVar.CurrentUserCode, clsCommon.myCstr(dr.Item("ShiftType")), clsCommon.myCstr(dr.Item("Route_No")))
                 Next
                 AddNew()
@@ -3913,8 +3913,7 @@ from
     End Sub
     Public Sub FillQuickDemandData(ByVal docDate As Date, ByVal ShiftType As String)
         Try
-            Dim Qty As Integer = 0
-            Dim qry As String = "select Cust_Code,Item_Code,Qty from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "' and Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' "  ' and Created_By='" + objCommonVar.CurrentUserCode + "'"
+            Dim qry As String = "select Cust_Code,Item_Code,Qty from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "' and Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and Created_By='" + objCommonVar.CurrentUserCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
@@ -3930,15 +3929,14 @@ from
                                 End Try
                                 If obj1 IsNot Nothing Then
                                     If clsCommon.CompairString(clsCommon.myCstr(obj1.itemCode), clsCommon.myCstr(dr.Item("Item_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString("Crate", clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
-                                        Qty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 Qty from TSPL_DEMAND_SHEET where convert(date,demand_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "'  and Item_Code='" + clsCommon.myCstr(dr.Item("Item_Code")) + "' and Cust_Code='" + clsCommon.myCstr(dr.Item("Cust_Code")) + "'  order by Modify_Date desc"))
-                                        If Qty > 0 Then
-                                            gv1.Rows(dblrow).Cells(dblcolumns).Value = Qty
+                                        If clsCommon.myCdbl(dr.Item("Qty")) > 0 Then
+                                            gv1.Rows(dblrow).Cells(dblcolumns).Value = clsCommon.myCdbl(dr.Item("Qty"))
                                         Else
                                             gv1.Rows(dblrow).Cells(dblcolumns).Value = ""
 
                                         End If
                                     End If
-                                End If
+                                    End If
                                 k = k + 1
                             Next
                         End If

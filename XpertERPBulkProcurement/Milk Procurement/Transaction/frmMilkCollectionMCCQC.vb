@@ -1,6 +1,5 @@
 ﻿Imports common
 Imports System.Data.SqlClient
-Imports System.IO
 
 Public Class frmMilkCollectionMCCQC
     Inherits FrmMainTranScreen
@@ -371,28 +370,6 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                 gv1.CurrentRow.Cells("SNF").ReadOnly = Not CorrectionApply
             End If
         Catch ex As Exception
-        End Try
-    End Sub
-
-    Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-        If gv1.Rows.Count > 0 Then
-            ExportToExcel(EnumExportTo.Excel)
-        Else
-            RadMessageBox.Show("No Data Found to Display", Me.Text)
-        End If
-    End Sub
-    Private Sub ExportToExcel(ByVal exporter As EnumExportTo)
-        Try
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
-                transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
-            Else
-                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
-                clsCommon.MyExportToPDF("Milk BMC QC ", gv1, arrHeader, "Milk BMC QC", PageSetupReport_ID, objCommonVar.CurrentUserCode)
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 End Class

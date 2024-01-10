@@ -449,10 +449,10 @@ Public Class frmMilkShiftUploader
         End If
 
 
-        Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],  TSPL_VLC_MASTER_HEAD.Route_Code as [Route Code],TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MCC_ROUTE_MASTER.Vehicle_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] " + Environment.NewLine +
-        " from TSPL_VLC_MASTER_HEAD" + Environment.NewLine +
-        " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  " + Environment.NewLine +
-        " inner join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code  " + Environment.NewLine +
+        Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],  TSPL_VLC_MASTER_HEAD.Route_Code as [Route Code],TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MCC_ROUTE_MASTER.Vehicle_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] " + Environment.NewLine + _
+        " from TSPL_VLC_MASTER_HEAD" + Environment.NewLine + _
+        " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  " + Environment.NewLine + _
+        " inner join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code  " + Environment.NewLine + _
         " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC " + Environment.NewLine
 
         Dim whrCls As String = "  TSPL_VLC_MASTER_HEAD.MCC  ='" + fndMCCCode.Value + "'"
@@ -668,28 +668,16 @@ Public Class frmMilkShiftUploader
     End Sub
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim arrLoc As String = ""
-        Dim whrcls As String = ""
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-            arrLoc = "'" + obj.Default_LocCode + "'"
-        Else
-            arrLoc = obj.arrLocCodes
-        End If
-        If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
-            whrcls = " tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
-        End If
-        Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103) as Shift_Date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Description,case when TSPL_MILK_SHIFT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" &
-        ",TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " &
-        ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" &
-        ",TSPL_MILK_SHIFT_UPLOADER_HEAD.DOCK_CODE as [Dock Code]" &
-        ",TSPL_DOCK_MASTER.Description as [Dock Name]" &
-        " from TSPL_MILK_SHIFT_UPLOADER_HEAD" &
-        " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.mcc_code" &
-        " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" &
+        Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103) as Shift_Date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Description,case when TSPL_MILK_SHIFT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" & _
+        ",TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " & _
+        ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" & _
+        ",TSPL_MILK_SHIFT_UPLOADER_HEAD.DOCK_CODE as [Dock Code]" & _
+        ",TSPL_DOCK_MASTER.Description as [Dock Name]" & _
+        " from TSPL_MILK_SHIFT_UPLOADER_HEAD" & _
+        " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.mcc_code" & _
+        " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" & _
         " left join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.code=TSPL_MILK_SHIFT_UPLOADER_HEAD.dock_code"
-        LoadData(clsCommon.ShowSelectForm("SMPUFINOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SMPUFINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
     End Sub
 
     Public Function SaveData() As Boolean
@@ -891,9 +879,7 @@ Public Class frmMilkShiftUploader
         Dim arrLoc As String = ""
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-            arrLoc = "'" + obj.Default_LocCode + "'"
-        Else
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
             arrLoc = obj.arrLocCodes
         End If
 
@@ -913,9 +899,9 @@ Public Class frmMilkShiftUploader
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Document Not found to export.", Me.Text)
         End If
-        Dim qry As String = "select SNo as 'S NO',TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as 'VLC Uploader Code',Milk_Weight as 'Qty (Ltr)',FAT as 'FAT%',SNF as 'SNF%',Dock_Collection_Milk_Type as [Milk Type(M/C/B)],Reject_Type as  [Reject Type],Reject_Defaulter as [Reject Defaulter]" + Environment.NewLine +
-        "from TSPL_MILK_SHIFT_UPLOADER_DETAIL" + Environment.NewLine +
-        "left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code" + Environment.NewLine +
+        Dim qry As String = "select SNo as 'S NO',TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as 'VLC Uploader Code',Milk_Weight as 'Qty (Ltr)',FAT as 'FAT%',SNF as 'SNF%',Dock_Collection_Milk_Type as [Milk Type(M/C/B)],Reject_Type as  [Reject Type],Reject_Defaulter as [Reject Defaulter]" + Environment.NewLine + _
+        "from TSPL_MILK_SHIFT_UPLOADER_DETAIL" + Environment.NewLine + _
+        "left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code" + Environment.NewLine + _
         "where Document_No='" + txtDocNo.Value + "'"
         transportSql.ExporttoExcelWithoutFilter(qry, "", "", Me)
     End Sub
@@ -1178,18 +1164,6 @@ ExitLOOP:
             SetGridFocus()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
-        Try
-            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
-                Exit Sub
-            End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_SHIFT_UPLOADER_HEAD", "TSPL_MILK_SHIFT_UPLOADER_DETAIL")
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class
