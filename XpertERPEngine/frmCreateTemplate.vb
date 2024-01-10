@@ -59,11 +59,11 @@ Public Class frmCreateTemplate
                 'Next
                 clsManageTemplate.SaveData(obj)
                 'LoadData(obj.Export_Code, NavigatorType.Current)
-                clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 funClose()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -101,7 +101,7 @@ Public Class frmCreateTemplate
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtName.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Enter Template Name", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Enter Template Name", Me.Text)
             txtName.Focus()
             txtName.Select()
             Errorcontrol.SetError(txtName, "Template Name")
@@ -128,7 +128,7 @@ Public Class frmCreateTemplate
 
     Sub DeleteData()
         If clsCommon.myLen(txtName.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Select Template for Delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Template for Delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -142,7 +142,7 @@ Public Class frmCreateTemplate
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsManageTemplate.DeleteData(txtReportId.Text, txtName.Text)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     LoadTemplate()
                 End If
             End If

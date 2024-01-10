@@ -56,10 +56,10 @@ Public Class frmTemplateExpImp
                 Next
                 clsTemplateExpImp.SaveData(obj, isNewEntry)
                 LoadData(obj.Export_Code, NavigatorType.Current)
-                clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -98,7 +98,7 @@ Public Class frmTemplateExpImp
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtName.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Enter Template Name", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Enter Template Name", Me.Text)
             txtName.Focus()
             txtName.Select()
             Errorcontrol.SetError(txtName, "Template Name")
@@ -125,7 +125,7 @@ Public Class frmTemplateExpImp
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -135,7 +135,7 @@ Public Class frmTemplateExpImp
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsTemplateExpImp.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -242,7 +242,7 @@ Public Class frmTemplateExpImp
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -251,7 +251,7 @@ Public Class frmTemplateExpImp
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -373,7 +373,7 @@ Public Class frmTemplateExpImp
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
