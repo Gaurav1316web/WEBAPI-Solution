@@ -935,7 +935,6 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
     Sub SetGridFormationOFGV1Dock()
         Gv1.TableElement.TableHeaderHeight = 40
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
-        Dim summaryRowItem As New GridViewSummaryRowItem()
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
@@ -990,29 +989,6 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
 
             Gv1.Columns(ii).BestFit()
         Next
-
-
-        Dim EnteredQty As New GridViewSummaryItem("Milk_Wtd", "{0:F0}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(EnteredQty)
-        Dim EnteredFatKg As New GridViewSummaryItem("Fat_KG", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(EnteredFatKg)
-        Dim EnteredSnfKg As New GridViewSummaryItem("SNF_KG", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(EnteredSnfKg)
-
-        Dim summaryItem1 As New GridViewSummaryItem()
-        summaryItem1.FormatString = "{0:F2}"
-        summaryItem1.Name = "FAT"
-        summaryItem1.AggregateExpression = "sum(Fat_KG)*100/sum(Milk_Wtd)"
-        summaryRowItem.Add(summaryItem1)
-
-        Dim summaryItem2 As New GridViewSummaryItem()
-        summaryItem2.FormatString = "{0:F2}"
-        summaryItem2.Name = "SNF"
-        summaryItem2.AggregateExpression = "sum(SNF_KG)*100/sum(Milk_Wtd)"
-        summaryRowItem.Add(summaryItem2)
-
-        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
     End Sub
 
 

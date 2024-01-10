@@ -579,7 +579,7 @@ Public Class frmPendingSaleQuotation
             Next
 
             If ArrReturn_EX.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Quotation item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Quotation item", Me.Text)
             Else
                 Me.Close()
             End If
@@ -623,7 +623,7 @@ Public Class frmPendingSaleQuotation
                 End If
             Next
             If ArrReturn.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending MRN item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending MRN item", Me.Text)
             Else
                 Me.Close()
             End If

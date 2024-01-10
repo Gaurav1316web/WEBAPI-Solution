@@ -8,7 +8,7 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
     Dim SettShowAllMCC As Boolean
     Dim settFillRouteTankerNo As Boolean = False
     Dim isNewEntry As Boolean = False
-    Dim SettShowDCSMerge As Boolean = False
+
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
 
@@ -26,7 +26,6 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SettShowAllMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing)) = 1)
-        SettShowDCSMerge = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowDCSDetMerge, clsFixedParameterCode.ShowDCSDetMerge, Nothing))
         settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
@@ -41,7 +40,7 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
         If isPickCLRInsteadOfSNF Then
             MyLabel14.Text = "CLR"
         End If
-        'MyBase.SetUserMgmt(clsUserMgtCode.MilkCollectionDCS)
+        MyBase.SetUserMgmt(clsUserMgtCode.MilkCollectionDCS)
         LoadFATSNFType()
         txtDate.Value = clsCommon.GETSERVERDATE()
         AddNew()
@@ -649,6 +648,4 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
         End If
         UpdateAllTotal(False)
     End Sub
-
-
 End Class

@@ -930,11 +930,6 @@ Public Class FrmPendingAproval
         dr("Name") = "Purchase Invoice"
         dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "DCS Milk Collection Multiple Days"
-        dr("Name") = "DCS Milk Collection Multiple Days"
-        dt1.Rows.Add(dr)
-
         cboTransaction.DataSource = dt1
         cboTransaction.DisplayMember = "Name"
         cboTransaction.ValueMember = "Code"

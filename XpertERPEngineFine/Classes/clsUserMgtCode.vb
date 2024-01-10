@@ -983,6 +983,7 @@ Public Class clsUserMgtCode
     Public Const rptClaimMaster As String = "RPT_CLAIM_MS"
     Public Const frmTDMReport As String = "TDM-RPT"
     Public Const SalesmanSalesOrderReport As String = "SM-SOR"
+    Public Const frmSaleAnalysisReport As String = "SL-ANLS-RP"
     Public Const rptSalesAnalysis As String = "SALE-AnlsRPT"
     Public Const frmCustomerBillWiseDetail As String = "CUST-BILL"
     Public Const frmRptFormOfGuarntee As String = "FM-GUARNTEE"

@@ -432,12 +432,6 @@
     <Compile Include="Transaction\frmTender.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Transaction\PurchaseGateOut.Designer.vb">
-      <DependentUpon>PurchaseGateOut.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Transaction\PurchaseGateOut.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="UserControl1.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -607,9 +601,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmTender.resx">
       <DependentUpon>frmTender.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transaction\PurchaseGateOut.resx">
-      <DependentUpon>PurchaseGateOut.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
