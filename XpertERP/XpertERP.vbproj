@@ -1884,6 +1884,12 @@
     <Compile Include="Milk Procurement\Transaction\frmBulkProcurementUploader.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmBulkPurchaseUploader.Designer.vb">
+      <DependentUpon>frmBulkPurchaseUploader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmBulkPurchaseUploader.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmCleaningReverse.Designer.vb">
       <DependentUpon>frmCleaningReverse.vb</DependentUpon>
     </Compile>
@@ -5926,6 +5932,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmBulkProcurementUploader.resx">
       <DependentUpon>frmBulkProcurementUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmBulkPurchaseUploader.resx">
+      <DependentUpon>frmBulkPurchaseUploader.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmCleaningReverse.resx">
       <DependentUpon>frmCleaningReverse.vb</DependentUpon>
