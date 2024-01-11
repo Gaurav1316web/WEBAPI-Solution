@@ -29,7 +29,7 @@ Public Class frmGLStructure
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.accountStructure)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -269,7 +269,7 @@ Public Class frmGLStructure
         Try
             listbox2.Items.Add(listbox1.SelectedItem)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow("Select segment from listbox1")
+            common.clsCommon.MyMessageBoxShow(Me, "Select segment from listbox1", Me.Text)
         End Try
     End Sub
     '***** Segments Transfer from listbox2 to listbox1....
@@ -278,7 +278,7 @@ Public Class frmGLStructure
         Try
             listbox1.Items.Add(listbox2.SelectedItem)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow("Select segment from listbox2")
+            common.clsCommon.MyMessageBoxShow(Me, "Select segment from listbox2", Me.Text)
         End Try
     End Sub
     '***** If text of save button is 'save' then call the savebutton method or the text of save button is 'update' 
@@ -364,7 +364,7 @@ Public Class frmGLStructure
                 End If
             Next
             If Not isFound Then
-                common.clsCommon.MyMessageBoxShow(" Accounts must contain in Structure Code '" + fnd_structurecode.Value + "' ")
+                common.clsCommon.MyMessageBoxShow(Me, " Accounts must contain in Structure Code '" + fnd_structurecode.Value + "' ")
                 fnd_structurecode.Focus()
                 Return False
             End If
@@ -692,7 +692,7 @@ Public Class frmGLStructure
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

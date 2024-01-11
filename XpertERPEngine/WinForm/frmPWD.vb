@@ -17,7 +17,7 @@ Public Class FrmPWD
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
 
         If clsCommon.myLen(txtPWd.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter password", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter password", Me.Text)
             Exit Sub
         End If
         Dim qry As String = Nothing
@@ -29,10 +29,10 @@ Public Class FrmPWD
                 isPasswordCorrect = True
                 Me.Close()
             ElseIf clsCommon.CompairString("DeveLoper", txtPWd.Text, True) = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Correct Password is:   " & Pwd, Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Correct Password is:   " & Pwd, Me.Text)
                 Exit Sub
             Else
-                common.clsCommon.MyMessageBoxShow("Wrong password", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Wrong password", Me.Text)
                 Exit Sub
             End If
         Else
@@ -43,14 +43,14 @@ Public Class FrmPWD
                     isPasswordCorrect = True
                     Me.Close()
                 ElseIf clsCommon.CompairString("DeveLoper", txtPWd.Text, True) = CompairStringResult.Equal Then
-                    common.clsCommon.MyMessageBoxShow("Correct Password is:   " & clsCommon.DecryptString(Pwd), Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Correct Password is:   " & clsCommon.DecryptString(Pwd), Me.Text)
                     Exit Sub
                 Else
-                    common.clsCommon.MyMessageBoxShow("Wrong password", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Wrong password", Me.Text)
                     Exit Sub
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("Password is not set for amendment", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Password is not set for amendment", Me.Text)
                 Exit Sub
             End If
         End If
@@ -63,11 +63,11 @@ Public Class FrmPWD
 
     Private Sub FrmPWD_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         If clsCommon.myLen(strCode) <= 0 AndAlso clsCommon.myLen(FormId) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code can't be Blank")
+            common.clsCommon.MyMessageBoxShow(Me, "Code can't be Blank", Me.Text)
             Me.Close()
         End If
         If clsCommon.myLen(strType) <= 0 AndAlso clsCommon.myLen(FormId) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Type can't be Blank")
+            common.clsCommon.MyMessageBoxShow(Me, "Type can't be Blank", Me.Text)
             Me.Close()
         End If
         lblAnyText.Text = strAnyText

@@ -25,7 +25,7 @@ Public Class frmAccountMainGLAccount
         Try
             LoadData(fndaccgp.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -102,7 +102,7 @@ Public Class frmAccountMainGLAccount
                 fndaccgp.Focus()
                 Return False
             ElseIf Not IsNumeric(strcode) Then
-                clsCommon.MyMessageBoxShow("Please enter numeric value in account main group code")
+                clsCommon.MyMessageBoxShow(Me, "Please enter numeric value in account main group code", Me.Text)
                 fndaccgp.Focus()
                 Return False
             End If
@@ -117,7 +117,7 @@ Public Class frmAccountMainGLAccount
             txtSubGroup.Focus()
             Return False
         ElseIf Not IsNumeric(txtSubGroup.Value) Then
-            clsCommon.MyMessageBoxShow("Please enter numeric value in sub account.")
+            clsCommon.MyMessageBoxShow(Me, "Please enter numeric value in sub account.", Me.Text)
             txtSubGroup.Focus()
             Return False
         End If
@@ -145,12 +145,12 @@ Public Class frmAccountMainGLAccount
         Try
             If (deleteConfirm()) Then
                 If (clsMainGLAccount.DeleteData(fndaccgp.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funReset()
@@ -229,12 +229,12 @@ Public Class frmAccountMainGLAccount
                 obj.Sub_Group_Code = txtSubGroup.Value
                 obj.IsControlAcct = IIf(chkIsControlAcct.Checked, 1, 0)
                 If (clsMainGLAccount.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Main_GL_Account, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -310,14 +310,14 @@ Public Class frmAccountMainGLAccount
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     Throw New Exception(ex.Message)
                 End Try
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)

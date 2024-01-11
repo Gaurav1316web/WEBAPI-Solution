@@ -533,7 +533,7 @@ Public Class frmFAMergeAsset
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -612,7 +612,7 @@ Public Class frmFAMergeAsset
                 BlankCurrenRow(intRow)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -653,7 +653,7 @@ Public Class frmFAMergeAsset
             gv1.Rows(intRow).Cells(colStartDate).Value = Nothing
             gv1.Rows(intRow).Cells(colNetAmt).Value = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -743,7 +743,7 @@ Public Class frmFAMergeAsset
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False, ChekBtnPost)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -805,7 +805,7 @@ Public Class frmFAMergeAsset
                 ''=============================================================================
 
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -817,7 +817,7 @@ Public Class frmFAMergeAsset
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -940,7 +940,7 @@ Public Class frmFAMergeAsset
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -964,12 +964,12 @@ Public Class frmFAMergeAsset
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsFAMergeHead.PostData(Form_ID, txtDocNo.Value, True, "NEW")) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -994,7 +994,7 @@ Public Class frmFAMergeAsset
                 End If
                 If (clsFAMergeHead.DeleteData(txtDocNo.Value, txtAssetCode.Text)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     BlankAllControls()
                 End If
             End If
@@ -1023,7 +1023,7 @@ Public Class frmFAMergeAsset
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1053,7 +1053,7 @@ Public Class frmFAMergeAsset
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1068,7 +1068,7 @@ Public Class frmFAMergeAsset
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1078,7 +1078,7 @@ Public Class frmFAMergeAsset
 
     Sub DeleteLayout()
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Sub DisableTemplateFields(ByVal frm As FrmAcquisitionEntryDetail)
@@ -1150,7 +1150,7 @@ Public Class frmFAMergeAsset
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         Else
             lblNetAmt.Text = lblNetAmt.Text - clsCommon.myCdbl(gv1.CurrentRow.Cells(colLastAmount_AfterDep).Value)
@@ -1165,7 +1165,7 @@ Public Class frmFAMergeAsset
     Private Sub BtnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select a Acquisition First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a Acquisition First.", Me.Text)
                 Return
             End If
             Dim frm As New frmCrystalReportViewer()
@@ -1183,24 +1183,24 @@ Public Class frmFAMergeAsset
 
             Dim dt_final As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt_final.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 frm.funreport(CrystalReportFolder.FixedAssets, dt_final, "frmFAMergeAssetReport", "Acquision Entry Report")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnChangeDepDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnChangeDepDetail.Click
         Try
-            If clsCommon.MyMessageBoxShow("Do you want to change Depreciation details" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to change Depreciation details" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Dim arr As New List(Of clsFAMergeDetail)()
                 For Each grow As GridViewRowInfo In gv1.Rows
                     If clsCommon.myLen(grow.Cells(colAssetID).Value) Then
                         Dim objTr As New clsFAMergeDetail()
                         If clsAssetDepreciation.GetAssetDepCount(grow.Cells(colAssetID).Value, Nothing) > 0 Then
-                            clsCommon.MyMessageBoxShow("Depreciation of Asset-" & grow.Cells(colAssetID).Value & " has been done. Can not change depereciation details for this Asset.")
+                            clsCommon.MyMessageBoxShow(Me, "Depreciation of Asset-" & grow.Cells(colAssetID).Value & " has been done. Can not change depereciation details for this Asset.")
                             Continue For
                         End If
                         objTr.Asset_Code = clsCommon.myCstr(grow.Cells(colAssetID).Value)
@@ -1219,10 +1219,10 @@ Public Class frmFAMergeAsset
                     End If
                 Next
                 clsFAMergeDetail.UpdateDecpreciationData(txtDocNo.Value, arr)
-                clsCommon.MyMessageBoxShow("Successfully changed the depreciation details", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully changed the depreciation details", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1258,7 +1258,7 @@ Public Class frmFAMergeAsset
                 Exit Sub
             Else
                 If clsAssetDepreciation.GetAssetDepCount(txtAssetCode.Text, Nothing) > 0 Then
-                    clsCommon.MyMessageBoxShow("Depreciation of Asset-" & txtAssetCode.Text & " has been done. Can not change depereciation details for this Asset.")
+                    clsCommon.MyMessageBoxShow(Me, "Depreciation of Asset-" & txtAssetCode.Text & " has been done. Can not change depereciation details for this Asset.")
                     Exit Sub
                 End If
 
@@ -1554,7 +1554,7 @@ Public Class frmFAMergeAsset
             End If ''template length
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

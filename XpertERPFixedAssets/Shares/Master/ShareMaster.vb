@@ -120,7 +120,7 @@ Public Class ShareMaster
             End If
             LoadData(clsCommon.myCstr(txtCode.Value), NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -179,7 +179,7 @@ Public Class ShareMaster
             obj.Rate = TxtRate.Text
             obj.Amount = TxtAmount.Text
             If (obj.SaveData(obj, isNewEntry)) Then
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
             End If
             'End If

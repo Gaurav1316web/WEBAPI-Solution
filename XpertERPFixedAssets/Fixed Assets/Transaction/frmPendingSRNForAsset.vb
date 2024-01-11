@@ -130,7 +130,7 @@ select TSPL_PR_HEAD.Against_pi as PI_No,TSPL_PR_HEAD.Against_SRN as SRN_No,TSPL_
             'LoadHeadData()
             LoadDetailData()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -808,7 +808,7 @@ select TSPL_PR_HEAD.Against_pi as PI_No,TSPL_PR_HEAD.Against_SRN as SRN_No,TSPL_
                         Dim SecondSRNNo As String = clsCommon.myCstr(gv1.Rows(j).Cells(colDCode).Value)
                         If clsCommon.myCBool(gv1.Rows(j).Cells(colDSelect).Value) And clsCommon.CompairString(FirstSRNNo, SecondSRNNo) = CompairStringResult.Equal Then
                         Else
-                            clsCommon.MyMessageBoxShow("More than one SRN No. not acceptable ")
+                            clsCommon.MyMessageBoxShow(Me, "More than one SRN No. not acceptable ", Me.Text)
                             Return False
                         End If
                     End If

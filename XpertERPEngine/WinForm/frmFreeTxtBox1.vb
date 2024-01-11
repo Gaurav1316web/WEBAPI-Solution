@@ -9,7 +9,7 @@ Public Class FrmFreeTxtBox1
 
     Sub btnOKPressed()
         If clsCommon.myLen(txtRemarks.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Plese enter remarks", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Plese enter remarks", Me.Text)
             txtRemarks.Focus()
         Else
             strRmks = txtRemarks.Text

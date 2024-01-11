@@ -79,7 +79,7 @@ Public Class FrmChangePrntOrdr_ACGroup
                     frm.AccGroupCode = strACode
                     frm.ShowDialog()
                 Catch ex As Exception
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If

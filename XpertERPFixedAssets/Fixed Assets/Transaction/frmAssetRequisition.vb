@@ -151,7 +151,7 @@ Public Class frmAssetRequisition
 
     Private Sub rdbtnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If Save() = True Then
-            clsCommon.MyMessageBoxShow("Saved Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
         End If
     End Sub
     Private Function AllowToSave() As Boolean
@@ -216,7 +216,7 @@ Public Class frmAssetRequisition
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -225,7 +225,7 @@ Public Class frmAssetRequisition
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -248,7 +248,7 @@ Public Class frmAssetRequisition
                 End If
                 If (clsAssetRequisition.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -426,7 +426,7 @@ Public Class frmAssetRequisition
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -469,7 +469,7 @@ Public Class frmAssetRequisition
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
