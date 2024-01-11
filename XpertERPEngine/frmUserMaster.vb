@@ -555,7 +555,7 @@ Public Class FrmUserMaster
 
                 If str = "Level2" Then
                     If fndLabel1.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level1 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level1 cannot be blank.", Me.Text)
                     Else
                         Try
                             clsDBFuncationality.UpdateInAllDatabase("sp_tspl_user_master_insert", New SqlParameter("@Usercode", fndUserCode.Value), New SqlParameter("@UserName", txtUserName.Text), New SqlParameter("@EmployeeCode", fndEmployeeCode.Value), New SqlParameter("@EmployeeName", txtEmployeeName.Text), New SqlParameter("@Password", clsCommon.EncryptString(txtPassword.Text)), New SqlParameter("@UserType", ddlUserType.Text), New SqlParameter("@Level1", fndLabel1.Value), New SqlParameter("@Level2", fndLabel2.Value), New SqlParameter("@Level3", fndLabel3.Value), New SqlParameter("@Level4", fndLabel4.Value), New SqlParameter("@Createdby", userCode), New SqlParameter("@Createddate", connectSql.serverDate()), New SqlParameter("@Modifiedby", userCode), New SqlParameter("@Modifieddate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ApprovalLevel", cmbLevel.SelectedValue))
@@ -569,9 +569,9 @@ Public Class FrmUserMaster
 
                 ElseIf str = "Level3" Then
                     If fndLabel1.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level1 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level1 cannot be blank.", Me.Text)
                     ElseIf fndLabel2.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level2 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level2 cannot be blank.", Me.Text)
                     Else
                         Try
                             clsDBFuncationality.UpdateInAllDatabase("sp_tspl_user_master_insert", New SqlParameter("@Usercode", fndUserCode.Value), New SqlParameter("@UserName", txtUserName.Text), New SqlParameter("@EmployeeCode", fndEmployeeCode.Value), New SqlParameter("@EmployeeName", txtEmployeeName.Text), New SqlParameter("@Password", clsCommon.EncryptString(txtPassword.Text)), New SqlParameter("@UserType", ddlUserType.Text), New SqlParameter("@Level1", fndLabel1.Value), New SqlParameter("@Level2", fndLabel2.Value), New SqlParameter("@Level3", fndLabel3.Value), New SqlParameter("@Level4", fndLabel4.Value), New SqlParameter("@Createdby", userCode), New SqlParameter("@Createddate", connectSql.serverDate()), New SqlParameter("@Modifiedby", userCode), New SqlParameter("@Modifieddate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ApprovalLevel", cmbLevel.SelectedValue))
@@ -584,11 +584,11 @@ Public Class FrmUserMaster
                     End If
                 ElseIf str = "Level4" Then
                     If fndLabel1.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level1 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level1 cannot be blank.", Me.Text)
                     ElseIf fndLabel2.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level2 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level2 cannot be blank.", Me.text)
                     ElseIf fndLabel3.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level3 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level3 cannot be blank.", Me.Text)
                     Else
                         Try
                             clsDBFuncationality.UpdateInAllDatabase("sp_tspl_user_master_insert", New SqlParameter("@Usercode", fndUserCode.Value), New SqlParameter("@UserName", txtUserName.Text), New SqlParameter("@EmployeeCode", fndEmployeeCode.Value), New SqlParameter("@EmployeeName", txtEmployeeName.Text), New SqlParameter("@Password", clsCommon.EncryptString(txtPassword.Text)), New SqlParameter("@UserType", ddlUserType.Text), New SqlParameter("@Level1", fndLabel1.Value), New SqlParameter("@Level2", fndLabel2.Value), New SqlParameter("@Level3", fndLabel3.Value), New SqlParameter("@Level4", fndLabel4.Value), New SqlParameter("@Createdby", userCode), New SqlParameter("@Createddate", connectSql.serverDate()), New SqlParameter("@Modifiedby", userCode), New SqlParameter("@Modifieddate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ApprovalLevel", cmbLevel.SelectedValue))
@@ -604,13 +604,13 @@ Public Class FrmUserMaster
 
 
                     If fndLabel1.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level1 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level1 cannot be blank.", Me.Text)
                     ElseIf fndLabel2.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level2 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level2 cannot be blank.", Me.Text)
                     ElseIf fndLabel3.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level3 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level3 cannot be blank.", Me.Text)
                     ElseIf fndLabel4.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Level4 cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Level4 cannot be blank.", Me.Text)
                     Else
                         Try
                             clsDBFuncationality.UpdateInAllDatabase("sp_tspl_user_master_insert", New SqlParameter("@Usercode", fndUserCode.Value), New SqlParameter("@UserName", txtUserName.Text), New SqlParameter("@EmployeeCode", fndEmployeeCode.Value), New SqlParameter("@EmployeeName", txtEmployeeName.Text), New SqlParameter("@Password", clsCommon.EncryptString(txtPassword.Text)), New SqlParameter("@UserType", ddlUserType.Text), New SqlParameter("@Level1", fndLabel1.Value), New SqlParameter("@Level2", fndLabel2.Value), New SqlParameter("@Level3", fndLabel3.Value), New SqlParameter("@Level4", fndLabel4.Value), New SqlParameter("@Createdby", userCode), New SqlParameter("@Createddate", connectSql.serverDate()), New SqlParameter("@Modifiedby", userCode), New SqlParameter("@Modifieddate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ApprovalLevel", cmbLevel.SelectedValue))
@@ -692,7 +692,7 @@ Public Class FrmUserMaster
             myMessages.insert()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1257,7 +1257,7 @@ Public Class FrmUserMaster
             If PasswordRules = True Then
                 ValidatePassword(txtPassword.Text, 8, 2, 2, 2, 2)
                 If CheckPassword = False Then
-                    common.clsCommon.MyMessageBoxShow("Password is invalid. Format not match")
+                    common.clsCommon.MyMessageBoxShow(Me, "Password is invalid. Format not match", Me.Text)
                     Exit Sub
                 End If
             End If
@@ -1452,7 +1452,7 @@ Public Class FrmUserMaster
             '    s = dr(0).ToString()
             'End While
             If s <> fndLabel1.Value Then
-                common.clsCommon.MyMessageBoxShow("Level1 doesn't exist.")
+                common.clsCommon.MyMessageBoxShow(Me, "Level1 doesn't exist.", Me.Text)
                 fndLabel1.Value = ""
                 fndLabel1.Focus()
             Else
@@ -1487,7 +1487,7 @@ Public Class FrmUserMaster
             '    s = dr(0).ToString()
             'End While
             If s <> fndLabel3.Value Then
-                common.clsCommon.MyMessageBoxShow("Level3 doesn't exist.")
+                common.clsCommon.MyMessageBoxShow(Me, "Level3 doesn't exist.", Me.Text)
                 fndLabel3.Value = ""
                 fndLabel3.Focus()
             Else
@@ -1503,7 +1503,7 @@ Public Class FrmUserMaster
             '    s = dr(0).ToString()
             'End While
             If s <> fndLabel4.Value Then
-                common.clsCommon.MyMessageBoxShow("Level4 doesn't exist.")
+                common.clsCommon.MyMessageBoxShow(Me, "Level4 doesn't exist.", Me.Text)
                 fndLabel4.Value = ""
                 fndLabel4.Focus()
             Else
@@ -1519,7 +1519,7 @@ Public Class FrmUserMaster
             '    s = dr(0).ToString()
             'End While
             If s <> fndEmployeeCode.Value Then
-                common.clsCommon.MyMessageBoxShow("Employee Code doesn't exist")
+                common.clsCommon.MyMessageBoxShow(Me, "Employee Code doesn't exist", Me.Text)
                 fndEmployeeCode.Value = ""
                 txtEmployeeName.Text = ""
                 fndEmployeeCode.Focus()
@@ -1563,11 +1563,11 @@ Public Class FrmUserMaster
                     ' Dim strZoneCode As String = ""
 
                     If clsCommon.myLen(grow.Cells("User_Code").Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("User Code cannot be blank.")
+                        common.clsCommon.MyMessageBoxShow(Me, "User Code cannot be blank.", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     ElseIf grow.Cells("User_Code").Value.ToString().Length > 12 Then
-                        common.clsCommon.MyMessageBoxShow("User Code cannot be greater than 12 length.")
+                        common.clsCommon.MyMessageBoxShow(Me, "User Code cannot be greater than 12 length.", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     Else
@@ -1578,7 +1578,7 @@ Public Class FrmUserMaster
                     strPrefixUserCode = strPrefix & strPrefixUserCode
 
                     If grow.Cells("User_Name").Value.ToString().Length > 50 Then
-                        common.clsCommon.MyMessageBoxShow("User Name cannot be greater than 50 length.")
+                        common.clsCommon.MyMessageBoxShow(Me, "User Name cannot be greater than 50 length.", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     Else
@@ -1871,7 +1871,7 @@ Public Class FrmUserMaster
             lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtDefaultLocation.Value + "'")
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1890,7 +1890,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2025,7 +2025,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -2109,7 +2109,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                     End If
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -2155,7 +2155,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2170,7 +2170,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2284,7 +2284,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2327,7 +2327,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
 
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2343,7 +2343,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2420,7 +2420,7 @@ order by LEVEL"
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndUserCode.Value, "USER_Code", "TSPL_USER_MASTER")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2482,7 +2482,7 @@ order by LEVEL"
                     Next
 
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     myMessages.myExceptions(ex)
                     trans.Rollback()
@@ -2574,7 +2574,7 @@ order by LEVEL"
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenUSerList(ByVal isButtonClick As Boolean)

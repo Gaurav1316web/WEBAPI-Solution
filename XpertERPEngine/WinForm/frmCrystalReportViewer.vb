@@ -241,7 +241,7 @@ Public Class frmCrystalReportViewer
                 Me.Text = strReportPath
                 Me.Show()
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Me.Close()
                 rptshow = False
             End If
@@ -461,7 +461,7 @@ Public Class frmCrystalReportViewer
                 rpdoc.Close()
                 rpdoc.Dispose()
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Me.Close()
                 rptshow = False
             End If
@@ -537,12 +537,12 @@ Public Class frmCrystalReportViewer
                 rpdoc.Close()
                 rpdoc.Dispose()
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Me.Close()
                 rptshow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
 
         Return pdfpath
@@ -584,12 +584,12 @@ Public Class frmCrystalReportViewer
                 Me.Text = strReportPath
                 Me.Show()
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Me.Close()
                 rptshow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -631,12 +631,12 @@ Public Class frmCrystalReportViewer
                 xlsApp.Visible = True
                 xlsWB = xlsApp.Workbooks.Open(fullpath)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Me.Close()
                 rptshow = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
 End Class

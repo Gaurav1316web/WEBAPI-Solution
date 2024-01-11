@@ -133,7 +133,7 @@ Public Class ucAttachment
             LoadData(Transaction_ID, trans)
         Catch ex As Exception
             If trans Is Nothing Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Else
                 Throw New Exception(ex.Message)
             End If
@@ -360,7 +360,7 @@ Public Class ucAttachment
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -369,26 +369,26 @@ Public Class ucAttachment
         Try
             If isDeleteTheAttachment Then
                 If (clsCommon.myLen(StrCode) <= 0) Then
-                    clsCommon.MyMessageBoxShow("Code not found to Delete.")
+                    clsCommon.MyMessageBoxShow(Me, "Code not found to Delete.", Me.Text)
                     Return
                 End If
                 Dim qry As String
                 qry = " delete from TSPL_ATTACHMENTS where CODE='" + StrCode + "' "
                 If clsDBFuncationality.ExecuteNonQuery(qry) Then
                     If ShowMgs Then
-                        clsCommon.MyMessageBoxShow("Document Deleted.")
+                        clsCommon.MyMessageBoxShow(Me, "Document Deleted.", Me.Text)
                     End If
                 End If
                 LoadData(Transaction_ID)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.text)
         End Try
     End Sub
 
     Public Sub FunShow(ByVal strCode As String)
         If (clsCommon.myLen(strCode) <= 0) Then
-            clsCommon.MyMessageBoxShow("Document not found to View.")
+            clsCommon.MyMessageBoxShow(Me, "Document not found to View.", Me.Text)
             Return
         End If
 
@@ -420,7 +420,7 @@ Public Class ucAttachment
             System.Diagnostics.Process.Start(file_path + "\\" + filename + file_extn)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Error in Downloading Documnet.")
+            clsCommon.MyMessageBoxShow(Me, "Error in Downloading Documnet.", Me.Text)
         End Try
     End Sub
 
@@ -447,7 +447,7 @@ Public Class ucAttachment
                 gv1.Rows(ii - 1).Cells(ColSNo).Value = ii
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Atttachment", MessageBoxButtons.OK, RadMessageIcon.Error)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Atttachment", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
         Return True
     End Function

@@ -1094,11 +1094,11 @@ Public Class frmEMailAndSMSSetting
                 End If
 
                 If objContent.SaveData(objContent) Then
-                    clsCommon.MyMessageBoxShow("Data Saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved successfully", Me.Text)
                 End If
 
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -1132,34 +1132,34 @@ Public Class frmEMailAndSMSSetting
     Private Sub btnSendTestEMail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendTestEMail.Click
         Try
             If Not clsCommon.myInternetWork() Then
-                clsCommon.MyMessageBoxShow("Internet is Not Working properly")
+                clsCommon.MyMessageBoxShow(Me, "Internet is Not Working properly", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(txtMailSMTPClient.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter SMTP Client")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter SMTP Client", Me.Text)
                 txtMailSMTPClient.Focus()
                 Exit Sub
             End If
 
             If clsCommon.myLen(txtMailPort.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Port")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Port", Me.Text)
                 txtMailPort.Focus()
                 Exit Sub
             End If
 
             If clsCommon.myLen(txtMailID.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Email ID (From)")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Email ID (From)", Me.Text)
                 txtMailID.Focus()
                 Exit Sub
             End If
 
             If clsCommon.myLen(txtMailPwd.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Email Password")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Email Password", Me.Text)
                 txtMailPwd.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtEmailTo.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Email ID (To)")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Email ID (To)", Me.Text)
                 txtEmailTo.Focus()
                 Exit Sub
             End If

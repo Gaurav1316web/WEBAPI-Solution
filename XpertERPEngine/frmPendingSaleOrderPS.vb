@@ -119,7 +119,7 @@ Public Class frmPendingSaleOrderPS
             If clsCommon.myLen(VendorName) > 0 Then
                 common.clsCommon.MyMessageBoxShow("No record found for vendor " + VendorName + "")
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.")
+                common.clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
             End If
             Me.Close()
         End If
@@ -608,7 +608,7 @@ Public Class frmPendingSaleOrderPS
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Delivery item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Delivery item", Me.Text)
         Else
             Me.Close()
         End If

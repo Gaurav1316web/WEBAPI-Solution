@@ -173,7 +173,7 @@ Public Class frmTransactionHistory
         Try
             Dim qry As String = clsDBFuncationality.getSingleValue("select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME='" & DetailTable + clsCommon.HistTablePostFix & "'")
             If clsCommon.myLen(qry) <= 0 Then
-                clsCommon.MyMessageBoxShow("No History Table found")
+                clsCommon.MyMessageBoxShow(Me, "No History Table found", Me.Text)
                 Exit Sub
             End If
             Dim strMasterCodeColumn As String = ""
@@ -239,7 +239,7 @@ Public Class frmTransactionHistory
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -272,7 +272,7 @@ Public Class frmTransactionHistory
         Try
             Dim qry As String = clsDBFuncationality.getSingleValue("select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME='" & DetailTable + clsCommon.HistTablePostFix & "'")
             If clsCommon.myLen(qry) <= 0 Then
-                clsCommon.MyMessageBoxShow("No History Table found")
+                clsCommon.MyMessageBoxShow(Me, "No History Table found", Me.Text)
                 Exit Sub
             End If
             Dim strMasterCodeColumn As String = ""
@@ -326,7 +326,7 @@ Public Class frmTransactionHistory
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -365,7 +365,7 @@ Public Class frmTransactionHistory
         Try
             UnCheckAll()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -429,7 +429,7 @@ Public Class frmTransactionHistory
             End If
             dtAllData = clsDBFuncationality.GetDataTable(Mainqry)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
