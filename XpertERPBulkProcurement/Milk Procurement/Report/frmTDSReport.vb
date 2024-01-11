@@ -132,14 +132,13 @@ Public Class frmTDSReport
             Qry += " '" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' as [Location], "
         End If
         Qry += "cast(VLC_CODE_Uploader as int) As [DCS Code], VSP_NAME As [Society Name],Milk_Qty As [Milk Quantity],
-                    (Milk_Amount+Credit_Note_Amount) As [Milk Amount + OverHead],Isnull(TSPL_REMITTANCE.Actual_TDS_Base,0)+ Isnull(TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount,0) as [Actual Amount], Isnull(TDS_Amount,0) As [TDS Amount],
+                    (Milk_Amount+Credit_Note_Amount) As [Milk Amount + OverHead],Isnull(TSPL_REMITTANCE.Actual_TDS_Base,0) as [Actual Amount], Isnull(TDS_Amount,0) As [TDS Amount],
                     TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Regn_No,Case When TSPL_COMPANY_MASTER.Phone1 Is Null Then TSPL_COMPANY_MASTER.Phone2 Else TSPL_COMPANY_MASTER.Phone1 End As [Comp Contact No]
                     from TSPL_PAYMENT_PROCESS_DETAIL 
                     left outer join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                     Left Outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
 					left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No
 					left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No
-                    left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer  from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg,cast( ACC_Qty*SNF_PER/100 as decimal(18,2)) as SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE ) as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
                     Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code
                     Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_COMPANY_MASTER.Comp_Code1
                     where Isnull(TDS_Amount,0)>0 And  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and TSPL_PAYMENT_PROCESS_HEAD.From_Date<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'"
