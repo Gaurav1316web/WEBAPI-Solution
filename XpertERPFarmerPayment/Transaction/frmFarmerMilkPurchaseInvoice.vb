@@ -93,12 +93,12 @@ Public Class frmFarmerMilkPurchaseInvoice
                     End If
                 End If
                 If (clsMilkPurchaseInvoiceMCC.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -175,7 +175,7 @@ Public Class frmFarmerMilkPurchaseInvoice
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -219,7 +219,7 @@ Public Class frmFarmerMilkPurchaseInvoice
                 LoadData(txtCode.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

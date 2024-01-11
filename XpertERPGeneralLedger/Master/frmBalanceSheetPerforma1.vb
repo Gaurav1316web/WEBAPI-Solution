@@ -47,7 +47,7 @@ Public Class FrmBalanceSheetPerforma1
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmBalanceSheetPerforma)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -105,13 +105,13 @@ Public Class FrmBalanceSheetPerforma1
                     End If
                 Next
                 If clsBalanceSheetPerforma.SaveData(arr) = True Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Sucsessfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Sucsessfully", Me.Text)
                     btnDelete.Enabled = True
 
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -120,16 +120,16 @@ Public Class FrmBalanceSheetPerforma1
             If gv2.Rows(ii).Cells(SNo).Value IsNot Nothing Then
 
                 If clsCommon.myCstr(gv2.Rows(ii).Cells("Main Particular").Value) Is Nothing OrElse clsCommon.myLen(gv2.Rows(ii).Cells(Main_Particular).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill the Main Particular")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Main Particular", Me.Text)
                     Return False
                 ElseIf clsCommon.myCstr(gv2.Rows(ii).Cells("Particular").Value) Is Nothing OrElse clsCommon.myLen(gv2.Rows(ii).Cells(Particular).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill the Particular")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Particular", Me.Text)
                     Return False
                 ElseIf clsCommon.myCstr(gv2.Rows(ii).Cells("Type").Value) Is Nothing OrElse clsCommon.myLen(gv2.Rows(ii).Cells("Type").Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select the Type")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select the Type", Me.Text)
                     Return False
                 ElseIf clsCommon.myCstr(gv2.Rows(ii).Cells("Group Code").Value) Is Nothing OrElse clsCommon.myLen(gv2.Rows(ii).Cells(ColMainGroupCode).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill the Group Code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill the Group Code", Me.Text)
                     Return False
                 End If
             End If
@@ -137,7 +137,7 @@ Public Class FrmBalanceSheetPerforma1
         For ii As Integer = 0 To gv2.Rows.Count - 1
             For jj As Integer = ii + 1 To gv2.Rows.Count - 1
                 If clsCommon.CompairString(gv2.Rows(ii).Cells(ColMainGroupCode).Value, gv2.Rows(jj).Cells(ColMainGroupCode).Value) = CompairStringResult.Equal Then
-                    common.clsCommon.MyMessageBoxShow("This Group Already Exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Group Already Exist", Me.Text)
                     gv2.CurrentRow.Cells(ColMainGroupCode).Value = ""
                     Return False
                 End If
@@ -146,7 +146,7 @@ Public Class FrmBalanceSheetPerforma1
                     For pp As Integer = jj + 1 To gv2.Rows.Count - 1
                         If clsCommon.CompairString(varMain, gv2.Rows(pp).Cells(Main_Particular).Value) <> CompairStringResult.Equal Then
                             If clsCommon.CompairString(gv2.Rows(ii).Cells(Main_Particular).Value, gv2.Rows(pp).Cells(Main_Particular).Value) = CompairStringResult.Equal Then
-                                common.clsCommon.MyMessageBoxShow("The Main Particular are same at SNo " + clsCommon.myCstr(gv2.Rows(ii).Cells(SNo).Value) + " And " + clsCommon.myCstr(gv2.Rows(pp).Cells(SNo).Value))
+                                common.clsCommon.MyMessageBoxShow(Me, "The Main Particular are same at SNo " + clsCommon.myCstr(gv2.Rows(ii).Cells(SNo).Value) + " And " + clsCommon.myCstr(gv2.Rows(pp).Cells(SNo).Value))
                                 Return False
                                 'Continue For
                             End If
@@ -289,7 +289,7 @@ Public Class FrmBalanceSheetPerforma1
                 gv2.CurrentRow = gv2.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -327,7 +327,7 @@ Public Class FrmBalanceSheetPerforma1
     End Sub
 
     Private Sub gv2_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv2.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Do you want to Delete the Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do you want to Delete the Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -360,11 +360,11 @@ Public Class FrmBalanceSheetPerforma1
     End Sub
 
     Sub DeleteData()
-        If common.clsCommon.MyMessageBoxShow("Do You Really Want to Delete All Data", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do You Really Want to Delete All Data", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
             clsBalanceSheetPerforma.DeleteData()
             LoadBlankGrid()
             gv2.Rows.AddNew()
-            common.clsCommon.MyMessageBoxShow("Data Deleted Successfull")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfull", Me.Text)
             btnDelete.Enabled = False
         End If
     End Sub
@@ -461,7 +461,7 @@ Public Class FrmBalanceSheetPerforma1
 
                 clsBalanceSheetPerforma.SaveData(arr)
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
@@ -493,7 +493,7 @@ Public Class FrmBalanceSheetPerforma1
             End If
             arrGLMainAccount = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

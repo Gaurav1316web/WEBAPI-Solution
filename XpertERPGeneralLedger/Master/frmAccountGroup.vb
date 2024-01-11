@@ -42,7 +42,7 @@ Public Class frmAccountGroup
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.accountGroup)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -362,7 +362,7 @@ Public Class frmAccountGroup
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -383,7 +383,7 @@ Public Class frmAccountGroup
             Dim frm As New FrmChangePrntOrdr_ACGroup()
             frm.ShowDialog()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

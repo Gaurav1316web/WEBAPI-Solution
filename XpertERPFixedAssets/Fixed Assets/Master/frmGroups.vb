@@ -97,7 +97,7 @@ Public Class FrmGroups
                 LoadData(txtGroupCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -113,7 +113,7 @@ Public Class FrmGroups
             End If
             LoadData(txtGroupCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -152,7 +152,7 @@ Public Class FrmGroups
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -361,7 +361,7 @@ Public Class FrmGroups
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsAssetGroups.DeleteData(txtGroupCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     txtGroupCode.Value = ""
                     Reset()
                 End If

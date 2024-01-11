@@ -12,7 +12,7 @@ Public Class FrmAccountMainGroup
         Try
             LoadData(fndaccgp.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -81,7 +81,7 @@ Public Class FrmAccountMainGroup
             fndaccgp.Focus()
             Return False
         ElseIf Not IsNumeric(strcode) Then
-            clsCommon.MyMessageBoxShow("Please enter numeric value in account main group code")
+            clsCommon.MyMessageBoxShow(Me, "Please enter numeric value in account main group code", Me.Text)
             fndaccgp.Focus()
             Return False
         ElseIf clsCommon.myLen(txtdes.Text) <= 0 Then
@@ -96,7 +96,7 @@ Public Class FrmAccountMainGroup
             Dim sQuery As String = "select count(*) from TSPL_ACCOUNT_MAIN_GROUPS where Group_type='" & ddlaccounttype.Text & "' and account_main_group_code<>'" & clsCommon.myCstr(fndaccgp.Value) & "'"
             Dim Check As Integer = clsDBFuncationality.getSingleValue(sQuery)
             If Check > 0 Then
-                clsCommon.MyMessageBoxShow("Retained Earnings Group is Already Exits.you can not create it again.")
+                clsCommon.MyMessageBoxShow(Me, "Retained Earnings Group is Already Exits.you can not create it again.", Me.Text)
                 ddlaccounttype.Focus()
                 Return False
             End If
@@ -108,12 +108,12 @@ Public Class FrmAccountMainGroup
         Try
             If (deleteConfirm()) Then
                 If (ClsAccountMainGroup.DeleteData(fndaccgp.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funReset()
@@ -167,12 +167,12 @@ Public Class FrmAccountMainGroup
                 obj.Account_Main_Group_Desc = clsCommon.myCstr(txtdes.Text)
                 obj.Group_Type = clsCommon.myCstr(ddlaccounttype.Text)
                 If (ClsAccountMainGroup.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Account_Main_Group_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funClose()
@@ -231,7 +231,7 @@ Public Class FrmAccountMainGroup
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
