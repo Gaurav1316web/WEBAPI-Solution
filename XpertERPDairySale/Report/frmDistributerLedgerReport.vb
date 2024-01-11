@@ -43,7 +43,7 @@ Public Class frmDistributerLedgerReport
             gv3.ReadOnly = True
             btnGenrate.Enabled = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGenrate.Enabled = True
         End Try
     End Sub
@@ -126,7 +126,7 @@ Public Class frmDistributerLedgerReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv3.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
@@ -226,7 +226,7 @@ Public Class frmDistributerLedgerReport
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -281,7 +281,7 @@ Public Class frmDistributerLedgerReport
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click

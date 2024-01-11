@@ -16,7 +16,7 @@ Public Class FrmFreeGrid
 
     Private Sub FrmFreeGrid_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         If clsCommon.myLen(ReportID) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Report ID Not found")
+            common.clsCommon.MyMessageBoxShow(Me, "Report ID Not found", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -109,7 +109,7 @@ Public Class FrmFreeGrid
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -129,7 +129,7 @@ Public Class FrmFreeGrid
         If SaveFileDialog.FileName.Equals(String.Empty) Then
             RadMessageBox.SetThemeName(gv1.ThemeName)
             ''sfd.Filter = "Excel (*.xls;*.xlsx)|*.xls;*.xlsx"
-            common.clsCommon.MyMessageBoxShow("Please enter a file name.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter a file name.", Me.Text)
             Return
         End If
         Dim fileName As String = Me.SaveFileDialog.FileName
@@ -160,7 +160,7 @@ Public Class FrmFreeGrid
                 End Try
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -244,7 +244,7 @@ Public Class FrmFreeGrid
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

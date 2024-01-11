@@ -150,12 +150,12 @@ Public Class FrmMailSMSSettingNew2
     Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(txtEmailText.Text) <= 0 AndAlso clsCommon.myLen(txtsms.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Any Of The Setting E-Mail/SMS", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Any Of The Setting E-Mail/SMS", Me.Text)
                 Return False
             End If
 
             If clsCommon.myLen(txtEmailText.Text) > 0 AndAlso clsCommon.myLen(txtmailsub.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Subject For E-Mail", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Subject For E-Mail", Me.Text)
                 Return False
             End If
 
@@ -210,17 +210,17 @@ Public Class FrmMailSMSSettingNew2
 
 
             If (RadPageViewPage3.Item.Visibility = ElementVisibility.Visible) AndAlso rbtnSelect.IsChecked = True AndAlso counter <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select atleast One User For Sending Mail", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select atleast One User For Sending Mail", Me.Text)
                 Return
             End If
 
             If clsEmailSMSSettingNew.SaveData(obj) Then
-                clsCommon.MyMessageBoxShow("Data Save Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Save Successfully", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow("Check The Data You Insert", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Check The Data You Insert", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
