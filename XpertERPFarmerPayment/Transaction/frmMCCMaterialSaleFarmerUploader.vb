@@ -209,10 +209,10 @@ Public Class frmMCCMaterialSaleFarmerUploader
     Sub CheckAndValidate()
         Dim ValidateStatus As String = String.Empty
         If Gv1.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("There is no row in grid please select a sheet to import")
+            clsCommon.MyMessageBoxShow(Me, "There is no row in grid please select a sheet to import", Me.Text)
         End If
         If ValidatedCount = Gv1.Rows.Count Then
-            clsCommon.MyMessageBoxShow("All Rows are already validated")
+            clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
             Exit Sub
         End If
         ValidatedCount = 0
@@ -462,7 +462,7 @@ Public Class frmMCCMaterialSaleFarmerUploader
                     clsCommon.ProgressBarPercentHide()
                     trans.Commit()
                     'trans.Rollback()
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Gv1.Columns.Clear()
                     Gv1.DataSource = Nothing
 
@@ -476,7 +476,7 @@ Public Class frmMCCMaterialSaleFarmerUploader
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message & " At Row No " & (i + 1))
+            clsCommon.MyMessageBoxShow(Me, ex.Message & " At Row No " & (i + 1))
         End Try
     End Sub
     Public Shared Function GetTolerane(ByVal dblBalanceQty As Double, ByVal dblQty As Double, ByVal trans As SqlTransaction) As Double

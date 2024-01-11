@@ -50,10 +50,10 @@ Public Class frmFarmerPaymentAdjEntry
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Try
             If saveData() Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
   
@@ -70,7 +70,7 @@ Public Class frmFarmerPaymentAdjEntry
         '===========================================================
 
         If clsCommon.myLen(fndFarmerCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Farmer")
+            clsCommon.MyMessageBoxShow(Me, "Please select Farmer", Me.Text)
             fndFarmerCode.Focus()
             Return False
         ElseIf clsCommon.myLen(fndDocNo.Value) <= 0 Then
@@ -80,7 +80,7 @@ Public Class frmFarmerPaymentAdjEntry
         End If
         Dim Post As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Post from TSPL_MP_PAY_ADJ_HEAD where Adjustment_No='" + fndFnAdj.Value + "' "))
         If clsCommon.CompairString(Post, "Y") = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Posted Transaction", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Posted Transaction", Me.Text)
             Return False
         End If
         Dim amt As Decimal = 0
@@ -100,12 +100,12 @@ Public Class frmFarmerPaymentAdjEntry
         'End If
 
         If amt = 0 Then
-            clsCommon.MyMessageBoxShow("Adjustment can not be created with 0 Amount.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Adjustment can not be created with 0 Amount.", Me.Text)
             Return False
         End If
 
         If amt < 0 Then
-            clsCommon.MyMessageBoxShow("Adjustment can not be created with -ve Amount.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Adjustment can not be created with -ve Amount.", Me.Text)
             Return False
         End If
 
@@ -225,7 +225,7 @@ Public Class frmFarmerPaymentAdjEntry
             If fndFnAdj.Value <> "" Then
                 Dim Post As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Post from TSPL_MP_PAY_ADJ_HEAD where Adjustment_No='" + fndFnAdj.Value + "' "))
                 If clsCommon.CompairString(Post, "Y") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Already Posted Transaction", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Already Posted Transaction", Me.Text)
                     Exit Sub
                 End If
                 If saveData() Then
@@ -234,7 +234,7 @@ Public Class frmFarmerPaymentAdjEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
      
     End Sub
@@ -253,7 +253,7 @@ Public Class frmFarmerPaymentAdjEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -266,7 +266,7 @@ Public Class frmFarmerPaymentAdjEntry
     Public Sub funDelete()
         Try
             If (clsFarmerPaymentAdjustmentEntry.DeleteData(fndFnAdj.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data deleted successfully ", Me.Text)
                 funReset()
             End If
         Catch ex As Exception
@@ -475,7 +475,7 @@ Public Class frmFarmerPaymentAdjEntry
                 fnDocAmt(fndDocNo.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -490,7 +490,7 @@ Public Class frmFarmerPaymentAdjEntry
 
     Public Sub funVendor_Data(ByVal isButtonClicked As Boolean)
         If clsCommon.myLen(fndMCC_Code.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             Exit Sub
         End If
         Dim Qry As String = "select Vendor_Code as [Code],Farmer_Name as [Name],ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],Vendor_Group_Code as [Group Code],(select case when Status ='N' then 'Active' when Status ='Y' then 'In-Active' end) as [Status] from TSPL_VENDOR_MASTER"
@@ -512,7 +512,7 @@ Public Class frmFarmerPaymentAdjEntry
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Payment Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Payment Entry", MessageBoxButtons.OK)
         End Try
         Return strName
     End Function
@@ -634,7 +634,7 @@ Public Class frmFarmerPaymentAdjEntry
     Private Sub frmAdj_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
             If saveData() Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
             postData()
@@ -681,7 +681,7 @@ Public Class frmFarmerPaymentAdjEntry
             Try
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "ReceiptAdjustmentReport", "Receipt Settlement Report")
@@ -696,21 +696,21 @@ Public Class frmFarmerPaymentAdjEntry
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("reverse and unpost the current document" + Environment.NewLine + "are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "reverse and unpost the current document" + Environment.NewLine + "are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsFarmerPaymentAdjustmentEntry.ReverseAndUnpost(fndFnAdj.Value) Then
-                    common.clsCommon.MyMessageBoxShow("successfully reversed and recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "successfully reversed and recreated", Me.Text)
                     LoadData(fndFnAdj.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -730,7 +730,7 @@ Public Class frmFarmerPaymentAdjEntry
                 'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return arrloc
     End Function

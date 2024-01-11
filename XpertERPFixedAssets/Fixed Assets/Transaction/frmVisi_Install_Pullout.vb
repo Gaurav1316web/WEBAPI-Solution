@@ -260,16 +260,16 @@ Public Class FrmVisi_Install_Pullout
                 If dgvVisi.Rows(i).Cells(colSelect).Value = True Then
                     Counter += 1
                     If clsCommon.myLen(dgvVisi.Rows(i).Cells(colTransDate).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please select Date At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
+                        clsCommon.MyMessageBoxShow(Me, "Please select Date At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
                         Return False
                     ElseIf clsCommon.myLen(dgvVisi.Rows(i).Cells(coLTtype).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please Select Type At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
+                        clsCommon.MyMessageBoxShow(Me, "Please Select Type At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
                         Return False
                     ElseIf clsCommon.myLen(dgvVisi.Rows(i).Cells(colLoc).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please Select Location At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
+                        clsCommon.MyMessageBoxShow(Me, "Please Select Location At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
                         Return False
                     ElseIf clsCommon.myLen(dgvVisi.Rows(i).Cells(colRoute).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please Select Route At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
+                        clsCommon.MyMessageBoxShow(Me, "Please Select Route At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
                         Return False
                     End If
                     Qry = "Select Visi_Installation_date from TSPL_VISI_MASTER Where Visi_Id='" + dgvVisi.Rows(i).Cells(colVisiNo).Value + "' AND Customer_Id='" + fndCustomer.Value + "'"
@@ -277,7 +277,7 @@ Public Class FrmVisi_Install_Pullout
                     Dim PulloutDate As Date = clsCommon.GetPrintDate(dgvVisi.Rows(i).Cells(colTransDate).Value, "dd/MMM/yyyy")
                     Dim ts As TimeSpan = PulloutDate - InstallationDate
                     If CInt(ts.TotalDays) < 0 Then
-                        clsCommon.MyMessageBoxShow("You cann't pullout VISI - " + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colVisiNo).Value) + " Before date - " + InstallationDate + " at Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
+                        clsCommon.MyMessageBoxShow(Me, "You cann't pullout VISI - " + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colVisiNo).Value) + " Before date - " + InstallationDate + " at Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
                         Return False
                     End If
                 End If
@@ -285,11 +285,11 @@ Public Class FrmVisi_Install_Pullout
             If Counter > 0 Then
                 Return True
             Else
-                clsCommon.MyMessageBoxShow("Please Select Atleast Single Row")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Row", Me.Text)
                 Return False
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select Customer")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Customer", Me.Text)
             fndCustomer.Focus()
             Return False
         End If

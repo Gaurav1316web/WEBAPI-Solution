@@ -1204,7 +1204,7 @@ Public Class frmAssetWork
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1221,7 +1221,7 @@ Public Class frmAssetWork
             End If
 
         Else
-            clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+            clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
         End If
     End Sub
 
@@ -1253,7 +1253,7 @@ Public Class frmAssetWork
         Dim whrcls As String
         Dim arr As New ArrayList()
         If txtLocation.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please first select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
             Return
         End If
         arr = clsERPFuncationality.glaccountquery(objCommonVar.CurrentUserCode)
@@ -1659,17 +1659,17 @@ Public Class frmAssetWork
 
         If ShowCapexCodeandSubCode = True Then
             If clsCommon.myLen(fndcapexsubcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("please select capex sub code.")
+                clsCommon.MyMessageBoxShow(Me, "please select capex sub code.", Me.Text)
                 fndcapexcode.Focus()
                 Return False
             End If
             If clsCommon.CompairString(cmbRefType.SelectedValue, "WO") <> CompairStringResult.Equal Then
                 If clsCommon.myCdbl(lbl_BalAmountWithTolerenace.Text) < clsCommon.myCdbl(lblTotalAmt.Text) Then
-                    clsCommon.MyMessageBoxShow("Document amount exceed budget amount and above tolerence limit.")
+                    clsCommon.MyMessageBoxShow(Me, "Document amount exceed budget amount and above tolerence limit.", Me.Text)
                     Return False
                 End If
                 If clsCommon.myCdbl(lbl_BalAmount.Text) < clsCommon.myCdbl(lblTotalAmt.Text) Then
-                    clsCommon.MyMessageBoxShow("Warning: Document amount exceed budget amount but under tolerence limit.")
+                    clsCommon.MyMessageBoxShow(Me, "Warning: Document amount exceed budget amount but under tolerence limit.", Me.Text)
                 End If
             End If
         End If
@@ -1698,7 +1698,7 @@ Public Class frmAssetWork
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -1849,7 +1849,7 @@ Public Class frmAssetWork
                     objTr.AssetsCode = txtAssetCode.Value
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -1895,7 +1895,7 @@ Public Class frmAssetWork
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -2239,7 +2239,7 @@ Public Class frmAssetWork
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2295,7 +2295,7 @@ Public Class frmAssetWork
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2310,12 +2310,12 @@ Public Class frmAssetWork
                 '' commented for urgent checkin
                 Dim objAssetWorkHead As New clsAssetWorkHead()
                 If (objAssetWorkHead.PostData(Form_ID, txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2340,7 +2340,7 @@ Public Class frmAssetWork
                 End If
                 If (clsAssetWorkHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -2368,7 +2368,7 @@ Public Class frmAssetWork
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2644,7 +2644,7 @@ Public Class frmAssetWork
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2663,7 +2663,7 @@ Public Class frmAssetWork
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -2720,7 +2720,7 @@ Public Class frmAssetWork
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2812,7 +2812,7 @@ Public Class frmAssetWork
 
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2939,7 +2939,7 @@ Public Class frmAssetWork
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3004,7 +3004,7 @@ Public Class frmAssetWork
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadDataForWorkOrder(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -3187,7 +3187,7 @@ Public Class frmAssetWork
     '===========added by shivani tyagi[BM00000009381]
     Sub PrintJVDataKDIL()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to print")
+            common.clsCommon.MyMessageBoxShow(Me, "Document No not found to print", Me.Text)
         End If
         Dim frm As New frmCrystalReportViewer()
         Dim ap_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_VENDOR_INVOICE_HEAD where against_Asset_Work='" & txtDocNo.Value & "'", Nothing))
@@ -3203,7 +3203,7 @@ Public Class frmAssetWork
     End Sub
     Sub PrintJVData()
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to print")
+            common.clsCommon.MyMessageBoxShow(Me, "Document No not found to print", Me.Text)
         End If
 
         Dim ap_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_VENDOR_INVOICE_HEAD where against_Asset_Work='" & txtDocNo.Value & "'", Nothing))
@@ -3288,14 +3288,14 @@ Public Class frmAssetWork
                         Throw New Exception("Depreciation Applied on [" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dt.Rows(0)("MaxDepDate")), "dd/MM/yyyy") + "].So cannot reverse this document")
                     End If
                 End If
-                If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                     clsAssetWorkHead.ReverseAndUnpost(txtDocNo.Value)
-                    clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3355,10 +3355,10 @@ Public Class frmAssetWork
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_JOURNAL_DETAILS ENABLE TRIGGER TRG_JD_FiscaYearEndNoUpdateNoDelete", trans)
             End If
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
