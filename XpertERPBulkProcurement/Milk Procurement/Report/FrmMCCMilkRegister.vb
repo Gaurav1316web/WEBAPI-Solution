@@ -3834,7 +3834,7 @@ Public Class FrmMCCMilkRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             RadPageView1.SelectedPage = RadPageViewPage2
-            '  ReStoreGridLayout()
+            ReStoreGridLayout()
             gv.BestFitColumns()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
