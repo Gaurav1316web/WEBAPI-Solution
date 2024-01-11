@@ -390,7 +390,7 @@ Public Class FrmPendingPOSchedule
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending PO Schedule item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending PO Schedule item", Me.Text)
         Else
             Me.Close()
         End If
@@ -426,15 +426,15 @@ Public Class FrmPendingPOSchedule
                 Next '==detail for loop
 
                 If arrVendor.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one vendor are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one vendor are not allowed.", Me.Text)
                     Return False
                 End If
                 If arrPOType.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one type are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one type are not allowed.", Me.Text)
                     Return False
                 End If
                 If arrSchedule.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one schedule type are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one schedule type are not allowed.", Me.Text)
                     Return False
                 End If
 
@@ -476,7 +476,7 @@ Public Class FrmPendingPOSchedule
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.text)
         End Try
     End Sub
 

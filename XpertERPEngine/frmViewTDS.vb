@@ -281,7 +281,7 @@ Public Class FrmViewTDS
             Exit Sub
         End If
         If (chkApplyTDS.Checked AndAlso clsCommon.myLen(txtNatureOfDeduction.Value) <= 0) Then
-            common.clsCommon.MyMessageBoxShow("Please select Deduction Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Deduction Code", Me.Text)
             txtNatureOfDeduction.Focus()
             Return
         End If

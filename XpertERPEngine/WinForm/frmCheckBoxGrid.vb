@@ -36,7 +36,7 @@ Public Class FrmCheckBoxGrid
             arrValue.Add(clsCommon.myCstr(dtpMonth.Text))
 
             If arrValue.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select date")
+                clsCommon.MyMessageBoxShow(Me, "Please select date", Me.Text)
                 Exit Sub
             End If
         Else
@@ -46,7 +46,7 @@ Public Class FrmCheckBoxGrid
                 End If
             Next
             If arrValue.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Value selected" & Environment.NewLine & "Please select atleast one Value")
+                clsCommon.MyMessageBoxShow(Me, "No Value selected" & Environment.NewLine & "Please select atleast one Value")
                 Exit Sub
             End If
         End If
@@ -91,7 +91,7 @@ Public Class FrmCheckBoxGrid
                     gv.Rows(gv.Rows.Count - 1).Cells(colSelect).Value = checkSelected(dt.Rows(i)("Value"))
                 Next
             Else
-                clsCommon.MyMessageBoxShow("No Value Found")
+                clsCommon.MyMessageBoxShow(Me, "No Value Found", Me.Text)
                 btnOkClicked = False
                 Me.Close()
             End If

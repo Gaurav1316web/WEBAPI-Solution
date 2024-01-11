@@ -19,7 +19,7 @@ Public Class FrmCrptFooter
             'Server.HtmlDecode(strValue)
             obj.Footer_Text = txtBody.Rtf
             If (obj.SaveData(obj)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
 
         End If

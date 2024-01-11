@@ -3834,7 +3834,7 @@ Public Class FrmMCCMilkRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             RadPageView1.SelectedPage = RadPageViewPage2
-            '  ReStoreGridLayout()
+            ReStoreGridLayout()
             gv.BestFitColumns()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4032,7 +4032,7 @@ Public Class FrmMCCMilkRegister
         LoadData(2)
     End Sub
 
-    Private Sub txtMCC__My_Click(sender As Object, e As EventArgs)
+    Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
         Dim arrLoc As String = ""
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
@@ -4048,7 +4048,7 @@ Public Class FrmMCCMilkRegister
         RefreshVLC()
     End Sub
 
-    Private Sub txtRoute__My_Click(sender As Object, e As EventArgs)
+    Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
         Try
             'If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
             '    txtMCC.Focus()
@@ -4066,7 +4066,7 @@ Public Class FrmMCCMilkRegister
         End Try
     End Sub
 
-    Private Sub txtVLC__My_Click(sender As Object, e As EventArgs)
+    Private Sub txtVLC__My_Click(sender As Object, e As EventArgs) Handles txtVLC._My_Click
         Try
             'If txtRoute.arrValueMember Is Nothing OrElse txtRoute.arrValueMember.Count <= 0 Then
             '    txtRoute.Focus()
