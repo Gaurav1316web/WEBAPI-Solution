@@ -62,7 +62,7 @@ Public Class FrmPendingBulkMilkSrn
                 End If
             Next
             If arrSrnNo.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No SRN selected" & Environment.NewLine & "Please select atleast one SRN")
+                clsCommon.MyMessageBoxShow(Me, "No SRN selected" & Environment.NewLine & "Please select atleast one SRN")
                 Exit Sub
             End If
             'XtraRate = txtExtraRate.Value

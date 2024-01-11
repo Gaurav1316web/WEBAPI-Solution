@@ -55,7 +55,7 @@ Public Class FrmSecondaryCustomerSale
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCustomer.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             txtCustomer.Focus()
             Return False
         End If
@@ -78,12 +78,12 @@ Public Class FrmSecondaryCustomerSale
                     Arr.Add(obj)
                 Next
                 If (clsSecondaryCustomerSale.SaveData(Arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(clsCommon.myCstr(txtCustomer.Value), clsCommon.myCstr(ddlYear.SelectedValue), clsCommon.myCstr(ddlMonth.SelectedValue))
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -107,7 +107,7 @@ Public Class FrmSecondaryCustomerSale
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -187,10 +187,10 @@ Public Class FrmSecondaryCustomerSale
     Private Sub DeleteData(ByVal strCustCode As String, ByVal Year As String, ByVal Month As String)
         Try
             If clsSecondaryCustomerSale.DeleteData(strCustCode, Year, Month) Then
-                clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -220,7 +220,7 @@ Public Class FrmSecondaryCustomerSale
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -228,7 +228,7 @@ Public Class FrmSecondaryCustomerSale
         Try
             ImportItems()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -277,7 +277,7 @@ Public Class FrmSecondaryCustomerSale
                 Next
                 If (clsSecondaryCustomerSale.SaveData(Arr)) Then
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarHide()

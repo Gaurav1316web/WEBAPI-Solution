@@ -20,7 +20,7 @@ Public Class frmgloption
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.glOptions)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -493,7 +493,7 @@ Public Class frmgloption
     End Sub
 
     Private Sub dgvsegment_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles dgvsegment.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -526,7 +526,7 @@ Public Class frmgloption
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -539,7 +539,7 @@ Public Class frmgloption
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Update Control Account 'N' for GL Accounts  " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Update Control Account 'N' for GL Accounts  " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Account_code"))
@@ -560,12 +560,12 @@ Public Class frmgloption
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -578,7 +578,7 @@ Public Class frmgloption
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Update Control Account 'Y' for Gl Accounts  " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Update Control Account 'Y' for Gl Accounts  " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Account_code"))
@@ -599,12 +599,12 @@ Public Class frmgloption
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' Anubhooti 17-Mar-2015 (GL Account For VCGL)

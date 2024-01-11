@@ -16,7 +16,7 @@ Public Class frmShareAllotment
             txtDate.Value = clsCommon.GETSERVERDATE()
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25,7 +25,7 @@ Public Class frmShareAllotment
             Dim qry As String = "Select Code, IDate As Date,Share_Code As [Share Code], Dcs_Code As [DCS Code],Name,Status, Remarks from TSPL_Share_Allotment"
             LoadData(clsCommon.ShowSelectForm("@ShareAllot", qry, "Code", Nothing, txtCode.Value, Nothing, isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -40,7 +40,7 @@ Public Class frmShareAllotment
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -81,7 +81,7 @@ Public Class frmShareAllotment
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -104,7 +104,7 @@ Public Class frmShareAllotment
                 lblUploaderCode.Text = Nothing
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -113,7 +113,7 @@ Public Class frmShareAllotment
             Dim qry As String = "Select Code,Name,IDate As [Date],Range_From As [Range From],Range_To As [Range To],Qty,Rate,Amount,Status from TSPL_SHARE_MASTER"
             fndShare.Value = clsCommon.ShowSelectForm("@Share", qry, "Code", "", fndShare.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -133,10 +133,10 @@ Public Class frmShareAllotment
                 End If
                 CalculateAmount()
             Else
-                clsCommon.MyMessageBoxShow("Fill No Of Share", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Fill No Of Share", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -148,7 +148,7 @@ Public Class frmShareAllotment
                 txtAmount.Value = 0
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -157,7 +157,7 @@ Public Class frmShareAllotment
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -185,14 +185,14 @@ Public Class frmShareAllotment
                     isNewEntry = True
                 End If
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow("Data save successfully.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Certificate No. " + strAllotedCertificate + " already alloted.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Certificate No. " + strAllotedCertificate + " already alloted.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -221,7 +221,7 @@ Public Class frmShareAllotment
         Try
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -253,7 +253,7 @@ Public Class frmShareAllotment
                 Dim Reason As String = ""
                 If (myMessages.deleteConfirm()) Then
                     If (clsShareAllotment.DeleteData(txtCode.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         AddNew()
                     End If
                 End If
@@ -261,7 +261,7 @@ Public Class frmShareAllotment
                 common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -271,7 +271,7 @@ Public Class frmShareAllotment
                 PostData(txtCode.Value)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -302,7 +302,7 @@ Public Class frmShareAllotment
                         arrCertificate.Add(dt.Rows(i)("Certificate No"))
                     Next
                     If clsCommon.myCdbl(arrCertificate.Count) < (txtNoOfShare.Value) Then
-                        clsCommon.MyMessageBoxShow("Availabe Only " + clsCommon.myCstr(arrCertificate.Count) + " Share", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Availabe Only " + clsCommon.myCstr(arrCertificate.Count) + " Share", Me.Text)
                         txtNoOfShare.Value = clsCommon.myCdbl(arrCertificate.Count)
                     End If
                     fndCertificate.arrValueMember = arrCertificate
@@ -311,12 +311,12 @@ Public Class frmShareAllotment
                         txtRate.Value = clsDBFuncationality.getSingleValue(rtQry)
                     End If
                 Else
-                    clsCommon.MyMessageBoxShow("Share not available", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Share not available", Me.Text)
                 End If
             End If
             CalculateAmount()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -342,7 +342,7 @@ TSPL_SHARE_ALLOTMENT.Code ='" & txtCode.Value & "'
                 crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "sharereport", "Share Report")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

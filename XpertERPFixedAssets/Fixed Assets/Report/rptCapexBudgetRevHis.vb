@@ -240,7 +240,7 @@ Public Class RptCapexBudgetRevHis
             'FormatGrid()
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'btnGenrate.Enabled = True
         End Try
     End Sub
@@ -347,10 +347,10 @@ Public Class RptCapexBudgetRevHis
                     clsCommon.MyExportToPDF("Capex Budget Revision History Report", gv3, arr, "Capex Budget Revision History Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -371,7 +371,7 @@ Public Class RptCapexBudgetRevHis
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv3.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -381,6 +381,6 @@ Public Class RptCapexBudgetRevHis
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Delete Layout saved successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Delete Layout saved successfully", "Information", Me.Text)
     End Sub
 End Class

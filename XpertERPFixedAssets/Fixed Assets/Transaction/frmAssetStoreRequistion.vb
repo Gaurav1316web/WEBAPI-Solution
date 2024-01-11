@@ -465,7 +465,7 @@ Public Class frmAssetStoreRequistion
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -484,7 +484,7 @@ Public Class frmAssetStoreRequistion
         ''Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Item_Desc,Unit_Code from TSPL_ITEM_MASTER where Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
 
         If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
             gv1.CurrentRow.Cells(colUnit).Value = ""
@@ -645,31 +645,31 @@ Public Class frmAssetStoreRequistion
                 Dim strchk As String = "select Status from TSPL_REQUISITION_HEAD where Requisition_Id='" + txtReqNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
 
             UpdateAllTotals()
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 txtLocation.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Item Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
                 cboItemType.Focus()
                 Return False
             End If
 
             If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsLocation.isLocatinExcisable(txtLocation.Value) Then
-                common.clsCommon.MyMessageBoxShow("Location Can't be excisable of finished goods")
+                common.clsCommon.MyMessageBoxShow(Me, "Location Can't be excisable of finished goods", Me.Text)
                 Return False
             End If
 
             If clsCommon.myLen(txtDept.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Department")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Department", Me.Text)
                 txtDept.Focus()
                 Return False
             End If
@@ -687,7 +687,7 @@ Public Class frmAssetStoreRequistion
                     End If
                 End If
                 If clsCommon.myCdbl(lbl_rebudgetamt.Text) < clsCommon.myCdbl(lblTotRAmt.Text) AndAlso clsCommon.myCdbl(lbl_rebudgetamtwithtolerence.Text) > clsCommon.myCdbl(lblTotRAmt.Text) Then
-                    clsCommon.MyMessageBoxShow("Warning: Document amount exceed budget amount but under tolerence limit.")
+                    clsCommon.MyMessageBoxShow(Me, "Warning: Document amount exceed budget amount but under tolerence limit.", Me.Text)
                 End If
             End If
 
@@ -701,7 +701,7 @@ Public Class frmAssetStoreRequistion
                             Continue For
                         End If
                         If (clsCommon.CompairString(strICode, clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)) = CompairStringResult.Equal) Then
-                            common.clsCommon.MyMessageBoxShow("Already selected Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " and  " + clsCommon.myCstr(clsCommon.myCdbl(jj + 1)) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Already selected Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " and  " + clsCommon.myCstr(clsCommon.myCdbl(jj + 1)) + "")
                             Return False
                         End If
                     Next
@@ -724,7 +724,7 @@ Public Class frmAssetStoreRequistion
             End If
             ''
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -816,7 +816,7 @@ Public Class frmAssetStoreRequistion
 
 
                 If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -834,7 +834,7 @@ Public Class frmAssetStoreRequistion
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Requisition_Id)
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Requisition_Id, NavigatorType.Current)
                     'If objCommonVar.IsDemoERP Then
@@ -845,7 +845,7 @@ Public Class frmAssetStoreRequistion
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '--------------richa 09/07/2014 Ticket No BM00000003042---------
@@ -920,7 +920,7 @@ Public Class frmAssetStoreRequistion
 
             Next
             If StrMessage <> "" Then
-                clsCommon.MyMessageBoxShow(StrMessage)
+                clsCommon.MyMessageBoxShow(Me, StrMessage, Me.Text)
             End If
         End If
     End Sub
@@ -1043,7 +1043,7 @@ Public Class frmAssetStoreRequistion
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1075,21 +1075,21 @@ Public Class frmAssetStoreRequistion
                 End If
                 ''
                 If (clsRequistionHead.PostData(txtReqNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ", Me.Text)
                     LoadData(txtReqNo.Value, NavigatorType.Current)
                     '=send sms at post if setting is on===================
                     If clsSMSAtPost_Purchase.SMSATPOST_PUR() Then
                         SMSSendOnly(True)
                     End If
                     '====================================================
-                    If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes) Then
+                    If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes) Then
                         funPrint()
                     End If
 
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1113,12 +1113,12 @@ Public Class frmAssetStoreRequistion
                 End If
                 If (clsRequistionHead.DeleteData(txtReqNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1197,7 +1197,7 @@ Public Class frmAssetStoreRequistion
             LoadData(txtReqNo.Value, NavType)
         Catch ex As Exception
             vaddnew = "N"
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1339,7 +1339,7 @@ Public Class frmAssetStoreRequistion
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1351,21 +1351,21 @@ Public Class frmAssetStoreRequistion
                 Dim intSNo As Integer = Convert.ToInt32((clsCommon.myCdbl(gv1.CurrentRow.Cells(colLineNo).Value)))
                 Dim strStatus As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colComplete).Value)
                 If clsCommon.myLen(txtReqNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "N") = CompairStringResult.Equal Then
-                    If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    If common.clsCommon.MyMessageBoxShow(Me, "Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsRequistionDetail.CompleteRequition(txtReqNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtReqNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1388,7 +1388,7 @@ Public Class frmAssetStoreRequistion
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1500,16 +1500,16 @@ Public Class frmAssetStoreRequistion
                     qry += Environment.NewLine + "Can't unpost it"
                     Throw New Exception(qry)
                 End If
-                If clsCommon.MyMessageBoxShow("Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
 
                     qry = "update TSPL_REQUISITION_HEAD set Status=0,Posting_Date=null where Requisition_Id='" + txtReqNo.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
-                    clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
                     LoadData(txtReqNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1637,14 +1637,14 @@ Public Class frmAssetStoreRequistion
         Try
             If (clsRequistionHead.CloseprData(txtReqNo.Value, closeyn)) Then
                 If closeyn = "Y" Then
-                    common.clsCommon.MyMessageBoxShow("Data Closed Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Closed Successfully ", Me.Text)
                 ElseIf closeyn = "N" Then
-                    common.clsCommon.MyMessageBoxShow("Data Opened Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Opened Successfully ", Me.Text)
                 End If
                 LoadData(txtReqNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub chkprclose_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkprclose.CheckedChanged
@@ -1674,7 +1674,7 @@ Public Class frmAssetStoreRequistion
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1684,7 +1684,7 @@ Public Class frmAssetStoreRequistion
 
     Private Sub DeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RadPageView1_SelectedPageChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadPageView1.SelectedPageChanged
@@ -1707,7 +1707,7 @@ Public Class frmAssetStoreRequistion
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1847,10 +1847,10 @@ Public Class frmAssetStoreRequistion
 
                     objEmailH.SaveData(clsUserMgtCode.frmAssetStoreRequistion, objEmailH, Nothing)
                     objEmailH = Nothing
-                    clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("First do email and sms setting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
 
             End If
 
@@ -1922,7 +1922,7 @@ Public Class frmAssetStoreRequistion
               
                     objSMSH.SaveData(clsUserMgtCode.frmAssetStoreRequistion, objSMSH, Nothing)
                     objSMSH = Nothing
-                    clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
                 End If
             End If
             'Sanjay
@@ -1952,7 +1952,7 @@ Public Class frmAssetStoreRequistion
     End Function
     Private Sub BtnMailPreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMailPreview.Click
         If clsCommon.myLen(txtReqNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select First Document No.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select First Document No.", Me.Text)
             txtReqNo.Focus()
             txtReqNo.Select()
             Return
@@ -1986,7 +1986,7 @@ Public Class frmAssetStoreRequistion
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Purchase Requisition No. " + txtReqNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Purchase Requisition No. " + txtReqNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtReqNo.Value, NavigatorType.Current)
@@ -2002,7 +2002,7 @@ Public Class frmAssetStoreRequistion
             lstUsers.Add(strEmail)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2032,7 +2032,7 @@ Public Class frmAssetStoreRequistion
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
