@@ -79,7 +79,7 @@ Public Class FrmEmployeeBandMaster
                 obj.Code = txtCode.Value
                 obj.Description = txtDesc.Text
                 If (clsEmployeeBandMaster.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                     btnSave.Text = "Update"
                     btnDelete.Enabled = True
@@ -90,7 +90,7 @@ Public Class FrmEmployeeBandMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString())
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
 
     End Sub
@@ -112,7 +112,7 @@ Public Class FrmEmployeeBandMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsEmployeeBandMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -146,7 +146,7 @@ Public Class FrmEmployeeBandMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -193,7 +193,7 @@ Public Class FrmEmployeeBandMaster
                     clsEmployeeBandMaster.SaveData(obj, clsEmployeeBandMaster.CheckNewEntry(obj.Code))
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

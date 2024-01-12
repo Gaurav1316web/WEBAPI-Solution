@@ -2109,7 +2109,7 @@ Public Class frmPaymentProcessFarmer
             Next
             gvInvoice.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4267,9 +4267,9 @@ Public Class frmPaymentProcessFarmer
     Sub deleteData()
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Want To Delete The Doc No : " & fndDocNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Want To Delete The Doc No : " & fndDocNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     If clsPaymentProcessFarmerHead.deleteData(fndDocNo.Value) Then
-                        clsCommon.MyMessageBoxShow("Deleted successFully")
+                        clsCommon.MyMessageBoxShow(Me, "Deleted successFully", Me.Text)
                         Reset()
                     End If
                 End If
@@ -4277,7 +4277,7 @@ Public Class frmPaymentProcessFarmer
                 Throw New Exception("Doc No not Found to delete")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4306,7 +4306,7 @@ Public Class frmPaymentProcessFarmer
                     Next
                     tran.Commit()
                     If Not isPostbtnClick Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                 Catch ex As Exception
                     tran.Rollback()
@@ -4957,7 +4957,7 @@ Public Class frmPaymentProcessFarmer
             If isPostbtnClick Then
                 Throw New Exception(ex.Message)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -5598,7 +5598,7 @@ Public Class frmPaymentProcessFarmer
             GC.Collect()
             GC.WaitForPendingFinalizers()
             SaveData(True)
-            If clsCommon.MyMessageBoxShow("Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                 If chkSelected.Checked Then
                     clsPaymentProcessFarmerHead.ProcessDataSelected(fndDocNo.Value, IIf(clsCommon.myLen(txtNEFTUploaderREFNo.Tag) > 0, txtNEFTUploaderREFNo.Tag, frm.desc))
                 Else
@@ -5606,7 +5606,7 @@ Public Class frmPaymentProcessFarmer
                 End If
 
 
-                clsCommon.MyMessageBoxShow("Payment Processed")
+                clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
 
                 'LoadData(fndDocNo.Value, NavigatorType.Current)
                 btnSave.Enabled = False
@@ -5618,7 +5618,7 @@ Public Class frmPaymentProcessFarmer
             End If
             ' End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5704,7 +5704,7 @@ Public Class frmPaymentProcessFarmer
         isLoad = True
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Location segment")
+                clsCommon.MyMessageBoxShow(Me, "Please select Location segment", Me.Text)
                 Exit Sub
             End If
             If txtVSP.arrValueMember Is Nothing OrElse txtVSP.arrValueMember.Count <= 0 Then
@@ -5720,7 +5720,7 @@ Public Class frmPaymentProcessFarmer
                 LoadInvoiceGridData()
                 If isMultipleDocumentForSameVendor() Then
                     gvInvoice.Rows.Clear()
-                    clsCommon.MyMessageBoxShow("Multiple Invoices For Same vendor Found in selected date range" & Environment.NewLine & "Please select another Date range and continue " & Environment.NewLine & getMultipleDocumentForSameVendor())
+                    clsCommon.MyMessageBoxShow(Me, "Multiple Invoices For Same vendor Found in selected date range" & Environment.NewLine & "Please select another Date range and continue " & Environment.NewLine & getMultipleDocumentForSameVendor())
                     Exit Sub
                 End If
                 getVendors()
@@ -5740,7 +5740,7 @@ Public Class frmPaymentProcessFarmer
                 setVSPExcssAmt()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isLoad = False
         End Try
@@ -6448,12 +6448,12 @@ Public Class frmPaymentProcessFarmer
                 Dim PaymentCycleValue As Integer = 0
                 ' If Not isLoad Then
                 If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please select the Location first")
+                    clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
                     Exit Sub
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select isnull(TSPL_MCC_MASTER.empOnAmountOnly,0) as empOnAmountOnly,TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code =(select Location_Code  from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & fndLoc.Value & "' and Location_Category='MCC' and Rejected_Type='N') ")
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                    clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                     Exit Sub
                 End If
                 PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -6462,7 +6462,7 @@ Public Class frmPaymentProcessFarmer
                 If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
 
                     If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                        clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                        clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
                         dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         Exit Sub
@@ -6475,7 +6475,7 @@ Public Class frmPaymentProcessFarmer
                     End If
                 ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                     If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                        clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                        clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                         dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         Exit Sub
@@ -6483,7 +6483,7 @@ Public Class frmPaymentProcessFarmer
                     dtpToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDate.Value)
                 ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                     If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                        clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                        clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                         dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         Exit Sub
@@ -6574,7 +6574,7 @@ Public Class frmPaymentProcessFarmer
             Dim rownummain As Integer = 0
             Try
                 If gvDeduction.CurrentRow.Cells(colReduceDeduc).Value > gvDeduction.CurrentRow.Cells(colItemAmt).Value Then
-                    clsCommon.MyMessageBoxShow("Reduce Deduction can not be more than invoice amount ")
+                    clsCommon.MyMessageBoxShow(Me, "Reduce Deduction can not be more than invoice amount ", Me.Text)
                     gvDeduction.CurrentRow.Cells(colReduceDeduc).Value = 0
                     Exit Sub
                 End If
@@ -6615,7 +6615,7 @@ Public Class frmPaymentProcessFarmer
             Dim rownummain As Integer = 0
             Try
                 If gvMccSale.CurrentRow.Cells(colReduceDeduc).Value > gvMccSale.CurrentRow.Cells(colItemAmt).Value Then
-                    clsCommon.MyMessageBoxShow("Reduce Deduction can not be more than invoice amount ")
+                    clsCommon.MyMessageBoxShow(Me, "Reduce Deduction can not be more than invoice amount ", Me.Text)
                     gvMccSale.CurrentRow.Cells(colReduceDeduc).Value = 0
                     Exit Sub
                 End If
@@ -6712,7 +6712,7 @@ Public Class frmPaymentProcessFarmer
                 Dim frm As New FrmFreeGrid
                 frm.dt = getMccSaleList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "MCC Sale List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -6725,7 +6725,7 @@ Public Class frmPaymentProcessFarmer
                 Dim frm As New FrmFreeGrid
                 frm.dt = getMccSaleReturnList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "MCC Sale Return List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -6738,7 +6738,7 @@ Public Class frmPaymentProcessFarmer
                 Dim frm As New FrmFreeGrid
                 frm.dt = getItemIssueList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Item Issue List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -6750,7 +6750,7 @@ Public Class frmPaymentProcessFarmer
                 Dim frm As New FrmFreeGrid
                 frm.dt = getItemIssueList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Item Issue Return List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -6763,7 +6763,7 @@ Public Class frmPaymentProcessFarmer
                 Dim frm As New FrmFreeGrid
                 frm.dt = getDeductionList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Deduction List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -6776,7 +6776,7 @@ Public Class frmPaymentProcessFarmer
                 Dim frm As New FrmFreeGrid
                 frm.dt = getCreditNoteList(gv.CurrentRow.Cells(colVendorCode).Value)
                 If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                     Exit Sub
                 End If
                 frm.strFormName = "Credit Note List For VSP: " & gv.CurrentRow.Cells(colVendorCode).Value
@@ -6938,7 +6938,7 @@ Public Class frmPaymentProcessFarmer
             clsCommon.MyExportToExcelGrid("Payment Process Details", gv, arr, "Payment Process")
             gv.Columns(colSelect).IsVisible = True
         Else
-            clsCommon.MyMessageBoxShow("No Data Found to export")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
         End If
     End Sub
 
@@ -7109,12 +7109,12 @@ Public Class frmPaymentProcessFarmer
             Dim PaymentCycleValue As Integer = 0
             ' If Not isLoad Then
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select the Location first")
+                clsCommon.MyMessageBoxShow(Me, "Please select the Location first")
                 Exit Sub
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code =(select Location_Code  from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & fndLoc.Value & "' and Location_Category='MCC' and Rejected_Type='N') ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -7122,7 +7122,7 @@ Public Class frmPaymentProcessFarmer
             Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
             If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                 If dtpFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
                     dtpFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
                     dtpToDate.Value = dtpFromDate.Value
                     Exit Sub
@@ -7138,7 +7138,7 @@ Public Class frmPaymentProcessFarmer
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                     dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -7146,7 +7146,7 @@ Public Class frmPaymentProcessFarmer
                 dtpToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                     dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -7200,7 +7200,7 @@ Public Class frmPaymentProcessFarmer
 
             txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm("PPfPVLF", qry, "Code", "", txtVSP.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7353,7 +7353,7 @@ Public Class frmPaymentProcessFarmer
             End If
             Return dt
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Return Nothing
         End If
 
@@ -7468,7 +7468,7 @@ Public Class frmPaymentProcessFarmer
             frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "SubMilkPurchaseBill.rpt", "SubMilkPurchaseBill.rpt", "Address.rpt")
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
 
     End Sub
@@ -7555,10 +7555,10 @@ Public Class frmPaymentProcessFarmer
                     frmCRV = Nothing
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7676,7 +7676,7 @@ Public Class frmPaymentProcessFarmer
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -7686,7 +7686,7 @@ Public Class frmPaymentProcessFarmer
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         clsGridLayout.DeleteData(MyBase.Form_ID + "M", objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()
@@ -7903,13 +7903,13 @@ Public Class frmPaymentProcessFarmer
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Reverse and unpost The payment Process " + Environment.NewLine + "Are You sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Reverse and unpost The payment Process " + Environment.NewLine + "Are You sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     If chkSelected.Checked Then
                         clsPaymentProcessFarmerHead.ReverseAndUnpostSelected(fndDocNo.Value)
                     Else
                         clsPaymentProcessFarmerHead.ReverseAndUnpost(fndDocNo.Value)
                     End If
-                    clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     LoadData(fndDocNo.Value, NavigatorType.Current)
                 End If
 
@@ -8067,10 +8067,10 @@ Public Class frmPaymentProcessFarmer
                     frmCRV = Nothing
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8088,7 +8088,7 @@ Public Class frmPaymentProcessFarmer
             clsCommon.MyExportToExcelGrid("Payment To Farmer Details", gvPaymentToFarmer, arr, "Payment Process")
             gv.Columns(colSelect).IsVisible = True
         Else
-            clsCommon.MyMessageBoxShow("No Data Found to export")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
         End If
     End Sub
 
@@ -8253,10 +8253,10 @@ Public Class frmPaymentProcessFarmer
                     'frmCRV = Nothing
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

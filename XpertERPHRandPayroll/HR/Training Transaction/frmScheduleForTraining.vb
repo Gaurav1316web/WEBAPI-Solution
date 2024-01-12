@@ -38,7 +38,7 @@ Public Class frmScheduleForTraining
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmMilkPurchaseInvoice)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -91,14 +91,14 @@ Public Class frmScheduleForTraining
                 If clsScheduleForTraining.SaveData(objHead, objList, objList_Resource, trans) Then
                     trans.Commit()
                     UcAttachment1.SaveData(objHead.Doc_Code)
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(objHead.Doc_Code)
                 End If
 
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -108,7 +108,7 @@ Public Class frmScheduleForTraining
                 Dim strchk As String = "select isPOSTED from TSPL_Schedule_Training_HEAD where DOC_COde='" + txtCode.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -134,7 +134,7 @@ Public Class frmScheduleForTraining
                 Errorcontrol.ResetError(fndTrainingCourse)
             End If
             If (DtpScheduleStartDate.Value) > (DtpScheduleEndDate.Value) Then
-                clsCommon.MyMessageBoxShow("StartDate should not be greater than EndDate ")
+                clsCommon.MyMessageBoxShow(Me, "StartDate should not be greater than EndDate ", Me.Text)
                 Return False
             End If
             Dim GridRow As Integer = 0
@@ -165,7 +165,7 @@ Public Class frmScheduleForTraining
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -280,12 +280,12 @@ Public Class frmScheduleForTraining
                     End If
                 End If
                 If (clsScheduleForTraining.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -402,7 +402,7 @@ Public Class frmScheduleForTraining
             'AddNew() 
             'gv1.Rows.AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadBlankGrid()
@@ -527,7 +527,7 @@ Public Class frmScheduleForTraining
                 Me.gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -586,7 +586,7 @@ Public Class frmScheduleForTraining
 
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
         Try
-            If clsCommon.MyMessageBoxShow("Do You want to delete this Row Permanently . Are You Sure.?", "Delete Row", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do You want to delete this Row Permanently . Are You Sure.?", "Delete Row", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim sQuery As String = "delete from Tspl_Schedule_Training_Employee_Detail where DOC_Code='" & gv1.CurrentRow.Cells("DOC CODE").Value & "' and Request_Code='" & gv1.CurrentRow.Cells(Col_Emp_Code).Value & "'"
                 clsDBFuncationality.ExecuteNonQuery(sQuery)
             Else
@@ -638,14 +638,14 @@ Public Class frmScheduleForTraining
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtCode.Value)
                 'If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                 '    PrintDataNew()
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

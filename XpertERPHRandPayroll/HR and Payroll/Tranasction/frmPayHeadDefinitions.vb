@@ -91,7 +91,7 @@ Public Class frmPayHeadDefinitions
             obj.Account_Code = clsCommon.myCstr(Me.fndGLAccount.Value)
             obj.GL_Employer_Account = clsCommon.myCstr(Me.fndEmpGLAcc.Value)
             If (obj.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.PAY_HEAD_CODE, NavigatorType.Current)
                 'Else
                 '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
@@ -181,7 +181,7 @@ Public Class frmPayHeadDefinitions
 
 
         ElseIf clsCommon.myCstr(txtCode.Value).Contains("_") = True Then
-            clsCommon.MyMessageBoxShow("Pay Head must not contain (_) ie. underscore.")
+            clsCommon.MyMessageBoxShow(Me, "Pay Head must not contain (_) ie. underscore.", Me.Text)
             txtCode.Focus()
             Return False
 
@@ -232,7 +232,7 @@ Public Class frmPayHeadDefinitions
         End If
         Dim Pay_Head_Code As String = clsPayHeadDefinitions.ValidatePayHeadSequence(txtCode.Value, txtSerialNo.Text, IIf(chkIsEarning.Checked, 1, 0))
         If clsCommon.myLen(Pay_Head_Code) > 0 Then
-            clsCommon.MyMessageBoxShow("Invalid Sequence no for Pay Head " & txtCode.Value & ". Pay Head  " & Pay_Head_Code & " already contains sequence no " & txtSerialNo.Text & "")
+            clsCommon.MyMessageBoxShow(Me, "Invalid Sequence no for Pay Head " & txtCode.Value & ". Pay Head  " & Pay_Head_Code & " already contains sequence no " & txtSerialNo.Text & "")
             Return False
         End If
 
@@ -245,7 +245,7 @@ Public Class frmPayHeadDefinitions
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -275,7 +275,7 @@ Public Class frmPayHeadDefinitions
                 End If
                 If (clsPayHeadDefinitions.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -404,7 +404,7 @@ Public Class frmPayHeadDefinitions
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -535,7 +535,7 @@ Public Class frmPayHeadDefinitions
                     obj.SaveData(obj, clsPayHeadDefinitions.CheckNewEntry(obj.PAY_HEAD_CODE))
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -758,7 +758,7 @@ Public Class frmPayHeadDefinitions
             fndGLAccount.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("GLACJournalEntry", qry, "Account_Code", whrcls, clsCommon.myCstr(fndGLAccount.Value), "Account_Code", isButtonClick))
             txtGLAccountDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(fndGLAccount.Value) + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -838,7 +838,7 @@ Public Class frmPayHeadDefinitions
             fndEmpGLAcc.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("GLACJournalEntry", qry, "Account_Code", whrcls, clsCommon.myCstr(fndGLAccount.Value), "Account_Code", isButtonClick))
             txtEmpGLAcc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(fndGLAccount.Value) + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndEmpGLAcc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndEmpGLAcc._MYValidating
@@ -898,7 +898,7 @@ Public Class frmPayHeadDefinitions
             fndNatureOfDeduction.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("NatureofDED", qry, "Code", "", clsCommon.myCstr(fndNatureOfDeduction.Value), "Code", isButtonClicked))
             lblNatureOfDeduction.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_TDS_DEDUCTION_HEAD where Deduction_Code='" + clsCommon.myCstr(fndNatureOfDeduction.Value) + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -41,12 +41,12 @@ Public Class frmFormA3_Report
     Sub PrintData()
         Try
             If clsCommon.myLen(cboYear.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Year.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Year.", Me.Text)
                 Return
             End If
 
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Employee Or Select All")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select AtLeast Single Employee Or Select All", Me.Text)
                 Return
             End If
 
@@ -65,13 +65,13 @@ Public Class frmFormA3_Report
 
             Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If DT.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrsytal As New frmCrystalReportViewer()
                 frmcrsytal.funreport(CrystalReportFolder.HRPayroll, DT, "crptFormA3", "Form A3")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub cboYear_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboYear.Enter

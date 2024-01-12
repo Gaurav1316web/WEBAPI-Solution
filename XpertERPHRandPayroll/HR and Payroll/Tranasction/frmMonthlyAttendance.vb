@@ -268,14 +268,14 @@ Public Class frmMonthlyAttendance
     End Sub
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsMonthAttendance.ReverseAndUnpost(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub frmMonthlyAttendance_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -371,7 +371,7 @@ Public Class frmMonthlyAttendance
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -429,7 +429,7 @@ Public Class frmMonthlyAttendance
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -594,7 +594,7 @@ Public Class frmMonthlyAttendance
             Dim QryStr As String = "select POSTED from TSPL_MONTHLY_ATTENDANCE where MTA_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -619,12 +619,12 @@ Public Class frmMonthlyAttendance
                 + clsCommon.myCdbl(grow.Cells(colHolidayDays).Value) + clsCommon.myCdbl(grow.Cells(colWeeklyOffDays).Value) + clsCommon.myCdbl(grow.Cells(colEL).Value) + clsCommon.myCdbl(grow.Cells(colCL).Value) + clsCommon.myCdbl(grow.Cells(colMATL).Value) + clsCommon.myCdbl(grow.Cells(colMEDL).Value) + clsCommon.myCdbl(grow.Cells(colCOFF).Value) + clsCommon.myCdbl(grow.Cells(colOther).Value)) <>
                 clsCommon.myCdbl(grow.Cells(colPayPeriodDays).Value) Then
                     'And (clsCommon.myCdbl(grow.Cells(colPayableDays).Value) + clsCommon.myCdbl(grow.Cells(colLOPDays).Value)) <> clsCommon.myCdbl(grow.Cells(colPayPeriodDays).Value) Then
-                    clsCommon.MyMessageBoxShow("No of days is not equal to total days in row : " + ii.ToString() + ".")
+                    clsCommon.MyMessageBoxShow(Me, "No of days is not equal to total days in row : " + ii.ToString() + ".")
                     Return False
                 End If
                 '' check attendance code of the employee
                 If clsDailyAttendance.CheckEmployeeAttendanceType(clsCommon.myCstr(grow.Cells(colempCode).Value), findPayperiod.Value, "MT") = False Then
-                    clsCommon.MyMessageBoxShow("Employee Code " & clsCommon.myCstr(grow.Cells(colempCode).Value) & " at row number : " & (grow.Index + 1) & " does not belong to Monthly Attendance. Update Attendance type in Employee Status.")
+                    clsCommon.MyMessageBoxShow(Me, "Employee Code " & clsCommon.myCstr(grow.Cells(colempCode).Value) & " at row number : " & (grow.Index + 1) & " does not belong to Monthly Attendance. Update Attendance type in Employee Status.")
                     Return False
                 End If
             End If
@@ -642,7 +642,7 @@ Public Class frmMonthlyAttendance
                     If clsCommon.CompairString(strEmpCode, strInnerEmpCode) = CompairStringResult.Equal Then
                         Dim Msg As String = "Same Employee Exist at Row No " + clsCommon.myCstr(jj + 1) + " And " + clsCommon.myCstr(jjq + 1)
                         Msg = Msg + Environment.NewLine + "Employee: " + strEmpCode + ""
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg)
                         Return False
                     End If
                 Next
@@ -650,7 +650,7 @@ Public Class frmMonthlyAttendance
 
         Next
         If countRecord <= 0 Then
-            clsCommon.MyMessageBoxShow("Employee Not Available for Save.") ' Ticket No : BHA/02/05/19-000880 by prabhakar
+            clsCommon.MyMessageBoxShow(Me, "Employee Not Available for Save.", Me.Text) ' Ticket No : BHA/02/05/19-000880 by prabhakar
             Return False
         End If
         If RaiseLeaveBalanceAlert(True) = False Then
@@ -785,7 +785,7 @@ Public Class frmMonthlyAttendance
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -795,7 +795,7 @@ Public Class frmMonthlyAttendance
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsMonthAttendance.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -814,19 +814,19 @@ Public Class frmMonthlyAttendance
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsMonthAttendance.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -867,7 +867,7 @@ Public Class frmMonthlyAttendance
 
                 If clsCommon.myLen(LocCode) > 0 Then
                     If clsCommon.myLen(findPayperiod.Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please select payperiod code")
+                        clsCommon.MyMessageBoxShow(Me, "Please select payperiod code", Me.Text)
                         Return
                     End If
 
@@ -898,7 +898,7 @@ Public Class frmMonthlyAttendance
                             If clsCommon.myLen(DivCode) > 0 Then
                                 WhrCls = " AND ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'') ='" & DivCode & "' and (RESIGNATION_SUBMIT_DATE is null or ((cast('1' + '/' + datename(month,RESIGNATION_SUBMIT_DATE) + '/' + cast(Year(RESIGNATION_SUBMIT_DATE) as varchar) as date) >=(select DATE_FROM from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & clsCommon.myCstr(Me.findPayperiod.Value) & "')))) "
                             Else
-                                clsCommon.MyMessageBoxShow("First select division code.")
+                                clsCommon.MyMessageBoxShow(Me, "First select division code.", Me.Text)
                                 Return
                             End If
                         Else
@@ -907,16 +907,16 @@ Public Class frmMonthlyAttendance
                         End If
                         transportSql.ExporttoExcel(str1, " AND TSPL_LOCATION_MASTER.Location_Code ='" & LocCode & "'" & WhrCls & "", Me)
                     Else
-                        clsCommon.MyMessageBoxShow("No data found to export")
+                        clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
                     End If
                 Else
-                    clsCommon.MyMessageBoxShow("First select location code.")
+                    clsCommon.MyMessageBoxShow(Me, "First select location code.", Me.Text)
                 End If
                 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -924,7 +924,7 @@ Public Class frmMonthlyAttendance
         Try
             ImportMonthlyAttendance()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1041,11 +1041,11 @@ Public Class frmMonthlyAttendance
 
                 obj.SaveData(obj, True)
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!, ", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!, ", Me.Text, MessageBoxButtons.OK)
                 LoadData(obj.MTA_CODE, NavigatorType.Current)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message & " At Line No : " & i)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i)
             End Try
 
         End If
@@ -1074,7 +1074,7 @@ Public Class frmMonthlyAttendance
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -1282,12 +1282,12 @@ Public Class frmMonthlyAttendance
     End Sub
     Sub FillEmployeeGrid()
         If clsCommon.myLen(txtBranch.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location.", Me.Text)
             txtBranch.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(findPayperiod.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Pay Period.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Pay Period.", Me.Text)
             findPayperiod.Focus()
             Exit Sub
         End If
@@ -1423,7 +1423,7 @@ Public Class frmMonthlyAttendance
                 gvMonthlyAttendance.Rows(irow).Cells(colPayDays).Value = clsCommon.myCdbl(gvMonthlyAttendance.Rows(irow).Cells(colPayPeriodDays).Value) - clsCommon.myCdbl(gvMonthlyAttendance.Rows(irow).Cells(colAbsentDays).Value)
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1454,7 +1454,7 @@ Public Class frmMonthlyAttendance
                    + clsCommon.myCdbl(row.Cells(colHolidayDays).Value) + clsCommon.myCdbl(row.Cells(colWeeklyOffDays).Value) + clsCommon.myCdbl(row.Cells(colEL).Value) + clsCommon.myCdbl(row.Cells(colCL).Value) + clsCommon.myCdbl(row.Cells(colMATL).Value) + clsCommon.myCdbl(row.Cells(colMEDL).Value) + clsCommon.myCdbl(row.Cells(colCOFF).Value) + clsCommon.myCdbl(row.Cells(colOther).Value))
 
             If clsCommon.myCdbl(row.Cells(colAbsentDays).Value) < 0 Then
-                clsCommon.MyMessageBoxShow("Please check absent days can not be negative")
+                clsCommon.MyMessageBoxShow(Me, "Please check absent days can not be negative", Me.Text)
                 row.Cells(colAbsentDays).Value = AbsentDays
                 row.Cells(colPresentDays).Value = PresentDays
                 row.Cells(colCL).Value = CL
@@ -1470,7 +1470,7 @@ Public Class frmMonthlyAttendance
 
             row.Cells(colPayDays).Value = clsCommon.myCdbl(row.Cells(colPayPeriodDays).Value) - clsCommon.myCdbl(row.Cells(colAbsentDays).Value)
             If row.Cells(colPayPeriodDays).Value < clsCommon.myCdbl(row.Cells(colCL).Value + row.Cells(colEL).Value + row.Cells(colAbsentDays).Value + row.Cells(colPresentDays).Value + row.Cells(colCOFF).Value + row.Cells(colMATL).Value + row.Cells(colMEDL).Value + row.Cells(colOther).Value + row.Cells(colHolidayDays).Value + row.Cells(colWeeklyOffDays).Value) Then
-                clsCommon.MyMessageBoxShow("Please check total of all leaves should not be more than from total days")
+                clsCommon.MyMessageBoxShow(Me, "Please check total of all leaves should not be more than from total days", Me.Text)
                 Return
             End If
         Else
@@ -1616,7 +1616,7 @@ Public Class frmMonthlyAttendance
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1657,7 +1657,7 @@ Public Class frmMonthlyAttendance
                 dt = Nothing
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1670,12 +1670,12 @@ Public Class frmMonthlyAttendance
             Dim cond As String = ""
 
             If clsCommon.myLen(txtBranch.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Location.")
+                clsCommon.MyMessageBoxShow(Me, "Please select Location.", Me.Text)
                 txtBranch.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(findPayperiod.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Pay Period.")
+                clsCommon.MyMessageBoxShow(Me, "Please select Pay Period.", Me.Text)
                 findPayperiod.Focus()
                 Exit Sub
             End If
@@ -1703,7 +1703,7 @@ Public Class frmMonthlyAttendance
             transportSql.ExporttoExcel(strq, "", Me)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1719,7 +1719,7 @@ Public Class frmMonthlyAttendance
             obj.GridColumns = gvMonthlyAttendance.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1728,7 +1728,7 @@ Public Class frmMonthlyAttendance
 
     Private Sub Delete_Layout_Click(sender As Object, e As EventArgs) Handles Delete_Layout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -1816,7 +1816,7 @@ Public Class frmMonthlyAttendance
         Try
             RefreshBiometricAttendanceSummary()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1824,7 +1824,7 @@ Public Class frmMonthlyAttendance
         Try
             transportSql.QuickExportToExcel(gvAttendanceDetail, "", "Monthly Attendance Detail")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1832,7 +1832,7 @@ Public Class frmMonthlyAttendance
         Try
             transportSql.QuickExportToExcel(gvAttendanceSummary, "", "Monthly Attendance Summary")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1917,7 +1917,7 @@ Public Class frmMonthlyAttendance
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1954,25 +1954,25 @@ Public Class frmMonthlyAttendance
                 lblOTHERBal.Text = clsMonthAttendance.GetLeaveBalance(Pay_Period_Code, EMP_Code, OTHER_Leave_Code)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnDeleteDS_Click(sender As Object, e As EventArgs) Handles btnDeleteDS.Click
         Try
             If clsCommon.myLen(txtBranch.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Select Location", Me.Text)
                 txtBranch.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(findPayperiod.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Select Payperiod")
+                common.clsCommon.MyMessageBoxShow(Me, "Select Payperiod", Me.Text)
                 findPayperiod.Focus()
                 Exit Sub
             End If
             If (myMessages.deleteConfirm()) Then
                 If (clsBiometricAttendance.DeleteData(txtBranch.Value, findPayperiod.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Biometric Detail/Summary Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Biometric Detail/Summary Data Deleted Successfully ", Me.Text)
                     GroupBox1.Text = ""
                     lblELBal.Text = "0.0"
                     lblCLBal.Text = "0.0"
@@ -2008,7 +2008,7 @@ Public Class frmMonthlyAttendance
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2024,7 +2024,7 @@ Public Class frmMonthlyAttendance
         Try
             LoadBiometricAttendance(True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

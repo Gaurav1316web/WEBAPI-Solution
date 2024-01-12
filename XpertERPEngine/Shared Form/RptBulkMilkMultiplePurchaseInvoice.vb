@@ -22,7 +22,7 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -149,7 +149,7 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -159,20 +159,20 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Public Sub loadReport()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         If ChkSupplierSelect.IsChecked AndAlso cbgSupplier.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Supplier or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Supplier or select all.", Me.Text)
             Exit Sub
         End If
         Dim sQuery As String = " select  Cast(1 as BIT) as 'Check',DOC_NO,convert(varchar,DOC_DATE,103)as DOC_DATE,tspl_Bulk_milk_purchase_Invoice_head.Loc_Code,Location_desc,tspl_Bulk_milk_purchase_Invoice_head.VENDOR_CODE as Ven_code,Vendor_Name,VENDOR_INVOICE_NO,convert(decimal(18,2),Total_Qty)as Total_Qty,convert(decimal(18,2),Total_FAT_KG)as Total_FAT_KG,convert(decimal(18,2),Total_SNF_KG)as Total_SNF_KG,convert(decimal(18,2),Total_AMT)as Total_AMT from tspl_Bulk_milk_purchase_Invoice_head left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=tspl_Bulk_milk_purchase_Invoice_head.Loc_Code left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=tspl_Bulk_milk_purchase_Invoice_head.VENDOR_CODE  where "
@@ -198,7 +198,7 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -305,16 +305,16 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
 
 
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         If ChkSupplierSelect.IsChecked AndAlso cbgSupplier.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Supplier or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Supplier or select all.", Me.Text)
             Exit Sub
         End If
         Dim TankerFromMaster As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GateEntryTankerFromTankerMaster, clsFixedParameterCode.GateEntryTankerFromTankerMaster, Nothing))
@@ -581,7 +581,7 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         ' printDetails(EnumExportTo.Excel)
     End Sub
@@ -607,16 +607,16 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
         Dim ToDate As String = txtToDate.Text
 
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Location or select all.", Me.Text)
             Exit Sub
         End If
         If ChkSupplierSelect.IsChecked AndAlso cbgSupplier.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Supplier or select all.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Supplier or select all.")
             Exit Sub
         End If
 
@@ -635,7 +635,7 @@ Public Class RptBulkMilkMultiplePurchaseInvoice
         Try
             Laad_CheckDoc()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 

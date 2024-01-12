@@ -53,7 +53,7 @@ Public Class frmJournalEntry
         Try
             ERPStartDate = clsCommon.myCDate(objCommonVar.ERPStartDate)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
+            clsCommon.MyMessageBoxShow(Me, "Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
 
@@ -234,7 +234,7 @@ Public Class frmJournalEntry
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -255,19 +255,19 @@ Public Class frmJournalEntry
             Dim strchk As String = "select Authorized from TSPL_JOURNAL_MASTER where Voucher_No='" + fndVoucher.Value + "'"
             Dim chkpost As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strchk))
             If chkpost = "A" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Exit Sub
             End If
         End If
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select location")
+            clsCommon.MyMessageBoxShow(Me, "Please select location", Me.Text)
             txtLocation.Focus()
             Exit Sub
         End If
         Try
             UcAttachment1.AllowToSave()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Exit Sub
         End Try
 
@@ -319,11 +319,11 @@ Public Class frmJournalEntry
                         Return
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Select Source Code", "Journal-Entry", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Source Code", "Journal-Entry", MessageBoxButtons.OK)
                     fndSrcCode.Focus()
                 End If
             Else
-                If common.clsCommon.MyMessageBoxShow("Out Of Balance Amount,Do you want to Save ?", "Journal-Entry", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Out Of Balance Amount,Do you want to Save ?", "Journal-Entry", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                     Exit Sub
                 Else
                     If fndSrcCode.Value <> String.Empty Then
@@ -392,7 +392,7 @@ Public Class frmJournalEntry
                     Return
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("Select Source Code", "Journal-Entry", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Select Source Code", "Journal-Entry", MessageBoxButtons.OK)
                 fndSrcCode.Focus()
             End If
         End If
@@ -505,7 +505,7 @@ Public Class frmJournalEntry
             ''
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub authorisedata()
@@ -513,7 +513,7 @@ Public Class frmJournalEntry
         'connectSql.RunSql(sql)
         'funUpdate()
         funFill()
-        If common.clsCommon.MyMessageBoxShow("Voucher No. " + fndVoucher.Value.Trim + " Posted Successfully. Do You Want To Print Voucher ?", "Journal-Entry", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Voucher No. " + fndVoucher.Value.Trim + " Posted Successfully. Do You Want To Print Voucher ?", "Journal-Entry", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         Else
             'Dim strQuery As String = " SELECT TSPL_JOURNAL_MASTER.Voucher_No, TSPL_JOURNAL_MASTER.Voucher_Date, TSPL_JOURNAL_MASTER.Voucher_Desc, " & _
@@ -545,7 +545,7 @@ Public Class frmJournalEntry
         Dim strQ As String = "select SourceCode as [Source Code] from TSPL_GL_SOURCECODE where SourceLedger  ='GL' and SourceType ='JE' "
         Dim SrcType As String = connectSql.RunScalar(strQ)
         If SrcType = "" Then
-            common.clsCommon.MyMessageBoxShow("Create GL-JE Soruce Code !", "Journal-Entry", MessageBoxButtons.OK, RadMessageIcon.Info)
+            common.clsCommon.MyMessageBoxShow(Me, "Create GL-JE Soruce Code !", "Journal-Entry", MessageBoxButtons.OK, RadMessageIcon.Info)
         Else
             fndSrcCode.Value = SrcType
         End If
@@ -558,7 +558,7 @@ Public Class frmJournalEntry
         sql = "update TSPL_JOURNAL_MASTER SET Provisional_Post= 'P' WHERE Voucher_No='" + Me.fndVoucher.Value + "' "
         connectSql.RunSql(sql)
         funFill()
-        common.clsCommon.MyMessageBoxShow("Voucher No. " + fndVoucher.Value.Trim + " Provisionly Authorised.", "Journal-Entry", MessageBoxButtons.OK)
+        common.clsCommon.MyMessageBoxShow(Me, "Voucher No. " + fndVoucher.Value.Trim + " Provisionly Authorised.", "Journal-Entry", MessageBoxButtons.OK)
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         Try
@@ -568,7 +568,7 @@ Public Class frmJournalEntry
                 clsCommon.MyMessageBoxShow("")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub PrintData(ByVal StrCode As String, ByVal FormID As String)
@@ -1051,7 +1051,7 @@ Public Class frmJournalEntry
             'gdAcc1.CurrentRow.Cells(1).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("GLACJournalEntry", qry, "Account_Code", whrcls, clsCommon.myCstr(gdAcc1.CurrentRow.Cells(1).Value), "Account_Code", isButtonClick))
             gdAcc1.CurrentRow.Cells(2).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(gdAcc1.CurrentRow.Cells(1).Value) + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1230,7 +1230,7 @@ Public Class frmJournalEntry
 
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Journal-Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Journal-Entry", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -1245,7 +1245,7 @@ Public Class frmJournalEntry
             myMessages.delete()
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Journal-Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Journal-Entry", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -1401,7 +1401,7 @@ Public Class frmJournalEntry
             Return True
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Journal-Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Journal-Entry", MessageBoxButtons.OK)
             Return False
         End Try
     End Function
@@ -1564,7 +1564,7 @@ Public Class frmJournalEntry
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Journal-Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Journal-Entry", MessageBoxButtons.OK)
 
         End Try
         funShowAmt()
@@ -1709,7 +1709,7 @@ Public Class frmJournalEntry
                 isCellValueChangedOpen = True
                 If gdAcc1.CurrentColumn Is gdAcc1.Columns("gdcolAcc") Then
                     If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("First Select Location.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "First Select Location.", Me.Text)
                         gdAcc1.CurrentRow.Cells(1).Value = ""
                         txtLocation.Focus()
                         isCellValueChangedOpen = False
@@ -1777,7 +1777,7 @@ Public Class frmJournalEntry
             gdAcc1.CurrentRow.Cells("Cost Centre").Value = clsCommon.ShowSelectForm("HierarchyPNCc", qry, "Code", " Hirerachy_Level = '" + DBLevel + "'", clsCommon.myCstr(gdAcc1.CurrentRow.Cells("Cost Centre").Value), "Code", isButtonClick)
             'gdAcc1.CurrentRow.Cells(colCostCenterName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Center_Fin_Name from TSPL_COST_CENTRE_FINANCIAL where Cost_Center_Fin_Code='" + clsCommon.myCstr(gdAcc1.CurrentRow.Cells(colCostCenter).Value) + "'"))
         Else
-            clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+            clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
         End If
     End Sub
 
@@ -1870,7 +1870,7 @@ Public Class frmJournalEntry
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Journal-Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Journal-Entry", MessageBoxButtons.OK)
 
         End Try
         Return strSrcDesc
@@ -1898,13 +1898,13 @@ Public Class frmJournalEntry
                 If common.clsCommon.MyMessageBoxShow("Unpost the current transaction " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     qry = "update TSPL_JOURNAL_MASTER set Authorized='N' where Voucher_No='" + fndVoucher.Value + "'  "
                     clsDBFuncationality.ExecuteNonQuery(qry)
-                    common.clsCommon.MyMessageBoxShow("Transaction Unposted Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Transaction Unposted Successfully", Me.Text)
                     funFill()
                     btnSave.Enabled = True
                     btnDelete.Enabled = True
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("Transaction Should be Posted / Source Code should be GL-JE.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Transaction Should be Posted / Source Code should be GL-JE.", Me.Text)
             End If
         End If
     End Sub
@@ -1935,7 +1935,7 @@ Public Class frmJournalEntry
             Return True
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -1943,7 +1943,7 @@ Public Class frmJournalEntry
     End Function
 
     Private Sub gdAcc1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gdAcc1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1978,7 +1978,7 @@ Public Class frmJournalEntry
 
             Dim DrBase As DataRow = DT.Rows(0)
             If clsCommon.myCBool(DrBase("SendToTally")) Then
-                clsCommon.MyMessageBoxShow("Voucher already Exported to Tally.")
+                clsCommon.MyMessageBoxShow(Me, "Voucher already Exported to Tally.", Me.Text)
             End If
 
             If clsCommon.CompairString(DrBase("Authorized"), "A") = CompairStringResult.Equal Then
@@ -2055,10 +2055,10 @@ Public Class frmJournalEntry
                              " WHERE Voucher_No= '" + fndVoucher.Value + "' "
                     clsDBFuncationality.ExecuteNonQuery(strQry)
                     btnSendToTally.Enabled = False
-                    clsCommon.MyMessageBoxShow("Data Send To Tally Successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data Send To Tally Successfully.", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Only Posted Entry can Sent to Tally.")
+                clsCommon.MyMessageBoxShow(Me, "Only Posted Entry can Sent to Tally.", Me.Text)
             End If
 
         End If
@@ -2111,7 +2111,7 @@ Public Class frmJournalEntry
         If clsCommon.myLen(fndVoucher.Value) > 0 Then
             'SendToTally()
         Else
-            clsCommon.MyMessageBoxShow("Please select a voucher for Sent to Tally.")
+            clsCommon.MyMessageBoxShow(Me, "Please select a voucher for Sent to Tally.", Me.Text)
         End If
     End Sub
 
@@ -2148,7 +2148,7 @@ Public Class frmJournalEntry
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '= KUNAL > TICKET : BM00000009586 ===
@@ -2158,7 +2158,7 @@ Public Class frmJournalEntry
             dtRevese.Value = dtVoucher.Value
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2175,17 +2175,17 @@ Public Class frmJournalEntry
             Try
                 clsDBFuncationality.ExecuteNonQuery("drop table TSPL_JOURNAL_DETAILS_WIN")
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
             Try
                 clsDBFuncationality.ExecuteNonQuery("drop table TSPL_JOURNAL_DETAILS_DL")
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
             Try
                 clsDBFuncationality.ExecuteNonQuery("drop table TSPL_JOURNAL_DETAILS_DL_SC")
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
             Dim coll As Dictionary(Of String, String)
@@ -2453,7 +2453,7 @@ Public Class frmJournalEntry
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2486,11 +2486,11 @@ Public Class frmJournalEntry
                 tran.Commit()
             End If
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Task Completed")
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2708,7 +2708,7 @@ Public Class frmJournalEntry
                             Next
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow("Account Code '" + AccOuntCode + "' Not Found!", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
+                        common.clsCommon.MyMessageBoxShow(Me, "Account Code '" + AccOuntCode + "' Not Found!", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
                         trans.Rollback()
                         clsCommon.ProgressBarHide()
                         'connectSql.CloseConnection(connectSql.Connection())
@@ -2721,13 +2721,13 @@ Public Class frmJournalEntry
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 ' End If
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
                 'connectSql.CloseConnection(connectSql.Connection())
-                clsCommon.MyMessageBoxShow("Line No " + clsCommon.myCstr(LineNumber) + " : " + ex.Message)
+                clsCommon.MyMessageBoxShow(Me, "Line No " + clsCommon.myCstr(LineNumber) + " : " + ex.Message)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -2949,11 +2949,11 @@ Public Class frmJournalEntry
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Line No " + clsCommon.myCstr(LineNumber) + " : " + ex.Message)
+                clsCommon.MyMessageBoxShow(Me, "Line No " + clsCommon.myCstr(LineNumber) + " : " + ex.Message)
             Finally
                 Me.Controls.Remove(gv)
             End Try
@@ -3015,7 +3015,7 @@ Public Class frmJournalEntry
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_JOURNAL_DETAILS DISABLE TRIGGER TRG_JD_FiscaYearEndNoUpdateNoDelete", trans)
             Else
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow("Document should be Posted.")
+                clsCommon.MyMessageBoxShow(Me, "Document should be Posted.", Me.Text)
                 Return
             End If
 
@@ -3036,10 +3036,10 @@ Public Class frmJournalEntry
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_JOURNAL_DETAILS ENABLE TRIGGER TRG_JD_FiscaYearEndNoUpdateNoDelete", trans)
             End If
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3182,7 +3182,7 @@ Public Class frmJournalEntry
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Journal-Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Journal-Entry", MessageBoxButtons.OK)
 
         End Try
         funShowAmt()

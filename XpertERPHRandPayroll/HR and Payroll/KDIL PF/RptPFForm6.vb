@@ -28,7 +28,7 @@ Public Class RptPFForm6
         FromDate = "01/04/" & (txtFromYear.Text)
         ToDate = "31/03/" & (txtToYear.Text)
         If (txtToYear.Text) < (txtFromYear.Text) Then
-            clsCommon.MyMessageBoxShow("From Year is not greater than To Date ")
+            clsCommon.MyMessageBoxShow(Me, "From Year is not greater than To Date ", Me.Text)
             Exit Sub
         End If
 

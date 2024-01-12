@@ -2302,7 +2302,7 @@ Public Class frmAcquisionEntry
                 gv1.CurrentRow.Cells(colCapexCode).Value = clsCapexBudget.GetCapexCode(gv1.CurrentRow.Cells(colCapexSubCode).Value, Nothing)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2370,7 +2370,7 @@ Public Class frmAcquisionEntry
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2947,7 +2947,7 @@ Public Class frmAcquisionEntry
             End If
             ''==========================================================================================================
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -3148,7 +3148,7 @@ Public Class frmAcquisionEntry
             End If
             ''==========================================================================================================
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -3234,12 +3234,12 @@ Public Class frmAcquisionEntry
             Dim SRNDate As Date? = clsCommon.GetDateWithStartTime(clsCommon.GetPrintDate(lblSRNDate.Text, "dd/MM/yyyy"))
             If AcqDate < SRNDate Then
                 ' If clsCommon.GetPrintDate(lblSRNDate.Text, "dd/MMM/yyyy") > clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") Then
-                clsCommon.MyMessageBoxShow("Acquision Date (" + clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")) + ") should be greater then/Equal SRN Date (" + clsCommon.myCstr(clsCommon.GetPrintDate(lblSRNDate.Text, "dd/MM/yyyy")) + ")", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Acquision Date (" + clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")) + ") should be greater then/Equal SRN Date (" + clsCommon.myCstr(clsCommon.GetPrintDate(lblSRNDate.Text, "dd/MM/yyyy")) + ")", Me.Text)
                 Return False
             End If
         End If
         If clsCommon.myLen(ddlAcqType.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Acquisition Type")
+            clsCommon.MyMessageBoxShow(Me, "Select Acquisition Type", Me.Text)
             ddlAcqType.Focus()
             Return False
         End If
@@ -3265,7 +3265,7 @@ Public Class frmAcquisionEntry
         End If
 
         If rbtnnew.IsChecked = False AndAlso rbtnold.IsChecked = False Then
-            clsCommon.MyMessageBoxShow("Please Select One Option From Old or New Radio Button")
+            clsCommon.MyMessageBoxShow(Me, "Please Select One Option From Old or New Radio Button", Me.Text)
             Return False
         End If
 
@@ -3278,7 +3278,7 @@ Public Class frmAcquisionEntry
 
         'CheckIsSRNMandatory()
         If clsCommon.myLen(fndPINo.Value) <= 0 AndAlso clsCommon.CompairString(ddlAcqType.Text, "Asset") = CompairStringResult.Equal Then
-            common.clsCommon.MyMessageBoxShow("Please select PI No")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select PI No", Me.Text)
             fndPINo.Focus()
             Return False
         End If
@@ -3293,7 +3293,7 @@ Public Class frmAcquisionEntry
                 If (clsCommon.myLen(grow.Cells(colAssetID).Value) > 0 Or clsCommon.myLen(txtSRNNo.Value) > 0) Then
                     If clsCommon.myCstr(grow.Cells(colPutToUse).Value) = "1" Then
                         If CDate(clsCommon.GetPrintDate(grow.Cells(colStartDate).Value, "dd/MMM/yyyy")) < CDate(clsCommon.GetPrintDate(grow.Cells(colAcquisitionDate).Value, "dd/MMM/yyyy")) Then
-                            clsCommon.MyMessageBoxShow("Put To Use Date can not less than Acquisition Date at line no " & (grow.Index + 1) & ".")
+                            clsCommon.MyMessageBoxShow(Me, "Put To Use Date can not less than Acquisition Date at line no " & (grow.Index + 1) & ".")
                             Return False
                         End If
                     End If
@@ -3301,7 +3301,7 @@ Public Class frmAcquisionEntry
                 End If
                 If clsCommon.myLen(grow.Cells(colAssetID).Value) > 0 Then ''ERO/01/08/19-000978 by balwinder on 02/08/2019
                     If arrAssetCode.Contains(clsCommon.myCstr(grow.Cells(colAssetID).Value).ToUpper()) Then
-                        clsCommon.MyMessageBoxShow("Repeared Asset Code [" + (clsCommon.myCstr(grow.Cells(colAssetID).Value) + "]  at line no " & (grow.Index + 1) & "."))
+                        clsCommon.MyMessageBoxShow(Me, "Repeared Asset Code [" + (clsCommon.myCstr(grow.Cells(colAssetID).Value) + "]  at line no " & (grow.Index + 1) & "."))
                         Return False
                     Else
                         arrAssetCode.Add(clsCommon.myCstr(grow.Cells(colAssetID).Value).ToUpper())
@@ -3317,30 +3317,30 @@ Public Class frmAcquisionEntry
         For Each grow As GridViewRowInfo In gv1.Rows
             If clsCommon.myCBool(grow.Cells(colcheck).Value) = True Then
                 If (clsCommon.CompairString(ddlAcqType.Text, "Assembled") = CompairStringResult.Equal AndAlso clsCommon.myLen(grow.Cells(colAssetID).Value) = 0) Then
-                    clsCommon.MyMessageBoxShow("Asset Code cannot be left blank at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Asset Code cannot be left blank at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
                 If (clsCommon.myLen(grow.Cells(colAssetName).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Asset Description  cannot be left blank at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Asset Description  cannot be left blank at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
                 If (clsCommon.myLen(grow.Cells(colAssetSpecificaion).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Asset Specification  cannot be left blank at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Asset Specification  cannot be left blank at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
             End If
 
             If (clsCommon.myLen(grow.Cells(colAssetName).Value)) > 0 Then
                 If (clsCommon.myLen(grow.Cells(colTemplete).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Template code cannot be left blank at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Template code cannot be left blank at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
                 If (clsCommon.myLen(grow.Cells(colGroupCode).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Group code cannot be left blank at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Group code cannot be left blank at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
                 If (clsCommon.myCdbl(grow.Cells(colNetAmt).Value)) <= 0 And clsCommon.CompairString(ddlAcqType.Text, "Assembled") <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Net Amount is  zero at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Net Amount is  zero at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
             End If
@@ -3355,7 +3355,7 @@ Public Class frmAcquisionEntry
                         Dt_Temp_Id.Rows.Add(dr)
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(drr(0).Item(1)), clsCommon.myCstr(grow.Cells(colTemplete).Value)) <> CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("Use same Template Code for Item [" & clsCommon.myCstr(grow.Cells(colICode).Value) & "]")
+                            clsCommon.MyMessageBoxShow(Me, "Use same Template Code for Item [" & clsCommon.myCstr(grow.Cells(colICode).Value) & "]")
                             Return False
                         End If
                     End If
@@ -3367,7 +3367,7 @@ Public Class frmAcquisionEntry
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlAcqType.Text), "Assembled") = CompairStringResult.Equal Then
                 If ValidateDistributeAmount() = False Then
-                    clsCommon.MyMessageBoxShow("Invalid amount distribution of distributed items in remaining items.")
+                    clsCommon.MyMessageBoxShow(Me, "Invalid amount distribution of distributed items in remaining items.")
                     Return False
                 End If
             End If
@@ -3377,12 +3377,12 @@ Public Class frmAcquisionEntry
                 If grow.Cells(colIsCategory).Value = True Then
 
                     If clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colCategoryType).Value), "") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("please select Capex Type.")
+                        clsCommon.MyMessageBoxShow(Me, "please select Capex Type.")
                         Return False
                     End If
 
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colCapexCode).Value)) <= 0 Then
-                        clsCommon.MyMessageBoxShow("please select capex code. At Line No" & (grow.Index + 1) & "")
+                        clsCommon.MyMessageBoxShow(Me, "please select capex code. At Line No" & (grow.Index + 1) & "")
                         Return False
                     End If
                     If clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colCategoryType).Value), "Regular") = CompairStringResult.Equal AndAlso grow.Cells(colIsCategory).Value = True Then
@@ -3393,10 +3393,10 @@ Public Class frmAcquisionEntry
 
                         If dtcheck IsNot Nothing AndAlso dtcheck.Rows.Count > 0 Then
                             If clsCommon.myCdbl(dtcheck.Rows(1)(0)) < clsCommon.myCdbl(grow.Cells(colNetAmt).Value) Then
-                                clsCommon.MyMessageBoxShow("Warning:  Amount exceed budget amount but under tolerence limit.At Line No" & (grow.Index + 1) & "")
+                                clsCommon.MyMessageBoxShow(Me, "Warning:  Amount exceed budget amount but under tolerence limit.At Line No" & (grow.Index + 1) & "")
                             End If
                             If clsCommon.myCdbl(dtcheck.Rows(2)(0)) < clsCommon.myCdbl(grow.Cells(colNetAmt).Value) Then
-                                clsCommon.MyMessageBoxShow("Amount exceed budget amount and above tolerence limit.At Line No" & (grow.Index + 1) & "")
+                                clsCommon.MyMessageBoxShow(Me, "Amount exceed budget amount and above tolerence limit.At Line No" & (grow.Index + 1) & "")
                                 Return False
                             End If
 
@@ -3439,7 +3439,7 @@ Public Class frmAcquisionEntry
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False, ChekBtnPost)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -3852,7 +3852,7 @@ Public Class frmAcquisionEntry
 
                 End If
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill/Select at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill/Select at list one Item", Me.Text)
                     Return False
                 End If
                 '' save assemble cost detail
@@ -3906,7 +3906,7 @@ Public Class frmAcquisionEntry
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -4514,7 +4514,7 @@ Public Class frmAcquisionEntry
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -4551,7 +4551,7 @@ Public Class frmAcquisionEntry
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4578,7 +4578,7 @@ Public Class frmAcquisionEntry
                         If clsCommon.myLen(grow.Cells(colAssetID).Value) > 0 Then
                             If (clsCommon.myCdbl(grow.Cells(colNetAmt).Value)) <= 0 Then
                                 If (clsCommon.myLen(grow.Cells(colAssetName).Value)) > 0 Then
-                                    clsCommon.MyMessageBoxShow("Net Amount cannot be left blank  at line no " & (grow.Index + 1) & ".")
+                                    clsCommon.MyMessageBoxShow(Me, "Net Amount cannot be left blank  at line no " & (grow.Index + 1) & ".")
                                     Exit Sub
                                 End If
                             End If
@@ -4588,12 +4588,12 @@ Public Class frmAcquisionEntry
 
                 SavingData(True)
                 If (clsAcquisitionHead.PostData(Form_ID, txtDocNo.Value, True, IIf(rbtnnew.IsChecked, "NEW", "OLD"))) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4618,7 +4618,7 @@ Public Class frmAcquisionEntry
                 End If
                 If (clsAcquisitionHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -4647,7 +4647,7 @@ Public Class frmAcquisionEntry
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4690,7 +4690,7 @@ Public Class frmAcquisionEntry
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -4700,7 +4700,7 @@ Public Class frmAcquisionEntry
 
     Sub DeleteLayout()
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub txtTaxGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTaxGroup._MYValidating
@@ -5214,7 +5214,7 @@ Public Class frmAcquisionEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5283,7 +5283,7 @@ Public Class frmAcquisionEntry
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -5340,7 +5340,7 @@ Public Class frmAcquisionEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5460,7 +5460,7 @@ Public Class frmAcquisionEntry
         Try
             Dim frm As New frmCrystalReportViewer()
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select a Acquisition First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a Acquisition First.", Me.Text)
                 Return
             End If
             Dim dtCompAddress As DataTable = Nothing
@@ -5504,12 +5504,12 @@ Public Class frmAcquisionEntry
 
             Dim dt_final As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt_final.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 frm.funreport(CrystalReportFolder.FixedAssets, dt_final, "frmAcquisionEntryReport", "Acquision Entry Report")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5533,20 +5533,20 @@ Public Class frmAcquisionEntry
         Try
             '==shivani[BM00000007923]
 
-            If clsCommon.MyMessageBoxShow("Do you want to change Depreciation details" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to change Depreciation details" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Dim arr As New List(Of clsAcquisitionDetail)()
                 For Each grow As GridViewRowInfo In gv1.Rows
                     If clsCommon.myLen(grow.Cells(colAssetID).Value) Then
                         Dim objTr As New clsAcquisitionDetail()
                         If clsAssetDepreciation.GetAssetDepCount(grow.Cells(colAssetID).Value, Nothing) > 0 Then
-                            clsCommon.MyMessageBoxShow("Depreciation of Asset-" & grow.Cells(colAssetID).Value & " has been done. Can not change depereciation details for this Asset.")
+                            clsCommon.MyMessageBoxShow(Me, "Depreciation of Asset-" & grow.Cells(colAssetID).Value & " has been done. Can not change depereciation details for this Asset.")
                             Continue For
                         End If
 
                         ''====================check if asset is merged or not======================
                         Dim qry As String = "select count(*) from TSPL_ACQUISITION_ASSET_MERGE_DETAIL where old_asset_code='" + clsCommon.myCstr(grow.Cells(colAssetID).Value) + "'"
                         If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) > 0 Then
-                            clsCommon.MyMessageBoxShow("Merging of Asset-" & grow.Cells(colAssetID).Value & " has been done. Can not change depereciation details for this Asset.")
+                            clsCommon.MyMessageBoxShow(Me, "Merging of Asset-" & grow.Cells(colAssetID).Value & " has been done. Can not change depereciation details for this Asset.")
                             Continue For
                         End If
                         '==============================================================================
@@ -5569,16 +5569,16 @@ Public Class frmAcquisionEntry
                     End If
                 Next
                 clsAcquisitionDetail.UpdateDecpreciationData(txtDocNo.Value, arr)
-                clsCommon.MyMessageBoxShow("Successfully changed the depreciation details", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully changed the depreciation details", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub fndTemplateCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndTemplateCode._MYValidating
         If UsLock1.Status = ERPTransactionStatus.Pending AndAlso clsCommon.myLen(txtDocNo.Value) > 0 Then
-            If common.clsCommon.MyMessageBoxShow("On template change (Changed Column - Category Code,Group Code,AccountSet Code,Depriciation Method,Depriciation Tax Method,Depriciation Period,Start Date,Depriciation Rate,Depriciation Tax Rate,Estimated Life,Salvage Rate,Salvage Value) " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If common.clsCommon.MyMessageBoxShow(Me, "On template change (Changed Column - Category Code,Group Code,AccountSet Code,Depriciation Method,Depriciation Tax Method,Depriciation Period,Start Date,Depriciation Rate,Depriciation Tax Rate,Estimated Life,Salvage Rate,Salvage Value) " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Exit Sub
             End If
         End If
@@ -5769,14 +5769,14 @@ Public Class frmAcquisionEntry
 
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         If clsCommon.myLen(fndPINo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select PI No first")
+            clsCommon.MyMessageBoxShow(Me, "Please Select PI No first", Me.Text)
             Exit Sub
 
             'clsCommon.myLen(txtSRNNo.Value) <= 0 Then
             '            clsCommon.MyMessageBoxShow("Please Select SRN No first")
             '            Exit Sub
         ElseIf clsCommon.myLen(fndTemplateCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Template Code first")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Template Code first", Me.Text)
             Exit Sub
         End If
         CreateAssetsFromSRN()
@@ -5994,7 +5994,7 @@ Public Class frmAcquisionEntry
             isInsideLoadData = False
         Catch ex As Exception
             gv1.Rows.Clear()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -6241,7 +6241,7 @@ Public Class frmAcquisionEntry
                 Next
                 clsAcquisitionDetail.SaveData("", Arr, Nothing)
 
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 clsCommon.ProgressBarHide()
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
@@ -6652,7 +6652,7 @@ Public Class frmAcquisionEntry
 
                 'clsAcquisitionDetail.SaveData("", Arr, Nothing)
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
@@ -6768,7 +6768,7 @@ Public Class frmAcquisionEntry
             objRemittance = frm.ObjReturn
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6847,7 +6847,7 @@ Public Class frmAcquisionEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6945,7 +6945,7 @@ Public Class frmAcquisionEntry
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6975,7 +6975,7 @@ Public Class frmAcquisionEntry
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7038,7 +7038,7 @@ Public Class frmAcquisionEntry
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7254,7 +7254,7 @@ Public Class frmAcquisionEntry
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Dim trans As SqlTransaction = Nothing
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR Reverse 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -7269,7 +7269,7 @@ Public Class frmAcquisionEntry
                 If clsAcquisitionHead.ReverseAndUnpost(txtDocNo.Value, trans) Then
                     trans.Commit()
                     saveCancelLog(Reason, "Reverse And Recreate")
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -7285,7 +7285,7 @@ Public Class frmAcquisionEntry
                 gv1.CurrentRow.Cells(colCostCenterCode).Value = clsCommon.ShowSelectForm("TSPL_COST_CENTRE_FINANCIAL@AEFinder", qry, "Code", " Hirerachy_Level = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevelNumber).Value) + "' ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCostCenterCode).Value), "", isButtonClick)
                 gv1.CurrentRow.Cells(colCostCenterName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Cost_Center_Fin_Name  from TSPL_COST_CENTRE_FINANCIAL  where  Cost_Center_Fin_Code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCostCenterCode).Value) + "'")) ' ClsCostCenter.GetCostCenterDesc(gv1.CurrentRow.Cells(colCostCenter).Value)
             Else
-                clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+                clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
             End If
         Else
             Dim qry As String = "select CostCenter_Code as Code,CostCenter_Name as Name from TSPL_FA_COST_CENTER_MASTER  "
@@ -7336,10 +7336,10 @@ Public Class frmAcquisionEntry
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_JOURNAL_DETAILS ENABLE TRIGGER TRG_JD_FiscaYearEndNoUpdateNoDelete", trans)
             End If
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

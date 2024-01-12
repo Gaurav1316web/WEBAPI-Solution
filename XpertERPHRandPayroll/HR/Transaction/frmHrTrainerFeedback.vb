@@ -93,7 +93,7 @@ Public Class FrmHrTrainerFeedback
             gv.Rows(gv.Rows.Count - 1).Cells(colEmployeeName).Value = clsCommon.myCstr(dr("Emp_Name"))
         Next
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
 
@@ -120,7 +120,7 @@ Public Class FrmHrTrainerFeedback
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmHrTraineeFeedBack)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -163,7 +163,7 @@ Public Class FrmHrTrainerFeedback
                 End If
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -203,11 +203,11 @@ Public Class FrmHrTrainerFeedback
                 If (clsTrainerfeedbackHead.savedata(Trainer, isNewEntry, arr)) Then
 
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         entry = Trainer.DocCode
                         getdata(Trainer.DocCode, NavigatorType.Current)
                     Else
-                        clsCommon.MyMessageBoxShow("Data posted successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                     End If
                     'LoadData(obj.Job_Title_Code, NavigatorType.Current)
                     '    Btnsave.Text = "Update"
@@ -329,7 +329,7 @@ Public Class FrmHrTrainerFeedback
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -341,7 +341,7 @@ Public Class FrmHrTrainerFeedback
             PostData()
             'End If
         Else
-            clsCommon.MyMessageBoxShow("code not found to post")
+            clsCommon.MyMessageBoxShow(Me, "code not found to post", Me.Text)
         End If
     End Sub
 
@@ -363,7 +363,7 @@ Public Class FrmHrTrainerFeedback
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsTrainerfeedbackHead.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     addnew()
                 End If
             End If
@@ -374,7 +374,7 @@ Public Class FrmHrTrainerFeedback
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 

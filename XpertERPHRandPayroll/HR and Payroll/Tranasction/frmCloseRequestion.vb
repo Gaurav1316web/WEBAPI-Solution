@@ -171,7 +171,7 @@ Public Class FrmCloseRequestion
         obj.UserID = objCommonVar.CurrentUserCode
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
 
         ''richa agarwal regarding memory leakage
@@ -182,7 +182,7 @@ Public Class FrmCloseRequestion
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         If clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode) Then
-            common.clsCommon.MyMessageBoxShow("Layout Deleted successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Deleted successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -211,7 +211,7 @@ Public Class FrmCloseRequestion
         LoadBlankGrid()
         Try
             If txtFromDate.Value > txtToDate.Value Then
-                clsCommon.MyMessageBoxShow("FromDate should not be  greater than ToDate")
+                clsCommon.MyMessageBoxShow(Me, "FromDate should not be  greater than ToDate", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = ""
@@ -254,7 +254,7 @@ Public Class FrmCloseRequestion
             Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -279,7 +279,7 @@ Public Class FrmCloseRequestion
             End If
         Next
         If isOneChecked = False Then
-            clsCommon.MyMessageBoxShow("Please select atleast one requisition ")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one requisition ", Me.Text)
             Exit Sub
         End If
         For i As Integer = 0 To gv1.Rows.Count - 1
@@ -292,7 +292,7 @@ Public Class FrmCloseRequestion
             End If
         Next
 
-        clsCommon.MyMessageBoxShow("Requisition closed successfully", Me.Text)
+        clsCommon.MyMessageBoxShow(Me, "Requisition closed successfully", Me.Text)
         LoadData(True)
 
     End Sub
@@ -326,7 +326,7 @@ Public Class FrmCloseRequestion
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

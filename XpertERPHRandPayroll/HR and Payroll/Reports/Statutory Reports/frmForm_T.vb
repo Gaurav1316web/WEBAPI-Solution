@@ -32,7 +32,7 @@ Public Class frmForm_T
     Sub LoadData()
         Try
             If clsCommon.myLen(txtFromPP.Value) < 1 Then
-                clsCommon.MyMessageBoxShow("Please Select Pay Period First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period First.", Me.Text)
             End If
             Dim Qry As String = ""
             Dim count As Int16 = clsPayPeriodMaster.GetLastDay(txtFromPP.Value, Nothing)
@@ -76,10 +76,10 @@ Public Class frmForm_T
                 'gv1.Columns.FindByHeaderText("EMP_CODE")
                 gv1.BestFitColumns()
             Else
-                clsCommon.MyMessageBoxShow("No Data Found.")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -121,7 +121,7 @@ Public Class frmForm_T
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -308,7 +308,7 @@ Public Class frmForm_T
         arr.Add("as on : " + clsCommon.GETSERVERDATE() + " ")
         If gv1.Rows.Count <= 0 Then
             gv1.Focus()
-            clsCommon.MyMessageBoxShow("Data not found.")
+            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
         Else
             clsCommon.MyExportToExcelGrid("Form - T", gv1, arr, "Form - T", False)
         End If

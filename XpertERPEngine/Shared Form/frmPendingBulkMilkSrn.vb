@@ -62,14 +62,14 @@ Public Class FrmPendingBulkMilkSrn
                 End If
             Next
             If arrSrnNo.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No SRN selected" & Environment.NewLine & "Please select atleast one SRN")
+                clsCommon.MyMessageBoxShow(Me, "No SRN selected" & Environment.NewLine & "Please select atleast one SRN")
                 Exit Sub
             End If
             'XtraRate = txtExtraRate.Value
             btnOkClicked = True
             Me.Close()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -100,7 +100,7 @@ Public Class FrmPendingBulkMilkSrn
                 Next
                 clsCommon.ProgressBarPercentHide()
             Else
-                clsCommon.MyMessageBoxShow("No Pending SRN Found")
+                clsCommon.MyMessageBoxShow(Me, "No Pending SRN Found", Me.Text)
                 btnOkClicked = False
                 Me.Close()
             End If

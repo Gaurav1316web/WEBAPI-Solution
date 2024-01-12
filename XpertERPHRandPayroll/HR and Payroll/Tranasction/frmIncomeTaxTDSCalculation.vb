@@ -1199,7 +1199,7 @@ Public Class frmIncomeTaxTDSCalculation
                 Next
                 If obj.SaveData(obj, isNewEntry) Then
                     If isPost = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.Code, NavigatorType.Current)
                         Exit Sub
                     End If
@@ -1355,7 +1355,7 @@ Public Class frmIncomeTaxTDSCalculation
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1368,12 +1368,12 @@ Public Class frmIncomeTaxTDSCalculation
             End If
             If (myMessages.deleteConfirm) Then
                 If clsIncomeTaxTDSCalculationHead.fundelete(strIcentiveCode) Then
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1413,7 +1413,7 @@ Public Class frmIncomeTaxTDSCalculation
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1433,7 +1433,7 @@ Public Class frmIncomeTaxTDSCalculation
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1450,11 +1450,11 @@ Public Class frmIncomeTaxTDSCalculation
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 clsIncomeTaxTDSCalculationHead.postData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1553,7 +1553,7 @@ Public Class frmIncomeTaxTDSCalculation
             Dim qry As String = "select EMP_CODE,Emp_Name from TSPL_EMPLOYEE_MASTER"
             txtEmployee.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "EmpF@TDSC", qry, "EMP_CODE", "", txtEmployee.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1638,7 +1638,7 @@ Public Class frmIncomeTaxTDSCalculation
                 gv.Rows.AddNew()
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             LoadBlankGrid()
             LoadBlankGridEmp()
             LoadBlankGridTax()

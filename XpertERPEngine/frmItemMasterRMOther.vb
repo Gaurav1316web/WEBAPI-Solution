@@ -6376,7 +6376,7 @@ ExitLOOP:
             Savedata()
             saveCancelLog(Reason, "Updated", Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

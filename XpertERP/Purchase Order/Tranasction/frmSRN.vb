@@ -5741,7 +5741,9 @@ Public Class frmSRN
                 txtVehicleNo.Text = obj.VehicleNo
                 txtGRNo.Text = obj.GRNo
 
-                Grndate.Text = obj.GRN_Date
+                If obj.GRN_Date IsNot Nothing Then
+                    Grndate.Text = obj.GRN_Date
+                End If
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
                     txtGEDate.Value = obj.GEDate
@@ -11274,13 +11276,13 @@ b:                          ' Next
             cmbRGPType.Enabled = False
             cmbRGPType.SelectedValue = ""
         End If
-        If clsCommon.CompairString(cboSRNType.SelectedValue, "O") = CompairStringResult.Equal Then
-            txtSubLocation.Enabled = True
-        Else
-            txtSubLocation.Enabled = False
-            txtSubLocation.Value = ""
-            lblShipToLocation.Text = ""
-        End If
+        'If clsCommon.CompairString(cboSRNType.SelectedValue, "O") = CompairStringResult.Equal Then
+        '    txtSubLocation.Enabled = True
+        'Else
+        '    txtSubLocation.Enabled = False
+        '    txtSubLocation.Value = ""
+        '    lblShipToLocation.Text = ""
+        'End If
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Dim qry As String = ""

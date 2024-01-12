@@ -28,7 +28,7 @@ Public Class FrmEmployeeGratuity
             obj.NOOFYEARS = txtNOF.Value
             obj.GRATUITYAMT = txtGratuity.Value
             If (obj.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.EMP_CODE, NavigatorType.Current)
                 'Else
                 '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
@@ -79,11 +79,11 @@ Public Class FrmEmployeeGratuity
             txtLastDrawnSalary.Focus()
             Return False
         ElseIf Date.TryParse(MyDateTimePicker1.Text, DOJ) = False Then
-            clsCommon.MyMessageBoxShow("Invalid DOJ.")
+            clsCommon.MyMessageBoxShow(Me, "Invalid DOJ.", Me.Text)
             MyDateTimePicker1.Focus()
             Return False
         ElseIf Date.TryParse(MyDateTimePicker2.Text, DOJ) = False Then
-            clsCommon.MyMessageBoxShow("Invalid DOL.")
+            clsCommon.MyMessageBoxShow(Me, "Invalid DOL.", Me.Text)
             MyDateTimePicker2.Focus()
             Return False
         End If
@@ -96,7 +96,7 @@ Public Class FrmEmployeeGratuity
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -126,7 +126,7 @@ Public Class FrmEmployeeGratuity
                 End If
                 If (clsEmployeeGratuity.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -226,7 +226,7 @@ Public Class FrmEmployeeGratuity
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -271,13 +271,13 @@ Public Class FrmEmployeeGratuity
             Qry += " where TSPL_GRATUITY.Emp_Code='" & txtCode.Value & "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt.Rows.Count <= 0 Then
-9:              common.clsCommon.MyMessageBoxShow("No Data Found")
+9:              common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrsytal As New frmCrystalReportViewer
                 frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptEmployeeGratuityReport", "Employee Gratuity")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

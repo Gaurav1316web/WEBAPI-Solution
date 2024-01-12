@@ -72,7 +72,7 @@ Public Class frmBalanceQty
 
             ReStoreGridLayout()
         Else
-            clsCommon.MyMessageBoxShow("No Data found to dispaly")
+            clsCommon.MyMessageBoxShow(Me, "No Data found to dispaly", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -115,7 +115,7 @@ Public Class frmBalanceQty
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -145,7 +145,7 @@ Public Class frmBalanceQty
                 clsOpenTransactionForm.OpenTransacionForm(clsCommon.myCstr(gv1.CurrentRow.Cells("TransCode").Value), strDocNo)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -48,12 +48,12 @@ Public Class FrmSaleHistory
 
         If clsCommon.myLen(txtCustomer.Value) <= 0 Then
             If cboSelectedBy.Text = "Customer" Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 cboSelectedBy.Focus()
                 Exit Sub
 
             Else
-                common.clsCommon.MyMessageBoxShow("Please select item Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select item Code", Me.Text)
                 cboSelectedBy.Focus()
                 Exit Sub
             End If
@@ -146,7 +146,7 @@ Public Class FrmSaleHistory
             gvCustomer.Rows.Clear()
             gvCustomer.GroupDescriptors.Clear()
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             gvCustomer.DataSource = dt
@@ -382,7 +382,7 @@ Public Class FrmSaleHistory
 
     Private Sub txtCustomer__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCustomer._MYValidating
         If clsCommon.myLen(cboSelectedBy.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Selected By")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Selected By", Me.Text)
             cboSelectedBy.Focus()
             Exit Sub
         End If
@@ -579,7 +579,7 @@ Public Class FrmSaleHistory
             gvDetails.Rows.Clear()
             gvDetails.GroupDescriptors.Clear()
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             gvDetails.DataSource = dt
@@ -599,7 +599,7 @@ Public Class FrmSaleHistory
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -677,7 +677,7 @@ Public Class FrmSaleHistory
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             success = success And obj.SaveData()
             If success Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -694,7 +694,7 @@ Public Class FrmSaleHistory
         'clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         'clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()

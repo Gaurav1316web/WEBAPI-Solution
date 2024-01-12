@@ -56,7 +56,7 @@
             Timer2.Enabled = False
             objSerial.ClosePort()
             If isShowMsg Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -173,9 +173,9 @@
             obj.Machine = clsCommon.myCstr(CboMachine.SelectedValue)
             obj.Com_Port = clsCommon.myCstr(cboComPort.Text)
             obj.saveData(obj)
-            clsCommon.MyMessageBoxShow("Setting saved successfully")
+            clsCommon.MyMessageBoxShow(Me, "Setting saved successfully", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

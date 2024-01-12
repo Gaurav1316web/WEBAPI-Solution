@@ -372,7 +372,7 @@ Public Class frmAssetAccountChange
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -398,7 +398,7 @@ Public Class frmAssetAccountChange
             End If
 
         Else
-            clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+            clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
         End If
     End Sub
 
@@ -466,7 +466,7 @@ Public Class frmAssetAccountChange
             If clsCommon.myCBool(grow.Cells(colcheck).Value) = True Then
                 If clsCommon.myLen(grow.Cells(colAssetID).Value) > 0 Then
                     If arrAssetCode.Contains(clsCommon.myCstr(grow.Cells(colAssetID).Value).ToUpper()) Then
-                        clsCommon.MyMessageBoxShow("Repeared Asset Code [" + (clsCommon.myCstr(grow.Cells(colAssetID).Value) + "]  at line no " & (grow.Index + 1) & "."))
+                        clsCommon.MyMessageBoxShow(Me, "Repeared Asset Code [" + (clsCommon.myCstr(grow.Cells(colAssetID).Value) + "]  at line no " & (grow.Index + 1) & "."))
                         Return False
                     Else
                         arrAssetCode.Add(clsCommon.myCstr(grow.Cells(colAssetID).Value).ToUpper())
@@ -482,18 +482,18 @@ Public Class frmAssetAccountChange
         For Each grow As GridViewRowInfo In gv1.Rows
             If clsCommon.myCBool(grow.Cells(colcheck).Value) = True Then
                 If (clsCommon.myLen(grow.Cells(colAssetName).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Asset Description  cannot be left blank at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Asset Description  cannot be left blank at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
                 If (clsCommon.myLen(grow.Cells(colAssetSpecificaion).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Asset Specification  cannot be left blank at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Asset Specification  cannot be left blank at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
             End If
 
             If (clsCommon.myLen(grow.Cells(colAssetName).Value)) > 0 Then
                 If (clsCommon.myCdbl(grow.Cells(colNetAmt).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Net Amount is  zero at line no " & (grow.Index + 1) & ".")
+                    clsCommon.MyMessageBoxShow(Me, "Net Amount is  zero at line no " & (grow.Index + 1) & ".")
                     Return False
                 End If
             End If
@@ -510,7 +510,7 @@ Public Class frmAssetAccountChange
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False, ChekBtnPost)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -565,7 +565,7 @@ Public Class frmAssetAccountChange
 
 
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill/Select at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill/Select at list one Item", Me.Text)
                     Return False
                 End If
                 Dim isSaved As Boolean = obj.SaveData(obj, isNewEntry)
@@ -576,7 +576,7 @@ Public Class frmAssetAccountChange
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -666,7 +666,7 @@ Public Class frmAssetAccountChange
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -742,7 +742,7 @@ Public Class frmAssetAccountChange
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -880,12 +880,12 @@ Public Class frmAssetAccountChange
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsAssetAccountChangeHead.PostData(Form_ID, txtDocNo.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -910,7 +910,7 @@ Public Class frmAssetAccountChange
                 End If
                 If (clsAssetAccountChangeHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -939,7 +939,7 @@ Public Class frmAssetAccountChange
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -981,7 +981,7 @@ Public Class frmAssetAccountChange
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -991,7 +991,7 @@ Public Class frmAssetAccountChange
 
     Sub DeleteLayout()
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
@@ -1018,7 +1018,7 @@ Public Class frmAssetAccountChange
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1040,7 +1040,7 @@ Public Class frmAssetAccountChange
         Try
             Dim frm As New frmCrystalReportViewer()
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select a Acquisition First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a Acquisition First.", Me.Text)
                 Return
             End If
             Dim dtCompAddress As DataTable = Nothing
@@ -1084,12 +1084,12 @@ Public Class frmAssetAccountChange
 
             Dim dt_final As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt_final.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 frm.funreport(CrystalReportFolder.FixedAssets, dt_final, "frmAcquisionEntryReport", "Acquision Entry Report")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1097,7 +1097,7 @@ Public Class frmAssetAccountChange
 
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         If clsCommon.myLen(txtAcquision.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Asset Group first")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Asset Group first", Me.Text)
             Exit Sub
         End If
         LoadDataAcquision(txtAcquision.Value)
@@ -1344,7 +1344,7 @@ Public Class frmAssetAccountChange
                 Next
                 clsAcquisitionDetail.SaveData("", Arr, Nothing)
 
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 clsCommon.ProgressBarHide()
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
@@ -1383,7 +1383,7 @@ Public Class frmAssetAccountChange
             End If
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1435,7 +1435,7 @@ Public Class frmAssetAccountChange
                 Next
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gvImport)
         End Try
@@ -1473,7 +1473,7 @@ Public Class frmAssetAccountChange
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Dim trans As SqlTransaction = Nothing
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR Reverse 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -1488,13 +1488,13 @@ Public Class frmAssetAccountChange
                 If clsAssetAccountChangeHead.ReverseAndUnpost(txtDocNo.Value, trans) Then
                     trans.Commit()
                     saveCancelLog(Reason, "Reverse And Recreate")
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1502,7 +1502,7 @@ Public Class frmAssetAccountChange
     Private Sub Btn_apply_Click(sender As Object, e As EventArgs) Handles Btn_apply.Click
         Try
             If clsCommon.myLen(fndFAAccount.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select changed GL Account", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select changed GL Account", Me.Text)
                 fndFAAccount.Focus()
                 Exit Sub
             End If
@@ -1513,7 +1513,7 @@ Public Class frmAssetAccountChange
                 gv1.Rows(ii - 1).Cells(colChangedAccountName).Value = clsCommon.myCstr(accname)
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1657,7 +1657,7 @@ Public Class frmAssetAccountChange
 
     Private Sub TxtAcquision__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtAcquision._MYValidating
         If txtLocation.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please first select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
             Return
         End If
         Dim qry As String = "select Acquisition_Code as Code,convert (varchar(10), Acquisition_Date,103) as Date, Vendor_Code as Vendor,Net_Amt as Amount,Acquisition_Type as [Acquisition Type]  from TSPL_ACQUISITION_HEAD"
@@ -1701,10 +1701,10 @@ Public Class frmAssetAccountChange
                 clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_JOURNAL_DETAILS ENABLE TRIGGER TRG_JD_FiscaYearEndNoUpdateNoDelete", trans)
             End If
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 

@@ -33,7 +33,7 @@ Public Class frmGeneralHolidays
             obj.Division = FndDivision.Value
 
             If (obj.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
                 'Else
                 '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
@@ -88,7 +88,7 @@ Public Class frmGeneralHolidays
         Dim strchk As String = "select GHOLIDAY_CODE from TSPL_GENERAL_HOLIDAYS where ATTENDANCE_CODE ='" + txtAttendCode.Value + "'  and HOLIDAY_DATE= '" + clsCommon.GetPrintDate(dtpHolidayDate.Value, "dd/MMM/yyyy") + "' and GHOLIDAY_CODE <> '" + txtCode.Value + "' "
         Dim GHOLIDAY_CODE As String = clsDBFuncationality.getSingleValue(strchk)
         If clsCommon.myLen(GHOLIDAY_CODE) > 0 Then
-            clsCommon.MyMessageBoxShow("Selected Date is Already included in General Holiday Code : " + GHOLIDAY_CODE + " for the same Attendance. Date can save on Single Attendance Only Once.")
+            clsCommon.MyMessageBoxShow(Me, "Selected Date is Already included in General Holiday Code : " + GHOLIDAY_CODE + " for the same Attendance. Date can save on Single Attendance Only Once.", Me.Text)
             Return False
         End If
 
@@ -101,7 +101,7 @@ Public Class frmGeneralHolidays
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -131,7 +131,7 @@ Public Class frmGeneralHolidays
                 End If
                 If (clsGeneralHolidays.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -233,7 +233,7 @@ Public Class frmGeneralHolidays
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

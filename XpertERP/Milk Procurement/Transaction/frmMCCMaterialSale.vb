@@ -4057,7 +4057,7 @@ Public Class frmMCCMaterialSale
             Dim obj As New clsMCCMaterialSale()
             obj = clsMCCMaterialSale.GetData(strCode, NavTyep)
             txtBillToLocation.Enabled = True
-            txtSubLocation.Enabled = False
+            txtSubLocation.Enabled = True
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 btnSave.Enabled = True
                 btnPost.Enabled = True
@@ -4071,7 +4071,7 @@ Public Class frmMCCMaterialSale
                 LoadBlankGridAC()
                 cboItemType.Enabled = False
                 txtBillToLocation.Enabled = False
-
+                txtSubLocation.Enabled = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False

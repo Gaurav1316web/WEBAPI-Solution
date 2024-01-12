@@ -68,7 +68,7 @@ Public Class frmPTSlab
             arr.Add(obj)
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (clsPTSlab.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.PT_CODE, NavigatorType.Current)
             End If
         End If
@@ -132,22 +132,22 @@ Public Class frmPTSlab
             '    Return False
             'End If
             If clsCommon.myCdbl(grow.Cells(col_TO).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("To Value must be greater than Zero at line no-" & (grow.Index + 1) & "")
+                clsCommon.MyMessageBoxShow(Me, "To Value must be greater than Zero at line no-" & (grow.Index + 1) & "")
                 Return False
             End If
             If clsCommon.myCdbl(grow.Cells(col_TO).Value) < clsCommon.myCdbl(grow.Cells(col_FROM).Value) Then
-                clsCommon.MyMessageBoxShow("To Value must be greater than From Value at line no-" & (grow.Index + 1) & "")
+                clsCommon.MyMessageBoxShow(Me, "To Value must be greater than From Value at line no-" & (grow.Index + 1) & "")
                 Return False
             End If
 
             If clsCommon.myCdbl(grow.Cells(colPT_AMOUNT).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("PT Amount must be greater than Zero at line no-" & (grow.Index + 1) & "")
+                clsCommon.MyMessageBoxShow(Me, "PT Amount must be greater than Zero at line no-" & (grow.Index + 1) & "")
                 Return False
             End If
             totalSlab = totalSlab + 1
         Next
         If totalSlab <= 0 Then
-            clsCommon.MyMessageBoxShow("Enter at least one PT Slab")
+            clsCommon.MyMessageBoxShow(Me, "Enter at least one PT Slab", Me.Text)
             Return False
         End If
         Return True
@@ -159,7 +159,7 @@ Public Class frmPTSlab
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
 
@@ -170,7 +170,7 @@ Public Class frmPTSlab
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsPTSlab.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -261,7 +261,7 @@ Public Class frmPTSlab
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -331,7 +331,7 @@ Public Class frmPTSlab
             fndState.Value = clsStateMaster.getFinder("", fndState.Value, isButtonClicked)
             lblStateDesc.Text = clsStateMaster.GetName(fndState.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

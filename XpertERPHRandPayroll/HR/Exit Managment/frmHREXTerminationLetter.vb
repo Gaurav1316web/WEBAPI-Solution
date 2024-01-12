@@ -102,7 +102,7 @@ Public Class FrmHREXTerminationLetter
 
 
                 If clsHREXTerminationLetter.savedata(Termin, isnewentry) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     entry = Termin.DOC_CODE
                     getdata(Termin.DOC_CODE, NavigatorType.Current)
                     BtnSave.Text = "Update"
@@ -114,7 +114,7 @@ Public Class FrmHREXTerminationLetter
             End If
 
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message, Me.Text)
+            RadMessageBox.Show(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -144,7 +144,7 @@ Public Class FrmHREXTerminationLetter
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsHREXTerminationLetter.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     resetdata()
                 End If
             End If
@@ -155,7 +155,7 @@ Public Class FrmHREXTerminationLetter
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -530,13 +530,13 @@ Public Class FrmHREXTerminationLetter
             dt = clsDBFuncationality.GetDataTable(Qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return dt
     End Function
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to print.")
+            clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
         Else
             Dim dt As DataTable = funPrint(txtcode.Value)
 
@@ -545,7 +545,7 @@ Public Class FrmHREXTerminationLetter
                 frmcrystal.funreport(CrystalReportFolder.HumanResource, dt, "rptHREXTetminationLetter", "Termination Letter")
 
             Else
-                clsCommon.MyMessageBoxShow("No data found.")
+                clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
             End If
         End If
     End Sub

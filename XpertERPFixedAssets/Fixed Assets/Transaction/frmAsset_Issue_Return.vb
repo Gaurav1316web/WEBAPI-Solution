@@ -262,7 +262,7 @@ Public Class FrmAsset_Issue_Return
                 If dgvVisi.Rows(i).Cells(colSelect).Value = True Then
                     Counter += 1
                     If clsCommon.myLen(dgvVisi.Rows(i).Cells(colTransDate).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please select Date At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
+                        clsCommon.MyMessageBoxShow(Me, "Please select Date At Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
                         Return False
                     End If
                     If chkReturn.IsChecked Then
@@ -270,7 +270,7 @@ Public Class FrmAsset_Issue_Return
                         Dim PulloutDate As Date = dgvVisi.Rows(i).Cells(colTransDate).Value
                         Dim ts As TimeSpan = PulloutDate - IssueDate
                         If CInt(ts.TotalDays) < 0 Then
-                            clsCommon.MyMessageBoxShow("You cann't Return Asset - " + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colAsset_Id).Value) + " Before it's Issue Date - " + IssueDate + " at Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
+                            clsCommon.MyMessageBoxShow(Me, "You cann't Return Asset - " + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colAsset_Id).Value) + " Before it's Issue Date - " + IssueDate + " at Line '" + clsCommon.myCstr(dgvVisi.Rows(i).Cells(colLineNo).Value) + "'")
                             Return False
                         End If
                     End If
@@ -279,11 +279,11 @@ Public Class FrmAsset_Issue_Return
             If Counter > 0 Then
                 Return True
             Else
-                clsCommon.MyMessageBoxShow("Please Select Atleast Single Row")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Row", Me.Text)
                 Return False
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select Location")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Location", Me.Text)
             txtFromEntity.Focus()
             Return False
         End If
@@ -380,7 +380,7 @@ Public Class FrmAsset_Issue_Return
                 LoadDetails(txtFromEntity.Value, "Return")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -394,7 +394,7 @@ Public Class FrmAsset_Issue_Return
                 LoadDetails(txtFromEntity.Value, "Return")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -14,7 +14,7 @@ Public Class frmMapLedgerAccToTally
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmMapLedgerAccToTally)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -72,14 +72,14 @@ Public Class frmMapLedgerAccToTally
             End If
         Catch err As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(err.Message)
+            clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
-        common.clsCommon.MyMessageBoxShow("Account Maped SucessFully.")
+        common.clsCommon.MyMessageBoxShow(Me, "Account Maped SucessFully.", Me.Text)
         LoadAcc()
     End Sub
 
     Private Sub dgvAccountMap_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs)
-        If common.clsCommon.MyMessageBoxShow("Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -125,7 +125,7 @@ Public Class frmMapLedgerAccToTally
                 End If
 
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 LoadAcc()
             Catch ex As Exception
                 trans.Rollback()

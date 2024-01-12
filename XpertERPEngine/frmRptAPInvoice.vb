@@ -138,7 +138,7 @@ Public Class frmRptAPInvoice
 
             'frmInventoryReportViewer.proShowReport("Transfer Report", clsCommon.GetPrintDate(txtFromDate.Value, "yyyy-MM-dd"), clsCommon.GetPrintDate(txtToDate.Value, "yyyy-MM-dd"), txtFromTransferNo.Value, txtToTransferNo.Value, strType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

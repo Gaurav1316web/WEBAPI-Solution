@@ -47,7 +47,7 @@ Public Class FrmOfferLetterHR
             Throw New Exception("Please check ! date of joining must be greater than from offer date")
         End If
         If btnsave.Text = "Update" Then
-            If common.clsCommon.MyMessageBoxShow("Do you want to update this entry (" + clsCommon.myCstr(txtAppcode.Value) + ")", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Do you want to update this entry (" + clsCommon.myCstr(txtAppcode.Value) + ")", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
             Else
                 Return False
             End If
@@ -151,7 +151,7 @@ Public Class FrmOfferLetterHR
 
                 If (ClsOfferLetterHR.SaveData(obj, isNewEntry)) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         LoadData(obj.Applicant_Code, NavigatorType.Current)
                         btnsave.Text = "Update"
                         btnpost.Enabled = True
@@ -162,7 +162,7 @@ Public Class FrmOfferLetterHR
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub funPrint()
@@ -234,7 +234,7 @@ Public Class FrmOfferLetterHR
                         SaveData()
                         If (ClsOfferLetterHR.PostData(MyBase.Form_ID, txtAppcode.Value)) Then
                             msg = "Successfully Posted"
-                            common.clsCommon.MyMessageBoxShow(msg)
+                            common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                             LoadData(txtAppcode.Value, NavigatorType.Current)
                         End If
                     End If
@@ -246,7 +246,7 @@ Public Class FrmOfferLetterHR
                 Throw New Exception("Applicant code not found to post")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -294,7 +294,7 @@ Public Class FrmOfferLetterHR
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -425,11 +425,11 @@ Public Class FrmOfferLetterHR
                 objEmailH.SaveData(clsUserMgtCode.frmOfferLetterHR, objEmailH, Nothing)
                 objEmailH = Nothing
 
-                clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
             End If
 
         Else
-            clsCommon.MyMessageBoxShow("First do email setting", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "First do email setting", Me.Text)
         End If
         'sanjay
 
@@ -515,13 +515,13 @@ Public Class FrmOfferLetterHR
     Sub MailSend()
         Try
             If clsCommon.myLen(txtAppcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Applicant Code First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Applicant Code First", Me.Text)
                 txtAppcode.Focus()
                 txtAppcode.Select()
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Applicant Code " + txtAppcode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Applicant Code " + txtAppcode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtAppcode.Value, NavigatorType.Current)
@@ -530,7 +530,7 @@ Public Class FrmOfferLetterHR
             SendSMSandEmail(True)
             'clsCommon.MyMessageBoxShow("Mail send succussfully")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region

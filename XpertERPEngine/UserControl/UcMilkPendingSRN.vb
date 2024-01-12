@@ -152,7 +152,7 @@ Public Class UcMilkPendingSRN
             LoadHeadData()
             LoadBlankGridDetail()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -784,7 +784,7 @@ Public Class UcMilkPendingSRN
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending SRN item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending SRN item", Me.Text)
         Else
         End If
     End Sub
@@ -844,7 +844,7 @@ Public Class UcMilkPendingSRN
                             LoadDetailData(e.NewValue, strCode)
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow("SRN's Vendor should be `" + VendorName)
+                        common.clsCommon.MyMessageBoxShow(Me, "SRN's Vendor should be `" + VendorName)
                         e.Cancel = True
                     End If
                 End If
@@ -917,7 +917,7 @@ Public Class UcMilkPendingSRN
                             arrVendor.Add(strVendorCode)
                             If Not MultipleFinderFillAuto Then
                                 If arrVendor.Count > 1 Then
-                                    clsCommon.MyMessageBoxShow("Items of more than one VSP not acceptable ")
+                                    clsCommon.MyMessageBoxShow(Me, "Items of more than one VSP not acceptable ", Me.Text)
                                     Return False
                                 End If
                             End If
@@ -929,7 +929,7 @@ Public Class UcMilkPendingSRN
                             arrLoc.Add(StrLoc)
                             If Not MultipleFinderFillAuto Then
                                 If arrLoc.Count > 1 Then
-                                    clsCommon.MyMessageBoxShow("Items of more than one MCC not acceptable ")
+                                    clsCommon.MyMessageBoxShow(Me, "Items of more than one MCC not acceptable ", Me.Text)
                                     Return False
                                 End If
                             End If

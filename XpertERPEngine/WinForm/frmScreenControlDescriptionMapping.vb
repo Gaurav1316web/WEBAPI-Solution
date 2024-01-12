@@ -72,7 +72,7 @@ Public Class frmScreenControlDescriptionMapping
             GC.Collect()
             GC.WaitForPendingFinalizers()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -82,13 +82,13 @@ Public Class frmScreenControlDescriptionMapping
                 If clsCommon.MyMessageBoxShow("Do You Want To Delete ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     Dim qry As String = "delete from TSPL_SCREEN_CONTROL_MASTER where ProgramCode='" & txtScreenCode.Text & "' and controlName='" & txtControlName.Text & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
-                    clsCommon.MyMessageBoxShow("Deleted Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 End If
             Else
                 Throw New Exception("Screen Code and/or control Name found Blank, Unable to delete")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -125,9 +125,9 @@ Public Class frmScreenControlDescriptionMapping
             End If
 
             clsDBFuncationality.ExecuteNonQuery(qry)
-            clsCommon.MyMessageBoxShow("Saved Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -138,7 +138,7 @@ Public Class frmScreenControlDescriptionMapping
 
     Private Sub fndFieldName__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndFieldName._MYValidating
         If clsCommon.myLen(fndReferenceTable.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Table First")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Table First", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select  upper(sys.columns.Name) as FieldName from sys.columns inner join sys.tables on sys.tables.object_id=sys.columns.object_id   "
