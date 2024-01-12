@@ -264,9 +264,9 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
                 End If
             End If
 
-            If Not (rbtnNEFT.IsChecked OrElse rbtnDuplicateACNo.IsChecked OrElse rbtnDuplicateJanAdharNo.IsChecked OrElse rbtnDetails.IsChecked OrElse rbtnFarmerBankWiseDetail.IsChecked OrElse rbtnFarmerBankWiseSummary.IsChecked) Then
-                AddTotalRows() 'strColumnForTotal, dt
-            End If
+            'If Not (rbtnNEFT.IsChecked OrElse rbtnDuplicateACNo.IsChecked OrElse rbtnDuplicateJanAdharNo.IsChecked OrElse rbtnDetails.IsChecked OrElse rbtnFarmerBankWiseDetail.IsChecked OrElse rbtnFarmerBankWiseSummary.IsChecked) Then
+            '    AddTotalRows() 'strColumnForTotal, dt
+            'End If
 
 
             Gv1.DataSource = dt
