@@ -56,13 +56,13 @@ Public Class frmItemReorderLevel1
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "please select location")
+            common.clsCommon.MyMessageBoxShow(Me, "please select location", Me.Text)
             txtLocation.Focus()
             Return False
         End If
 
         If gv1.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "No data found to save")
+            common.clsCommon.MyMessageBoxShow(Me, "No data found to save", Me.Text)
             gv1.Focus()
             Return False
         End If
@@ -129,17 +129,17 @@ Public Class frmItemReorderLevel1
                 Next
                 If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
                     If (clsItemReorderLevel.SaveData(Arr)) Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadDataAll()
                         'LoadData(txtItemType.arrValueMember)
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "No data found to save")
+                    common.clsCommon.MyMessageBoxShow(Me, "No data found to save", Me.Text)
                 End If
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -238,7 +238,7 @@ Public Class frmItemReorderLevel1
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -246,7 +246,7 @@ Public Class frmItemReorderLevel1
         Try
             ImportItems()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -344,7 +344,7 @@ Public Class frmItemReorderLevel1
         Try
             txtItemType.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemTypestoreco", FrmItemMasterRMOther.LoadItemTypeQuery(), "Code", "Name", txtItemType.arrValueMember, txtItemType.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -444,12 +444,12 @@ Public Class frmItemReorderLevel1
     Private Sub btn_Refresh_Click(sender As Object, e As EventArgs) Handles btn_Refresh.Click
         Try
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select location.")
+                clsCommon.MyMessageBoxShow(Me, "Please select location.", Me.Text)
                 Exit Sub
             End If
             LoadDataAll()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
       
     End Sub

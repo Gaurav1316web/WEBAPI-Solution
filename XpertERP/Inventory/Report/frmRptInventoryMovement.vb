@@ -132,9 +132,9 @@ Public Class frmRptInventoryMovement
             Dim StrQuery As String
             Dim strItemtype As String = ""
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Location", Me.Text)
             ElseIf chkItemSelect.IsChecked AndAlso cbgItem.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Item", Me.Text)
             End If
 
             If rdbFinish.IsChecked = True Then
@@ -371,7 +371,7 @@ Public Class frmRptInventoryMovement
             'Else
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

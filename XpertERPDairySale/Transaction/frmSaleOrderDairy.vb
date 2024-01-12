@@ -391,7 +391,7 @@ Public Class frmSaleOrderDairy
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -2414,14 +2414,14 @@ Public Class frmSaleOrderDairy
                             '    OpenICodeListCurrentCalaculation(False)
                             'End If
                             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Customer First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
                             OpenItemList(False)
                         ElseIf e.Column Is gv1.Columns(colICodeGrp) Then
                             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Customer First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
@@ -2435,14 +2435,14 @@ Public Class frmSaleOrderDairy
                             'UpdateAllTotals()
                         ElseIf e.Column Is gv1.Columns(colUnitALter) Then
                             If clsCommon.myLen(gv1.CurrentRow.Cells(colUnit).Value) = 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Main Unit First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Main Unit First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
                             OpenUOMAlterList(False)
                         ElseIf e.Column Is gv1.Columns(colUnitRate) Then
                             If clsCommon.myLen(gv1.CurrentRow.Cells(colUnit).Value) = 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Main Unit First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Main Unit First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                                 'ElseIf clsCommon.myLen(gv1.CurrentRow.Cells(colUnitALter).Value) = 0 Then
@@ -2882,15 +2882,15 @@ Public Class frmSaleOrderDairy
     End Sub
     Sub OpenItemGroupList(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtReqNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Booking First")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Booking First", Me.Text)
             isCellValueChangedOpen = False
             Exit Sub
         ElseIf clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer First")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
             isCellValueChangedOpen = False
             Exit Sub
         ElseIf clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location First")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location First", Me.Text)
             isCellValueChangedOpen = False
             Exit Sub
         End If
@@ -2929,15 +2929,15 @@ Public Class frmSaleOrderDairy
     End Sub
     Sub OpenItemList(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtReqNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Booking First")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Booking First", Me.Text)
             isCellValueChangedOpen = False
             Exit Sub
         ElseIf clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer First")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
             isCellValueChangedOpen = False
             Exit Sub
         ElseIf clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location First")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location First", Me.Text)
             isCellValueChangedOpen = False
             Exit Sub
         End If
@@ -2956,7 +2956,7 @@ Public Class frmSaleOrderDairy
             Else
                 Dim strIcodegrp As String = gv1.CurrentRow.Cells(colICodeGrp).Value
                 If clsCommon.myLen(strIcodegrp) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Item Group First")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Item Group First")
                     isCellValueChangedOpen = False
                     Exit Sub
                 End If
@@ -3231,7 +3231,7 @@ Public Class frmSaleOrderDairy
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
         Dim strPriceGrp, strPriceCondition, strPriceGrpStatus As String
@@ -3481,7 +3481,7 @@ Public Class frmSaleOrderDairy
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -4586,26 +4586,26 @@ Public Class frmSaleOrderDairy
 
             'CalculateDiscountAmount()
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 txtVendorNo.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group", Me.Text)
                 txtTaxGroup.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Bill to Location", Me.Text)
                 txtBillToLocation.Focus()
                 Return False
             End If
 
 
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Pucahse Order code Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "Pucahse Order code Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
@@ -4620,27 +4620,27 @@ Public Class frmSaleOrderDairy
             '    Return False
             'End If
             If chkclose.Checked = True AndAlso IsRemarksMandatory = True AndAlso clsCommon.myLen(txtCloseRemarks.Value) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter Remarks for Closing Order")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter Remarks for Closing Order", Me.Text)
                 txtCloseRemarks.Focus()
                 Return False
             End If
             If chkCommApply.Checked = True AndAlso clsCommon.myCdbl(lblCommAmt.Text) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please enter Commission amount.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter Commission amount.", Me.Text)
                 Return False
             End If
             If txtCustPODate.Checked Then
                 If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDeliveryDate.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Please enter Delivery Date greater or equal  than Customer Po Date.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter Delivery Date greater or equal  than Customer Po Date.", Me.Text)
                     Return False
                 End If
 
                 If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDate.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Please enter Document Date greater or equal  than Customer Po Date.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter Document Date greater or equal  than Customer Po Date.", Me.Text)
                     Return False
                 End If
             Else
                 If clsCommon.myLen(txtPONo.Text) > 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please enter Customer Po Date.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter Customer Po Date.", Me.Text)
                     Return False
                 End If
                 'If clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtCustPODate.Value)) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDate.Value)) Then
@@ -4685,19 +4685,19 @@ Public Class frmSaleOrderDairy
                 End If
                 If clsCommon.myLen(strICode) > 0 Then
                     If clsCommon.myLen(strUOM) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
                     If clsCommon.myLen(strAlterUOM) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter Alter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter Alter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
                     If clsCommon.myLen(strRateUOM) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter Rate UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter Rate UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
                     If chkCommApply.Checked = True AndAlso clsCommon.myLen(strCommParty) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter Commission party for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter Commission party for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
                 End If
@@ -4857,7 +4857,7 @@ Public Class frmSaleOrderDairy
 
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -4896,12 +4896,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=3")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -4913,12 +4913,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=2")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -4930,12 +4930,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=1")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -4950,12 +4950,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=3")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -4967,12 +4967,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=2")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -4984,12 +4984,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=1")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -5005,12 +5005,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=3")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -5022,12 +5022,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=2")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -5039,12 +5039,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=1")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -5059,12 +5059,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=3")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -5076,12 +5076,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=2")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -5093,12 +5093,12 @@ Public Class frmSaleOrderDairy
                 If intCForm > 0 Then
                     StrValidation = clsDBFuncationality.getSingleValue("select Validation from TSPL_SCREEN_NOTIFICATION_SETTING where Quarter=1")
                     If StrValidation = "Warning" Then
-                        clsCommon.MyMessageBoxShow("Please Fill CForm For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Fill CForm For this customer " & txtVendorNo.Value & " ")
                     ElseIf StrValidation = "Required Approval" Then
                         intApprovel_Required = 1
-                        clsCommon.MyMessageBoxShow("Please Approve this order to create without CForm ")
+                        clsCommon.MyMessageBoxShow(Me, "Please Approve this order to create without CForm ")
                     ElseIf StrValidation = "Full Stop" Then
-                        clsCommon.MyMessageBoxShow("You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
+                        clsCommon.MyMessageBoxShow(Me, "You have no permission to create order for this customer " & txtVendorNo.Value & ".Your CForm are pending For this customer " & txtVendorNo.Value & " ")
                         Return False
                     End If
                 End If
@@ -5106,14 +5106,14 @@ Public Class frmSaleOrderDairy
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return Nothing
         End Try
     End Function
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnCopy.Enabled = False
             End If
 
@@ -5482,7 +5482,7 @@ Public Class frmSaleOrderDairy
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
                 ''For Custom Fields
@@ -5521,7 +5521,7 @@ Public Class frmSaleOrderDairy
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -6122,7 +6122,7 @@ Public Class frmSaleOrderDairy
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -6166,7 +6166,7 @@ Public Class frmSaleOrderDairy
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6240,7 +6240,7 @@ Public Class frmSaleOrderDairy
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6265,7 +6265,7 @@ Public Class frmSaleOrderDairy
                 End If
                 If (clsPSSalesOrder.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -6355,7 +6355,7 @@ Public Class frmSaleOrderDairy
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'Dim frm As New frmMandatoryFieldChecker
         'gv1.Enabled = Not frm.CheckmandatoryField(Me)
@@ -6400,7 +6400,7 @@ Public Class frmSaleOrderDairy
             If gv1.CurrentColumn Is gv1.Columns(colICodeGrp) AndAlso gv1.CurrentColumn.ReadOnly = False Then
                 isCellValueChangedOpen = True
                 If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Customer First")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
                     isCellValueChangedOpen = False
                     Exit Sub
                 End If
@@ -6411,7 +6411,7 @@ Public Class frmSaleOrderDairy
             ElseIf gv1.CurrentColumn Is gv1.Columns(colICode) AndAlso gv1.CurrentColumn.ReadOnly = False Then
                 isCellValueChangedOpen = True
                 If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Customer First")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
                     isCellValueChangedOpen = False
                     Exit Sub
                 End If
@@ -6429,7 +6429,7 @@ Public Class frmSaleOrderDairy
             ElseIf gv1.CurrentColumn Is gv1.Columns(colUnitALter) AndAlso gv1.CurrentColumn.ReadOnly = False Then
                 isCellValueChangedOpen = True
                 If clsCommon.myLen(gv1.CurrentRow.Cells(colUnit).Value) = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Main Unit First")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Main Unit First", Me.Text)
                     isCellValueChangedOpen = False
                     Exit Sub
                 End If
@@ -6438,11 +6438,11 @@ Public Class frmSaleOrderDairy
             ElseIf gv1.CurrentColumn Is gv1.Columns(colUnitRate) AndAlso gv1.CurrentColumn.ReadOnly = False Then
                 isCellValueChangedOpen = True
                 If clsCommon.myLen(gv1.CurrentRow.Cells(colUnit).Value) = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Main Unit First")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Main Unit First", Me.Text)
                     isCellValueChangedOpen = False
                     Exit Sub
                 ElseIf clsCommon.myLen(gv1.CurrentRow.Cells(colUnitALter).Value) = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Main Unit First")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Main Unit First", Me.Text)
                     isCellValueChangedOpen = False
                     Exit Sub
                 End If
@@ -6528,7 +6528,7 @@ Public Class frmSaleOrderDairy
 
 
 
-            If common.clsCommon.MyMessageBoxShow(strmessage, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, strmessage, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
 
                 If clsCommon.myLen(lblVhicleNo.Text) <= 0 Then
                     lblVhicleNo.Focus()
@@ -6598,7 +6598,7 @@ Public Class frmSaleOrderDairy
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -6886,12 +6886,12 @@ Public Class frmSaleOrderDairy
 
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShipToLocation._MYValidating
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtBillToLocation.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
             txtVendorNo.Focus()
             Exit Sub
         End If
@@ -7324,7 +7324,7 @@ Public Class frmSaleOrderDairy
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         If clsPSSalesOrderDetail.CompletePO(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow("Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed")
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If

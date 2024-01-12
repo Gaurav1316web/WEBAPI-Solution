@@ -1964,7 +1964,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtpayableclearing.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Payble Clearing Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Payble Clearing Account does not exist", Me.Text)
                     fndpayableclearing.Text = ""
 
 
@@ -1997,7 +1997,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtadjustmentwriteoff.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Adjust Write Offs Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Adjust Write Offs Account does not exist", Me.Text)
                     fndadjustmentwriteoff.Text = ""
 
 
@@ -2031,7 +2031,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtassamblycostcredit.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This FG Shortage  Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This FG Shortage  Account does not exist", Me.Text)
                     fndassamblycostoff.Value = ""
 
 
@@ -2064,7 +2064,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtnonstockclearing.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Inventory Control Empties Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Inventory Control Empties Account does not exist", Me.Text)
                     fndnonstockclearing.Text = ""
 
 
@@ -2097,7 +2097,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxttransferclearing.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Transfer Clearing Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Transfer Clearing Account does not exist", Me.Text)
                     fndtransferclearing.Text = ""
 
 
@@ -2131,7 +2131,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtshipmentexpense.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Shipment Clearing Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Shipment Clearing Account does not exist", Me.Text)
                     fndshipmentclearing.Text = ""
 
 
@@ -2164,7 +2164,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtdisassamblyexpense.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Dissambly Expence Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Dissambly Expence Account does not exist", Me.Text)
                     fnddisassamblyexpense.Text = ""
 
 
@@ -2197,7 +2197,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtphysicalinventryadj.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Physicaly Inventory Adjustment Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Physicaly Inventory Adjustment Account does not exist", Me.Text)
                     fndphysicalinventrycontrol.Text = ""
 
 
@@ -2230,7 +2230,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtcreditdebitnoteclr.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Credit Debit Note Clr Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Credit Debit Note Clr Account does not exist", Me.Text)
                     fndcreditdebitnoteclr.Text = ""
 
 
@@ -2253,7 +2253,7 @@ Public Class frmPurcahseAccountSetCode
                 If strvalue <> "" Then
                 Else : str = ""
                     rdtxtWIPAcc.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This WIP Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This WIP Account does not exist", Me.Text)
                     fndWIPAcc.Text = ""
                 End If
             Catch ex As Exception
@@ -2271,7 +2271,7 @@ Public Class frmPurcahseAccountSetCode
                 If strvalue <> "" Then
                 Else : str = ""
                     rdtxtRMCons.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This RM Consumption Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This RM Consumption Account does not exist", Me.Text)
                     fndRMCons.Text = ""
                 End If
             Catch ex As Exception
@@ -2307,7 +2307,7 @@ Public Class frmPurcahseAccountSetCode
                 If strvalue <> "" Then
                 Else : str = ""
                     rdtxtOther2.Text = ""
-                    common.clsCommon.MyMessageBoxShow(Me, "This Other 2 Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Other 2 Account does not exist", Me.Text)
                     fndOther2.Text = ""
                 End If
             Catch ex As Exception

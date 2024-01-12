@@ -363,7 +363,7 @@ Public Class frmLocationMaster
             Return False
         ElseIf (clsCommon.CompairString(clsCommon.myCstr(ddlLocationType.Text), "Logical") = CompairStringResult.Equal And chkExcisable.Checked = True) Then
             RadPageView1.SelectedPage = Details
-            common.clsCommon.MyMessageBoxShow(Me, "Excisable can not be checked with location type logical")
+            common.clsCommon.MyMessageBoxShow(Me, "Excisable can not be checked with location type logical", Me.Text)
             Return False
         ElseIf chkExcisable.Checked = True Then
             If clsCommon.myLen(txtEccNumber.Text) <= 0 Then
@@ -373,7 +373,7 @@ Public Class frmLocationMaster
                 Return False
             ElseIf clsCommon.myLen(txtEccNumber.Text) < 15 Then
                 RadPageView1.SelectedPage = Details
-                common.clsCommon.MyMessageBoxShow(Me, "ECC number must have minimum of 15 character")
+                common.clsCommon.MyMessageBoxShow(Me, "ECC number must have minimum of 15 character", Me.Text)
                 Return False
             End If
         ElseIf chkInsurance.Checked = True Then
@@ -383,7 +383,7 @@ Public Class frmLocationMaster
                 Return False
             End If
             If txtFromDate.Value.Date > txtToDate.Value.Date Then
-                common.clsCommon.MyMessageBoxShow(Me, "Insurance To date can not be before than from date.")
+                common.clsCommon.MyMessageBoxShow(Me, "Insurance To date can not be before than from date.", Me.Text)
                 txtToDate.Focus()
                 Return False
             End If
@@ -1018,7 +1018,7 @@ Public Class frmLocationMaster
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -1679,31 +1679,31 @@ Public Class frmLocationMaster
             qst = "select From_Location,To_Location from tspl_transfer_head where (From_Location  ='" + fndLocation.Value + "' or To_Location ='" + fndLocation.Value + "')"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process", Me.Text)
                 Return
             End If
             qst = "select Bill_To_Location from TSPL_SRN_HEAD where Bill_To_Location ='" + fndLocation.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process", Me.Text)
                 Return
             End If
             qst = "select Location from TSPL_PR_DETAIL where Location ='" + fndLocation.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process", Me.Text)
                 Return
             End If
             qst = "select Loc_Code from TSPL_SCRAPINVOICE_HEAD where Loc_Code ='" + fndLocation.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process", Me.Text)
                 Return
             End If
             qst = "select Location_Code from TSPL_ADJUSTMENT_DETAIL where Location_Code ='" + fndLocation.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process", Me.Text)
                 Return
             End If
             connectSql.RunSp("sp_TSPL_LOCATION_MASTER_delete", New SqlParameter("@LocCode", fndLocation.Value))
@@ -1815,7 +1815,7 @@ Public Class frmLocationMaster
             strvalue = clsDBFuncationality.getSingleValue(str)
             If strvalue <> "" Then
             Else : str = ""
-                common.clsCommon.MyMessageBoxShow(Me, "Segment code does not exist in Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "Segment code does not exist in Master Table", Me.Text)
                 fndLocationSegmentCode.Value = ""
                 fndLocationSegmentCode.Focus()
             End If
@@ -2012,7 +2012,7 @@ Public Class frmLocationMaster
             Dim strvalue As String = clsDBFuncationality.getSingleValue(str)
             If strvalue <> "" Then
             Else : str = ""
-                common.clsCommon.MyMessageBoxShow(Me, "Segment code does not exist in Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "Segment code does not exist in Master Table", Me.Text)
                 fndLocationSegmentCode.Value = ""
                 fndLocationSegmentCode.Focus()
             End If
@@ -2208,7 +2208,7 @@ Public Class frmLocationMaster
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3804,7 +3804,7 @@ Public Class frmLocationMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select Location")
+                clsCommon.MyMessageBoxShow(Me, "Select Location", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndLocation.Value, "Location_Code", "TSPL_Location_MASTER")

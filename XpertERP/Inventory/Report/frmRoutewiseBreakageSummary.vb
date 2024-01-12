@@ -115,11 +115,11 @@ Public Class FrmRoutewiseBreakageSummary
     Sub PrintData()
 
         If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location", Me.Text)
             Return
         End If
         If chkSelect.IsChecked AndAlso cbgroute.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Route")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Route", Me.Text)
             Return
         End If
 
@@ -153,7 +153,7 @@ Public Class FrmRoutewiseBreakageSummary
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -190,13 +190,13 @@ Public Class FrmRoutewiseBreakageSummary
             ds = connectSql.RunSQLReturnDS(Str)
             If ds.Tables(0).Rows.Count <> 0 Then
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "No data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
                 Exit Sub
             End If
 
 
         Else
-            common.clsCommon.MyMessageBoxShow(Me, "Select only one Route ")
+            common.clsCommon.MyMessageBoxShow(Me, "Select only one Route ", Me.Text)
             Exit Sub
         End If
 
@@ -291,7 +291,7 @@ Public Class FrmRoutewiseBreakageSummary
             releaseObject(xlWorkBook)
             releaseObject(xlWorkSheet)
 
-            common.clsCommon.MyMessageBoxShow(Me, "Data Transferred ...")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Transferred ...", Me.Text)
         End If
     End Sub
     Private Sub releaseObject(ByVal obj As Object)

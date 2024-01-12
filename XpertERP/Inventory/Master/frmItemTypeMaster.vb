@@ -144,7 +144,7 @@ Public Class FrmItemTypeMaster
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Try
             If clsCommon.myLen(fndItemType.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select Item Type for deletion.")
+                clsCommon.MyMessageBoxShow(Me, "Select Item Type for deletion.", Me.Text)
                 fndItemType.Focus()
                 fndItemType.Select()
                 ErrorControl.SetError(fndItemType, "Select Item Type for deletion.")
@@ -161,7 +161,7 @@ Public Class FrmItemTypeMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

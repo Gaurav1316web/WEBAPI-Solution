@@ -84,16 +84,16 @@ Public Class frmItemPrice
             'Dim qry As String = "  select  *  from (  SELECT  Distinct '" + dtpitem.Value + "' as fdate,'" + dtptodate.Value + "' as todate,i.Item_Code, ISNULL(i.Item_Basic_Net, 0) AS item_MRP, i.Price_Comp1, ISNULL(i.Price_Amount1, 0) AS price_Amount1, i.Price_Comp2,    ISNULL(i.Price_Amount2, 0) AS price_Amount2, i.Price_Comp3, ISNULL(i.Price_Amount3, 0) AS price_Amount3, i.Price_Comp4, ISNULL(i.Price_Amount4,   0) AS price_Amount4, i.Price_Comp5, ISNULL(i.Price_Amount5, 0) AS price_Amount5, ISNULL(i.Item_Basic_Price, 0) AS item_baisc_price,   ( case when t.Excisable='Y' then  ISNULL(i.TAX1_Amt, 0) else 0 end) AS tax1_amt,  ( case when t.Excisable='Y'then ISNULL(i.TAX2_Amt, 0) else 0 end) AS tax2_amt,( case when t.Excisable='Y'then ISNULL(i.TAX3_Amt, 0) else 0 end) AS tax3_amt,      ( case when t.Excisable='Y'then  ISNULL(i.TAX4_Amt, 0) else ISNULL(i.TAX1_Amt, 0) end) AS tax4_amt,  ( case when t.Excisable='Y'then  ISNULL(i.TAX5_Amt, 0) else ISNULL(i.TAX2_Amt, 0) end) AS tax5_amt, m.Item_Desc, ISNULL(i.Item_Basic_Price, 0) + ISNULL(i.TAX1_Amt, 0) + ISNULL(i.TAX2_Amt, 0) + ISNULL(i.TAX3_Amt, 0) + ISNULL(i.TAX4_Amt, 0) + ISNULL(i.Price_Amount5, 0) AS Total, ISNULL(i.Item_Basic_Net, 0) - i.Price_Amount1 AS Retail_Price, ISNULL(i.Item_Basic_Net, 0) - (ISNULL(i.Price_Amount1, 0) + ISNULL(i.Price_Amount2, 0) + ISNULL(i.Price_Amount3, 0) + ISNULL(i.Price_Amount4, 0) + ISNULL(i.Price_Amount5, 0)) AS Net, i.Price_Amount5 AS TDT, i.Price_Comp_Desc1 AS desc1, i.Price_Comp_Desc2 AS desc2, i.Price_Comp_Desc3 AS desc3, i.Price_Comp_Desc4 AS desc4, i.Price_Comp_Desc5 AS desc5, CONVERT(VARCHAR(10), i.Start_Date, 103) AS start_date, '02/10/2011' AS From_date, '02/10/2011' AS To_date,i.UOM as UOM, isnull((i.Empty_Value_Shell+i.Empty_Value_Bottle),0) as Emty, i.price_code,i.Price_Code_Desc,i.Abatement,i.Comp_Code,(select Price_Amount1 from TSPL_ITEM_PRICE_MASTER where Price_Comp1 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT1,(select Price_Amount2 from TSPL_ITEM_PRICE_MASTER where Price_Comp2 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT2,(select Price_Amount3 from TSPL_ITEM_PRICE_MASTER where Price_Comp3 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT3,(select Price_Amount4 from TSPL_ITEM_PRICE_MASTER where Price_Comp4 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT4,(select Price_Amount5 from TSPL_ITEM_PRICE_MASTER where Price_Comp5 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT5,(select Price_Amount6 from TSPL_ITEM_PRICE_MASTER where Price_Comp6 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT6,(select Price_Amount7 from TSPL_ITEM_PRICE_MASTER where Price_Comp7 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT7,(select Price_Amount8 from TSPL_ITEM_PRICE_MASTER where Price_Comp8 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT8,(select Price_Amount9 from TSPL_ITEM_PRICE_MASTER where Price_Comp9 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT9,(select Price_Amount10 from TSPL_ITEM_PRICE_MASTER where Price_Comp10 ='TPT' and TSPL_ITEM_PRICE_MASTER.Item_Price_ID  =i.Item_Price_ID   ) as TPT10       FROM     TSPL_ITEM_PRICE_MASTER AS i INNER JOIN                      TSPL_ITEM_MASTER AS m ON i.Item_Code = m.Item_Code   left Outer Join TSPL_TAX_GROUP_MASTER as t on i.Tax_group=t.Tax_Group_Code      WHERE(2 = 2) and Item_Price_ID=(select top 1 Item_Price_ID from TSPL_ITEM_PRICE_MASTER as InnerQry where InnerQry.Item_Code=i.Item_Code and InnerQry.UOM=i.UOM  and InnerQry.Item_Basic_Net=i.Item_Basic_Net   and InnerQry.Price_Code=i.Price_Code   order by Start_Date desc) "
 
             If chkpriceselect.IsChecked = True AndAlso cbgPrice.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Price Code or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Price Code or select ALL", Me.Text)
                 Exit Sub
             End If
 
             If chkselect.IsChecked = True AndAlso cgvitems.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item or select ALL", Me.Text)
                 Exit Sub
             End If
             If chktypeSelect.IsChecked = True AndAlso cbgtype.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one UOM or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one UOM or select ALL", Me.Text)
                 Exit Sub
             End If
 
@@ -146,7 +146,7 @@ Public Class frmItemPrice
             'frmInventoryReportViewer.proShowReport("Item Price", fndItemCode.txtValue.Text, pricedate, pricetodate, fromdate, todate, ddl)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Private Sub fndItemCode_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)

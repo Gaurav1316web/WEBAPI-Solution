@@ -224,11 +224,11 @@ Public Class FrmStockReportFinishedGoods
         Try
            
             If chkselect.IsChecked AndAlso cgvitems.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item", Me.Text)
                 Return
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location", Me.Text)
                 Return
             End If
 
@@ -304,7 +304,7 @@ Public Class FrmStockReportFinishedGoods
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -439,7 +439,7 @@ Public Class FrmStockReportFinishedGoods
             clsCommon.MyExportToExcel("Stock Report For FInished Goods ( " + ReportType + ")", gvReport, arrHeader, Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try

@@ -2037,13 +2037,13 @@ Public Class frmTransferDCC
                 '' nothing to do
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                 If clsCommon.myLen(clsCommon.myCstr(txtTransferOutNo.Value)) = 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Transfer No is mandatory.")
+                    clsCommon.MyMessageBoxShow(Me, "Transfer No is mandatory.", Me.Text)
                     txtTransferOutNo.Focus()
                     Return False
                 End If
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "R") = CompairStringResult.Equal Then
                 If clsCommon.myLen(clsCommon.myCstr(txtRMDANo.Value)) = 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Rejected No is mandatory.")
+                    clsCommon.MyMessageBoxShow(Me, "Rejected No is mandatory.", Me.Text)
                     txtRMDANo.Focus()
                     Return False
                 End If
@@ -2094,12 +2094,12 @@ Public Class frmTransferDCC
 
                 If clsCommon.myLen(strICode) > 0 Then
                     If clsCommon.myCBool(gv1.Rows(ii).Cells(colisMRPMandatory).Value) AndAlso dblMRP <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter MRP for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter MRP for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
                     If IsItemRateeditable = True Then
                         If clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) = 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please enter Item Rate for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            common.clsCommon.MyMessageBoxShow(Me, "Please enter Item Rate for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
                             Return False
                         End If
                     End If
@@ -2114,19 +2114,19 @@ Public Class frmTransferDCC
                     If clsCommon.myLen(strTransferOutNo) > 0 Then
                         Dim dblTransferInQty As Double = dblInQty + dblLeakQty + dblBreakQty + dblShortQty
                         If dblTransferInQty <> dblOutQty Then
-                            common.clsCommon.MyMessageBoxShow("In Qty Should be equal to Out Qty." + Environment.NewLine + "Out Quantity : " + clsCommon.myCstr(dblOutQty) + ". In Quantity : " + clsCommon.myCstr(dblTransferInQty))
+                            common.clsCommon.MyMessageBoxShow(Me, "In Qty Should be equal to Out Qty." + Environment.NewLine + "Out Quantity : " + clsCommon.myCstr(dblOutQty) + ". In Quantity : " + clsCommon.myCstr(dblTransferInQty))
                             Return False
                         End If
                     Else
                         If dblOutQty > dblBalQty Then
-                            common.clsCommon.MyMessageBoxShow("Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblOutQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblOutQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
                             Return False
                         End If
                         If clsCommon.myLen(txtRMDANo.Value) > 0 Then
                             Dim strPINo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MAX( TSPL_PI_DETAIL.PI_No) as PI_No from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_HEAD.RMDA_No='" + txtRMDANo.Value + "'"))
                             dblBalQty = clsPurchaseInvoiceDetail.GetBalancePIQty(strPINo, strICode, txtDocNo.Value, strUOM, dblMRP, 0, True)
                             If dblOutQty > dblBalQty Then
-                                common.clsCommon.MyMessageBoxShow("Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblOutQty) + " and RMDA Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
+                                common.clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblOutQty) + " and RMDA Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
                                 Return False
                             End If
                         End If
@@ -2182,7 +2182,7 @@ Public Class frmTransferDCC
     Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (SaveData(False)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
             Return True
         Else
@@ -2383,7 +2383,7 @@ Public Class frmTransferDCC
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -2873,7 +2873,7 @@ Public Class frmTransferDCC
                     '    Exit Sub
                     'End If
                     If (clsTransferDCC.postTransfer(txtDocNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
@@ -2904,7 +2904,7 @@ Public Class frmTransferDCC
                 End If
                 If (clsTransferDCC.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -3330,7 +3330,7 @@ Public Class frmTransferDCC
                 If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsTransferDCCDetail.CompletePO(txtDocNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
                         End If
                     End If
@@ -3353,7 +3353,7 @@ Public Class frmTransferDCC
     Public Sub funprint(ByVal i As Integer)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
+                common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
             End If
             Dim arr As New ArrayList()
             arr.Add(txtDocNo.Value)
@@ -3552,7 +3552,7 @@ Public Class frmTransferDCC
     Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ''Printing the amendment
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
         Else
             FrmPurchaseOrderReport.PrintAbandoment(txtDocNo.Value)
         End If
@@ -3674,7 +3674,7 @@ Public Class frmTransferDCC
 
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
         Else
             i = 1
             funprint(i)
@@ -3684,7 +3684,7 @@ Public Class frmTransferDCC
 
     Private Sub btnpreprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
         Else
             i = 2
             funprint(i)
@@ -4051,7 +4051,7 @@ Public Class frmTransferDCC
 
     Private Sub btnReverseAndUnpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseAndUnpost.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsTransferDCC.ReverseAndUnpost(txtDocNo.Value, False) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
