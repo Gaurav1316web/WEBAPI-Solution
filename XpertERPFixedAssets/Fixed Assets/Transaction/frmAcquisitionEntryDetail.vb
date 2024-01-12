@@ -261,7 +261,7 @@ Public Class FrmAcquisitionEntryDetail
             txtGroup.Value = clsCommon.ShowSelectForm("AssetCategoryAQD", qry, "Code", Whrcls, txtGroup.Value, "", isButtonClicked)
             lblGroup.Text = clsDBFuncationality.getSingleValue("Select Description from TSPL_ASSET_GROUP where Group_Code='" + txtGroup.Value + "' ")
         Else
-            clsCommon.MyMessageBoxShow("Select Category first.")
+            clsCommon.MyMessageBoxShow(Me, "Select Category first.", Me.Text)
         End If
     End Sub
 
@@ -286,15 +286,15 @@ Public Class FrmAcquisitionEntryDetail
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
 
         If txtStartDate.Value.Date < txtAcquisitionDate.Value.Date Then
-            clsCommon.MyMessageBoxShow("Start date can not less than Acquisition Date.")
+            clsCommon.MyMessageBoxShow(Me, "Start date can not less than Acquisition Date.", Me.Text)
             Exit Sub
         End If
         If txtSalvageRate.Value < 0 Or txtSalvageRate.Value >= 100 Then
-            clsCommon.MyMessageBoxShow("Solvage % must be between 0 and 100(>=0 and <100).")
+            clsCommon.MyMessageBoxShow(Me, "Solvage % must be between 0 and 100(>=0 and <100).", Me.Text)
             Exit Sub
         End If
         If txtEstLife.Text <= 0 Then
-            clsCommon.MyMessageBoxShow("Please fill Estimate life")
+            clsCommon.MyMessageBoxShow(Me, "Please fill Estimate life", Me.Text)
             Exit Sub
         End If
         obj = New clsAcquisitionDetail()
@@ -466,7 +466,7 @@ Public Class FrmAcquisitionEntryDetail
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

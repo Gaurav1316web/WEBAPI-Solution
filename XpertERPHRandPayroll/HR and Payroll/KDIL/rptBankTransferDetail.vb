@@ -30,7 +30,7 @@ Public Class RptBankTransferDetail
     Sub PrintData()
         Try
             If clsCommon.myLen(txtpayPeriod.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Pay Period.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
                 Return
             End If
             Dim LocAddress As String = ""
@@ -88,7 +88,7 @@ Public Class RptBankTransferDetail
                 FormatGrid()
                 If btnReferesh = False Then
                     If dtFinal.Rows.Count <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("No Data Found")
+                        common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                     Else
                         Dim frmcrystal As New frmCrystalReportViewer()
                         frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "rptPayrollBankTransferDetail", "Bank Transfer Detail")
@@ -99,12 +99,12 @@ Public Class RptBankTransferDetail
                 'EnableDisableControl(False)
             Else
                 'tmpValLoad = False
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
             ReStoreGridLayout()
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -244,7 +244,7 @@ Public Class RptBankTransferDetail
                 clsCommon.MyExportToPDF("Bank Transfer Detail", gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -350,10 +350,10 @@ Public Class RptBankTransferDetail
                     clsCommon.MyExportToPDF("Bank Transfer Detail", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -377,7 +377,7 @@ Public Class RptBankTransferDetail
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -386,6 +386,6 @@ Public Class RptBankTransferDetail
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 End Class

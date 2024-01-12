@@ -55,7 +55,7 @@ Public Class frmTDSReport
 
     Private Sub txtMultDCS__My_Click(sender As Object, e As EventArgs) Handles txtMultDCS._My_Click
         Dim qry As String = " select M.Vendor_Code AS [Code], m.Vendor_Name as [Name],ISNULL(m.alies_name,'') As [Alies Name],TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code], TSPL_VLC_MASTER_HEAD.MCC as [MCC Code],TSPL_MCC_MASTER.MCC_Name as [MCC Name],TSPL_MCC_MASTER.Plant_Code as [Plant Code],TSPL_LOCATION_MASTER.Location_Desc as [Plant Name],(m.Add1+(case when m.Add2='' then '' else ',' end)+m.Add2) as [Address],m.Vendor_Group_Code as [Vendor Group Code],m.Vendor_Group_Code_Desc as [Vendor Group Desc],s.Acct_Set_Code as [Vendor Account Set],s.Acct_Set_Desc as [Vendor Account Set Desc] from TSPL_VENDOR_MASTER m join TSPL_VENDOR_ACCOUNT_SET s on m.Vendor_Account =s.Acct_Set_Code " &
-                             " left outer Join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = M.Vendor_Code " &
+                             " inner Join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = M.Vendor_Code " &
                              " Left Outer Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC " &
                              " Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_MCC_MASTER.Plant_Code where m.Status='N' "
         txtMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMulSelect", qry, "VLC Uploader Code", "Name", txtMultDCS.arrValueMember, txtMultDCS.arrDispalyMember)
@@ -132,17 +132,26 @@ Public Class frmTDSReport
             Qry += " '" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' as [Location], "
         End If
         Qry += "cast(VLC_CODE_Uploader as int) As [DCS Code], VSP_NAME As [Society Name],Milk_Qty As [Milk Quantity],
-                    (Milk_Amount+Credit_Note_Amount) As [Milk Amount + OverHead],Isnull(TSPL_REMITTANCE.Actual_TDS_Base,0)+ Isnull(TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount,0) as [Actual Amount], Isnull(TDS_Amount,0) As [TDS Amount],
+                    (Milk_Amount+Credit_Note_Amount) As [Milk Amount + OverHead],Isnull(TSPL_REMITTANCE.Actual_TDS_Base,0)+ Isnull(TabCNTDS.Actual_TDS_Base,0) as [Actual Amount], Isnull(TDS_Amount,0) As [TDS Amount],
                     TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Regn_No,Case When TSPL_COMPANY_MASTER.Phone1 Is Null Then TSPL_COMPANY_MASTER.Phone2 Else TSPL_COMPANY_MASTER.Phone1 End As [Comp Contact No]
-                    from TSPL_PAYMENT_PROCESS_DETAIL 
-                    left outer join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
-                    Left Outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
-					left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No
-					left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No
-                    left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer  from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg,cast( ACC_Qty*SNF_PER/100 as decimal(18,2)) as SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE ) as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
-                    Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code
-                    Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_COMPANY_MASTER.Comp_Code1
-                    where Isnull(TDS_Amount,0)>0 And  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and TSPL_PAYMENT_PROCESS_HEAD.From_Date<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'"
+from TSPL_PAYMENT_PROCESS_DETAIL 
+left outer join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+Left Outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No
+left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No
+Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code
+Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_COMPANY_MASTER.Comp_Code1
+left outer join (select Doc_No,Vendor_CODE,sum(Actual_TDS_Base) as Actual_TDS_Base from(
+select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_REMITTANCE.Actual_TDS_Base  from 
+TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
+inner join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+where Isnull(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.TDS_Amount,0)>0 And  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and TSPL_PAYMENT_PROCESS_HEAD.From_Date<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  "
+                If txtMultMCC.arrValueMember IsNot Nothing AndAlso txtMultMCC.arrValueMember.Count > 0 Then
+            Qry += "  and TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected in (" + clsCommon.GetMulcallString(txtMultMCC.arrValueMember) + ")"
+        End If
+        Qry += " )x group by Doc_No,Vendor_CODE) TabCNTDS on TabCNTDS.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No and TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE=TabCNTDS.Vendor_CODE
+where Isnull(TDS_Amount,0)>0 And  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and TSPL_PAYMENT_PROCESS_HEAD.From_Date<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'"
 
         If txtMultMCC.arrValueMember IsNot Nothing AndAlso txtMultMCC.arrValueMember.Count > 0 Then
             Qry += "  and TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected in (" + clsCommon.GetMulcallString(txtMultMCC.arrValueMember) + ")"
@@ -169,6 +178,7 @@ Public Class frmTDSReport
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found To Print", Me.Text)
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

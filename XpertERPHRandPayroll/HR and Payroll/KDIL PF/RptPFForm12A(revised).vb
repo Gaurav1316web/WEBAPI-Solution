@@ -55,7 +55,7 @@ Public Class RptPFForm12A_revised_
             PrevPPCode = clsPayPeriodMaster.GetPreviousPayPeriod(CurrPPCode, Nothing)
 
             If clsCommon.myLen(CurrPPCode) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Pay Period.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
                 Return
             End If
 
@@ -63,7 +63,7 @@ Public Class RptPFForm12A_revised_
             If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
                 Location_Code = "(" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ")"
             Else
-                clsCommon.MyMessageBoxShow("Please select Location")
+                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 Exit Sub
             End If
 
@@ -162,7 +162,7 @@ Public Class RptPFForm12A_revised_
             Dim frmcrystal As New frmCrystalReportViewer()
             frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptPFForm12A(Revised)", "PF Form 12(A)")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
     End Sub
@@ -187,7 +187,7 @@ Public Class RptPFForm12A_revised_
             Location_Code = "(" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ")"
 
         Else
-            clsCommon.MyMessageBoxShow("Please select Location")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             Exit Sub
         End If
         Dim objPF As clsPFRulesMaster = clsPFRulesMaster.GetRecentPFRule(fndFromPeriod.Value)

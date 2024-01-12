@@ -86,7 +86,7 @@ Public Class frmTakePicFromCamera
         picCapture.SizeMode = PictureBoxSizeMode.StretchImage
         'For Starting Camera
         If lstDevices.Items.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Device Found")
+            clsCommon.MyMessageBoxShow(Me, "No Device Found", Me.Text)
         Else
             lstDevices.SelectedIndex = 0
             DeviceID = lstDevices.SelectedIndex

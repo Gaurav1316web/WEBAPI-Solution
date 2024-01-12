@@ -32,11 +32,11 @@ Public Class frmSetting
                 gv.DataSource = dt
                 SetGridFormat()
             Else
-                clsCommon.MyMessageBoxShow("No Setting found")
+                clsCommon.MyMessageBoxShow(Me, "No Setting found", Me.Text)
                 btnCancelPressed()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -155,7 +155,7 @@ Public Class frmSetting
             clsERPFuncationality.closeForm(Me)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

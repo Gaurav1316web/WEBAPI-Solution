@@ -1249,7 +1249,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
             Next
 
             If ArrReturn_EX.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending PO item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending PO item", Me.Text)
             Else
                 Me.Close()
             End If
@@ -1328,7 +1328,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
             Next
 
             If ArrReturn.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending PO item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending PO item", Me.Text)
             Else
                 Me.Close()
             End If
@@ -1367,15 +1367,15 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                 Next ''jj
 
                 If arrVendor.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one vendor are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one vendor are not allowed.", Me.Text)
                     Return False
                 End If
                 If arrPOType.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one type are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one type are not allowed.", Me.Text)
                     Return False
                 End If
                 If arrLoc.Count > 0 Then
-                    clsCommon.MyMessageBoxShow("Item more than one location are not allowed.")
+                    clsCommon.MyMessageBoxShow(Me, "Item more than one location are not allowed.", Me.Text)
                     Return False
                 End If
                 Return True 'only one time loop check

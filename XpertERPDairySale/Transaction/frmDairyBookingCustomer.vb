@@ -1904,6 +1904,7 @@ Public Class frmDairyBookingCustomer
                     obj.Login_User_Zone_Code = lblLoginUserZone.Text
                 End If
                 obj.TCSAmount = clsCommon.myCdbl(lblTCSAmount.Text)
+                obj.Total_Amt = clsCommon.myCdbl(lblTotalDocAmt.Text)
                 obj.Is_Credit_Customer = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'"))
                 obj.Arr = New List(Of clsBookingDetailDairySale)
                 ''richa 4 Aug,2021 optimization related
@@ -6482,111 +6483,126 @@ from
                         obj.TAX1 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(1)).Value)
                         obj.TAX1_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(1)).Value)
                         obj.TAX1_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(1)).Value)
-                        obj.TAX1_Amt += obj.TAX1_Base_Amt * (obj.TAX1_Rate / 100)
+                        'obj.TAX1_Amt += obj.TAX1_Base_Amt * (obj.TAX1_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX1 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(1)).Value)
                         objTr.TAX1_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(1)).Value)
                         objTr.TAX1_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(1)).Value)
                         objTr.TAX1_Amt = objTr.TAX1_Base_Amt * (objTr.TAX1_Rate / 100)
+                        obj.TAX1_Amt += objTr.TAX1_Amt
+
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(2)).Value)) > 0) Then
                         obj.TAX2 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(2)).Value)
                         obj.TAX2_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(2)).Value)
                         obj.TAX2_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(2)).Value)
-                        obj.TAX2_Amt += obj.TAX2_Base_Amt * (obj.TAX2_Rate / 100)
+                        'obj.TAX2_Amt += obj.TAX2_Base_Amt * (obj.TAX2_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX2 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(2)).Value)
                         objTr.TAX2_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(2)).Value)
                         objTr.TAX2_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(2)).Value)
                         objTr.TAX2_Amt = objTr.TAX2_Base_Amt * (objTr.TAX2_Rate / 100)
+                        obj.TAX2_Amt += objTr.TAX2_Amt
+
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(3)).Value)) > 0) Then
                         obj.TAX3 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(3)).Value)
                         obj.TAX3_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(3)).Value)
                         obj.TAX3_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(3)).Value)
-                        obj.TAX3_Amt += obj.TAX3_Base_Amt * (obj.TAX3_Rate / 100)
+                        'obj.TAX3_Amt += obj.TAX3_Base_Amt * (obj.TAX3_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX3 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(3)).Value)
                         objTr.TAX3_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(3)).Value)
                         objTr.TAX3_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(3)).Value)
                         objTr.TAX3_Amt = objTr.TAX3_Base_Amt * (objTr.TAX3_Rate / 100)
+                        obj.TAX3_Amt += objTr.TAX3_Amt
+
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(4)).Value)) > 0) Then
                         obj.TAX4 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(4)).Value)
                         obj.TAX4_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(4)).Value)
                         obj.TAX4_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(4)).Value)
-                        obj.TAX4_Amt += obj.TAX4_Base_Amt * (obj.TAX4_Rate / 100)
+                        'obj.TAX4_Amt += obj.TAX4_Base_Amt * (obj.TAX4_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX4 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(4)).Value)
                         objTr.TAX4_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(4)).Value)
                         objTr.TAX4_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(4)).Value)
                         objTr.TAX4_Amt = objTr.TAX4_Base_Amt * (objTr.TAX4_Rate / 100)
+                        obj.TAX4_Amt += objTr.TAX4_Amt
+
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(5)).Value)) > 0) Then
                         obj.TAX5 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(5)).Value)
                         obj.TAX5_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(5)).Value)
                         obj.TAX5_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(5)).Value)
-                        obj.TAX5_Amt += obj.TAX5_Base_Amt * (obj.TAX5_Rate / 100)
+                        'obj.TAX5_Amt += obj.TAX5_Base_Amt * (obj.TAX5_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX5 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(5)).Value)
                         objTr.TAX5_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(5)).Value)
                         objTr.TAX5_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(5)).Value)
                         objTr.TAX5_Amt = objTr.TAX5_Base_Amt * (objTr.TAX5_Rate / 100)
+                        obj.TAX5_Amt += objTr.TAX5_Amt
+
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(6)).Value)) > 0) Then
                         obj.TAX6 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(6)).Value)
                         obj.TAX6_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(6)).Value)
                         obj.TAX6_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(6)).Value)
-                        obj.TAX6_Amt += obj.TAX6_Base_Amt * (obj.TAX6_Rate / 100)
+                        'obj.TAX6_Amt += obj.TAX6_Base_Amt * (obj.TAX6_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX6 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(6)).Value)
                         objTr.TAX6_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(6)).Value)
                         objTr.TAX6_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(6)).Value)
                         objTr.TAX6_Amt = objTr.TAX6_Base_Amt * (objTr.TAX6_Rate / 100)
+                        obj.TAX6_Amt = objTr.TAX6_Amt
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(7)).Value)) > 0) Then
                         obj.TAX7 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(7)).Value)
                         obj.TAX7_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(7)).Value)
                         obj.TAX7_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(7)).Value)
-                        obj.TAX7_Amt += obj.TAX7_Base_Amt * (obj.TAX7_Rate / 100)
+                        'obj.TAX7_Amt += obj.TAX7_Base_Amt * (obj.TAX7_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX7 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(7)).Value)
                         objTr.TAX7_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(7)).Value)
                         objTr.TAX7_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(7)).Value)
                         objTr.TAX7_Amt = objTr.TAX7_Base_Amt * (objTr.TAX7_Rate / 100)
+                        obj.TAX7_Amt = objTr.TAX7_Amt
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(8)).Value)) > 0) Then
                         obj.TAX8 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(8)).Value)
                         obj.TAX8_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(8)).Value)
                         obj.TAX8_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(8)).Value)
-                        obj.TAX8_Amt += obj.TAX8_Base_Amt * (obj.TAX8_Rate / 100)
+                        'obj.TAX8_Amt += obj.TAX8_Base_Amt * (obj.TAX8_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX8 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(8)).Value)
                         objTr.TAX8_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(8)).Value)
                         objTr.TAX8_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(8)).Value)
                         objTr.TAX8_Amt = objTr.TAX8_Base_Amt * (objTr.TAX8_Rate / 100)
+                        obj.TAX8_Amt = objTr.TAX8_Amt
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(9)).Value)) > 0) Then
                         obj.TAX9 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(9)).Value)
                         obj.TAX9_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(9)).Value)
                         obj.TAX9_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(9)).Value)
-                        obj.TAX9_Amt += obj.TAX9_Base_Amt * (obj.TAX9_Rate / 100)
+                        'obj.TAX9_Amt += obj.TAX9_Base_Amt * (obj.TAX9_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX9 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(9)).Value)
                         objTr.TAX9_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(9)).Value)
                         objTr.TAX9_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(9)).Value)
                         objTr.TAX9_Amt = objTr.TAX9_Base_Amt * (objTr.TAX9_Rate / 100)
+                        obj.TAX9_Amt = objTr.TAX9_Amt
                     End If
                     If (clsCommon.myLen(clsCommon.myCdbl(grow.Cells(colTax + clsCommon.myCstr(10)).Value)) > 0) Then
                         obj.TAX10 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(10)).Value)
                         obj.TAX10_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(10)).Value)
                         obj.TAX10_Base_Amt += clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(10)).Value)
-                        obj.TAX10_Amt += obj.TAX10_Base_Amt * (obj.TAX10_Rate / 100)
+                        'obj.TAX10_Amt += obj.TAX10_Base_Amt * (obj.TAX10_Rate / 100)
                         obj.Tax_Group = clsCommon.myCstr(grow.Cells(colTaxGroup).Value)
                         objTr.TAX10 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(10)).Value)
                         objTr.TAX10_Base_Amt = clsCommon.myCdbl(grow.Cells(colTax_Base_Amt + clsCommon.myCstr(10)).Value)
                         objTr.TAX10_Rate = clsCommon.myCdbl(grow.Cells(colTax_Rate + clsCommon.myCstr(10)).Value)
                         objTr.TAX10_Amt = objTr.TAX10_Base_Amt * (objTr.TAX10_Rate / 100)
+                        obj.TAX10_Amt = objTr.TAX10_Amt
                     End If
                     objTr.Customer_Code = txtVendorNo.Value
                     objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)

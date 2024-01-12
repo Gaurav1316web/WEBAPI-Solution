@@ -157,7 +157,7 @@ Public Class frmItemIssueToAssembledAsset
     Public Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmIssueItemsToAsset)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -1303,7 +1303,7 @@ Public Class frmItemIssueToAssembledAsset
                                     Dim ReqQty As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
                                     ActualQty = ReqQty - clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
                                     If ReqQty < clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) Then
-                                        common.clsCommon.MyMessageBoxShow("Qty more then Req qty not allowed,balance qty of  '" + item + "' is '" + clsCommon.myCstr(ReqQty) + "' ")
+                                        common.clsCommon.MyMessageBoxShow(Me, "Qty more then Req qty not allowed,balance qty of  '" + item + "' is '" + clsCommon.myCstr(ReqQty) + "' ")
                                         gv1.CurrentRow.Cells(colQty).Value = 0
                                     End If
 
@@ -1320,7 +1320,7 @@ Public Class frmItemIssueToAssembledAsset
 
                                 'End If
                             Else
-                                common.clsCommon.MyMessageBoxShow("Select the Location")
+                                common.clsCommon.MyMessageBoxShow(Me, "Select the Location", Me.Text)
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                             End If
                         End If
@@ -1377,7 +1377,7 @@ Public Class frmItemIssueToAssembledAsset
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1437,7 +1437,7 @@ Public Class frmItemIssueToAssembledAsset
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1448,7 +1448,7 @@ Public Class frmItemIssueToAssembledAsset
         If clsCommon.myLen(fndReqNo.Value) <= 0 Then
             If clsCommon.myLen(txtFromLocation.Value) = 0 Then
 
-                common.clsCommon.MyMessageBoxShow("Select the from location")
+                common.clsCommon.MyMessageBoxShow(Me, "Select the from location", Me.Text)
                 gv1.CurrentRow.Cells(colICode).Value = ""
                 gv1.CurrentRow.Cells(colIName).Value = ""
                 gv1.CurrentRow.Cells(colUnit).Value = ""
@@ -1948,12 +1948,12 @@ Public Class frmItemIssueToAssembledAsset
                         If gv1.Rows(ii).Cells(colIsCategory).Value = True Then
 
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colCategoryType).Value), "") = CompairStringResult.Equal Then
-                                clsCommon.MyMessageBoxShow("please select Capex Type.")
+                                clsCommon.MyMessageBoxShow(Me, "please select Capex Type.", Me.Text)
                                 Return False
                             End If
 
                             If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colCapexCode).Value)) <= 0 Then
-                                clsCommon.MyMessageBoxShow("please select capex code. At Line No" + clsCommon.myCstr(ii + 1))
+                                clsCommon.MyMessageBoxShow(Me, "please select capex code. At Line No" + clsCommon.myCstr(ii + 1))
                                 Return False
                             End If
                             If gv1.Rows(ii).Cells(colCheckCapexLimit).Value = True Then
@@ -1974,10 +1974,10 @@ Public Class frmItemIssueToAssembledAsset
                                     Dim ChkCostRate As Double = GetDocSubCapexValue(clsCommon.myCstr(gv1.Rows(ii).Cells(colCapexSubCode).Value))
                                     If dtcheck IsNot Nothing AndAlso dtcheck.Rows.Count > 0 Then
                                         If clsCommon.myCdbl(dtcheck.Rows(1)(0)) < ChkCostRate AndAlso clsCommon.myCdbl(dtcheck.Rows(2)(0)) > ChkCostRate Then
-                                            clsCommon.MyMessageBoxShow("Warning:  Amount exceed budget amount but under tolerence limit for sub capex Code-" & clsCommon.myCstr(gv1.Rows(ii).Cells(colCapexSubCode).Value) & " at Line No" + clsCommon.myCstr(ii + 1))
+                                            clsCommon.MyMessageBoxShow(Me, "Warning:  Amount exceed budget amount but under tolerence limit for sub capex Code-" & clsCommon.myCstr(gv1.Rows(ii).Cells(colCapexSubCode).Value) & " at Line No" + clsCommon.myCstr(ii + 1))
                                         End If
                                         If clsCommon.myCdbl(dtcheck.Rows(2)(0)) < ChkCostRate Then
-                                            clsCommon.MyMessageBoxShow("Amount exceed budget amount and above tolerence limit for sub capex Code-" & clsCommon.myCstr(gv1.Rows(ii).Cells(colCapexSubCode).Value) & " at Line No" + clsCommon.myCstr(ii + 1))
+                                            clsCommon.MyMessageBoxShow(Me, "Amount exceed budget amount and above tolerence limit for sub capex Code-" & clsCommon.myCstr(gv1.Rows(ii).Cells(colCapexSubCode).Value) & " at Line No" + clsCommon.myCstr(ii + 1))
                                             Return False
                                         End If
                                     End If
@@ -2004,7 +2004,7 @@ Public Class frmItemIssueToAssembledAsset
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2190,7 +2190,7 @@ Public Class frmItemIssueToAssembledAsset
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -2208,7 +2208,7 @@ Public Class frmItemIssueToAssembledAsset
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Doc_No)
                     If ChekPostBTn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     LoadData(obj.Doc_No, NavigatorType.Current)
@@ -2621,7 +2621,7 @@ Public Class frmItemIssueToAssembledAsset
                 UcAttachment1.LoadData(obj.Doc_No)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2645,7 +2645,7 @@ Public Class frmItemIssueToAssembledAsset
                 SaveData(True)
                 '' commented for urgent checkin
                 If (clsItemIssueToAssembledAsset.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     ''If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                     ''    print()
@@ -2653,7 +2653,7 @@ Public Class frmItemIssueToAssembledAsset
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2678,12 +2678,12 @@ Public Class frmItemIssueToAssembledAsset
                 End If
                 If (clsItemIssueToAssembledAsset.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2707,7 +2707,7 @@ Public Class frmItemIssueToAssembledAsset
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '==Added by preeti Gupta Against No[UDL/10/01/19-000251]
@@ -2776,7 +2776,7 @@ Public Class frmItemIssueToAssembledAsset
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -2896,7 +2896,7 @@ Public Class frmItemIssueToAssembledAsset
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3284,7 +3284,7 @@ Public Class frmItemIssueToAssembledAsset
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3334,7 +3334,7 @@ Public Class frmItemIssueToAssembledAsset
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3614,7 +3614,7 @@ Public Class frmItemIssueToAssembledAsset
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 '' reason for reverse
                 Dim Reason As String = ""
                 'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -3629,12 +3629,12 @@ Public Class frmItemIssueToAssembledAsset
 
                 If clsItemIssueToAssembledAsset.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse and Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3651,7 +3651,7 @@ Public Class frmItemIssueToAssembledAsset
 
     Private Sub fndReqNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndReqNo._MYValidating
         If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location First")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location First", Me.Text)
             Exit Sub
         End If
         If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "Issue") = CompairStringResult.Equal Then
@@ -3686,7 +3686,7 @@ Public Class frmItemIssueToAssembledAsset
                 lblReq3.Visible = True
             End If
         Else
-            clsCommon.MyMessageBoxShow("No Requisition No. Found")
+            clsCommon.MyMessageBoxShow(Me, "No Requisition No. Found", Me.Text)
         End If
     End Sub
 
@@ -3718,7 +3718,7 @@ Public Class frmItemIssueToAssembledAsset
                 gv1.CurrentRow.Cells(colCapexCode).Value = clsCapexBudget.GetCapexCode(gv1.CurrentRow.Cells(colCapexSubCode).Value, Nothing)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

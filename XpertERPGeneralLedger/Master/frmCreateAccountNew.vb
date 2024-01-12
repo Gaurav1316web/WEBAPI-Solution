@@ -30,7 +30,7 @@ Public Class frmCreateAccountNew
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.createAccounts)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -207,10 +207,10 @@ Public Class frmCreateAccountNew
             strlength1 = arrystr1.Length
             lngthOfStrucCode = arrystr1.Length
             If strlength1 = strlength Then
-                common.clsCommon.MyMessageBoxShow("Create Account with structure code should not same as From Account with structure code ")
+                common.clsCommon.MyMessageBoxShow(Me, "Create Account with structure code should not same as From Account with structure code ", Me.Text)
             ElseIf strlength1 > strlength Then
                 If cbgMainGLAccount.CheckedValue Is Nothing OrElse cbgMainGLAccount.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Select Account Number")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Account Number", Me.Text)
                 Else
                     If AllowToSave() Then
                         If strlength1 = 2 Then
@@ -247,7 +247,7 @@ Public Class frmCreateAccountNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -807,7 +807,7 @@ Public Class frmCreateAccountNew
             Dim trunc As String = "truncate table tspl_gl_preview"
             connectSql.RunSql(trunc)
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarHide()
             myMessages.myExceptions(ex)

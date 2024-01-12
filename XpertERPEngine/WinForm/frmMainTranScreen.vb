@@ -61,7 +61,7 @@ Public Class FrmMainTranScreen
         Me.KeyPreview = True
         Dim qry As String = ""
         If clsCommon.myLen(FormID) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Form ID not found")
+            common.clsCommon.MyMessageBoxShow(Me, "Form ID not found", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -269,7 +269,7 @@ Public Class FrmMainTranScreen
 
             'Save all supported properties of current form's controls (except btnDesigner) to config file
             If bolDesignMode Then
-                If clsCommon.MyMessageBoxShow("Save Design Mode Data ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Save Design Mode Data ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     objCM.SaveProperties(Me, New List(Of Control)({}))
                 End If
             End If
@@ -354,12 +354,12 @@ Public Class FrmMainTranScreen
             strRvalue = ""
             Dim strCode As String = getNavigatorValue(Me)
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Document Found on Current Screen")
+                clsCommon.MyMessageBoxShow(Me, "No Document Found on Current Screen", Me.Text)
                 Exit Sub
             End If
             strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Document_No  from TSPL_VENDOR_INVOICE_HEAD where Description like'%" & strCode & "%' "))
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No AP Invoice Entry Found For Current Document")
+                clsCommon.MyMessageBoxShow(Me, "No AP Invoice Entry Found For Current Document")
             Else
 
                 Application.OpenForms("MDI").Controls("__txtDocNo").Text = strCode
@@ -375,7 +375,7 @@ Public Class FrmMainTranScreen
             strRvalue = ""
             Dim strCode As String = getNavigatorValue(Me)
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Document Found on Current Screen")
+                clsCommon.MyMessageBoxShow(Me, "No Document Found on Current Screen", Me.Text)
                 Exit Sub
             End If
             'Ticket No :TEC/10/09/19-001005
@@ -454,7 +454,7 @@ Public Class FrmMainTranScreen
                 frm.strFormID = Me.Form_ID
                 frm.ShowDialog()
                 If frm.isDataSaved Then
-                    clsCommon.MyMessageBoxShow("Setting saved successfully." + Environment.NewLine + Me.Text + " will close automatic For apply new settings")
+                    clsCommon.MyMessageBoxShow(Me, "Setting saved successfully." + Environment.NewLine + Me.Text + " will close automatic For apply new settings")
                     clsERPFuncationality.closeForm(Me)
                 End If
             End If
@@ -467,7 +467,7 @@ Public Class FrmMainTranScreen
                 Dim obj As New FrmMainTranScreen
                 obj.SetUserMgmt(Me.Form_ID)
                 If obj.isCancel_Flag = True Then
-                    If clsCommon.MyMessageBoxShow("Do you want to cancel this Document.?", "cancel Docuement", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "Do you want to cancel this Document.?", "cancel Docuement", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Dim cancel_after_Posting_Date As Date = Nothing
                         If obj.isCancel_Flag_After_Posting Then
@@ -494,14 +494,14 @@ Public Class FrmMainTranScreen
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDesignAtRunTime, clsFixedParameterCode.AllowDesignAtRunTime, Nothing)) = 1 Then
                 Select Case bolDesignMode
                     Case False
-                        If clsCommon.MyMessageBoxShow("Proceed To Design Mode ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                        If clsCommon.MyMessageBoxShow(Me, "Proceed To Design Mode ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                             'Set some properties
                             bolDesignMode = True
                             'Activate design mode by creating designer class with current form but exclude btndesigner from beeing designed
                             objCD = New ControlDesigner(Me, New List(Of Control)({}), Color.LightYellow)
                         End If
                     Case Else
-                        If clsCommon.MyMessageBoxShow("Save and Exit Design Mode ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                        If clsCommon.MyMessageBoxShow(Me, "Save and Exit Design Mode ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                             'Exit design mode by disposing the designer class
                             objCD.Dispose()
                             objCD = Nothing
@@ -538,7 +538,7 @@ Public Class FrmMainTranScreen
         If e.Alt And e.KeyCode = Keys.T Then
             If clsCommon.myLen(PageSetupReport_ID) > 0 AndAlso TemplateGridview IsNot Nothing Then
                 If TemplateGridview.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data in Grid")
+                    clsCommon.MyMessageBoxShow(Me, "No Data in Grid", Me.Text)
                     Exit Sub
                 End If
                 'Dim obj As New clsGridLayout()
@@ -1292,7 +1292,7 @@ Public Class FrmMainTranScreen
                     frmClientFormLableDetails.HideDeleteButon(Me, Me.Form_ID, Nothing)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -1362,7 +1362,7 @@ Public Class FrmMainTranScreen
                 frm.ShowDialog()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1383,11 +1383,11 @@ Public Class FrmMainTranScreen
                     qry = "insert into TSPL_SCREEN_Grid_CONTROL_MASTER(ProgramCode,GridName,ColumnName,ColumnDescription) values('" & Me.Form_ID & "','" & gv.Name & "','" & gv.Columns(i).Name & "','" & gv.Columns(i).HeaderText & "')"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 Next
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 clsCreateAllTables.IsShowMenuOnRightClick = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1409,7 +1409,7 @@ Public Class FrmMainTranScreen
         'Me.WindowState = FormWindowState.Maximized
         Dim qry As String = ""
         If clsCommon.myLen(FormID) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Form ID not found")
+            common.clsCommon.MyMessageBoxShow(Me, "Form ID not found", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -1520,7 +1520,7 @@ Public Class FrmMainTranScreen
         IsSettingOn = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterType.AllowFutureDateTransaction, trans)) = 1, True, False)
         If IsSettingOn = False Then
             If docDate > clsCommon.GETSERVERDATE(trans) Then
-                clsCommon.MyMessageBoxShow("Cannot allow future date -  " & docDate)
+                clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & docDate)
                 Return False
             End If
         End If
@@ -1552,7 +1552,7 @@ Public Class FrmMainTranScreen
             If frm.isPasswordCorrect Then
                 Return True
             Else
-                clsCommon.MyMessageBoxShow("Back date entry allowed to authorised user only.")
+                clsCommon.MyMessageBoxShow(Me, "Back date entry allowed to authorised user only.")
                 Return False
             End If
 
@@ -1599,7 +1599,7 @@ Public Class FrmMainTranScreen
     Public Sub ShowJE(ByVal Form_ID As String, ByVal strCode As String)
         Try
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Document Found on Current Screen")
+                clsCommon.MyMessageBoxShow(Me, "No Document Found on Current Screen", Me.Text)
                 Exit Sub
             End If
             ' clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkMPPayment) = CompairStringResult.Equal OrElse
@@ -1624,7 +1624,7 @@ Public Class FrmMainTranScreen
 
             strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Journal Entry Found For Current Document")
+                clsCommon.MyMessageBoxShow(Me, "No Journal Entry Found For Current Document", Me.Text)
                 Exit Sub
             Else
                 Application.OpenForms("MDI").Controls("__txtDocNo").Text = strCode

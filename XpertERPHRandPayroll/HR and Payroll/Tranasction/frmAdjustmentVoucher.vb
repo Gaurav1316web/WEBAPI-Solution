@@ -186,7 +186,7 @@ Public Class frmAdjustmentVoucher
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -309,7 +309,7 @@ Public Class frmAdjustmentVoucher
             Dim QryStr As String = "select POSTED from TSPL_ADJUSTMENT_VOUCHER where ADJUSTMENT_CODE = '" + txtcode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -350,23 +350,23 @@ Public Class frmAdjustmentVoucher
                 '======Update By Preeti Gupta Against Ticket No[BM00000008208]==============
                 If ii = 1 Then
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colempCode).Value)) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Enter Employee detail.")
+                        clsCommon.MyMessageBoxShow(Me, "Enter Employee detail.", Me.Text)
                         Return False
                     End If
                 End If
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colempCode).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill Employee code at Line No " & (ii + 1) & " ")
+                    clsCommon.MyMessageBoxShow(Me, "Fill Employee code at Line No " & (ii + 1) & " ", Me.Text)
                     Return False
                 End If
 
                 If clsCommon.myLen(grow.Cells(colpayHeadCode).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill PayHead code at Line No " & (ii + 1) & "")
+                    clsCommon.MyMessageBoxShow(Me, "Fill PayHead code at Line No " & (ii + 1) & "", Me.Text)
                     Return False
 
                 End If
 
                 If clsCommon.myLen(grow.Cells(colAdjustType).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill AdjustType code at Line No " & (ii + 1) & "")
+                    clsCommon.MyMessageBoxShow(Me, "Fill AdjustType code at Line No " & (ii + 1) & "", Me.Text)
                     Return False
                 End If
 
@@ -378,7 +378,7 @@ Public Class frmAdjustmentVoucher
 
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colempCode).Value)) > 0 Then
                     If (clsCommon.myCdbl(grow.Cells(coladjustPlus).Value) > 0 And (clsCommon.myCdbl(grow.Cells(coladjustMinus).Value) > 0)) Then
-                        clsCommon.MyMessageBoxShow("Adjustment can Nagative or Positive Not Both. Condition Fales in Row No : " + ii.ToString() + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Adjustment can Nagative or Positive Not Both. Condition Fales in Row No : " + ii.ToString() + ".", Me.Text)
                         Return False
                     End If
                 End If
@@ -394,7 +394,7 @@ Public Class frmAdjustmentVoucher
                 If clsCommon.myLen(grow.Cells(colempCode).Value) > 0 AndAlso Not arrEmpcode.Contains(clsCommon.myCstr(grow.Cells(colempCode).Value) + clsCommon.myCstr(grow.Cells(colpayHeadCode).Value)) Then
                     arrEmpcode.Add(clsCommon.myCstr(grow.Cells(colempCode).Value) + clsCommon.myCstr(grow.Cells(colpayHeadCode).Value))
                 Else
-                    clsCommon.MyMessageBoxShow("Duplicate Employee with same PayHead at  row no. " & (ii + 1) & " ")
+                    clsCommon.MyMessageBoxShow(Me, "Duplicate Employee with same PayHead at  row no. " & (ii + 1) & " ", Me.Text)
                     Return False
                     'Throw New Exception("Duplicate Employee at row no. " + clsCommon.myCstr(gvAdjustmentVoucher.CurrentRow.Index) + "")
                 End If
@@ -403,14 +403,14 @@ Public Class frmAdjustmentVoucher
                 End If
                 qry = clsDBFuncationality.getSingleValue(" select  count(*) from TSPL_GENERATE_SALARY_PAYHEADS left join TSPL_GENERATE_Salary on TSPL_GENERATE_Salary.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE where EMP_CODE ='" & (clsCommon.myCstr(grow.Cells(colempCode).Value)) & "' and POSTED = 1 and PAY_PERIOD_CODE ='" & findPayperiod.Value & "'")
                 If qry > 0 Then
-                    clsCommon.MyMessageBoxShow("Salary already posted for this Employee for the payperiod '" & findPayperiod.Value & "' at row no. " & (ii + 1) & "  ")
+                    clsCommon.MyMessageBoxShow(Me, "Salary already posted for this Employee for the payperiod '" & findPayperiod.Value & "' at row no. " & (ii + 1) & "  ", Me.Text)
                     Return False
                 End If
                 ii += 1
             End If
 
             If ii = 0 Then
-                clsCommon.MyMessageBoxShow("Please select atlest one check box ")
+                clsCommon.MyMessageBoxShow(Me, "Please select atlest one check box ", Me.Text)
                 Return False
             End If
         Next
@@ -468,7 +468,7 @@ Public Class frmAdjustmentVoucher
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -491,7 +491,7 @@ Public Class frmAdjustmentVoucher
                 End If
                 If (clsAdjustmentVoucher.DeleteData(txtcode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -525,7 +525,7 @@ Public Class frmAdjustmentVoucher
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsAdjustmentVoucher.PostData(txtcode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtcode.Value, NavigatorType.Current)
                 End If
             End If
@@ -537,7 +537,7 @@ Public Class frmAdjustmentVoucher
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -585,7 +585,7 @@ Public Class frmAdjustmentVoucher
                     If clsCommon.myLen(DivCode) > 0 Then
                         WhrCls = " AND ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'') ='" & DivCode & "' "
                     Else
-                        clsCommon.MyMessageBoxShow("First select division code.")
+                        clsCommon.MyMessageBoxShow(Me, "First select division code.", Me.Text)
                         Return
                     End If
                 Else
@@ -593,10 +593,10 @@ Public Class frmAdjustmentVoucher
                 End If
                 transportSql.ExporttoExcel(str, " AND TSPL_LOCATION_MASTER.Location_Code ='" & LocCode & "'" & WhrCls & "", Me)
             Else
-                clsCommon.MyMessageBoxShow("No data found to export")
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
         Else
-            clsCommon.MyMessageBoxShow("First select location code.")
+            clsCommon.MyMessageBoxShow(Me, "First select location code.", Me.Text)
         End If
     End Sub
 
@@ -668,7 +668,7 @@ Public Class frmAdjustmentVoucher
                 Next
                 clsCommon.ProgressBarHide()
                 If Save() = True Then
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK, Me.Text)
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
@@ -686,12 +686,12 @@ Public Class frmAdjustmentVoucher
     End Sub
     Sub FillEmployeeGrid()
         If clsCommon.myLen(FndLocationCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location.", Me.Text)
             FndLocationCode.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(findPayperiod.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Pay Period.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Pay Period.", Me.Text)
             findPayperiod.Focus()
             Exit Sub
         End If

@@ -141,7 +141,7 @@ Public Class frmFormulaSelection
 
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnItemAdd.Click
         If ListOperand.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No item remain to add.")
+            clsCommon.MyMessageBoxShow(Me, "No item remain to add.", Me.Text)
             btnItemAdd.Enabled = False
             Exit Sub
         End If
@@ -209,7 +209,7 @@ Public Class frmFormulaSelection
                 btnPul.Enabled = True
                 btnPer.Enabled = True
             Else
-                clsCommon.MyMessageBoxShow("NO Opening Brackets Found foe Closing. ")
+                clsCommon.MyMessageBoxShow(Me, "NO Opening Brackets Found foe Closing. ", Me.Text)
             End If
         End If
     End Sub
@@ -229,7 +229,7 @@ Public Class frmFormulaSelection
 
     Private Sub btnValidate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnValidate.Click
         If validate_Formula() Then
-            clsCommon.MyMessageBoxShow(" Syntax of Formula is correct. ")
+            clsCommon.MyMessageBoxShow(Me, " Syntax of Formula is correct. ", Me.Text)
         End If
     End Sub
 
@@ -248,11 +248,11 @@ Public Class frmFormulaSelection
             Next
         End If
         If BrCounter <> 0 Then
-            clsCommon.MyMessageBoxShow(" Foemula is not currect Please Check For open or close brackets. ")
+            clsCommon.MyMessageBoxShow(Me, " Foemula is not currect Please Check For open or close brackets. ", Me.Text)
             Return False
         End If
         If str.EndsWith("+ ") Or str.EndsWith("- ") Or str.EndsWith("/ ") Or str.EndsWith("* ") Or str.EndsWith("( ") Then
-            clsCommon.MyMessageBoxShow("Last part of Formula is not Currect. It contain incurrect syntext with : '" + str.Substring(str.Length - 3, 2) + "'. ")
+            clsCommon.MyMessageBoxShow(Me, "Last part of Formula is not Currect. It contain incurrect syntext with : '" + str.Substring(str.Length - 3, 2) + "'. ")
             Return False
         End If
         Return True

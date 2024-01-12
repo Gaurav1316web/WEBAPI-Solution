@@ -120,7 +120,7 @@ Public Class frmMasterHistory
             ' Process.Start(filePath)
         Catch ex As Exception
             lblExportMsg.Text = ""
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
