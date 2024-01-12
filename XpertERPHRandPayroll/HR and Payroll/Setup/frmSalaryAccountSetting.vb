@@ -51,7 +51,7 @@ Public Class frmSalaryAccountSetting
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
     Private Sub OpenGLAccount(ByVal isButtonClick As Boolean)
@@ -69,7 +69,7 @@ Public Class frmSalaryAccountSetting
             fndSalaryPayableAccount.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("GLACJournalEntry", qry, "Account_Code", whrcls, clsCommon.myCstr(fndSalaryPayableAccount.Value), "Account_Code", isButtonClick))
             txtSalaryPayableAccountDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(fndSalaryPayableAccount.Value) + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -78,7 +78,7 @@ Public Class frmSalaryAccountSetting
         Try
             LoadData(fndaccountsetcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -87,7 +87,7 @@ Public Class frmSalaryAccountSetting
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsfrmSalaryAccountSetting.DeleteData(fndaccountsetcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -187,13 +187,13 @@ Public Class frmSalaryAccountSetting
                 End If
                 If (clsfrmSalaryAccountSetting.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.ACCOUNT_SET_CODE, NavigatorType.Current)
 
                 End If
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub

@@ -49,7 +49,7 @@ Public Class frmLeaveAllotment
             Next
 
             If (obj.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.LVALLOTMENT_CODE, NavigatorType.Current)
             End If
 
@@ -119,7 +119,7 @@ Public Class frmLeaveAllotment
             II = II + 1
 
             If clsCommon.myCdbl(grow.Cells(colAllotedLeave).Value) > 366 Then
-                clsCommon.MyMessageBoxShow("Value of Alloted Leave can Not be grater then 366.")
+                clsCommon.MyMessageBoxShow(Me, "Value of Alloted Leave can Not be grater then 366.", Me.Text)
             End If
 
         Next
@@ -132,7 +132,7 @@ Public Class frmLeaveAllotment
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -162,7 +162,7 @@ Public Class frmLeaveAllotment
                 End If
                 If (clsLeaveAllotment.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -271,7 +271,7 @@ Public Class frmLeaveAllotment
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -309,7 +309,7 @@ Public Class frmLeaveAllotment
     Private Sub txtEmpCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtEmpCode._MYValidating
         'Dim qry As String = " select EMP_CODE as Code,  Emp_Name as Name from TSPL_EMPLOYEE_MASTER "
         If clsCommon.myLen(txtBranch.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Location")
+            clsCommon.MyMessageBoxShow(Me, "Select Location", Me.Text)
             Exit Sub
         End If
         txtEmpCode.Value = clsEmployeeMaster.getFinder("Location_Code='" & txtBranch.Value & "'", txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_FND", qry, "Code", "", txtEmpCode.Value, "EMP_CODE", isButtonClicked)
@@ -429,11 +429,11 @@ Public Class frmLeaveAllotment
 
     Private Sub btnAllotAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAllotAll.Click
         If clsCommon.myLen(txtBranch.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Location !")
+            clsCommon.MyMessageBoxShow(Me, "Select Location !", Me.Text)
             Exit Sub
         End If
         If clsCommon.myLen(txtPayPeriodCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Pay Period Code !")
+            clsCommon.MyMessageBoxShow(Me, "Select Pay Period Code !", Me.Text)
             Exit Sub
         End If
         Dim objPayrollSett As clsPayrollSetting = clsPayrollSetting.GetPayrollSetting(txtBranch.Value, Nothing)
@@ -442,7 +442,7 @@ Public Class frmLeaveAllotment
         End If
         Dim total As Integer = clsLeaveAllotment.UpdateLeaveAllotmentAllEmployee(Me.txtEmpCode.Value, "", txtPayPeriodCode.Value, txtBranch.Value, fndDivision.Value)
         If total > 0 Then
-            clsCommon.MyMessageBoxShow("" & total & " records saved successfully")
+            clsCommon.MyMessageBoxShow(Me, "" & total & " records saved successfully", Me.Text)
         End If
     End Sub
 

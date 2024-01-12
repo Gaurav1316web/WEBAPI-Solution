@@ -76,19 +76,19 @@ Public Class RptDetailOfWelfareFundAmount
                 Dim frmcrystal As New frmCrystalReportViewer()
                 frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "rptDetailOfWelfareFundAmount", "Detail Of Welfare Fund Amount")
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
    
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If fndLocationCode.Value = "" Then
-            clsCommon.MyMessageBoxShow("Please select Location")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             Exit Sub
         End If
         funPrint()

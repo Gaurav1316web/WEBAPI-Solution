@@ -69,12 +69,12 @@ Public Class frmDeductionDetailsReport
     Sub PrintData()
         Try
             If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Pay Period.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
                 Return
             End If
 
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Employee Or Select All")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select AtLeast Single Employee Or Select All", Me.Text)
                 Return
             End If
 
@@ -107,7 +107,7 @@ Public Class frmDeductionDetailsReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

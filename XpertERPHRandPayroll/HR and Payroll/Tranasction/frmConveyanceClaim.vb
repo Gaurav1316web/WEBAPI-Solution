@@ -35,13 +35,13 @@ Public Class frmConveyanceClaim
                 obj.Pay_Period_Code = clsCommon.myCstr(txtPayPeriod.Value)
                 obj.Location_Code = fndLocation.Value
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
                 'End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -95,7 +95,7 @@ Public Class frmConveyanceClaim
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
 
@@ -119,7 +119,7 @@ Public Class frmConveyanceClaim
                 End If
                 If (clsConveyanceClaim.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -257,7 +257,7 @@ Public Class frmConveyanceClaim
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -312,7 +312,7 @@ Public Class frmConveyanceClaim
                     End If
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -381,7 +381,7 @@ Public Class frmConveyanceClaim
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
             lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

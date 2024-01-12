@@ -74,12 +74,12 @@ Public Class frmPaySlip_Reports
     Sub PrintData()
         Try
             If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Pay Period.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
                 Return
             End If
 
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Employee Or Select All")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select AtLeast Single Employee Or Select All", Me.Text)
                 Return
             End If
             Dim LocAdress As String = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(City_Code ,'')='' Then '' else '-'+CONVERT(varchar, City_Code) End End End as Location_Address from TSPL_LOCATION_MASTER where Location_Code ='" + FndLocationCode.Value + "'")
@@ -101,7 +101,7 @@ Public Class frmPaySlip_Reports
 
 
             If Hader_Info.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim dtFinal As DataTable = New DataTable
                 dtFinal.Columns.Add("Emp_Id", GetType(String))
@@ -223,7 +223,7 @@ Public Class frmPaySlip_Reports
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

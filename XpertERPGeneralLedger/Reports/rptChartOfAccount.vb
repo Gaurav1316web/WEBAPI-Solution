@@ -90,7 +90,7 @@ Public Class RptChartOfAccount
             gv.MasterTemplate.SummaryRowsBottom.Clear()
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
 
         ReStoreGridLayout()
@@ -162,7 +162,7 @@ Public Class RptChartOfAccount
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -172,7 +172,7 @@ Public Class RptChartOfAccount
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
    
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
@@ -238,10 +238,10 @@ Public Class RptChartOfAccount
                     clsCommon.MyExportToPDF("Chart Of Account", gv, arrHeader, "Chart Of Account", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No data found.")
+                clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
