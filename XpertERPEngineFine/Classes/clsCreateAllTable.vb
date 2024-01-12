@@ -51479,6 +51479,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("TAx2rate", "float NULL")
             coll.Add("Tax2Amt", "float NULL")
             coll.Add("Sub_Location_code", "varchar(30)  NUll")
+            coll.Add("Is_CashSale", "char(1) default 'N'")
             clsCommonFunctionality.CreateOrAlterTable("Temp_table_MCC_Material_Sale_uploader", coll)
 
             coll = New Dictionary(Of String, String)()
