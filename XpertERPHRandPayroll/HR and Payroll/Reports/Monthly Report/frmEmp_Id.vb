@@ -53,7 +53,7 @@ Public Class frmEmp_Id
     Sub PrintData()
         Try
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Employee Or Select All")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select AtLeast Single Employee Or Select All", Me.Text)
                 Return
             End If
             Dim Qry As String = ""
@@ -64,13 +64,13 @@ Public Class frmEmp_Id
             End If
             Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If DT.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
                 frmcrystal.funreport(CrystalReportFolder.HRPayroll, DT, "crptEmployeeIdCard", "Employee Id Card")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

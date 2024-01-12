@@ -182,7 +182,7 @@ Public Class frmAllowanceDetails
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -308,7 +308,7 @@ Public Class frmAllowanceDetails
             End If
             Return False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -317,7 +317,7 @@ Public Class frmAllowanceDetails
             Dim QryStr As String = "select POSTED from TSPL_ALLOWANCE where ALLOWANCE_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -335,18 +335,18 @@ Public Class frmAllowanceDetails
         For Each grow As GridViewRowInfo In gvAllowance.Rows
             If clsCommon.myCBool(grow.Cells(colCheck).Value) = True Then
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colempCode).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill Employee code at Line No " & (ii + 1) & " ")
+                    clsCommon.MyMessageBoxShow(Me, "Fill Employee code at Line No " & (ii + 1) & " ", Me.Text)
                     Return False
                 End If
 
                 If clsCommon.myLen(grow.Cells(colpayHeadCode).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill PayHead code at Line No " & (ii + 1) & "")
+                    clsCommon.MyMessageBoxShow(Me, "Fill PayHead code at Line No " & (ii + 1) & "", Me.Text)
                     Return False
 
                 End If
 
                 If clsCommon.myCdbl(grow.Cells(colAllowanceAmount).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Allowance Amount at Line No " & (ii + 1) & " is zero.")
+                    clsCommon.MyMessageBoxShow(Me, "Allowance Amount at Line No " & (ii + 1) & " is zero.", Me.Text)
                     Return False
                 End If
 
@@ -363,11 +363,11 @@ Public Class frmAllowanceDetails
             End If
         Next
         If ii = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atlest one check box ")
+            clsCommon.MyMessageBoxShow(Me, "Please select atlest one check box ", Me.Text)
             Return False
         End If
         If ii <= 0 Then
-            clsCommon.MyMessageBoxShow("Allowance Amount is zero in all rows.")
+            clsCommon.MyMessageBoxShow(Me, "Allowance Amount is zero in all rows.", Me.Text)
             Return False
         End If
         Return True
@@ -455,7 +455,7 @@ Public Class frmAllowanceDetails
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -478,7 +478,7 @@ Public Class frmAllowanceDetails
                 End If
                 If (clsAllowanceDetails.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -547,20 +547,20 @@ Public Class frmAllowanceDetails
             If (myMessages.postConfirm()) Then
                 If SavingData(True) Then
                     If (clsAllowanceDetails.PostData(txtCode.Value, True)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
             Return True
         End If
@@ -619,7 +619,7 @@ Public Class frmAllowanceDetails
                 Next
                 clsCommon.ProgressBarHide()
                 If Save() = True Then
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
@@ -674,7 +674,7 @@ Public Class frmAllowanceDetails
                         'WhrCls = " AND ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'') ='" & DivCode & "' "
                         WhrCls = " AND ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'') ='" & DivCode & "'  AND (RESIGNATION_SUBMIT_DATE is null or ((cast('1' + '/' + datename(month,RESIGNATION_SUBMIT_DATE) + '/' + cast(Year(RESIGNATION_SUBMIT_DATE) as varchar) as date) >=(select DATE_FROM from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & clsCommon.myCstr(Me.findPayperiod.Value) & "')))) "
                     Else
-                        clsCommon.MyMessageBoxShow("First select division code.")
+                        clsCommon.MyMessageBoxShow(Me, "First select division code.", Me.Text)
                         Return
                     End If
                 Else
@@ -684,10 +684,10 @@ Public Class frmAllowanceDetails
                 End If
                 transportSql.ExporttoExcel(str, " AND TSPL_LOCATION_MASTER.Location_Code ='" & LocCode & "'" & WhrCls & "", Me)
             Else
-                clsCommon.MyMessageBoxShow("No data found to export")
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
         Else
-            clsCommon.MyMessageBoxShow("First select location code.")
+            clsCommon.MyMessageBoxShow(Me, "First select location code.", Me.Text)
         End If
     End Sub
 
@@ -716,12 +716,12 @@ Public Class frmAllowanceDetails
     End Sub
     Sub FillEmployeeGrid()
         If clsCommon.myLen(txtBranch.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location.", Me.Text)
             txtBranch.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(findPayperiod.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Pay Period.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Pay Period.", Me.Text)
             findPayperiod.Focus()
             Exit Sub
         End If

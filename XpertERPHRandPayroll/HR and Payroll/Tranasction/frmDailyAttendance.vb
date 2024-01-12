@@ -139,7 +139,7 @@ Public Class frmDailyAttendance
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -322,7 +322,7 @@ Public Class frmDailyAttendance
             Return True
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -367,7 +367,7 @@ Public Class frmDailyAttendance
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -390,7 +390,7 @@ Public Class frmDailyAttendance
                 End If
                 If (clsDailyAttendance.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -426,19 +426,19 @@ Public Class frmDailyAttendance
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsDailyAttendance.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -497,7 +497,7 @@ Public Class frmDailyAttendance
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles MIImportSingle.Click
         If clsCommon.myCstr(findPayperiod.Value) = "" Then
-            clsCommon.MyMessageBoxShow("Select Pay Period to import the attendance!")
+            clsCommon.MyMessageBoxShow(Me, "Select Pay Period to import the attendance!", Me.Text)
             Exit Sub
         End If
         Try
@@ -529,7 +529,7 @@ Public Class frmDailyAttendance
                         Continue For
                     End If
                     If rw.Cells("Pay Period").Value <> clsCommon.myCstr(Me.findPayperiod.Value) Then
-                        clsCommon.MyMessageBoxShow("Pay Period not matched for row no. " & rw.Index + 1 & " !")
+                        clsCommon.MyMessageBoxShow(Me, "Pay Period not matched for row no. " & rw.Index + 1 & " !", Me.Text)
                         Me.Controls.Remove(gv)
                         Exit Sub
                         'Continue For
@@ -563,7 +563,7 @@ Public Class frmDailyAttendance
     Private Sub MIImportDual_Click(sender As Object, e As EventArgs) Handles MIImportDual.Click
 
         If clsCommon.myCstr(findPayperiod.Value) = "" Then
-            clsCommon.MyMessageBoxShow("Select Pay Period to Import the attendance!")
+            clsCommon.MyMessageBoxShow(Me, "Select Pay Period to Import the attendance!", Me.Text)
             Exit Sub
         End If
         Try
@@ -586,7 +586,7 @@ Public Class frmDailyAttendance
                 gvDailyAttendance.Columns(colempCode).ReadOnly = True
                 For Each rw As GridViewRowInfo In gv.Rows
                     If rw.Cells("Pay Period").Value <> Me.findPayperiod.Value Then
-                        clsCommon.MyMessageBoxShow("Pay Period not matched for row no. " & rw.Index + 1 & " !")
+                        clsCommon.MyMessageBoxShow(Me, "Pay Period not matched for row no. " & rw.Index + 1 & " !", Me.Text)
                         Me.Controls.Remove(gv)
                         Exit Sub
                     End If
@@ -633,7 +633,7 @@ Public Class frmDailyAttendance
     Private Sub MIExportSingle_Click(sender As Object, e As EventArgs) Handles MIExportSingle.Click
         '' export attendance(SINGLE)
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Document Code to export.")
+            clsCommon.MyMessageBoxShow(Me, "Select Document Code to export.", Me.Text)
             txtCode.Focus()
             Exit Sub
         End If
@@ -659,7 +659,7 @@ Public Class frmDailyAttendance
     Private Sub MiExportDual_Click(sender As Object, e As EventArgs) Handles MiExportDual.Click
         '' export attendance(DUAL)
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Document Code to export.")
+            clsCommon.MyMessageBoxShow(Me, "Select Document Code to export.", Me.Text)
             txtCode.Focus()
             Exit Sub
         End If

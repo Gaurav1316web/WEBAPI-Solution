@@ -1015,30 +1015,30 @@ Public Class frmMilkShiftUploaderUCDF
         Dim strquery As String = Nothing
         Try
 
-            strquery = "select max(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,max(TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo)SNo,max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC, max(TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code) as [VLC Code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],sum(TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans) as [No of Cans],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO) as [Route Code],MAX(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME) as [Route],max(TSPL_BULK_ROUTE_MASTER.Tanker_No)Tanker_No,max(TSPL_BULK_ROUTE_MASTER.Comp_Code)Comp_Code,sum(TSPL_MILK_SHIFT_UPLOADER_HEAD.Mix_Milk)Mix_Milk,max(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift)Shift,max(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date)Shift_Date,max(TSPL_MILK_SHIFT_UPLOADER_HEAD.Created_Date)Created_Date,Max(TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning)Schedule_Time_Morning,max(TSPL_MCC_MASTER.mcc_Name) as mcc_Name
-,case When max(isnull(Reject_Type,''))='' then sum(isnull(No_Of_Cans,0)) else 0 end as [Good can qty]
-,case When max(isnull(Reject_Type,''))='' then sum(isnull(Milk_Weight,0)) else 0 end as [Good Qty]
-,case When max(isnull(Reject_Type,''))='' then sum(FAT) else 0 end as [Good FAT %]
-,case When max(isnull(Reject_Type,''))='' then sum(cast(Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
-,case When max(isnull(Reject_Type,''))='' then sum(SNF) else 0 end as [Good SNF %]
-,case When max(isnull(Reject_Type,''))='' then Sum(cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
-case When max(isnull(Reject_Type,''))='SOUR' then sum(isnull(No_Of_Cans,0)) else 0 end as [SOUR can qty],
-case When max(isnull(Reject_Type,''))='SOUR' then Sum(Milk_Weight) else 0 end as [SOUR Qty]
-,case When max(isnull(Reject_Type,''))='SOUR' then Sum(FAT) else 0 end as [SOUR FAT %]
-,case When max(isnull(Reject_Type,''))='SOUR' then Sum(cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
-,case When max(isnull(Reject_Type,''))='SOUR' then Sum(SNF) else 0 end as [SOUR SNF %]
-,case When max(isnull(Reject_Type,''))='SOUR' then Sum(cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
-case When max(isnull(Reject_Type,''))='CURD' then sum(isnull(No_Of_Cans,0)) else 0 end as [CURD can qty],
-case When max(isnull(Reject_Type,''))='CURD' then Sum(Milk_Weight) else 0 end as [CURD Qty]
-,case When max(isnull(Reject_Type,''))='CURD' then Sum(FAT) else 0 end as [CURD FAT %]
-,case When max(isnull(Reject_Type,''))='CURD' then Sum(cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
-,case When max(isnull(Reject_Type,''))='CURD' then Sum(SNF) else 0 end as [CURD SNF %]
-,case When max(isnull(Reject_Type,''))='CURD' then Sum(cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] ,max(TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo)PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL
+            strquery = "select (TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo)SNo,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC, (TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code) as [VLC Code],(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans) as [No of Cans],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO) as [Route Code],(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME) as [Route],(TSPL_BULK_ROUTE_MASTER.Tanker_No)Tanker_No,(TSPL_BULK_ROUTE_MASTER.Comp_Code)Comp_Code,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Mix_Milk)Mix_Milk,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift)Shift,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date)Shift_Date,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Created_Date)Created_Date,(TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning)Schedule_Time_Morning,(TSPL_MCC_MASTER.mcc_Name) as mcc_Name,
+case When (isnull(Reject_Type,''))='' then (isnull(No_Of_Cans,0)) else 0 end as [Good can qty]
+,case When (isnull(Reject_Type,''))='' then (isnull(Milk_Weight,0)) else 0 end as [Good Qty]
+,case When (isnull(Reject_Type,''))='' then (FAT) else 0 end as [Good FAT %]
+,case When (isnull(Reject_Type,''))='' then (cast(Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
+,case When (isnull(Reject_Type,''))='' then (SNF) else 0 end as [Good SNF %]
+,case When (isnull(Reject_Type,''))='' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
+case When (isnull(Reject_Type,''))='SOUR' then (isnull(No_Of_Cans,0)) else 0 end as [SOUR can qty],
+case When (isnull(Reject_Type,''))='SOUR' then (Milk_Weight) else 0 end as [SOUR Qty]
+,case When (isnull(Reject_Type,''))='SOUR' then (FAT) else 0 end as [SOUR FAT %]
+,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
+,case When (isnull(Reject_Type,''))='SOUR' then (SNF) else 0 end as [SOUR SNF %]
+,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
+case When (isnull(Reject_Type,''))='CURD' then (isnull(No_Of_Cans,0)) else 0 end as [CURD can qty],
+case When (isnull(Reject_Type,''))='CURD' then (Milk_Weight) else 0 end as [CURD Qty]
+,case When (isnull(Reject_Type,''))='CURD' then (FAT) else 0 end as [CURD FAT %]
+,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
+,case When (isnull(Reject_Type,''))='CURD' then (SNF) else 0 end as [CURD SNF %]
+,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] ,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo)PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL
 left join  TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
-left join TSPL_MCC_MASTER on TSPL_MILK_SHIFT_UPLOADER_HEAD.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
-where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + StrDocNo + "' group by BULK_ROUTE_NO,SNo"
+left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
+where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + StrDocNo + "'"
 
             If strquery IsNot Nothing AndAlso clsCommon.myLen(strquery) > 0 Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
@@ -1061,26 +1061,27 @@ where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + StrDocNo + "' group by BU
         Dim strquery As String = Nothing
         Try
 
-            strquery = "Select Max(xxx.TR_No)TR_No,Max(xxx.SNo)SNo,Max(xxx.VLC)VLC,Max(xxx.[VLC Name])VLC_name,Max(xxx.[No of Cans])No_of_Cans,Max(xxx.[Route])Route,Max(xxx.Tanker_No)Tanker_No,Max(xxx.Comp_Code)Comp_Code,Max(xxx.Mix_Milk)Mix_Milk,Max(xxx.[Shift])Shift,Max(xxx.Shift_Date)Shift_Date,Max(xxx.Created_Date)Created_Date,Max(xxx.Schedule_Time_Morning)Schedule_Time_Morning,Max(xxx.Schedule_Time_Morning)Schedule_Time_Morning,Max(xxx.[Good Qty])Good_Qty,Max(xxx.[Good FAT %])Good_FAT,Max(xxx.[Good FATKg])Good_FATKg,Max(xxx.[Good SNF %])Good_SNF,Max(xxx.[Good SNFKG])Good_SNFKG,Max(xxx.[SOUR Qty])SOUR_Qty,Max(xxx.[SOUR FAT %])SOUR_FAT,Max(xxx.[SOUR FATKg])SOUR_FATKg,Max(xxx.[SOUR SNF %])SOUR_SNF,Max(xxx.[SOUR SNFKG])SOUR_SNFKG,Max(xxx.[CURD Qty])CURD_Qty,Max(xxx.[CURD FAT %])CURD_FAT,Max(xxx.[CURD FATKg])CURD_FATKg,Max(xxx.[CURD FAT %])CURD_FAT,Max(xxx.[CURD SNFKG])CURD_SNFKG,Max(xxx.[PageNo])PageNo,Max(xxx.[Route Code])Route_Code,Max(xxx.[mcc_Name])mcc_Name   
-from(select max(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,max(TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo)SNo,max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC, max(TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code) as [VLC Code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],sum(TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans) as [No of Cans],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO) as [Route Code],MAX(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME) as [Route],max(TSPL_BULK_ROUTE_MASTER.Tanker_No)Tanker_No,max(TSPL_BULK_ROUTE_MASTER.Comp_Code)Comp_Code,sum(TSPL_MILK_SHIFT_UPLOADER_HEAD.Mix_Milk)Mix_Milk,max(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift)Shift,max(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date)Shift_Date,max(TSPL_MILK_SHIFT_UPLOADER_HEAD.Created_Date)Created_Date,Max(TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning)Schedule_Time_Morning,max(TSPL_MCC_MASTER.mcc_Name) as mcc_Name 
-,case When max(isnull(Reject_Type,''))='' then sum(isnull(Milk_Weight,0)) else 0 end as [Good Qty]
-,case When max(isnull(Reject_Type,''))='' then sum(FAT) else 0 end as [Good FAT %]
-,case When max(isnull(Reject_Type,''))='' then sum(cast(Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
-,case When max(isnull(Reject_Type,''))='' then sum(SNF) else 0 end as [Good SNF %]
-,case When max(isnull(Reject_Type,''))='' then Sum(cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],case When max(isnull(Reject_Type,''))='SOUR' then Sum(Milk_Weight) else 0 end as [SOUR Qty]
-,case When max(isnull(Reject_Type,''))='SOUR' then Sum(FAT) else 0 end as [SOUR FAT %]
-,case When max(isnull(Reject_Type,''))='SOUR' then Sum(cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
-,case When max(isnull(Reject_Type,''))='SOUR' then Sum(SNF) else 0 end as [SOUR SNF %]
-,case When max(isnull(Reject_Type,''))='SOUR' then Sum(cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],case When max(isnull(Reject_Type,''))='CURD' then Sum(Milk_Weight) else 0 end as [CURD Qty]
-,case When max(isnull(Reject_Type,''))='CURD' then Sum(FAT) else 0 end as [CURD FAT %]
-,case When max(isnull(Reject_Type,''))='CURD' then Sum(cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
-,case When max(isnull(Reject_Type,''))='CURD' then Sum(SNF) else 0 end as [CURD SNF %]
-,case When max(isnull(Reject_Type,''))='CURD' then Sum(cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] ,max(TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo)PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL
+            strquery = "Select Max(xxx.TR_No)TR_No,Max(xxx.SNo)SNo,Max(xxx.VLC)VLC,Max(xxx.[VLC Name])VLC_name,sum(xxx.[No of Cans])No_of_Cans,Max(xxx.[Route])Route,Max(xxx.Tanker_No)Tanker_No,Max(xxx.Comp_Code)Comp_Code,Max(xxx.Mix_Milk)Mix_Milk,Max(xxx.[Shift])Shift,Max(xxx.Shift_Date)Shift_Date,Max(xxx.Created_Date)Created_Date,Max(xxx.Schedule_Time_Morning)Schedule_Time_Morning,Max(xxx.Schedule_Time_Morning)Schedule_Time_Morning,sum(xxx.[Good Qty])Good_Qty,Max(xxx.[Good FAT %])Good_FAT,sum(xxx.[Good FATKg])Good_FATKg,sum(xxx.[Good SNF %])Good_SNF,sum(xxx.[Good SNFKG])Good_SNFKG,sum(xxx.[SOUR Qty])SOUR_Qty,Max(xxx.[SOUR FAT %])SOUR_FAT,sum(xxx.[SOUR FATKg])SOUR_FATKg,Max(xxx.[SOUR SNF %])SOUR_SNF,sum(xxx.[SOUR SNFKG])SOUR_SNFKG,sum(xxx.[CURD Qty])CURD_Qty,Max(xxx.[CURD FAT %])CURD_FAT,sum(xxx.[CURD FATKg])CURD_FATKg,Max(xxx.[CURD FAT %])CURD_FAT,sum(xxx.[CURD SNFKG])CURD_SNFKG,Max(xxx.[PageNo])PageNo,Max(xxx.[Route Code])Route_Code,Max(xxx.[mcc_Name])mcc_Name   
+from
+(select (TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo)SNo,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC, (TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code) as [VLC Code],(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans) as [No of Cans],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO) as [Route Code],(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME) as [Route],(TSPL_BULK_ROUTE_MASTER.Tanker_No)Tanker_No,(TSPL_BULK_ROUTE_MASTER.Comp_Code)Comp_Code,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Mix_Milk)Mix_Milk,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift)Shift,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date)Shift_Date,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Created_Date)Created_Date,(TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning)Schedule_Time_Morning,(TSPL_MCC_MASTER.mcc_Name) as mcc_Name 
+,case When (isnull(Reject_Type,''))='' then (isnull(Milk_Weight,0)) else 0 end as [Good Qty]
+,case When (isnull(Reject_Type,''))='' then (FAT) else 0 end as [Good FAT %]
+,case When (isnull(Reject_Type,''))='' then (cast(Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
+,case When (isnull(Reject_Type,''))='' then (SNF) else 0 end as [Good SNF %]
+,case When (isnull(Reject_Type,''))='' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],case When (isnull(Reject_Type,''))='SOUR' then (Milk_Weight) else 0 end as [SOUR Qty]
+,case When (isnull(Reject_Type,''))='SOUR' then (FAT) else 0 end as [SOUR FAT %]
+,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
+,case When (isnull(Reject_Type,''))='SOUR' then (SNF) else 0 end as [SOUR SNF %]
+,case When (isnull(Reject_Type,''))='SOUR' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],case When (isnull(Reject_Type,''))='CURD' then (Milk_Weight) else 0 end as [CURD Qty]
+,case When (isnull(Reject_Type,''))='CURD' then (FAT) else 0 end as [CURD FAT %]
+,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
+,case When (isnull(Reject_Type,''))='CURD' then (SNF) else 0 end as [CURD SNF %]
+,case When (isnull(Reject_Type,''))='CURD' then (cast (Milk_Weight*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] ,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo)PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL
 left join  TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
-left join TSPL_MCC_MASTER on TSPL_MILK_SHIFT_UPLOADER_HEAD.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
-where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + StrDocNo + "' group by BULK_ROUTE_NO,Reject_Type) xxx group by xxx.[Route Code] "
+left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
+where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + StrDocNo + "' ) xxx group by xxx.[Route Code]  "
 
             If strquery IsNot Nothing AndAlso clsCommon.myLen(strquery) > 0 Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)

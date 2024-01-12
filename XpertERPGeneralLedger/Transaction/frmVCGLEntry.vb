@@ -162,7 +162,7 @@ Public Class frmVCGLEntry
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -307,7 +307,7 @@ Public Class frmVCGLEntry
                     isCellValueChangedOpen = True
                     If e.Column Is gv1.Columns(colRowType) Then
                         If clsCommon.myLen(txtLocSegment.Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please select Location Segment", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Please select Location Segment", Me.Text)
                             gv1.CurrentRow.Cells(colRowType).Value = Nothing
                             txtLocSegment.Focus()
                             Exit Sub
@@ -320,21 +320,21 @@ Public Class frmVCGLEntry
                         gv1.CurrentRow.Cells(colACName).Value = Nothing
                     ElseIf e.Column Is gv1.Columns(colVCGLCode) Then
                         If clsCommon.myLen(gv1.CurrentRow.Cells(colRowType).Value) < 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+                            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
                             gv1.CurrentRow.Cells(colVCGLCode).Value = Nothing
                             Exit Sub
                         End If
                         OpenVCGLAccount(False)
                     ElseIf e.Column Is gv1.Columns(colDrAmt) Then
                         If clsCommon.myLen(gv1.CurrentRow.Cells(colACCode).Value) < 0 Then
-                            common.clsCommon.MyMessageBoxShow("Account Code not found for enter Amount", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Account Code not found for enter Amount", Me.Text)
                             gv1.CurrentRow.Cells(colDrAmt).Value = 0
                         End If
                         gv1.CurrentRow.Cells(colCrAmt).Value = 0
                         UpdateAllTotals()
                     ElseIf e.Column Is gv1.Columns(colCrAmt) Then
                         If clsCommon.myLen(gv1.CurrentRow.Cells(colACCode).Value) < 0 Then
-                            common.clsCommon.MyMessageBoxShow("Account Code not found for enter Amount", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Account Code not found for enter Amount", Me.Text)
                             gv1.CurrentRow.Cells(colCrAmt).Value = 0
                         End If
                         gv1.CurrentRow.Cells(colDrAmt).Value = 0
@@ -345,7 +345,7 @@ Public Class frmVCGLEntry
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -545,20 +545,20 @@ Public Class frmVCGLEntry
             Dim strchk As String = "select Status from TSPL_VCGL_Head where Document_No='" + txtDocNo.Value + "'"
             Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transaction already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                 Return False
             End If
         End If
         UpdateAllTotals()
         If clsCommon.myLen(TxtVendorNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Vendor/Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Vendor/Customer", Me.Text)
             TxtVendorNo.Focus()
             Return False
         End If
 
         If clsCommon.CompairString(cboDocType.Text, "F") = CompairStringResult.Equal Then
             If clsCommon.myLen(txtFarmerVendor.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Plese select VSP Code.")
+                common.clsCommon.MyMessageBoxShow(Me, "Plese select VSP Code.", Me.Text)
                 TxtVendorNo.Focus()
                 Return False
             End If
@@ -566,7 +566,7 @@ Public Class frmVCGLEntry
         End If
 
         If clsCommon.myLen(txtLocSegment.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location Segment")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location Segment", Me.Text)
             txtLocSegment.Focus()
             Return False
         Else
@@ -587,17 +587,17 @@ Public Class frmVCGLEntry
             If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "F") = CompairStringResult.Equal Then
                 If dblfarmercount > 0 Then
                     If dblfarmercount < dbldatacount Then
-                        common.clsCommon.MyMessageBoxShow("Please select Type Farmer/GL only")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please select Type Farmer/GL only", Me.Text)
                         Return False
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Please select Type Farmer/GL only")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Type Farmer/GL only", Me.Text)
                     Return False
                 End If
             End If
             If dblfarmercount > 0 Then
                 If dblfarmercount < dbldatacount Then
-                    common.clsCommon.MyMessageBoxShow("Please select Type Farmer/GL only")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Type Farmer/GL only", Me.Text)
                     Return False
                 End If
             End If
@@ -659,22 +659,22 @@ Public Class frmVCGLEntry
 
 
                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                        common.clsCommon.MyMessageBoxShow("Please Fill at list one GL Acount")
-                        Return
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one GL Acount", Me.Text)
+                    Return
                     End If
                     If (obj.SaveData(obj, isNewEntry)) Then
                         txtDocNo.Value = obj.Document_No
                         If chekPostBtn = True Then
 
                         Else
-                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
-                        End If
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    End If
 
                         LoadData(obj.Document_No)
                     End If
                 End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1075,7 +1075,7 @@ Public Class frmVCGLEntry
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsVCGLHead.ReverseAndUnpost(txtDocNo.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value)
@@ -1276,13 +1276,13 @@ Public Class frmVCGLEntry
                 clsCommon.ProgressBarHide()
                 trans.Commit()
                 If clsCommon.myLen(check) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                 End If
 
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -1308,7 +1308,7 @@ Public Class frmVCGLEntry
             txtFarmerVendor.Value = clsCommon.ShowSelectForm("VCGL@FarmerVendor", Qry, "Code", " Form_Type = 'VSP' ", txtFarmerVendor.Value, "Code", isButtonClicked)
             lblFarmerVendor.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where vendor_Code = '" + txtFarmerVendor.Value + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

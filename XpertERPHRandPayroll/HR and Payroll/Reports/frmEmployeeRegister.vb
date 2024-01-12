@@ -28,7 +28,7 @@ Public Class frmEmployeeRegister
             DT = clsEmployeeMaster.GetEmployeeRegister(fndLocation.Value, CboStatus.SelectedValue, txtEmp.arrValueMember, TxtDesignation.Value, txtDepartment.Value)
 
             If DT Is Nothing OrElse DT.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 SetupMasterForAutoGenerateHierarchy()
@@ -36,7 +36,7 @@ Public Class frmEmployeeRegister
                 RadPageView1.SelectedPage = RadPageViewPage2
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -112,7 +112,7 @@ Public Class frmEmployeeRegister
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -144,7 +144,7 @@ Public Class frmEmployeeRegister
 
     Private Sub RadMenuItemDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemDelete.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnExpoExl_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -259,7 +259,7 @@ Public Class frmEmployeeRegister
                 clsCommon.MyExportToPDF("Employee Register", gv1, arrHeader, "Employee Register", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -269,7 +269,7 @@ Public Class frmEmployeeRegister
             gv1.DataSource = Nothing
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

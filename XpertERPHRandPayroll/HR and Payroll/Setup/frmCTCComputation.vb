@@ -237,7 +237,7 @@ Public Class frmCTCComputation
             Next
 
             If (obj.SaveData(txtCode.Value, obj, clsPayrollSetting.CheckNewEntry(Me.txtCode.Value))) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.PAY_SETTING_CODE, NavigatorType.Current)
             End If
 
@@ -323,7 +323,7 @@ Public Class frmCTCComputation
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -333,7 +333,7 @@ Public Class frmCTCComputation
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsPayrollSetting.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -460,7 +460,7 @@ Public Class frmCTCComputation
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

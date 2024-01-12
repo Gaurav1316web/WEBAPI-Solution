@@ -164,11 +164,12 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                 Dim dtmain As DataTable = clsDBFuncationality.GetDataTable("select '' as DemandBookingSrNo,'' as Document_No,'' as 	Line_No,'' as	Cust_Code,'' as 	Item_Code,'' as 	Qty,'' as 	Unit_code,'' as 	Vehicle_Code,'' as 	Item_Rate,'' as DocumentAmount	,'' as Price_code	,'' as ShiftType	,'' as Route_No	,'' as Location_Code,'' as Document_Date,'' as TR_Code,'' as Created_By ", trans)
                 dtmain.Rows.RemoveAt(0)
                 For Each dr As DataRow In dt.Rows
-                    If clsCommon.CompairString(clsCommon.myCDate(strdocdate), clsCommon.myCDate(dr("Document_Date"))) = CompairStringResult.Equal And clsCommon.CompairString(CustomerCode, clsCommon.myCstr(dr("Cust_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strShiftType, clsCommon.myCstr(dr("ShiftType"))) = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(clsCommon.myCDate(strdocdate), clsCommon.myCDate(dr("Document_Date"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(CustomerCode, clsCommon.myCstr(dr("Cust_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strShiftType, clsCommon.myCstr(dr("ShiftType"))) = CompairStringResult.Equal Then
                     Else
                         CustomerCount = CustomerCount + 1
                     End If
                     CustomerCode = clsCommon.myCstr(dr("Cust_Code"))
+
                     strShiftType = clsCommon.myCstr(dr("ShiftType"))
                     strdocdate = clsCommon.myCDate(dr("Document_Date"))
 
@@ -179,11 +180,13 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                     IsTCSApplicable = False
                     Dim balanceAmt As Double = 0
                     Dim OPInvoice_Sale_Amt As Double = 0
-                    Dim strqry As String = "select sum(ItemNetAmount) from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + clsCommon.myCstr(CustomerCode) + "' and convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(strStartDate) + "' and convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(strEndDate) + "' "
+                    TCSBaseAmount = 0
+                    Dim strqry As String = "select sum(ItemNetAmount) from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + clsCommon.myCstr(dr1("cust_code")) + "' and convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(strStartDate) + "' and convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(strEndDate) + "' "
 
                     balanceAmt = clsDBFuncationality.getSingleValue(strqry, trans)
                     OPInvoice_Sale_Amt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Sale_amt from TSPL_OP_INVOICE_FOR_TCS where Customer_Code='" + clsCommon.myCstr(dr1("cust_code")) + "' and Financial_Year_Code='" + clsCommon.myCstr(CurrFinYR) + "'", trans))
                     TCSBaseAmount = OPInvoice_Sale_Amt + balanceAmt
+
                     If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
 
                         If TCSBaseAmount > AmountToCheckCustomerOutstandingForTCSTax Then
@@ -503,6 +506,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                             End If
 
                             DocuAmount = Math.Round(DocuAmount, 2) + Math.Round(clsCommon.myCdbl(objTr.DocumentAmount), 2)
+
                             totalQty = totalQty + clsCommon.myCdbl(objTr.Booking_Qty)
                             obj.Arr.Add(objTr)
 
@@ -517,7 +521,9 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                     End If
 
                     If Not (intCurrInvNo = intNextInvNo) Then
+                        obj.Total_Amt = DocuAmount
                         obj.TotalCrate = TotalCrate
+                        TCSAmount = 0
                         If IsTCSApplicable Then
                             If (TCSBaseAmount - DocuAmount) > AmountToCheckCustomerOutstandingForTCSTax Then
                                 TCSAmount = DocuAmount * (TCSTaxRate / 100)
