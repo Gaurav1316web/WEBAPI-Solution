@@ -42,6 +42,8 @@ Public Class rptDailyQtyReport
         rbtnBMCDock.Checked = False
         rbtnDockSummary.Checked = False
         rbtnDockSummary.Enabled = isEnable
+        rbtnSummary.Checked = False
+        rbtnSummary.Enabled = isEnable
         txtMCC_Code.Value = Nothing
         ddlShift.Visible = False
         MyLabel6.Visible = False
@@ -1469,21 +1471,20 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             Dim qry As String = Nothing
             If rbtnDockSummary.Checked Then
                 qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],xxx.SNO,Convert(Date,(xxx.Shift_Date),103)Shift_Date,Convert(int,xxx.Uploader_Code)Uploader_Code,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,
-                        Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As [Shift],
-                        Max(xxx.Bulk_Route_Code)Bulk_Route_Code,Case When Max(xxx.Dock_Collection_Milk_Type)='M' Then 'Mix' Else '' End As Dock_Collection_Milk_Type,Max(xxx.Reject_Type)Reject_Type,
-                        Sum(xxx.No_Of_Cans)No_Of_Cans,
-                        Case When Max(xxx.Reject_Type) IS NULL OR Max(xxx.Reject_Type)<>'SOUR' And Max(xxx.Reject_Type)<>'CURD' Then Sum(IsNull(xxx.No_Of_Cans,0)) Else 0 End [Sweet_No_Of_Cans],
-                        Case When Max(xxx.Reject_Type) IS NULL OR Max(xxx.Reject_Type)<>'SOUR' And Max(xxx.Reject_Type)<>'CURD' Then Sum(IsNull(xxx.Milk_Weight,0)) Else 0 End [Sweet_Milk_Weight],
-                        Case When Max(xxx.Reject_Type) IS NULL OR Max(xxx.Reject_Type)<>'SOUR' And Max(xxx.Reject_Type)<>'CURD' Then Max(IsNull(xxx.FAT,0)) Else 0 End [Sweet_Milk_FAT],
-                        Case When Max(xxx.Reject_Type) IS NULL OR Max(xxx.Reject_Type)<>'SOUR' And Max(xxx.Reject_Type)<>'CURD' Then Max(IsNull(xxx.SNF,0)) Else 0 End [Sweet_Milk_SNF],
-                        Case When Max(xxx.Reject_Type)='SOUR' Then Sum(IsNull(xxx.No_Of_Cans,0)) Else 0 End [SOUR_No_Of_Cans],
-                        Case When Max(xxx.Reject_Type)='SOUR' Then Sum(IsNull(xxx.Milk_Weight,0)) Else 0 End [SOUR_Milk_Weight],
-                        Case When Max(xxx.Reject_Type)='SOUR' Then Max(IsNull(xxx.FAT,0)) Else 0 End [SOUR_Milk_FAT],
-                        Case When Max(xxx.Reject_Type)='SOUR' Then Max(IsNull(xxx.SNF,0)) Else 0 End [SOUR_Milk_SNF],
-                        Case When Max(xxx.Reject_Type)='CURD' Then Sum(IsNull(xxx.No_Of_Cans,0)) Else 0 End [CURD_No_Of_Cans],
-                        Case When Max(xxx.Reject_Type)='CURD' Then Sum(IsNull(xxx.Milk_Weight,0)) Else 0 End [CURD_Milk_Weight],
-                        Case When Max(xxx.Reject_Type)='CURD' Then Max(IsNull(xxx.FAT,0)) Else 0 End [CURD_Milk_FAT],
-                        Case When Max(xxx.Reject_Type)='CURD' Then Max(IsNull(xxx.SNF,0)) Else 0 End [CURD_Milk_SNF],
+                        xxx.Shift,Max(xxx.Bulk_Route_Code)Bulk_Route_Code,Case When Max(xxx.Dock_Collection_Milk_Type)='M' Then 'Mix' Else '' End As Dock_Collection_Milk_Type,Max(xxx.Reject_Type)Reject_Type,
+                        Sum(xxx.No_Of_Cans)No_Of_Cans,                        
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) As [Sweet_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_Weight],
+                        Max(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_FAT],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_SNF],
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_Weight],
+                        Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_FAT],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_SNF],
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_Weight],
+                        Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as[CURD_Milk_FAT],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNF],  
                         Max(xxx.Comp_Name)Comp_Name from
                         (SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],TSPL_MCC_MASTER.MCC_NAME As MCC,TSPL_COMPANY_MASTER.Comp_Name 
                         FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL 
@@ -1501,6 +1502,45 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                     qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='E'"
                 End If
                 qry += " ) xxx Group By xxx.Uploader_Code,xxx.Shift_Date,xxx.Shift,xxx.SNO ORDER BY  Convert(int,xxx.Uploader_Code)"
+            ElseIf rbtnSummary.Checked Then
+                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],Convert(Date,(xxx.Shift_Date),103)Shift_Date,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,
+                        xxx.Shift,Max(xxx.Bulk_Route_Code)Bulk_Route_Code,Case When Max(xxx.Dock_Collection_Milk_Type)='M' Then 'Mix' Else '' End As Dock_Collection_Milk_Type,Max(xxx.Reject_Type)Reject_Type,
+                        Sum(xxx.No_Of_Cans)No_Of_Cans,
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_Weight],
+                        Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_FAT],
+                        Sum(((IsNull(xxx.FAT,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_FATKG],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_SNF],
+                        Sum(((IsNull(xxx.SNF,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_SNFKG],
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_Weight],
+                        Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_FAT],
+                        Sum(((IsNull(xxx.FAT,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_FATKG],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_SNF],
+                        Sum(((IsNull(xxx.SNF,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_SNFKG],
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_Weight],
+                        Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_FAT],
+                        Sum(((IsNull(xxx.FAT,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_FATKG],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNF],
+                        Sum(((IsNull(xxx.SNF,0)*IsNull(xxx.Milk_Weight,0))/100) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNFKG],
+                        Max(xxx.Comp_Name)Comp_Name from
+                        (SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],TSPL_MCC_MASTER.MCC_NAME As MCC,TSPL_COMPANY_MASTER.Comp_Name 
+                        FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL 
+                        Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD On TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_Code  
+                        Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                        Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "'
+                        where Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)>=convert(date,'" + fromDate.Value + "',103)  And Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)<=convert (date,'" + dtpToDate.Value + "',103)  "
+                If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                    qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+                End If
+                If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
+                    qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='M'"
+                ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
+                    qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='E'"
+                End If
+                qry += " ) xxx Group By xxx.Shift_Date,xxx.Shift ORDER BY xxx.Shift_Date"
             ElseIf rbtnBMCDock.Checked Then
                     qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [To Date],Max(Convert(Date,xxx.Shift_Date,103))Shift_Date,Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As Shift,Max(xxx.MCC_NAME)MCC_NAME,Max(xxx.VLC)VLC,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG],Max(xxx.Comp_Name)Comp_Name
                         from (select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans as [No of Cans],TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as [Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [Route],TSPL_COMPANY_MASTER.Comp_Name,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date
@@ -1516,7 +1556,8 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                         ,case When isnull(Reject_Type,'')='CURD' then FAT else 0 end as [CURD FAT %]
                         ,case When isnull(Reject_Type,'')='CURD' then cast (Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [CURD FATKg]
                         ,case When isnull(Reject_Type,'')='CURD' then SNF else 0 end as [CURD SNF %]
-                        ,case When isnull(Reject_Type,'')='CURD' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [CURD SNFKG] ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+                        ,case When isnull(Reject_Type,'')='CURD' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [CURD SNFKG] ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo 
+                        from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
                         left outer Join TSPL_MILK_SHIFT_UPLOADER_HEAD On TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
                         left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
@@ -1564,7 +1605,9 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rbtnDockSummary.Checked Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDockSummaryReport", "Dock Summary Report", clsCommon.myCDate(fromDate.Value))
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDockSummaryReport", "DCS Summary Report", clsCommon.myCDate(fromDate.Value))
+                ElseIf rbtnSummary.Checked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDSummary", "Dock Summary", clsCommon.myCDate(fromDate.Value))
                 ElseIf rbtnBMCDock.Checked Then
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptBMCDockReport", "BMC Dock Report", clsCommon.myCDate(fromDate.Value))
                 Else
@@ -1643,5 +1686,24 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         dt.Rows.Add(dr)
         Return dt
     End Function
+
+    Private Sub rbtnSummary_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnSummary.CheckedChanged
+        Try
+            If rbtnSummary.Checked Then
+                MyLabel4.Visible = True
+                txtMCC_Code.Visible = True
+                ddlShift.Visible = True
+                MyLabel6.Visible = True
+            Else
+                MyLabel4.Visible = False
+                txtMCC_Code.Visible = False
+                ddlShift.Visible = False
+                MyLabel6.Visible = False
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 
