@@ -22,6 +22,7 @@ Partial Class frmBulkPurchaseUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -29,14 +30,14 @@ Partial Class frmBulkPurchaseUploader
         Me.rdbAgainstBulkSale = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbAgainstBulkprocurement = New Telerik.WinControls.UI.RadRadioButton()
         Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.btnMergeAndRecreate = New Telerik.WinControls.UI.RadButton()
+        Me.btnMergeAndRecreateTrade = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSaveAndPost = New Telerik.WinControls.UI.RadButton()
         Me.btnExportInvalid = New Telerik.WinControls.UI.RadButton()
         Me.btnValidate = New Telerik.WinControls.UI.RadButton()
         Me.btnExportFormat = New Telerik.WinControls.UI.RadButton()
         Me.btnSelectSheet = New Telerik.WinControls.UI.RadButton()
-        Me.btnMergeAndRecreate = New Telerik.WinControls.UI.RadButton()
-        Me.btnMergeAndRecreateTrade = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -50,14 +51,14 @@ Partial Class frmBulkPurchaseUploader
         CType(Me.rdbAgainstBulkprocurement, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnMergeAndRecreate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnMergeAndRecreateTrade, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSaveAndPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportInvalid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportFormat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnMergeAndRecreate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnMergeAndRecreateTrade, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -128,6 +129,7 @@ Partial Class frmBulkPurchaseUploader
         Me.rdbAgainstBulkSaleTrade.Size = New System.Drawing.Size(137, 18)
         Me.rdbAgainstBulkSaleTrade.TabIndex = 2
         Me.rdbAgainstBulkSaleTrade.Text = "Against Bulk Sale Trade"
+        Me.rdbAgainstBulkSaleTrade.Visible = False
         '
         'rdbAgainstBulkSale
         '
@@ -151,11 +153,34 @@ Partial Class frmBulkPurchaseUploader
         '
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.Size = New System.Drawing.Size(739, 389)
         Me.Gv1.TabIndex = 2
-        Me.Gv1.Text = "RadGridView1"
         Me.Gv1.Visible = False
+        '
+        'btnMergeAndRecreate
+        '
+        Me.btnMergeAndRecreate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeAndRecreate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMergeAndRecreate.Location = New System.Drawing.Point(433, 9)
+        Me.btnMergeAndRecreate.Name = "btnMergeAndRecreate"
+        Me.btnMergeAndRecreate.Size = New System.Drawing.Size(231, 18)
+        Me.btnMergeAndRecreate.TabIndex = 14
+        Me.btnMergeAndRecreate.Text = "Merger and Recreate Inv"
+        '
+        'btnMergeAndRecreateTrade
+        '
+        Me.btnMergeAndRecreateTrade.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeAndRecreateTrade.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMergeAndRecreateTrade.Location = New System.Drawing.Point(433, 9)
+        Me.btnMergeAndRecreateTrade.Name = "btnMergeAndRecreateTrade"
+        Me.btnMergeAndRecreateTrade.Size = New System.Drawing.Size(231, 18)
+        Me.btnMergeAndRecreateTrade.TabIndex = 14
+        Me.btnMergeAndRecreateTrade.Text = "Merger and Recreate Inv Trade"
         '
         'btnClose
         '
@@ -217,27 +242,6 @@ Partial Class frmBulkPurchaseUploader
         Me.btnSelectSheet.TabIndex = 8
         Me.btnSelectSheet.Text = "Select Sheet"
         '
-        'btnMergeAndRecreate
-        '
-        Me.btnMergeAndRecreate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeAndRecreate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMergeAndRecreate.Location = New System.Drawing.Point(433, 9)
-        Me.btnMergeAndRecreate.Name = "btnMergeAndRecreate"
-        Me.btnMergeAndRecreate.Size = New System.Drawing.Size(231, 18)
-        Me.btnMergeAndRecreate.TabIndex = 14
-        Me.btnMergeAndRecreate.Text = "Merger and Recreate Inv"
-        '
-        'btnMergeAndRecreateTrade
-        '
-        Me.btnMergeAndRecreateTrade.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeAndRecreateTrade.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMergeAndRecreateTrade.Location = New System.Drawing.Point(433, 9)
-        Me.btnMergeAndRecreateTrade.Name = "btnMergeAndRecreateTrade"
-        Me.btnMergeAndRecreateTrade.Size = New System.Drawing.Size(231, 18)
-        Me.btnMergeAndRecreateTrade.TabIndex = 14
-        Me.btnMergeAndRecreateTrade.Text = "Merger and Recreate Inv Trade"
-        '
-
         'frmBulkPurchaseUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -264,14 +268,14 @@ Partial Class frmBulkPurchaseUploader
         CType(Me.rdbAgainstBulkprocurement, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnMergeAndRecreate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnMergeAndRecreateTrade, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSaveAndPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExportInvalid, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExportFormat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnMergeAndRecreate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnMergeAndRecreateTrade, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

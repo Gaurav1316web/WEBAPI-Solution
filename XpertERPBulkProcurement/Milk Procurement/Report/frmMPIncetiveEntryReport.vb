@@ -155,7 +155,7 @@ TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_IN
 ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Pashu_Aahar_Qty ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Pashu_Aahar_Amount
 ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Rahat_Kampekat_Feed_Qty ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Rahat_Kampekat_Feed_Amount
 ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Sailej_Qty ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Sailej_Amount, 
-TSPL_MP_MASTER.DISTRICT_Code as [District Code],TSPL_DISTRICT_MASTER.Name as [District Name],TSPL_MP_MASTER.Zone_Code as [Zone Code], TSPL_ZONE_MASTER.Description as [Zone Name],TSPL_MP_MASTER.BLOCK_CODE as [Block Code],TSPL_BLOCK_MASTER.BLOCK_NAME as [Block Name] ,TSPL_MP_MASTER.REVENUE_VILLAGE_CODE as [Revenue Village Code],TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Revenue Village Name],TSPL_MP_MASTER.GRAMPANCHAYAT_CODE as [Grampanchayat Code],TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Grampanchayat Name],TSPL_MP_MASTER.PANCHAYAT_SAMITI_CODE as [Panchayat Samiti Code],TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Panchayat Samiti Name],TSPL_MP_MASTER.VIDHAN_SABHA_CODE as [Vidhan Sabha Code], TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Vidhan Sabha Name]
+TSPL_MP_MASTER.DISTRICT_Code as [District Code],TSPL_DISTRICT_MASTER.Name as [District Name],TSPL_MP_MASTER.Zone_Code as [Zone Code], TSPL_ZONE_MASTER.Description as [Zone Name],TSPL_MP_MASTER.BLOCK_CODE as [Block Code],TSPL_BLOCK_MASTER.BLOCK_NAME as [Block Name] ,TSPL_MP_MASTER.REVENUE_VILLAGE_CODE as [Revenue Village Code],TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Revenue Village Name],TSPL_MP_MASTER.GRAMPANCHAYAT_CODE as [Grampanchayat Code],TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Grampanchayat Name],TSPL_MP_MASTER.PANCHAYAT_SAMITI_CODE as [Panchayat Samiti Code],TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Panchayat Samiti Name],TSPL_MP_MASTER.VIDHAN_SABHA_CODE as [Vidhan Sabha Code], TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Vidhan Sabha Name],FORMAT((TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date), 'MM-yyyy') as [Created Month-Year]
 from TSPL_MP_INCENTIVE_ENTRY_DETAIL 
 left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
 left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
@@ -199,11 +199,11 @@ where 2=2 and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)>='" + cls
             strColumnForTotal = ""
             If rbtnBankWise.IsChecked Then
                 strColumnForTotal = "Bank_Code"
-                Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by MCC_Code,VLC_Code,MP_Code,Bank_Code order by Bank_Code,MCC_Code, VLC_Code_VLC_Uploader,VLC_CODE_Uploader"
+                Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],max([Created Month-Year]) as [Created Month-Year],Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by MCC_Code,VLC_Code,MP_Code,Bank_Code order by [Created Month-Year],Bank_Code,MCC_Code, VLC_Code_VLC_Uploader,VLC_CODE_Uploader"
 
             ElseIf rbtnMCCWise.IsChecked Or rbtnDetails.IsChecked Then
                 strColumnForTotal = "MCC_Code"
-                Qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) As S_No,xx.DocumentCode, max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,xx.From_Date,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,max(Jan_Aadhar_No) as Jan_Aadhar_No,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],  max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,  CASE WHEN (SUM(Payable_Amount)) % 1 >= 0.5 THEN CAST(CEILING(SUM(Payable_Amount)) AS DECIMAL(10, 2)) ELSE CAST(FLOOR(SUM(Payable_Amount)) AS DECIMAL(10, 2)) END AS Payable_Amount,  max(xx.Created_Entry_Source) as Created_Entry_Source,max(xx.Created_By) as Created_By,max(convert(varchar, xx.Created_Date,103)+' '+SUBSTRING(convert(varchar, xx.Created_Date,100),13,20) ) as Created_Date,max(xx.Modified_Entry_Source) as Modified_Entry_Source,max(xx.Modified_By) as Modified_By,max(convert(varchar, xx.Modified_Date,103)+' '+SUBSTRING(convert(varchar, xx.Modified_Date,100),13,20)) as Modified_Date,max(xx.Reco_Status) as Reco_Status,max(xx.Reco_Document_Code) as Reco_Document_Code
+                Qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) As S_No,xx.DocumentCode, max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,xx.From_Date,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,max(Jan_Aadhar_No) as Jan_Aadhar_No,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],max([Created Month-Year]) as [Created Month-Year],  max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,  CASE WHEN (SUM(Payable_Amount)) % 1 >= 0.5 THEN CAST(CEILING(SUM(Payable_Amount)) AS DECIMAL(10, 2)) ELSE CAST(FLOOR(SUM(Payable_Amount)) AS DECIMAL(10, 2)) END AS Payable_Amount,  max(xx.Created_Entry_Source) as Created_Entry_Source,max(xx.Created_By) as Created_By,max(convert(varchar, xx.Created_Date,103)+' '+SUBSTRING(convert(varchar, xx.Created_Date,100),13,20) ) as Created_Date,max(xx.Modified_Entry_Source) as Modified_Entry_Source,max(xx.Modified_By) as Modified_By,max(convert(varchar, xx.Modified_Date,103)+' '+SUBSTRING(convert(varchar, xx.Modified_Date,100),13,20)) as Modified_Date,max(xx.Reco_Status) as Reco_Status,max(xx.Reco_Document_Code) as Reco_Document_Code
                            ,sum(Mineral_Mixture_Qty) as Mineral_Mixture_Qty,sum(Mineral_Mixture_Amount) as Mineral_Mixture_Amount,sum(Pashu_Aahar_Qty) as Pashu_Aahar_Qty,sum(Pashu_Aahar_Amount) as Pashu_Aahar_Amount,sum(Rahat_Kampekat_Feed_Qty) as Rahat_Kampekat_Feed_Qty,sum(Rahat_Kampekat_Feed_Amount) as Rahat_Kampekat_Feed_Amount,sum(Sailej_Qty) as Sailej_Qty,sum(Sailej_Amount) as Sailej_Amount, "
 
                 If clsCommon.CompairString(objCommonVar.CurrDatabase, "BKN") = CompairStringResult.Equal Then
@@ -213,7 +213,7 @@ where 2=2 and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)>='" + cls
                 End If
 
 
-                Qry += "  from (" + BaseQry + ")xx group by MCC_Code,VLC_Code,MP_Code,from_date,DocumentCode  order by MCC_Code, VLC_Code_VLC_Uploader , VLC_CODE_Uploader"
+                Qry += "  from (" + BaseQry + ")xx group by MCC_Code,VLC_Code,MP_Code,from_date,DocumentCode  order by [Created Month-Year],MCC_Code, VLC_Code_VLC_Uploader , VLC_CODE_Uploader"
             ElseIf rbtnNEFT.IsChecked Then
                 Qry = "select   TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,TSPL_MCC_MASTER.MCC_Name ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No, TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty as Quantity,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount as Payable_Amount,(case when  isnull(TabLatestDBT.DBT_NEFT_REJECT_DETAIL_PK_Id,0)>0 and isnull(TabLatestDBT.DBT_NEFT_REJECT_Status,0)=0 then 'DBT Rejected' else (case when isnull(TabLatestDBT.DBT_NEFT_REJECT_Status,0)=1 then 'Pending For NEFT' else  (case when isnull(TabLatestDBT.DBT_NEFT_Status,0)=1 then 'DBT Succeed' else 'Pending For NEFT'  end) end)  end) as Status  from 
 TSPL_MP_INCENTIVE_ENTRY_DETAIL
@@ -460,6 +460,9 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
 
             Gv1.Columns("Vidhan Sabha Name").HeaderText = "Vidhan Sabha Name"
             Gv1.Columns("Vidhan Sabha Name").IsVisible = True
+
+            Gv1.Columns("Created Month-Year").HeaderText = "Created Month-Year"
+            Gv1.Columns("Created Month-Year").IsVisible = True
             '====================================
 
             Gv1.Columns("Bank_Code").HeaderText = "Bank"
@@ -476,8 +479,17 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
 
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
-
             Gv1.Columns("Quantity").IsVisible = True
+
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim item1 As New GridViewSummaryItem("Quantity", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+            Dim item2 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+
+            Gv1.ShowGroupPanel = False
+            Gv1.MasterTemplate.AutoExpandGroups = True
+            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         ElseIf rbtnDetails.IsChecked Then
             Gv1.Columns("S_No").HeaderText = "S.No."
             Gv1.Columns("S_No").IsVisible = True
@@ -573,6 +585,9 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
 
             Gv1.Columns("Vidhan Sabha Name").HeaderText = "Vidhan Sabha Name"
             Gv1.Columns("Vidhan Sabha Name").IsVisible = True
+
+            Gv1.Columns("Created Month-Year").HeaderText = "Created Month-Year"
+            Gv1.Columns("Created Month-Year").IsVisible = True
             '====================================
 
             Gv1.Columns("Bank_Code").HeaderText = "Bank"
@@ -620,6 +635,8 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             Gv1.Columns("Jan_Aadhar_No").HeaderText = "Jan Aadhar No"
             Gv1.Columns("Jan_Aadhar_No").IsVisible = True
 
+
+
             Gv1.Columns("Mineral_Mixture_Qty").HeaderText = "Mineral Mixture Qty"
             Gv1.Columns("Mineral_Mixture_Amount").HeaderText = "Mineral Mixture Amt"
             Gv1.Columns("Pashu_Aahar_Qty").HeaderText = "Pashu Aahar Qty"
@@ -656,6 +673,15 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
                 Gv1.Columns("Payable_Amount").IsVisible = True
                 Gv1.Columns("Quantity").IsVisible = True
             End If
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim item1 As New GridViewSummaryItem("Quantity", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+            Dim item2 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+
+            Gv1.ShowGroupPanel = False
+            Gv1.MasterTemplate.AutoExpandGroups = True
+            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         ElseIf rbtnMCCWise.IsChecked Then
 
             If rbtnDetails.IsChecked Then
@@ -752,6 +778,9 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
 
             Gv1.Columns("Vidhan Sabha Name").HeaderText = "Vidhan Sabha Name"
             Gv1.Columns("Vidhan Sabha Name").IsVisible = True
+
+            Gv1.Columns("Created Month-Year").HeaderText = "Created Month-Year"
+            Gv1.Columns("Created Month-Year").IsVisible = True
             '====================================
 
             Gv1.Columns("Bank_Code").HeaderText = "Bank"
@@ -809,6 +838,8 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             Gv1.Columns("Sailej_Amount").HeaderText = "Sailej Amount"
             Gv1.Columns("Total_Amount").HeaderText = "Total Amount"
 
+
+
             If clsCommon.CompairString(ddlType.SelectedValue, "Mineral Mixture") = CompairStringResult.Equal Then
                 Gv1.Columns("Mineral_Mixture_Qty").IsVisible = True
                 Gv1.Columns("Mineral_Mixture_Amount").IsVisible = True
@@ -834,6 +865,15 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
                 Gv1.Columns("Payable_Amount").IsVisible = True
                 Gv1.Columns("Quantity").IsVisible = True
             End If
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim item1 As New GridViewSummaryItem("Quantity", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+            Dim item2 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+
+            Gv1.ShowGroupPanel = False
+            Gv1.MasterTemplate.AutoExpandGroups = True
+            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         ElseIf rbtnNEFT.IsChecked Then
             Gv1.Columns("MCC_Code").HeaderText = "MCC Code"
             Gv1.Columns("MCC_Code").IsVisible = False
