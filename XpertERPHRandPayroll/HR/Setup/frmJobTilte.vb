@@ -37,7 +37,7 @@ Public Class FrmJobTilte
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.JobTitle)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -153,7 +153,7 @@ Public Class FrmJobTilte
                 Next
                 If (ClsJobTitle.SaveData(obj, isNewEntry, ara, arraa)) Then
                     'trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Job_Title_Code, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -163,7 +163,7 @@ Public Class FrmJobTilte
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'trans.Rollback()
         End Try
     End Sub
@@ -208,7 +208,7 @@ Public Class FrmJobTilte
                     For j As Integer = i + 1 To gvOffer.Rows.Count - 1
                         Dim SecondRound As String = clsCommon.myCstr(gvOffer.Rows(j).Cells(colofferChkListCode).Value)
                         If clsCommon.CompairString(Offer, SecondRound) = CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("Please check ! duplicate value for '" + gvOffer.Rows(i).Cells(colofferChkListCode).Value + "' in Offer Check list")
+                            clsCommon.MyMessageBoxShow(Me, "Please check ! duplicate value for '" + gvOffer.Rows(i).Cells(colofferChkListCode).Value + "' in Offer Check list")
                             Return False
                         End If
                     Next
@@ -221,7 +221,7 @@ Public Class FrmJobTilte
                     For j As Integer = i + 1 To gvJoining.Rows.Count - 1
                         Dim SecondRound As String = clsCommon.myCstr(gvJoining.Rows(j).Cells(coljoiningChkListCode).Value)
                         If clsCommon.CompairString(Joining, SecondRound) = CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("Please check ! duplicate value for '" + gvJoining.Rows(i).Cells(coljoiningChkListCode).Value + "' in Joining Check List")
+                            clsCommon.MyMessageBoxShow(Me, "Please check ! duplicate value for '" + gvJoining.Rows(i).Cells(coljoiningChkListCode).Value + "' in Joining Check List")
                             Return False
                         End If
                     Next
@@ -229,7 +229,7 @@ Public Class FrmJobTilte
             Next
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -239,14 +239,14 @@ Public Class FrmJobTilte
             Dim obj As New ClsChkOfferJoblist
             ClsChkOfferJoblist.DeleteData(txtcode.Value)
             If clsCommon.MyMessageBoxShow("are you sure? do you want to delete this Code ('" + txtcode.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
             End If
             'RadMessageBox.Show("delete successfully")
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -513,7 +513,7 @@ Public Class FrmJobTilte
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -635,7 +635,7 @@ Public Class FrmJobTilte
     End Sub
 
     Private Sub gvOffer_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvOffer.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
 
         End If
@@ -643,7 +643,7 @@ Public Class FrmJobTilte
 
     
     Private Sub gvJoining_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvJoining.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
 
         End If

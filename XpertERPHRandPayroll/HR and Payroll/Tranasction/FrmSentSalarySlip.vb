@@ -15,7 +15,7 @@ Public Class FrmSentSalarySlip
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmSentSalarySlip)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -112,7 +112,7 @@ Public Class FrmSentSalarySlip
 
 
                     If Hader_Info.Rows.Count <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("No Data Found")
+                        common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                         'trans.Rollback()
                     Else
 
@@ -426,7 +426,7 @@ Public Class FrmSentSalarySlip
             End If
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'trans.Rollback()
         End Try
     End Sub
@@ -702,10 +702,10 @@ Public Class FrmSentSalarySlip
                         frmCRV.Dispose()
                     End If
                 Next
-                clsCommon.MyMessageBoxShow("Sent Mail Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Sent Mail Successfully.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -719,7 +719,7 @@ Public Class FrmSentSalarySlip
             clsCommon.ProgressBarHide()
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString)
         End Try
     End Sub
 

@@ -183,7 +183,7 @@ Public Class frmJWIItemPriceMaster
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -193,7 +193,7 @@ Public Class frmJWIItemPriceMaster
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -206,7 +206,7 @@ Public Class frmJWIItemPriceMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -280,7 +280,7 @@ Public Class frmJWIItemPriceMaster
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at least one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at least one Item", Me.Text)
                     Exit Sub
                 End If
 
@@ -295,17 +295,17 @@ Public Class frmJWIItemPriceMaster
                 Next
 
                 If (obj.ArrVendor Is Nothing OrElse obj.ArrVendor.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at least one Vendor")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at least one Vendor", Me.Text)
                     Exit Sub
                 End If
 
                 If obj.SaveData(obj, isNewEntry) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Price_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -437,7 +437,7 @@ Public Class frmJWIItemPriceMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -452,7 +452,7 @@ Public Class frmJWIItemPriceMaster
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -472,12 +472,12 @@ Public Class frmJWIItemPriceMaster
             End If
             If (myMessages.postConfirm()) Then
                 If (clsJWIItemPriceMaster.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -510,7 +510,7 @@ Public Class frmJWIItemPriceMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -577,7 +577,7 @@ Public Class frmJWIItemPriceMaster
                 Me.Controls.Remove(gv)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -587,7 +587,7 @@ Public Class frmJWIItemPriceMaster
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Document found to Delete")
+            common.clsCommon.MyMessageBoxShow(Me, "No Document found to Delete", Me.Text)
             Exit Sub
         End If
 
@@ -598,7 +598,7 @@ Public Class frmJWIItemPriceMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsJWIItemPriceMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -611,7 +611,7 @@ Public Class frmJWIItemPriceMaster
         Try
             clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Price_Code", "TSPL_JOB_OUTWARD_PRICE_HEAD", "TSPL_JOB_OUTWARD_PRICE_DETAIL")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -622,7 +622,7 @@ Public Class frmJWIItemPriceMaster
                     If clsCommon.myLen(txtCode.Value) > 0 Then
                         If clsCommon.MyMessageBoxShow("Current Price code [" + txtCode.Value + "] will be inactive" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             If (clsJWIItemPriceMaster.InactiveData(txtCode.Value)) Then
-                                clsCommon.MyMessageBoxShow("Successfully Inactivated")
+                                clsCommon.MyMessageBoxShow(Me, "Successfully Inactivated", Me.Text)
                             End If
                         End If
                     End If
@@ -630,7 +630,7 @@ Public Class frmJWIItemPriceMaster
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -687,7 +687,7 @@ Public Class frmJWIItemPriceMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenVendorCode(ByVal isButtonClick As Boolean)
@@ -733,7 +733,7 @@ Public Class frmJWIItemPriceMaster
                         clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
                         If clsJWIVendorDetail.SaveData(txtCode.Value, obj.ArrVendor, trans) Then
-                            clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Successfully Updated", Me.Text)
                             trans.Commit()
                         Else
                             trans.Rollback()
@@ -745,7 +745,7 @@ Public Class frmJWIItemPriceMaster
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
