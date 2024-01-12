@@ -172,13 +172,13 @@ Public Class frmChangeSerialNumber
                 Throw New Exception("No Data found to save")
             Else
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                 LoadData()
             End If
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

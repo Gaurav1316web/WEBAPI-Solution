@@ -256,7 +256,7 @@ Public Class frmHeadLoadMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsHeadLoadMaster.DeleteData(txtDocumentNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
                     btnAddNew.PerformClick()
                 End If
             End If
@@ -267,7 +267,7 @@ Public Class frmHeadLoadMaster
 
     Private Sub txtDocumentNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, isButtonClicked As System.Boolean) Handles txtDocumentNo._MYValidating
         If clsCommon.myLen(txtDocumentNo) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Document No can't be blank")
+            clsCommon.MyMessageBoxShow(Me, "Document No can't be blank", Me.Text)
         End If
         txtDocumentNo.Value = clsHeadLoadMaster.getFinder(txtDocumentNo.Value, isButtonClicked)
         LoadData(txtDocumentNo.Value, NavigatorType.Current)
@@ -284,7 +284,7 @@ Public Class frmHeadLoadMaster
             End If
             LoadData(txtDocumentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -334,7 +334,7 @@ Public Class frmHeadLoadMaster
             isInsideLoadData = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         Finally
 
         End Try
@@ -628,12 +628,12 @@ Public Class frmHeadLoadMaster
                     Reason = frm.strRmks
                 End If
                 If clsHeadLoadMaster.ReverseAndUnpost(txtDocumentNo.Value) Then
-                    clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocumentNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

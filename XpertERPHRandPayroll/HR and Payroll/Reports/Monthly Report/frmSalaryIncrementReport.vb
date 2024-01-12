@@ -69,7 +69,7 @@ Public Class frmSalaryIncrementReport
     Sub PrintData()
         Try
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Employee Or Select All")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select AtLeast Single Employee Or Select All", Me.Text)
                 Return
             End If
 

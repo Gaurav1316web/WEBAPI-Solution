@@ -101,7 +101,7 @@ Public Class FrmMailReceipt
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
             If isShowMsg Then
-                clsCommon.MyMessageBoxShow("No Data found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data found to Display", Me.Text)
             End If
         Else
            For Each dr As DataRow In dt.Rows
@@ -141,10 +141,10 @@ Public Class FrmMailReceipt
             Next
             
             If (ClsMailReceipt.SaveData(arr, Form_Id)) Then
-                clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

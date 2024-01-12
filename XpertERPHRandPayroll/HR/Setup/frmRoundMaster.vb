@@ -99,7 +99,7 @@ Public Class FrmRoundMaster
             arr.Add(obj)
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (ClsRoundMaster.SaveData(arr)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Round_Code, NavigatorType.Current)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
@@ -150,7 +150,7 @@ Public Class FrmRoundMaster
                 Me.gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -180,7 +180,7 @@ Public Class FrmRoundMaster
             End If
             If clsCommon.myCdbl(txtClearingScore.Value) <= 0 Then
                 'myMessages.blankValue("Clearing score")
-                clsCommon.MyMessageBoxShow("Clearing score can not be left")
+                clsCommon.MyMessageBoxShow(Me, "Clearing score can not be left", Me.Text)
                 txtClearingScore.Focus()
                 txtClearingScore.Select()
                 Errorcontrol.SetError(txtClearingScore, "Clearing score")
@@ -189,7 +189,7 @@ Public Class FrmRoundMaster
                 Errorcontrol.ResetError(txtClearingScore)
             End If
             If clsCommon.myCdbl(txtClearingScore.Value) > 100 Then
-                clsCommon.MyMessageBoxShow("Clearing score can not be more than 100")
+                clsCommon.MyMessageBoxShow(Me, "Clearing score can not be more than 100", Me.Text)
                 txtClearingScore.Focus()
                 txtClearingScore.Select()
                 Errorcontrol.SetError(txtClearingScore, "Clearing score")
@@ -230,13 +230,13 @@ Public Class FrmRoundMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -246,7 +246,7 @@ Public Class FrmRoundMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsRoundMaster.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -318,7 +318,7 @@ Public Class FrmRoundMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -326,7 +326,7 @@ Public Class FrmRoundMaster
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -386,7 +386,7 @@ Public Class FrmRoundMaster
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
             'ElseIf clsCommon.myCBool(gv1.CurrentRow.Cells(colItemUsedINGRN).Value) Then
             '    common.clsCommon.MyMessageBoxShow("Can't Delete The Current Row.This Item is Used In GRN")

@@ -51,18 +51,18 @@ Public Class FrmItemBasicPrice
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(fndItemCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Item Code", Me.Text)
             TxtSubCategoryCode.Focus()
             Return False
         End If
 
         If clsCommon.myLen(fndMRPCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please Select MRP Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select MRP Code", Me.Text)
             txtCategory.Focus()
             Return False
         End If
         If clsCommon.myLen(txtCost) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please Enter the Item Cost")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter the Item Cost", Me.Text)
             txtCategory.Focus()
             Return False
         End If

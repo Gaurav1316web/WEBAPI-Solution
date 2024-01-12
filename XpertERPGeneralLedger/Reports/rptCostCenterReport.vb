@@ -122,13 +122,13 @@ Public Class rptCostCenterReport
 
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -184,7 +184,7 @@ Public Class rptCostCenterReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -196,14 +196,14 @@ Public Class rptCostCenterReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -229,7 +229,7 @@ Public Class rptCostCenterReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -252,7 +252,7 @@ Public Class rptCostCenterReport
                 DrillDown()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -411,7 +411,7 @@ Public Class rptCostCenterReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -420,7 +420,7 @@ Public Class rptCostCenterReport
             strQry = "select TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code as [Code] ,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name as Name,ISNULL(TSPL_COST_CENTRE_FINANCIAL.Hirerachy_Level_Code,'') AS [Hirerachy Level Code],ISNULL(TSPL_COST_CENTRE_FINANCIAL.Cost_Centre_Fin_Level_Code,'') AS [Cost Centre Fin Level Code],ISNULL(TSPL_COST_CENTRE_FINANCIAL.Hirerachy_Level,'') AS [Hirerachy Level] ,TSPL_COST_CENTRE_FINANCIAL.Created_By as [Created By] ,Convert(varchar,TSPL_COST_CENTRE_FINANCIAL.Created_Date,103) as [Created Date] ,TSPL_COST_CENTRE_FINANCIAL.Modified_By as [Modified By] ,Convert(varchar,TSPL_COST_CENTRE_FINANCIAL.Modified_Date,103) as [Modified Date]  From TSPL_COST_CENTRE_FINANCIAL "
             txtCostCenter.arrValueMember = clsCommon.ShowMultipleSelectForm("Accounts@CostCenterReport", strQry, "Code", "Name", txtCostCenter.arrValueMember, txtCostCenter.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -429,7 +429,7 @@ Public Class rptCostCenterReport
             strQry = " select Account_Code as [Code] ,Description as [Description],TSPL_GL_ACCOUNTS.GL_Main_Code as [GL Main Account Code],TSPL_ACCOUNT_MAIN_GL_ACCOUNT.Main_GL_Account_Desc AS [GL Main Account Description],TSPL_ACCOUNT_MAIN_GL_ACCOUNT.Sub_Group_Code As [Sub Group Code],TSPL_ACCOUNT_SUB_GROUPS.Account_Sub_Group_Desc AS [Sub Group Description],TSPL_ACCOUNT_SUB_GROUPS.Account_Group_Code As [Account Group Code],TSPL_ACCOUNT_GROUPS.Account_Group_Desc as [Account Group Desc],TSPL_ACCOUNT_GROUPS.Account_Main_Group_Code as [Main Group Code],TSPL_ACCOUNT_MAIN_GROUPS.Account_Main_Group_Desc as [Account Main Group Description],TSPL_ACCOUNT_MAIN_GROUPS.Group_Type as [Group Type] ,Str_Code as [Account Structure Code] ,Str_Description as [Account Structure Description] ,(case when status='Y' then 'Active' else 'In Active' end) as [Status] ,ControlAccount as [Control Account]  ,multicurrency as [Multi Currency] ,Account_Seg_Code1 as [Account Segment Code1] ,Account_Seg_Desc1 as [Account Segment Description1] ,TSPL_GL_ACCOUNTS.Created_By as [Created By] ,TSPL_GL_ACCOUNTS.Created_Date as [Created Date] ,TSPL_GL_ACCOUNTS.Modify_By as [Modify By] ,TSPL_GL_ACCOUNTS.Modify_Date as [Modify Date] ,TSPL_GL_ACCOUNTS.Comp_Code as [Company Code]  from TSPL_GL_ACCOUNTS  left outer join TSPL_ACCOUNT_MAIN_GL_ACCOUNT on TSPL_ACCOUNT_MAIN_GL_ACCOUNT.Main_GL_Account=TSPL_GL_ACCOUNTS.GL_Main_Code  left outer join TSPL_ACCOUNT_SUB_GROUPS on TSPL_ACCOUNT_SUB_GROUPS.Account_Sub_Group_Code=TSPL_ACCOUNT_MAIN_GL_ACCOUNT.Sub_Group_Code  left outer join TSPL_ACCOUNT_GROUPS on TSPL_ACCOUNT_GROUPS.Account_Group_Code= TSPL_ACCOUNT_SUB_GROUPS.Account_Group_Code left outer join  TSPL_ACCOUNT_MAIN_GROUPS on TSPL_ACCOUNT_MAIN_GROUPS.Account_Main_Group_Code=TSPL_ACCOUNT_GROUPS.Account_Main_Group_Code " ' Account_Seg_Code2 as [Account Segment Code2] ,Account_Seg_Desc2 as [Account Segment Description2] ,Account_Seg_Code3 as [Account Segment Code3] ,Account_Seg_Desc3 as [Account Segment Description3] ,Account_Seg_Code4 as [Account Segment Code4] ,Account_Seg_Desc4 as [Account Segment Description4] ,Account_Seg_Code5 as [Account Segment Code5] ,Account_Seg_Desc5 as [Account Segment Description5] ,Account_Seg_Code6 as [Account Segment Code6] ,Account_Seg_Desc6 as [Account Segment Description6] ,Account_Seg_Code7 as [Account Segment Code7] ,Account_Seg_Desc7 as [Account Segment Description7] ,Account_Seg_Code8 as [Account Segment Code8] ,Account_Seg_Desc8 as [Account Segment Description8] ,Account_Seg_Code9 as [Account Segment Code9] ,Account_Seg_Desc9 as [Account Segment Description9] ,Account_Seg_Code10 as [Account Segment Code10] ,Account_Seg_Desc10 as [Account Segment Description10] ,Close_To_Seg as [Close To Segment] ,Close_To_Acct as [Close To Account]  ,Rollup_Seq as [Roll Up Sequence] ,TallyAccName as [Tally Account Name] ,Tax_Type as [Tax Type] ,Purchase_Sale_Type as [Purchase Sale Type],
             txtAccount.arrValueMember = clsCommon.ShowMultipleSelectForm("Accounts@CostCenterReport", strQry, "Code", "Description", txtAccount.arrValueMember, txtAccount.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

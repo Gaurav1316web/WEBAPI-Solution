@@ -631,7 +631,7 @@ Public Class frmAdjProductionEntry
                 For Each obj As clsBatchInventory In arr
                     strBatchunion += " Batch No - " & clsCommon.myCstr(obj.Batch_No) & "         Qty - " & clsCommon.myCstr(obj.Qty) + Environment.NewLine
                 Next
-                clsCommon.MyMessageBoxShow(strBatchunion, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, strBatchunion, Me.Text)
             End If
         End If
     End Sub
@@ -874,7 +874,7 @@ Public Class frmAdjProductionEntry
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1074,7 +1074,7 @@ Public Class frmAdjProductionEntry
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
 
@@ -1927,7 +1927,7 @@ Public Class frmAdjProductionEntry
 
                 '=============preet Gupta Ticket no.[BM00000005981]========
                 If Not isFlag Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Adjustment_No, NavigatorType.Current)
                     'Else
                     '    clsCommon.MyMessageBoxShow("Data posted successfully")
@@ -1939,7 +1939,7 @@ Public Class frmAdjProductionEntry
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2102,7 +2102,7 @@ Public Class frmAdjProductionEntry
                 chkJobWork.Enabled = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2254,7 +2254,7 @@ Public Class frmAdjProductionEntry
                         End If
                         If (ClsAdjustments.PostData(txtAdjustmentNo.Value, AdjustmentEnum.strCostTransaction)) Then
 
-                            clsCommon.MyMessageBoxShow("Data posted successfully.")
+                            clsCommon.MyMessageBoxShow(Me, "Data posted successfully.", Me.Text)
                             LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                         End If
                     End If
@@ -2267,7 +2267,7 @@ Public Class frmAdjProductionEntry
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -2294,7 +2294,7 @@ Public Class frmAdjProductionEntry
                 End If
                 If (ClsAdjustments.DeleteData(txtAdjustmentNo.Value, AdjustmentEnum.strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -2323,7 +2323,7 @@ Public Class frmAdjProductionEntry
             End If
             LoadData(txtAdjustmentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2904,7 +2904,7 @@ Public Class frmAdjProductionEntry
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2971,7 +2971,7 @@ Public Class frmAdjProductionEntry
         If clsCommon.myLen(txtBarCode.Text) > 0 Then
             Dim obj As clsBarCodeGenerator = clsBarCodeGenerator.GetData(txtBarCode.Text)
             If obj Is Nothing Then
-                clsCommon.MyMessageBoxShow("Not a Valid Barcode", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Not a Valid Barcode", Me.Text)
                 txtBarCode.Text = ""
                 Exit Sub
             End If
@@ -3401,7 +3401,7 @@ Public Class frmAdjProductionEntry
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return obj
     End Function
@@ -3925,7 +3925,7 @@ Public Class frmAdjProductionEntry
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
         End If
@@ -4546,7 +4546,7 @@ Public Class frmAdjProductionEntry
                 clsCommon.ProgressBarHide()
                 RadMessageBox.Show("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
             End Try
@@ -5471,7 +5471,7 @@ Public Class frmAdjProductionEntry
                                         For Each obj As clsBatchInventoryNew In frm.arr
                                             batchQty += obj.Qty
                                         Next
-                                        clsCommon.MyMessageBoxShow("Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
+                                        clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
                                         blnBatchqty = False
                                         Exit Sub
                                     End If
@@ -5498,7 +5498,7 @@ Public Class frmAdjProductionEntry
                 For Each obj As clsBatchInventoryNew In arr
                     strBatchunion += " Batch No - " & clsCommon.myCstr(obj.Batch_No) & "         Qty - " & clsCommon.myCstr(obj.Qty) + Environment.NewLine
                 Next
-                clsCommon.MyMessageBoxShow(strBatchunion, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, strBatchunion, Me.Text)
             End If
         End If
     End Sub
@@ -5535,7 +5535,7 @@ Public Class frmAdjProductionEntry
                 frmCRV = Nothing
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please select an Production Entry No to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an Production Entry No to print", Me.Text)
         End If
     End Sub
 

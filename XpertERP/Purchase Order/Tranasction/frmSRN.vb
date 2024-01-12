@@ -5741,7 +5741,9 @@ Public Class frmSRN
                 txtVehicleNo.Text = obj.VehicleNo
                 txtGRNo.Text = obj.GRNo
 
-                Grndate.Text = obj.GRN_Date
+                If obj.GRN_Date IsNot Nothing Then
+                    Grndate.Text = obj.GRN_Date
+                End If
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
                     txtGEDate.Value = obj.GEDate

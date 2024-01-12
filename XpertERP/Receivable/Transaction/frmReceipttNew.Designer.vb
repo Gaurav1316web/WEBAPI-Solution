@@ -22,10 +22,10 @@ Partial Class FrmReceipttNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel14 = New common.Controls.MyLabel()
@@ -202,6 +202,7 @@ Partial Class FrmReceipttNew
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkDCS = New Telerik.WinControls.UI.RadCheckBox()
         Me.UcCustomFields1 = New ERP.ucCustomFields()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -370,6 +371,7 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -590,6 +592,7 @@ Partial Class FrmReceipttNew
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkDCS)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel39)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtLoadIn)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkForCardSale)
@@ -2042,7 +2045,7 @@ Partial Class FrmReceipttNew
         '
         'chkSecurityDposit
         '
-        Me.chkSecurityDposit.Location = New System.Drawing.Point(741, 7)
+        Me.chkSecurityDposit.Location = New System.Drawing.Point(801, 7)
         Me.chkSecurityDposit.Name = "chkSecurityDposit"
         Me.chkSecurityDposit.Size = New System.Drawing.Size(101, 18)
         Me.chkSecurityDposit.TabIndex = 6
@@ -2061,10 +2064,10 @@ Partial Class FrmReceipttNew
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(854, 6)
+        Me.UsLock1.Location = New System.Drawing.Point(914, 6)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(85, 20)
+        Me.UsLock1.Size = New System.Drawing.Size(86, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 7
         '
@@ -2297,7 +2300,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblpaymentpostdate.FieldName = Nothing
         Me.lblpaymentpostdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblpaymentpostdate.Location = New System.Drawing.Point(581, 8)
+        Me.lblpaymentpostdate.Location = New System.Drawing.Point(584, 8)
         Me.lblpaymentpostdate.Name = "lblpaymentpostdate"
         Me.lblpaymentpostdate.Size = New System.Drawing.Size(56, 16)
         Me.lblpaymentpostdate.TabIndex = 4
@@ -2353,7 +2356,7 @@ Partial Class FrmReceipttNew
         Me.dtPost.IsSourceFromTable = False
         Me.dtPost.IsSourceFromValueList = False
         Me.dtPost.IsUnique = False
-        Me.dtPost.Location = New System.Drawing.Point(646, 6)
+        Me.dtPost.Location = New System.Drawing.Point(649, 6)
         Me.dtPost.MendatroryField = False
         Me.dtPost.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtPost.MyLinkLable1 = Me.lblpaymentpostdate
@@ -2363,7 +2366,7 @@ Partial Class FrmReceipttNew
         Me.dtPost.ReferenceFieldDesc = Nothing
         Me.dtPost.ReferenceFieldName = Nothing
         Me.dtPost.ReferenceTableName = Nothing
-        Me.dtPost.Size = New System.Drawing.Size(91, 20)
+        Me.dtPost.Size = New System.Drawing.Size(92, 20)
         Me.dtPost.TabIndex = 5
         Me.dtPost.TabStop = False
         Me.dtPost.Text = "10/06/2011"
@@ -2546,7 +2549,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.MasterTemplate.EnableFiltering = True
         Me.dgvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvReceipt.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.dgvReceipt.Name = "dgvReceipt"
         Me.dgvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvReceipt.ShowGroupPanel = False
@@ -2571,7 +2574,7 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.MasterTemplate.EnableGrouping = False
         Me.dgvmiscpayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvmiscpayment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
         Me.dgvmiscpayment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvmiscpayment.ShowHeaderCellButtons = True
@@ -2584,7 +2587,7 @@ Partial Class FrmReceipttNew
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1004, 433)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1212, 413)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'Attachments
@@ -2908,7 +2911,7 @@ Partial Class FrmReceipttNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTaxDetail.ShowHeaderCellButtons = True
@@ -2933,7 +2936,7 @@ Partial Class FrmReceipttNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowHeaderCellButtons = True
@@ -3147,12 +3150,20 @@ Partial Class FrmReceipttNew
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
+        'chkDCS
+        '
+        Me.chkDCS.Location = New System.Drawing.Point(751, 7)
+        Me.chkDCS.Name = "chkDCS"
+        Me.chkDCS.Size = New System.Drawing.Size(41, 18)
+        Me.chkDCS.TabIndex = 12132
+        Me.chkDCS.Text = "DCS"
+        '
         'UcCustomFields1
         '
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1004, 433)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1212, 413)
         Me.UcCustomFields1.TabIndex = 1
         '
         'FrmReceipttNew
@@ -3346,6 +3357,7 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3529,5 +3541,6 @@ Partial Class FrmReceipttNew
     Friend WithEvents chkForCardSale As RadCheckBox
     Friend WithEvents MyLabel39 As common.Controls.MyLabel
     Friend WithEvents txtLoadIn As common.UserControls.txtFinder
+    Friend WithEvents chkDCS As RadCheckBox
 End Class
 

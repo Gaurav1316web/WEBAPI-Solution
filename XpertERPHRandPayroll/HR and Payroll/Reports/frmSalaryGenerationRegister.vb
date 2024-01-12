@@ -33,12 +33,12 @@ Public Class frmSalaryGenerationRegister
             '    Exit Sub
             'End If
             If txtPayPeriod.arrValueMember Is Nothing OrElse txtPayPeriod.arrValueMember.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Pay Period. ")
+                clsCommon.MyMessageBoxShow(Me, "Please select Pay Period. ", Me.Text)
                 txtPayPeriod.Focus()
                 Exit Sub
             End If
             If isInsideLoadData Then
-                clsCommon.MyMessageBoxShow("Work in Progress Please Wait...")
+                clsCommon.MyMessageBoxShow(Me, "Work in Progress Please Wait...", Me.Text)
                 Exit Sub
             End If
             'txtCode.MyReadOnly = True
@@ -371,13 +371,13 @@ Public Class frmSalaryGenerationRegister
                 'gv1.Columns("Co_ESI_AMT").IsVisible = False
 
             Else
-                clsCommon.MyMessageBoxShow("No Data to Show in Selected Pay Period.")
+                clsCommon.MyMessageBoxShow(Me, "No Data to Show in Selected Pay Period.", Me.Text)
             End If
             isInsideLoadData = False
             btnGenrate.Enabled = True
             '' GRAND TOTAL
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -489,7 +489,7 @@ Public Class frmSalaryGenerationRegister
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -521,7 +521,7 @@ Public Class frmSalaryGenerationRegister
 
     Private Sub RadMenuItemDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemDelete.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnExpoExl_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -644,10 +644,10 @@ Public Class frmSalaryGenerationRegister
                     clsCommon.MyExportToPDF("Salary Sheet", gv1, arrHeader, "Salary Sheet", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

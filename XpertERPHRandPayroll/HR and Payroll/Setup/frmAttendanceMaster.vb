@@ -40,7 +40,7 @@ Public Class frmAttendanceMaster
             obj.ATTN_REGISTER_TYPE = clsCommon.myCstr(cboAttRegType.SelectedValue)
 
             If (obj.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
                 'Else
                 '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
@@ -108,7 +108,7 @@ Public Class frmAttendanceMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -125,7 +125,7 @@ Public Class frmAttendanceMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsAttendanceMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -247,7 +247,7 @@ Public Class frmAttendanceMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -323,7 +323,7 @@ Public Class frmAttendanceMaster
                     obj.SaveData(obj, clsAttendanceMaster.CheckNewEntry(obj.Code))
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

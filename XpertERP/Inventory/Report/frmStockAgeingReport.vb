@@ -161,7 +161,7 @@ Public Class frmStockAgeingReport
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
@@ -171,7 +171,7 @@ Public Class frmStockAgeingReport
     Public Sub GetData()
         Try
             If txtFromDate.Value > txtToDate.Value Then
-                clsCommon.MyMessageBoxShow(Me, "Cuttoff Date can't be greater than As on date")
+                clsCommon.MyMessageBoxShow(Me, "Cuttoff Date can't be greater than As on date", Me.Text)
                 Exit Sub
             End If
             If DateDiff(DateInterval.Day, txtFromDate.Value, txtToDate.Value) < clsCommon.myCdbl(txtOver.Text) Then
@@ -273,7 +273,7 @@ Public Class frmStockAgeingReport
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
                 'clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(Me, "Data Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If
             gv1.Tag = cboType.SelectedValue & cboAgeingColumns.SelectedValue
             FindAndRestoreGridLayout(Me, gv1)
@@ -340,10 +340,10 @@ Public Class frmStockAgeingReport
             End If
 
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, "Data exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data exported successfully", Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try

@@ -58,13 +58,13 @@ Public Class rptBiometricAttendanceReport
                 TxtMultiEmployee.Enabled = False
                 btnGenrate.Enabled = False
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGenrate.Enabled = True
         End Try
     End Sub
@@ -148,7 +148,7 @@ Public Class rptBiometricAttendanceReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv3.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -235,7 +235,7 @@ Public Class rptBiometricAttendanceReport
 
         If gv3.Rows.Count <= 0 Then
             gv3.Focus()
-            clsCommon.MyMessageBoxShow("Data not found.")
+            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
         Else
             clsCommon.MyExportToExcelGrid("Biometric Attendance Report", gv3, arr, "Biometric Attendance Report", False)
         End If
@@ -266,7 +266,7 @@ Public Class rptBiometricAttendanceReport
             'End If
             transportSql.QuickExportToExcel(gv3, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

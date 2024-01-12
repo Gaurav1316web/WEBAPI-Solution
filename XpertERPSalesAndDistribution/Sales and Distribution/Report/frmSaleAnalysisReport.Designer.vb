@@ -22,10 +22,13 @@ Partial Class frmSaleAnalysisReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSummary = New System.Windows.Forms.RadioButton()
+        Me.rbtnDetails = New System.Windows.Forms.RadioButton()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtMultDistributor = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -46,16 +49,21 @@ Partial Class frmSaleAnalysisReport
         Me.rbtnWeekly = New System.Windows.Forms.RadioButton()
         Me.rbtnDaily = New System.Windows.Forms.RadioButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,11 +78,12 @@ Partial Class frmSaleAnalysisReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -91,6 +100,7 @@ Partial Class frmSaleAnalysisReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -112,6 +122,7 @@ Partial Class frmSaleAnalysisReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.txtMultDistributor)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
@@ -129,6 +140,39 @@ Partial Class frmSaleAnalysisReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 337)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDetails)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(340, 3)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(175, 27)
+        Me.RadGroupBox2.TabIndex = 403
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.AutoSize = True
+        Me.rbtnSummary.Location = New System.Drawing.Point(87, 4)
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(71, 17)
+        Me.rbtnSummary.TabIndex = 1
+        Me.rbtnSummary.Text = "Summary"
+        Me.rbtnSummary.UseVisualStyleBackColor = True
+        '
+        'rbtnDetails
+        '
+        Me.rbtnDetails.AutoSize = True
+        Me.rbtnDetails.Checked = True
+        Me.rbtnDetails.Location = New System.Drawing.Point(11, 4)
+        Me.rbtnDetails.Name = "rbtnDetails"
+        Me.rbtnDetails.Size = New System.Drawing.Size(60, 17)
+        Me.rbtnDetails.TabIndex = 0
+        Me.rbtnDetails.TabStop = True
+        Me.rbtnDetails.Text = "Details"
+        Me.rbtnDetails.UseVisualStyleBackColor = True
         '
         'MyLabel4
         '
@@ -359,6 +403,43 @@ Partial Class frmSaleAnalysisReport
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 337)
         Me.RadPageViewPage2.Text = "Report"
         '
+        'Gv1
+        '
+        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.Gv1.MasterTemplate.AllowAddNewRow = False
+        Me.Gv1.MasterTemplate.AllowColumnReorder = False
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.Name = "Gv1"
+        Me.Gv1.ReadOnly = True
+        Me.Gv1.Size = New System.Drawing.Size(779, 337)
+        Me.Gv1.TabIndex = 0
+        '
+        'RadSplitExp
+        '
+        Me.RadSplitExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.RadSplitExp.Location = New System.Drawing.Point(158, 11)
+        Me.RadSplitExp.Name = "RadSplitExp"
+        Me.RadSplitExp.Size = New System.Drawing.Size(95, 22)
+        Me.RadSplitExp.TabIndex = 156
+        Me.RadSplitExp.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
+        Me.rmiPDF.UseCompatibleTextRendering = False
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -389,21 +470,6 @@ Partial Class frmSaleAnalysisReport
         Me.btnReset.TabIndex = 149
         Me.btnReset.Text = "Reset"
         '
-        'Gv1
-        '
-        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv1.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.Gv1.MasterTemplate.AllowAddNewRow = False
-        Me.Gv1.MasterTemplate.AllowColumnReorder = False
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.Gv1.Name = "Gv1"
-        Me.Gv1.ReadOnly = True
-        Me.Gv1.Size = New System.Drawing.Size(779, 337)
-        Me.Gv1.TabIndex = 0
-        '
         'frmSaleAnalysisReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -423,6 +489,9 @@ Partial Class frmSaleAnalysisReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
@@ -439,11 +508,12 @@ Partial Class frmSaleAnalysisReport
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
         Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -476,4 +546,10 @@ Partial Class frmSaleAnalysisReport
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtMultBooth As common.UserControls.txtMultiSelectFinder
     Friend WithEvents Gv1 As RadGridView
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnSummary As RadioButton
+    Friend WithEvents rbtnDetails As RadioButton
+    Friend WithEvents RadSplitExp As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents rmiPDF As RadMenuItem
 End Class

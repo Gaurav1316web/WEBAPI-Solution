@@ -234,7 +234,7 @@ Public Class FrmHRTravelReimbursementExpense
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -289,7 +289,7 @@ Public Class FrmHRTravelReimbursementExpense
                 'Me.gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -320,7 +320,7 @@ Public Class FrmHRTravelReimbursementExpense
             arr.Add(obj)
 
             If (ClsHRTravelReimbursementExpense.SaveData(arr)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Expense_Code, NavigatorType.Current)
                 btnSave.Text = "Update"
                 ' btnDelete.Enabled = True
@@ -368,7 +368,7 @@ Public Class FrmHRTravelReimbursementExpense
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -378,7 +378,7 @@ Public Class FrmHRTravelReimbursementExpense
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsHRTravelReimbursementExpense.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -408,7 +408,7 @@ Public Class FrmHRTravelReimbursementExpense
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -477,7 +477,7 @@ Public Class FrmHRTravelReimbursementExpense
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -502,7 +502,7 @@ Public Class FrmHRTravelReimbursementExpense
     End Sub
 
     Private Sub gv1_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub

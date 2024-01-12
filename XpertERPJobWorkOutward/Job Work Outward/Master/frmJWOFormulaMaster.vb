@@ -111,17 +111,17 @@ Public Class frmJWOFormulaMaster
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Description", Me.Text)
             txtDesc.Focus()
             Return False
         End If
         If clsCommon.myLen(txtFormula.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Forumula for calculation")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Forumula for calculation", Me.Text)
             txtFormula.Focus()
             Return False
         End If
         If clsCommon.myLen(txtStructurer.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Structurer Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Structurer Code", Me.Text)
             txtStructurer.Focus()
             Return False
         End If
@@ -133,7 +133,7 @@ Public Class frmJWOFormulaMaster
             Next
             Dim dblxyz = clsDBFuncationality.getSingleValue("select  " + strFormula + "")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow("Not a Correct Formula")
+            common.clsCommon.MyMessageBoxShow(Me, "Not a Correct Formula", Me.Text)
             txtFormula.Focus()
             Return False
         End Try
@@ -169,12 +169,12 @@ Public Class frmJWOFormulaMaster
                 Next
 
                 If obj.SaveData(arr, Arr2, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -208,7 +208,7 @@ Public Class frmJWOFormulaMaster
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -230,7 +230,7 @@ Public Class frmJWOFormulaMaster
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -254,7 +254,7 @@ Public Class frmJWOFormulaMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsJWOFormula.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     AddNew()
                 End If
             End If
@@ -402,7 +402,7 @@ Public Class frmJWOFormulaMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

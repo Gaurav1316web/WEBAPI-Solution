@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +30,8 @@ Partial Class rptDailyQtyReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.ddlShift = New common.Controls.MyComboBox()
+        Me.MyLabel6 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnDockSummary = New System.Windows.Forms.RadioButton()
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
@@ -69,8 +71,7 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.ddlShift = New common.Controls.MyComboBox()
-        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.rbtnSummary = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -78,6 +79,8 @@ Partial Class rptDailyQtyReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.ddlShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,8 +112,6 @@ Partial Class rptDailyQtyReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -203,9 +204,48 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(719, 278)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'ddlShift
+        '
+        Me.ddlShift.AutoCompleteDisplayMember = Nothing
+        Me.ddlShift.AutoCompleteValueMember = Nothing
+        Me.ddlShift.CalculationExpression = Nothing
+        Me.ddlShift.DropDownAnimationEnabled = True
+        Me.ddlShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlShift.FieldCode = Nothing
+        Me.ddlShift.FieldDesc = Nothing
+        Me.ddlShift.FieldMaxLength = 0
+        Me.ddlShift.FieldName = Nothing
+        Me.ddlShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ddlShift.isCalculatedField = False
+        Me.ddlShift.IsSourceFromTable = False
+        Me.ddlShift.IsSourceFromValueList = False
+        Me.ddlShift.IsUnique = False
+        Me.ddlShift.Location = New System.Drawing.Point(408, 131)
+        Me.ddlShift.MendatroryField = False
+        Me.ddlShift.MyLinkLable1 = Nothing
+        Me.ddlShift.MyLinkLable2 = Nothing
+        Me.ddlShift.Name = "ddlShift"
+        Me.ddlShift.ReferenceFieldDesc = Nothing
+        Me.ddlShift.ReferenceFieldName = Nothing
+        Me.ddlShift.ReferenceTableName = Nothing
+        Me.ddlShift.Size = New System.Drawing.Size(112, 18)
+        Me.ddlShift.TabIndex = 448
+        Me.ddlShift.Visible = False
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Location = New System.Drawing.Point(369, 131)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel6.TabIndex = 447
+        Me.MyLabel6.Text = "Shift"
+        Me.MyLabel6.Visible = False
+        '
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
         Me.RadGroupBox2.Controls.Add(Me.rbtnDockSummary)
         Me.RadGroupBox2.Controls.Add(Me.rbtnBMCDock)
         Me.RadGroupBox2.HeaderText = "Print"
@@ -219,17 +259,17 @@ Partial Class rptDailyQtyReport
         'rbtnDockSummary
         '
         Me.rbtnDockSummary.AutoSize = True
-        Me.rbtnDockSummary.Location = New System.Drawing.Point(96, 12)
+        Me.rbtnDockSummary.Location = New System.Drawing.Point(96, 15)
         Me.rbtnDockSummary.Name = "rbtnDockSummary"
-        Me.rbtnDockSummary.Size = New System.Drawing.Size(100, 17)
+        Me.rbtnDockSummary.Size = New System.Drawing.Size(95, 17)
         Me.rbtnDockSummary.TabIndex = 5
-        Me.rbtnDockSummary.Text = "Dock Summary"
+        Me.rbtnDockSummary.Text = "DCS Summary"
         Me.rbtnDockSummary.UseVisualStyleBackColor = True
         '
         'rbtnBMCDock
         '
         Me.rbtnBMCDock.AutoSize = True
-        Me.rbtnBMCDock.Location = New System.Drawing.Point(13, 12)
+        Me.rbtnBMCDock.Location = New System.Drawing.Point(13, 15)
         Me.rbtnBMCDock.Name = "rbtnBMCDock"
         Me.rbtnBMCDock.Size = New System.Drawing.Size(77, 17)
         Me.rbtnBMCDock.TabIndex = 4
@@ -657,7 +697,7 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -724,43 +764,15 @@ Partial Class rptDailyQtyReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'ddlShift
+        'rbtnSummary
         '
-        Me.ddlShift.AutoCompleteDisplayMember = Nothing
-        Me.ddlShift.AutoCompleteValueMember = Nothing
-        Me.ddlShift.CalculationExpression = Nothing
-        Me.ddlShift.DropDownAnimationEnabled = True
-        Me.ddlShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlShift.FieldCode = Nothing
-        Me.ddlShift.FieldDesc = Nothing
-        Me.ddlShift.FieldMaxLength = 0
-        Me.ddlShift.FieldName = Nothing
-        Me.ddlShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ddlShift.isCalculatedField = False
-        Me.ddlShift.IsSourceFromTable = False
-        Me.ddlShift.IsSourceFromValueList = False
-        Me.ddlShift.IsUnique = False
-        Me.ddlShift.Location = New System.Drawing.Point(408, 131)
-        Me.ddlShift.MendatroryField = False
-        Me.ddlShift.MyLinkLable1 = Nothing
-        Me.ddlShift.MyLinkLable2 = Nothing
-        Me.ddlShift.Name = "ddlShift"
-        Me.ddlShift.ReferenceFieldDesc = Nothing
-        Me.ddlShift.ReferenceFieldName = Nothing
-        Me.ddlShift.ReferenceTableName = Nothing
-        Me.ddlShift.Size = New System.Drawing.Size(112, 18)
-        Me.ddlShift.TabIndex = 448
-        Me.ddlShift.Visible = False
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(369, 131)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(29, 18)
-        Me.MyLabel6.TabIndex = 447
-        Me.MyLabel6.Text = "Shift"
-        Me.MyLabel6.Visible = False
+        Me.rbtnSummary.AutoSize = True
+        Me.rbtnSummary.Location = New System.Drawing.Point(196, 15)
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(100, 17)
+        Me.rbtnSummary.TabIndex = 6
+        Me.rbtnSummary.Text = "Dock Summary"
+        Me.rbtnSummary.UseVisualStyleBackColor = True
         '
         'rptDailyQtyReport
         '
@@ -783,6 +795,8 @@ Partial Class rptDailyQtyReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.ddlShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -817,8 +831,6 @@ Partial Class rptDailyQtyReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -872,5 +884,6 @@ Partial Class rptDailyQtyReport
     Friend WithEvents rbtnBMCDock As RadioButton
     Friend WithEvents ddlShift As common.Controls.MyComboBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents rbtnSummary As RadioButton
 End Class
 

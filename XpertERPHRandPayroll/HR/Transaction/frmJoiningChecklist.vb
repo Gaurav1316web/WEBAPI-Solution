@@ -199,7 +199,7 @@ Public Class FrmJoiningChecklist
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -213,7 +213,7 @@ Public Class FrmJoiningChecklist
             PostData()
             'End If
         Else
-            clsCommon.MyMessageBoxShow("code not found to post")
+            clsCommon.MyMessageBoxShow(Me, "code not found to post", Me.Text)
         End If
     End Sub
     Sub RejectData()
@@ -221,13 +221,13 @@ Public Class FrmJoiningChecklist
         Try
             Dim qry As String = "update TSPL_HR_JOINING_HEAD set Rejected='1' where APPLICANT_CODE ='" + fndaccountsetcode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
-            clsCommon.MyMessageBoxShow("Data Rejected Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Rejected Successfully", Me.Text)
             btnPost.Enabled = False
             btnSave.Enabled = False
             btnRejected.Enabled = False
             UsLock1.Status = ERPTransactionStatus.Reject
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
        
     End Sub
@@ -238,7 +238,7 @@ Public Class FrmJoiningChecklist
             RejectData()
 
         Else
-            clsCommon.MyMessageBoxShow("code not found to Reject")
+            clsCommon.MyMessageBoxShow(Me, "code not found to Reject", Me.Text)
         End If
     End Sub
 
@@ -354,7 +354,7 @@ Public Class FrmJoiningChecklist
                     Dim qry As String = "update TSPL_HR_JOINING_DETAIL set Attachment ='' where APPLICANT_CODE ='" + colApplicantcode + "' and Chk_Code='" + colJoiningCode + "' "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                     If clsCommon.myCstr(gv.CurrentRow.Cells(colAttachmentpath).Value).ToString.Contains("\") Then
-                        clsCommon.MyMessageBoxShow("Document Deleted")
+                        clsCommon.MyMessageBoxShow(Me, "Document Deleted", Me.Text)
                     Else
                         objAttachment.funDelete(gv.CurrentRow.Cells(colAttachmentId).Value)
                     End If
@@ -367,7 +367,7 @@ Public Class FrmJoiningChecklist
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -391,12 +391,12 @@ Public Class FrmJoiningChecklist
                 End If
             Next
             If GridRow <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast one document")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast one document", Me.Text)
                 Return False
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -502,7 +502,7 @@ Public Class FrmJoiningChecklist
                     Dim objJoin As New clsJoiningDetail
 
                     If clsCommon.myCBool(grow.Cells(colJoiningMandatory).Value) = True And clsCommon.myCBool(grow.Cells(colReceived).Value) = False Then
-                        clsCommon.MyMessageBoxShow("Please Check the Received CheckBox for'" + clsCommon.myCstr(grow.Cells(colJoiningCode).Value) + "'")
+                        clsCommon.MyMessageBoxShow(Me, "Please Check the Received CheckBox for'" + clsCommon.myCstr(grow.Cells(colJoiningCode).Value) + "'")
                         Exit Sub
 
                     Else
@@ -522,9 +522,9 @@ Public Class FrmJoiningChecklist
 
                 If clsJoiningCheckListHead.SaveData(objHead, objList, objListAttachment) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data posted successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                     End If
                     Me.gv.Rows.Clear()
                     LoadData(fndaccountsetcode.Value, NavigatorType.Current)
@@ -534,7 +534,7 @@ Public Class FrmJoiningChecklist
 
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -554,7 +554,7 @@ Public Class FrmJoiningChecklist
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -571,11 +571,11 @@ Public Class FrmJoiningChecklist
                     gv.CurrentRow.Cells(colAttachmentpath).Value = openFileDialog1.FileName
                 ElseIf clsCommon.myCBool(gv.CurrentRow.Cells(colReceived).Value) = False Then
 
-                    clsCommon.MyMessageBoxShow("Please Check the Received CheckBox for'" + clsCommon.myCstr(gv.CurrentRow.Cells(colJoiningCode).Value) + "'")
+                    clsCommon.MyMessageBoxShow(Me, "Please Check the Received CheckBox for'" + clsCommon.myCstr(gv.CurrentRow.Cells(colJoiningCode).Value) + "'")
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try
     End Sub
 
@@ -629,7 +629,7 @@ Public Class FrmJoiningChecklist
         obj.UserID = objCommonVar.CurrentUserCode
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
 
         ''richa agarwal regarding memory leakage
@@ -640,7 +640,7 @@ Public Class FrmJoiningChecklist
 
     Private Sub RDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RDeleteLayout.Click
         If clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode) Then
-            common.clsCommon.MyMessageBoxShow("Layout Deleted successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Deleted successfully", "Information", Me.Text)
         End If
     End Sub
 

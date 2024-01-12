@@ -123,7 +123,7 @@ Public Class FrmExpiryDateEntry
     Private Sub btnReverseAndRecreate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseAndRecreate.Click
         Dim Qry As String
         If clsCommon.myLen(txtDocNo.Value) > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Reverse and Recreate Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Recreate Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR Reverse 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -454,7 +454,7 @@ Public Class FrmExpiryDateEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub setBalance()
@@ -499,7 +499,7 @@ Public Class FrmExpiryDateEntry
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select  UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL "
@@ -510,7 +510,7 @@ Public Class FrmExpiryDateEntry
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         Dim strUnitCode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select distinct Item_Basic_Price as Rate,Item_Code,UOM from TSPL_ITEM_PRICE_MASTER"
@@ -521,7 +521,7 @@ Public Class FrmExpiryDateEntry
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         Dim strUnitCode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select distinct Item_Basic_Net as MRP,Item_Code,UOM from TSPL_ITEM_PRICE_MASTER"
@@ -574,7 +574,7 @@ Public Class FrmExpiryDateEntry
         Next
     End Sub
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -660,7 +660,7 @@ Public Class FrmExpiryDateEntry
                 End If
                 Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strICode, txtLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, strUOM, dblMRP)
                 If dblQty > dblBalQty Then
-                    common.clsCommon.MyMessageBoxShow("Item - " + strICode + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblQty) + " and Balance Quantity : " + clsCommon.myCstr(dblBalQty), Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblQty) + " and Balance Quantity : " + clsCommon.myCstr(dblBalQty), Me.Text)
                     Return False
                 End If
 
@@ -685,7 +685,7 @@ Public Class FrmExpiryDateEntry
                             Msg = Msg + Environment.NewLine + "MRP: " + clsCommon.myCstr(dblMRP)
                         End If
 
-                        common.clsCommon.MyMessageBoxShow(Me, Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 Next
@@ -757,12 +757,12 @@ Public Class FrmExpiryDateEntry
                 End If
 
                 Dim isSaved As Boolean = obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Document_No, NavigatorType.Current)
                 Return isSaved
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -835,7 +835,7 @@ Public Class FrmExpiryDateEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -850,13 +850,13 @@ Public Class FrmExpiryDateEntry
             If (AllowToSave()) Then
                 If (myMessages.postConfirm()) Then
                     If (clsExpiryDate.PostData(txtDocNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -881,7 +881,7 @@ Public Class FrmExpiryDateEntry
                 End If
                 If (clsExpiryDate.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -909,7 +909,7 @@ Public Class FrmExpiryDateEntry
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

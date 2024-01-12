@@ -82,7 +82,7 @@ Public Class FrmHRPerformanceMaster
             End If
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -110,7 +110,7 @@ Public Class FrmHRPerformanceMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -119,17 +119,17 @@ Public Class FrmHRPerformanceMaster
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Not Data Found To Be Deleted")
             End If
-            If clsCommon.MyMessageBoxShow("Do you want to delete Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to delete Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim qry As String = "Delete From TSPL_HR_Performance_Master where Code='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Record deleted successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Record deleted successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to be deleted") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current code is in use, cannot be deleted")
+                clsCommon.MyMessageBoxShow(Me, "Current code is in use, cannot be deleted", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -157,7 +157,7 @@ Public Class FrmHRPerformanceMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
@@ -264,7 +264,7 @@ Public Class FrmHRPerformanceMaster
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

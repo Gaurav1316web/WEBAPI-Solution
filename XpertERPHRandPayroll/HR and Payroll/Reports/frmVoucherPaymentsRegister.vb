@@ -64,7 +64,7 @@ Public Class frmVoucherPaymentsRegister
                 End Using
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -108,7 +108,7 @@ Public Class frmVoucherPaymentsRegister
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -139,7 +139,7 @@ Public Class frmVoucherPaymentsRegister
 
     Private Sub RadMenuItemDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemDelete.Click
         clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnExpoExl_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -223,10 +223,10 @@ Public Class frmVoucherPaymentsRegister
                     clsCommon.MyExportToPDF("Employee Voucher Payment", gv1, arrHeader, "Employee Register", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

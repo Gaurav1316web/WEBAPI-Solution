@@ -127,7 +127,7 @@ Public Class frmLeaveApplication
             Dim QryStr As String = "select POSTED from TSPL_LEAVE_APPLICATION where LVAPPLICATION_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -173,7 +173,7 @@ Public Class frmLeaveApplication
             Return False
         End If
         If dtpFromDate.Value > dtpToDate.Value Then
-            clsCommon.MyMessageBoxShow("From Date Can Not be Grater then To Date")
+            clsCommon.MyMessageBoxShow(Me, "From Date Can Not be Grater then To Date", Me.Text)
             dtpToDate.Focus()
             Return False
         End If
@@ -196,7 +196,7 @@ Public Class frmLeaveApplication
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -226,7 +226,7 @@ Public Class frmLeaveApplication
                 End If
                 If (clsLeaveApplication.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -373,7 +373,7 @@ Public Class frmLeaveApplication
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -454,7 +454,7 @@ Public Class frmLeaveApplication
     End Sub
 
     Private Sub frmLeaveApplication_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -520,7 +520,7 @@ Public Class frmLeaveApplication
                 txtLeaveDays.Text = Day_lv
             Else
                 If dtpToDate.Value <> clsCommon.GETSERVERDATE() Then
-                    clsCommon.MyMessageBoxShow("From Date Can Not be Grater then To Date")
+                    clsCommon.MyMessageBoxShow(Me, "From Date Can Not be Grater then To Date", Me.Text)
                     txtLeaveDays.Text = ""
                 End If
             End If
@@ -585,7 +585,7 @@ Public Class frmLeaveApplication
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsLeaveApplication.PostData(MyBase.Form_ID, txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                     Dim lstUsers As New List(Of String)
                     lstUsers.Add(txtEmpCode.Value)
@@ -621,14 +621,14 @@ Public Class frmLeaveApplication
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -798,13 +798,13 @@ Public Class frmLeaveApplication
     Private Sub btnSenApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSenApprove.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtCode.Focus()
                 txtCode.Select()
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Application No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Application No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtCode.Value, NavigatorType.Current)
@@ -825,7 +825,7 @@ Public Class frmLeaveApplication
             'SendSMSandEmail(lstUsers, True)
             MailSend(lstUsers, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -850,7 +850,7 @@ Public Class frmLeaveApplication
             ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)
             lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -40,7 +40,7 @@ Public Class FrmShortlist
     Private Function AllowToSave() As Boolean
         btnsave.Focus()
         If clsCommon.myLen(txtrequisitioncode.Value) < 1 Then
-            clsCommon.MyMessageBoxShow("Please select a requisition code ")
+            clsCommon.MyMessageBoxShow(Me, "Please select a requisition code ", Me.Text)
             Return False
         End If
         Return True
@@ -152,7 +152,7 @@ Public Class FrmShortlist
                                 IsPost = 1
                                 qry = "UPDATE TSPL_HR_APPLICANT_ENTRY SET Posted=" + clsCommon.myCstr(IsPost) + ",Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "' Where APPLICANT_CODE ='" + clsCommon.myCstr(gv1.Rows(i).Cells(colApplicantCode).Value) + "' and Requisition_Code='" + txtrequisitioncode.Value + "'"
                                 clsDBFuncationality.ExecuteNonQuery(qry)
-                                common.clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                                common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                                 'ElseIf (gv1.Rows(i).Cells(colShort).Value <> gv1.Rows(i).Cells(colHideShort).Value) Then
                                 '    common.clsCommon.MyMessageBoxShow("please save your entry ( Applicant Code :" + clsCommon.myCstr(gv1.Rows(i).Cells(colApplicantCode).Value) + ") first")
                             End If
@@ -164,12 +164,12 @@ Public Class FrmShortlist
                                 IsPost = 1
                                 qry = "UPDATE TSPL_HR_APPLICANT_ENTRY SET Posted=" + clsCommon.myCstr(IsPost) + ",Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") + "',Posted_By='" + objCommonVar.CurrentUserCode + "' Where APPLICANT_CODE ='" + clsCommon.myCstr(gv1.Rows(i).Cells(colApplicantCode).Value) + "' and Requisition_Code='" + txtrequisitioncode.Value + "'"
                                 clsDBFuncationality.ExecuteNonQuery(qry)
-                                common.clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                                common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                             End If
                         End If
                     Next
                     If GridRow <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("No data found to post")
+                        common.clsCommon.MyMessageBoxShow(Me, "No data found to post", Me.Text)
                     End If
                 End If
             End If
@@ -244,7 +244,7 @@ Public Class FrmShortlist
         Try
             LoadData(txtrequisitioncode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -341,7 +341,7 @@ Public Class FrmShortlist
 
    
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub

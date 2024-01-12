@@ -24,10 +24,10 @@ Partial Class frmDairyBookingCustomer
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -666,10 +666,10 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.IsUnique = False
         RadListDataItem1.Text = "Select"
         RadListDataItem2.Text = "AM"
-        RadListDataItem8.Text = "PM"
+        RadListDataItem3.Text = "PM"
         Me.cmbGatePassType.Items.Add(RadListDataItem1)
         Me.cmbGatePassType.Items.Add(RadListDataItem2)
-        Me.cmbGatePassType.Items.Add(RadListDataItem8)
+        Me.cmbGatePassType.Items.Add(RadListDataItem3)
         Me.cmbGatePassType.Location = New System.Drawing.Point(171, 113)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -1115,10 +1115,10 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem3.Text = "CASH"
-        RadListDataItem4.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "CASH"
+        RadListDataItem5.Text = "CREDIT"
         Me.cmbcashcredit.Items.Add(RadListDataItem4)
+        Me.cmbcashcredit.Items.Add(RadListDataItem5)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -1367,7 +1367,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -2930,7 +2930,7 @@ Partial Class frmDairyBookingCustomer
         Me.pnlTCS.Controls.Add(Me.txtTCSBaseAmt)
         Me.pnlTCS.Controls.Add(Me.MyLabel17)
         Me.pnlTCS.Controls.Add(Me.lblTCSAmount)
-        Me.pnlTCS.Location = New System.Drawing.Point(570, 0)
+        Me.pnlTCS.Location = New System.Drawing.Point(465, 1)
         Me.pnlTCS.Name = "pnlTCS"
         Me.pnlTCS.Size = New System.Drawing.Size(388, 32)
         Me.pnlTCS.TabIndex = 1486
@@ -3005,11 +3005,10 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPanel3.Controls.Add(Me.MyLabel11)
         Me.RadPanel3.Controls.Add(Me.lblTotalDocAmt)
-        Me.RadPanel3.Location = New System.Drawing.Point(1197, 0)
+        Me.RadPanel3.Location = New System.Drawing.Point(1090, 0)
         Me.RadPanel3.Name = "RadPanel3"
         Me.RadPanel3.Size = New System.Drawing.Size(260, 32)
         Me.RadPanel3.TabIndex = 1484
-        Me.RadPanel3.Visible = False
         '
         'MyLabel11
         '
@@ -3126,7 +3125,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel2.Controls.Add(Me.txtCrate)
         Me.RadPanel2.Controls.Add(Me.lblCan)
         Me.RadPanel2.Controls.Add(Me.txtCan)
-        Me.RadPanel2.Location = New System.Drawing.Point(269, 0)
+        Me.RadPanel2.Location = New System.Drawing.Point(169, 0)
         Me.RadPanel2.Name = "RadPanel2"
         Me.RadPanel2.Size = New System.Drawing.Size(294, 32)
         Me.RadPanel2.TabIndex = 1450
@@ -3202,7 +3201,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPanel1.Controls.Add(Me.MyLabel5)
         Me.RadPanel1.Controls.Add(Me.lblTotRAmt1)
-        Me.RadPanel1.Location = New System.Drawing.Point(967, 0)
+        Me.RadPanel1.Location = New System.Drawing.Point(857, 1)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(227, 32)
         Me.RadPanel1.TabIndex = 159
