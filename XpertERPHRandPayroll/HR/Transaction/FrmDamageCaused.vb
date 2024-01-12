@@ -22,7 +22,7 @@ Public Class FrmDamageCaused
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmDamageCaused)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -88,17 +88,17 @@ Public Class FrmDamageCaused
             'obj.PAY_PERIOD_CODE = clsCommon.myCstr(txtPayPeriod.Value)
             If ClsHRDamageDetail.SaveData(obj, isnewentry) Then
                 If Not isFlag Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     entry = obj.Damage_Detail_Code
                     LoadData(obj.Damage_Detail_Code, NavigatorType.Current)
                 Else
-                    clsCommon.MyMessageBoxShow("Data posted successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 End If
             End If
 
 
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message, Me.Text)
+            RadMessageBox.Show(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
@@ -199,12 +199,12 @@ Public Class FrmDamageCaused
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
@@ -240,7 +240,7 @@ Public Class FrmDamageCaused
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -334,14 +334,14 @@ Public Class FrmDamageCaused
 
                 Dim qry As String = "DELETE FROM TSPL_HR_DAMAGE_DETAIL WHERE Damage_Detail_Code='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub

@@ -70,13 +70,13 @@ Public Class frmLabelPrinting
             End If
             Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If DT.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
                 frmcrystal.funreport(CrystalReportFolder.HRPayroll, DT, "crptLabelPrinting", "Employee Id Card")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

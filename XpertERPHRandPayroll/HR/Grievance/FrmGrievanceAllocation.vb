@@ -133,7 +133,7 @@ Public Class FrmGrievanceAllocation
             Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -388,13 +388,13 @@ Public Class FrmGrievanceAllocation
                 If ClsGrievanceAllocation.SaveData(objList, trans) Then
                     trans.Commit()
                     UcAttachment1.SaveData(objList(0).DOC_CODE)
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(objList(0).DOC_CODE, "", Nothing, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -416,13 +416,13 @@ Public Class FrmGrievanceAllocation
                 End If
             Next
             If grid_vlc_Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Check Atleast One row to save.")
+                clsCommon.MyMessageBoxShow(Me, "Please Check Atleast One row to save.", Me.Text)
                 Return False
             End If
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -466,14 +466,14 @@ Public Class FrmGrievanceAllocation
                 clsDBFuncationality.ExecuteNonQuery(sQuery)
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
     
     Private Sub btnDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         DeleteData()
-        clsCommon.MyMessageBoxShow("Deleted Successfully.")
+        clsCommon.MyMessageBoxShow(Me, "Deleted Successfully.", Me.Text)
     End Sub
 
     
@@ -487,7 +487,7 @@ Public Class FrmGrievanceAllocation
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
 
         ''richa agarwal regarding memory leakage
@@ -537,7 +537,7 @@ Public Class FrmGrievanceAllocation
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -557,7 +557,7 @@ Public Class FrmGrievanceAllocation
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -578,9 +578,9 @@ Public Class FrmGrievanceAllocation
                 Dim sQuery As String = "Update TSPL_Grievance_Logging_Allocation set posted=1,posting_date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd-MMM-yyyy hh:mm:ss tt") & "' where grievance_logging_code='" & clsCommon.myCstr(row.Cells(colGrievanceLogging_Code).Value) & "'"
                 clsDBFuncationality.ExecuteNonQuery(sQuery)
             Next
-            clsCommon.MyMessageBoxShow("Posted Successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Posted Successfully.", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 End Class

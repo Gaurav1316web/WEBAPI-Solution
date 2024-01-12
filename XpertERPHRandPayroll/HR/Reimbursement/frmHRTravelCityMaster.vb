@@ -74,38 +74,38 @@ Public Class FrmHRTravelCityMaster
         Try
             btnSave.Focus()
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill Code", Me.Text)
                 txtCode.Focus()
                 txtCode.Select()
                 Return False
             End If
             If clsCommon.myLen(txtDesc.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill description", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill description", Me.Text)
                 txtDesc.Focus()
                 txtDesc.Select()
                 Return False
             End If
             If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill country", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill country", Me.Text)
                 txtcountrycode.Focus()
                 txtcountrycode.Select()
                 Return False
             End If
             If clsCommon.myLen(txtState.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill state", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill state", Me.Text)
                 txtState.Focus()
                 txtState.Select()
                 Return False
             End If
             If clsCommon.myLen(fndCity.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill city", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill city", Me.Text)
                 fndCity.Focus()
                 fndCity.Select()
                 Return False
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -125,7 +125,7 @@ Public Class FrmHRTravelCityMaster
                 obj.Is_Applicable = 0
             End If
             If ClsHRTravelCityMaster.SaveData(obj, txtCode.Value) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
                 LoadData(obj.Travel_City_Code, NavigatorType.Current)
@@ -136,7 +136,7 @@ Public Class FrmHRTravelCityMaster
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -179,12 +179,12 @@ Public Class FrmHRTravelCityMaster
                 btnDelete.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -193,7 +193,7 @@ Public Class FrmHRTravelCityMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsHRTravelCityMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
                     Reset()
                 End If
             End If
@@ -228,12 +228,12 @@ Public Class FrmHRTravelCityMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtState__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtState._MYValidating
         If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Country First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Country First", Me.Text)
             txtcountrycode.Focus()
             txtcountrycode.Select()
             Return
@@ -254,12 +254,12 @@ Public Class FrmHRTravelCityMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndCity__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCity._MYValidating
         If clsCommon.myLen(txtState.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select State Code First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select State Code First", Me.Text)
             txtState.Focus()
             txtState.Select()
             Return
@@ -395,7 +395,7 @@ Public Class FrmHRTravelCityMaster
                     ClsHRTravelCityMaster.SaveData(obj, obj.Travel_City_Code)
                 Next
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
                 myMessages.myExceptions(ex)
@@ -440,7 +440,7 @@ Public Class FrmHRTravelCityMaster
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating

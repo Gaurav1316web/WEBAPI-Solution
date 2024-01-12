@@ -128,7 +128,7 @@ Public Class frmAppointmentLetterHR
 
                 If (ClsAppointmentLetterHR.SaveData(obj, isNewEntry)) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         LoadData(obj.Applicant_Code, NavigatorType.Current)
                         btnsave.Text = "Update"
                     End If
@@ -137,7 +137,7 @@ Public Class frmAppointmentLetterHR
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Ticket No-TEC/12/08/19-000989
@@ -204,11 +204,11 @@ Public Class frmAppointmentLetterHR
                 objEmailH.SaveData(clsUserMgtCode.frmAppointmentLetterHR, objEmailH, Nothing)
                 objEmailH = Nothing
 
-                clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
             End If
 
         Else
-            clsCommon.MyMessageBoxShow("First do email setting", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "First do email setting", Me.Text)
         End If
         'sanjay
 
@@ -216,13 +216,13 @@ Public Class frmAppointmentLetterHR
     Sub MailSend()
         Try
             If clsCommon.myLen(txtAppcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Applicant Code First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Applicant Code First", Me.Text)
                 txtAppcode.Focus()
                 txtAppcode.Select()
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Applicant Code " + txtAppcode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Applicant Code " + txtAppcode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtAppcode.Value, NavigatorType.Current)
@@ -230,7 +230,7 @@ Public Class frmAppointmentLetterHR
             'lstUsers.Add(txtVendorNo.Value)
             SendSMSandEmail(True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub funPrint()
@@ -260,7 +260,7 @@ Public Class frmAppointmentLetterHR
                 Throw New Exception("Code not found to print")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -333,7 +333,7 @@ Public Class frmAppointmentLetterHR
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

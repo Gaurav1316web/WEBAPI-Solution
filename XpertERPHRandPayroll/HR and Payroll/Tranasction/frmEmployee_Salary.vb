@@ -128,14 +128,14 @@ Public Class frmEmployee_Salary
     End Sub
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsEmployeeSalary.ReverseAndUnpost(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funClose()
@@ -244,7 +244,7 @@ Public Class frmEmployee_Salary
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Dim isPosted As Boolean = False
@@ -409,7 +409,7 @@ Public Class frmEmployee_Salary
             Dim QryStr As String = "select POSTED from TSPL_EMPLOYEE_SALARY where EMP_SAL_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -431,7 +431,7 @@ Public Class frmEmployee_Salary
             If dt.Rows.Count > 0 Then
                 If Not IsDBNull(dt.Rows(0).Item("max_app_date")) Then
                     If dtpApplicableFrom.Value < dt.Rows(0).Item("max_app_date") Then
-                        clsCommon.MyMessageBoxShow("Maximum applicable from date must be greater than or equal to " & clsCommon.GetPrintDate(dt.Rows(0).Item("max_app_date"), "dd/MMM/yyyy") & "")
+                        clsCommon.MyMessageBoxShow(Me, "Maximum applicable from date must be greater than or equal to " & clsCommon.GetPrintDate(dt.Rows(0).Item("max_app_date"), "dd/MMM/yyyy") & "", Me.Text)
                         Return False
                     End If
                 End If
@@ -478,7 +478,7 @@ Public Class frmEmployee_Salary
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -501,7 +501,7 @@ Public Class frmEmployee_Salary
                 End If
                 If (clsEmployeeSalary.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -578,7 +578,7 @@ Public Class frmEmployee_Salary
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -626,26 +626,26 @@ Public Class frmEmployee_Salary
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsEmployeeSalary.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
     ' Ticket No : ERO/29/08/19-001009 by Prabhakar
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
         If clsCommon.myLen(Me.txtSalaryStruct.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select any Salary Structure.")
+            clsCommon.MyMessageBoxShow(Me, "Please Select any Salary Structure.", Me.Text)
             Exit Sub
         End If
         Dim gv As New RadGridView()
@@ -656,7 +656,7 @@ Public Class frmEmployee_Salary
         strSelect = strSelect.Replace("[", "")
         strSelect = strSelect.Replace("]", "")
         If clsCommon.myLen(strSelect) <= 0 Then
-            clsCommon.MyMessageBoxShow("Pay Head not Found for the Selected Salary Structure " & Me.txtSalaryStruct.Value & "")
+            clsCommon.MyMessageBoxShow(Me, "Pay Head not Found for the Selected Salary Structure " & Me.txtSalaryStruct.Value & "")
             Exit Sub
         End If
         ''"Emp ID", "Employee Name", "Salary Structure Code", "REVISION NO", "APPLICABLE FROM", "BASIC", "HRA", "CONVEYANCE", "CONV-REIMB", "CH EDU ALL", "FOOD", "NEWSPAPERALL", "TELEPHONE", "SPECIAL ALL", "LIC", "LOAN", "ONEDAYSAL", "WALT INSU", "EPF", "ESI", "PT", "TDS", "ADV REC"
@@ -806,7 +806,7 @@ Public Class frmEmployee_Salary
 
 
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -898,7 +898,7 @@ Public Class frmEmployee_Salary
                         '    End If
                         'Next
                     ElseIf Array.IndexOf(fieldNames, field) <= 4 Then
-                        common.clsCommon.MyMessageBoxShow("Excel Sheet is not in expected format.It should have the Minimum columns named - " + "Emp ID, Employee Name, Salary Structure Code, Revision No, Applicable Date")
+                        common.clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format.It should have the Minimum columns named - " + "Emp ID, Employee Name, Salary Structure Code, Revision No, Applicable Date")
                         Return False
                     Else
                         arrExtraPayHead.Add(field)
@@ -928,13 +928,13 @@ Public Class frmEmployee_Salary
 
                 Return True
             Else
-                common.clsCommon.MyMessageBoxShow("Excel Sheet is not in expected format. It should have the columns named - " + strfields)
+                common.clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format. It should have the columns named - " + strfields, Me.Text)
                 Return False
             End If
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
         Return True
@@ -944,7 +944,7 @@ Public Class frmEmployee_Salary
     Private Sub MenuItemExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemExport.Click
         'clsCommon.MyMessageBoxShow("Option under Development !")
         If clsCommon.myLen(Me.txtSalaryStruct.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select any Salary Structure.")
+            clsCommon.MyMessageBoxShow(Me, "Please Select any Salary Structure.", Me.Text)
             Exit Sub
         End If
 
@@ -981,7 +981,7 @@ Public Class frmEmployee_Salary
             gvSalary.Rows(intCurrRow).Cells(colRateAmount).Value = dblAmount
             gvSalary.Rows(intCurrRow).Cells(colPAYPERIOD_Amount).Value = dblPayHeadAmount
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvSalary_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSalary.CellValueChanged
@@ -1002,7 +1002,7 @@ Public Class frmEmployee_Salary
 
         Catch ex As Exception
             isCellValueChanged = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1179,7 +1179,7 @@ Public Class frmEmployee_Salary
             ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)
             lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

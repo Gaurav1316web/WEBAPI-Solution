@@ -44,7 +44,7 @@ Public Class FrmJEReverse
                 lblRecordCounter.Text = "" + clsCommon.myCstr(dt.Rows.Count) + " Record found."
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -99,16 +99,16 @@ Public Class FrmJEReverse
             Next
 
             If Counter <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select atleast single voucher to reverse")
+                clsCommon.MyMessageBoxShow(Me, "Please select atleast single voucher to reverse", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow("" + clsCommon.myCstr(Counter) + " Vouchers reversed successfully.")
+                clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(Counter) + " Vouchers reversed successfully.", Me.Text)
             End If
             trans.Commit()
             LoadData()
             Return True
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function

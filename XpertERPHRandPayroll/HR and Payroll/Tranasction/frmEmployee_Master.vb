@@ -707,12 +707,12 @@ Public Class frmEmployee_Master
                     obj.strFranchiseCode = ""
                 End If
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.EMP_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1007,49 +1007,49 @@ Public Class frmEmployee_Master
 
         Dim Year As String = clsDBFuncationality.getSingleValue(clsCommon.myCstr("select DATEDIFF(yy,convert(date,'" & txtDOB.Text & "',103),getdate()) "))
         If clsCommon.myLen(txtDOB.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(" Enter Date of birth ")
+            common.clsCommon.MyMessageBoxShow(Me, " Enter Date of birth ", Me.Text)
             txtDOB.Focus()
             Return False
         End If
         If (clsCommon.myCdbl(Year)) <= 17 Then
-            common.clsCommon.MyMessageBoxShow(" DOB should be greater than equal to 18")
+            common.clsCommon.MyMessageBoxShow(Me, " DOB should be greater than equal to 18", Me.Text)
             txtDOB.Focus()
             Return False
         End If
         If clsCommon.myLen(txtJoiningDate.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(" Enter Date of Joining. ")
+            common.clsCommon.MyMessageBoxShow(Me, " Enter Date of Joining. ", Me.Text)
             txtJoiningDate.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtConfirmationDate.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(" Enter Date of Confirmation ")
+            common.clsCommon.MyMessageBoxShow(Me, " Enter Date of Confirmation ", Me.Text)
             txtConfirmationDate.Focus()
             Return False
         End If
         '==========update by preeti gupta against ticket no[BHA/09/05/19-000885]
         If clsCommon.myLen(txtRelevingDate.Text) > 0 AndAlso txtRelevingDate.Checked Then
             If clsCommon.myCDate(txtRelevingDate.Text) < clsCommon.myCDate(txtJoiningDate.Text) Then
-                common.clsCommon.MyMessageBoxShow(" Releaving date should not less than joining date ")
+                common.clsCommon.MyMessageBoxShow(Me, " Releaving date should not less than joining date ", Me.Text)
                 txtRelevingDate.Focus()
                 Return False
             End If
         End If
         If clsCommon.myLen(txtRelevingDate.Text) > 0 AndAlso txtRelevingDate.Checked Then
             If clsCommon.myCDate(txtRelevingDate.Text) < clsCommon.myCDate(txtDOB.Text) Then
-                common.clsCommon.MyMessageBoxShow(" Releaving date should not less than DOB ")
+                common.clsCommon.MyMessageBoxShow(Me, " Releaving date should not less than DOB ", Me.Text)
                 txtRelevingDate.Focus()
                 Return False
             End If
         End If
 
         If clsCommon.myLen(txtJoiningDate.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(" Enter Date of joining ")
+            common.clsCommon.MyMessageBoxShow(Me, " Enter Date of joining ", Me.Text)
             txtJoiningDate.Focus()
             Return False
         End If
         If clsCommon.myCDate(txtDOB.Text) > clsCommon.myCDate(txtJoiningDate.Text) Then
-            common.clsCommon.MyMessageBoxShow(" DOB should not Equal or greater than Joining Date")
+            common.clsCommon.MyMessageBoxShow(Me, " DOB should not Equal or greater than Joining Date", Me.Text)
             txtDOB.Focus()
             Return False
         End If
@@ -1057,14 +1057,14 @@ Public Class frmEmployee_Master
 
         If clsCommon.myLen(txtConfirmationDate.Text) > 0 Then
             If clsCommon.myCDate(txtDOB.Text) > clsCommon.myCDate(txtConfirmationDate.Text) Then
-                common.clsCommon.MyMessageBoxShow(" DOB should not Equal or greater than Confirmation Date")
+                common.clsCommon.MyMessageBoxShow(Me, " DOB should not Equal or greater than Confirmation Date", Me.Text)
                 txtDOB.Focus()
                 Return False
             End If
         End If
         If clsCommon.myLen(txtLeavingDate.Text) > 0 Then
             If clsCommon.myLen(dtpJoining.Text) > clsCommon.myLen(txtLeavingDate.Text) Then
-                common.clsCommon.MyMessageBoxShow(" Employer joining date should not greater than leaving date.")
+                common.clsCommon.MyMessageBoxShow(Me, " Employer joining date should not greater than leaving date.", Me.Text)
                 dtpJoining.Focus()
                 Return False
             End If
@@ -1072,13 +1072,13 @@ Public Class frmEmployee_Master
 
 
         If clsCommon.myLen(dtpJoining.Text) > clsCommon.myLen(txtJoiningDate.Text) Then
-            common.clsCommon.MyMessageBoxShow(" previous employer joining  should not greater than current employer joining date")
+            common.clsCommon.MyMessageBoxShow(Me, " previous employer joining  should not greater than current employer joining date")
             dtpJoining.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtLeavingDate.Text) > clsCommon.myLen(txtJoiningDate.Text) Then
-            common.clsCommon.MyMessageBoxShow(" previous employer  leaving date should not greater than current employer joining date")
+            common.clsCommon.MyMessageBoxShow(Me, " previous employer  leaving date should not greater than current employer joining date")
             txtLeavingDate.Focus()
             Return False
         End If
@@ -1101,7 +1101,7 @@ Public Class frmEmployee_Master
             txtAttendance.Focus()
             Return False
         ElseIf clsCommon.myLen(txtAadharCard.Text) > 12 Then
-            clsCommon.MyMessageBoxShow("Length of Aadhar Card No. Should not be Greater than 12")
+            clsCommon.MyMessageBoxShow(Me, "Length of Aadhar Card No. Should not be Greater than 12", Me.Text)
             txtAadharCard.Focus()
             Return False
         ElseIf clsCommon.myLen(txtDepartment.Value) <= 0 Then
@@ -1118,14 +1118,14 @@ Public Class frmEmployee_Master
             Return False
         ElseIf grpFranchise.Visible Then
             If txtFranchiseCode.Value = "" Then
-                clsCommon.MyMessageBoxShow("Please Select Franchise. When Employee Type is Service Dealer it is manadatory to select Franchise")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Franchise. When Employee Type is Service Dealer it is manadatory to select Franchise")
                 txtFranchiseCode.Focus()
                 Return False
             End If
         Else
             If isNewEntry = True Then
                 If clsCommon.myLen(clsEmployeeMaster.CheckRejoinEmployee(TxtFathersName.Text, txtDOB.Value, txtPresentMobileNo.Text, txtEmail.Text)) > 0 Then
-                    If clsCommon.MyMessageBoxShow("An employee with same father name, DOB,Present Mobile No and Email exists in database. Still you want to proceed ?") = Windows.Forms.DialogResult.No Then
+                    If clsCommon.MyMessageBoxShow(Me, "An employee with same father name, DOB,Present Mobile No and Email exists in database. Still you want to proceed ?") = Windows.Forms.DialogResult.No Then
                         Return False
                     End If
                 End If
@@ -1143,13 +1143,13 @@ Public Class frmEmployee_Master
 
         If AadharNoMandatoryOnEmpMaster = True Then
             If clsCommon.myLen(txtAadharCard.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(" Aadhar Card No ")
+                common.clsCommon.MyMessageBoxShow(Me, " Aadhar Card No ", Me.Text)
                 txtAadharCard.Focus()
                 Return False
             End If
         End If
         If clsCommon.myLen(txtUANNo.Text) > 0 AndAlso clsCommon.myLen(txtUANNo.Text) < 12 Then
-            common.clsCommon.MyMessageBoxShow("Length of UAN No. Should be 12")
+            common.clsCommon.MyMessageBoxShow(Me, "Length of UAN No. Should be 12", Me.Text)
             txtUANNo.Focus()
             Return False
         End If
@@ -1161,7 +1161,7 @@ Public Class frmEmployee_Master
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -1195,7 +1195,7 @@ Public Class frmEmployee_Master
                 If (clsEmployeeMaster.DeleteData(txtCode.Value, trans)) Then
                     saveCancelLog(Reason, "Delete", trans)
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     BlankAllControl()
                 End If
             End If
@@ -1433,7 +1433,7 @@ Public Class frmEmployee_Master
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1487,7 +1487,7 @@ Public Class frmEmployee_Master
 
 
     Private Sub gvEmpEx_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvEmpEx.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1614,7 +1614,7 @@ Public Class frmEmployee_Master
 
 
     Private Sub gvEmpquli_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvEmpQuli.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1756,7 +1756,7 @@ Public Class frmEmployee_Master
 
     Private Sub btnShowDoc_Click(ByVal Doc_Code As String, ByVal DocPath As String)
         If clsCommon.CompairString(Doc_Code, "") = CompairStringResult.Equal And clsCommon.CompairString(DocPath, "") = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("No document attached.")
+            clsCommon.MyMessageBoxShow(Me, "No document attached.", Me.Text)
             Exit Sub
         End If
         Dim ds_attachment As DataTable
@@ -1809,7 +1809,7 @@ Public Class frmEmployee_Master
 #Region "Employee Language"
 
     Private Sub gvEmpLang_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs)
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1818,7 +1818,7 @@ Public Class frmEmployee_Master
 #Region "Employee Family"
 
     Private Sub gvEmpFamily_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs)
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -2482,9 +2482,9 @@ Public Class frmEmployee_Master
                 'End Using
 
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message.ToString)
+                clsCommon.MyMessageBoxShow(Me, ex.Message.ToString, Me.Text)
                 clsCommon.ProgressBarHide()
             End Try
 
@@ -3380,7 +3380,7 @@ Public Class frmEmployee_Master
                 Next
 
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 clsCommon.MyMessageBoxShow(ex.Message & " At Line No : " & i)
@@ -3453,7 +3453,7 @@ Public Class frmEmployee_Master
             txtAdvToStaff.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("GLACJournalEntry", qry, "Account_Code", whrcls, clsCommon.myCstr(txtAdvToStaff.Value), "Account_Code", isButtonClick))
             'txtSalaryPayableAccountDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(fndSalaryPayableAccount.Value) + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3594,7 +3594,7 @@ Public Class frmEmployee_Master
     Private Sub txtSubDepartment__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtSubDepartment._MYValidating
         Try
             If clsCommon.myLen(txtDepartment.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Department First..")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Department First..", Me.Text)
                 txtDepartment.Focus()
                 Exit Sub
             End If
@@ -3603,7 +3603,7 @@ Public Class frmEmployee_Master
             txtSubDepartment.Value = clsSubDepartmentMaster.getFinder(whrcls, txtSubDepartment.Value, isButtonClicked)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3657,7 +3657,7 @@ Public Class frmEmployee_Master
             cboPFCalculatnType.DisplayMember = "Name"
             isInsideLoad = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3713,7 +3713,7 @@ Public Class frmEmployee_Master
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4039,7 +4039,7 @@ Public Class frmEmployee_Master
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4168,7 +4168,7 @@ Public Class frmEmployee_Master
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4302,7 +4302,7 @@ Public Class frmEmployee_Master
         Try
             Me.txtEmployeeBand.Value = clsEmployeeBandMaster.getFinder("", txtEmployeeBand.Value, isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

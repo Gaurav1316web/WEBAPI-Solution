@@ -155,7 +155,7 @@ Public Class frmLeaveSetting
                 End If
             Next
             If (obj.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
                 'Else
                 '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
@@ -293,59 +293,59 @@ Public Class frmLeaveSetting
             txtCode.Focus()
             Return False
         ElseIf Not (rdbJoiningDate.IsChecked Or rdbconfirmDate.IsChecked Or rdbppcompDate.IsChecked Or rdbAllotafter.IsChecked) Then
-            clsCommon.MyMessageBoxShow("Choose any one from Leave Allotment Setting. ")
+            clsCommon.MyMessageBoxShow(Me, "Choose any one from Leave Allotment Setting. ")
             txtName.Focus()
             Return False
         ElseIf rdbAllotafter.IsChecked And (clsCommon.myLen(txtmonths.Text) <= 0 Or clsCommon.myLen(txtdays.Text) <= 0) Then
-            clsCommon.MyMessageBoxShow("Enter Month and Day on selection of Allot After.")
+            clsCommon.MyMessageBoxShow(Me, "Enter Month and Day on selection of Allot After.")
             txtmonths.Focus()
             Return False
         ElseIf Not (rdbAvailJoinDate.IsChecked Or rdbAvailConfirmDate.IsChecked Or rdbAvailPPCompDate.IsChecked Or rdbAvailAfter.IsChecked) Then
-            clsCommon.MyMessageBoxShow("Choose any one from Leave Avail Setting.")
+            clsCommon.MyMessageBoxShow(Me, "Choose any one from Leave Avail Setting.", Me.Text)
             txtName.Focus()
             Return False
         ElseIf rdbAllotafter.IsChecked And (clsCommon.myLen(txtAvailMonths.Text) <= 0 Or clsCommon.myLen(txtAvailDays.Text) <= 0) Then
-            clsCommon.MyMessageBoxShow("Enter Month and Day on selection of Avail After.")
+            clsCommon.MyMessageBoxShow(Me, "Enter Month and Day on selection of Avail After.", Me.Text)
             txtmonths.Focus()
             Return False
         ElseIf chkCarryForward.Checked And (clsCommon.myLen(txtCFLower.Text) <= 0 Or clsCommon.myLen(txtCFUpper.Text) <= 0) Then
-            clsCommon.MyMessageBoxShow("Carry Forward is Checked But Upper Limit or Lower Limit or both are Blank.")
+            clsCommon.MyMessageBoxShow(Me, "Carry Forward is Checked But Upper Limit or Lower Limit or both are Blank.", Me.Text)
             chkCarryForward.Focus()
             Return False
         ElseIf txtCFLower.Value > 999.99 Then
-            clsCommon.MyMessageBoxShow("Lower Limit Can be MAX 999.99.")
+            clsCommon.MyMessageBoxShow(Me, "Lower Limit Can be MAX 999.99.", Me.Text)
             txtCFLower.Focus()
             Return False
         ElseIf txtCFUpper.Value > 999.99 Then
-            clsCommon.MyMessageBoxShow("Upper Limit Can be MAX 999.99.")
+            clsCommon.MyMessageBoxShow(Me, "Upper Limit Can be MAX 999.99.", Me.Text)
             txtCFUpper.Focus()
             Return False
         ElseIf chkLapseUnAvailed.Checked And cboMonth.SelectedIndex < 0 Then
-            clsCommon.MyMessageBoxShow(" Lapse Unavailed On is Checked But Lapse in Month is Blank.")
+            clsCommon.MyMessageBoxShow(Me, " Lapse Unavailed On is Checked But Lapse in Month is Blank.", Me.Text)
             cboMonth.Focus()
             Return False
         ElseIf chkLapseNegativeLeaves.Checked And clsCommon.myLen(txtExceeding.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Lapse Negative Leaves is Checked But Lapse Exceeding is Blank.")
+            clsCommon.MyMessageBoxShow(Me, "Lapse Negative Leaves is Checked But Lapse Exceeding is Blank.", Me.Text)
             cboMonth.Focus()
             Return False
         ElseIf txtExceeding.Value > 999.99 Then
-            clsCommon.MyMessageBoxShow("Lapse Exceeding Can be MAX 999.99.")
+            clsCommon.MyMessageBoxShow(Me, "Lapse Exceeding Can be MAX 999.99.", Me.Text)
             txtExceeding.Focus()
             Return False
         ElseIf chkLeaveEncash.Checked And (clsCommon.myLen(txtminleavebal.Text) <= 0 Or cboRoundoffType.SelectedIndex < 0) Then
-            clsCommon.MyMessageBoxShow("Leave Encashment is Checked But Minimum Balance or Balance Round off Type or both are Blank.")
+            clsCommon.MyMessageBoxShow("Leave Encashment is Checked But Minimum Balance or Balance Round off Type or both are Blank.", Me.Text)
             chkCarryForward.Focus()
             Return False
         ElseIf txtminleavebal.Value > 999.99 Then
-            clsCommon.MyMessageBoxShow("Minimum Balance Can be MAX 999.99.")
+            clsCommon.MyMessageBoxShow(Me, "Minimum Balance Can be MAX 999.99.", Me.Text)
             txtminleavebal.Focus()
             Return False
         ElseIf clsCommon.myLen(cboPeriodicity.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Allotment Periodicity.")
+            clsCommon.MyMessageBoxShow(Me, "Select Allotment Periodicity.", Me.Text)
             cboPeriodicity.Focus()
             Return False
         ElseIf clsCommon.myLen(cboAllotType.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Allotment Type.")
+            clsCommon.MyMessageBoxShow(Me, "Select Allotment Type.", Me.Text)
             cboAllotType.Focus()
             Return False
         End If
@@ -358,7 +358,7 @@ Public Class frmLeaveSetting
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -375,7 +375,7 @@ Public Class frmLeaveSetting
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsLeaveSetting.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -543,7 +543,7 @@ Public Class frmLeaveSetting
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -868,7 +868,7 @@ Public Class frmLeaveSetting
             ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)
             lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -107,7 +107,7 @@ Public Class frmSalaryAbstractReport
          
 
             If Hader_Info.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim dtFinal As DataTable = New DataTable
                 dtFinal.Columns.Add("Company_Name", GetType(String))
@@ -219,7 +219,7 @@ Public Class frmSalaryAbstractReport
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

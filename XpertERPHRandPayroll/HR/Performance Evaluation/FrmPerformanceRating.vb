@@ -95,11 +95,11 @@ Public Class FrmPerformanceRating
     Sub LoadGridData()
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select a user First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a user First.", Me.Text)
                 Return
             End If
             If clsCommon.myCDate(txtFromDate.Value).Year <= 1900 Then
-                clsCommon.MyMessageBoxShow("Please Select Valid Month.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Valid Month.", Me.Text)
                 Return
             End If
 
@@ -152,7 +152,7 @@ Public Class FrmPerformanceRating
                 gv1.Focus()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -192,12 +192,12 @@ Public Class FrmPerformanceRating
                     Arr.Add(obj)
                 Next
                 If (clsPerformanceRating.SaveData(txtCode.Value, txtFromDate.Value, Arr)) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Emp_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -227,18 +227,18 @@ Public Class FrmPerformanceRating
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Do you want to delete Record of : '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                Dim qry As String = " delete from TSPL_HR_PERFORMANCE_RATING where Emp_Code  = '" + txtCode.Value + "' and Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' " & _
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to delete Record of : '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                Dim qry As String = " delete from TSPL_HR_PERFORMANCE_RATING where Emp_Code  = '" + txtCode.Value + "' and Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' " &
                                     " and DatePart(Month,MONTH_YEAR) =DatePart(Month,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "') and DatePart(year,MONTH_YEAR) =DatePart(year,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "') "
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), " Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -327,7 +327,7 @@ Public Class FrmPerformanceRating
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

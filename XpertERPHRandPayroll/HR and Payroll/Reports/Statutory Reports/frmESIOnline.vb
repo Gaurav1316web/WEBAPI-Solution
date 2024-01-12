@@ -31,7 +31,7 @@ Public Class frmESIOnline
         Try
 
             If clsCommon.myLen(txtFromPP.Value) < 1 Then
-                clsCommon.MyMessageBoxShow("Please Select Pay Period First.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period First.", Me.Text)
             End If
             Dim Qry As String = ""
 
@@ -65,7 +65,7 @@ Public Class frmESIOnline
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -107,7 +107,7 @@ Public Class frmESIOnline
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()

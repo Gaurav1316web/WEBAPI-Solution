@@ -254,7 +254,7 @@ Public Class FrmEmpIncrement
                     If dt.Rows.Count > 0 AndAlso clsCommon.myCdbl(dt.Rows(0).Item("revision_no")) > 0 Then
                         Current_Rev_No = clsCommon.myCdbl(dt.Rows(0).Item("revision_no"))
                     Else
-                        clsCommon.MyMessageBoxShow("Salary not define for selected employee.")
+                        clsCommon.MyMessageBoxShow(Me, "Salary not define for selected employee.", Me.Text)
                         Exit Sub
                     End If
                     Me.txtRevisionNo.Text = Current_Rev_No 'clsDBFuncationality.GetDataTable("").Rows(0).Item("revision_no")
@@ -329,7 +329,7 @@ Public Class FrmEmpIncrement
         If dt.Rows.Count > 0 AndAlso clsCommon.myCdbl(dt.Rows(0).Item("revision_no")) > 0 Then
             Current_Rev_No = clsCommon.myCdbl(dt.Rows(0).Item("revision_no"))
         Else
-            clsCommon.MyMessageBoxShow("Salary not define for selected employee.")
+            clsCommon.MyMessageBoxShow(Me, "Salary not define for selected employee.", Me.Text)
             Exit Sub
         End If
         Dim Emp_Sal_Code As String = clsCommon.myCstr(clsDBFuncationality.GetDataTable("select (coalesce(max(EMP_SAL_CODE),'')) AS EMP_SAL_CODE from TSPL_EMPLOYEE_SALARY where EMP_CODE='" & EMPCODE & "' and REVISION_NO='" & Current_Rev_No & "'").Rows(0).Item("EMP_SAL_CODE"))
@@ -394,12 +394,12 @@ Public Class FrmEmpIncrement
             If (obj.SaveData(obj, ObjList, isNewEntry, clsCommon.myCstr(fndIncrementCode.Value))) Then
                 LoadData(obj.INCREMENT_CODE, NavigatorType.Current)
                 Return True
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
             Return False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -411,13 +411,13 @@ Public Class FrmEmpIncrement
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (ClsEmpIncrement.PostData(fndIncrementCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(fndIncrementCode.Value, NavigatorType.Current)
                     'Save1()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -440,13 +440,13 @@ Public Class FrmEmpIncrement
         ValidateDate(lblSalaryCode.Text)
         If Not LastApplicableFrom Is Nothing Then
             If CDate(clsCommon.GetPrintDate(dtpApplicableFrom.Value, "dd/MMM/yyyy")) <= CDate(clsCommon.GetPrintDate(LastApplicableFrom, "dd/MMM/yyyy")) Then
-                clsCommon.MyMessageBoxShow("Applicable from date must be greater than last increment applicable from date (" & LastApplicableFrom & ")")
+                clsCommon.MyMessageBoxShow(Me, "Applicable from date must be greater than last increment applicable from date (" & LastApplicableFrom & ")")
                 Return False
             End If
         End If
         If Not LastArrearFrom Is Nothing Then
             If CDate(clsCommon.GetPrintDate(dtpArrearFrom.Value, "dd/MMM/yyyy")) <= CDate(clsCommon.GetPrintDate(LastApplicableFrom, "dd/MMM/yyyy")) Then
-                clsCommon.MyMessageBoxShow("Arrear from date must be greater than last increment applicable from date (" & LastApplicableFrom & ")")
+                clsCommon.MyMessageBoxShow(Me, "Arrear from date must be greater than last increment applicable from date (" & LastApplicableFrom & ")")
                 Return False
             End If
         End If
@@ -493,7 +493,7 @@ Public Class FrmEmpIncrement
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -525,7 +525,7 @@ Public Class FrmEmpIncrement
                 End If
                 If (ClsEmpIncrement.DeleteData(fndIncrementCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -703,7 +703,7 @@ Public Class FrmEmpIncrement
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Sub OpenRoundCodeList(ByVal isButtonClick As Boolean)
@@ -715,7 +715,7 @@ Public Class FrmEmpIncrement
         Try
             LoadData(fndIncrementCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -798,12 +798,12 @@ Public Class FrmEmpIncrement
         Try
             '' Options for _Type 1. Increment Amount(IA) 2. New Salary(NS)
             If clsCommon.myLen(_Type) <= 0 Or (clsCommon.CompairString(_Type, "NS") <> CompairStringResult.Equal And clsCommon.CompairString(_Type, "IA") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Invalid Import Type")
+                clsCommon.MyMessageBoxShow(Me, "Invalid Import Type", Me.Text)
                 Exit Sub
             End If
             '' shivani,,,against[BM00000007827]
             If clsCommon.myLen(Me.fndEmpCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select any Employee Code")
+                clsCommon.MyMessageBoxShow(Me, "Please Select any Employee Code", Me.Text)
                 Exit Sub
             End If
             Dim gv As New RadGridView()
@@ -814,7 +814,7 @@ Public Class FrmEmpIncrement
             strSelect = strSelect.Replace("[", "")
             strSelect = strSelect.Replace("]", "")
             If clsCommon.myLen(strSelect) <= 0 Then
-                clsCommon.MyMessageBoxShow("Pay Head not Found for the Selected Salary Structure " & Me.lblSalaryStructCode.Text & "")
+                clsCommon.MyMessageBoxShow(Me, "Pay Head not Found for the Selected Salary Structure " & Me.lblSalaryStructCode.Text & "", Me.Text)
                 Exit Sub
             End If
             Dim arr() As String
@@ -901,7 +901,7 @@ Public Class FrmEmpIncrement
                         If Not LastApplicableFrom Is Nothing Then
                             If CDate(clsCommon.GetPrintDate(obj.APPLICABLE_FROM, "dd/MMM/yyyy")) <= CDate(clsCommon.GetPrintDate(LastApplicableFrom, "dd/MMM/yyyy")) Then
                                 clsCommon.ProgressBarHide()
-                                clsCommon.MyMessageBoxShow("Applicable from date must be greater than last increment applicable from date (" & LastApplicableFrom & ")")
+                                clsCommon.MyMessageBoxShow(Me, "Applicable from date must be greater than last increment applicable from date (" & LastApplicableFrom & ")", Me.Text)
 
                                 Exit Sub
                             End If
@@ -909,7 +909,7 @@ Public Class FrmEmpIncrement
                         If Not LastArrearFrom Is Nothing Then
                             If CDate(clsCommon.GetPrintDate(obj.ARREAR_FROM, "dd/MMM/yyyy")) <= CDate(clsCommon.GetPrintDate(LastApplicableFrom, "dd/MMM/yyyy")) Then
                                 clsCommon.ProgressBarHide()
-                                clsCommon.MyMessageBoxShow("Arrear from date must be greater than last increment applicable from date (" & LastApplicableFrom & ")")
+                                clsCommon.MyMessageBoxShow(Me, "Arrear from date must be greater than last increment applicable from date (" & LastApplicableFrom & ")", Me.Text)
 
                                 Exit Sub
                             End If
@@ -936,7 +936,7 @@ Public Class FrmEmpIncrement
                     UP_QRY = String.Empty
 
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     clsCommon.ProgressBarHide()
                     myMessages.myExceptions(ex)
@@ -951,7 +951,7 @@ Public Class FrmEmpIncrement
 
     Private Sub mnuExportWithIncrementAmt_Click(sender As Object, e As EventArgs) Handles mnuExportWithIncrementAmt.Click
         If clsCommon.myLen(Me.fndEmpCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select any Employee Code")
+            clsCommon.MyMessageBoxShow(Me, "Please Select any Employee Code", Me.Text)
             Exit Sub
         End If
         Dim str As String
@@ -961,7 +961,7 @@ Public Class FrmEmpIncrement
 
     Private Sub mnuExportWithNewSalary_Click(sender As Object, e As EventArgs) Handles mnuExportWithNewSalary.Click
         If clsCommon.myLen(Me.fndEmpCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select any Employee Code")
+            clsCommon.MyMessageBoxShow(Me, "Please Select any Employee Code", Me.Text)
             Exit Sub
         End If
         Dim str As String
@@ -995,7 +995,7 @@ Public Class FrmEmpIncrement
             'End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

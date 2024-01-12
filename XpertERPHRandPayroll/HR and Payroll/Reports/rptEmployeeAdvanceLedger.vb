@@ -75,7 +75,7 @@ Public Class rptEmployeeAdvanceLedger
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -87,7 +87,7 @@ Public Class rptEmployeeAdvanceLedger
 
     Private Sub btn_deletelayout_Click(sender As Object, e As EventArgs) Handles btn_deletelayout.Click
         If clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode) AndAlso RadPageViewPage2.Item.Visibility = ElementVisibility.Visible Then
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -123,12 +123,12 @@ Public Class rptEmployeeAdvanceLedger
 
     Sub LoadData()
         If dtpFromDate.Value > dtpToDate.Value Then
-            clsCommon.MyMessageBoxShow("'From date' Cann't Be Greater Than 'To Date'")
+            clsCommon.MyMessageBoxShow(Me, "'From date' Cann't Be Greater Than 'To Date'", Me.Text)
             dtpFromDate.Focus()
             Exit Sub
         End If
         If isInsideLoadData Then
-            clsCommon.MyMessageBoxShow("Work in Progress Please Wait...")
+            clsCommon.MyMessageBoxShow(Me, "Work in Progress Please Wait...", Me.Text)
             Exit Sub
         End If
         'txtCode.MyReadOnly = True
@@ -289,7 +289,7 @@ Public Class rptEmployeeAdvanceLedger
                 clsCommon.MyExportToPDF("Employee Advance Ledger Sheet", gv1, arrHeader, "Employee Advance Ledger Sheet", True)
             End If
  Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

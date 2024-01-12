@@ -81,7 +81,7 @@ Public Class frmSalaryComponentDetails
 
 
             If Hader_Info.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim dtFinal As DataTable = New DataTable
                 
@@ -110,7 +110,7 @@ Public Class frmSalaryComponentDetails
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -123,7 +123,7 @@ Public Class frmSalaryComponentDetails
 
     Private Sub txtComponent__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtComponent._MYValidating
         If clsCommon.myLen(txtFromPP.Value) = 0 Or clsCommon.myLen(Me.txtToPP.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Select From Pay Period and To Pay Period.")
+            common.clsCommon.MyMessageBoxShow(Me, "Select From Pay Period and To Pay Period.", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "SELECT DISTINCT T1.PAY_HEAD_CODE as Code,T4.PAY_HEAD_NAME FROM TSPL_GENERATE_SALARY_PAYHEADS T1 " _

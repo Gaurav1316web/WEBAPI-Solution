@@ -53,31 +53,31 @@ Public Class frmHRReimbursementTypeMaster
         Try
             btnSave.Focus()
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill Code", Me.Text)
                 txtCode.Focus()
                 txtCode.Select()
                 Return False
             End If
             If clsCommon.myLen(CmbRType.SelectedValue) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select reimbursement type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select reimbursement type", Me.Text)
                 CmbRType.Focus()
                 CmbRType.Select()
                 Return False
             ElseIf clsCommon.CompairString(CmbRType.SelectedValue, "T") = CompairStringResult.Equal AndAlso clsCommon.CompairString(CmbTrType.SelectedValue, "") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Please select travel type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select travel type", Me.Text)
                 CmbTrType.Focus()
                 CmbTrType.Select()
                 Return False
             End If
             If clsCommon.myLen(txtDesc.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill description", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill description", Me.Text)
                 txtDesc.Focus()
                 txtDesc.Select()
                 Return False
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -100,7 +100,7 @@ Public Class frmHRReimbursementTypeMaster
             End If
 
             If ClsReimbursementTypeMaster.SaveData(obj, txtCode.Value) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
                 txtCode.Value = obj.Reimbursement_Code
@@ -111,7 +111,7 @@ Public Class frmHRReimbursementTypeMaster
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -140,12 +140,12 @@ Public Class frmHRReimbursementTypeMaster
                 btnDelete.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -154,7 +154,7 @@ Public Class frmHRReimbursementTypeMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsReimbursementTypeMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -215,7 +215,7 @@ Public Class frmHRReimbursementTypeMaster
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating

@@ -168,7 +168,7 @@ Public Class frmEmployeeShiftChange
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -266,7 +266,7 @@ Public Class frmEmployeeShiftChange
             End If
             Return False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -275,7 +275,7 @@ Public Class frmEmployeeShiftChange
             Dim QryStr As String = "select POSTED from TSPL_EMPLOYEE_SHIFT_CHANGE_HEAD where EMP_SHIFT_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -301,12 +301,12 @@ Public Class frmEmployeeShiftChange
                         Continue For
                     End If
                     If (clsCommon.CompairString(strICode, clsCommon.myCstr(gvAllowance.Rows(jj).Cells(colempCode).Value)) = CompairStringResult.Equal) Then
-                        common.clsCommon.MyMessageBoxShow("Employee Name " + strICode.Trim() + "( " + strIName.Trim() + " ) already selected at line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " and  " + clsCommon.myCstr(clsCommon.myCdbl(jj + 1)) + "")
+                        common.clsCommon.MyMessageBoxShow(Me, "Employee Name " + strICode.Trim() + "( " + strIName.Trim() + " ) already selected at line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " and  " + clsCommon.myCstr(clsCommon.myCdbl(jj + 1)) + "")
                         Return False
                     End If
                 Next
                 If clsCommon.myLen(gvAllowance.Rows(ii).Cells(colShiftCode).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Select Shift Code for employee code " & gvAllowance.Rows(ii).Cells(colempCode).Value & " at line No: " & ii & "")
+                    clsCommon.MyMessageBoxShow(Me, "Select Shift Code for employee code " & gvAllowance.Rows(ii).Cells(colempCode).Value & " at line No: " & ii & "")
                     Return False
                 End If
                 If Not arrICode.Contains(strICode) Then
@@ -325,7 +325,7 @@ Public Class frmEmployeeShiftChange
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -348,7 +348,7 @@ Public Class frmEmployeeShiftChange
                 End If
                 If (clsEmployeeShiftChange.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -376,19 +376,19 @@ Public Class frmEmployeeShiftChange
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsEmployeeShiftChange.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
