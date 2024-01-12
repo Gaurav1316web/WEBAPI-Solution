@@ -35,13 +35,13 @@ Public Class frmODSheet
                 obj.PAY_PERIOD_CODE = clsCommon.myCstr(txtPayPeriod.Value)
 
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
                 'End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -94,7 +94,7 @@ Public Class frmODSheet
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
 
@@ -118,7 +118,7 @@ Public Class frmODSheet
                 End If
                 If (clsODSheet.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -232,7 +232,7 @@ Public Class frmODSheet
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -294,7 +294,7 @@ Public Class frmODSheet
                     End If
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

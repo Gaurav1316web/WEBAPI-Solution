@@ -430,19 +430,19 @@ Public Class FrmResignationAcceptanceORRejection
                         clsCommon.MyExportToPDF(rpt_Head, gv1, arrHeader, rpt_Name, True)
                     End If
                 Else
-                    clsCommon.MyMessageBoxShow("No Row Selected to Export.")
+                    clsCommon.MyMessageBoxShow(Me, "No Row Selected to Export.", Me.Text)
                 End If
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Post()
         Try
             Dim ask As MsgBoxResult
             'Dim LeaveFdate, LeaveTdate, TotalDays As String
-            ask = clsCommon.MyMessageBoxShow("Are you sure to Approve Resignnation???", "Approve", MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question)
+            ask = clsCommon.MyMessageBoxShow(Me, "Are you sure to Approve Resignnation???", "Approve", MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question)
             If ask = MsgBoxResult.Yes Then
                 Dim counter As Integer = 0
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -464,7 +464,7 @@ Public Class FrmResignationAcceptanceORRejection
                 If counter <= 0 Then
                     Throw New Exception("No Row Selected")
                 End If
-                clsCommon.MyMessageBoxShow(" Resignation Approve Successfully")
+                clsCommon.MyMessageBoxShow(Me, " Resignation Approve Successfully", Me.Text)
                 UsLock1.Status = ERPTransactionStatus.Approved
                 btnPost.Enabled = False
             ElseIf ask = MsgBoxResult.No Then
@@ -475,7 +475,7 @@ Public Class FrmResignationAcceptanceORRejection
                 Exit Sub
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -502,7 +502,7 @@ Public Class FrmResignationAcceptanceORRejection
         Try
             'Dim LeaveFdate, LeaveTdate, TotalDays As String
             Dim ask As MsgBoxResult
-            ask = clsCommon.MyMessageBoxShow("Are you sure to Reject Resoignation???", "Reject", MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question)
+            ask = clsCommon.MyMessageBoxShow(Me, "Are you sure to Reject Resoignation???", "Reject", MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question)
             If ask = MsgBoxResult.Yes Then
                 Dim counter As Integer = 0
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -525,7 +525,7 @@ Public Class FrmResignationAcceptanceORRejection
                 If counter <= 0 Then
                     Throw New Exception("No Row Selected")
                 End If
-                clsCommon.MyMessageBoxShow(" Resignation Reject Successfully")
+                clsCommon.MyMessageBoxShow(Me, " Resignation Reject Successfully", Me.Text)
                 UsLock1.Status = ERPTransactionStatus.Cancel
                 btnReject.Enabled = False
 
@@ -536,7 +536,7 @@ Public Class FrmResignationAcceptanceORRejection
                 Exit Sub
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmResignationAcceptanceORRejection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -608,7 +608,7 @@ Public Class FrmResignationAcceptanceORRejection
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub LoadDataForGoBtn()
@@ -669,10 +669,10 @@ Public Class FrmResignationAcceptanceORRejection
                 btnExport.Enabled = False
                 btnPost.Enabled = True
                 UsLock1.Status = ERPTransactionStatus.Pending
-                clsCommon.MyMessageBoxShow("No Data to Display.")
+                clsCommon.MyMessageBoxShow(Me, "No Data to Display.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -120,42 +120,42 @@ Public Class FrmHRRaiseTravelRequisition
 
             btnsave.Focus()
             If clsCommon.myLen(txtcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill Code", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage1
                 txtcode.Focus()
                 txtcode.Select()
                 Return False
             End If
             If clsCommon.myLen(TxtTravelPur.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill travel purpose", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill travel purpose", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage1
                 TxtTravelPur.Focus()
                 TxtTravelPur.Select()
                 Return False
             End If
             If clsCommon.myLen(TxtBookingFor.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill booking for in organizational frame", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill booking for in organizational frame", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage1
                 TxtBookingFor.Focus()
                 TxtBookingFor.Select()
                 Return False
             End If
             If clsCommon.myLen(TxtTCategory.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill category in organizational frame", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill category in organizational frame", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage1
                 TxtTCategory.Focus()
                 TxtTCategory.Select()
                 Return False
             End If
             If clsCommon.myLen(TxtBookedByName.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill booking by name in ticket travelling frame", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill booking by name in ticket travelling frame", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage3
                 TxtBookedByName.Focus()
                 TxtBookedByName.Select()
                 Return False
             End If
             If clsCommon.myLen(TxtFromLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill from location in ticket travelling frame", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill from location in ticket travelling frame", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage3
                 TxtFromLoc.Focus()
                 TxtFromLoc.Select()
@@ -190,7 +190,7 @@ Public Class FrmHRRaiseTravelRequisition
             End If
             If clsCommon.myCDate(dtpArrivalDate.Value) >= clsCommon.myCDate(dtpFromDate.Value) And clsCommon.myCDate(dtpArrivalDate.Value) <= clsCommon.myCDate(dtpToDate.Value) Then
             Else
-                clsCommon.MyMessageBoxShow("Please check ! Arrival Date should be between period from date and period to date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please check ! Arrival Date should be between period from date and period to date", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage3
                 dtpArrivalDate.Focus()
                 dtpArrivalDate.Select()
@@ -198,7 +198,7 @@ Public Class FrmHRRaiseTravelRequisition
             End If
             If clsCommon.myCDate(dtpDepartureDate.Value) >= clsCommon.myCDate(dtpFromDate.Value) And clsCommon.myCDate(dtpDepartureDate.Value) <= clsCommon.myCDate(dtpToDate.Value) Then
             Else
-                clsCommon.MyMessageBoxShow("Please check ! Departure Date should be between period from date and period to date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please check ! Departure Date should be between period from date and period to date", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage3
                 dtpDepartureDate.Focus()
                 dtpDepartureDate.Select()
@@ -215,7 +215,7 @@ Public Class FrmHRRaiseTravelRequisition
 
             If clsCommon.myCDate(dtpHStayFrom.Value) >= clsCommon.myCDate(dtpFromDate.Value) And clsCommon.myCDate(dtpHStayFrom.Value) <= clsCommon.myCDate(dtpToDate.Value) Then
             Else
-                clsCommon.MyMessageBoxShow("Please check ! Date of Stay from should be between period from date and period to date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please check ! Date of Stay from should be between period from date and period to date", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage3
                 dtpHStayFrom.Focus()
                 dtpHStayFrom.Select()
@@ -223,7 +223,7 @@ Public Class FrmHRRaiseTravelRequisition
             End If
             If clsCommon.myCDate(dtpStayTo.Value) >= clsCommon.myCDate(dtpFromDate.Value) And clsCommon.myCDate(dtpStayTo.Value) <= clsCommon.myCDate(dtpToDate.Value) Then
             Else
-                clsCommon.MyMessageBoxShow("Please check ! Date of Stay to should be between period from date and period to date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please check ! Date of Stay to should be between period from date and period to date", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage3
                 dtpStayTo.Focus()
                 dtpStayTo.Select()
@@ -232,7 +232,7 @@ Public Class FrmHRRaiseTravelRequisition
             '' Car Frame
             If clsCommon.myCDate(dtpPeriodFrom.Value) >= clsCommon.myCDate(dtpFromDate.Value) And clsCommon.myCDate(dtpPeriodFrom.Value) <= clsCommon.myCDate(dtpToDate.Value) Then
             Else
-                clsCommon.MyMessageBoxShow("Please check ! From Date(Car Frame) to should be between period from date and period to date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please check ! From Date(Car Frame) to should be between period from date and period to date", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage4
                 dtpPeriodFrom.Focus()
                 dtpPeriodFrom.Select()
@@ -241,7 +241,7 @@ Public Class FrmHRRaiseTravelRequisition
 
             If clsCommon.myCDate(dtpPeriodTo.Value) >= clsCommon.myCDate(dtpFromDate.Value) And clsCommon.myCDate(dtpPeriodTo.Value) <= clsCommon.myCDate(dtpToDate.Value) Then
             Else
-                clsCommon.MyMessageBoxShow("Please check ! To Date(Car Frame) to should be between period from date and period to date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please check ! To Date(Car Frame) to should be between period from date and period to date", Me.Text)
                 Me.RadPageView1.SelectedPage = RadPageViewPage4
                 dtpPeriodTo.Focus()
                 dtpPeriodTo.Select()
@@ -249,7 +249,7 @@ Public Class FrmHRRaiseTravelRequisition
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -303,7 +303,7 @@ Public Class FrmHRRaiseTravelRequisition
             End If
 
             If ClsHRRaiseTravelRequisition.SaveData(obj, txtcode.Value) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
                 LoadData(obj.Travel_Req_Code, NavigatorType.Current)
@@ -314,7 +314,7 @@ Public Class FrmHRRaiseTravelRequisition
                 btndelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -452,12 +452,12 @@ Public Class FrmHRRaiseTravelRequisition
                 btndelete.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -469,12 +469,12 @@ Public Class FrmHRRaiseTravelRequisition
             If IsAppRej = 0 Then
                 If (myMessages.deleteConfirm()) Then
                     If (ClsHRRaiseTravelRequisition.DeleteData(txtcode.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
                         Reset()
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Record is in use.")
+                clsCommon.MyMessageBoxShow(Me, "Record is in use.", Me.Text)
             End If
             
         Catch ex As Exception
@@ -494,7 +494,7 @@ Public Class FrmHRRaiseTravelRequisition
             End If
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtcode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtcode._MYValidating

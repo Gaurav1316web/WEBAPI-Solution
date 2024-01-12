@@ -62,7 +62,7 @@ Public Class frmTrainerMaster
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.TRAINER_MASTER)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -166,7 +166,7 @@ Public Class frmTrainerMaster
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -603,7 +603,7 @@ Public Class frmTrainerMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -657,7 +657,7 @@ Public Class frmTrainerMaster
                 If strvalue <> "" Then
                 Else : strquery = ""
                     txtCity.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This City does not exist in Master Table")
+                    common.clsCommon.MyMessageBoxShow(Me, "This City does not exist in Master Table", Me.Text)
                     fndCity.Value = ""
                 End If
             Catch ex As Exception
@@ -675,7 +675,7 @@ Public Class frmTrainerMaster
             If check.Success Then
                 Errorcontrol.ResetError(txtEmail)
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtEmail.Text = ""
                 txtEmail.Focus()
                 txtEmail.Select()
@@ -948,7 +948,7 @@ Public Class frmTrainerMaster
                     ArrCities.Add(obj)
                 Next
                 If clsTrainerMaster.SaveData(objHead, ArrQualification, ArrCourse, ArrCities) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(objHead.Code, NavigatorType.Current)
                 End If
             End If
@@ -956,7 +956,7 @@ Public Class frmTrainerMaster
 
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -966,7 +966,7 @@ Public Class frmTrainerMaster
                 Dim strchk As String = "select Posted from TSPL_Trainer_master where DOC_COde='" + fndvendorNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -1023,7 +1023,7 @@ Public Class frmTrainerMaster
             End If
 
             If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Country", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtcountrycode.Select()
                 txtcountrycode.Focus()
@@ -1034,7 +1034,7 @@ Public Class frmTrainerMaster
             End If
 
             If clsCommon.myLen(txtstatecode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select State", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select State", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtstatecode.Select()
                 txtstatecode.Focus()
@@ -1045,7 +1045,7 @@ Public Class frmTrainerMaster
             End If
 
             If clsCommon.myLen(txtCity.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select City", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select City", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtCity.Select()
                 txtCity.Focus()
@@ -1057,7 +1057,7 @@ Public Class frmTrainerMaster
 
 
             If clsCommon.myLen(CmbType.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Type", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 CmbType.Select()
                 CmbType.Focus()
@@ -1068,7 +1068,7 @@ Public Class frmTrainerMaster
             End If
 
             If clsCommon.myLen(TxtFirstName.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter First Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter First Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 TxtFirstName.Select()
                 TxtFirstName.Focus()
@@ -1080,7 +1080,7 @@ Public Class frmTrainerMaster
 
 
             If clsCommon.myLen(txtLastName.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Last Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Last Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtLastName.Select()
                 txtLastName.Focus()
@@ -1092,7 +1092,7 @@ Public Class frmTrainerMaster
 
 
             If clsCommon.myLen(CmbGender.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Gender", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Gender", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 CmbGender.Select()
                 CmbGender.Focus()
@@ -1118,7 +1118,7 @@ Public Class frmTrainerMaster
         ElseIf myMessages.deleteConfirm() Then
             Dim obj As New clsTrainerMaster
             If obj.DeleteData(fndvendorNo.Value) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully...", "Delete Data")
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully...", "Delete Data", Me.Text)
                 funreset()
             End If
         End If
@@ -1157,7 +1157,7 @@ Public Class frmTrainerMaster
         ElseIf e.Alt And e.KeyCode = Keys.U Then
             Dim squery As String = "update Tspl_Trainer_Master set is_APPLICAbLE='" & IIf(chkIsApplicable.Checked, "1", "0") & "' WHERE DOC_CODE='" & fndvendorNo.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(squery)
-            clsCommon.MyMessageBoxShow("IsApplicable Updated.")
+            clsCommon.MyMessageBoxShow(Me, "IsApplicable Updated.", Me.Text)
         End If
     End Sub
 
@@ -1193,7 +1193,7 @@ Public Class frmTrainerMaster
 
     Private Sub fndCity__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCity._MYValidating
         If clsCommon.myLen(txtstatecode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select State Code First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select State Code First", Me.Text)
             txtstatecode.Focus()
             txtstatecode.Select()
             Return
@@ -1228,13 +1228,13 @@ Public Class frmTrainerMaster
                 txtstatecode.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtstatecode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtstatecode._MYValidating
         If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Country First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Country First", Me.Text)
             txtcountrycode.Focus()
             txtcountrycode.Select()
             Return
@@ -1254,7 +1254,7 @@ Public Class frmTrainerMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1271,7 +1271,7 @@ Public Class frmTrainerMaster
                 LblInstituteName.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1292,7 +1292,7 @@ Public Class frmTrainerMaster
             Dim obj As New clsTrainerMaster
             If (myMessages.postConfirm()) Then
                 If (clsTrainerMaster.PostData(fndvendorNo.Value, True)) Then
-                    clsCommon.MyMessageBoxShow("Successfully Posted")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(fndvendorNo.Value, NavigatorType.Current)
                 End If
             End If

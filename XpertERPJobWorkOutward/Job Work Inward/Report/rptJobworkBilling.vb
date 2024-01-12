@@ -146,13 +146,13 @@ Public Class rptJobworkBilling
 
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -199,7 +199,7 @@ Public Class rptJobworkBilling
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -212,7 +212,7 @@ Public Class rptJobworkBilling
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Dim ReportID As String = GetReportId()
         clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Sub LoadReportBy()
@@ -249,7 +249,7 @@ Public Class rptJobworkBilling
         If e.Column Is Gv1.Columns("Document Code") Then
             Dim strCode As String = Gv1.CurrentRow.Cells("Document Code").Value
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Item code Found.")
+                clsCommon.MyMessageBoxShow(Me, "No Item code Found.", Me.Text)
             Else
                 clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmJobWorkBillig, strCode)
             End If
@@ -308,7 +308,7 @@ Public Class rptJobworkBilling
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -317,14 +317,14 @@ Public Class rptJobworkBilling
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToExcelGrid("Jobwork Billing Report", Gv1, arrHeader, Me.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -342,7 +342,7 @@ Public Class rptJobworkBilling
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Jobwork Billing Report", Gv1, arrHeader, "Jobwork Billing Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

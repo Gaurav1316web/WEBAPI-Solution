@@ -22,7 +22,7 @@ Public Class FrmHRVerticalMaster
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.HRVerticalMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -80,7 +80,7 @@ Public Class FrmHRVerticalMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -100,7 +100,7 @@ Public Class FrmHRVerticalMaster
                     isNewEntry = False
                 End If
                 If (ClsHRVerticalMaster.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -110,7 +110,7 @@ Public Class FrmHRVerticalMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub DeleteData()
@@ -118,7 +118,7 @@ Public Class FrmHRVerticalMaster
             If clsCommon.myLen(txtcode.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Are you sure? do you want to delete this Code ('" + txtcode.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure? do you want to delete this Code ('" + txtcode.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim qry As String = "DELETE FROM TSPL_HR_VERTICAL_MASTER WHERE Code='" + txtcode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
@@ -127,9 +127,9 @@ Public Class FrmHRVerticalMaster
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -170,7 +170,7 @@ Public Class FrmHRVerticalMaster
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtcode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtcode._MYValidating
@@ -262,7 +262,7 @@ Public Class FrmHRVerticalMaster
                     ClsHRVerticalMaster.SaveData(obj, IsNewEntry)
 
                 Next
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
             End Try

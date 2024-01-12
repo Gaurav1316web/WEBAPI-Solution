@@ -14,7 +14,7 @@ Public Class FrmAssetDetailAttachments
             Dim qry As String = " select FILENAME,'Download' as [Download]  from TSPL_Asset_Details where Asset_Code='" + strCode + "' and Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Attachment found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Attachment found", Me.Text)
                 Me.Close()
                 Exit Sub
             End If
@@ -31,7 +31,7 @@ Public Class FrmAssetDetailAttachments
             gv1.DataSource = dt
             SetGridFormationOFGV1()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormationOFGV1()
@@ -71,7 +71,7 @@ Public Class FrmAssetDetailAttachments
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

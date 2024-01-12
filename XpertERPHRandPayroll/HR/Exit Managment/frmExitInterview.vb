@@ -269,7 +269,7 @@ Public Class FrmExitInterview
 
 
                 If clsHREMExitInterview.savedata(exitInterview, isNewEntry, arr) Then
-                    clsCommon.MyMessageBoxShow("Data saved successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     entry = exitInterview.exit_code
                     loaddata(exitInterview.exit_code, NavigatorType.Current)
                     btnSave.Text = "Update"
@@ -284,7 +284,7 @@ Public Class FrmExitInterview
 
 
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message, Me.Text)
+            RadMessageBox.Show(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -364,7 +364,7 @@ Public Class FrmExitInterview
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsHREMExitInterview.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     reset(True)
                 End If
             End If
@@ -375,7 +375,7 @@ Public Class FrmExitInterview
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -415,7 +415,7 @@ Public Class FrmExitInterview
         Try
             loaddata(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -494,13 +494,13 @@ Public Class FrmExitInterview
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Return dt
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return Nothing
     End Function
     Private Sub btnprint_Click(sender As Object, e As EventArgs) Handles btnprint.Click
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to print.")
+            clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
         Else
             Dim dt As DataTable = funPrint(txtcode.Value)
 
@@ -509,7 +509,7 @@ Public Class FrmExitInterview
                 frmcrystal.funreport(CrystalReportFolder.HumanResource, dt, "rptHREMExitInterview", "Exit Interview")
 
             Else
-                clsCommon.MyMessageBoxShow("No data found.")
+                clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
             End If
         End If
     End Sub
