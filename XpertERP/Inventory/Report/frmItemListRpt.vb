@@ -309,7 +309,7 @@ Public Class FrmItemListRpt
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -409,7 +409,7 @@ Public Class FrmItemListRpt
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -427,7 +427,7 @@ Public Class FrmItemListRpt
             TempFormId = Form_ID
         End If
         clsGridLayout.DeleteData(TempFormId, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub FormatGridUOMImport()
@@ -956,7 +956,7 @@ Public Class FrmItemListRpt
 
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1002,13 +1002,13 @@ Public Class FrmItemListRpt
                 Next
 
                 If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
 
                 If (obj.Update(obj)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Update Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Update Successfully", Me.Text)
                     'Print()
                     FunReset()
                 End If
@@ -1043,12 +1043,12 @@ Public Class FrmItemListRpt
                 FormatGridUOMImport()
                 RadPageView1.SelectedPage = RadPageViewPage2
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(Me, "Data Transfered Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data Transfered Successfully.", Me.Text)
 
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try

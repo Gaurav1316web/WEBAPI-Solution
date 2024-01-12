@@ -346,7 +346,7 @@ Public Class frmPendingTransfer
 
         If ArrReturn.Count <= 0 Then
             ' common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Transfer item.")
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Transfer item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Transfer item", Me.Text)
         Else
             Me.Close()
         End If
@@ -360,7 +360,7 @@ Public Class frmPendingTransfer
             End If
         Next
         If strheaddatacount > 1 Then
-            clsCommon.MyMessageBoxShow(Me, "Select only one Transfer at a time.")
+            clsCommon.MyMessageBoxShow(Me, "Select only one Transfer at a time.", Me.Text)
             Return False
         End If
         Return True
@@ -608,7 +608,7 @@ Public Class frmPendingTransfer
 
 
             If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "No Pending item found ")
+                common.clsCommon.MyMessageBoxShow(Me, "No Pending item found ", Me.Text)
                 'Me.Close()
             End If
             LoadHeadData()

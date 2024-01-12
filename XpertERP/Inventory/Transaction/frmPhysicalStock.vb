@@ -753,7 +753,7 @@ Public Class FrmPhysicalStock
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
         Try
             If SaveData() Then
-                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
                 LoadData(txtCode.Value, txtLocation.Value, txtsubLoc.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -980,7 +980,7 @@ Public Class FrmPhysicalStock
         Dim whrcls As String
         Dim arr As New ArrayList()
         If txtlocation.Value = "" Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please first select Location", Me.Text)
             Return
         End If
         Dim logSeg As String = clsLocation.GetSegmentCode(txtLocation.Value, Nothing)
@@ -1389,7 +1389,7 @@ Public Class FrmPhysicalStock
             If (myMessages.postConfirm()) Then
                 If SaveData(True) Then
                     clsPhysicalstock.PostData(txtCode.Value, True, txtLocation.Value, txtsubLoc.Value, chkMilk.Checked)
-                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully.", Me.Text)
                     LoadData(txtCode.Value, txtLocation.Value, txtsubLoc.Value, NavigatorType.Current)
                 End If
             End If
@@ -1403,7 +1403,7 @@ Public Class FrmPhysicalStock
         isGoClick = True
         If chkMilk.Checked Then
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "select Location!!")
+                clsCommon.MyMessageBoxShow(Me, "select Location!!", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(txtsubLoc.Value) <= 0 Then
@@ -1427,7 +1427,7 @@ Public Class FrmPhysicalStock
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If clsPhysicalstock.DeleteData(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     reset()
                 End If
             End If

@@ -103,7 +103,7 @@ Public Class frmItemToItemStockConverion
             If obj.isNewEntry Then
                 obj.Doc_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(dtpDocDate.Value, "dd/MMM/yyyy"), clsDocType.ItemStockConversion, "", obj.Location_Code)
                 If clsCommon.myLen(obj.Doc_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Error in Doc  No genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error in Doc  No genertion", Me.Text)
                     Exit Sub
                 End If
             Else
@@ -194,14 +194,14 @@ Public Class frmItemToItemStockConverion
                 btnPost.Enabled = True
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             btnPost.Enabled = False
             fndDocNo.MyReadOnly = False
             trans.Rollback()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -240,11 +240,11 @@ Public Class frmItemToItemStockConverion
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(Me, msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -798,7 +798,7 @@ Public Class frmItemToItemStockConverion
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Function
@@ -817,7 +817,7 @@ Public Class frmItemToItemStockConverion
 
     Private Sub btnReverse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsItemToItemStockConversion.ReverseAndUnpost(fndDocNo.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndDocNo.Value, NavigatorType.Current)
@@ -877,13 +877,13 @@ Public Class frmItemToItemStockConverion
 
     Private Sub btnGo_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(fndItemStructure.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please Select The Item")
+            clsCommon.MyMessageBoxShow(Me, "Please Select The Item", Me.Text)
             fndItemStructure.Focus()
             Exit Sub
         End If
 
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please Select The Location")
+            clsCommon.MyMessageBoxShow(Me, "Please Select The Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
         End If

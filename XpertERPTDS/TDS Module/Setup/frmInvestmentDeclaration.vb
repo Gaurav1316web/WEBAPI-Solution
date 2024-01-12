@@ -41,7 +41,7 @@ Public Class FrmInvestmentDeclaration
         Attachment = clsDBFuncationality.getSingleValue("Select Count(*) From TSPL_ATTACHMENTS WHERE FormId ='" & MyBase.Form_ID & "' AND TransactionId ='" & txtCode.Value & "'")
 
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code can not be left blank", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Code can not be left blank", Me.Text)
             txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtFinYear.Value) <= 0 Then
@@ -57,11 +57,11 @@ Public Class FrmInvestmentDeclaration
             TxtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myCdbl(TxtProvAmt.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Provisional amount can not be left blank or negative", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Provisional amount can not be left blank or negative", Me.Text)
             TxtProvAmt.Focus()
             Return False
         ElseIf clsCommon.myLen(TxtActualAmt.Text) > 0 AndAlso (clsCommon.myCdbl(TxtActualAmt.Text) < 0 Or Not IsNumeric(TxtActualAmt.Text)) Then
-            clsCommon.MyMessageBoxShow("Actual amount can should be in correct format.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Actual amount can should be in correct format.", Me.Text)
             TxtActualAmt.Focus()
             Return False
             'ElseIf clsCommon.CompairString(cmbStatus.Text, "Approved") = CompairStringResult.Equal AndAlso Attachment <= 0 Then
@@ -71,7 +71,7 @@ Public Class FrmInvestmentDeclaration
         If clsCommon.myLen(txtFinYear.Value) > 0 Then
             FinYr = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) From TSPL_TDS_FINANCIAL_YEAR Where Year_Name='" & clsCommon.myCstr(txtFinYear.Value) & "'"))
             If FinYr = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please check ! Finincial year code (" & clsCommon.myCstr(txtFinYear.Value) & ") does not exists.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please check ! Finincial year code (" & clsCommon.myCstr(txtFinYear.Value) & ") does not exists.")
                 txtFinYear.Focus()
                 Return False
             End If
@@ -79,7 +79,7 @@ Public Class FrmInvestmentDeclaration
         If clsCommon.myLen(TxtInvType.Value) > 0 Then
             InvType = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*)  From  TSPL_INVESTMENT_TYPE  Where Code='" & clsCommon.myCstr(TxtInvType.Value) & "'"))
             If InvType = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please check ! Investment type code (" & clsCommon.myCstr(TxtInvType.Value) & ") does not exists.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please check ! Investment type code (" & clsCommon.myCstr(TxtInvType.Value) & ") does not exists.")
                 TxtInvType.Focus()
                 Return False
             End If
@@ -87,7 +87,7 @@ Public Class FrmInvestmentDeclaration
         If clsCommon.myLen(TxtEmpCode.Value) > 0 Then
             EmpCode = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) From TSPL_EMPLOYEE_MASTER Where EMP_CODE='" & clsCommon.myCstr(TxtEmpCode.Value) & "'"))
             If EmpCode = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please check ! Employee code (" & clsCommon.myCstr(TxtEmpCode.Value) & ") does not exists.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please check ! Employee code (" & clsCommon.myCstr(TxtEmpCode.Value) & ") does not exists.")
                 TxtEmpCode.Focus()
                 Return False
             End If
@@ -513,7 +513,7 @@ Public Class FrmInvestmentDeclaration
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

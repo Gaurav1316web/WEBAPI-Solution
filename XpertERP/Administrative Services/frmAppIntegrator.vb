@@ -30,7 +30,7 @@ Public Class frmAppIntegrator
 
             clsERPFuncationality.closeForm(Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -170,7 +170,7 @@ Public Class frmAppIntegrator
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message,me.text)
         End Try
     End Sub
 
@@ -306,7 +306,7 @@ Public Class frmAppIntegrator
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -336,7 +336,7 @@ Public Class frmAppIntegrator
                 Else
                     Reset()
                     ddlType.Text = "Dis-Integrate"
-                    clsCommon.MyMessageBoxShow(Me, "No Component Found Integrated to be Dis-Integrated.")
+                    clsCommon.MyMessageBoxShow(Me, "No Component Found Integrated to be Dis-Integrated.", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -368,7 +368,7 @@ Public Class frmAppIntegrator
                 Throw New Exception("Please select Type as Integrate/Dis-Integrate")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -426,7 +426,7 @@ Public Class frmAppIntegrator
                 Exit Sub
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadAssembly(FilePath As String)
@@ -497,7 +497,7 @@ Public Class frmAppIntegrator
             LoadAssembly(txtFilePath.Text)
             isLoading = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -505,7 +505,7 @@ Public Class frmAppIntegrator
         Try
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -588,7 +588,7 @@ Public Class frmAppIntegrator
                 isLoad = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenSubModule(index As Integer)
@@ -615,7 +615,7 @@ Public Class frmAppIntegrator
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenScreen(index As Integer)
@@ -662,7 +662,7 @@ Public Class frmAppIntegrator
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

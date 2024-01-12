@@ -865,7 +865,7 @@ Public Class frmJobWorkInventory
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
 
@@ -1296,7 +1296,7 @@ Public Class frmJobWorkInventory
                 End If
 
                 If clsCommon.myCBool(gv1.Rows(ii).Cells(colisMRPMandatory).Value) AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please enter MRP for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter MRP for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
                     Return False
                 End If
             End If
@@ -1639,7 +1639,7 @@ Public Class frmJobWorkInventory
                         End If
                         If (ClsJobWorkRMConsum.PostData(txtAdjustmentNo.Value, AdjustmentEnum.strJWInvetoryTrans, "JW")) Then
                             LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
-                            clsCommon.MyMessageBoxShow(Me, "Data posted successfully")
+                            clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                         End If
                     End If
                 Else
@@ -1678,7 +1678,7 @@ Public Class frmJobWorkInventory
                 End If
                 If (ClsJobWorkRMConsum.DeleteData(txtAdjustmentNo.Value, AdjustmentEnum.strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -2716,10 +2716,10 @@ Public Class frmJobWorkInventory
     Private Sub cmdEditAndPost_Click(sender As Object, e As EventArgs) Handles cmdEditAndPost.Click
         '' added by Panch raj against Ticket No:BM00000008482
         If clsCommon.myLen(txtAdjustmentNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select Posted Document.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Posted Document.", Me.Text)
             Exit Sub
         ElseIf UsLock1.Status <> ERPTransactionStatus.Posted And UsLock1.Status <> ERPTransactionStatus.Approved Then
-            clsCommon.MyMessageBoxShow(Me, "Document must be posted for Edit and Post.")
+            clsCommon.MyMessageBoxShow(Me, "Document must be posted for Edit and Post.", Me.Text)
             Exit Sub
         End If
         Dim objNew As New ClsJobWorkRMConsum

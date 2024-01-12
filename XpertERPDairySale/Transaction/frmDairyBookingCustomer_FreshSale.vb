@@ -2324,12 +2324,12 @@ Public Class frmDairyBookingCustomer_FreshSale
                 End If
                 If (clsBookingEntryDairySale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2407,7 +2407,7 @@ Public Class frmDairyBookingCustomer_FreshSale
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2450,11 +2450,11 @@ Public Class frmDairyBookingCustomer_FreshSale
             'Sanjay Ticket No- ERO/12/07/18-000371
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If Is_Cancelled = 1 Then
-                    clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Post.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Post.", Me.Text)
                     Exit Sub
                 End If
                 If BookingStatus = 2 Then
-                    clsCommon.MyMessageBoxShow("Booking is pending for approval,Can not Post.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Booking is pending for approval,Can not Post.", Me.Text)
                     Exit Sub
                 End If
             End If
@@ -2481,10 +2481,10 @@ Public Class frmDairyBookingCustomer_FreshSale
                     btnUpdateCustomer.Enabled = True
                     RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Visible
                 Else
-                    clsCommon.MyMessageBoxShow("Please post the dispatch first")
+                    clsCommon.MyMessageBoxShow(Me, "Please post the dispatch first", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select Dispatch No first")
+                clsCommon.MyMessageBoxShow(Me, "Please select Dispatch No first", Me.Text)
             End If
 
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
@@ -2621,7 +2621,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                 txtVendorNo.Focus()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2669,7 +2669,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                 Export()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2677,7 +2677,7 @@ Public Class frmDairyBookingCustomer_FreshSale
         If gv1.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
     Private Sub ExportToExcel()
@@ -2702,7 +2702,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             clsCommon.MyExportToExcelGrid("Booking Entry", gv1, arrHeader, Me.Text)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
     Private Sub gv1_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserDeletedRow
@@ -2713,7 +2713,7 @@ Public Class frmDairyBookingCustomer_FreshSale
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -2771,7 +2771,7 @@ Public Class frmDairyBookingCustomer_FreshSale
 
     Private Sub btnpreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
             txtDocNo.Focus()
             txtDocNo.Select()
             Return
@@ -2926,7 +2926,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2938,7 +2938,7 @@ Public Class frmDairyBookingCustomer_FreshSale
     Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem4.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Private Sub RadMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem5.Click
@@ -2998,21 +2998,21 @@ Public Class frmDairyBookingCustomer_FreshSale
         End If
 
         If Is_Cancelled = 1 Then
-            clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Creat/Post DO", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Creat/Post DO", Me.Text)
             Exit Sub
         End If
         If BookingStatus = 1 Then
-            clsCommon.MyMessageBoxShow("Please Post booking before creating DO", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Post booking before creating DO", Me.Text)
             Exit Sub
         ElseIf BookingStatus = 2 Then
-            clsCommon.MyMessageBoxShow("Please Approve and post booking before creating DO", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Approve and post booking before creating DO", Me.Text)
             Exit Sub
         ElseIf BookingStatus = 3 Then
-            clsCommon.MyMessageBoxShow("Please post booking before creating DO", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please post booking before creating DO", Me.Text)
             Exit Sub
         End If
         If DOStatus = 2 Then
-            clsCommon.MyMessageBoxShow("DO is pending for approval.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "DO is pending for approval.", Me.Text)
             Exit Sub
         End If
 
@@ -3025,11 +3025,11 @@ Public Class frmDairyBookingCustomer_FreshSale
 
                 trans.Commit()
                 If clsCommon.myLen(DOmsg) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(DOmsg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, DOmsg, Me.Text)
                 End If
                 If DOCreated = True Then
                     Dim msg = "Successfully created"
-                    common.clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     msg = Nothing
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -3038,7 +3038,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             End If
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
             FlagCreateDo = False
@@ -3298,7 +3298,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             blnSaveTotalQTy = False
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSaveTotalQTy = False
             Return False
         End Try
@@ -3464,29 +3464,29 @@ Public Class frmDairyBookingCustomer_FreshSale
             Dim isSaved As Boolean = True
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If clsCommon.myLen(lblDONumber.Text) > 0 Then
-                    clsCommon.MyMessageBoxShow("Booking Can not cancelled, DO already created!")
+                    clsCommon.MyMessageBoxShow(Me, "Booking Can not cancelled, DO already created!", Me.Text)
                     Exit Sub
                 End If
 
-                If common.clsCommon.MyMessageBoxShow("Do you want to cancel the Booking?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Do you want to cancel the Booking?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     Dim qrySaveCancel = "Update tspl_booking_matser set Is_Cancelled=1 where Document_No='" & txtDocNo.Value & "'"
                     isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qrySaveCancel)
                     If isSaved = True Then
-                        clsCommon.MyMessageBoxShow("Booking cancelled successfully!")
+                        clsCommon.MyMessageBoxShow(Me, "Booking cancelled successfully!", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
 
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
     End Sub
     Private Sub btnreverse_Click(sender As Object, e As EventArgs) Handles btnreverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -3499,12 +3499,12 @@ Public Class frmDairyBookingCustomer_FreshSale
                 End If
                 If clsBookingEntryDairySale.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rbtn_Fresh_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_Fresh.ToggleStateChanged
@@ -3582,7 +3582,7 @@ Public Class frmDairyBookingCustomer_FreshSale
         Try
             LoadCardSaleData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadCardSaleData()
@@ -3647,9 +3647,9 @@ Public Class frmDairyBookingCustomer_FreshSale
             objCommonVar.ObjVar4 = Nothing
             objCommonVar.ObjVar5 = Nothing
         ElseIf clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Plz create Booking first.")
+            clsCommon.MyMessageBoxShow(Me, "Plz create Booking first.", Me.Text)
         Else
-            clsCommon.MyMessageBoxShow("Plz create advance from Advance for CD screen.")
+            clsCommon.MyMessageBoxShow(Me, "Plz create advance from Advance for CD screen.", Me.Text)
         End If
     End Sub
 
@@ -3672,7 +3672,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3697,7 +3697,7 @@ Public Class frmDairyBookingCustomer_FreshSale
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Customer and then click on Change Indent.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Customer and then click on Change Indent.", Me.Text)
                     txtVendorNo.Focus()
                     Exit Sub
                 End If
@@ -3706,11 +3706,11 @@ Public Class frmDairyBookingCustomer_FreshSale
                 If clsCommon.myLen(TempBookingNo) > 0 Then
                     LoadData(TempBookingNo, NavigatorType.Current)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Booking Not found for Date [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Booking Not found for Date [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3725,7 +3725,7 @@ Public Class frmDairyBookingCustomer_FreshSale
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 And btnPost.Enabled = False And clsCommon.myLen(FndCustomer.Value) > 0 Then
                 If clsBookingEntryDairySale.UpdateCustomerAfterPosting_CardSale(txtDocNo.Value, FndCustomer.Value, lblUpdateCustomer.Text) Then
-                    clsCommon.MyMessageBoxShow("Customer updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Customer updated successfully.", Me.Text)
                     FndCustomer.Value = ""
                     lblUpdateCustomer.Text = ""
                     btnUpdateCustomer.Enabled = False
@@ -3735,10 +3735,10 @@ Public Class frmDairyBookingCustomer_FreshSale
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Select Customer first.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Customer first.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

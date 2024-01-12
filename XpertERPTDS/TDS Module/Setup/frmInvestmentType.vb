@@ -96,7 +96,7 @@ Public Class FrmInvestmentType
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (obj.SaveData(obj, isNewEntry, trans)) Then
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.CODE, NavigatorType.Current)
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -110,7 +110,7 @@ Public Class FrmInvestmentType
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -119,7 +119,7 @@ Public Class FrmInvestmentType
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsInvestmentType.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -159,7 +159,7 @@ Public Class FrmInvestmentType
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -260,7 +260,7 @@ Public Class FrmInvestmentType
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

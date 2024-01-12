@@ -119,7 +119,7 @@ Public Class frmInventoryAgeingReportNew
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
@@ -200,7 +200,7 @@ Public Class frmInventoryAgeingReportNew
                 gv1.DataSource = Nothing
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
-                clsCommon.MyMessageBoxShow(Me, "Data Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
             End If
             FindAndRestoreGridLayout(Me, gv1)
             BackProcess = False
@@ -481,10 +481,10 @@ WHERE InOut='O' " & ItemTypeFilter & " and cast(Punching_Date as date)<='" & cls
             transportSql.BulkExport("Summary", qry, "", FormatType)
 
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, "Data exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data exported successfully", Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
