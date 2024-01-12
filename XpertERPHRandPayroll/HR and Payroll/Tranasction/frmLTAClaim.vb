@@ -139,7 +139,7 @@ Public Class frmLTAClaim
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -277,7 +277,7 @@ Public Class frmLTAClaim
             isNewEntry = False
         End If
         If (objLTAClaim.SaveData(objLTAClaim, isNewEntry)) Then
-            clsCommon.MyMessageBoxShow(" Data Saved Successfully ")
+            clsCommon.MyMessageBoxShow(Me, " Data Saved Successfully ", Me.Text)
             LoadData(objLTAClaim.LTA_Code, NavigatorType.Current)
 
         End If
@@ -287,8 +287,8 @@ Public Class frmLTAClaim
 
     Private Sub txtEmpcode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtEmpCode._MYValidating
         Try
-            Dim qry As String = "select EMP_CODE, Emp_Name,Joining_date, TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE,TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME, TSPL_EMPLOYEE_MASTER.Designation,  TSPL_DESIGNATION_MASTER.Designation_Desc " & _
-                                "from TSPL_EMPLOYEE_MASTER LEFT OUTER JOIN TSPL_DEPARTMENT_MASTER ON TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE = TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE " & _
+            Dim qry As String = "select EMP_CODE, Emp_Name,Joining_date, TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE,TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME, TSPL_EMPLOYEE_MASTER.Designation,  TSPL_DESIGNATION_MASTER.Designation_Desc " &
+                                "from TSPL_EMPLOYEE_MASTER LEFT OUTER JOIN TSPL_DEPARTMENT_MASTER ON TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE = TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE " &
                                 "LEFT OUTER JOIN TSPL_DESIGNATION_MASTER ON TSPL_DESIGNATION_MASTER.Designation_id = TSPL_EMPLOYEE_MASTER.Designation "
             txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "EMP_CODE", "", txtEmpCode.Value, "", isButtonClicked)
 
@@ -305,7 +305,7 @@ Public Class frmLTAClaim
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -316,7 +316,7 @@ Public Class frmLTAClaim
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -328,7 +328,7 @@ Public Class frmLTAClaim
             If (myMessages.deleteConfirm()) Then
                 If (clsApplyLoan.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -355,12 +355,12 @@ Public Class frmLTAClaim
         Try
             If (myMessages.postConfirm()) Then
                 If (clsLTAClaim.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -438,7 +438,7 @@ Public Class frmLTAClaim
             gvClaimPeriod.EnableFiltering = True
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Dim i As Integer = 0
@@ -492,7 +492,7 @@ Public Class frmLTAClaim
             gvClaimPeriod.BestFitColumns()
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -530,7 +530,7 @@ Public Class frmLTAClaim
                 Throw New Exception("No data found to display")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

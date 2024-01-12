@@ -22,7 +22,7 @@ Public Class FrmRelationMaster
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmRelationMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -59,7 +59,7 @@ Public Class FrmRelationMaster
                 End If
                 If (ClsRelationMaster.SaveData(obj, isNewEntry)) Then
                     ' trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Relation_Code, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -70,7 +70,7 @@ Public Class FrmRelationMaster
             End If
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -98,7 +98,7 @@ Public Class FrmRelationMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -111,14 +111,14 @@ Public Class FrmRelationMaster
 
                 Dim qry As String = "DELETE FROM TSPL_HR_RELATION_MASTER WHERE Relation_Code='" + txtcode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -159,7 +159,7 @@ Public Class FrmRelationMaster
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -241,7 +241,7 @@ Public Class FrmRelationMaster
 
                 Next
                 'trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 'trans.Rollback()
                 myMessages.myExceptions(ex)

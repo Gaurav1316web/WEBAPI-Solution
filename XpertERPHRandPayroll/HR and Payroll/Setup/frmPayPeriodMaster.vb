@@ -81,7 +81,7 @@ Public Class frmPayPeriodMaster
             Dim QryStr As String = "select POSTED from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -107,12 +107,12 @@ Public Class frmPayPeriodMaster
         Dim strchk As String = "select PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER where ( DATE_FROM  between '" + clsCommon.GetPrintDate(dtpFrom.Value, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(dtpTo.Value, "dd/MMM/yyyy") + "' or DATE_TO  between '" + clsCommon.GetPrintDate(dtpFrom.Value, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(dtpTo.Value, "dd/MMM/yyyy") + "' ) and PAY_PERIOD_CODE <> '" + txtCode.Value + "' "
         Dim chkPayPeriod As String = clsDBFuncationality.getSingleValue(strchk)
         If clsCommon.myLen(chkPayPeriod) > 0 Then
-            clsCommon.MyMessageBoxShow("From or To date overlapped Pay Period " + chkPayPeriod + " . Overlapping pay periods can not be created.")
+            clsCommon.MyMessageBoxShow(Me, "From or To date overlapped Pay Period " + chkPayPeriod + " . Overlapping pay periods can not be created.")
             Return False
         End If
         Dim strCode As String = clsPayPeriodMaster.CheckNameExistness(txtName.Text, txtCode.Value, Nothing)
         If clsCommon.myLen(strCode) > 0 Then
-            clsCommon.MyMessageBoxShow("Name Allready Exist in Pay Period Code : " + strCode + ". Please Choose another  Name.")
+            clsCommon.MyMessageBoxShow(Me, "Name Allready Exist in Pay Period Code : " + strCode + ". Please Choose another  Name.")
             Return False
         End If
         Return True
@@ -127,7 +127,7 @@ Public Class frmPayPeriodMaster
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsPayPeriodMaster.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
@@ -139,7 +139,7 @@ Public Class frmPayPeriodMaster
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
 
         End If
@@ -150,7 +150,7 @@ Public Class frmPayPeriodMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -167,7 +167,7 @@ Public Class frmPayPeriodMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsPayPeriodMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -283,7 +283,7 @@ Public Class frmPayPeriodMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -312,14 +312,14 @@ Public Class frmPayPeriodMaster
     End Sub
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsPayPeriodMaster.ReverseAndUnpost(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -372,7 +372,7 @@ Public Class frmPayPeriodMaster
                     obj.SaveData(obj, clsPayPeriodMaster.CheckNewPayPeriod(obj.Code))
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -398,7 +398,7 @@ Public Class frmPayPeriodMaster
     Private Sub txtName_Validated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtName.Validated
         Dim strCode As String = clsPayPeriodMaster.CheckNameExistness(txtName.Text, txtCode.Value, Nothing)
         If clsCommon.myLen(strCode) > 0 Then
-            clsCommon.MyMessageBoxShow("Name Allready Exist in Pay Period Code : " + strCode + ". Please Choose another  Name.")
+            clsCommon.MyMessageBoxShow(Me, "Name Allready Exist in Pay Period Code : " + strCode + ". Please Choose another  Name.")
         End If
     End Sub
 End Class

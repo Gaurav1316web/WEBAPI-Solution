@@ -52,7 +52,7 @@ Public Class FrmHRBudgeting
            
             If clsCommon.myLen(DeptCode) > 0 Then
                 If clsCommon.myCdbl(Budget) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Budget can not be remain zero at line no. " + clsCommon.myCstr(lineno) + ".")
+                    clsCommon.MyMessageBoxShow(Me, "Budget can not be remain zero at line no. " + clsCommon.myCstr(lineno) + ".")
                     Return False
                 End If
             End If
@@ -169,7 +169,7 @@ Public Class FrmHRBudgeting
                 LoadData()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadData()
@@ -220,7 +220,7 @@ Public Class FrmHRBudgeting
     End Sub
 
     Private Sub gvBudget_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gvBudget.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -244,7 +244,7 @@ Public Class FrmHRBudgeting
             obj.GridColumns = gvBudget.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -256,7 +256,7 @@ Public Class FrmHRBudgeting
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rmImport_Click(sender As Object, e As EventArgs) Handles rmImport.Click
@@ -328,7 +328,7 @@ Public Class FrmHRBudgeting
                 trans.Commit()
                 clsCommon.ProgressBarHide()
 
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 LoadData()
             Catch ex As Exception
                 trans.Rollback()

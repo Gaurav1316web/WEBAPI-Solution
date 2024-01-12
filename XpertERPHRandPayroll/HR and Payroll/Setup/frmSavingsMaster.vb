@@ -62,19 +62,19 @@ Public Class frmSavingsMaster
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Description", Me.Text)
             txtDesc.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtSectionCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Section Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Section Code", Me.Text)
             txtSectionCode.Focus()
             Return False
         End If
@@ -99,12 +99,12 @@ Public Class frmSavingsMaster
                 obj.Section_Code = txtSectionCode.Value
                 arr.Add(obj)
                 If obj.SaveData(arr, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.SAVINGS_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -125,7 +125,7 @@ Public Class frmSavingsMaster
                 txtCode.MyReadOnly = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -149,7 +149,7 @@ Public Class frmSavingsMaster
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -173,7 +173,7 @@ Public Class frmSavingsMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsSavingMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     AddNew()
                 End If
             End If
@@ -256,7 +256,7 @@ Public Class frmSavingsMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

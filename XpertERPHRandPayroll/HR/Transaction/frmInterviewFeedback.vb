@@ -222,13 +222,13 @@ Public Class FrmInterviewFeedback
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Or clsCommon.myLen(txtroundcode.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -238,7 +238,7 @@ Public Class FrmInterviewFeedback
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsInterviewFeedback.DeleteData(txtFeedbackCode.Text, txtcode.Value, txtroundcode.Text)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -367,7 +367,7 @@ Public Class FrmInterviewFeedback
                 'Me.gvparameter.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -456,7 +456,7 @@ Public Class FrmInterviewFeedback
                 'Me.gvparameter.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -543,7 +543,7 @@ Public Class FrmInterviewFeedback
 
             If (ClsInterviewFeedback.SaveData(arr)) Then
                 If Not isFlag Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Applicant_Code, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -554,7 +554,7 @@ Public Class FrmInterviewFeedback
                     gvround.CurrentRow.IsSelected = True
 
                 Else
-                    clsCommon.MyMessageBoxShow("Data posted successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 End If
                 IsSaving = True
             Else
@@ -592,7 +592,7 @@ Public Class FrmInterviewFeedback
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -735,7 +735,7 @@ Public Class FrmInterviewFeedback
                 ' gvparameter.MasterTemplate.Columns("Rating").ReadOnly = RatingReadOnly
 
             Else
-                clsCommon.MyMessageBoxShow("No Parameters found")
+                clsCommon.MyMessageBoxShow(Me, "No Parameters found", Me.Text)
             End If
         End If
     End Sub
@@ -966,7 +966,7 @@ Public Class FrmInterviewFeedback
             End If
             'LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
 
@@ -1161,7 +1161,7 @@ Public Class FrmInterviewFeedback
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

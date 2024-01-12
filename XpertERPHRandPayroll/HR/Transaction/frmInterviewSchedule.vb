@@ -258,14 +258,14 @@ Public Class FrmInterviewSchedule
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -275,7 +275,7 @@ Public Class FrmInterviewSchedule
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsInterviewSchedule.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -442,7 +442,7 @@ Public Class FrmInterviewSchedule
                 UsLock1.Status = ERPTransactionStatus.Pending
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -521,7 +521,7 @@ Public Class FrmInterviewSchedule
                 UsLock1.Status = ERPTransactionStatus.Pending
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -557,7 +557,7 @@ Public Class FrmInterviewSchedule
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (ClsInterviewSchedule.SaveData(arr)) Then
                 If Not isFlag Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Applicant_Code, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btnDelete.Enabled = True
@@ -583,7 +583,7 @@ Public Class FrmInterviewSchedule
                         Save()
                         If (ClsInterviewSchedule.PostData(MyBase.Form_ID, txtcode.Value)) Then
                             msg = "Successfully Posted"
-                            common.clsCommon.MyMessageBoxShow(msg)
+                            common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                             LoadData(txtcode.Value, NavigatorType.Current)
                         End If
                     End If
@@ -596,7 +596,7 @@ Public Class FrmInterviewSchedule
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -647,7 +647,7 @@ Public Class FrmInterviewSchedule
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -753,7 +753,7 @@ Public Class FrmInterviewSchedule
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -824,12 +824,12 @@ Public Class FrmInterviewSchedule
             PostData()
             'End If
         Else
-        clsCommon.MyMessageBoxShow("code not found to post")
+            clsCommon.MyMessageBoxShow(Me, "code not found to post", Me.Text)
         End If
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub

@@ -37,19 +37,19 @@ Public Class FrmHRTravelClassTypeMaster
         Try
             btnSave.Focus()
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill Code", Me.Text)
                 txtCode.Focus()
                 txtCode.Select()
                 Return False
             End If
             If clsCommon.myLen(txtDesc.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill description", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill description", Me.Text)
                 txtDesc.Focus()
                 txtDesc.Select()
                 Return False
             End If
             If clsCommon.myLen(txttravelmode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill travel mode", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill travel mode", Me.Text)
                 txttravelmode.Focus()
                 txttravelmode.Select()
                 Return False
@@ -57,7 +57,7 @@ Public Class FrmHRTravelClassTypeMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -70,7 +70,7 @@ Public Class FrmHRTravelClassTypeMaster
             obj.Travel_Mode_Code = clsCommon.myCstr(txttravelmode.Value)
 
             If ClsHRTravelClassTypeMaster.SaveData(obj, txtCode.Value) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
                 LoadData(obj.Travel_Class_Code, NavigatorType.Current)
@@ -81,7 +81,7 @@ Public Class FrmHRTravelClassTypeMaster
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -106,12 +106,12 @@ Public Class FrmHRTravelClassTypeMaster
                 btnDelete.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -120,7 +120,7 @@ Public Class FrmHRTravelClassTypeMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsHRTravelClassTypeMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
                     Reset()
                 End If
             End If
@@ -141,7 +141,7 @@ Public Class FrmHRTravelClassTypeMaster
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
@@ -259,7 +259,7 @@ Public Class FrmHRTravelClassTypeMaster
                     ClsHRTravelClassTypeMaster.SaveData(obj, obj.Travel_Class_Code)
                 Next
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
                 myMessages.myExceptions(ex)

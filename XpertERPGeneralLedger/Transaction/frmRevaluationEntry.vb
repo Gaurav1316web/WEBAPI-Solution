@@ -107,7 +107,7 @@ Public Class frmRevaluationEntry
             Dim Qry As String = "select CURRENCY_CODE,CURRENCY_NAME,DESCRIPTION,CURRENCY_SIGN  from TSPL_CURRENCY_MASTER "
             txtCurrencyCode.Value = clsCommon.ShowSelectForm("RevCurrF", Qry, "CURRENCY_CODE", "CURRENCY_CODE <>'" + objCommonVar.BaseCurrencyCode + "'", txtCurrencyCode.Value, "CURRENCY_CODE", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -388,13 +388,13 @@ Public Class frmRevaluationEntry
                     txtDocNo.Value = obj.Document_No
                     If chekPostBtn = True Then
                     Else
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -468,7 +468,7 @@ Public Class frmRevaluationEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -489,12 +489,12 @@ Public Class frmRevaluationEntry
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 If (clsRevaluationHead.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -519,12 +519,12 @@ Public Class frmRevaluationEntry
                 End If
                 If (clsRevaluationHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -542,7 +542,7 @@ Public Class frmRevaluationEntry
         Try
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -764,7 +764,7 @@ Public Class frmRevaluationEntry
             Catch ex As Exception
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -784,7 +784,7 @@ Public Class frmRevaluationEntry
             End If
             clsCommon.MyExportToExcelGrid(Me.Text + " " + txtDocNo.Value, gv1, Nothing, Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -410,7 +410,7 @@ Public Class frmIncomeTaxTDSSlabMaster
                 Next
                 If obj.SaveData(obj, isNewEntry) Then
                     If isPost = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.Code, NavigatorType.Current)
                         Exit Sub
                     End If
@@ -529,7 +529,7 @@ Public Class frmIncomeTaxTDSSlabMaster
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -542,12 +542,12 @@ Public Class frmIncomeTaxTDSSlabMaster
             End If
             If (myMessages.deleteConfirm) Then
                 If clsIncomeTaxTDSSlabHead.fundelete(strIcentiveCode) Then
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -786,7 +786,7 @@ Public Class frmIncomeTaxTDSSlabMaster
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -794,7 +794,7 @@ Public Class frmIncomeTaxTDSSlabMaster
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -832,7 +832,7 @@ Public Class frmIncomeTaxTDSSlabMaster
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -843,7 +843,7 @@ Public Class frmIncomeTaxTDSSlabMaster
     End Sub
 
     Private Sub gv_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs)
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -852,7 +852,7 @@ Public Class frmIncomeTaxTDSSlabMaster
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -869,11 +869,11 @@ Public Class frmIncomeTaxTDSSlabMaster
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 clsIncomeTaxTDSSlabHead.postData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -928,7 +928,7 @@ Public Class frmIncomeTaxTDSSlabMaster
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1017,16 +1017,16 @@ Public Class frmIncomeTaxTDSSlabMaster
             If Not isInsideLoadData Then
                 If chkInactive.Checked Then
                     If clsCommon.myLen(txtCode.Value) > 0 Then
-                        If clsCommon.MyMessageBoxShow("Current Incentive will be getting in active" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                        If clsCommon.MyMessageBoxShow(Me, "Current Incentive will be getting in active" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             clsIncomeTaxTDSSlabHead.InActiveData(txtCode.Value)
-                            clsCommon.MyMessageBoxShow("Successfully Incentive the Incentive", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Successfully Incentive the Incentive", Me.Text)
                             LoadData(txtCode.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

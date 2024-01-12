@@ -33,12 +33,12 @@ Public Class RptActurialValuation
     End Function
     Sub LoadData()
         If dtpfromdate1.Value > todate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             dtpfromdate1.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(fndLeaveCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Select Leave Code.")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Leave Code.", Me.Text)
             fndLeaveCode.Focus()
             Exit Sub
         End If
@@ -47,7 +47,7 @@ Public Class RptActurialValuation
             Dim strSelect As String
             strSelect = Opening()
             If strSelect = "" Then
-                clsCommon.MyMessageBoxShow("Their is no Pay Period Exist in this Date range")
+                clsCommon.MyMessageBoxShow(Me, "Their is no Pay Period Exist in this Date range", Me.Text)
                 Exit Sub
             End If
             Dim DivisionFirstTime As Integer = 0
@@ -127,7 +127,7 @@ Public Class RptActurialValuation
                 gv1.ReadOnly = True
                 If btnPrint = False Then
                     If dt.Rows.Count <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("No Data Found")
+                        common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                     Else
 
                         Dim frmcrystal As New frmCrystalReportViewer()
@@ -138,12 +138,12 @@ Public Class RptActurialValuation
             End If
 
             If gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("Please select date range within 12 months.")
+            clsCommon.MyMessageBoxShow(Me, "Please select date range within 12 months.", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -301,7 +301,7 @@ Public Class RptActurialValuation
                 clsCommon.MyExportToPDF("Acturail Valuation Report", gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
     'Private Sub RadSplitButton1_Click(sender As Object, e As EventArgs) Handles RadSplitButton1.Click
@@ -352,10 +352,10 @@ Public Class RptActurialValuation
                     clsCommon.MyExportToPDF("Acturail Valuation Report", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -371,7 +371,7 @@ Public Class RptActurialValuation
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -383,7 +383,7 @@ Public Class RptActurialValuation
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub fndLeaveCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLeaveCode._MYValidating

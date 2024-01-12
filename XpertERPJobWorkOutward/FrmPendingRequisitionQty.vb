@@ -35,7 +35,7 @@ Public Class FrmPendingRequisitionQty
             Next
             Fnd.arrDispalyMember = arrList
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -103,15 +103,15 @@ Public Class FrmPendingRequisitionQty
     Sub PrintData()
 
         If chkDoc_select.IsChecked AndAlso cbgDocument.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Documnet Number")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Documnet Number", Me.Text)
             Return
         End If
         If chkVendor_select.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vendor")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vendor", Me.Text)
             Return
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location", Me.Text)
             Return
         End If
 
@@ -271,7 +271,7 @@ Public Class FrmPendingRequisitionQty
     '======shivani
     Public Sub Load_Report()
         If dtpfromdate.Value > dtpTodate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             dtpfromdate.Focus()
             Exit Sub
         End If
@@ -351,7 +351,7 @@ Public Class FrmPendingRequisitionQty
             RadPageView1.SelectedPage = RadPageViewPage2
             RadGroupBox2.Enabled = False
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -488,7 +488,7 @@ Public Class FrmPendingRequisitionQty
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -500,7 +500,7 @@ Public Class FrmPendingRequisitionQty
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Sub print(ByVal exporter As EnumExportTo)
@@ -582,7 +582,7 @@ Public Class FrmPendingRequisitionQty
             End If
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -662,7 +662,7 @@ Public Class FrmPendingRequisitionQty
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
