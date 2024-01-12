@@ -249,7 +249,7 @@ Public Class FrmApproverCreationMaster
 
 
             If clsCommon.myLen(txtRequestBy.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Employee Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Employee Code", Me.Text)
                 txtRequestBy.Focus()
                 Return False
             End If
@@ -309,14 +309,14 @@ Public Class FrmApproverCreationMaster
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Emp_Code)
                     If ChekPostBTn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     LoadData(obj.Emp_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -406,7 +406,7 @@ Public Class FrmApproverCreationMaster
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = True
         End Try
@@ -442,7 +442,7 @@ Public Class FrmApproverCreationMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -466,7 +466,7 @@ Public Class FrmApproverCreationMaster
 
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -503,7 +503,7 @@ Public Class FrmApproverCreationMaster
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
         ''richa agarwal regarding memory leakage
         obj.GridLayout.Close()
@@ -597,7 +597,7 @@ Public Class FrmApproverCreationMaster
 
     Private Sub btnDelete_Click1(sender As Object, e As EventArgs) Handles btnDelete.Click
         clsApproverCreation.DeleteData(txtRequestBy.Value)
-        clsCommon.MyMessageBoxShow("Data Deleted Successfully.")
+        clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
         LoadData(txtRequestBy.Value, NavigatorType.Current)
     End Sub
 End Class

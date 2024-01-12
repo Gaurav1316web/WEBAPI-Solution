@@ -72,7 +72,7 @@ Public Class FrmAssetTypeMaster
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -102,19 +102,19 @@ Public Class FrmAssetTypeMaster
                 Throw New Exception("  Code not found to delete")
 
             End If
-            If clsCommon.MyMessageBoxShow("Do you want to delete Code '" + txtAssetCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to delete Code '" + txtAssetCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim qry As String = "delete from TSPL_Asset_Type_Master where Asset_Type_Code='" + txtAssetCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), " Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current  Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current  Code is in use", Me.Text)
 
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub

@@ -44,7 +44,7 @@ Public Class frmSalaryGeneration
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -74,14 +74,14 @@ Public Class frmSalaryGeneration
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsSalaryGeneration.ReverseAndUnpost(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current, Nothing, True)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -110,7 +110,7 @@ Public Class frmSalaryGeneration
                 dtpGenerateDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select dateadd(DAY,1,DATE_TO) as dd from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE='" & findPayperiod.Value & "'"))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -219,7 +219,7 @@ Public Class frmSalaryGeneration
                 System.Diagnostics.Process.Start("salgenlog.txt")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Dim objreader As New System.IO.StringReader("salgenlog.txt")
             If objreader IsNot Nothing AndAlso clsCommon.myLen(objreader) > 0 Then
                 Dim str As String = clsCommon.myCstr(System.IO.File.ReadAllText("salgenlog.txt"))
@@ -444,7 +444,7 @@ Public Class frmSalaryGeneration
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -481,7 +481,7 @@ Public Class frmSalaryGeneration
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -504,7 +504,7 @@ Public Class frmSalaryGeneration
                 End If
                 If (clsSalaryGeneration.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -536,7 +536,7 @@ Public Class frmSalaryGeneration
         Try
             Dim obj As clsSalaryGeneration = clsSalaryGeneration.GetData(txtCode.Value, NavigatorType.Current)
             If obj.POSTED = True Then
-                clsCommon.MyMessageBoxShow("Document already posted !")
+                clsCommon.MyMessageBoxShow(Me, "Document already posted !", Me.Text)
                 Exit Sub
             End If
             If clsSalaryGeneration.AllowToPost(obj, Nothing) = True AndAlso clsSalaryGeneration.updateGLAccInGenSalary(obj, Nothing) = True Then
@@ -563,19 +563,19 @@ Public Class frmSalaryGeneration
                     frm.ShowDialog()
                     Proceed = frm.Proceed
                     If Proceed = False Then
-                        common.clsCommon.MyMessageBoxShow("Salary not Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Salary not Posted", Me.Text)
                         Exit Sub
                     End If
                 End If
                 If (clsSalaryGeneration.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             Else
                 System.Diagnostics.Process.Start("salgenlog.txt")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             System.Diagnostics.Process.Start("salgenlog.txt")
         End Try
     End Sub
@@ -584,10 +584,10 @@ Public Class frmSalaryGeneration
         Dim qryCheck As String = "select count(*) as Total from TSPL_JOURNAL_MASTER where Source_Doc_No='" & txtCode.Value & "'"
         Dim total As Integer = clsDBFuncationality.getSingleValue(qryCheck)
         If total > 0 Then
-            clsCommon.MyMessageBoxShow("Financial entry of this document already created.")
+            clsCommon.MyMessageBoxShow(Me, "Financial entry of this document already created.", Me.Text)
             Exit Sub
         End If
-        If common.clsCommon.MyMessageBoxShow("Do You Want To Create Financial Entry ?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do You Want To Create Financial Entry ?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
             Exit Sub
         End If
 
@@ -616,18 +616,18 @@ Public Class frmSalaryGeneration
                 frm.ShowDialog()
                 Proceed = frm.Proceed
                 If Proceed = False Then
-                    common.clsCommon.MyMessageBoxShow("Salary not Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Salary not Posted", Me.Text)
                     Exit Sub
                 End If
                 If clsSalaryGeneration.PostData(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             Else
                 System.Diagnostics.Process.Start("salgenlog.txt")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             System.Diagnostics.Process.Start("salgenlog.txt")
         End Try
     End Sub
@@ -847,7 +847,7 @@ Public Class frmSalaryGeneration
     Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
             Return True
         Else
@@ -948,7 +948,7 @@ Public Class frmSalaryGeneration
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -983,7 +983,7 @@ Public Class frmSalaryGeneration
             frm.ShowDialog()
             SalaryPayableAmt = clsCommon.myCdbl(frm.txtSalariesPayableAmt.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -998,7 +998,7 @@ Public Class frmSalaryGeneration
                 clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.PaymentEntryNew, strDocNo)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1007,7 +1007,7 @@ Public Class frmSalaryGeneration
         Try
             Dim strCode As String = txtCode.Value
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No document found")
+                clsCommon.MyMessageBoxShow(Me, "No document found", Me.Text)
                 Return
             Else
                 clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSalaryGenerationRegister, strCode)
@@ -1071,7 +1071,7 @@ Public Class frmSalaryGeneration
 
             txtEmp.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "EMP@SalGn", qry, "Employee Code", "", txtEmp.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

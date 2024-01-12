@@ -152,7 +152,7 @@ Public Class FrmHireEmployee
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -171,7 +171,7 @@ Public Class FrmHireEmployee
 
                 If (ClsHireEmployee.SaveData(obj, isNewEntry)) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         LoadData(obj.Applicant_Code, NavigatorType.Current)
                         btnsave.Text = "Update"
                         btnpost.Enabled = True
@@ -182,7 +182,7 @@ Public Class FrmHireEmployee
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub PostData()
@@ -200,7 +200,7 @@ Public Class FrmHireEmployee
                         If (ClsHireEmployee.PostData(MyBase.Form_ID, txtAppcode.Value, clsCommon.myCstr(UcRequisitionDetail1.AppName))) Then
                             'If (ClsHireEmployee.EmpSaveAfterPost(clsCommon.myCstr(UcRequisitionDetail1.AppName), txtAppcode.Value)) Then
                             msg = "Successfully Posted"
-                            common.clsCommon.MyMessageBoxShow(msg)
+                            common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                             LoadData(txtAppcode.Value, NavigatorType.Current)
                             'End If
                         End If
@@ -212,7 +212,7 @@ Public Class FrmHireEmployee
                 Throw New Exception("Applicant code not found to Post")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -349,7 +349,7 @@ Public Class FrmHireEmployee
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -62,7 +62,7 @@ Public Class FrmAssetDetails
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -90,12 +90,12 @@ Public Class FrmAssetDetails
                 End If
                 If (ClsAssetDetails.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Asset_Code)
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Asset_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -115,7 +115,7 @@ Public Class FrmAssetDetails
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -143,7 +143,7 @@ Public Class FrmAssetDetails
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function AssetTypeLoadData(ByVal strCode As String, ByVal NavType As common.NavigatorType)
@@ -154,7 +154,7 @@ Public Class FrmAssetDetails
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -171,14 +171,14 @@ Public Class FrmAssetDetails
 
                 Dim qry As String = "delete from TSPL_Asset_Details where Asset_Code='" + txtAssetCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), " Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current  Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current  Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -219,7 +219,7 @@ Public Class FrmAssetDetails
             Dim qry As String = "select Code, Description, Category from TSPL_Asset_SubCategory_Master "
             txtAssetSubCategory.Value = clsCommon.ShowSelectForm("TSPL_Asset_SubCategory_Master", qry, "Code", " CompCode='" + objCommonVar.CurrentCompanyCode + "' and Category='" + txtAssetType.Value + "' ", txtAssetSubCategory.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Added By Anand
@@ -230,7 +230,7 @@ Public Class FrmAssetDetails
     Private Sub AddAttachment()
         Try
             If clsCommon.myLen(txtAssetCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please first save the Asset Detail and then add attachments")
+                clsCommon.MyMessageBoxShow(Me, "Please first save the Asset Detail and then add attachments", Me.Text)
                 Exit Sub
             End If
             If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
@@ -262,14 +262,14 @@ Public Class FrmAssetDetails
                     clsDBFuncationality.UpdateImage("ATTACHMENT", bytes, "TSPL_Asset_Details", "Asset_Code = '" + txtAssetCode.Value + "'", trans)
                     br.Close() ' done by stuti reagrding memory leakage
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("File Successfully Uploaded")
+                    clsCommon.MyMessageBoxShow(Me, "File Successfully Uploaded", Me.Text)
                 Catch ex As Exception
                     trans.Rollback()
                     Throw New Exception(ex.Message)
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         ' Return Nothing
     End Sub
@@ -277,7 +277,7 @@ Public Class FrmAssetDetails
     'Date-07/March/2014
     Private Sub btnViewAttachment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtAssetCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Asset Code Value  not found to view attachments")
+            clsCommon.MyMessageBoxShow(Me, "Asset Code Value  not found to view attachments", Me.Text)
             Exit Sub
         End If
         Dim frm As New FrmAssetDetailAttachments()

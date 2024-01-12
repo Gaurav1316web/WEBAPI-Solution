@@ -96,7 +96,7 @@ Public Class FrmProfileMaster
             arr.Add(obj)
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (ClsProfileMaster.SaveData(arr)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Profile_Code, NavigatorType.Current)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
@@ -147,7 +147,7 @@ Public Class FrmProfileMaster
                 Me.gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -155,7 +155,7 @@ Public Class FrmProfileMaster
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(txtcode.Value) <= 0 Or clsCommon.myLen(txtcode.Value) > 30 Then
-            clsCommon.MyMessageBoxShow("Code can not be left blank or incorrect")
+            clsCommon.MyMessageBoxShow(Me, "Code can not be left blank or incorrect", Me.Text)
             txtcode.Focus()
             Return False
 
@@ -171,7 +171,7 @@ Public Class FrmProfileMaster
                 Continue For
             End If
             If clsCommon.myLen(grow.Cells(RoundCodeCol).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill round code")
+                clsCommon.MyMessageBoxShow(Me, "Please fill round code", Me.Text)
                 Return False
             End If
           
@@ -184,7 +184,7 @@ Public Class FrmProfileMaster
                 For j As Integer = i + 1 To gv1.Rows.Count - 1
                     Dim SecondRound As String = gv1.Rows(j).Cells("Round Code").Value
                     If Round = SecondRound Then
-                        clsCommon.MyMessageBoxShow("Please check ! duplicate round in grid")
+                        clsCommon.MyMessageBoxShow(Me, "Please check ! duplicate round in grid", Me.Text)
                         Return False
                     End If
                 Next
@@ -192,7 +192,7 @@ Public Class FrmProfileMaster
         Next
         ''
         If GridRow <= 0 Then
-            clsCommon.MyMessageBoxShow("Enter at least one Round Code")
+            clsCommon.MyMessageBoxShow(Me, "Enter at least one Round Code", Me.Text)
 
             Return False
         End If
@@ -200,7 +200,7 @@ Public Class FrmProfileMaster
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -210,7 +210,7 @@ Public Class FrmProfileMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsProfileMaster.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -280,7 +280,7 @@ Public Class FrmProfileMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -288,7 +288,7 @@ Public Class FrmProfileMaster
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -347,7 +347,7 @@ Public Class FrmProfileMaster
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
             'ElseIf clsCommon.myCBool(gv1.CurrentRow.Cells(colItemUsedINGRN).Value) Then
             '    common.clsCommon.MyMessageBoxShow("Can't Delete The Current Row.This Item is Used In GRN")

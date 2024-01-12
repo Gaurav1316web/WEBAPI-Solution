@@ -79,7 +79,7 @@ Public Class frmWeeklyHolidays
                 obj.Division = fndDivision.Value
                 obj.arr = txtEmp.arrValueMember
                 If (obj.SaveData(obj, obj.WKHOLIDAY_CODE, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.WKHOLIDAY_CODE, NavigatorType.Current)
                     'Else
                     '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
@@ -88,7 +88,7 @@ Public Class frmWeeklyHolidays
             End If
 
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message, Me.Text)
+            RadMessageBox.Show(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -158,7 +158,7 @@ Public Class frmWeeklyHolidays
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -188,7 +188,7 @@ Public Class frmWeeklyHolidays
                 End If
                 If (clsWeeklyHolidays.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -310,7 +310,7 @@ Public Class frmWeeklyHolidays
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -486,7 +486,7 @@ Public Class frmWeeklyHolidays
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -583,7 +583,7 @@ Public Class frmWeeklyHolidays
 
             txtEmp.arrValueMember = clsCommon.ShowMultipleSelectForm("EMP@WH1", qry, "Employee Code", "Employee Name", txtEmp.arrValueMember, txtEmp.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

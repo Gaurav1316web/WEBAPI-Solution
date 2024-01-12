@@ -31,11 +31,11 @@ Public Class frmRequestForTrainingMaster
         End If
 
         If cbgDept.CheckedValue.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select department.")
+            clsCommon.MyMessageBoxShow(Me, "Please select department.", Me.Text)
             Return False
         End If
         If cbgEmp.CheckedValue.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select employee.")
+            clsCommon.MyMessageBoxShow(Me, "Please select employee.", Me.Text)
             Return False
         End If
         'If clsCommon.myLen(FndEmployee.Value) <= 0 Then
@@ -91,17 +91,17 @@ Public Class frmRequestForTrainingMaster
                 Next
                 If (ClsRequestForTrainingMaster.SaveData(obj, isnewentry)) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.Code, NavigatorType.Current)
                     Else
-                        clsCommon.MyMessageBoxShow("Data posted successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub butnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Btnsave.Click
@@ -114,18 +114,18 @@ Public Class frmRequestForTrainingMaster
             If clsCommon.myLen(txt_Code.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Are you sure? Do you want to Delete this Code ('" + txt_Code.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure? Do you want to Delete this Code ('" + txt_Code.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim obj As New ClsRequestForTrainingMaster
                 If obj.DeleteData(txt_Code.Value) Then
-                    clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                     ResetData()
                 End If
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
 
@@ -291,7 +291,7 @@ Public Class frmRequestForTrainingMaster
                     linno += 1
                 Next
                 'trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 'trans.Rollback()
                 myMessages.myExceptions(ex)
@@ -337,7 +337,7 @@ Public Class frmRequestForTrainingMaster
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.TrainingRequestMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -367,7 +367,7 @@ Public Class frmRequestForTrainingMaster
                 lblTrainingCourseName.Text = clsDBFuncationality.getSingleValue("select name from tspl_Training_master where code='" & FndTrainingCourse.Value & "'")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -380,7 +380,7 @@ Public Class frmRequestForTrainingMaster
                 Trans.Commit()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
     Sub PostData()
@@ -410,7 +410,7 @@ Public Class frmRequestForTrainingMaster
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -421,7 +421,7 @@ Public Class frmRequestForTrainingMaster
             PostData()
             'End If
         Else
-            clsCommon.MyMessageBoxShow("code not found to post")
+            clsCommon.MyMessageBoxShow(Me, "code not found to post", Me.Text)
         End If
     End Sub
 

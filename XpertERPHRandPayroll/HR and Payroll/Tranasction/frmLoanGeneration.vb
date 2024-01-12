@@ -194,7 +194,7 @@ Public Class frmLoanGeneration
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -316,7 +316,7 @@ Public Class frmLoanGeneration
             Dim QryStr As String = "select POSTED from TSPL_LOAN_GENERATION where LOAN_GENERATION_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow(Me, "Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -425,7 +425,7 @@ Public Class frmLoanGeneration
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -448,7 +448,7 @@ Public Class frmLoanGeneration
                 End If
                 If (clsLoanGeneration.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -536,7 +536,7 @@ Public Class frmLoanGeneration
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsLoanGeneration.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
@@ -548,7 +548,7 @@ Public Class frmLoanGeneration
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
