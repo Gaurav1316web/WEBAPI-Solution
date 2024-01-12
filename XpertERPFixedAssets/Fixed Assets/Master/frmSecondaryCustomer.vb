@@ -90,7 +90,7 @@ Public Class FrmSecondaryCustomer
             End If
             LoadData(fndCustomer.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -129,7 +129,7 @@ Public Class FrmSecondaryCustomer
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -140,11 +140,11 @@ Public Class FrmSecondaryCustomer
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCustomerName.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Customer Name")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Customer Name", Me.Text)
             txtCustomerName.Focus()
             Return False
         ElseIf clsCommon.myLen(txtDistributor.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Distributor.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Distributor.", Me.Text)
             txtDistributor.Focus()
             Return False
         End If
@@ -174,12 +174,12 @@ Public Class FrmSecondaryCustomer
                 obj.Status = IIf(chkInActive.Checked, "InActive", "Active")
                 Arr.Add(obj)
                 If (clsSecondaryCustomer.SaveData(Arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Cust_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -191,14 +191,14 @@ Public Class FrmSecondaryCustomer
         Try
             If clsCommon.myLen(strCustCode) > 0 Then
                 If clsSecondaryCustomer.DeleteData(strCustCode) Then
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     Reset()
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Customer found to delete.")
+                clsCommon.MyMessageBoxShow(Me, "No Customer found to delete.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -287,14 +287,14 @@ Public Class FrmSecondaryCustomer
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rmiImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiImport.Click
         Try
             ImportCustomers()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ImportCustomers()
@@ -401,7 +401,7 @@ Public Class FrmSecondaryCustomer
                     Arr.Add(obj)
                 Next
                 If Arr.Count > 0 And (clsSecondaryCustomer.SaveData(Arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text)
                 Else
                     Throw New Exception("No row found to Import.")
                 End If

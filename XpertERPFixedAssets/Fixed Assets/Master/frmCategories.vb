@@ -86,7 +86,7 @@ Public Class FrmCategories
                 LoadData(txtCategoryCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -102,7 +102,7 @@ Public Class FrmCategories
             End If
             LoadData(txtCategoryCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -159,7 +159,7 @@ Public Class FrmCategories
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -403,7 +403,7 @@ Public Class FrmCategories
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsCategories.DeleteData(txtCategoryCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     txtCategoryCode.Value = ""
                     Reset()
                 End If

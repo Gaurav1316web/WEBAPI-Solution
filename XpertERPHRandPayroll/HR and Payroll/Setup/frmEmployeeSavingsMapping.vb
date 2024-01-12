@@ -296,20 +296,20 @@ Public Class frmEmployeeSavingsMapping
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(txtFinancialYear.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Financial Year.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Financial Year.", Me.Text)
             txtFinancialYear.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtEmployee.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Employee")
+            clsCommon.MyMessageBoxShow(Me, "Please select Employee", Me.Text)
             txtEmployee.Focus()
             Return False
         End If
 
         Dim ExistDocumentCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_EMPLOYEE_SAVINGS_MAPPING_MASTER where Emp_code = '" + txtEmployee.Value + "' and Fiscal_Code = '" + txtFinancialYear.Value + "'"))
         If clsCommon.myLen(ExistDocumentCode) > 0 AndAlso (clsCommon.CompairString(ExistDocumentCode, txtCode.Value) <> CompairStringResult.Equal) Then
-            clsCommon.MyMessageBoxShow("Document Code (" + ExistDocumentCode + ") already exist for Employee (" + txtEmployee.Value + ") in Financial Year (" + txtFinancialYear.Value + ").")
+            clsCommon.MyMessageBoxShow(Me, "Document Code (" + ExistDocumentCode + ") already exist for Employee (" + txtEmployee.Value + ") in Financial Year (" + txtFinancialYear.Value + ").")
             Return False
         End If
         Dim count As Integer = 0
@@ -318,7 +318,7 @@ Public Class frmEmployeeSavingsMapping
                 If clsCommon.myLen(clsCommon.myCstr(gv.Rows(ii).Cells(colSavingCode).Value)) > 0 Then
                     count += 1
                     If String.IsNullOrEmpty(clsCommon.myCstr(gv.Rows(ii).Cells(colAmount).Value)) = True Then
-                        clsCommon.MyMessageBoxShow("Please Enter amount . At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Please Enter amount . At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                         Return False
                     End If
 
@@ -326,7 +326,7 @@ Public Class frmEmployeeSavingsMapping
             Next
         End If
         If count = 0 Then
-            clsCommon.MyMessageBoxShow("Please Enter Saving Code.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Saving Code.", Me.Text)
             Return False
         End If
 
@@ -373,12 +373,12 @@ Public Class frmEmployeeSavingsMapping
                 '    Return
                 'End If
                 If obj.SaveData(arr, Arr2, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.DOCUMENT_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -427,7 +427,7 @@ Public Class frmEmployeeSavingsMapping
             End If
         Catch ex As Exception
             isInsideLoadData = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -451,7 +451,7 @@ Public Class frmEmployeeSavingsMapping
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -475,7 +475,7 @@ Public Class frmEmployeeSavingsMapping
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsEmployeeSavingsMappingHead.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     AddNew()
                 End If
             End If
@@ -615,7 +615,7 @@ Public Class frmEmployeeSavingsMapping
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     ' trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -625,7 +625,7 @@ Public Class frmEmployeeSavingsMapping
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -709,7 +709,7 @@ Public Class frmEmployeeSavingsMapping
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -774,7 +774,7 @@ Public Class frmEmployeeSavingsMapping
     End Sub
 
     Private Sub gv_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
             Dim qry As String = "delete TSPL_EMPLOYEE_SAVINGS_MAPPING_Uttachment from DOCUMENT_CODE = '" + txtCode.Value + "' and TR_CODE = '" + gv.CurrentRow.Cells(colTRCode).Value + "' "
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -808,7 +808,7 @@ Public Class frmEmployeeSavingsMapping
                     gv.CurrentRow.Cells(ColFileName).Value = OpenFileDialog1.SafeFileName
                 ElseIf gv.CurrentColumn Is gv.Columns(colAddNewAttachment) Then
                     If clsCommon.myLen(gv.CurrentRow.Cells(ColFileName).Value) > 0 Then
-                        clsCommon.MyMessageBoxShow("First Delete Attached File.SNo = [" + gv.CurrentRow.Cells(colLineNo).Value + "]")
+                        clsCommon.MyMessageBoxShow(Me, "First Delete Attached File.SNo = [" + gv.CurrentRow.Cells(colLineNo).Value + "]")
                         Return
                     End If
                     If OpenFileDialog1.ShowDialog = DialogResult.OK Then
@@ -827,14 +827,14 @@ Public Class frmEmployeeSavingsMapping
             gv.CurrentRow.Cells(ColPath).Value = FileName
             gv.CurrentRow.Cells(ColFileName).Value = SafeFileName
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Atttachment", MessageBoxButtons.OK)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Atttachment", MessageBoxButtons.OK)
         End Try
         Return True
     End Function
 
     Public Sub FunShow(ByVal strDocumentCode As String, ByVal strTRCode As String, ByVal strSNO As String, ByVal strSectionCode As String, ByVal strSavingCode As String)
         If (clsCommon.myLen(strTRCode) <= 0) Then
-            clsCommon.MyMessageBoxShow("Document not found to View.")
+            clsCommon.MyMessageBoxShow(Me, "Document not found to View.", Me.Text)
             Return
         End If
 
@@ -866,14 +866,14 @@ Public Class frmEmployeeSavingsMapping
             System.Diagnostics.Process.Start(file_path + "\\" + filename + file_extn)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Error in Downloading Documnet.")
+            clsCommon.MyMessageBoxShow(Me, "Error in Downloading Documnet.", Me.Text)
         End Try
     End Sub
     '====================Ticket No : BHA/17/01/19-000782 By Prabhakar============================================================
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "DOCUMENT_CODE", "TSPL_EMPLOYEE_SAVINGS_MAPPING_MASTER", "TSPL_EMPLOYEE_SAVINGS_MAPPING_DETAIL")

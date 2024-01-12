@@ -78,7 +78,7 @@ Public Class frmBankSummary_Report
         '' changed by Panch raj against Ticket No:BM00000007951
         Try
             If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Pay Period.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
                 Return
             End If
 
@@ -144,7 +144,7 @@ Public Class frmBankSummary_Report
             RadPageView1.SelectedPage = RadPageViewPage2
             If is_Print = True Then
                 If DT.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Data Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Else
                     formatgrid()
                     Dim frmcrystal As New frmCrystalReportViewer()
@@ -153,7 +153,7 @@ Public Class frmBankSummary_Report
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -320,10 +320,10 @@ Public Class frmBankSummary_Report
                     clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -368,7 +368,7 @@ Public Class frmBankSummary_Report
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -377,6 +377,6 @@ Public Class frmBankSummary_Report
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 End Class

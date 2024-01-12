@@ -69,7 +69,7 @@ Public Class FrmFixedSetting
             cboRoundType.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select description from tspl_fixed_parameter where type='" + clsFixedParameterType.AllowRoundInFixedAsset + "' and code='" + clsFixedParameterCode.AllowRoundInFixedAsset + "'"))
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData()
@@ -94,11 +94,11 @@ Public Class FrmFixedSetting
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_FIXED_PARAMETER Set description='" + clsCommon.myCstr(txtDecimal.Value) + "' where TYPE='" + clsFixedParameterType.AllowDecimalInFixedAsset + " ' and Code='" + clsFixedParameterCode.AllowDecimalInFixedAsset + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_FIXED_PARAMETER Set description='" + clsCommon.myCstr(cboRoundType.SelectedValue) + "' where TYPE='" + clsFixedParameterType.AllowRoundInFixedAsset + " ' and Code='" + clsFixedParameterCode.AllowRoundInFixedAsset + "'", trans)
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmFixedSetting_Load(sender As Object, e As EventArgs) Handles MyBase.Load

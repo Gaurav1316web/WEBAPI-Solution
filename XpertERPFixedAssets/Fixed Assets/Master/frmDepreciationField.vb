@@ -11,7 +11,7 @@ Public Class FrmDepreciationField
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.FrmDepreciationField)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -49,12 +49,12 @@ Public Class FrmDepreciationField
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Description", Me.Text)
             txtDesc.Focus()
             Return False
         End If
@@ -68,12 +68,12 @@ Public Class FrmDepreciationField
                 obj.Code = txtCode.Value
                 obj.Description = txtDesc.Text
                 If obj.SaveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -90,7 +90,7 @@ Public Class FrmDepreciationField
                 txtDesc.Text = obj.Description
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -113,7 +113,7 @@ Public Class FrmDepreciationField
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -137,7 +137,7 @@ Public Class FrmDepreciationField
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsDepreciationField.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     AddNew()
                 End If
             End If

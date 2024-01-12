@@ -140,7 +140,7 @@ Public Class frmApplyLoan
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -300,7 +300,7 @@ Public Class frmApplyLoan
             Dim QryStr As String = "select POSTED from TSPL_LOAN_ADJUSTMENT where LOAN_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -343,7 +343,7 @@ Public Class frmApplyLoan
             lblDevision.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEVISION_NAME   from TSPL_Employee_master left join TSPL_DEVISION_MASTER  on TSPL_DEVISION_MASTER.DEVISION_CODE  =TSPL_Employee_master.DEVISION_CODE  where Emp_Code='" & txtEmpCode.Value & "'"))
             lblGrossSalary.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum (isnull(PAYPERIOD_AMOUNT,0) ) as PAYPERIOD_AMOUNT from TSPL_EMPLOYEE_SALARY  INNER join TSPL_EMPLOYEE_SALARY_PAYHEADS on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE =TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE  INNER JOIN  (SELECT MAX(REVISION_NO) AS REVISION_NO FROM TSPL_EMPLOYEE_SALARY where emp_code='" & txtEmpCode.Value & "' and posted='1') TT ON TT.REVISION_NO= TSPL_EMPLOYEE_SALARY.REVISION_NO where emp_code='" & txtEmpCode.Value & "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -354,7 +354,7 @@ Public Class frmApplyLoan
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -377,7 +377,7 @@ Public Class frmApplyLoan
                 End If
                 If (clsApplyLoan.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -477,19 +477,19 @@ Public Class frmApplyLoan
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsApplyLoan.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -520,7 +520,7 @@ Public Class frmApplyLoan
     Private Sub cboLoanStatus_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cboLoanStatus.SelectedIndexChanged
         If clsCommon.CompairString(clsCommon.myCstr(cboLoanStatus.Text), "Approve") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCstr(txtCode.Value), "") = CompairStringResult.Equal Then
             'If clsCommon.myCstr(cboLoanStatus.DisplayMember) = "Approve" And txtCode.Value = "" Then
-            clsCommon.MyMessageBoxShow("Cannot Select Approve Loan Status")
+            clsCommon.MyMessageBoxShow(Me, "Cannot Select Approve Loan Status", Me.Text)
         End If
     End Sub
 

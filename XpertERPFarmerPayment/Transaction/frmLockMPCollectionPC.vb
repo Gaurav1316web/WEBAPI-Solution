@@ -87,7 +87,7 @@ Public Class frmLockMPCollectionPC
             Dim QryStr As String = "select POSTED from TSPL_LOCK_MP_PC where LOCK_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -109,7 +109,7 @@ Public Class frmLockMPCollectionPC
         Dim strchk As String = "select LOCK_CODE from TSPL_LOCK_MP_PC where ( FROM_DATE  between '" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "' or TO_DATE  between '" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "' ) and LOCK_CODE <> '" + txtCode.Value + "' and MCC_Code='" & fndLoc.Value & "' "
         Dim chkPayPeriod As String = clsDBFuncationality.getSingleValue(strchk)
         If clsCommon.myLen(chkPayPeriod) > 0 Then
-            clsCommon.MyMessageBoxShow("From or To date overlapped with Lock Code " + chkPayPeriod + " . Overlapping Lock periods can not be created.")
+            clsCommon.MyMessageBoxShow(Me, "From or To date overlapped with Lock Code " + chkPayPeriod + " . Overlapping Lock periods can not be created.")
             Return False
         End If
         'Dim strCode As String = clsLockMPPaymentCycle.CheckNameExistness(fndLoc.Value, txtCode.Value, Nothing)
@@ -151,19 +151,19 @@ Public Class frmLockMPCollectionPC
 
 
                 If (clsLockMPPaymentCycle.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
 
         End If
@@ -175,7 +175,7 @@ Public Class frmLockMPCollectionPC
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -192,7 +192,7 @@ Public Class frmLockMPCollectionPC
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsLockMPPaymentCycle.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -311,7 +311,7 @@ Public Class frmLockMPCollectionPC
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -376,7 +376,7 @@ Public Class frmLockMPCollectionPC
             Dim PaymentCycleValue As Integer = 0
             ' If Not isLoad Then
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select the Location first")
+                clsCommon.MyMessageBoxShow(Me, "Please select the Location first", Me.Text)
                 Exit Sub
             End If
             Dim sQuery As String = "select Pc_Type as Type,PC_VALUE as Value, case when Pc_Type='Day' then PC_VALUE when PC_Type='Month' then PC_Value * " & Date.DaysInMonth(dtpFromDate.Value.Year, dtpFromDate.Value.Month) & " end " _
@@ -398,7 +398,7 @@ Public Class frmLockMPCollectionPC
                 Dim innPaymentCycleValue As Integer = dt.Rows(0)("Pc_Value")
                 If dtpFromDate.Value.Day Mod innPaymentCycleValue <> 1 And (Not innPaymentCycleValue = 1) Then
                     AllowDateChanged = False
-                    clsCommon.MyMessageBoxShow("Invalid date.Date should be multiple of " & clsCommon.myCstr(innPaymentCycleValue) & " + 1 ")
+                    clsCommon.MyMessageBoxShow(Me, "Invalid date.Date should be multiple of " & clsCommon.myCstr(innPaymentCycleValue) & " + 1 ")
                     dtpFromDate.Value = dtpFromDate.MinDate
                     dtpFromDate.Text = dtpFromDate.MinDate
                     AllowDateChanged = True
@@ -511,13 +511,13 @@ Public Class frmLockMPCollectionPC
                 txtCode.Focus()
                 Throw New Exception("Document No not found to Unpost")
             End If
-            If clsCommon.MyMessageBoxShow("Reverse and unpost current Document " + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Reverse and unpost current Document " + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 clsLockMPPaymentCycle.ReverseAndUnpostData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Reverse and unposted successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Reverse and unposted successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -54,7 +54,7 @@ Public Class FrmEmployeePF
             If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
 
             Else
-                clsCommon.MyMessageBoxShow("Please select Location")
+                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 Exit Sub
             End If
             'If clsCommon.myLen(txtFromPP.Value) <= 0 Then
@@ -117,13 +117,13 @@ Public Class FrmEmployeePF
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
             If dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
                 frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalaryEPF", "Employee PF ")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

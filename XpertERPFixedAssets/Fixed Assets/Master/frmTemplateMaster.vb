@@ -60,7 +60,7 @@ Public Class FrmTemplateMaster
         Try
             LoadData(fndTemplateCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -84,7 +84,7 @@ Public Class FrmTemplateMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
 #Region "Functions"
@@ -92,7 +92,7 @@ Public Class FrmTemplateMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsTemplateMaster.DeleteData(fndTemplateCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -281,13 +281,13 @@ Public Class FrmTemplateMaster
                 End If
                 If (ClsTemplateMaster.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.template_code, NavigatorType.Current)
 
                 End If
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -660,7 +660,7 @@ Public Class FrmTemplateMaster
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

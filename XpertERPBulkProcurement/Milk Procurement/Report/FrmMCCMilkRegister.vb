@@ -16,6 +16,7 @@ Public Class FrmMCCMilkRegister
     Dim isShowTreeView As Boolean = True
     Dim StrPermission As String
     Dim dtGrandTotal As DataTable
+    Dim TotalQry As String = ""
     Public FilterON As Boolean = False
     Public FilterfromDate As Date
     Public FilterToDate As Date
@@ -230,39 +231,39 @@ Public Class FrmMCCMilkRegister
             gv.Columns("FAT(%)").HeaderText = "FAT"
             gv.Columns("SNF(%)").HeaderText = "SNF"
 
-            Dim summaryRowItem As New GridViewSummaryRowItem()
-            Dim item1 As New GridViewSummaryItem("Milk Weight Sweet(KG)", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item1)
-            Dim item2 As New GridViewSummaryItem("Sweet FAT(KG)", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item2)
-            Dim item3 As New GridViewSummaryItem("Sweet SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item3)
-            Dim item4 As New GridViewSummaryItem("Milk Weight Sour(KG)", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item4)
-            Dim item5 As New GridViewSummaryItem("Sour FAT(KG)", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item5)
-            Dim item6 As New GridViewSummaryItem("Sour SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item6)
-            Dim item7 As New GridViewSummaryItem("Milk Weight Curd(KG)", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item7)
-            Dim item8 As New GridViewSummaryItem("No Of Cans", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item8)
-            Dim item9 As New GridViewSummaryItem("TotalQty", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item9)
+            'Dim summaryRowItem As New GridViewSummaryRowItem()
+            'Dim item1 As New GridViewSummaryItem("Milk Weight Sweet(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item1)
+            'Dim item2 As New GridViewSummaryItem("Sweet FAT(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item2)
+            'Dim item3 As New GridViewSummaryItem("Sweet SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item3)
+            'Dim item4 As New GridViewSummaryItem("Milk Weight Sour(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item4)
+            'Dim item5 As New GridViewSummaryItem("Sour FAT(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item5)
+            'Dim item6 As New GridViewSummaryItem("Sour SNF(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item6)
+            'Dim item7 As New GridViewSummaryItem("Milk Weight Curd(KG)", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item7)
+            'Dim item8 As New GridViewSummaryItem("No Of Cans", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item8)
+            'Dim item9 As New GridViewSummaryItem("TotalQty", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item9)
 
-            Dim item10 As New GridViewSummaryItem()
-            item10.FormatString = "{0:F2}"
-            item10.Name = "FAT(%)"
-            item10.AggregateExpression = "sum([Total FAT])*100/sum(TotalQty)"
-            summaryRowItem.Add(item10)
+            'Dim item10 As New GridViewSummaryItem()
+            'item10.FormatString = "{0:F2}"
+            'item10.Name = "FAT(%)"
+            'item10.AggregateExpression = "sum([Total FAT])*100/sum(TotalQty)"
+            'summaryRowItem.Add(item10)
 
-            Dim item11 As New GridViewSummaryItem()
-            item11.FormatString = "{0:F2}"
-            item11.Name = "SNF(%)"
-            item11.AggregateExpression = "sum([Total SNF])*100/sum(TotalQty)"
-            summaryRowItem.Add(item11)
+            'Dim item11 As New GridViewSummaryItem()
+            'item11.FormatString = "{0:F2}"
+            'item11.Name = "SNF(%)"
+            'item11.AggregateExpression = "sum([Total SNF])*100/sum(TotalQty)"
+            'summaryRowItem.Add(item11)
             View()
-            gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            'gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         Else
                 If gv.Columns.Contains("Cow Milk Qty (Ltr)") = True Then
@@ -3733,7 +3734,10 @@ Public Class FrmMCCMilkRegister
                 Dim str As String = ""
                 Dim XXXFinal As String = ""
                 Dim Final As String = ""
-
+                TotalQry = "  select  [Milk Weight Sweet(KG)] , [Sweet FAT(KG)] , [Sweet SNF(KG)] , [Milk Weight Sour(KG)] , [Sour FAT(KG)] , [Sour SNF(KG)] , [Milk Weight Curd(KG)] , [No Of Cans] , TotalQty ,CASE when TotalQty = 0 then 0 else ([Total FAT] / TotalQty)* 100 end as  [FAT(%)],
+                case when TotalQty= 0 then 0 else ([Total SNF]/ TotalQty )*100 end as [SNF(%)] from ( select sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)] ,sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] , sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , sum(XXXFinal.[No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]
+                from ( Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.Date ,final.[Doc Date] ,final.Shift ,final.[Route Code],final.[Route Name],final.[VSP Code],final.[VSP Name],final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name], final.[Sample No] ,final.[No Of Cans] , final.[Milk Weight Sweet(KG)]   ,final.[Sweet FAT(KG)],final.[Sweet SNF(KG)],final.[Milk Weight Sour(KG)] , final.[Sour FAT(KG)] ,final.[Sour SNF(KG)],final.[Milk Weight Curd(KG)] ,final.Mcc_Uploader_Code as [Mcc_Uploader_Code] from("
+                TotalQry += "" & BaseQry1 & " ) xx"
                 If rbtnBMC.Checked Then
                     str = ",[MCC Code],  [Mcc Uploader Code]"
                     Final = ", final.MCC as [MCC Code]"
@@ -3809,8 +3813,9 @@ Public Class FrmMCCMilkRegister
 										 ) pp 
 										 order by date , sno , shift desc,[Milk Type]"
                 End If
-            End If
+                dtGrandTotal = clsDBFuncationality.GetDataTable(TotalQry)
 
+            End If
             dt = clsDBFuncationality.GetDataTable(FinalQuery)
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -3820,6 +3825,17 @@ Public Class FrmMCCMilkRegister
                 'For ii As Integer = 0 To dt.Rows.Count - 1
                 '    Dim incentive As ArrayList = clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive("", clsCommon.myCstr() objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
                 'Next
+            ElseIf dt.Rows.Count > 0 Then
+                If chkDateShift.Checked Then
+                    If rbtnBMC.Checked Then
+                        dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
+                    Else
+                        dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
+
+                    End If
+                End If
+
+
             End If
             gv.DataSource = Nothing
             gv.Rows.Clear()
@@ -3834,7 +3850,7 @@ Public Class FrmMCCMilkRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             RadPageView1.SelectedPage = RadPageViewPage2
-            ReStoreGridLayout()
+            'ReStoreGridLayout()
             gv.BestFitColumns()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -83,7 +83,7 @@ Public Class frmOTSlab
             arr.Add(obj)
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (clsOTSlab.SaveData(arr)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.OT_CODE, NavigatorType.Current)
             End If
         End If
@@ -144,25 +144,25 @@ Public Class frmOTSlab
             End If
 
             If clsCommon.myCdbl(grow.Cells(col_TO).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("To Value must be greater than Zero")
+                clsCommon.MyMessageBoxShow(Me, "To Value must be greater than Zero", Me.Text)
                 Return False
             End If
             If clsCommon.myCdbl(grow.Cells(col_TO).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("To Value must be greater than Zero")
+                clsCommon.MyMessageBoxShow(Me, "To Value must be greater than Zero", Me.Text)
                 Return False
             End If
             If clsCommon.myCdbl(grow.Cells(colOT_RATE).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("OT Rate must be greater than Zero")
+                clsCommon.MyMessageBoxShow(Me, "OT Rate must be greater than Zero", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(grow.Cells(colRATE_TYPE).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Rate Type")
+                clsCommon.MyMessageBoxShow(Me, "Select Rate Type", Me.Text)
                 Return False
             End If
             totalSlab = totalSlab + 1
         Next
         If totalSlab <= 0 Then
-            clsCommon.MyMessageBoxShow("Enter at least one OT Slab")
+            clsCommon.MyMessageBoxShow(Me, "Enter at least one OT Slab", Me.Text)
             Return False
         End If
         Return True
@@ -174,7 +174,7 @@ Public Class frmOTSlab
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
 
@@ -185,7 +185,7 @@ Public Class frmOTSlab
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsOTSlab.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -285,7 +285,7 @@ Public Class frmOTSlab
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -446,7 +446,7 @@ Public Class frmOTSlab
                 trans.Commit()
 
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -562,7 +562,7 @@ Public Class frmOTSlab
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

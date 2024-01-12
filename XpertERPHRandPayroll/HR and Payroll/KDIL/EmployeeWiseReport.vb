@@ -26,7 +26,7 @@ Public Class EmployeeWiseReport
         '    Exit Sub
         'End If
         If isInsideLoadData Then
-            clsCommon.MyMessageBoxShow("Work in Progress Please Wait...")
+            clsCommon.MyMessageBoxShow(Me, "Work in Progress Please Wait...", Me.Text)
             Exit Sub
         End If
         'txtCode.MyReadOnly = True
@@ -352,7 +352,7 @@ Public Class EmployeeWiseReport
             'gv1.Columns("Co_ESI_AMT").IsVisible = False
 
         Else
-            clsCommon.MyMessageBoxShow("No Data to Show in Selected Pay Period.")
+            clsCommon.MyMessageBoxShow(Me, "No Data to Show in Selected Pay Period.", Me.Text)
         End If
         isInsideLoadData = False
         btnGenrate.Enabled = True
@@ -585,10 +585,10 @@ Public Class EmployeeWiseReport
                     clsCommon.MyExportToPDF("Salary Sheet", gv1, arrHeader, "Salary Sheet", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -622,7 +622,7 @@ Public Class EmployeeWiseReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -631,6 +631,6 @@ Public Class EmployeeWiseReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 End Class
