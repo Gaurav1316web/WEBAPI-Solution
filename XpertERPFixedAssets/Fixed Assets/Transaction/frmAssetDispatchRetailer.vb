@@ -1644,7 +1644,7 @@ Public Class frmAssetDispatchRetailer
 
                                 'End If
                             Else
-                                common.clsCommon.MyMessageBoxShow("Select the Location")
+                                common.clsCommon.MyMessageBoxShow(Me, "Select the Location", Me.Text)
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                             End If
                         End If
@@ -1678,14 +1678,14 @@ Public Class frmAssetDispatchRetailer
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
         'Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), "", isButtonClick)
         If clsCommon.myLen(txtFromLocation.Value) = 0 AndAlso clsCommon.CompairString(cboDocType.Text, "Return") <> CompairStringResult.Equal Then
 
-            common.clsCommon.MyMessageBoxShow("Select from location")
+            common.clsCommon.MyMessageBoxShow(Me, "Select from location", Me.Text)
             gv1.CurrentRow.Cells(colITEMCODE).Value = ""
             gv1.CurrentRow.Cells(colITEMNAME).Value = ""
             gv1.CurrentRow.Cells(colUnit).Value = ""
@@ -1714,7 +1714,7 @@ Public Class frmAssetDispatchRetailer
             gv1.CurrentRow.Cells(colCCCode).Value = clsCommon.ShowSelectForm("TSPL_COST_CENTRE_FINANCIAL@AEFinder", qry, "Code", " Hirerachy_Level = '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colHierarchyLevelNumber).Value) + "' ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCCCode).Value), "", isButtonClick)
             gv1.CurrentRow.Cells(colCCDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Cost_Center_Fin_Name  from TSPL_COST_CENTRE_FINANCIAL  where  Cost_Center_Fin_Code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCCCode).Value) + "'")) ' ClsCostCenter.GetCostCenterDesc(gv1.CurrentRow.Cells(colCostCenter).Value)
         Else
-            clsCommon.MyMessageBoxShow("Please select hirerachy level first.")
+            clsCommon.MyMessageBoxShow(Me, "Please select hirerachy level first.", Me.Text)
         End If
     End Sub
 
@@ -1753,7 +1753,7 @@ Public Class frmAssetDispatchRetailer
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1762,7 +1762,7 @@ Public Class frmAssetDispatchRetailer
         'If clsCommon.myLen(fndReqNo.Value) <= 0 Then
         If clsCommon.myLen(txtFromLocation.Value) = 0 Then
 
-            common.clsCommon.MyMessageBoxShow("Select the from location")
+            common.clsCommon.MyMessageBoxShow(Me, "Select the from location", Me.Text)
             gv1.CurrentRow.Cells(colAssetCode).Value = ""
             gv1.CurrentRow.Cells(colAssetName).Value = ""
             gv1.CurrentRow.Cells(colUnit).Value = ""
@@ -2050,7 +2050,7 @@ Public Class frmAssetDispatchRetailer
                 Dim strchk As String = "select Status from TSPL_ASSET_DISPATCH_RETAILER_HEAD where Doc_No='" + txtDocNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -2062,7 +2062,7 @@ Public Class frmAssetDispatchRetailer
 
 
             If clsCommon.CompairString(clsCommon.myCstr(cboDocType.Text), "Issue") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Enter From Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter From Location", Me.Text)
                 txtFromLocation.Focus()
                 Return False
                 'ElseIf clsCommon.CompairString(clsCommon.myCstr(cboDocType.Text), "Return") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtFromLocation.Value) <= 0 Then
@@ -2072,7 +2072,7 @@ Public Class frmAssetDispatchRetailer
             End If
 
             If clsCommon.CompairString(clsCommon.myCstr(cboDocType.Text), "Return") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtIssueNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Enter Issue No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter Issue No", Me.Text)
                 txtIssueNo.Focus()
                 Return False
 
@@ -2080,23 +2080,23 @@ Public Class frmAssetDispatchRetailer
 
 
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "Document No Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
             If clsCommon.myLen(cboDocType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Document Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Document Type", Me.Text)
                 cboDocType.Focus()
                 Return False
             End If
             If clsCommon.myLen(txtIssueTo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Issue To")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Issue To", Me.Text)
                 txtIssueTo.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Route No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Route No", Me.Text)
                 txtRouteNo.Focus()
                 Return False
             End If
@@ -2146,7 +2146,7 @@ Public Class frmAssetDispatchRetailer
                         Dim CCCode1 As String = gv1.Rows(jj).Cells(colCCCode).Value
                         If clsCommon.myLen(Icode) > 0 Then
                             If clsCommon.CompairString(Icode + CCCode, Icode1 + CCCode1) = CompairStringResult.Equal Then
-                                common.clsCommon.MyMessageBoxShow("'Item' And 'Cost Code' are repeated on line '" + clsCommon.myCstr(jj + 1) + "'AND '" + clsCommon.myCstr(ii + 1) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "'Item' And 'Cost Code' are repeated on line '" + clsCommon.myCstr(jj + 1) + "'AND '" + clsCommon.myCstr(ii + 1) + "'")
                                 Return False
                             End If
                         End If
@@ -2163,7 +2163,7 @@ Public Class frmAssetDispatchRetailer
                     If itemL <= 0 Then
                     Else
                         If qq = 0 Then
-                            common.clsCommon.MyMessageBoxShow("Qty can not be zero for '" + Icode + "' Item ")
+                            common.clsCommon.MyMessageBoxShow(Me, "Qty can not be zero for '" + Icode + "' Item ")
                             Return False
                         End If
 
@@ -2173,7 +2173,7 @@ Public Class frmAssetDispatchRetailer
                         Dim CCCode1 As String = gv1.Rows(jj).Cells(colCCCode).Value
                         If clsCommon.myLen(Icode) > 0 Then
                             If clsCommon.CompairString(Icode + CCCode, Icode1 + CCCode1) = CompairStringResult.Equal Then
-                                common.clsCommon.MyMessageBoxShow("'Item' And 'Cost Code' are repeated on line '" + clsCommon.myCstr(jj + 1) + "'AND '" + clsCommon.myCstr(ii + 1) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "'Item' And 'Cost Code' are repeated on line '" + clsCommon.myCstr(jj + 1) + "'AND '" + clsCommon.myCstr(ii + 1) + "'")
                                 Return False
                             End If
                         End If
@@ -2198,19 +2198,19 @@ Public Class frmAssetDispatchRetailer
 
                 If clsCommon.myLen(strICode) > 0 Then
                     If clsCommon.myLen(strUOM) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter UOM of Item - " + strICode + ".At Line No:   " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter UOM of Item - " + strICode + ".At Line No:   " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                         Return False
                     End If
                     If clsCommon.CompairString(cboDocType.Text, "Return") = CompairStringResult.Equal Then
                         Dim ReturnQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRetQty).Value)
                         Dim strItemName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colAssetName).Value)
                         If ReturnQty < 0 Then
-                            common.clsCommon.MyMessageBoxShow("Return qty can not be negative for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            common.clsCommon.MyMessageBoxShow(Me, "Return qty can not be negative for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
                             Return False
                         End If
                         If ReturnQty > dblQty Then
                             'common.clsCommon.MyMessageBoxShow("Return qty can not be greater than from issued qty for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
-                            common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strItemName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(ReturnQty) + ") Can't be more than Pending Quantity(" + clsCommon.myCstr(dblQty) + ") at line no: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                            common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strItemName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(ReturnQty) + ") Can't be more than Pending Quantity(" + clsCommon.myCstr(dblQty) + ") at line no: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                             Return False
                         End If
                     Else
@@ -2241,7 +2241,7 @@ Public Class frmAssetDispatchRetailer
                         If clsCommon.myCBool(gv1.Rows(ii).Cells(colIsSerialseItem).Value) Then
                             Dim arrSerailNo As List(Of clsSerializeInvenotry) = TryCast(gv1.Rows(ii).Tag, List(Of clsSerializeInvenotry))
                             If arrSerailNo Is Nothing OrElse dblQty <> arrSerailNo.Count Then
-                                common.clsCommon.MyMessageBoxShow("Please provice serial no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                                common.clsCommon.MyMessageBoxShow(Me, "Please provice serial no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
                                 Return False
                             End If
                         End If
@@ -2260,7 +2260,7 @@ Public Class frmAssetDispatchRetailer
                         If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colAssetCode).Value)) > 0 Then
                             Dim dblNoofInstallment As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEMINoOfPaymentCycle).Value)
                             If dblNoofInstallment <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please Enter No Of Installment on line '" + clsCommon.myCstr(ii + 1) + "' ")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please Enter No Of Installment on line '" + clsCommon.myCstr(ii + 1) + "' ")
                                 Return False
                             End If
                         End If
@@ -2274,7 +2274,7 @@ Public Class frmAssetDispatchRetailer
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -2488,12 +2488,12 @@ Public Class frmAssetDispatchRetailer
                 Next
                 If clsCommon.CompairString(obj.Doc_Type, "Issue") = CompairStringResult.Equal Then
                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                        common.clsCommon.MyMessageBoxShow("Please Fill at least one Item")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Fill at least one Item", Me.Text)
                         Return
                     End If
                 ElseIf clsCommon.CompairString(obj.Doc_Type, "Return") = CompairStringResult.Equal Then
                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                        common.clsCommon.MyMessageBoxShow("Please return qty for at least one item")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please return qty for at least one item", Me.Text)
                         Return
                     End If
                 End If
@@ -2513,14 +2513,14 @@ Public Class frmAssetDispatchRetailer
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Doc_No)
                     If ChekPostBTn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     LoadData(obj.Doc_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2960,7 +2960,7 @@ Public Class frmAssetDispatchRetailer
                 UcAttachment1.LoadData(obj.Doc_No)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2988,7 +2988,7 @@ Public Class frmAssetDispatchRetailer
                 End If
                 ''
                 If (clsAssetDispatchRetailerHead.PostData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     ''If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                     ''    print()
@@ -2996,7 +2996,7 @@ Public Class frmAssetDispatchRetailer
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3021,12 +3021,12 @@ Public Class frmAssetDispatchRetailer
                 End If
                 If (clsAssetDispatchRetailerHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3051,7 +3051,7 @@ Public Class frmAssetDispatchRetailer
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3147,7 +3147,7 @@ Public Class frmAssetDispatchRetailer
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -3295,14 +3295,14 @@ Public Class frmAssetDispatchRetailer
             frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptAssetDispatchRetailer", "Asset Dispatch Retailer")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtIssueTo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtIssueTo._MYValidating
         Dim qry As String = ""
         If clsCommon.myLen(TxtDistributor.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Firstly select Distributor No")
+            common.clsCommon.MyMessageBoxShow(Me, "Firstly select Distributor No", Me.Text)
             Return
         End If
 
@@ -3685,7 +3685,7 @@ Public Class frmAssetDispatchRetailer
                 UpdateAllTotals()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3735,7 +3735,7 @@ Public Class frmAssetDispatchRetailer
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3971,12 +3971,12 @@ Public Class frmAssetDispatchRetailer
 
                 If clsAssetDispatchRetailerHead.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse and Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4125,7 +4125,7 @@ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_ASSE
             Next
 
         Else
-            clsCommon.MyMessageBoxShow("No data found")
+            clsCommon.MyMessageBoxShow(Me, "No data found")
         End If
         isInsideLoadData = False
     End Sub
@@ -4142,7 +4142,7 @@ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_ASSE
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
         End If
         ''stuti regarding memory leakage
         obj.GridLayout.Close()
@@ -4393,7 +4393,7 @@ a:              Next
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -4708,7 +4708,7 @@ a:              Next
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Exit Sub
             End Try
             '************************************************************
@@ -5104,11 +5104,11 @@ a:              Next
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Successfully Imported.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Successfully Imported.", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -5128,7 +5128,7 @@ a:              Next
             transportSql.ExporttoExcel(Str, Me)
             Str = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5151,7 +5151,7 @@ a:              Next
     Private Sub TxtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRouteNo._MYValidating
         Try
             If clsCommon.myLen(TxtDistributor.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Select Distributor First.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Select Distributor First.", Me.Text)
                 TxtDistributor.Focus()
                 Exit Sub
             End If
@@ -5170,7 +5170,7 @@ a:              Next
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndRouteNo_TextChanged()
@@ -5185,7 +5185,7 @@ a:              Next
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5195,7 +5195,7 @@ a:              Next
             txtAltVehicle.Value = clsCommon.ShowSelectForm("AltVehicleNo", qry, "vehicle_id", "", txtAltVehicle.Value, "vehicle_id", isButtonClicked)
             lblAltVehicleDesc.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtAltVehicle.Value) + "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

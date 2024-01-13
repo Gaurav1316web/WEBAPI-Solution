@@ -21,7 +21,7 @@ Public Class frmFinancialYearMaster
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.FiscalYear)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -41,7 +41,7 @@ Public Class frmFinancialYearMaster
 
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -103,13 +103,13 @@ Public Class frmFinancialYearMaster
                     obj.Is_Current_Year = 0
                 End If
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Fiscal_Code, NavigatorType.Current)
                     objCommonVar.RefreshCommonVar()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -184,15 +184,15 @@ Public Class frmFinancialYearMaster
                 Throw New Exception("Project Code not found to delete")
 
             End If
-            If clsCommon.MyMessageBoxShow("Delete the Current Transaction." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Delete the Current Transaction." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim qry As String = "delete from TSPL_Fiscal_Year_Master where Fiscal_Code='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Current Code is in use")
+            clsCommon.MyMessageBoxShow(Me, "Current Code is in use")
         End Try
     End Sub
 

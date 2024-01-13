@@ -53,7 +53,7 @@ Public Class FrmAgencyMaster
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.AgencyMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
             Me.Close()
             Exit Sub
         End If
@@ -70,7 +70,7 @@ Public Class FrmAgencyMaster
                 Agency.Name = txt_Name.Text
 
                 If (ClsAgencyMaster.SaveData(Agency, isnewentry)) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(Agency.Code, NavigatorType.Current)
                     butnsave.Text = "Update"
                     butnDelete.Enabled = True
@@ -85,7 +85,7 @@ Public Class FrmAgencyMaster
 
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub butnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butnsave.Click
@@ -98,18 +98,18 @@ Public Class FrmAgencyMaster
             If clsCommon.myLen(txt_Code.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("are you sure? do you want to delete this Code ('" + txt_Code.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "are you sure? do you want to delete this Code ('" + txt_Code.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim qry As String = "DELETE FROM TSPL_HR_Agency_master WHERE Code='" + txt_Code.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 ResetData()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -209,7 +209,7 @@ Public Class FrmAgencyMaster
 
                 Next
                 'trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 'trans.Rollback()
                 myMessages.myExceptions(ex)

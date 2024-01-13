@@ -6850,7 +6850,7 @@ Public Class frmSaleInvoiceDairy
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "Update " + strDatabaseName + ".dbo.TSPL_PURCHASE_ORDER_HEAD set SaleInvoiceNo='" & txtDocNo.Value & "' where PurchaseOrder_No='" & txtPONo.Text & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                clsCommon.MyMessageBoxShow("Data Delivered successfully")
+                clsCommon.MyMessageBoxShow("Data Delivered successfully", Me.Text)
 
 
             End If
@@ -6865,7 +6865,7 @@ Public Class frmSaleInvoiceDairy
     Private Sub btnSendEmailSMS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendEmailSMS.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -6879,7 +6879,7 @@ Public Class frmSaleInvoiceDairy
             lstUsers.Add(txtVendorNo.Value)
             'SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

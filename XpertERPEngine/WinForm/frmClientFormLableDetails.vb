@@ -277,7 +277,7 @@ Public Class frmClientFormLableDetails
         Try
             ' LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -373,7 +373,7 @@ Public Class frmClientFormLableDetails
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -509,10 +509,10 @@ Public Class frmClientFormLableDetails
                         Next
                     End If
                     If Not IsNothing(obj) Then
-                        MessageBox.Show("Data Deleted Successfully..")
+                        MessageBox.Show(Me, "Data Deleted Successfully..", Me.Text)
                     End If
                 Catch ex As Exception
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -547,7 +547,7 @@ Public Class frmClientFormLableDetails
             '    End If
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -898,7 +898,7 @@ Public Class frmClientFormLableDetails
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub

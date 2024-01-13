@@ -315,7 +315,7 @@ Public Class frmSalaryGLAccounts
             'Trans.Rollback()
             Proceed = False
             salgen.Proceed = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
             Me.Close()
         End Try

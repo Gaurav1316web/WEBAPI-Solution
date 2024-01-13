@@ -180,12 +180,12 @@ Public Class FrmShippingStockreport1
     End Sub
     Private Function LoadQuery(ByVal strColumn As String, ByVal strLocDetail As String, ByVal strItemDetail As String, ByVal strMRP As Integer)
         If chkItemSelect.IsChecked AndAlso cbgItem.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item", Me.Text)
             Return False
             Exit Function
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location", Me.Text)
             Return False
             Exit Function
         End If
@@ -2029,7 +2029,7 @@ Public Class FrmShippingStockreport1
 
             clsCommon.MyExportToExcel("Stock Reco ", gv1, arrHeader, Me.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 

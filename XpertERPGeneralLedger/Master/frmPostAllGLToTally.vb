@@ -13,7 +13,7 @@ Public Class frmPostAllGLToTally
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.mbtnGRN)
         If Not (MyBase.isReadFlag) AndAlso (Not objCommonVar.IsSendToTally) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -35,7 +35,7 @@ Public Class frmPostAllGLToTally
             Dim CountSelected As Int16 = 0
 
             If DT Is Nothing Or DT.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found.")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found.", Me.Text)
                 'lblRecordNo.Text = "Total Record Found : 0 "
             End If
             clsCommon.ProgressBarShow()
@@ -49,9 +49,9 @@ Public Class frmPostAllGLToTally
             Next
             clsCommon.ProgressBarHide()
             If CountSend >= 0 AndAlso CountSelected > 0 Then
-                clsCommon.MyMessageBoxShow("Total " + CountSend.ToString + " record send to Tally out of " + CountSelected.ToString + ".")
+                clsCommon.MyMessageBoxShow(Me, "Total " + CountSend.ToString + " record send to Tally out of " + CountSelected.ToString + ".")
             ElseIf CountSelected <= 0 Then
-                clsCommon.MyMessageBoxShow("No Record Selected for Send To Tally.")
+                clsCommon.MyMessageBoxShow(Me, "No Record Selected for Send To Tally.", Me.Text)
             End If
             Show_Records()
         Catch ex As Exception
@@ -78,7 +78,7 @@ Public Class frmPostAllGLToTally
         Dim DT As DataTable = clsDBFuncationality.GetDataTable(strQry)
         If DT Is Nothing Or DT.Rows.Count <= 0 Then
             dgvAccountMap.DataSource = Nothing
-            clsCommon.MyMessageBoxShow("No Data Found.")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found.", Me.Text)
             lblRecordNo.Text = "Total Record Found : 0 "
         Else
             dgvAccountMap.DataSource = Nothing

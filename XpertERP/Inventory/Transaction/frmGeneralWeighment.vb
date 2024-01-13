@@ -128,7 +128,7 @@ Public Class frmGeneralWeighment
                 End If
                 CalculatingNetWeight()
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         ElseIf e.Alt AndAlso e.KeyCode = Keys.N Then
             Reset()
@@ -201,10 +201,10 @@ Public Class frmGeneralWeighment
                 If (ClsGeneralWeighment.SaveData(obj, isNewEntry)) Then
                     If Not ispost Then
                         If isNewEntry Then
-                            clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                             LoadData(obj.Weighment_No, NavigatorType.Current)
                         Else
-                            clsCommon.MyMessageBoxShow("Data updated successfully", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Data updated successfully", Me.Text)
                             LoadData(obj.Weighment_No, NavigatorType.Current)
                         End If
                     End If
@@ -213,7 +213,7 @@ Public Class frmGeneralWeighment
             End If
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -301,14 +301,14 @@ Public Class frmGeneralWeighment
             If (deleteConfirm()) Then
 
                 If (ClsGeneralWeighment.DeleteData(fndWeighmentcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data deleted successfully ", Me.Text)
                     Reset()
                 End If
 
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -343,7 +343,7 @@ Public Class frmGeneralWeighment
                 LoadData(fndWeighmentcode.Value, NavType)
                 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -399,7 +399,7 @@ Public Class frmGeneralWeighment
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
             msg = Nothing
@@ -512,7 +512,7 @@ Public Class frmGeneralWeighment
     ' Ticket No : ERO/07/03/19-000509 By Prabhakar
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If ClsGeneralWeighment.ReverseAndUnpost(fndWeighmentcode.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndWeighmentcode.Value, NavigatorType.Current)

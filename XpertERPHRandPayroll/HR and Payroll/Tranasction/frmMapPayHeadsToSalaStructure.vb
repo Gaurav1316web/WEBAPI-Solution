@@ -72,12 +72,12 @@ Public Class frmMapPayHeadsToSalaStructure
                     End If
                 Next
                 If (obj.SaveData(txtCode.Value, ObjList)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
                 LoadData(obj.SALARY_STRUCTURE_CODE, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -145,12 +145,12 @@ Public Class frmMapPayHeadsToSalaStructure
             If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colPayHeadCode).Value)) > 0 Then
                 ii += 1
                 If clsCommon.myCstr(grow.Cells(colPayHeadType).Value) = "F" And clsCommon.myLen(clsCommon.myCstr(grow.Cells(colFormula).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Formula can not be blank for Pay Head " & clsCommon.myCstr(grow.Cells(colPayHeadCode).Value) & "")
+                    clsCommon.MyMessageBoxShow(Me, "Formula can not be blank for Pay Head " & clsCommon.myCstr(grow.Cells(colPayHeadCode).Value) & "")
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colVilidFrom).Value) > 0 And clsCommon.myLen(grow.Cells(colVilidTo).Value) > 0 Then
                     If clsCommon.myCDate(grow.Cells(colVilidFrom).Value, "dd/MMM/yyyy") >= clsCommon.myCDate(grow.Cells(colVilidTo).Value, "dd/MMM/yyyy") Then
-                        clsCommon.MyMessageBoxShow("From Date :" + clsCommon.GetPrintDate(grow.Cells(colVilidFrom).Value, "dd/MMM/yyyy") + " can NOT be Grater then To Date : " + clsCommon.GetPrintDate(grow.Cells(colVilidTo).Value, "dd/MMM/yyyy") + " in Row No. " + ii.ToString() + " ")
+                        clsCommon.MyMessageBoxShow(Me, "From Date :" + clsCommon.GetPrintDate(grow.Cells(colVilidFrom).Value, "dd/MMM/yyyy") + " can NOT be Grater then To Date : " + clsCommon.GetPrintDate(grow.Cells(colVilidTo).Value, "dd/MMM/yyyy") + " in Row No. " + ii.ToString() + " ")
                         Return False
                     End If
                 End If
@@ -158,13 +158,13 @@ Public Class frmMapPayHeadsToSalaStructure
                 '' check for duplicate line no(seq no)
                 Dim Line_No As Integer = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
                 If Line_No <= 0 Then
-                    clsCommon.MyMessageBoxShow("enter seq no of pay head " & grow.Cells(colLineNo).Value & "")
+                    clsCommon.MyMessageBoxShow(Me, "enter seq no of pay head " & grow.Cells(colLineNo).Value & "")
                     Return False
                 End If
                 Dim INext As Integer = grow.Index + 1
                 For intNext As Integer = INext To gv1.Rows.Count - 1
                     If clsCommon.myCdbl(gv1.Rows(intNext).Cells(colLineNo).Value) = Line_No Then
-                        clsCommon.MyMessageBoxShow("Duplicate sequence no of pay head " & gv1.Rows(intNext).Cells(colPayHeadCode).Value & "")
+                        clsCommon.MyMessageBoxShow(Me, "Duplicate sequence no of pay head " & gv1.Rows(intNext).Cells(colPayHeadCode).Value & "")
                         Return False
                     End If
                 Next
@@ -185,7 +185,7 @@ Public Class frmMapPayHeadsToSalaStructure
                     Return False
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Salary Structure is in use.")
+                clsCommon.MyMessageBoxShow(Me, "Salary Structure is in use.", Me.Text)
                 Return False
             End If
         End If
@@ -198,7 +198,7 @@ Public Class frmMapPayHeadsToSalaStructure
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -210,7 +210,7 @@ Public Class frmMapPayHeadsToSalaStructure
         Dim qry As String = "select top 1 EMP_CODE from TSPL_EMPLOYEE_SALARY where SALARY_STRUCTURE_CODE='" + txtCode.Value + "'  "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsCommon.MyMessageBoxShow("Salary Structure is in use.")
+            clsCommon.MyMessageBoxShow(Me, "Salary Structure is in use.", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -233,7 +233,7 @@ Public Class frmMapPayHeadsToSalaStructure
                 End If
                 If (clsMapPayHeadsToSalaStructure.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -356,7 +356,7 @@ Public Class frmMapPayHeadsToSalaStructure
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -542,7 +542,7 @@ Public Class frmMapPayHeadsToSalaStructure
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -591,7 +591,7 @@ Public Class frmMapPayHeadsToSalaStructure
 
             Dim isValidStructureCode As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SALARY_STRUCTURE where SALARY_STRUCTURE_CODE = '" + txtCode.Value + "' "))
             If isValidStructureCode <= 0 Then
-                clsCommon.MyMessageBoxShow("Invalid Salary Structure Code.")
+                clsCommon.MyMessageBoxShow(Me, "Invalid Salary Structure Code.", Me.Text)
                 Exit Sub
             End If
             Dim isNewCode As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SALSTRUCT_PAYHEADS where SALARY_STRUCTURE_CODE = '" + txtCode.Value + "' "))
@@ -770,7 +770,7 @@ Public Class frmMapPayHeadsToSalaStructure
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -783,7 +783,7 @@ Public Class frmMapPayHeadsToSalaStructure
     Private Sub BtnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Salary Structure Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Salary Structure Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "SALARY_STRUCTURE_CODE", "TSPL_SALSTRUCT_PAYHEADS")
@@ -807,7 +807,7 @@ Public Class frmMapPayHeadsToSalaStructure
             ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)
             lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -469,7 +469,7 @@ Public Class frmAdjustmentEmpty
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -488,7 +488,7 @@ Public Class frmAdjustmentEmpty
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
 
@@ -776,12 +776,12 @@ Public Class frmAdjustmentEmpty
                 End If
 
                 Dim isSaved As Boolean = obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Adjustment_No, NavigatorType.Current)
                 Return isSaved
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -887,7 +887,7 @@ Public Class frmAdjustmentEmpty
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -896,7 +896,7 @@ Public Class frmAdjustmentEmpty
     Dim refDocDate As Date
     Private Sub txtDocumentNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocumentNo._MYValidating
         If clsCommon.myLen(cboRefDocument.SelectedValue) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Reference Document")
+            clsCommon.MyMessageBoxShow(Me, "Please select Reference Document", Me.Text)
             txtDocumentNo.Value = ""
             cboRefDocument.Focus()
             Exit Sub
@@ -982,12 +982,12 @@ Public Class frmAdjustmentEmpty
         Try
             If (myMessages.postConfirm()) Then
                 If (ClsAdjustments.PostData(txtAdjustmentNo.Value, strCostTransaction)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1012,7 +1012,7 @@ Public Class frmAdjustmentEmpty
                 End If
                 If (ClsAdjustments.DeleteData(txtAdjustmentNo.Value, strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -1041,7 +1041,7 @@ Public Class frmAdjustmentEmpty
             End If
             LoadData(txtAdjustmentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1345,7 +1345,7 @@ Public Class frmAdjustmentEmpty
         Try
             ExportEmptyEntry()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1362,10 +1362,10 @@ Public Class frmAdjustmentEmpty
     Private Sub mtbnImportOPBalance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mtbnImportOPBalance.Click
         Try
             If ImportBalance() Then
-                clsCommon.MyMessageBoxShow("Data imported successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data imported successfully.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1520,7 +1520,7 @@ Public Class frmAdjustmentEmpty
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -24,12 +24,12 @@ Public Class frmReimbursementRegister
     Sub LoadData()
         Try
             If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill the From Pay Period First. ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill the From Pay Period First. ", Me.Text)
                 txtFromPP.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtTopp.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill the To Pay Period First. ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill the To Pay Period First. ", Me.Text)
                 txtTopp.Focus()
                 Exit Sub
             End If
@@ -44,7 +44,7 @@ Public Class frmReimbursementRegister
             ReStoreGridLayout()
             btnGenrate.Enabled = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGenrate.Enabled = True
         End Try
     End Sub
@@ -132,7 +132,7 @@ Public Class frmReimbursementRegister
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -164,7 +164,7 @@ Public Class frmReimbursementRegister
 
     Private Sub RadMenuItemDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemDelete.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnExpoExl_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -175,7 +175,7 @@ Public Class frmReimbursementRegister
         'clsCommon.MyExportToExcel("Reimbursement Register", gv1, arr, "Salary Register")
         If gv1.Rows.Count <= 0 Then
             gv1.Focus()
-            clsCommon.MyMessageBoxShow("Data not found.")
+            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
         Else
             clsCommon.MyExportToExcelGrid("Reimbursement Register", gv1, arr, "Reimbursement Register", False)
         End If
@@ -306,7 +306,7 @@ Public Class frmReimbursementRegister
                 clsCommon.MyExportToPDF("Reimbursement Register", gv1, arrHeader, "Reimbursement Register", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

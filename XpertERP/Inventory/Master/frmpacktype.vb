@@ -142,7 +142,7 @@ Public Class Frmpacktype
             myMessages.insert()
         Catch ex As Exception
             ' If common.clsCommon.MyMessageBoxShow(ex.Message.ToString()) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Record Already Exist")
+            common.clsCommon.MyMessageBoxShow(Me, "Record Already Exist", Me.Text)
             ' End If
         End Try
     End Sub
@@ -152,7 +152,7 @@ Public Class Frmpacktype
             connectSql.RunSp("sp_TSPL_PACKTYPE_MASTER_delete", New SqlParameter("@classtype", fndclasstype.Value), New SqlParameter("@finishedgood", ddlfinishedgood.Text))
             myMessages.delete()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
     ''To update the data according to the Class type 
@@ -163,7 +163,7 @@ Public Class Frmpacktype
             connectSql.RunSp("sp_TSPL_PACKTYPE_MASTER_update", New SqlParameter("@class_type", fndclasstype.Value), New SqlParameter("@finishedgood", ddlfinishedgood.Text), New SqlParameter("@mothercode", ddlmothercode.Text), New SqlParameter("@fathercode", ddlfathercode.Text), New SqlParameter("@created_by", userCode), New SqlParameter("@created_date", currentdate), New SqlParameter("@modify_by", userCode), New SqlParameter("@modify_date", modify_date), New SqlParameter("@compcode", companyCode))
             myMessages.update()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
     '' To reset all the field of the pack type screen
@@ -271,10 +271,10 @@ Public Class Frmpacktype
             End If
         Else
             If fndclasstype.Value = "" Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select the Class Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select the Class Type", Me.Text)
                 fndclasstype.Focus()
             ElseIf ddlfinishedgood.Text = "Select" Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select the finished good")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select the finished good", Me.Text)
             Else
                 If btnsave.Text = "Save" Then
                     funinsert()

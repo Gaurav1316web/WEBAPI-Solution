@@ -2329,9 +2329,9 @@ Public Class MDI
                 arrExcluded.Add("RcpWtDifRpt")
             End If
 
-            If Not isLoadBulkPurchaseUploader Then
-                arrExcluded.Add(clsUserMgtCode.frmBulkPurchaseUploader)
-            End If
+            'If Not isLoadBulkPurchaseUploader Then
+            '    arrExcluded.Add(clsUserMgtCode.frmBulkPurchaseUploader)
+            'End If
             If Not isLoadBankUpdateUploader Then
                 arrExcluded.Add(clsUserMgtCode.FrmBankUpdateUploader)
             End If
@@ -2776,7 +2776,7 @@ Public Class MDI
             pwd.strType = clsFixedParameterType.UploaderPassword
             pwd.ShowDialog()
             If pwd.isPasswordCorrect Then
-                isLoadBulkPurchaseUploader = True
+                'isLoadBulkPurchaseUploader = True
                 LoadMenu()
             Else
                 isLoadBulkPurchaseUploader = False
@@ -3046,6 +3046,9 @@ Public Class MDI
                     'ElseIf clsCommon.CompairString(strFormName, clsUserMgtCode.designationMaster
                     '    frm=New frmDesignationMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                     '         formShow(frm,strProgramCode, strProgramName, isOpenInMDI,strDocNo)
+                    Case clsUserMgtCode.rptDBTSummaryMonthlyWise
+                        frm = New rptDBTSummaryMonthlyWise()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.BankGroupMaster
                         frm = New FrmBankGroupMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -5700,6 +5703,9 @@ Public Class MDI
                     Case clsUserMgtCode.SalesmanSalesOrderReport
                         frm = New FrmSalemanSaleOrder()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmSaleAnalysisReport
+                        frm = New frmSaleAnalysisReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDealerManagementReport
                         frm = New FrmDealerManagementReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7865,6 +7871,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkMilkPurchaseInvoice
                         frm = New FrmMilkPurchaseInvoice
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.BulkProcurementUploader
+                        frm = New BulkProcurementUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.BulkMilkPurchaseInvoiceMultiple
                         frm = New frmBulkMilkPurchaseInvoiceMultiple

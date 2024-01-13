@@ -69,7 +69,7 @@ Public Class frmAttendedDaysReport
     Sub PrintData()
         Try
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select AtLeast Single Employee Or Select All")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select AtLeast Single Employee Or Select All", Me.Text)
                 Return
             End If
 
@@ -91,7 +91,7 @@ Public Class frmAttendedDaysReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

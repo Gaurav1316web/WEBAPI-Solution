@@ -22,7 +22,7 @@ Public Class FrmSourceTypeDetail
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmSourceTypeDetail)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -67,7 +67,7 @@ Public Class FrmSourceTypeDetail
                 End If
                 If (ClsSourceTypeDetail.SaveData(obj, isNewEntry)) Then
                     'trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Source_Type_Detail_Code, NavigatorType.Current)
                     btnsave.Text = "Update"
                     btndelete.Enabled = True
@@ -78,7 +78,7 @@ Public Class FrmSourceTypeDetail
             End If
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -123,7 +123,7 @@ Public Class FrmSourceTypeDetail
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -136,14 +136,14 @@ Public Class FrmSourceTypeDetail
 
                 Dim qry As String = "DELETE FROM TSPL_HR_SOURCE_TYPE_DETAIL WHERE Source_Type_Detail_Code='" + txtcode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -185,7 +185,7 @@ Public Class FrmSourceTypeDetail
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -271,7 +271,7 @@ Public Class FrmSourceTypeDetail
                     Dim sQuery As String = "select * from  TSPL_HR_SOURCE_TYPE where Source_Type_Code='" + strSourceType + "'"
                     Dim dtsourcetype As DataTable = clsDBFuncationality.GetDataTable(sQuery)
                     If dtsourcetype.Rows.Count <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please Check Source Type " + strSourceType + ". it dose not exits in source type")
+                        clsCommon.MyMessageBoxShow(Me, "Please Check Source Type " + strSourceType + ". it dose not exits in source type")
                         Exit Sub
                     End If
 
@@ -289,7 +289,7 @@ Public Class FrmSourceTypeDetail
 
                 Next
                 'trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 'trans.Rollback()
                 myMessages.myExceptions(ex)

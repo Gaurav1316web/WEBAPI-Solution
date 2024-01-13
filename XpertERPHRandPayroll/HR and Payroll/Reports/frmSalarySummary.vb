@@ -78,7 +78,7 @@ Public Class FrmSalarySummary
         '' changes done by Panch Raj in crystel report:Ticket No - BM00000008036 
         Try
             If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Pay Period.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
                 Return
             End If
             Dim DivCond As String = ""
@@ -133,7 +133,7 @@ Public Class FrmSalarySummary
             'Qry += " from TSPL_COMPANY_MASTER where Comp_Code='" & objCommonVar.CurrentCompanyCode & "'"
             Dim DTC As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If DTC.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
             Qry = "Select t1.PAY_HEAD_CODE,t1.PAY_HEAD_NAME,GROUP_SEQ,"
@@ -249,13 +249,13 @@ Public Class FrmSalarySummary
             Next
 
             If dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmcrystal As New frmCrystalReportViewer()
                 frmcrystal.funreport(CrystalReportFolder.HRPayroll, dt, "crptSalarySummary", "Salary Summary ")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function MonthName(ByVal dateTime As DateTime) As String

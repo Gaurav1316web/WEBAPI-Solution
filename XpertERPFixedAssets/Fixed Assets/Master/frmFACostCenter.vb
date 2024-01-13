@@ -101,13 +101,13 @@ Public Class FrmFACostCenter
                 End If
                 If (ClsFACostCenter.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Cost_Code, NavigatorType.Current)
 
                 End If
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -135,7 +135,7 @@ Public Class FrmFACostCenter
                 Throw New Exception(" CostCenter Code not found to delete")
 
             End If
-            If clsCommon.MyMessageBoxShow("Do you want to delete Cost Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to delete Cost Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim qry As String = "delete from TSPL_FA_COST_CENTER_MASTER where CostCenter_Code='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
@@ -144,10 +144,10 @@ Public Class FrmFACostCenter
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Cost Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Cost Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Cost Code is in use", Me.Text)
 
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub

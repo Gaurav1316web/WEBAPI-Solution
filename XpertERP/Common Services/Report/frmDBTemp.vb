@@ -568,7 +568,7 @@ Public Class frmDBTemp
             Me.rcvTop5Customer.Series.Add(pieSeries)
             Me.rcvTop5Customer.ShowLegend = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -597,7 +597,7 @@ Public Class frmDBTemp
             series.GradientPercentage = True
             rcvTop5Bank.Series.Add(series)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadStockInventory()

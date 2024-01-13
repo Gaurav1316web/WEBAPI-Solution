@@ -208,6 +208,8 @@ Partial Class frmDairyBookingCustomer
         Me.btn_QtyReset = New Telerik.WinControls.UI.RadButton()
         Me.lblCreatedBy = New common.Controls.MyLabel()
         Me.pnlTCS = New Telerik.WinControls.UI.RadPanel()
+        Me.lblTCSBaseAmt = New common.Controls.MyLabel()
+        Me.txtTCSBaseAmt = New common.Controls.MyLabel()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.lblTCSAmount = New common.Controls.MyLabel()
         Me.btnCreateAndPrintInvoice = New Telerik.WinControls.UI.RadButton()
@@ -414,6 +416,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblCreatedBy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pnlTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlTCS.SuspendLayout()
+        CType(Me.lblTCSBaseAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTCSBaseAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTCSAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCreateAndPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2922,18 +2926,42 @@ Partial Class frmDairyBookingCustomer
         'pnlTCS
         '
         Me.pnlTCS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pnlTCS.Controls.Add(Me.lblTCSBaseAmt)
+        Me.pnlTCS.Controls.Add(Me.txtTCSBaseAmt)
         Me.pnlTCS.Controls.Add(Me.MyLabel17)
         Me.pnlTCS.Controls.Add(Me.lblTCSAmount)
-        Me.pnlTCS.Location = New System.Drawing.Point(773, 0)
+        Me.pnlTCS.Location = New System.Drawing.Point(465, 1)
         Me.pnlTCS.Name = "pnlTCS"
-        Me.pnlTCS.Size = New System.Drawing.Size(191, 32)
+        Me.pnlTCS.Size = New System.Drawing.Size(388, 32)
         Me.pnlTCS.TabIndex = 1486
+        '
+        'lblTCSBaseAmt
+        '
+        Me.lblTCSBaseAmt.FieldName = Nothing
+        Me.lblTCSBaseAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTCSBaseAmt.Location = New System.Drawing.Point(5, 8)
+        Me.lblTCSBaseAmt.Name = "lblTCSBaseAmt"
+        Me.lblTCSBaseAmt.Size = New System.Drawing.Size(84, 16)
+        Me.lblTCSBaseAmt.TabIndex = 137
+        Me.lblTCSBaseAmt.Text = "TCS Base Amt"
+        '
+        'txtTCSBaseAmt
+        '
+        Me.txtTCSBaseAmt.AutoSize = False
+        Me.txtTCSBaseAmt.BorderVisible = True
+        Me.txtTCSBaseAmt.FieldName = Nothing
+        Me.txtTCSBaseAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTCSBaseAmt.Location = New System.Drawing.Point(92, 6)
+        Me.txtTCSBaseAmt.Name = "txtTCSBaseAmt"
+        Me.txtTCSBaseAmt.Size = New System.Drawing.Size(104, 20)
+        Me.txtTCSBaseAmt.TabIndex = 138
+        Me.txtTCSBaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'MyLabel17
         '
         Me.MyLabel17.FieldName = Nothing
         Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel17.Location = New System.Drawing.Point(6, 8)
+        Me.MyLabel17.Location = New System.Drawing.Point(198, 8)
         Me.MyLabel17.Name = "MyLabel17"
         Me.MyLabel17.Size = New System.Drawing.Size(75, 16)
         Me.MyLabel17.TabIndex = 126
@@ -2945,7 +2973,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblTCSAmount.BorderVisible = True
         Me.lblTCSAmount.FieldName = Nothing
         Me.lblTCSAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTCSAmount.Location = New System.Drawing.Point(86, 6)
+        Me.lblTCSAmount.Location = New System.Drawing.Point(278, 6)
         Me.lblTCSAmount.Name = "lblTCSAmount"
         Me.lblTCSAmount.Size = New System.Drawing.Size(104, 20)
         Me.lblTCSAmount.TabIndex = 136
@@ -2977,7 +3005,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPanel3.Controls.Add(Me.MyLabel11)
         Me.RadPanel3.Controls.Add(Me.lblTotalDocAmt)
-        Me.RadPanel3.Location = New System.Drawing.Point(1197, 0)
+        Me.RadPanel3.Location = New System.Drawing.Point(1090, 0)
         Me.RadPanel3.Name = "RadPanel3"
         Me.RadPanel3.Size = New System.Drawing.Size(260, 32)
         Me.RadPanel3.TabIndex = 1484
@@ -3097,7 +3125,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel2.Controls.Add(Me.txtCrate)
         Me.RadPanel2.Controls.Add(Me.lblCan)
         Me.RadPanel2.Controls.Add(Me.txtCan)
-        Me.RadPanel2.Location = New System.Drawing.Point(431, 0)
+        Me.RadPanel2.Location = New System.Drawing.Point(169, 0)
         Me.RadPanel2.Name = "RadPanel2"
         Me.RadPanel2.Size = New System.Drawing.Size(294, 32)
         Me.RadPanel2.TabIndex = 1450
@@ -3173,7 +3201,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPanel1.Controls.Add(Me.MyLabel5)
         Me.RadPanel1.Controls.Add(Me.lblTotRAmt1)
-        Me.RadPanel1.Location = New System.Drawing.Point(967, 0)
+        Me.RadPanel1.Location = New System.Drawing.Point(857, 1)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(227, 32)
         Me.RadPanel1.TabIndex = 159
@@ -3448,6 +3476,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.pnlTCS, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlTCS.ResumeLayout(False)
         Me.pnlTCS.PerformLayout()
+        CType(Me.lblTCSBaseAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTCSBaseAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTCSAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCreateAndPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3698,5 +3728,7 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtLastCollectionDate As common.Controls.MyLabel
     Friend WithEvents btnGatepass As RadButton
     Friend WithEvents BtnRecieptEntry As RadButton
+    Friend WithEvents lblTCSBaseAmt As common.Controls.MyLabel
+    Friend WithEvents txtTCSBaseAmt As common.Controls.MyLabel
 End Class
 

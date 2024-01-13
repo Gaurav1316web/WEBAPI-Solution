@@ -214,11 +214,11 @@ Public Class frmDairyBookingUploader
             CheckAndValidate()
         ElseIf rdbAgainstTruckSheet.IsChecked = True Then
             If gvTSItem.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("There is no row in grid please select a truck sheet to import")
+                clsCommon.MyMessageBoxShow(Me, "There is no row in grid please select a truck sheet to import", Me.Text)
             End If
         Else
             If gvGPItem.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("There is no row in grid please select a Gate Pass sheet to import")
+                clsCommon.MyMessageBoxShow(Me, "There is no row in grid please select a Gate Pass sheet to import", Me.Text)
             End If
         End If
 
@@ -273,13 +273,13 @@ Public Class frmDairyBookingUploader
             If gvTSItem.Rows.Count > 0 Then
                 SaveAndPostAgainstTruckSheet()
             Else
-                clsCommon.MyMessageBoxShow("No Rows found to save")
+                clsCommon.MyMessageBoxShow(Me, "No Rows found to save", Me.Text)
             End If
         ElseIf rdbAgainstGatePass.IsChecked = True Then
             If gvGPItem.Rows.Count > 0 Then
                 SaveAndPostAgainstGatePass()
             Else
-                clsCommon.MyMessageBoxShow("No Rows found to save")
+                clsCommon.MyMessageBoxShow(Me, "No Rows found to save", Me.Text)
             End If
         Else
             SaveAndPost()
@@ -290,19 +290,19 @@ Public Class frmDairyBookingUploader
         Dim ValidateStatus As String = String.Empty
 
         If Gv1.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("There is no row in grid please select a sheet to import")
+            clsCommon.MyMessageBoxShow(Me, "There is no row in grid please select a sheet to import", Me.Text)
         End If
         If ValidatedCount = Gv1.Rows.Count Then
-            clsCommon.MyMessageBoxShow("All Rows are already validated")
+            clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
             Exit Sub
         End If
         If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             Exit Sub
         End If
         If rdbAgainstCardIndent.IsChecked = True Then
             If clsCommon.myLen(clsCommon.myCstr(txtCardSaleCode.Value)) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Create Card Sale No")
+                clsCommon.MyMessageBoxShow(Me, "Please Create Card Sale No", Me.Text)
                 Exit Sub
             End If
         End If
@@ -477,7 +477,7 @@ Public Class frmDairyBookingUploader
 
                 clsCommon.ProgressBarPercentHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 Gv1.Columns.Clear()
             Else
                 Throw New Exception("No Validated Rows found to save")
@@ -488,7 +488,7 @@ Public Class frmDairyBookingUploader
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message & " At Row No " & (i + 1))
+            clsCommon.MyMessageBoxShow(Me, ex.Message & " At Row No " & (i + 1))
         End Try
     End Sub
     Private Sub CreateAutoBookingAgainstMultipleCardIndent(ByVal trans As SqlTransaction)
@@ -1475,7 +1475,7 @@ Public Class frmDairyBookingUploader
             txtCardSaleCode.Value = clsCommon.ShowSelectForm("CardSaleFndr", qry, "Card_no", WhrCls, txtCardSaleCode.Value, "convert(datetime,Tspl_Card_Sale.FROM_DATE,103),card_no", isButtonClicked)
 
             If clsCommon.myLen(txtCardSaleCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Create Card Sale No." & Environment.NewLine)
+                clsCommon.MyMessageBoxShow(Me, "Please Create Card Sale No." & Environment.NewLine)
                 txtCardSaleCode.Value = ""
                 LblFromDate.Text = ""
                 lblToDate.Text = ""
@@ -1984,7 +1984,7 @@ Public Class frmDairyBookingUploader
 
                 clsCommon.ProgressBarPercentHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 gvTSItem.Columns.Clear()
             Else
                 Throw New Exception("No Rows found to save")
@@ -1995,7 +1995,7 @@ Public Class frmDairyBookingUploader
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message, "Dairy Booking Uploader")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Dairy Booking Uploader", Me.Text)
         End Try
     End Sub
     Sub BookingSaveDataTruckSheet_CR(ByVal trans As SqlTransaction)
@@ -4859,7 +4859,7 @@ Public Class frmDairyBookingUploader
 
                 clsCommon.ProgressBarPercentHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 gvGPItem.Columns.Clear()
             Else
                 Throw New Exception("No Rows found to save")
@@ -4870,7 +4870,7 @@ Public Class frmDairyBookingUploader
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message, "Dairy Booking Uploader")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Dairy Booking Uploader", Me.Text)
         End Try
     End Sub
 
@@ -5390,10 +5390,10 @@ Public Class frmDairyBookingUploader
                 If gvTSItem.Rows.Count > 0 Then
                     SaveAndPostAgainstTruckSheet_CD_WithoutReference()
                 Else
-                    clsCommon.MyMessageBoxShow("No Rows found to save")
+                    clsCommon.MyMessageBoxShow(Me, "No Rows found to save", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Rows found of CD type to save")
+                clsCommon.MyMessageBoxShow(Me, "No Rows found of CD type to save", Me.Text)
             End If
 
         End If
@@ -5414,7 +5414,7 @@ Public Class frmDairyBookingUploader
 
                 clsCommon.ProgressBarPercentHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 gvTSItem.Columns.Clear()
             Else
                 Throw New Exception("No Rows found to save")
@@ -5425,7 +5425,7 @@ Public Class frmDairyBookingUploader
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message, "Dairy Booking Uploader")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Dairy Booking Uploader", Me.Text)
         End Try
     End Sub
 End Class

@@ -4185,9 +4185,9 @@ Public Class FrmAPInvoiceEntry
                 End If
                 chkSecTrans.Checked = obj.is_Secondary_Transporter_Deduction
                 If chkSecTrans.Checked Then
-                    Dim qry As String = "select  min(TSPL_MCC_DISPATCH_CHALLAN.Dispatch_Date) as MinDate,max(TSPL_MCC_DISPATCH_CHALLAN.Dispatch_Date) as MaxDate" + Environment.NewLine + _
-                    " from TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL " + Environment.NewLine + _
-                    " left outer join TSPL_MCC_DISPATCH_CHALLAN on TSPL_MCC_DISPATCH_CHALLAN.Chalan_NO=TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL.DC_Challan_No " + Environment.NewLine + _
+                    Dim qry As String = "select  min(TSPL_MCC_DISPATCH_CHALLAN.Dispatch_Date) as MinDate,max(TSPL_MCC_DISPATCH_CHALLAN.Dispatch_Date) as MaxDate" + Environment.NewLine +
+                    " from TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL " + Environment.NewLine +
+                    " left outer join TSPL_MCC_DISPATCH_CHALLAN on TSPL_MCC_DISPATCH_CHALLAN.Chalan_NO=TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL.DC_Challan_No " + Environment.NewLine +
                     " where AP_Invoice_No='" + obj.Document_No + "'"
                     Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
@@ -4655,7 +4655,9 @@ Public Class FrmAPInvoiceEntry
     Sub ViewTDS()
         Try
             Dim frm As New FrmViewTDS()
-            UpdateTDSAmount()
+            If UsLock1.Status = ERPTransactionStatus.Pending Then
+                UpdateTDSAmount()
+            End If
             frm.ObjIn = objRemittance
             frm.ShowDialog()
             'If (frm.ObjReturn IsNot Nothing) Then

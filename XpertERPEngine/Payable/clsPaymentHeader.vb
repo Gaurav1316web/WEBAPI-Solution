@@ -4881,8 +4881,10 @@ Public Class clsPaymentHeader
             dtToDateForQry = clsCommon.GETSERVERDATE(tran)
         End If
 
-        Dim qry As String = " Select TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_PAYMENT_HEADER.Payment_No,TSPL_PAYMENT_HEADER.Payment_Date,TSPL_PAYMENT_HEADER.Payment_Amount+isnull(TDS_Amount ,0) as Payment_Amount " &
-               "  from TSPL_PAYMENT_HEADER WHERE Posted='1' "
+        Dim qry As String = " Select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_PAYMENT_HEADER.Payment_No) as SNo, TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_PAYMENT_HEADER.Payment_No,TSPL_PAYMENT_HEADER.Payment_Date,TSPL_PAYMENT_HEADER.Payment_Amount+isnull(TDS_Amount ,0) as Payment_Amount " &
+               "  from TSPL_PAYMENT_HEADER 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_HEADER.Vendor_Code
+WHERE Posted='1' "
         If clsCommon.myLen(strVendorCode) <= 0 Then
         Else
             qry += " AND Vendor_Code in  (" + strVendorCode + ") "
@@ -4893,7 +4895,8 @@ Public Class clsPaymentHeader
             qry += " and TSPL_PAYMENT_HEADER.Payment_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm tt") + "' "
         End If
         qry += " and TSPL_PAYMENT_HEADER.Payment_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtToDateForQry), "dd/MMM/yyyy hh:mm tt") + "' " &
-        "and not exists ( select 1 from TSPL_PAYMENT_PROCESS_ASSET_LOST where TSPL_PAYMENT_PROCESS_ASSET_LOST.Payment_No=TSPL_PAYMENT_HEADER.Payment_No) order by TSPL_PAYMENT_HEADER.Payment_Date"
+        "and not exists ( select 1 from TSPL_PAYMENT_PROCESS_ASSET_LOST where TSPL_PAYMENT_PROCESS_ASSET_LOST.Payment_No=TSPL_PAYMENT_HEADER.Payment_No) 
+order by TSPL_PAYMENT_HEADER.Payment_Date"
         Return qry
     End Function
 End Class

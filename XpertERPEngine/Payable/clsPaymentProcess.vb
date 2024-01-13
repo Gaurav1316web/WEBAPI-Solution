@@ -1214,22 +1214,22 @@ Public Class clsPaymentProcessHead
                 obj.Is_Skip_Previous_Credit_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Credit_Note")) = 1, True, False)
                 obj.Is_Skip_Previous_Debit_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Debit_Note")) = 1, True, False)
                 obj.Is_Skip_Previous_Advacee_Payment = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Advacee_Payment")) = 1, True, False)
-                'If isGetDT Then
-                '    obj.dtClsPaymentProcessInvoices = clsPaymentProcessInvoices.getDataDT(obj.Doc_No, trans)
+                If isGetDT Then
+                    obj.dtClsPaymentProcessInvoices = clsPaymentProcessInvoices.getDataDT(obj.Doc_No, trans)
 
-                '    obj.dtPPDetail = clsPaymentProcessDetail.getDataDT(obj.Doc_No, trans)
-                '    obj.dtClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getDataDT(obj.Doc_No, trans)
-                '    obj.dtClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getDataDT(obj.Doc_No, trans)
-                '    obj.dtClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getDataDT(obj.Doc_No, trans)
-                '    obj.dtClsPaymentProcessItemIssueReturn = clsPaymentProcessItemIssueReturn.getDatadt(obj.Doc_No, trans)
-                '    obj.dtClsPaymentProcessDeductions = clsPaymentProcessDeduction.getDataDT(obj.Doc_No, trans)
-                '    obj.dtClsPaymentProcessCreditNote = clsPaymentProcessCreditNote.getDataDT(obj.Doc_No, trans)
-                '    obj.dtclsPaymentProcessSaving = clsPaymentProcessSaving.getDataDT(obj.Doc_No, trans)
-                '    obj.dtclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getDataDT(obj.Doc_No, trans)
-                '    obj.dtPPAdvancePayment = clsPaymentProcessAdvancePayment.getDataDT(obj.Doc_No, trans)
-                '    obj.dtPPAssetLost = clsPaymentProcessAssetLost.getDataDT(obj.Doc_No, trans)
-                'Else
-                obj.ArrPPDetail = clsPaymentProcessDetail.getData(obj.Doc_No, trans)
+                    obj.dtPPDetail = clsPaymentProcessDetail.getDataDT(obj.Doc_No, trans)
+                    obj.dtClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getDataDT(obj.Doc_No, trans)
+                    obj.dtClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getDataDT(obj.Doc_No, trans)
+                    obj.dtClsPaymentProcessItemIssue = clsPaymentProcessItemIssue.getDataDT(obj.Doc_No, trans)
+                    obj.dtClsPaymentProcessItemIssueReturn = clsPaymentProcessItemIssueReturn.getDataDT(obj.Doc_No, trans)
+                    obj.dtClsPaymentProcessDeductions = clsPaymentProcessDeduction.getDataDT(obj.Doc_No, trans)
+                    obj.dtClsPaymentProcessCreditNote = clsPaymentProcessCreditNote.getDataDT(obj.Doc_No, trans)
+                    obj.dtclsPaymentProcessSaving = clsPaymentProcessSaving.getDataDT(obj.Doc_No, trans)
+                    obj.dtclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getDataDT(obj.Doc_No, trans)
+                    obj.dtPPAdvancePayment = clsPaymentProcessAdvancePayment.getDataDT(obj.Doc_No, trans)
+                    obj.dtPPAssetLost = clsPaymentProcessAssetLost.getDataDT(obj.Doc_No, trans)
+                Else
+                    obj.ArrPPDetail = clsPaymentProcessDetail.getData(obj.Doc_No, trans)
                     obj.arrClsPaymentProcessInvoices = clsPaymentProcessInvoices.getData(obj.Doc_No, trans)
                     obj.arrClsPaymentProcessMccSale = clsPaymentProcessMCCSale.getData(obj.Doc_No, trans)
                     obj.arrClsPaymentProcessMccSaleReturn = clsPaymentProcessMCCSaleReturn.getData(obj.Doc_No, trans)
@@ -1241,7 +1241,7 @@ Public Class clsPaymentProcessHead
                     obj.arrclsPaymentProcessCompulsory = clsPaymentProcessCompulsory.getData(obj.Doc_No, trans)
                     obj.ArrPPAdvancePayment = clsPaymentProcessAdvancePayment.getData(obj.Doc_No, trans)
                     obj.ArrPPAssetLost = clsPaymentProcessAssetLost.getData(obj.Doc_No, trans)
-                'End If
+                End If
 
             End If
         Catch ex As Exception
@@ -2312,6 +2312,15 @@ union all
 select TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE as Vendor_CODE,VSP_NAME as Vendor_NAME,'TDS' as Ded_Code,'TDS' as Ded_Desc,TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount as Amount,0 as ManAddDed
 from TSPL_PAYMENT_PROCESS_DETAIL 
 where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") and TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount>0 
+union ALL
+select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_MCC_SALE.customer_code as Vendor_CODE, 
+TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME  as Vendor_NAME,
+'CENTRAL INPUT' as Ded_Code,'CENTRAL INPUT' as Ded_Desc,TSPL_PAYMENT_PROCESS_MCC_SALE.Amount as Amount,1 as ManAddDed
+from TSPL_PAYMENT_PROCESS_MCC_SALE 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
+left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no 
+
+where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
 ) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code "
         Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
@@ -2339,6 +2348,23 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     rows = dtAddition.Select("ManAddDed=1")
                     If rows Is Nothing OrElse rows.Length > 0 Then
                         dtAdditionOther = rows.CopyToDataTable()
+                    Else
+                        dtAdditionOther = New DataTable()
+                        dtAdditionOther.Columns.Add("VSP_Uploader_Code", GetType(String))
+                        dtAdditionOther.Columns.Add("VSP_Code", GetType(String))
+                        dtAdditionOther.Columns.Add("Vendor_NAME", GetType(String))
+                        dtAdditionOther.Columns.Add("Addition", GetType(String))
+                        dtAdditionOther.Columns.Add("Amount", GetType(Decimal))
+                        dtAdditionOther.Columns.Add("ManAddDed", GetType(Integer))
+
+                        Dim dr As DataRow = dtAdditionOther.NewRow()
+                        dr("VSP_Uploader_Code") = "XXXYYYZZZ"
+                        dr("VSP_Code") = "XXXYYYZZZ"
+                        dr("Vendor_NAME") = "XXXYYYZZZ"
+                        dr("Addition") = "XXXYYYZZZ"
+                        dr("Amount") = 0
+                        dr("ManAddDed") = 1
+                        dtAdditionOther.Rows.Add(dr)
                     End If
 
                     Dim dtDeductionFinance As DataTable = Nothing
@@ -2351,6 +2377,23 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     rows = dtDeduction.Select("ManAddDed=1")
                     If rows Is Nothing OrElse rows.Length > 0 Then
                         dtDeductionOther = rows.CopyToDataTable()
+                    Else
+                        dtDeductionOther = New DataTable()
+                        dtDeductionOther.Columns.Add("VSP_Uploader_Code", GetType(String))
+                        dtDeductionOther.Columns.Add("Vendor_CODE", GetType(String))
+                        dtDeductionOther.Columns.Add("Vendor_NAME", GetType(String))
+                        dtDeductionOther.Columns.Add("Ded_Code", GetType(String))
+                        dtDeductionOther.Columns.Add("Amount", GetType(Decimal))
+                        dtDeductionOther.Columns.Add("ManAddDed", GetType(Integer))
+
+                        Dim dr As DataRow = dtDeductionOther.NewRow()
+                        dr("VSP_Uploader_Code") = "XXXYYYZZZ"
+                        dr("Vendor_CODE") = "XXXYYYZZZ"
+                        dr("Vendor_NAME") = "XXXYYYZZZ"
+                        dr("Ded_Code") = "XXXYYYZZZ"
+                        dr("Amount") = 0
+                        dr("ManAddDed") = 1
+                        dtDeductionOther.Rows.Add(dr)
                     End If
 
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
@@ -2589,15 +2632,83 @@ Public Class clsPaymentProcessDetail
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim qry As String = "select TSPL_PAYMENT_PROCESS_DETAIL.*,TabFATSNFDetail.FATKg,TabFATSNFDetail.FATPer,TabFATSNFDetail.SNFKg,TabFATSNFDetail.SNFPer from TSPL_PAYMENT_PROCESS_DETAIL " +
-                " left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer " +
-                " from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg,cast( ACC_Qty*SNF_PER/100 as decimal(18,2)) as SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE " +
-                ") as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No" + Environment.NewLine +
-                " where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" & doc_No & "' order by TSPL_PAYMENT_PROCESS_DETAIL.SNo"
-            Return clsDBFuncationality.GetDataTable(qry, trans)
+            Dim q As String = "select cast(TSPL_PAYMENT_PROCESS_DETAIL.Is_select as bit) as Is_select 
+,TSPL_PAYMENT_PROCESS_DETAIL.Doc_No  
+,TSPL_PAYMENT_PROCESS_DETAIL.SNo  
+,cast(TSPL_PAYMENT_PROCESS_DETAIL.is_Hold_Payment_Process as bit) as is_Hold_Payment_Process
+,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No  
+,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date  
+,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No 
+,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date 
+,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader 
+,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name 
+,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code 
+,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE 
+,TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME 
+,TSPL_PAYMENT_PROCESS_DETAIL.Main_VSP_CODE 
+,TSPL_PAYMENT_PROCESS_DETAIL.Main_VSP_NAME 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Name 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Branch_Code 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Branch_Name 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code 
+,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code 
+,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payment_Mode 
+,TSPL_PAYMENT_PROCESS_DETAIL.Cheque_No 
+,TSPL_PAYMENT_PROCESS_DETAIL.Cheque_Dated 
+,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
+ ,TabFATSNFDetail.FATPer 
+,TabFATSNFDetail.FATKg 
+,TabFATSNFDetail.SNFPer 
+,TabFATSNFDetail.SNFKg 
+,TSPL_PAYMENT_PROCESS_DETAIL.VSP_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.MP_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.MP_EMP 
+,TSPL_PAYMENT_PROCESS_DETAIL.MP_Incentive 
+,TSPL_PAYMENT_PROCESS_DETAIL.MP_IncentiveEMP 
+,TSPL_PAYMENT_PROCESS_DETAIL.MP_Net_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.MP_VSP_Diff_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Total 
+,TSPL_PAYMENT_PROCESS_DETAIL.SRN_RO_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.SRN_Net_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Handling_Charges_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Total_Invoice_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Reduce_Deduc_Amt 
+,TSPL_PAYMENT_PROCESS_DETAIL.Service_Charge_Amt 
+,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Asset_Lost_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Advance_Payment_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Advance_Payment_Amount_Knock_Off 
+,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount 
+,TSPL_PAYMENT_PROCESS_DETAIL.Invoice_Deduction_Amount 
+from   TSPL_PAYMENT_PROCESS_DETAIL 
+                  left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer 
+                  from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg, cast(ACC_Qty * SNF_PER / 100 As Decimal(18,2)) As SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE 
+                ) As TabFATSNFDetail On TabFATSNFDetail.DOC_CODE= TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
+                 where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT_PROCESS_DETAIL.SNo"
+            Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
-        End Try
+            End Try
+
 
     End Function
     Public Shared Function getData(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsPaymentProcessDetail)
@@ -2843,60 +2954,83 @@ Public Class clsPaymentProcessInvoices
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            'clsGridColumn.do 
-            Dim q As String = "select 
-,TSPL_PAYMENT_PROCESS_INVOICE.Doc_No as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.SLNO as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_No as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_Date as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.AP_Invoice_No as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.AP_Invoice_Date as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.VLC_CODE as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.VSP_CODE as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.VSP_NAME as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Name as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Ac_No as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Bank_Code as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Bank_Name as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Branch_Code as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Branch_Name as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_IFSC_Code as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Milk_Qty as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Inv_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Inv_EMP_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Inv_Amt_EMP_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Inv_Incentive_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Inv_Incentive_EMP_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Gross_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Vsp_Own_System_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Head_Load_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Deduction_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Vsp_Own_System_Doc_No as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Head_Load_Doc_No as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Deduction_Doc_No as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Reduce_Deduc_Amt as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Bank_Code as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Bank_Desc as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Payment_Mode as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Cheque_No as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Service_Charge_Amt as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.MP_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.MP_EMP as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.MP_Incentive as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.MP_IncentiveEMP as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.MP_Net_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.Handling_Charges_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.SRN_Net_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.SRN_RO_Amount as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.MCC_Code as [" + +"]
-,TSPL_PAYMENT_PROCESS_INVOICE.TDS_Amount as [" + +"]
+            '            Dim q As String = "select cast(1 as bit) as Sel [" + clsGridColumn.colSelect + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Doc_No as [" + clsGridColumn.colDOCNo + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.SLNO as [" + clsGridColumn.colSlno + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_No as [" + clsGridColumn.colPurchaseInvoiceNo + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_Date as [" + clsGridColumn.colPurchaseInvoiceDate + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.AP_Invoice_No as [" + clsGridColumn.colAPInvoiceNo + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.AP_Invoice_Date as [" + clsGridColumn.colAPInvoiceDate + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.VLC_CODE as [" + clsGridColumn.colVLCCode + "]
+            ',TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [" + clsGridColumn.colVLCUploaderCode + "]
+            ',TSPL_VLC_MASTER_HEAD.VLC_Name as [" + clsGridColumn.colVLCName + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.MCC_Code as [" + clsGridColumn.colMCCCode + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.VSP_CODE as [" + clsGridColumn.colVendorCode + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.VSP_NAME as [" + clsGridColumn.colVendorDesc + "]
+            ',TSPL_VENDOR_MASTER.Parent_Vendor_Code as [" + clsGridColumn.colActualVSPCode + "]
+            ',ParVen.Vendor_Name as [" + clsGridColumn.colActualVSPName + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Name as [" + clsGridColumn.colPayeeJointName + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Bank_Code as [" + clsGridColumn.colPayeeJointBankCode + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Bank_Name as [" + clsGridColumn.colPayeeJointBankDesc + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Branch_Code as [" + clsGridColumn.colPayeeJointBranchCode + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Branch_Name as [" + clsGridColumn.colPayeeJointBranchDesc + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_Ac_No as [" + clsGridColumn.colPayeeJointAcNo + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Payee_Joint_IFSC_Code as [" + clsGridColumn.colPayeeJointIFSC + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Milk_Qty as [" + clsGridColumn.colMilkQty + "]
+            ' ,TabFATSNFDetail.FATPer as [" + clsGridColumn.colFATPer + "] 
+            ',TabFATSNFDetail.FATKg as [" + clsGridColumn.colFATKG + "] 
+            ',TabFATSNFDetail.SNFPer as [" + clsGridColumn.colSNFPer + "] 
+            ',TabFATSNFDetail.SNFKg as [" + clsGridColumn.colSNFKG + "] 
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Inv_Amount as [" + clsGridColumn.colInvAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Inv_EMP_Amount as [" + clsGridColumn.colEmpAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Inv_Amt_EMP_Amount as [" + clsGridColumn.colInvAndEmpAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.SRN_RO_Amount as [" + clsGridColumn.colSRNROAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.SRN_Net_Amount as [" + clsGridColumn.colSRNNetAmount + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Handling_Charges_Amount as [" + clsGridColumn.colHandlingCharges + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Inv_Incentive_Amount as [" + clsGridColumn.colIncenAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Inv_Incentive_EMP_Amount as [" + clsGridColumn.colIncenEmpAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Service_Charge_Amt as [" + clsGridColumn.colServiceChargeAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.TDS_Amount as [" + clsGridColumn.colTDSAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Gross_Amount as [" + clsGridColumn.colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Vsp_Own_System_Amount as [" + clsGridColumn.colVSPOwnSystemAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Head_Load_Amount as [" + clsGridColumn.colHeadLoadAmt + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Deduction_Amount as [" + clsGridColumn.colInvDeduc + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Reduce_Deduc_Amt as [" + clsGridColumn.colReduceDeduc + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Bank_Code as [" + clsGridColumn.colBankCode + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Bank_Desc as [" + clsGridColumn.colBankDesc + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Payment_Mode as [" + clsGridColumn.colPayMode + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Cheque_No as [" + clsGridColumn.colChequeNo + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.MP_Amount as [" + clsGridColumn.colMPAmount + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.MP_EMP as [" + clsGridColumn.colMPEMPAmount + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.MP_Incentive as [" + clsGridColumn.colMPIncentiveAmount + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.MP_IncentiveEMP as [" + clsGridColumn.colMPEMPIncentiveAmount + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.MP_Net_Amount as [" + clsGridColumn.colMPNetAmount + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Vsp_Own_System_Doc_No as [" + clsGridColumn.colVSPOwnSystemDocNo + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Head_Load_Doc_No as [" + clsGridColumn.colHeadLoadDocNo + "]
+            ',TSPL_PAYMENT_PROCESS_INVOICE.Deduction_Doc_No as [" + clsGridColumn.colInvDedDocNo + "]
+            'from TSPL_PAYMENT_PROCESS_INVOICE 
+            'left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_INVOICE.VSP_CODE 
+            'left outer join TSPL_VENDOR_MASTER as ParVen on ParVen.Vendor_Code=TSPL_VENDOR_MASTER.Parent_Vendor_Code  
+            'left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_INVOICE.VSP_CODE
+            'left outer join (select DOC_CODE,cast(sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer from(select DOC_CODE, ACC_Qty, FAT_PER, SNF_PER, ACC_Qty * FAT_PER / 100 As FATKg, ACC_Qty * SNF_PER / 100 As SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE  ) as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_No 
+            'where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No ='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_INVOICE.slno as integer)"
 
-,TSPL_VENDOR_MASTER.Parent_Vendor_Code as ActualVSPCode,ParVen.Vendor_Name as ActualVSPName,TabFATSNFDetail.FATKg,TabFATSNFDetail.FATPer,TabFATSNFDetail.SNFKg,TabFATSNFDetail.SNFPer 
+            Dim q As String = "select cast(1 as bit) as Sel 
+,TSPL_PAYMENT_PROCESS_INVOICE.*  
+,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader 
+,TSPL_VLC_MASTER_HEAD.VLC_Name 
+ ,TabFATSNFDetail.FATPer  
+,TabFATSNFDetail.FATKg  
+,TabFATSNFDetail.SNFPer  
+,TabFATSNFDetail.SNFKg 
+,TSPL_VENDOR_MASTER.Parent_Vendor_Code as ActualVSPCode 
+,ParVen.Vendor_Name as ActualVSPName
 from TSPL_PAYMENT_PROCESS_INVOICE 
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_INVOICE.VSP_CODE 
 left outer join TSPL_VENDOR_MASTER as ParVen on ParVen.Vendor_Code=TSPL_VENDOR_MASTER.Parent_Vendor_Code  
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_INVOICE.VSP_CODE
 left outer join (select DOC_CODE,cast(sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer from(select DOC_CODE, ACC_Qty, FAT_PER, SNF_PER, ACC_Qty * FAT_PER / 100 As FATKg, ACC_Qty * SNF_PER / 100 As SNFKg from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE  ) as TabFATSNFDetail on TabFATSNFDetail.DOC_CODE=TSPL_PAYMENT_PROCESS_INVOICE.Milk_Purchase_Invoice_No 
-where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No ='" & doc_No & "'"
+where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No ='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_INVOICE.slno as integer)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3044,7 +3178,10 @@ Public Class clsPaymentProcessMCCSale
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select * from TSPL_PAYMENT_PROCESS_MCC_SALE where Doc_No='" & doc_No & "'"
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.* 
+from TSPL_PAYMENT_PROCESS_MCC_SALE 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
+where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_MCC_SALE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3144,7 +3281,10 @@ Public Class clsPaymentProcessItemIssue
 
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select * from TSPL_PAYMENT_PROCESS_ITEM_ISSUE where Doc_No='" & doc_No & "'"
+            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_ITEM_ISSUE.* 
+from TSPL_PAYMENT_PROCESS_ITEM_ISSUE 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_ITEM_ISSUE.Vendor_CODE
+where Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_ITEM_ISSUE.SLNO as int) "
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3242,7 +3382,10 @@ Public Class clsPaymentProcessItemIssueReturn
 
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select * from TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN where Doc_No='" & doc_No & "'"
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN.* 
+from TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN.Vendor_CODE
+where TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3336,7 +3479,10 @@ Public Class clsPaymentProcessDeduction
 
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select * from TSPL_PAYMENT_PROCESS_DEDUCTION where Doc_No='" & doc_No & "'"
+            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.* 
+from TSPL_PAYMENT_PROCESS_DEDUCTION 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_DEDUCTION.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3419,7 +3565,10 @@ Public Class clsPaymentProcessCreditNote
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Try
-            Dim q As String = "select * from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where Doc_No='" & doc_No & "'"
+            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.* 
+from TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
+where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3518,7 +3667,10 @@ Public Class clsPaymentProcessMCCSaleReturn
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Try
-            Dim q As String = "select * from TSPL_PAYMENT_PROCESS_MCC_SALE_Return where Doc_No='" & doc_No & "'"
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE_Return.* 
+from TSPL_PAYMENT_PROCESS_MCC_SALE_Return 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_MCC_SALE_Return.Customer_CODE
+where TSPL_PAYMENT_PROCESS_MCC_SALE_Return.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_MCC_SALE_Return.SLNO as int) "
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3653,7 +3805,12 @@ Public Class clsPaymentProcessAdvancePayment
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.*, TSPL_PAYMENT_HEADER.Payment_Date, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PAYMENT_HEADER.No_Of_EMI from TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT  left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Payment_No left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Vendor_Code where Doc_No='" & doc_No & "' order by SNo"
+            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.*, TSPL_PAYMENT_HEADER.Payment_Date, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PAYMENT_HEADER.No_Of_EMI 
+from TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT  
+left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Payment_No 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Vendor_Code 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Vendor_Code
+where TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Doc_No='" & doc_No & "' order by  TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.SNo  "
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3807,7 +3964,12 @@ Public Class clsPaymentProcessAssetLost
 
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select TSPL_PAYMENT_PROCESS_ASSET_LOST.*, TSPL_PAYMENT_HEADER.Payment_Date, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PAYMENT_HEADER.No_Of_EMI from TSPL_PAYMENT_PROCESS_ASSET_LOST  left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_PAYMENT_PROCESS_ASSET_LOST.Payment_No left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_ASSET_LOST.Vendor_Code where Doc_No='" & doc_No & "' order by SNo"
+            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_ASSET_LOST.*, TSPL_PAYMENT_HEADER.Payment_Date, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PAYMENT_HEADER.No_Of_EMI 
+from TSPL_PAYMENT_PROCESS_ASSET_LOST  
+left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_PAYMENT_PROCESS_ASSET_LOST.Payment_No 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_ASSET_LOST.Vendor_Code 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code
+where TSPL_PAYMENT_PROCESS_ASSET_LOST.Doc_No='" & doc_No & "' order by TSPL_PAYMENT_PROCESS_ASSET_LOST.SNo"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3883,9 +4045,12 @@ Public Class clsPaymentProcessSaving
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select TSPL_PAYMENT_PROCESS_SAVING.*,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_SAVING.*,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type
 ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Document_Total
-from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No where TSPL_PAYMENT_PROCESS_SAVING.Doc_No='" & doc_No & "'"
+from TSPL_PAYMENT_PROCESS_SAVING 
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where TSPL_PAYMENT_PROCESS_SAVING.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_SAVING.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3966,9 +4131,12 @@ Public Class clsPaymentProcessCompulsory
         Try
             Dim arr As New List(Of clsPaymentProcessCompulsory)
             Dim obj As New clsPaymentProcessCompulsory
-            Dim q As String = "select TSPL_PAYMENT_PROCESS_COMPULSORY.*,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_COMPULSORY.*,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type
 ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Document_Total
-from TSPL_PAYMENT_PROCESS_COMPULSORY left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
+from TSPL_PAYMENT_PROCESS_COMPULSORY 
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_COMPULSORY.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3980,7 +4148,9 @@ from TSPL_PAYMENT_PROCESS_COMPULSORY left outer join TSPL_VENDOR_INVOICE_HEAD on
             Dim obj As New clsPaymentProcessCompulsory
             Dim q As String = "select TSPL_PAYMENT_PROCESS_COMPULSORY.*,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type
 ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Document_Total
-from TSPL_PAYMENT_PROCESS_COMPULSORY left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
+from TSPL_PAYMENT_PROCESS_COMPULSORY 
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No 
+where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
                 For i As Integer = 0 To dtbl.Rows.Count - 1

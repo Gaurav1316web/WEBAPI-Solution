@@ -33,7 +33,7 @@ Public Class frmFilterToExport
                 cboColumns.DataSource = lstColumns
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -76,7 +76,7 @@ Public Class frmFilterToExport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -88,7 +88,7 @@ Public Class frmFilterToExport
             End If
             dict.Add(clsCommon.myCstr(cboColumns.SelectedValue), cbgCommonGrid.CheckedValue)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -138,7 +138,7 @@ Public Class frmFilterToExport
             Me.isCancel = False
             Me.Close()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -30,7 +30,7 @@ Public Class frmFreeImage
             csd200Obj = New MMMCogentCSD200APIs()
             csd200Obj.initializeScanner()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -53,11 +53,11 @@ Public Class frmFreeImage
             End If
             'End If
             If showMsgBox Then
-                clsCommon.MyMessageBoxShow("Initialization Successful", "3M Cogent CSD200")
+                clsCommon.MyMessageBoxShow(Me, "Initialization Successful", "3M Cogent CSD200", Me.Text)
             End If
             'End If
         Catch exception As Exception
-            clsCommon.MyMessageBoxShow(exception.Message)
+            clsCommon.MyMessageBoxShow(Me, exception.Message, Me.Text)
         End Try
     End Sub
 
@@ -88,7 +88,7 @@ Public Class frmFreeImage
         Try
             CaptureMethod()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -106,9 +106,9 @@ Public Class frmFreeImage
             If (num = CSD200APICodes.SUCCESS) AndAlso (captureBytes IsNot Nothing) Then
                 PictureBox1.Image = CreateGreyscaleBitmap(captureBytes, width, height)
             ElseIf num = CSD200APICodes.ERROR_TIMEOUT Then
-                clsCommon.MyMessageBoxShow("Fingerprint Capture Timeout")
+                clsCommon.MyMessageBoxShow(Me, "Fingerprint Capture Timeout", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow("Fingerprint Capture Failed. ErrorCode: " + num)
+                clsCommon.MyMessageBoxShow(Me, "Fingerprint Capture Failed. ErrorCode: " + num)
             End If
         Catch exception As Exception
             MessageBox.Show(exception.Message)

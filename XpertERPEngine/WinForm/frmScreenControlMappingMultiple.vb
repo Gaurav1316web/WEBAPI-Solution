@@ -43,7 +43,7 @@ Public Class frmScreenControlMappingMultiple
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 Next
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
             End If
 
 
@@ -52,22 +52,22 @@ Public Class frmScreenControlMappingMultiple
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Try
             If gv2 IsNot Nothing AndAlso gv2.Rows.Count > 0 Then
-                If clsCommon.MyMessageBoxShow("Do You Want to Delete ?", Me.Text, Windows.Forms.MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Do You Want to Delete ?", Me.Text, Windows.Forms.MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     Dim qry As String = "delete from TSPL_SCREEN_CONTROL_MASTER where programCode='" & formId & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
-                    clsCommon.MyMessageBoxShow("deleted Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "deleted Successfully", Me.Text)
                     clsCreateAllTables.getControlsOnForm(formId, gv2)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -79,7 +79,7 @@ Public Class frmScreenControlMappingMultiple
                 gv2.Rows(e.RowIndex).Cells("TableName").Value = clsCommon.ShowSelectForm("TableList", qry, "TABLE_NAME", "TABLE_TYPE='BASE TABLE'", gv2.Rows(e.RowIndex).Cells("TableName").Value, "", False)
             ElseIf e.Column Is gv2.Columns("FieldName") Then
                 If clsCommon.myLen(gv2.Rows(e.RowIndex).Cells("TableName").Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select Table First")
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Table First", Me.Text)
                     Exit Sub
                 End If
                 Dim qry As String = "select  upper(sys.columns.Name) as FieldName from sys.columns inner join sys.tables on sys.tables.object_id=sys.columns.object_id   "

@@ -930,6 +930,15 @@ Public Class FrmPendingAproval
         dr("Name") = "Purchase Invoice"
         dt1.Rows.Add(dr)
 
+        dr = dt1.NewRow()
+        dr("Code") = "DCS Milk Collection Multiple Days"
+        dr("Name") = "DCS Milk Collection Multiple Days"
+        dt1.Rows.Add(dr)
+        dr = dt1.NewRow()
+        dr("Code") = "MCC Milk Collection Multiple Days"
+        dr("Name") = "MCC Milk Collection Multiple Days"
+        dt1.Rows.Add(dr)
+
         cboTransaction.DataSource = dt1
         cboTransaction.DisplayMember = "Name"
         cboTransaction.ValueMember = "Code"
@@ -3789,6 +3798,68 @@ WHERE  convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103) >= convert(dat
                     qry += " ORDER BY TSPL_BULK_MILK_PURCHASE_INVOICE_head.DOC_DATE, TSPL_BULK_MILK_PURCHASE_INVOICE_head.DOC_NO "
                 End If
             End If
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "DCS Milk Collection Multiple Days") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.MilkCollectionDCSMultipleDays)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+
+                    qry = "select CAST(Status AS BIT) as Status,Document_No as [Document Id],Document_Date as [Document Date],  Created_By as [Created By],Description from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS  " &
+                        " where  convert(date,Document_Date,103)>= convert(date,'" + dtpFromDate.Value + "',103) " &
+                    " and convert(date,Document_Date,103) <=convert(date,'" + dtpToDate.Value + "',103) "
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Status = 0"
+                        Isrefreshed = False
+                    Else
+                        qry += "  and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Status = 1"
+                        Isrefreshed = True
+                    End If
+
+                    If ChkAllowBulkPosting.Equals(0) Then
+
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+
+                            qry += " and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+
+                    End If
+                    qry += " ORDER BY TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No "
+                End If
+            End If
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "MCC Milk Collection Multiple Days") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.MilkCollectionDCSMultipleDays)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+
+                    qry = "select CAST(Status AS BIT) as Status,Document_No as [Document Id],Document_Date as [Document Date],  Created_By as [Created By],Description from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS  " &
+                        " where  convert(date,Document_Date,103)>= convert(date,'" + dtpFromDate.Value + "',103) " &
+                    " and convert(date,Document_Date,103) <=convert(date,'" + dtpToDate.Value + "',103) "
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Status = 0"
+                        Isrefreshed = False
+                    Else
+                        qry += "  and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Status = 1"
+                        Isrefreshed = True
+                    End If
+
+                    If ChkAllowBulkPosting.Equals(0) Then
+
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+
+                            qry += " and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+
+                    End If
+                    qry += " ORDER BY TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_Date, TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No "
+                End If
+            End If
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -5181,6 +5252,35 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         'clsVSPItemIssue.PostData(strDocNo)
                         'clsMilkPurchaseInvoiceHead.postData(clsUserMgtCode.frmBulkMilkPurchaseInvoice, strDocNo)
                         clsMilkPurchaseInvoiceHead.postData(strDocNo, clsUserMgtCode.frmBulkMilkPurchaseInvoice)
+                        countPostedDoc = countPostedDoc + 1
+                    Catch ex As Exception
+                        dr = DtError.NewRow()
+                        dr("Code") = strDocNo
+                        dr("Error") = ex.Message
+                        DtError.Rows.Add(dr)
+                    End Try
+                Next
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "DCS Milk Collection Multiple Days") = CompairStringResult.Equal Then
+                For j As Integer = 0 To trnsLst.Count - 1
+                    Try
+                        clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
+                        strDocNo = trnsLst.Item(j)
+                        clsMilkCollectionDCSMulipleDays.PostData(strDocNo)
+                        countPostedDoc = countPostedDoc + 1
+                    Catch ex As Exception
+                        dr = DtError.NewRow()
+                        dr("Code") = strDocNo
+                        dr("Error") = ex.Message
+                        DtError.Rows.Add(dr)
+                    End Try
+                Next
+
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "MCC Milk Collection Multiple Days") = CompairStringResult.Equal Then
+                For j As Integer = 0 To trnsLst.Count - 1
+                    Try
+                        clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
+                        strDocNo = trnsLst.Item(j)
+                        clsMilkCollectionMCCMulipleDays.PostData(strDocNo)
                         countPostedDoc = countPostedDoc + 1
                     Catch ex As Exception
                         dr = DtError.NewRow()

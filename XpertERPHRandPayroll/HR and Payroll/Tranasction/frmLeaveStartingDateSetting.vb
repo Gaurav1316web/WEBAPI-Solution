@@ -29,7 +29,7 @@ Public Class frmLeaveStartingDateSetting
             obj.LEAVE_CODE = txtLeaveCode.Value
             obj.ALLOT_STARTDATE = dtpAllotStarting.Value
             If (obj.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.EMP_CODE, obj.LEAVE_CODE)
                 'Else
                 '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
@@ -80,7 +80,7 @@ Public Class frmLeaveStartingDateSetting
             dtpAvailStarting.Focus()
             Return False
         ElseIf dtpAllotStarting.Value > dtpAvailStarting.Value Then
-            clsCommon.MyMessageBoxShow(" Avail date must be greater than or equal to Allot date.")
+            clsCommon.MyMessageBoxShow(Me, " Avail date must be greater than or equal to Allot date.", Me.Text)
             dtpAvailStarting.Focus()
             Return False
         End If
@@ -88,11 +88,11 @@ Public Class frmLeaveStartingDateSetting
         Dim JoiningDate As String = clsDBFuncationality.getSingleValue(strchk)
         If clsCommon.myLen(JoiningDate) > 0 Then
             If clsCommon.myCDate(JoiningDate) > dtpAllotStarting.Value Then
-                clsCommon.MyMessageBoxShow("Allot Starting date can not be smaller then Joining date : '" + JoiningDate + "' of Employee.")
+                clsCommon.MyMessageBoxShow(Me, "Allot Starting date can not be smaller then Joining date : '" + JoiningDate + "' of Employee.")
                 Return False
             End If
             If clsCommon.myCDate(JoiningDate) > dtpAvailStarting.Value Then
-                clsCommon.MyMessageBoxShow("Avail Starting date can not be smaller then Joining date : '" + JoiningDate + "' of Employee.")
+                clsCommon.MyMessageBoxShow(Me, "Avail Starting date can not be smaller then Joining date : '" + JoiningDate + "' of Employee.")
                 Return False
             End If
         End If
@@ -105,7 +105,7 @@ Public Class frmLeaveStartingDateSetting
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -122,7 +122,7 @@ Public Class frmLeaveStartingDateSetting
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsLeaveStartingDateSetting.DeleteData(txtCode.Value, txtLeaveCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -276,7 +276,7 @@ Public Class frmLeaveStartingDateSetting
                     obj.SaveData(obj, True)
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

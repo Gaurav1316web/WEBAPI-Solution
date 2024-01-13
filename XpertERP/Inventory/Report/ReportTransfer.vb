@@ -295,13 +295,13 @@ Public Class ReportTransfer
                 End If
 
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "Please select TRANSFER NO.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select TRANSFER NO.", Me.Text)
                 Return False
             End If
             frmCRV = Nothing
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -450,7 +450,7 @@ Public Class ReportTransfer
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.ReportTransfer)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If

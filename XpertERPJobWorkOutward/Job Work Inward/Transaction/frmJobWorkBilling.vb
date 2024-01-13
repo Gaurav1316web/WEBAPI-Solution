@@ -1367,7 +1367,7 @@ Public Class frmJobWorkBillig
                                 stockqty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
 
                             Else
-                                common.clsCommon.MyMessageBoxShow("Select the Location")
+                                common.clsCommon.MyMessageBoxShow(Me, "Select the Location", Me.Text)
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                             End If
                         End If
@@ -1382,7 +1382,7 @@ Public Class frmJobWorkBillig
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1801,7 +1801,7 @@ Public Class frmJobWorkBillig
                     ElseIf strInvoiceType = "I" Then
                         strInvoiceTypeDesc = "Invoice"
                     End If
-                    If (common.clsCommon.MyMessageBoxShow("System is generating " & strInvoiceTypeDesc & "  Invoice Type.Do you still want to continue ?  ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No) Then
+                    If (common.clsCommon.MyMessageBoxShow(Me, "System is generating " & strInvoiceTypeDesc & "  Invoice Type.Do you still want to continue ?  ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No) Then
                         Return False
                     Else
                         ddlInvoiceType.SelectedValue = strInvoiceType
@@ -1817,7 +1817,7 @@ Public Class frmJobWorkBillig
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
         End If
     End Sub
 
@@ -2014,7 +2014,7 @@ Public Class frmJobWorkBillig
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -2355,7 +2355,7 @@ Public Class frmJobWorkBillig
                 AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2409,12 +2409,12 @@ Public Class frmJobWorkBillig
                 End If
                 If (ClsJobWorkBilling.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2494,7 +2494,7 @@ Public Class frmJobWorkBillig
         'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If (dt.Rows.Count > 10) Then
-                common.clsCommon.MyMessageBoxShow("Can't Handle More than 10 Tax Types in a Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Can't Handle More than 10 Tax Types in a Group", Me.Text)
                 Return
             End If
             lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
@@ -2595,7 +2595,7 @@ Public Class frmJobWorkBillig
                 fndcustNo.Value = strcustomernumber
                 txtcustdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name  from TSPL_customer_master where Cust_Code='" & fndcustNo.Value & "'"))
             Else
-                clsCommon.MyMessageBoxShow("Customer should be active")
+                clsCommon.MyMessageBoxShow(Me, "Customer should be active", Me.Text)
             End If
         End If
 
@@ -2718,7 +2718,7 @@ Public Class frmJobWorkBillig
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2915,7 +2915,7 @@ Public Class frmJobWorkBillig
             UpdateAllTotals()
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2930,7 +2930,7 @@ Public Class frmJobWorkBillig
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2975,14 +2975,14 @@ Public Class frmJobWorkBillig
                 End If
                 If SaveData() = True Then
                     If (ClsJobWorkBilling.PostData(txtDocNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
 
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2997,7 +2997,7 @@ Public Class frmJobWorkBillig
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -3022,7 +3022,7 @@ Public Class frmJobWorkBillig
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -3272,7 +3272,7 @@ Public Class frmJobWorkBillig
                 gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3284,7 +3284,7 @@ Public Class frmJobWorkBillig
             End If
 
             Dim Reason As String = ""
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR Reverse 
                 Dim frm As New FrmFreeTxtBox1
                 frm.Text = "Remarks for Reverse"
@@ -3297,12 +3297,12 @@ Public Class frmJobWorkBillig
 
                 If ClsJobWorkBilling.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3378,7 +3378,7 @@ Public Class frmJobWorkBillig
                 UpdateCurrentRow(gv1.Rows(gv1.Rows.Count - 1).Index)
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : BHA/14/11/18-000680, BHA/17/12/18-000757 By Prabhakar 
@@ -3386,7 +3386,7 @@ Public Class frmJobWorkBillig
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document Not Found For Print", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document Not Found For Print", Me.Text)
                 Return
             End If
             Dim qry As String = Nothing
@@ -3502,7 +3502,7 @@ Public Class frmJobWorkBillig
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3532,7 +3532,7 @@ Public Class frmJobWorkBillig
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
-            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
             End If
 
@@ -3550,10 +3550,10 @@ Public Class frmJobWorkBillig
             End If
 
             ClsJobWorkBilling.CancelData(Me.Form_ID, txtDocNo.Value, NavigatorType.Current)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function

@@ -279,7 +279,7 @@ TSPL_COMPANY_MASTER.Comp_Name
                         If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
                             BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)),0) as Payable_Amount "
                         Else
-                            BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as Payable_Amount "
+                            BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
 
                         End If
 
@@ -479,7 +479,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
-            Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+            ' Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
 
 
         ElseIf rbtnBankWiseSummary.IsChecked Then
@@ -531,17 +531,17 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
-            Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+            'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
         ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnSavingBankWiseSummary.IsChecked Then
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
-            Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+            'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
             Gv1.Columns("Bank_Desc").IsVisible = True
             Gv1.Columns("Bank_Desc").HeaderText = "Bank Description"
             Gv1.Columns("GRPColumn").IsVisible = False
         End If
         Dim summaryRowItemB As New GridViewSummaryRowItem()
-        Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n2}", GridAggregateFunction.Sum)
+        Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
         summaryRowItemB.Add(MilkTypeB)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
 

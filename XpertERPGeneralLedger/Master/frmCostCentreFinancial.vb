@@ -119,7 +119,7 @@ Public Class FrmCostCentreFinancial
                     End If
                 Next
                 If Count = 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select Cost Centre Level")
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Cost Centre Level", Me.Text)
                     Return False
                 End If
             End If
@@ -130,12 +130,12 @@ Public Class FrmCostCentreFinancial
         Try
             If (deleteConfirm()) Then
                 If (ClsCostCentreFinancial.DeleteData(fndCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funReset()
@@ -272,7 +272,7 @@ Public Class FrmCostCentreFinancial
                 End If
             End If
             If (ClsCostCentreFinancial.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Cost_Center_Fin_Code, NavigatorType.Current)
             End If
 
@@ -396,7 +396,7 @@ Public Class FrmCostCentreFinancial
 
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
@@ -419,7 +419,7 @@ Public Class FrmCostCentreFinancial
         Try
             LoadData(fndCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

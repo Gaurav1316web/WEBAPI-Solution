@@ -2298,7 +2298,12 @@ Public Class FrmReceipttNew
             Qry += " left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code =TSPL_CUSTOMER_MASTER.Cust_Code "
         End If
 
-        Dim wherecls As String = "Status ='N' AND OnHold='N'  "
+        Dim wherecls As String = ""
+        If chkDCS.Checked Then
+            wherecls = "CUSTOMER_FORM_TYPE = 'VSP' "
+        Else
+            wherecls = "Status ='N' AND OnHold='N' "
+        End If
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
         If clsCommon.myLen(strwherecls) > 0 Then
             wherecls += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ")"

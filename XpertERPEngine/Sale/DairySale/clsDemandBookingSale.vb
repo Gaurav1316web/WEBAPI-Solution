@@ -114,36 +114,49 @@ Public Class clsDemandBookingSale
             End If
 
             clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType, isNewEntry)
-            createDairyBookingDoc(obj.Document_No, trans, isNewEntry, ShiftType)
+            createDairyBookingDoc(obj.Document_No, trans, isNewEntry, ShiftType, obj.Document_Date)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
-    Public Shared Function createDairyBookingDoc(ByVal strDemandBookingNo As String, ByVal trans As SqlTransaction, ByVal isDemandBookingNewEntry As Boolean, ByVal UpdatedShiftType As String)
+    Public Shared Function createDairyBookingDoc(ByVal strDemandBookingNo As String, ByVal trans As SqlTransaction, ByVal isDemandBookingNewEntry As Boolean, ByVal UpdatedShiftType As String, ByVal strDocumentDate As Date)
         Dim obj As New clsBookingEntryDairySale()
         Dim objTr As New clsBookingDetailDairySale()
         Try
             If clsCommon.myLen(clsCommon.myCstr(strDemandBookingNo)) > 0 Then
                 Dim strBookingDocNo As String = String.Empty
+                Dim AmountToCheckCustomerOutstandingForTCSTax As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, trans))
+
                 Dim intCounter As Integer = 0
                 Dim LocationCode As String = String.Empty
                 Dim CustomerCode As String = String.Empty
                 Dim strShiftType As String = String.Empty
+                Dim IsTCSApplicable As Boolean = False
                 Dim DocuAmount As Double = 0
                 Dim totalQty As Double = 0
+                Dim TCSBaseAmount As Double = 0
+                Dim TCSAmount As Double = 0
                 Dim strdocdate As Date? = Nothing
                 Dim CustomerCount As Integer = 0
                 Dim strcountno As String = ""
                 Dim TotalCrate As Double = 0
                 Dim LineNo As Integer = 1
+                Dim TCSTaxRate As Double = 0
                 Dim strwhrcls As String = ""
+                Dim CurrFinYR As String = String.Empty
+                Dim FinancialYear As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT CASE WHEN DatePart(Month, '" + clsCommon.GetPrintDate(strDocumentDate, "dd/MMM/yyyy") + "') >= 4 THEN DatePart(Year, '" + clsCommon.GetPrintDate(strDocumentDate, "dd/MMM/yyyy") + "') + 1 ELSE DatePart(Year, '" + clsCommon.GetPrintDate(strDocumentDate, "dd/MMM/yyyy") + "') END AS Fiscal_Year", trans))
+                Dim strStartDate As Date = "01/Apr/" + clsCommon.myCstr(clsCommon.myCdbl(FinancialYear - 1))
+                Dim strEndDate As Date = "31/Mar/" + FinancialYear
+                CurrFinYR = clsCommon.myCstr(clsCommon.myCdbl(FinancialYear - 1)) + "-" + FinancialYear
                 If isDemandBookingNewEntry = False Then
                     If clsCommon.myLen(UpdatedShiftType) > 0 Then
                         strwhrcls = " and tspl_demand_booking_detail.ShiftType='" & UpdatedShiftType & "' "
                     End If
                 End If
+
+
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("select tspl_demand_booking_detail.*,tspl_demand_booking_master.Route_No,tspl_demand_booking_master.Location_Code,tspl_demand_booking_master.Document_Date,tspl_demand_booking_master.Created_By   from tspl_demand_booking_detail 
 left outer join tspl_demand_booking_master on tspl_demand_booking_master.document_no=tspl_demand_booking_detail.Document_No
 where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' " & strwhrcls & " 
@@ -151,17 +164,55 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                 Dim dtmain As DataTable = clsDBFuncationality.GetDataTable("select '' as DemandBookingSrNo,'' as Document_No,'' as 	Line_No,'' as	Cust_Code,'' as 	Item_Code,'' as 	Qty,'' as 	Unit_code,'' as 	Vehicle_Code,'' as 	Item_Rate,'' as DocumentAmount	,'' as Price_code	,'' as ShiftType	,'' as Route_No	,'' as Location_Code,'' as Document_Date,'' as TR_Code,'' as Created_By ", trans)
                 dtmain.Rows.RemoveAt(0)
                 For Each dr As DataRow In dt.Rows
-                    If clsCommon.CompairString(clsCommon.myCDate(strdocdate), clsCommon.myCDate(dr("Document_Date"))) = CompairStringResult.Equal And clsCommon.CompairString(CustomerCode, clsCommon.myCstr(dr("Cust_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strShiftType, clsCommon.myCstr(dr("ShiftType"))) = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(clsCommon.myCDate(strdocdate), clsCommon.myCDate(dr("Document_Date"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(CustomerCode, clsCommon.myCstr(dr("Cust_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strShiftType, clsCommon.myCstr(dr("ShiftType"))) = CompairStringResult.Equal Then
                     Else
                         CustomerCount = CustomerCount + 1
                     End If
                     CustomerCode = clsCommon.myCstr(dr("Cust_Code"))
+
                     strShiftType = clsCommon.myCstr(dr("ShiftType"))
                     strdocdate = clsCommon.myCDate(dr("Document_Date"))
+
                     dtmain.Rows.Add("" + clsCommon.myCstr(CustomerCount) + "", "" + clsCommon.myCstr(dr("Document_No")) + "", "" + clsCommon.myCstr(dr("Line_No")) + "", "" + clsCommon.myCstr(dr("Cust_Code")) + "", "" + clsCommon.myCstr(dr("Item_Code")) + "", "" + clsCommon.myCstr(dr("Qty")) + "", "" + clsCommon.myCstr(dr("Unit_Code")) + "", "" + clsCommon.myCstr(dr("Vehicle_Code")) + "", "" + clsCommon.myCstr(dr("Item_Rate")) + "", "" + clsCommon.myCstr(dr("ItemNetAmount")) + "", "" + clsCommon.myCstr(dr("Price_code")) + "", "" + clsCommon.myCstr(dr("ShiftType")) + "", " " + clsCommon.myCstr(dr("Route_No")) + "", "" + clsCommon.myCstr(dr("Location_Code")) + "", "" + clsCommon.myCstr(dr("Document_Date")) + "", "" + clsCommon.myCstr(dr("TR_Code")) + "", "" + clsCommon.myCstr(dr("Created_By")) + "")
                 Next
                 For Each dr1 As DataRow In dtmain.Rows
                     Dim intCurrInvNo As Integer = clsCommon.myCdbl(dr1("DemandBookingSrNo"))
+                    IsTCSApplicable = False
+                    Dim balanceAmt As Double = 0
+                    Dim OPInvoice_Sale_Amt As Double = 0
+                    TCSBaseAmount = 0
+                    Dim strqry As String = "select sum(ItemNetAmount) from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + clsCommon.myCstr(dr1("cust_code")) + "' and convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(strStartDate) + "' and convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(strEndDate) + "' "
+
+                    balanceAmt = clsDBFuncationality.getSingleValue(strqry, trans)
+                    OPInvoice_Sale_Amt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Sale_amt from TSPL_OP_INVOICE_FOR_TCS where Customer_Code='" + clsCommon.myCstr(dr1("cust_code")) + "' and Financial_Year_Code='" + clsCommon.myCstr(CurrFinYR) + "'", trans))
+                    TCSBaseAmount = OPInvoice_Sale_Amt + balanceAmt
+
+                    If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
+
+                        If TCSBaseAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                            IsTCSApplicable = True
+                            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, trans)) = 1 Then
+                                Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" + clsCommon.myCstr(dr1("cust_code")) + "'", trans)) = 1, True, False)
+                                If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
+                                    TCSTaxRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, trans))
+                                Else
+                                    TCSTaxRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, trans))
+                                End If
+                            Else
+                                Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" + clsCommon.myCstr(dr1("cust_code")) + "'", trans))
+                                If clsCommon.myLen(panno) > 0 Then
+                                    TCSTaxRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, trans))
+                                Else
+                                    TCSTaxRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, trans))
+                                End If
+                            End If
+                        Else
+                            TCSTaxRate = 0
+                        End If
+                    Else
+                        TCSTaxRate = 0
+                    End If
+                    'TCSAmount = TCSBaseAmount * (TCSTaxRate / 100)
                     If clsCommon.CompairString(strcountno, clsCommon.myCstr(dr1("DemandBookingSrNo"))) <> CompairStringResult.Equal Then
                         LineNo = 1
                         DocuAmount = 0
@@ -299,11 +350,13 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                                 objTr.Item_Basic_Rate = clsCommon.myCdbl(dblItemBasicPrice)
                                 objTr.SellingPrice = clsCommon.myCdbl(dt3.Rows(0).Item("Item_Selling_Price"))
                                 objTr.OrgRate = clsCommon.myCdbl(dt3.Rows(0).Item("Item_Selling_Price"))
-                                objTr.DocumentAmount = Math.Round(clsCommon.myCdbl(objTr.Booking_Qty) * clsCommon.myCdbl(objTr.Item_Rate), 2)
+                                'objTr.DocumentAmount = Math.Round(clsCommon.myCdbl(objTr.Booking_Qty) * clsCommon.myCdbl(objTr.Item_Rate), 2)
 
 
                                 objTr.Price_with_Tax = clsCommon.myCdbl(dblItemBasicPrice)
                                 objTr.Amount_with_Tax = dblItemBasicPrice * clsCommon.myCdbl(objTr.Booking_Qty)
+                                objTr.DocumentAmount = Math.Round(clsCommon.myCdbl(objTr.Amount_with_Tax), 2)
+
                                 objTr.Booking_Status = 1
                                 objTr.Item_Price_ID = clsCommon.myCstr(dt3.Rows(0).Item("Item_Price_ID"))
                                 objTr.Price_IdStartDate = clsCommon.myCstr(dt3.Rows(0).Item("Start_date"))
@@ -313,7 +366,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                                 Throw New Exception("Please create Price chart for customer " & objTr.Cust_Code & " for Location " & obj.location_code & "  for item " & clsCommon.myCstr(objTr.Short_Description) & Environment.NewLine)
                             End If
 
-                            DocuAmount = Math.Round(DocuAmount, 2) + Math.Round(clsCommon.myCdbl(objTr.DocumentAmount), 2)
+                            DocuAmount = Math.Round(DocuAmount, 2) + Math.Round(clsCommon.myCdbl(objTr.Amount_with_Tax), 2)
                             totalQty = totalQty + clsCommon.myCdbl(objTr.Booking_Qty)
                             obj.Arr.Add(objTr)
 
@@ -438,10 +491,11 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                                 objTr.Item_Basic_Rate = clsCommon.myCdbl(dblItemBasicPrice)
                                 objTr.SellingPrice = clsCommon.myCdbl(dt3.Rows(0).Item("Item_Selling_Price"))
                                 objTr.OrgRate = clsCommon.myCdbl(dt3.Rows(0).Item("Item_Selling_Price"))
-                                objTr.DocumentAmount = Math.Round(clsCommon.myCdbl(objTr.Booking_Qty) * clsCommon.myCdbl(objTr.Item_Rate), 2)
+
 
                                 objTr.Price_with_Tax = clsCommon.myCdbl(dblItemBasicPrice)
                                 objTr.Amount_with_Tax = dblItemBasicPrice * clsCommon.myCdbl(objTr.Booking_Qty)
+                                objTr.DocumentAmount = Math.Round(clsCommon.myCdbl(objTr.Amount_with_Tax), 2)
                                 objTr.Booking_Status = 1
                                 objTr.Item_Price_ID = clsCommon.myCstr(dt3.Rows(0).Item("Item_Price_ID"))
                                 objTr.Price_IdStartDate = clsCommon.myCstr(dt3.Rows(0).Item("Start_date"))
@@ -452,6 +506,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                             End If
 
                             DocuAmount = Math.Round(DocuAmount, 2) + Math.Round(clsCommon.myCdbl(objTr.DocumentAmount), 2)
+
                             totalQty = totalQty + clsCommon.myCdbl(objTr.Booking_Qty)
                             obj.Arr.Add(objTr)
 
@@ -466,7 +521,21 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                     End If
 
                     If Not (intCurrInvNo = intNextInvNo) Then
+                        obj.Total_Amt = DocuAmount
                         obj.TotalCrate = TotalCrate
+                        TCSAmount = 0
+                        If IsTCSApplicable Then
+                            If (TCSBaseAmount - DocuAmount) > AmountToCheckCustomerOutstandingForTCSTax Then
+                                TCSAmount = DocuAmount * (TCSTaxRate / 100)
+                                obj.TCSBaseAmt = DocuAmount
+                            Else
+                                TCSAmount = (TCSBaseAmount - AmountToCheckCustomerOutstandingForTCSTax) * (TCSTaxRate / 100)
+                                obj.TCSBaseAmt = (TCSBaseAmount - AmountToCheckCustomerOutstandingForTCSTax)
+                            End If
+
+                        End If
+
+                        obj.TCSAmount = TCSAmount
                         obj.SaveData(obj, True, trans, "")
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_DETAIL set DocumentAmount =" & DocuAmount & ", Total_Qty =" & totalQty & " where Document_No ='" & obj.Document_No & "' and Scheme_Item='N'", trans)
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set Created_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Modified_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Created_By ='" & clsCommon.myCstr(dr1("Created_By")) & "' where Document_No ='" & obj.Document_No & "'", trans)

@@ -239,7 +239,7 @@ Public Class FrmRequesitionApprovel
         obj.UserID = objCommonVar.CurrentUserCode
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
 
         ''richa agarwal regarding memory leakage
@@ -250,7 +250,7 @@ Public Class FrmRequesitionApprovel
 
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         If clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode) Then
-            common.clsCommon.MyMessageBoxShow("Layout Deleted successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Deleted successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -265,7 +265,7 @@ Public Class FrmRequesitionApprovel
         LoadBlankGrid()
         Try
             If txtFromDate.Value > txtToDate.Value Then
-                clsCommon.MyMessageBoxShow("FromDate should not be  greater than ToDate")
+                clsCommon.MyMessageBoxShow(Me, "FromDate should not be  greater than ToDate", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = ""
@@ -312,7 +312,7 @@ Public Class FrmRequesitionApprovel
             Next
             ' Dim TotalDept As Double = clsCommon.myCdbl(dt.Compute("SUM(DeptReqSal)", " GROUP BY TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE "))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -379,7 +379,7 @@ Public Class FrmRequesitionApprovel
                 TotalBudget = clsCommon.myCdbl(dr("DeptReqSal"))
                 Budget = clsCommon.myCdbl(dr("Budget"))
                 If TotalBudget > Budget Then
-                    clsCommon.MyMessageBoxShow("Please update budget according to requisition for department " & DeptName & "", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please update budget according to requisition for department " & DeptName & "", Me.Text)
                     Exit Sub
                 End If
             Next
@@ -392,7 +392,7 @@ Public Class FrmRequesitionApprovel
             End If
         Next
         If isOneChecked = False Then
-            clsCommon.MyMessageBoxShow("Please select atleast one requisition")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one requisition", Me.Text)
             Exit Sub
         End If
         For i As Integer = 0 To gv1.Rows.Count - 1
@@ -404,7 +404,7 @@ Public Class FrmRequesitionApprovel
             End If
 
         Next
-        clsCommon.MyMessageBoxShow("Data approved successfully", Me.Text)
+        clsCommon.MyMessageBoxShow(Me, "Data approved successfully", Me.Text)
         LoadData(True)
     End Sub
 

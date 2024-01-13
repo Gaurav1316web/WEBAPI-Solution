@@ -36,8 +36,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPProjectManagement",
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPElectrical", "..\XpertERPElectrical\XpertERPElectrical.vbproj", "{B4D8001A-B371-4961-80C4-C8E80F56B9FB}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPBulkProcurement", "..\XpertERPBulkProcurement\XpertERPBulkProcurement.vbproj", "{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}"
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPGeneralLedger", "..\XpertERPGeneralLedger\XpertERPGeneralLedger.vbproj", "{1BD27254-3B5A-40FA-B774-B2B64C2DF0A3}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPEngineeringAndPlantManagement", "..\XpertERPEngineeringAndPlantManagement\XpertERPEngineeringAndPlantManagement.vbproj", "{EA659C6F-9315-43D5-BE96-534D400F6BC4}"
@@ -49,6 +47,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPPurchase", "..\XpertERPPurchase\XpertERPPurchase.vbproj", "{59D1A2D5-C98A-463A-9512-30C90F0D433A}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPEngineFine", "..\XpertERPEngineFine\XpertERPEngineFine.vbproj", "{AB38A7F1-75CB-41F0-AE56-6AD1CEC5193B}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPBulkProcurement", "..\XpertERPBulkProcurement\XpertERPBulkProcurement.vbproj", "{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -124,10 +124,6 @@ Global
 		{B4D8001A-B371-4961-80C4-C8E80F56B9FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4D8001A-B371-4961-80C4-C8E80F56B9FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4D8001A-B371-4961-80C4-C8E80F56B9FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1BD27254-3B5A-40FA-B774-B2B64C2DF0A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1BD27254-3B5A-40FA-B774-B2B64C2DF0A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BD27254-3B5A-40FA-B774-B2B64C2DF0A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -152,6 +148,10 @@ Global
 		{AB38A7F1-75CB-41F0-AE56-6AD1CEC5193B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB38A7F1-75CB-41F0-AE56-6AD1CEC5193B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB38A7F1-75CB-41F0-AE56-6AD1CEC5193B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

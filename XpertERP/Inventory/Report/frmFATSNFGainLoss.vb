@@ -461,7 +461,7 @@ goAlreadyAdded:
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1351,7 +1351,7 @@ goAlreadyAdded:
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(Me, err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -1393,7 +1393,7 @@ goAlreadyAdded:
                 clsCommon.MyExportToPDF("Stock Reco (" + cboType.Text + ")", gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1465,7 +1465,7 @@ goAlreadyAdded:
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1666,7 +1666,7 @@ goAlreadyAdded:
             End If
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1905,7 +1905,7 @@ goAlreadyAdded:
 
             
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1917,7 +1917,7 @@ goAlreadyAdded:
             End If
             ExportCSV(gv1, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1943,10 +1943,10 @@ goAlreadyAdded:
             IO.File.WriteAllLines(filePath, transportSql.ExportCSV(sender, AddHeader))
             clsCommon.ProgressBarHide()
             If OpenInExcel Then
-                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully but can not open through excel, use other utility to open the file.")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported successfully but can not open through excel, use other utility to open the file.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -1984,7 +1984,7 @@ goAlreadyAdded:
             clsCommon.MyExportToPDF("Stock Reco (" + cboType.Text + ")", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

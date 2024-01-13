@@ -466,8 +466,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmTDMReport, "TDM Report", "1.05.03.53", clsUserMgtCode.SubModuleSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.SalesmanSalesOrderReport, "Salesman Sales Order", "1.05.03.54", clsUserMgtCode.SubModuleSaleReport, 37)
 
-
-
         ' shipping Report
 
         InsertDefaultValue(clsUserMgtCode.SubModuleSaleShippingReport, "Shippeing Report", "1.05.04", clsUserMgtCode.ModuleSales, "SM", 30)
@@ -1781,7 +1779,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "MCC Milk Collection", "1.18.02.36", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.18.02.37", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.18.02.38", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
-
+        InsertDefaultValue(clsUserMgtCode.BulkProcurementUploader, "Bulk Procurement Uploader", "1.18.02.39", clsUserMgtCode.SubModuleMilkProcurementTransaction, 8)
         '===========================Report Bulk========
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkMilkProcurementReport, "Report", "1.18.03", clsUserMgtCode.ModuleBulkMilkProcurement, "SM", 30)
         'InsertDefaultValue(clsUserMgtCode.rptSecondaryQuality, "Secondary Quality", "1.18.03.01", clsUserMgtCode.SubModuleBulkMilkProcurementReport, 37)
@@ -2065,6 +2063,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptSchemeDetail, "Scheme Details", "1.25.03.16", clsUserMgtCode.SubModuleFreshSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptLeakageDetail, "Leakage Details", "1.25.03.17", clsUserMgtCode.SubModuleFreshSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailFreshSale, "Fresh Sale Audit Trail Report", "1.25.03.18", clsUserMgtCode.SubModuleFreshSaleReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmSaleAnalysisReport, "Sale Analysis Report", "1.25.03.19", clsUserMgtCode.SubModuleSaleReport, 37)
         ' 
 
         InsertDefaultValue(clsUserMgtCode.ModuleProductSale, "Product Sale", "1.26", clsUserMgtCode.ExpertERP, "M", 23)

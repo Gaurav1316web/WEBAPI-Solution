@@ -5248,7 +5248,7 @@ Public Class frmPurchaseOrder
                     obj.RefTendorNo = txtRefTendorNo.Text
                 Else
                     obj.RefTendorNo = txtTenderNo.Value
-                    If clsCommon.myLen(obj.Against_Tender) > 0 Then
+                    If clsCommon.myLen(txtTenderNo.Value) > 0 Then
                         obj.Against_Tender = "Y"
                     End If
                 End If

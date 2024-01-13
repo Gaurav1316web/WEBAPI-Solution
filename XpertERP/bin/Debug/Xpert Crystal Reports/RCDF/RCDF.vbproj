@@ -317,6 +317,7 @@
     <None Include="Crystal Reports GST\Inventory Report\transferpreprintedLOoldfrt.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCDockReport.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBulkSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCANSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
@@ -326,6 +327,8 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntries.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDispatchProductSale.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDockSummaryReport.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoice%28New%29.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoiceParty.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoicePartyForPreFormat.rpt" />
@@ -1323,6 +1326,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLeger.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLegerJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLegerRJS.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptRouteWiseUnitMilkCollection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptShiftReportZeroAmountSample.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptTDSReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptTmpPayDedSummaryJPR.rpt" />

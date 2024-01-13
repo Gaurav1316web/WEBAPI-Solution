@@ -101,7 +101,7 @@ Public Class frmGrievanceLogging
 
                 If (clsGrievanceLogging.SaveData(obj, isnewentry)) Then
 
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
@@ -111,7 +111,7 @@ Public Class frmGrievanceLogging
 
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub butnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Btnsave.Click
@@ -124,18 +124,18 @@ Public Class frmGrievanceLogging
             If clsCommon.myLen(txt_Code.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Are you sure? Do you want to Delete this Code ('" + txt_Code.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure? Do you want to Delete this Code ('" + txt_Code.Value + "')", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim obj As New clsGrievanceLogging
                 If obj.DeleteData(txt_Code.Value) Then
-                    clsCommon.MyMessageBoxShow("Deleted Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                     ResetData()
                 End If
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
 
@@ -261,7 +261,7 @@ Public Class frmGrievanceLogging
                     linno += 1
                 Next
                 'trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 'trans.Rollback()
                 myMessages.myExceptions(ex)
@@ -309,7 +309,7 @@ Public Class frmGrievanceLogging
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmSourceTypeMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -327,7 +327,7 @@ Public Class frmGrievanceLogging
                 LblFrmDepartment.Text = clsCommon.myCstr(dr("Name"))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -340,7 +340,7 @@ Public Class frmGrievanceLogging
                 LblToDepartment.Text = clsCommon.myCstr(dr("Name"))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -353,7 +353,7 @@ Public Class frmGrievanceLogging
                 lblAppliedBy.Text = clsCommon.myCstr(dr("Name"))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -366,7 +366,7 @@ Public Class frmGrievanceLogging
                 LblGrievanceType.Text = clsCommon.myCstr(dr("Name"))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -374,12 +374,12 @@ Public Class frmGrievanceLogging
         Try
             Dim str As String = "update tspl_Grievance_Logging_Detail set posted='1' where code='" & clsCommon.myCstr(txt_Code.Value) & "'"
             clsDBFuncationality.ExecuteNonQuery(str)
-            clsCommon.MyMessageBoxShow("Code Posted Successfully...")
+            clsCommon.MyMessageBoxShow(Me, "Code Posted Successfully...", Me.Text)
             BtnPost.Enabled = False
             Btnsave.Enabled = False
             BtnDelete.Enabled = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 End Class

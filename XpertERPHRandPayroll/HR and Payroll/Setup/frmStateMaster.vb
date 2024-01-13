@@ -61,7 +61,7 @@ Public Class frmStateMaster
             Next
 
             If (obj.SaveData(obj, isNewEntry, Arr)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
 
                 btnSave.Text = "Update"
@@ -172,7 +172,7 @@ Public Class frmStateMaster
             End If
 
             If clsCommon.myLen(qry) > 0 Then
-                clsCommon.MyMessageBoxShow("GST State Code already Used. ")
+                clsCommon.MyMessageBoxShow(Me, "GST State Code already Used. ", Me.Text)
                 txtGSTStateCode.Focus()
                 Return False
             End If
@@ -187,18 +187,18 @@ Public Class frmStateMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         Dim discCode As String
-        discCode = clsDBFuncationality.getSingleValue("select STATE_CODE  from tspl_city_master  where STATE_CODE ='" & txtCode.Value & "'")
+        discCode = clsDBFuncationality.getSingleValue("select STATE_CODE  from tspl_city_master  where STATE_CODE ='" & txtCode.Value & "'", Me.Text)
         If clsCommon.myLen(discCode) > 0 Then
-            common.clsCommon.MyMessageBoxShow("This record can't be deleted.It is used in another process")
+            common.clsCommon.MyMessageBoxShow(Me, "This record can't be deleted.It is used in another process,Me.text")
             Exit Sub
         End If
-        discCode = clsDBFuncationality.getSingleValue("select STATE_CODE  from tspl_village_master  where STATE_CODE ='" & txtCode.Value & "'")
+        discCode = clsDBFuncationality.getSingleValue("select STATE_CODE  from tspl_village_master  where STATE_CODE ='" & txtCode.Value & "'", Me.Text)
         If clsCommon.myLen(discCode) > 0 Then
-            common.clsCommon.MyMessageBoxShow("This record can't be deleted.It is used in another process")
+            common.clsCommon.MyMessageBoxShow(Me, "This record can't be deleted.It is used in another process", Me.Text)
             Exit Sub
         End If
         ' Code Ends 
@@ -209,7 +209,7 @@ Public Class frmStateMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsStateMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -355,7 +355,7 @@ Public Class frmStateMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -447,7 +447,7 @@ Public Class frmStateMaster
                     obj.SaveData(obj, clsStateMaster.CheckNewEntry(obj.Code), Nothing)
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -531,11 +531,11 @@ Public Class frmStateMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Error at row no " + clsCommon.myCstr(ii) + Environment.NewLine + ex.Message)
+                clsCommon.MyMessageBoxShow(Me, "Error at row no " + clsCommon.myCstr(ii) + Environment.NewLine + ex.Message)
             End Try
         End If
         Me.Controls.Remove(gv)
