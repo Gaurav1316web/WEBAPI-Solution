@@ -256,7 +256,7 @@ Public Class FrmVillageMaster
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -473,7 +473,7 @@ Public Class FrmVillageMaster
             If check > 0 Then
                 Throw New Exception("First Delete All Its References")
             End If
-            If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Delete Village villcode " + fndcode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Delete Village villcode " + fndcode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Return False
             End If
             qry = "delete from TSPL_VILLAGE_MASTER where village_code='" + fndcode.Value + "'"

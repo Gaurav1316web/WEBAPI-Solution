@@ -103,7 +103,7 @@ Public Class frmAutoAdditionDeductionReport
             ReStoreGridLayout()
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -331,7 +331,7 @@ Public Class frmAutoAdditionDeductionReport
             End If
             TxtMultiDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VLC@VMPIFSC", qry, "VSP_Code", "VLC_Code_VLC_Uploader", TxtMultiDCS.arrValueMember, TxtMultiDCS.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -391,7 +391,7 @@ Public Class frmAutoAdditionDeductionReport
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 End Class

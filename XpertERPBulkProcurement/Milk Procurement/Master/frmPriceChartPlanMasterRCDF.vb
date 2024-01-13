@@ -73,7 +73,7 @@ Public Class frmPriceChartPlanMasterRCDF
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.MilkPricePlanning)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
@@ -153,7 +153,7 @@ Public Class frmPriceChartPlanMasterRCDF
             'End If
             UcAttachment1.AllowToSave()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
             Return False
         End Try
         Return True
@@ -245,7 +245,7 @@ Public Class frmPriceChartPlanMasterRCDF
                 Next
                 If clsPriceChartPlanning.SaveData(obj, isNewEntry) Then
                     UcAttachment1.SaveData(obj.Planning_Code)
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Planning_Code, NavigatorType.Current)
                 End If
             Else
@@ -253,7 +253,7 @@ Public Class frmPriceChartPlanMasterRCDF
                 btndelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -284,10 +284,10 @@ Public Class frmPriceChartPlanMasterRCDF
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         Try
             clsPriceChartPlanning.DeleteData(txtCode.Value)
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -388,7 +388,7 @@ Public Class frmPriceChartPlanMasterRCDF
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -429,7 +429,7 @@ Public Class frmPriceChartPlanMasterRCDF
             txtFatRatio.Focus()
             txtFatRatio.Select()
             txtFatRatio.Text = "0"
-            clsCommon.MyMessageBoxShow("Fill numeric value only.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Fill numeric value only.", Me.Text)
         End Try
         Try
             txtSNFRatio.Text = 100 - clsCommon.myCdbl(txtFatRatio.Text)
@@ -438,7 +438,7 @@ Public Class frmPriceChartPlanMasterRCDF
                 Throw New Exception("Please Fill Ratio Of SNF And FAT." + Environment.NewLine + "There Sum Should be Equal To 100")
             End If
         Catch exx As Exception
-            clsCommon.MyMessageBoxShow(exx.Message)
+            clsCommon.MyMessageBoxShow(Me, exx.Message)
         End Try
     End Sub
 
@@ -451,7 +451,7 @@ Public Class frmPriceChartPlanMasterRCDF
             txtSNFRatio.Focus()
             txtSNFRatio.Select()
             txtSNFRatio.Text = "0"
-            clsCommon.MyMessageBoxShow("Fill numeric value only.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Fill numeric value only.", Me.Text)
         End Try
         Try
             txtFatRatio.Text = 100 - clsCommon.myCdbl(txtSNFRatio.Text)
@@ -460,7 +460,7 @@ Public Class frmPriceChartPlanMasterRCDF
                 Throw New Exception("Please Fill Ratio Of SNF And FAT." + Environment.NewLine + "There Sum Should be Equal To 100")
             End If
         Catch exx As Exception
-            clsCommon.MyMessageBoxShow(exx.Message)
+            clsCommon.MyMessageBoxShow(Me, exx.Message)
         End Try
     End Sub
 
@@ -487,7 +487,7 @@ Public Class frmPriceChartPlanMasterRCDF
                 txtSNFRatio.Text = 0
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -589,7 +589,7 @@ Public Class frmPriceChartPlanMasterRCDF
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -613,7 +613,7 @@ Public Class frmPriceChartPlanMasterRCDF
     Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
         Try
             If isCalculate Then
-                clsCommon.MyMessageBoxShow("Rate is - " + clsCommon.myCstr(CalculateRate(txtSearchFAT.Value, txtSearchSNF.Value)), Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Rate is - " + clsCommon.myCstr(CalculateRate(txtSearchFAT.Value, txtSearchSNF.Value)), Me.Text)
             Else
                 arrNext = New Dictionary(Of Integer, clsRowColumnTemp)()
                 If txtSearchRate.Value > 0 Then
@@ -664,7 +664,7 @@ Public Class frmPriceChartPlanMasterRCDF
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -748,7 +748,7 @@ Public Class frmPriceChartPlanMasterRCDF
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_CHART_PLANNING", OMInsertOrUpdate.Update, "Planning_Code='" + txtCode.Value + "'", trans)
 
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data Posted Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully")
                     LoadData(txtCode.Value, NavigatorType.Current)
                 Catch ex As Exception
                     trans.Rollback()
@@ -758,7 +758,7 @@ Public Class frmPriceChartPlanMasterRCDF
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -909,7 +909,7 @@ Public Class frmPriceChartPlanMasterRCDF
             gvException.AllowRowReorder = True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Sub loadBlankGrid(ByVal gv As common.UserControls.MyRadGridView)
@@ -977,7 +977,7 @@ Public Class frmPriceChartPlanMasterRCDF
             gv.AllowRowReorder = True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1030,7 +1030,7 @@ Public Class frmPriceChartPlanMasterRCDF
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

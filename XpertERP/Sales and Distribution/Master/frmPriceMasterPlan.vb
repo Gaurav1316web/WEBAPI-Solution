@@ -70,7 +70,7 @@ Public Class frmPriceMasterPlan
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.MilkPricePlanning)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
@@ -656,9 +656,9 @@ Public Class frmPriceMasterPlan
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Delete the current plan" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Delete the current plan" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsPricePlanHead.DeleteData(txtCode.Value)
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
             End If
         Catch ex As Exception
@@ -887,7 +887,7 @@ Public Class frmPriceMasterPlan
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Code not found to post")
             End If
-            If clsCommon.MyMessageBoxShow("Post the current plan" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Post the current plan" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsPricePlanHead.PostData(txtCode.Value)
                 clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 ''richa MIL/30/07/19-000114 comment loaddata
@@ -1566,7 +1566,7 @@ Public Class frmPriceMasterPlan
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1595,7 +1595,7 @@ Public Class frmPriceMasterPlan
 
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     '==========Added by preti gupta Against ticket no[MIL/14/05/19-000083]
     Private Sub fndPricePlanCopy__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPricePlanCopy._MYValidating

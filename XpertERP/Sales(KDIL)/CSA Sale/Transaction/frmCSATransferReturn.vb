@@ -2973,7 +2973,7 @@ Public Class FrmCSATransferReturn
             gv.Rows(IntRow).Cells(colAmount).Value = Math.Round(clsCommon.myCdbl(gv.Rows(IntRow).Cells(colQty).Value) * clsCommon.myCdbl(gv.Rows(IntRow).Cells(colRate).Value), 2)
             UpdateCurrentRow(IntRow)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3029,7 +3029,7 @@ Public Class FrmCSATransferReturn
                 End If
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

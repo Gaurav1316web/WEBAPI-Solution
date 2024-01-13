@@ -332,21 +332,21 @@ Public Class FrmQualityCheck
         If allowToSave(False) Then
             If FinalChamberwise = 0 Then
                 If clsCommon.myCdbl(gvParam.Rows(0).Cells(SNFColName).Value) <= 0 AndAlso clsCommon.myCdbl(gvParam.Rows(0).Cells(FATColName).Value) <= 0 Then
-                    If clsCommon.MyMessageBoxShow("SNF Value is 0 and FAT value is 0, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "SNF Value is 0 and FAT value is 0, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         SaveData(False)
                     Else
                         Exit Sub
                     End If
 
                 ElseIf clsCommon.myCdbl(gvParam.Rows(0).Cells(FATColName).Value) <= 0 Then
-                    If clsCommon.MyMessageBoxShow("FAT Value is 0, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "FAT Value is 0, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         SaveData(False)
                     Else
                         Exit Sub
                     End If
 
                 ElseIf clsCommon.myCdbl(gvParam.Rows(0).Cells(SNFColName).Value) <= 0 Then
-                    If clsCommon.MyMessageBoxShow("SNF Value is 0 , Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "SNF Value is 0 , Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         SaveData(False)
                     Else
                         Exit Sub
@@ -360,21 +360,21 @@ Public Class FrmQualityCheck
                     Dim blnSave As Boolean = True
                     For ii As Integer = 0 To gvParam.Rows.Count - 1
                         If clsCommon.myCdbl(gvParam.Rows(ii).Cells(SNFColName).Value) <= 0 AndAlso clsCommon.myCdbl(gvParam.Rows(ii).Cells(FATColName).Value) <= 0 Then
-                            If clsCommon.MyMessageBoxShow("SNF Value is 0 and FAT value is 0 , At Line No " + clsCommon.myCstr(ii + 1) + " Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                            If clsCommon.MyMessageBoxShow(Me, "SNF Value is 0 and FAT value is 0 , At Line No " + clsCommon.myCstr(ii + 1) + " Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                                 blnSave = True
                             Else
                                 Exit Sub
                             End If
 
                         ElseIf clsCommon.myCdbl(gvParam.Rows(ii).Cells(FATColName).Value) <= 0 Then
-                            If clsCommon.MyMessageBoxShow("FAT Value is 0, At Line No" + clsCommon.myCstr(ii + 1) + " Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                            If clsCommon.MyMessageBoxShow(Me, "FAT Value is 0, At Line No" + clsCommon.myCstr(ii + 1) + " Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                                 blnSave = True
                             Else
                                 Exit Sub
                             End If
 
                         ElseIf clsCommon.myCdbl(gvParam.Rows(ii).Cells(SNFColName).Value) <= 0 Then
-                            If clsCommon.MyMessageBoxShow("SNF Value is 0  At Line No" + clsCommon.myCstr(ii + 1) + ", Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                            If clsCommon.MyMessageBoxShow(Me, "SNF Value is 0  At Line No" + clsCommon.myCstr(ii + 1) + ", Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                                 blnSave = True
                             Else
                                 Exit Sub
@@ -757,7 +757,7 @@ Public Class FrmQualityCheck
                         Dim strItem As String = clsCommon.myCstr(gvItem.Rows(intCount).Cells(colItemCode).Value)
                         Dim CorrectionFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Correction_Factor from TSPL_ITEM_MASTER where item_code='" & gvItem.Rows(intCount).Cells(colItemCode).Value & "'"))
                         If CorrectionFactor = 0 AndAlso blnExit = False Then
-                            clsCommon.MyMessageBoxShow("Please add correction factor of item " & strItem & " on item master.", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Please add correction factor of item " & strItem & " on item master.", Me.Text)
                             blnExit = True
                             'Exit For
                         End If
@@ -1508,7 +1508,7 @@ Public Class FrmQualityCheck
                                 If clsCommon.myLen(strMGradeRejected) = 0 Then
                                     If clsCommon.myLen(strMilkGrade) = 0 Then
                                         strMGradeRejected = "Rejected"
-                                        common.clsCommon.MyMessageBoxShow("W/o Milk Grade Rejected the Current Document", Me.Text)
+                                        common.clsCommon.MyMessageBoxShow(Me, "W/o Milk Grade Rejected the Current Document", Me.Text)
                                         'If common.clsCommon.MyMessageBoxShow("W/o Milk Grade Rejected the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                                         '    strMGradeRejected = "Rejected"
                                         'Else
@@ -2805,7 +2805,7 @@ Public Class FrmQualityCheck
                     If settMODValueForFAT > 0 Then
                         If CInt(fracValue1) Mod settMODValueForFAT <> 0 Then
                             If Not isContractorJobWork Then
-                                clsCommon.MyMessageBoxShow(" FAT value in Grid, must have its decimal part multiple of 5")
+                                clsCommon.MyMessageBoxShow(Me, " FAT value in Grid, must have its decimal part multiple of 5", Me.Text)
                                 gvParam.Rows(0).Cells(FATColName).Value = 0
                                 gvParam.CurrentRow = gvParam.Rows(0)
                                 gvParam.CurrentColumn = gvParam.Columns(FATColName)
@@ -2822,7 +2822,7 @@ Public Class FrmQualityCheck
                     If settMODValueForFAT > 0 Then
                         If CInt(fracValue1) Mod settMODValueForFAT <> 0 Then
                             If Not isContractorJobWork Then
-                                clsCommon.MyMessageBoxShow(" FAT value in Grid, must have its decimal part multiple of 5")
+                                clsCommon.MyMessageBoxShow(Me, " FAT value in Grid, must have its decimal part multiple of 5", Me.Text)
                                 gvParam.CurrentRow.Cells(FATColName).Value = 0
                                 gvParam.CurrentRow = gvParam.Rows(0)
                                 gvParam.CurrentColumn = gvParam.Columns(FATColName)
@@ -2918,14 +2918,14 @@ Public Class FrmQualityCheck
 
     Private Sub btnReverse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsQualityCheck.ReverseAndUnpost(fndQcNo.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     loadData(fndQcNo.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2954,7 +2954,7 @@ Public Class FrmQualityCheck
                 obj1.GridColumns = gvParam.ColumnCount
                 obj1.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj1.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 ''stuti regarding memory leakage
                 obj1.GridLayout.Close()
@@ -2970,7 +2970,7 @@ Public Class FrmQualityCheck
         clsGridLayout.DeleteData(MyBase.Form_ID & "gvItem", objCommonVar.CurrentUserCode)
         clsGridLayout.DeleteData(MyBase.Form_ID & "gvParam", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub mnuEmailSmsSetting_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuEmailSmsSetting.Click
@@ -3016,7 +3016,7 @@ Public Class FrmQualityCheck
                 End If
             End If
         Catch err As Exception
-            clsCommon.MyMessageBoxShow(err.Message, "Restore layout")
+            clsCommon.MyMessageBoxShow(Me, err.Message, "Restore layout", Me.Text)
         End Try
     End Sub
 
@@ -3092,7 +3092,7 @@ Public Class FrmQualityCheck
 
         Try
             If clsCommon.myLen(fndQcNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select QC No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select QC No. First", Me.Text)
                 fndQcNo.Focus()
                 Return
             End If
@@ -3126,10 +3126,10 @@ Public Class FrmQualityCheck
             objApprov.Screen_Name = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qryp))
             ClsTransactionApproval.SaveData(objApprov, True)
             btnSendForApproval.Enabled = False
-            clsCommon.MyMessageBoxShow("Document Sent For special Approval Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Document Sent For special Approval Successfully", Me.Text)
             loadData(fndQcNo.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3185,7 +3185,7 @@ Public Class FrmQualityCheck
             LblFAT.Text = "00.00"
             LblSnf.Text = "00.00"
             objSr.ClosePort()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3369,10 +3369,10 @@ Public Class FrmQualityCheck
 
     Sub ManualReject()
         Try
-            If common.clsCommon.MyMessageBoxShow(" Do You Want To Reject This Document ?", "Quality Check", MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, " Do You Want To Reject This Document ?", "Quality Check", MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
 
                 If (clsCommon.myLen(fndQcNo.Value) <= 0) Then
-                    clsCommon.MyMessageBoxShow("QC No not found to Reject")
+                    clsCommon.MyMessageBoxShow(Me, "QC No not found to Reject", Me.Text)
                     Exit Sub
                 End If
                 Dim strDocType As String = String.Empty
@@ -3388,14 +3388,14 @@ Public Class FrmQualityCheck
                 Dim strRemarks As String = "Manual Rejected"
                 If (obj.isPosted = 1) AndAlso obj.is_Param_accepted <> 0 Then
                     clsDBFuncationality.ExecuteNonQuery(" update tspl_quality_check set Remarks='" & strRemarks & "', is_Param_Accepted=0,is_Manual_Rejected=1,Manual_Rejected_Date_Time=getdate() where qc_no='" & fndQcNo.Value & "'")
-                    clsCommon.MyMessageBoxShow("QC Rejected..")
+                    clsCommon.MyMessageBoxShow(Me, "QC Rejected..", Me.Text)
                     loadData(fndQcNo.Value, strDocType, NavigatorType.Current)
                 Else
-                    clsCommon.MyMessageBoxShow("You can not Reject Unposted Document Manually..")
+                    clsCommon.MyMessageBoxShow(Me, "You can not Reject Unposted Document Manually..", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3416,7 +3416,7 @@ Public Class FrmQualityCheck
             End If
             trans.Commit()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -3428,7 +3428,7 @@ Public Class FrmQualityCheck
     Private Sub btnSendForSeparation_Click(sender As Object, e As EventArgs) Handles btnSendForSeparation.Click
         Try
             If clsCommon.myLen(fndQcNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select QC No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select QC No. First", Me.Text)
                 fndQcNo.Focus()
                 Return
             End If
@@ -3438,7 +3438,7 @@ Public Class FrmQualityCheck
                 loadData(fndQcNo.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3462,17 +3462,17 @@ Public Class FrmQualityCheck
                 If chkBulkMilkProc.IsChecked = True Then
                     StrMessase = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select SRN_NO from TSPL_Bulk_MILK_SRN where Qc_No='" + fndQcNo.Value + "'"))
                     If clsCommon.myLen(StrMessase) > 0 Then
-                        clsCommon.MyMessageBoxShow("Bulk SRN No - " + StrMessase + " is created against this QC.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Bulk SRN No - " + StrMessase + " is created against this QC.", Me.Text)
                         Exit Sub
                     End If
                 ElseIf chkMccProc.IsChecked = True Then
                     StrMessase = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Receipt_Challan_No from tspl_milk_transfer_in where Qc_No='" + fndQcNo.Value + "'"))
                     If clsCommon.myLen(StrMessase) > 0 Then
-                        clsCommon.MyMessageBoxShow("Milk Transfer In " + StrMessase + " is created against this QC.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Milk Transfer In " + StrMessase + " is created against this QC.", Me.Text)
                         Exit Sub
                     End If
                 End If
-                If common.clsCommon.MyMessageBoxShow("Do you want to make Amendment Qc Parameter", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Do you want to make Amendment Qc Parameter", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     If Not allowToSave(True) Then
                         Exit Sub
                     End If
@@ -3546,7 +3546,7 @@ Public Class FrmQualityCheck
 
                     If clsQcParam.saveData(obj.arrQcParam, obj.QC_No, trans) Then
                         trans.Commit()
-                        common.clsCommon.MyMessageBoxShow("Successfully Amendmented")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Amendmented", Me.Text)
                     End If
 
                     loadData(fndQcNo.Value, IIf(chkBulkMilkProc.IsChecked, "BulkProc", "MccProc"), NavigatorType.Current)
@@ -3555,7 +3555,7 @@ Public Class FrmQualityCheck
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

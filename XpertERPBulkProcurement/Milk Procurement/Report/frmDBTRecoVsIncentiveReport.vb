@@ -270,7 +270,7 @@ Public Class frmDBTRecoVsIncentiveReport
                 ReStoreGridLayout()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

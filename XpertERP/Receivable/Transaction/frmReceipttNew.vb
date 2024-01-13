@@ -241,7 +241,7 @@ Public Class FrmReceipttNew
             ERPStartDate = objCommonVar.ERPStartDate
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
+            clsCommon.MyMessageBoxShow(Me, "Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
         ''------------------------
@@ -878,7 +878,7 @@ Public Class FrmReceipttNew
                 If clsCommon.myLen(strbancode) > 0 Then
                     Dim bankcode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select BANK_CODE as [Code] from TSPL_BANK_MASTEr where TSPL_bank_master.INACTIVE ='Active' and TSPL_BANK_MASTER.bank_type<>'S' and Bank_Code='" & clsCommon.myCstr(strbancode) & "' "))
                     If clsCommon.myLen(bankcode) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter Bank Code into fixed parameter.", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter Bank Code into fixed parameter.", Me.Text)
                         Return False
                     End If
                 Else
@@ -989,7 +989,7 @@ Public Class FrmReceipttNew
 
             Else
                 If fndCustomer.Value = "" Then
-                    common.clsCommon.MyMessageBoxShow("Please  Select Customer", "Receipt Entry", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please  Select Customer", "Receipt Entry", MessageBoxButtons.OK, Me.Text)
                     Return False
                 End If
             End If
@@ -997,7 +997,7 @@ Public Class FrmReceipttNew
 
             '' 25-Sep-2015 BM00000007964 (Unapplied amount can not be greater than receipt amount)
             If clsCommon.myCdbl(txtUnAppliedBal.Text) > clsCommon.myCdbl(txtUnApplAmt.Text) Then
-                common.clsCommon.MyMessageBoxShow("Please check ! Unapplied amount can not be greater than from receipt amount.", "Receipt Entry", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Please check ! Unapplied amount can not be greater than from receipt amount.", "Receipt Entry", MessageBoxButtons.OK, Me.Text)
                 Return False
             End If
             ''
@@ -1063,7 +1063,7 @@ Public Class FrmReceipttNew
 
                         Dim availBal As Double = BalanceAmount_invoice(fndCustomer.Value, dgvReceipt.Rows(ii).Cells(colDocNo).Value)
                         If availBal < clsCommon.myCdbl(dgvReceipt.Rows(ii).Cells(colAppliedAmt).Value) Then
-                            common.clsCommon.MyMessageBoxShow("Available Balance:  " + clsCommon.myCstr(availBal) + " Applied Amount: " + clsCommon.myCstr(dgvReceipt.Rows(ii).Cells(colAppliedAmt).Value) + " against Document: " + clsCommon.myCstr(dgvReceipt.Rows(ii).Cells(colSINo).Value) + "", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Available Balance:  " + clsCommon.myCstr(availBal) + " Applied Amount: " + clsCommon.myCstr(dgvReceipt.Rows(ii).Cells(colAppliedAmt).Value) + " against Document: " + clsCommon.myCstr(dgvReceipt.Rows(ii).Cells(colSINo).Value) + "", Me.Text)
                             dgvReceipt.Rows(ii).Cells(colBalAmt).Value = availBal
                             Return False
                         End If
@@ -1116,13 +1116,13 @@ Public Class FrmReceipttNew
                     EnteredAmt += clsCommon.myCdbl(dgvmiscpayment.Rows(ii).Cells(colAmount).Value)
                 Next
                 If chkSalesmanType.Checked = True AndAlso clsCommon.myLen(txtsalesmanCode.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Salesman Code Or Uncheck Salesman Type")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Salesman Code Or Uncheck Salesman Type", Me.Text)
                     txtsalesmanCode.Focus()
                     Return False
                 End If
 
                 If clsCommon.myCdbl(txtUnAppliedBal.Text) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Receipt Amount Should Be Equal to Applied Amount", "Recepit Entry", MessageBoxButtons.OK, RadMessageIcon.Info)
+                    common.clsCommon.MyMessageBoxShow(Me, "Receipt Amount Should Be Equal to Applied Amount", "Recepit Entry", MessageBoxButtons.OK, RadMessageIcon.Info, Me.Text)
                     Return False
                 End If
 
@@ -1133,7 +1133,7 @@ Public Class FrmReceipttNew
                             Dim qry As String = "select Account_Code from TSPL_GL_ACCOUNTS where Account_Code in (" + clsCommon.GetMulcallString(arrAccountCode) + ") and ControlAccount<>'N' AND TSPL_GL_ACCOUNTS.Account_Code NOT IN  (select TSPL_CONTROL_ACC_MAPPING.Account_Code  from TSPL_CONTROL_ACC_MAPPING where IsForReceipt   =1)"
                             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                clsCommon.MyMessageBoxShow("Can not select control Account -" + clsCommon.myCstr(dt.Rows(0)("Account_Code")), Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, "Can not select control Account -" + clsCommon.myCstr(dt.Rows(0)("Account_Code")), Me.Text)
                                 Return False
                             End If
                         End If
@@ -3994,7 +3994,7 @@ Public Class FrmReceipttNew
         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateOpeningEntryAutomatically, clsFixedParameterCode.CreateOpeningEntryAutomatically, Nothing)), "1") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "M") = CompairStringResult.Equal) And JEWithOPening = True Then
             strCustomerOpeningAccount = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ISNULL(Bank_Opening_Clearing_Account ,'') from tspl_bank_master where BANK_CODE ='" & fndBankCode.Value & "'"))
             If clsCommon.myLen(strCustomerOpeningAccount) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please set Bank Opening Clearing Account for Bank - " + fndBankCode.Value)
+                common.clsCommon.MyMessageBoxShow(Me, "Please set Bank Opening Clearing Account for Bank - " + fndBankCode.Value, Me.Text)
                 Return
             End If
             whrCls += " and Account_Code='" & strCustomerOpeningAccount & "'"
@@ -4725,7 +4725,7 @@ Public Class FrmReceipttNew
 
 
     Private Sub dgvmiscpayment_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles dgvmiscpayment.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -4844,7 +4844,7 @@ Public Class FrmReceipttNew
             Dim obj As New clsRcptEntryHeader()
             obj = clsRcptEntryHeader.GetData(Me.fndRcptNo.Value, NavigatorType.Current)
             If clsPrintCheck.CheckforVoidCheck(obj.Bank_Code, obj.Cheque_No) Then
-                clsCommon.MyMessageBoxShow("Please enter valid Cheque No, Entered Cheque No -" & obj.Cheque_No & " is Void.")
+                clsCommon.MyMessageBoxShow(Me, "Please enter valid Cheque No, Entered Cheque No -" & obj.Cheque_No & " is Void.", Me.Text)
                 Exit Sub
             End If
             Dim frm As New frmPrintCheck
@@ -8207,7 +8207,7 @@ Public Class FrmReceipttNew
                 CalculateTaxwithoutDO()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

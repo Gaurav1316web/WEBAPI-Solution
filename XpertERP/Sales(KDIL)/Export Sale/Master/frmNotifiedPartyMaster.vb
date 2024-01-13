@@ -460,11 +460,11 @@ Public Class FrmNotifiedPartyMaster
 
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If clsNotifiedPartyMaster.DeleteData(txtcode.Value, fndCustomer.Value, trans) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -654,7 +654,7 @@ Public Class FrmNotifiedPartyMaster
             Dim count As Integer = clsDBFuncationality.getSingleValue(qry)
 
             If count > 0 Then
-                clsCommon.MyMessageBoxShow("Selected Party is already used," + Environment.NewLine + "for more changes edit previous record.")
+                clsCommon.MyMessageBoxShow(Me, "Selected Party is already used," + Environment.NewLine + "for more changes edit previous record.")
                 txtMain_Cust_Code.Value = ""
                 txtMain_Cust_Name.Text = ""
                 Return

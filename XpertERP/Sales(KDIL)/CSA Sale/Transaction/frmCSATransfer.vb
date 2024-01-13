@@ -547,7 +547,7 @@ Public Class frmCSATransfer
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -2039,7 +2039,7 @@ Public Class frmCSATransfer
                             End If
 
                             If clsCommon.myLen(Weight_UOM) <= 0 Then
-                                clsCommon.MyMessageBoxShow("Weight UOM not defined for Item  " & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "")
+                                clsCommon.MyMessageBoxShow(Me, "Weight UOM not defined for Item  " & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "")
                                 Exit Sub
                             End If
 
@@ -2055,7 +2055,7 @@ Public Class frmCSATransfer
                                     CommRateType = clsCommon.myCstr(objLoc.CSA_Commission_RS_PERS)
                                 End If
                                 If clsCommon.myLen(CommRateUOM) <= 0 Then
-                                    clsCommon.MyMessageBoxShow("Commission Rate UOM not defined for location " & txtToLocation.Value & "")
+                                    clsCommon.MyMessageBoxShow(Me, "Commission Rate UOM not defined for location " & txtToLocation.Value & "")
                                     Exit Sub
                                 End If
                             End If
@@ -2913,7 +2913,7 @@ Public Class frmCSATransfer
 
                     If IsPost Then
                         If balQty < clsCommon.myCdbl(dr.Cells(colQty).Value) Then
-                            clsCommon.MyMessageBoxShow("Balance of item " & dr.Cells(colICode).Value & "  on Location " & clsCommon.myCstr(Me.txtFromLocation.Value) & " " & balQty & " and required quantity " & clsCommon.myCdbl(dr.Cells(colQty).Value) & "")
+                            clsCommon.MyMessageBoxShow(Me, "Balance of item " & dr.Cells(colICode).Value & "  on Location " & clsCommon.myCstr(Me.txtFromLocation.Value) & " " & balQty & " and required quantity " & clsCommon.myCdbl(dr.Cells(colQty).Value) & "")
                             gv1.CurrentRow = gv1.Rows(dr.Index)
                             gv1.CurrentColumn = gv1.Columns(colQty)
                             Return False
@@ -3082,13 +3082,13 @@ Public Class frmCSATransfer
                     Return False
                 End If
                 If clsCommon.myCdbl(txtVehicle_Capacity.Value) = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Pls enter vehicle capacity")
+                    common.clsCommon.MyMessageBoxShow(Me, "Pls enter vehicle capacity", Me.Text)
                     txtVehicle_Capacity.Focus()
                     ErrorControl.SetError(TxtTransportorMName, "Pls enter vehicle capacity")
                     Return False
                 End If
                 If clsCommon.myCdbl(txtvehicle_Charge.Text) = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Pls enter Freight in Route Freight Details.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Pls enter Freight in Route Freight Details.", Me.Text)
                     Return False
                 End If
             End If
@@ -3115,13 +3115,13 @@ Public Class frmCSATransfer
 
                 If clsCommon.myLen(strDONo) > 0 AndAlso clsCommon.myLen(strICode) > 0 Then
                     If (Not clsCSADeliveryOrder.IsValidCustomerForDOItem(strDONo, strICode, txtCustCode.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Customer :" + txtCustDesc.Text + " is not valid for DO No:" + strDONo + " and Item : " + strIName + " At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Customer :" + txtCustDesc.Text + " is not valid for DO No:" + strDONo + " and Item : " + strIName + " At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                         gv1.CurrentRow = gv1.Rows(ii)
                         gv1.CurrentColumn = gv1.Columns(colICode)
                         Return False
                     End If
                     If dblQty > dblPendingQty Then
-                        common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                         gv1.CurrentRow = gv1.Rows(ii)
                         gv1.CurrentColumn = gv1.Columns(colQty)
                         Return False
@@ -3136,14 +3136,14 @@ Public Class frmCSATransfer
                 End If
 
                 If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strAltUOM) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Select Alternate UOM of item " + strICode + "( " + strIName.Trim() + " ) at line no: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Alternate UOM of item " + strICode + "( " + strIName.Trim() + " ) at line no: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                     gv1.CurrentRow = gv1.Rows(ii)
                     gv1.CurrentColumn = gv1.Columns(colAltUnitCOde)
                     Return False
                 End If
 
                 If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(cmbEXType.SelectedValue, "E") = CompairStringResult.Equal AndAlso IsMandatoryMRP AndAlso dblMRP <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Fill MRP of item " + strICode + "( " + strIName.Trim() + " ) at line no: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Fill MRP of item " + strICode + "( " + strIName.Trim() + " ) at line no: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                     gv1.CurrentRow = gv1.Rows(ii)
                     gv1.CurrentColumn = gv1.Columns(colMRP)
                     Return False
@@ -3172,7 +3172,7 @@ Public Class frmCSATransfer
                                 gv1.Select()
                                 gv1.CurrentRow = gv1.Rows(j)
                                 gv1.CurrentColumn = gv1.Columns(colICode)
-                                clsCommon.MyMessageBoxShow("Duplicate item at row no. " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(j + 1) + ".")
+                                clsCommon.MyMessageBoxShow(Me, "Duplicate item at row no. " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(j + 1) + ".", Me.Text)
                                 Return False
                             End If
                         End If
@@ -3487,7 +3487,7 @@ Public Class frmCSATransfer
     Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (SaveData(False, ChekBtnPost)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 'btnReverse.Enabled = False
             End If
             Return True
@@ -4546,7 +4546,7 @@ Public Class frmCSATransfer
                             msg = "Level 3 Approval done. Successfully Posted"
                         End If
                     End If
-                    common.clsCommon.MyMessageBoxShow(msg)
+                    common.clsCommon.MyMessageBoxShow(Me, msg)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
 
@@ -6374,7 +6374,7 @@ Public Class frmCSATransfer
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -6386,7 +6386,7 @@ Public Class frmCSATransfer
     Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem4.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RadMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -6492,7 +6492,7 @@ Public Class frmCSATransfer
 
             If clsCommon.myLen(strReqCode) > 0 AndAlso clsCommon.CompairString(strReqCode, obj.Doc_No) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strICode, obj.icode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strUOM, obj.uom) = CompairStringResult.Equal Then
                 Dim strMsg As String = "Already exist at row no:" + clsCommon.myCstr(ii + 1) + Environment.NewLine + "DO No : " + obj.Doc_No + "  Item : " + obj.iname + Environment.NewLine + ""
-                common.clsCommon.MyMessageBoxShow(strMsg)
+                common.clsCommon.MyMessageBoxShow(Me, strMsg, Me.Text)
                 Return False
             End If
         Next
@@ -6555,7 +6555,7 @@ Public Class frmCSATransfer
                             CommRateType = clsCommon.myCstr(objLoc.CSA_Commission_RS_PERS)
                         End If
                         If clsCommon.myLen(CommRateUOM) <= 0 Then
-                            clsCommon.MyMessageBoxShow("Commission Rate UOM not defined for location " & txtToLocation.Value & "")
+                            clsCommon.MyMessageBoxShow(Me, "Commission Rate UOM not defined for location " & txtToLocation.Value & "", Me.Text)
                             Exit Sub
                         End If
                     End If
@@ -6621,7 +6621,7 @@ Public Class frmCSATransfer
                             End If
 
                             If clsCommon.myLen(Weight_UOM) <= 0 Then
-                                clsCommon.MyMessageBoxShow("Weight UOM not defined for Item  " & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "")
+                                clsCommon.MyMessageBoxShow(Me, "Weight UOM not defined for Item  " & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "", Me.Text)
                                 Exit Sub
                             End If
 
@@ -6750,7 +6750,7 @@ Public Class frmCSATransfer
                                         End If
 
                                         If clsCommon.myLen(Weight_UOM) <= 0 Then
-                                            clsCommon.MyMessageBoxShow("Weight UOM not defined for Item  " & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "")
+                                            clsCommon.MyMessageBoxShow(Me, "Weight UOM not defined for Item  " & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "", Me.Text)
                                             Exit Sub
                                         End If
 
@@ -6929,7 +6929,7 @@ Public Class frmCSATransfer
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     Dim iscancel As Boolean = False
-                    If common.clsCommon.MyMessageBoxShow("Do you want to cancel the CSA Transfer?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    If common.clsCommon.MyMessageBoxShow(Me, "Do you want to cancel the CSA Transfer?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
 
                         Dim qrySaveCancel = "Update TSPL_CSA_TRANSFER_HEAD set CancelFlag=1 where Doc_Code='" & txtDocNo.Value & "'"
                         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qrySaveCancel)

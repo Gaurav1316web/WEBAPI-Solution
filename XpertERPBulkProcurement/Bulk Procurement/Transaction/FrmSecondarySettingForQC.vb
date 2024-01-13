@@ -139,7 +139,7 @@ Public Class FrmSecondarySettingForQC
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -357,7 +357,7 @@ Public Class FrmSecondarySettingForQC
 
                 If (ClsSecondarySettingForQC.SaveData(obj, isNewEntry)) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         LoadData(obj.Document_No, NavigatorType.Current)
                     End If
                 End If
@@ -442,7 +442,7 @@ Public Class FrmSecondarySettingForQC
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             dt = Nothing
@@ -473,22 +473,22 @@ Public Class FrmSecondarySettingForQC
                         Dim SRNNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select SRN_NO from TSPL_Bulk_MILK_SRN where Weighment_No='" & txtWeighmentNo.Text & "'"))
                         If clsCommon.myLen(SRNNo) > 0 Then
                             clsBulkMilkSRN.postData(SRNNo, "M-SRN-B")
-                            common.clsCommon.MyMessageBoxShow("Secondary QC Successfully posted")
+                            common.clsCommon.MyMessageBoxShow(Me, "Secondary QC Successfully posted", Me.Text)
                         Else
                             Dim qry = "Update TSPL_SECONDARY_SETTING_QC_HEAD set Posted=0 where Document_No='" + txtDocNo.Value + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry)
-                            common.clsCommon.MyMessageBoxShow("Secondary QC not posted.Please map Price chart for SRN.")
+                            common.clsCommon.MyMessageBoxShow("Secondary QC not posted.Please map Price chart for SRN.", Me.Text)
                         End If
                         frm.Close()
                     Else
-                        common.clsCommon.MyMessageBoxShow("Secondary QC Successfully posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Secondary QC Successfully posted", Me.Text)
                     End If
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -500,19 +500,19 @@ Public Class FrmSecondarySettingForQC
         Try
             If (deleteConfirm()) Then
                 If (ClsSecondarySettingForQC.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -536,7 +536,7 @@ Public Class FrmSecondarySettingForQC
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -638,14 +638,14 @@ Public Class FrmSecondarySettingForQC
 
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If ClsSecondarySettingForQC.ReverseAndUnpost(txtDocNo.Value, arrLoc) Then
                     common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

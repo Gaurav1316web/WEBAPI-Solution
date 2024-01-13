@@ -287,7 +287,7 @@ Public Class FrmUnloading
                 loadData(fndUnloadingNo.Value, NavigatorType.Current)
             Else
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Not Saved ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
                 End If
             End If
         End If
@@ -399,9 +399,9 @@ Public Class FrmUnloading
             If AutoCreateUnloading = False Then
                 If Not isPost Then
                     If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
             End If
@@ -409,7 +409,7 @@ Public Class FrmUnloading
             Return True
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'btnSave.Text = "Save"
             'btnDelete.Enabled = False
             'btnPost.Enabled = False
@@ -436,18 +436,18 @@ Public Class FrmUnloading
                         If clsUnloading.deleteData(fndUnloadingNo.Value, trans) Then
                             trans.Commit()
                             reset(True)
-                            clsCommon.MyMessageBoxShow("Deleted Successfully")
+                            clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                         Else
-                            clsCommon.MyMessageBoxShow("Could Not Deleted. Try Again")
+                            clsCommon.MyMessageBoxShow(Me, "Could Not Deleted. Try Again", Me.Text)
                             trans.Rollback()
                         End If
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select a Unloading No To delete")
+                clsCommon.MyMessageBoxShow(Me, "Please select a Unloading No To delete", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -496,7 +496,7 @@ Public Class FrmUnloading
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmUnloading_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -533,7 +533,7 @@ Public Class FrmUnloading
         PostData()
     End Sub
     Sub PrintData()
-        clsCommon.MyMessageBoxShow("No Print Format Found")
+        clsCommon.MyMessageBoxShow(Me, "No Print Format Found", Me.Text)
     End Sub
     Private Sub btnPrint_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         PrintData()
@@ -668,7 +668,7 @@ Public Class FrmUnloading
             Next
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -760,7 +760,7 @@ Public Class FrmUnloading
                     lblSubLocationName.Text = clsCommon.myCstr(dts.Rows(0)("Location_Desc"))
                     fndSubLocation.Enabled = False
                 Else
-                    clsCommon.MyMessageBoxShow("Please Create Virtual Silo Location for Location " & txtLocation.Text & " ")
+                    clsCommon.MyMessageBoxShow(Me, "Please Create Virtual Silo Location for Location " & txtLocation.Text & " ")
                     reset(False)
                     Exit Sub
                 End If
@@ -1001,7 +1001,7 @@ Public Class FrmUnloading
                     If clsQualityCheck.isIntermittentDoc(clsQualityCheck.getChallanNo(fndGateEntryNo.Value, Nothing), Nothing) AndAlso settTankerDispatchIntermittentSingleGateIn = True AndAlso MCCChamberwise = 1 AndAlso clsCommon.CompairString(TempDocType, "MccProc") = CompairStringResult.Equal Then
 
                     Else
-                        clsCommon.MyMessageBoxShow("You cannot change the status. Weighment has been done for this chamber .")
+                        clsCommon.MyMessageBoxShow(Me, "You cannot change the status. Weighment has been done for this chamber .")
                         Exit Sub
                     End If
 
@@ -1012,7 +1012,7 @@ Public Class FrmUnloading
                         If AllowCanInformationintoGridForTankerDispatch = True Then
                             If clsCommon.myCBool(gvItem.CurrentRow.Cells(colIsCanType).Value) = False Then
                                 If dblTareWt = 0 Then
-                                    clsCommon.MyMessageBoxShow("Please enter Tare weight for Chamber No " & clsCommon.myCstr(WeighmentSeq))
+                                    clsCommon.MyMessageBoxShow(Me, "Please enter Tare weight for Chamber No " & clsCommon.myCstr(WeighmentSeq))
                                     gvItem.CurrentRow.Cells(colISelect).Value = False
                                     Exit Sub
                                 End If
@@ -1020,7 +1020,7 @@ Public Class FrmUnloading
                         Else
 
                             If dblTareWt = 0 Then
-                                clsCommon.MyMessageBoxShow("Please enter Tare weight for Chamber No " & clsCommon.myCstr(WeighmentSeq))
+                                clsCommon.MyMessageBoxShow(Me, "Please enter Tare weight for Chamber No " & clsCommon.myCstr(WeighmentSeq))
                                 gvItem.CurrentRow.Cells(colISelect).Value = False
                                 Exit Sub
                             End If
@@ -1061,7 +1061,7 @@ Public Class FrmUnloading
 
 
                 If intCount = 0 Then
-                    If clsCommon.MyMessageBoxShow("Do you want to unload this chamber ?, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "Do you want to unload this chamber ?, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         gvItem.CurrentRow.Cells(colUnloadingStatus).Value = True
                         gvItem.CurrentRow.Cells(colISelect).Value = True
                         gvItem.CurrentRow.Cells(colUnloadingSeqNo).Value = UnloadingSeq
@@ -1086,7 +1086,7 @@ Public Class FrmUnloading
             If FinalChamberwise = 1 Then
                 If e.Column Is gvItem.Columns(colSubLoc) Then
                     If clsCommon.myLen(txtLocation.Text) <= 0 Then
-                        clsCommon.MyMessageBoxShow(" Please select a tanker first ")
+                        clsCommon.MyMessageBoxShow(Me, " Please select a tanker first ", Me.Text)
                         Exit Sub
                     End If
                     Dim whrCls As String = String.Empty
@@ -1135,7 +1135,7 @@ Public Class FrmUnloading
 
     Private Sub fndSubLocation__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndSubLocation._MYValidating
         If clsCommon.myLen(txtLocation.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(" Please select a tanker first ")
+            clsCommon.MyMessageBoxShow(Me, " Please select a tanker first ", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -1188,14 +1188,14 @@ Public Class FrmUnloading
 
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsUnloading.ReverseAndUnpost(fndUnloadingNo.Value) Then
-                    clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     loadData(fndUnloadingNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
