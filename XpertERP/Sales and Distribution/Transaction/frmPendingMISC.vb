@@ -84,7 +84,7 @@ Public Class frmPendingMISC
 
         dtAllData = clsDBFuncationality.GetDataTable(qry)
         If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No item found for customer " + CustomerName + "")
+            common.clsCommon.MyMessageBoxShow(Me, "No item found for customer " + CustomerName + "")
             Me.Close()
         End If
         LoadHeadData()
@@ -734,7 +734,7 @@ Public Class frmPendingMISC
                         LoadDetailData(e.NewValue, strCode)
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Document Customer should be `" + CustomerName)
+                    common.clsCommon.MyMessageBoxShow(Me, "Document Customer should be `" + CustomerName, Me.Text)
                     e.Cancel = True
                 End If
             End If

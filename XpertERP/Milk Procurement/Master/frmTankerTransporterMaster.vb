@@ -2839,7 +2839,7 @@ Public Class frmTankerTransporterMaster
             If check.Success Then
                 Errorcontrol.ResetError(txtEmail)
             Else
-                common.clsCommon.MyMessageBoxShow("Please Enter the proper format of e-mail address", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please Enter the proper format of e-mail address", Me.Text)
                 txtEmail.Text = ""
                 txtEmail.Focus()
                 txtEmail.Select()
@@ -3138,7 +3138,7 @@ Public Class frmTankerTransporterMaster
                 qry = "select CURRENCY_CODE from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='" & clsCommon.myCstr(Me.fndAccntSet.Value) & "' "
                 Dim accCurrCode As String = clsDBFuncationality.getSingleValue(qry).ToString
                 If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(Me.fndVendorCurrency.Value)) <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Account Set Currency and Vendor Currency must be same in case of Multicurrency.")
+                    clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Vendor Currency must be same in case of Multicurrency.", Me.Text)
                     Exit Sub
                 End If
                 '' match tax Group currency with vendor currency
@@ -3180,7 +3180,7 @@ Public Class frmTankerTransporterMaster
                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal AndAlso check > 0 Then
-                    clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage4
                     txtpan.Focus()
                     txtpan.Select()
@@ -3191,7 +3191,7 @@ Public Class frmTankerTransporterMaster
                 End If
 
                 If clsCommon.CompairString(btnsave.Text, "Save") <> CompairStringResult.Equal AndAlso check > 1 Then
-                    clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage4
                     txtpan.Focus()
                     txtpan.Select()
@@ -3260,7 +3260,7 @@ Public Class frmTankerTransporterMaster
             'End If
 
             If rbtnpartnership.IsChecked = False AndAlso rbtnprop.IsChecked = False AndAlso rbtnpublic.IsChecked = False AndAlso rbtnpvt.IsChecked = False Then
-                clsCommon.MyMessageBoxShow("Please Select Nature of Industry", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Nature of Industry", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 Errorcontrol.SetError(RadGroupBox6, "Please Select Nature of Industry")
                 Exit Sub
@@ -3269,7 +3269,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If rbtnprop.IsChecked AndAlso clsCommon.myLen(txtprop_name.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Prop. Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Prop. Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtprop_name.Focus()
                 txtprop_name.Select()
@@ -3280,7 +3280,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If rbtnpartnership.IsChecked AndAlso clsCommon.myLen(txtpartner_name.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Partner Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Partner Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtpartner_name.Focus()
                 txtpartner_name.Select()
@@ -3291,7 +3291,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If (rbtnpublic.IsChecked Or rbtnpvt.IsChecked) AndAlso clsCommon.myLen(txtdirectr_name.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Director Name", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Director Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtdirectr_name.Focus()
                 txtdirectr_name.Select()
@@ -3302,7 +3302,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If clsCommon.myLen(fndbankcode.Value) > 0 AndAlso clsCommon.myLen(txtpayeename.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Fill Payee Name.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Payee Name.", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 txtpayeename.Focus()
                 txtpayeename.Select()
@@ -3313,7 +3313,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If clsCommon.myLen(fndbankcode.Value) > 0 AndAlso clsCommon.myLen(txtbranchcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select branch detail", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select branch detail", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 txtbranchcode.Focus()
                 txtbranchcode.Select()
@@ -3324,7 +3324,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If Not rbtntemp.IsChecked AndAlso Not rbtnpermanent.IsChecked Then
-                clsCommon.MyMessageBoxShow("Please Select Tanker Transporter Is Temporary Or Permanent", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Tanker Transporter Is Temporary Or Permanent", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 Panel1.Focus()
                 Panel1.Select()
@@ -3335,7 +3335,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If rbtnpermanent.IsChecked AndAlso cmbagreemnt.SelectedValue = "" AndAlso cmbsecurity.SelectedValue = "" Then
-                clsCommon.MyMessageBoxShow("Please Select Agreement And Security Cheque Values", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Agreement And Security Cheque Values", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 If cmbagreemnt.SelectedValue = "" Then
                     cmbagreemnt.Select()
@@ -3987,7 +3987,7 @@ Public Class frmTankerTransporterMaster
             Dim msg As String = clsERPFuncationality.CheckPanStructure(txtpan.Text.Trim(), txtvendorname.Text)
             txtGST_PanCode.Text = txtpan.Text
             If clsCommon.myLen(msg) > 0 Then
-                clsCommon.MyMessageBoxShow(msg, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 txtpan.Focus()
                 txtpan.Select()
                 Errorcontrol.SetError(txtpan, msg)
@@ -4006,7 +4006,7 @@ Public Class frmTankerTransporterMaster
             txtbranchcode.Value = clsCommon.ShowSelectForm("FormIFSCCode", qry, "IFSCCode", " Bank_Code ='" & fndbankcode.Value & "' ", txtbranchcode.Value, "", isButtonClicked)
             txtbranchname.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & fndbankcode.Value & "' and Bank_IFSC_Code='" & txtbranchcode.Value & "' ")
         Else
-            clsCommon.MyMessageBoxShow("Please select Bank Code first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first", Me.Text)
         End If
     End Sub
 
@@ -4030,7 +4030,7 @@ Public Class frmTankerTransporterMaster
                 MyTextBox2.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
     Function ValidationMultiCurrencyForImport(ByVal strVendorCurrency As String, ByVal strVendorAccountSet As String, ByVal strTaxGroup As String, ByVal strlineNo As String, ByVal trans As SqlTransaction) As Boolean

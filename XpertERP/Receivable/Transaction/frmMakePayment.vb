@@ -472,7 +472,7 @@ Public Class FrmMakePayment
             Return True
         Catch ex As Exception
             tran.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
             Return False
         End Try
     End Function
@@ -701,7 +701,7 @@ Public Class FrmMakePayment
                                                 obj.ConvRate = 1
                                                 obj.ConvRateOld = 1
                                             Else
-                                                clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & obj.CURRENCY_CODE & "'")
+                                                clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & obj.CURRENCY_CODE & "'")
                                                 Exit Function
                                             End If
                                         Else
@@ -825,7 +825,7 @@ Public Class FrmMakePayment
             Return True
         Catch ex As Exception
             tran.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
             Return False
         End Try
     End Function
@@ -1190,7 +1190,7 @@ Public Class FrmMakePayment
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Quick Book Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Quick Book Entry", MessageBoxButtons.OK)
         End Try
         Return True
     End Function
@@ -1416,7 +1416,7 @@ Public Class FrmMakePayment
                     Dim Qry As String = "select top 1 Receipt_No from TSPL_RECEIPT_HEADER where QuickEntryNo='" + txtEntryNo.Value + "' and Posted='Y'"
                     Qry = clsDBFuncationality.getSingleValue(Qry)
                     If clsCommon.myLen(Qry) > 0 Then
-                        clsCommon.MyMessageBoxShow("Receipt No:" + Qry + " Posted.Cannot Delete the quick book entry", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Receipt No:" + Qry + " Posted.Cannot Delete the quick book entry", Me.Text)
                         Exit Sub
                     End If
 
@@ -1484,7 +1484,7 @@ Public Class FrmMakePayment
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = MasterTemplate.Columns.Count()
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1755,7 +1755,7 @@ Public Class FrmMakePayment
 
 
     Private Sub MasterTemplate_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles MasterTemplate.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1965,7 +1965,7 @@ Public Class FrmMakePayment
                 Next
                 tran.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 tran.Rollback()
                 clsCommon.ProgressBarHide()
@@ -2239,7 +2239,7 @@ Public Class FrmMakePayment
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 '' reason for reverse
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1

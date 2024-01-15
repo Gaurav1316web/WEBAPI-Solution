@@ -1526,7 +1526,7 @@ Public Class FrmMilkRouteMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Route Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Route Code", Me.Text)
                 fndcode.Focus()
                 Exit Sub
             End If

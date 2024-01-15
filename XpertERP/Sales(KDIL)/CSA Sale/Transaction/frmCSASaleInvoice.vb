@@ -2433,7 +2433,7 @@ Public Class FrmCSASaleInvoice
             End If
 
             If ExciseentryOnSale AndAlso clsCommon.CompairString(cmbEXType.SelectedValue, "") = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Select Invoice type.")
+                common.clsCommon.MyMessageBoxShow(Me, "Select Invoice type.", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 cmbEXType.Select()
                 cmbEXType.Focus()
@@ -2504,7 +2504,7 @@ Public Class FrmCSASaleInvoice
 
                 ''===============MRP cond=================================
                 If ExciseentryOnSale AndAlso clsCommon.myLen(icode) > 0 AndAlso clsCommon.CompairString(cmbEXType.SelectedValue, "E") = CompairStringResult.Equal AndAlso clsCommon.myCBool(gv.Rows(ii).Cells(colIsMRPMandatory).Value) AndAlso MRP_ofItem <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Fill MRP of item " + icode + "( " + clsCommon.myCstr(gv.Rows(ii).Cells(coliname).Value).Trim() + " ) at line no: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Fill MRP of item " + icode + "( " + clsCommon.myCstr(gv.Rows(ii).Cells(coliname).Value).Trim() + " ) at line no: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                     gv.CurrentRow = gv.Rows(ii)
                     gv.CurrentColumn = gv.Columns(colMRP)
                     Return False
@@ -2607,7 +2607,7 @@ Public Class FrmCSASaleInvoice
                     For jj As Integer = ii + 1 To gvAC.Rows.Count - 1
                         If clsCommon.CompairString(clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value), clsCommon.myCstr(gvAC.Rows(jj).Cells(colACCode).Value)) = CompairStringResult.Equal Then
                             RadPageView1.SelectedPage = RadPageViewPage4
-                            common.clsCommon.MyMessageBoxShow("Additional Charges: " + clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value) + "Repeated at Row No " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Additional Charges: " + clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value) + "Repeated at Row No " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         End If
                     Next
@@ -3824,7 +3824,7 @@ Public Class FrmCSASaleInvoice
             If Not AllowNLevel Then
                 Dim check As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_TRANSACTION_APPROVAL where document_no='" + txtCode.Value + "' and isnull(Approve,0)<>1")
                 If check > 0 Then
-                    clsCommon.MyMessageBoxShow("Document required Approval,before post." + Environment.NewLine + "(for this goto --> Transaction Approval)")
+                    clsCommon.MyMessageBoxShow(Me, "Document required Approval,before post." + Environment.NewLine + "(for this goto --> Transaction Approval)")
                     FunReset() ''because on transaction,double click window open that cause on closing of screen child table droped,and here on current screen document error on posting
                     Exit Sub
                 End If
@@ -5650,7 +5650,7 @@ Public Class FrmCSASaleInvoice
                 FreightUOM = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 TSPL_ITEM_COMMISSION_FREIGHT_AC_DETAIL.Freight_UOM from TSPL_ITEM_COMMISSION_FREIGHT_AC_DETAIL left outer join TSPL_ITEM_COMMISSION_FREIGHT_AC_HEAD on TSPL_ITEM_COMMISSION_FREIGHT_AC_DETAIL.Doc_No=TSPL_ITEM_COMMISSION_FREIGHT_AC_HEAD.Doc_No where TSPL_ITEM_COMMISSION_FREIGHT_AC_HEAD.Cust_Code='" + clsCommon.myCstr(txtcustcode.Value) + "' and TSPL_ITEM_COMMISSION_FREIGHT_AC_DETAIL.Item_Code='" + ItemCode + "' "))
 
                 If clsCommon.myLen(commsnuom) <= 0 AndAlso clsCommon.myLen(FreightUOM) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Fill either Commission or Freight UOM not defined, for Item " & clsCommon.myCstr(gv.Rows(CurrentRow).Cells(coliname).Value) & "")
+                    clsCommon.MyMessageBoxShow(Me, "Fill either Commission or Freight UOM not defined, for Item " & clsCommon.myCstr(gv.Rows(CurrentRow).Cells(coliname).Value) & "")
                     Exit Sub
                 End If
 
@@ -10694,7 +10694,7 @@ Public Class FrmCSASaleInvoice
             btnCalculation.Enabled = False
             btnUploaderSave.Enabled = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11874,7 +11874,7 @@ Public Class FrmCSASaleInvoice
 
             gv_Uploader.Rows(IntRowNo).Cells(colGainLoss).Value = System.Math.Round(clsCommon.myCdbl(gv_Uploader.Rows(IntRowNo).Cells(colSaleValue).Value) - clsCommon.myCdbl(gv_Uploader.Rows(IntRowNo).Cells(colstckratevalue).Value), 2)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

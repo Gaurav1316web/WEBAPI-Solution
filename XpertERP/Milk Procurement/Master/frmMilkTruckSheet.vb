@@ -214,11 +214,11 @@ Public Class FrmMilkTruckSheet
         If clsCommon.myCstr(fndMccCode.Value) <> "" Then
             Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(fndMccCode.Value)
             If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No shift is opened. one Shift Must be Opened..")
+                clsCommon.MyMessageBoxShow(Me, "No shift is opened. one Shift Must be Opened..", Me.Text)
                 DtpDocDate.ReadOnly = True
                 cboShift.Enabled = False
             ElseIf DTShift.Rows.Count > 1 Then
-                clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..")
+                clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..", Me.Text)
                 DtpDocDate.ReadOnly = True
                 cboShift.Enabled = False
             Else
@@ -411,10 +411,10 @@ Public Class FrmMilkTruckSheet
         fndMccCode.Value = clsCommon.ShowSelectForm("LocatMast", qry, "Location", "  upper(location_category)='MCC' ", fndMccCode.Value, "Location_Code", isButtonClicked)
         Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(fndMccCode.Value)
         If DTShift Is Nothing OrElse DTShift.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "No shifts is opened.Atleats one Shift should be Opened..")
+            clsCommon.MyMessageBoxShow(Me, "No shifts is opened.Atleats one Shift should be Opened..", Me.Text)
             BtnSave.Enabled = False
         ElseIf DTShift.Rows.Count > 1 Then
-            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..")
+            clsCommon.MyMessageBoxShow(Me, "There are more then one shifts are opened.Only one Shift can be Opened..", Me.Text)
             Me.Close()
         Else
             BtnSave.Enabled = True

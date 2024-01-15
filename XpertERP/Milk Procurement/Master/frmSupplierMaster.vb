@@ -146,7 +146,7 @@ Public Class frmSupplierMaster
     Function deleteData() As Boolean
         Try
             If clsCommon.myLen(fndSupplierCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Supplier Code found to Delete", Me.Name)
+                common.clsCommon.MyMessageBoxShow(Me, "No Supplier Code found to Delete", Me.Name)
                 Return False
             ElseIf Not (common.clsCommon.MyMessageBoxShow("Delete the Supplier Code " + fndSupplierCode.Value + Environment.NewLine + " Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return False

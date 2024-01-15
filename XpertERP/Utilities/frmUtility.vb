@@ -4828,14 +4828,14 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5191,7 +5191,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnRecreateJEofAdjustment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRecreateJEofAdjustment.Click
@@ -5203,7 +5203,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Store Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Store Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strAdjNo As String = clsCommon.myCstr(dt.Rows(ii)("AdjustmentNo"))
@@ -5241,15 +5241,15 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5314,7 +5314,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5353,14 +5353,14 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5394,7 +5394,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -5423,7 +5423,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5546,14 +5546,14 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

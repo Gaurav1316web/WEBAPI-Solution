@@ -6592,7 +6592,7 @@ Public Class frmSaleInvoiceDairy
                 e.RowElement.ForeColor = Color.Black
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

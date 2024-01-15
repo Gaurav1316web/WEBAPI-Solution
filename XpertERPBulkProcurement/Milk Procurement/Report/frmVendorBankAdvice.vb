@@ -75,13 +75,13 @@ Public Class frmVendorBankAdvice
         Try
 
             If clsCommon.myLen(txtMCC.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow("Plz Select MCC.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select MCC.", Me.Text)
                 txtMCC.Focus()
                 Exit Sub
             End If
 
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
@@ -97,7 +97,7 @@ Public Class frmVendorBankAdvice
             End If
 
             If clsCommon.myCdbl(txtPaymentCycleFrom.Value) > clsCommon.myCdbl(txtPaymentCycleTo.Value) AndAlso MultipleFinderFillAuto = False Then
-                common.clsCommon.MyMessageBoxShow("From Payment Cycle can not be greater then to Payment Cycle")
+                common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle")
                 txtPaymentCycleFrom.Focus()
                 Exit Sub
             End If
@@ -574,7 +574,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim strUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select City_Code from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "))
@@ -606,7 +606,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                 clsCommon.MyExportToPDF(strHeading, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -678,7 +678,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             fromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select From_Date from TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and Name='" + txtPaymentCycleFrom.Value + "' "))
             ToDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select To_Date from TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and Name='" + txtPaymentCycleTo.Value + "' "))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -693,7 +693,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             Dim qry As String = "SELECT distinct convert(int,name) as Code,convert(varchar,From_Date,103) as [From Date],convert(varchar,To_Date,103) as [To Date] FROM TSPL_PAYMENT_CYCLE_GENERATED"
             txtPaymentCycleTo.Value = clsCommon.ShowSelectForm("LRPCT", qry, "Code", whrcls, txtPaymentCycleTo.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 

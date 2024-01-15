@@ -374,11 +374,11 @@ Public Class frmDCSAdditionDeduction
         If rbtnDCSTypeBMCTruckSheet.IsChecked Then
             If clsCommon.CompairString(clsCommon.myCstr(cboApplyOn.SelectedValue), "0") = CompairStringResult.Equal Then
                 If rbtnQtyUOMKG.IsChecked Then
-                    clsCommon.MyMessageBoxShow("Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [KG]")
+                    clsCommon.MyMessageBoxShow(Me, "Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [KG]")
                     Return False
                 End If
                 If rbtnQtyUOMLtr.IsChecked Then
-                    clsCommon.MyMessageBoxShow("Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [LTR]")
+                    clsCommon.MyMessageBoxShow(Me, "Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [LTR]")
                     Return False
                 End If
             End If

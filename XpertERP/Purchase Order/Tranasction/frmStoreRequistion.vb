@@ -1990,7 +1990,7 @@ Public Class frmStoreRequistion
                 '    qry += Environment.NewLine + "Can't unpost it"
                 '    Throw New Exception(qry)
                 'End If
-                If clsCommon.MyMessageBoxShow("Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
 
                     'qry = "update TSPL_REQUISITION_HEAD set Status=0,Posting_Date=null where Requisition_Id='" + txtReqNo.Value + "'"
                     'clsDBFuncationality.ExecuteNonQuery(qry)
@@ -2000,7 +2000,7 @@ Public Class frmStoreRequistion
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2365,10 +2365,10 @@ Public Class frmStoreRequistion
 
                     objEmailH.SaveData(clsUserMgtCode.frmStoreRequistion, objEmailH, Nothing)
                     objEmailH = Nothing
-                    clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("First do email and sms setting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
 
             End If
 

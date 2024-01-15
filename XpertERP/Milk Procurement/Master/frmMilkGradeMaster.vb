@@ -402,13 +402,13 @@ Public Class frmMilkGradeMaster
     Function deleteData() As Boolean
         Try
             If clsCommon.myLen(fndCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Milk Type Code found to Delete", Me.Name)
+                common.clsCommon.MyMessageBoxShow(Me, "No Milk Type Code found to Delete", Me.Name)
                 Return False
-            ElseIf Not (common.clsCommon.MyMessageBoxShow("Delete the Milk Type Code " + fndCode.Value + Environment.NewLine + " Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            ElseIf Not (common.clsCommon.MyMessageBoxShow(Me, "Delete the Milk Type Code " + fndCode.Value + Environment.NewLine + " Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return False
             End If
             If (clsMilkGradeMaster.DeleteData(fndCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Sucessfully", Me.Name)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Sucessfully", Me.Name)
                 Reset()
                 Return True
             End If
