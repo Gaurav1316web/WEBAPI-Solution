@@ -102,7 +102,7 @@ Public Class MSIProductionSaleReport
 	                                  CASE WHEN INOUT='I' THEN STOCK_QTY END AS 'IN_STOCK_QTY',CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY' FROM TSPL_INVENTORY_MOVEMENT
 	                                  LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
                                       left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT.Location_Code
-	                                  WHERE 2=2 And TSPL_INVENTORY_MOVEMENT.Location_Code IN ('" + clsCommon.myCstr(txtLocation.Value) + "') AND TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')) RM_STOCK
+	                                  WHERE 2=2 And TSPL_INVENTORY_MOVEMENT.Location_Code IN ('" + clsCommon.myCstr(txtLocation.Value) + "') AND TSPL_ITEM_MASTER.Structure_Code IN ('RM')and tspl_item_master.Item_Code in ('RM0001','RM0003','RM0004','RM0006','RM0007','RM0008','RM0010','RM0012','RM0014','RM0015','RM0016','RM0018','RM0019')) RM_STOCK
 	                                  GROUP BY  RM_STOCK.Item_Code 	UNION ALL
 	                                  SELECT max(TSPL_LOCATION_MASTER.Location_Code)LocationCode,max(TSPL_LOCATION_MASTER.Location_Desc)LocDes,max(TSPL_LOCATION_MASTER.Add1)Add1,max(TSPL_LOCATION_MASTER.Add2)Add2,max(TSPL_LOCATION_MASTER.Add3)Add3,max(TSPL_LOCATION_MASTER.Add4)Add4,
                                       TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,max(TSPL_ITEM_MASTER.Short_Description) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM',
@@ -114,14 +114,16 @@ Public Class MSIProductionSaleReport
 	                                  left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MF_BOM_HEAD.LOCATION_CODE
 	                                  INNER join (select PROD_ITEM_CODE,MAX(BOM_CODE) AS 'BOM_CODE',MAX(REVISION_NO) AS 'REVISION_NO' from TSPL_MF_BOM_HEAD WHERE 2=2 
                                       and TSPL_MF_BOM_HEAD.LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "') GROUP BY PROD_ITEM_CODE	) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO
-	                                  WHERE  TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')  and 	TSPL_MF_BOM_HEAD.LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  GROUP BY TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
+	                                  WHERE  TSPL_ITEM_MASTER.Structure_Code IN ('RM') and tspl_item_master.Item_Code in('RM0001','RM0003','RM0004','RM0006','RM0007','RM0008','RM0010','RM0012','RM0014','RM0015','RM0016','RM0018','RM0019')   and 	TSPL_MF_BOM_HEAD.LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "')  GROUP BY TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
 	                                  UNION ALL
 	                                  select TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.Add3,TSPL_LOCATION_MASTER.Add4,
                                       TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code ,TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM',
 	                                  0 AS 'STOCK_QTY', 0 AS 'REQ_STOCK',TSPL_ITEM_REORDER_LEVEL_NEW.Min_Level AS 'MIN_LEVEL' from TSPL_ITEM_REORDER_LEVEL_NEW 
 	                                  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code
                                       left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code
-	                                  where TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM') and Apply='Y'  AND TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code IN ('" + clsCommon.myCstr(txtLocation.Value) + "') ) RM_STOCK_DAYS
+	                                  where TSPL_ITEM_MASTER.Structure_Code IN ('RM') and tspl_item_master.Item_Code in 
+                                      ('RM0001','RM0003','RM0004','RM0006','RM0007','RM0008','RM0010','RM0012','RM0014','RM0015','RM0016','RM0018','RM0019') 
+                                      and Apply='Y'  AND TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code IN ('" + clsCommon.myCstr(txtLocation.Value) + "') ) RM_STOCK_DAYS
                                       GROUP BY  RM_STOCK_DAYS.ITEM_CODE )xx 
                                       left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(TSPL_ITEM_UOM_DETAIL.UOM_Code)='QTL'
                                       left outer join TSPL_ITEM_UOM_DETAIL KG_UOM_DETAIL on KG_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(KG_UOM_DETAIL.UOM_Code)='KG'
