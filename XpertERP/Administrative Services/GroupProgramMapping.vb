@@ -1125,7 +1125,7 @@ Public Class GroupProgramMapping
             Dim qry = "select distinct Code,Name from TSPL_DASHBOARD_REPORT "
             txtDashBoardMult.arrValueMember = clsCommon.ShowMultipleSelectForm("FND@DASHBOARD", qry, "Code", "Name", txtDashBoardMult.arrValueMember, txtDashBoardMult.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

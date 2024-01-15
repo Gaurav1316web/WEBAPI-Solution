@@ -366,7 +366,7 @@ Public Class frmEmpFullAndFinalSettlement
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -525,7 +525,7 @@ Public Class frmEmpFullAndFinalSettlement
                     emp_sal_code = Nothing
                     emp_sal_code = dt.Rows(0).Item("EMP_SAL_CODE")
                 Else
-                    clsCommon.MyMessageBoxShow("Employee Salary not defined")
+                    clsCommon.MyMessageBoxShow(Me, "Employee Salary not defined", Me.Text)
                     Exit Sub
                 End If
                 empSal = clsEmployeeSalary.GetData(emp_sal_code, NavigatorType.Current)
@@ -626,7 +626,7 @@ Public Class frmEmpFullAndFinalSettlement
             isInsideLoadData = False
             'FormatGridSalStructAndUnpaidSalAmt()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub setGridTotalSalStructAndUnpaidSalAmt()
@@ -650,7 +650,7 @@ Public Class frmEmpFullAndFinalSettlement
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub setGridTotalotherEarning()
@@ -673,7 +673,7 @@ Public Class frmEmpFullAndFinalSettlement
             gvOthers.Rows(intCurrRow).Cells(colOthrEarngAmount).Value = dblHeadAmount
             gvOthers.Rows(intCurrRow).Cells(colOthrEarngActualAmt).Value = dblActualAmount
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub setGridTotalDeduction()
@@ -697,7 +697,7 @@ Public Class frmEmpFullAndFinalSettlement
             gvDeductions.Rows(intCurrRow).Cells(colDedHeadAmount).Value = dblHeadAmount
             gvDeductions.Rows(intCurrRow).Cells(colDedActualAmt).Value = dblActualAmount
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -828,7 +828,7 @@ Public Class frmEmpFullAndFinalSettlement
                 'If issaved = False Then
                 '    trans.Rollback()
                 'End If
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Return False
             End Try
         Else
@@ -842,7 +842,7 @@ Public Class frmEmpFullAndFinalSettlement
             Dim QryStr As String = "select POSTED from TSPL_FF_SETTLEMENT_HEAD where EMP_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -867,12 +867,12 @@ Public Class frmEmpFullAndFinalSettlement
     Function CheckNoDuesAndAssets(ByVal Emp_Code As String) As Boolean
         Dim qry As String = "select NO_DUES from TSPL_EMPLOYEE_MASTER where emp_code='" & Emp_Code & "'"
         If clsCommon.myCBool(clsDBFuncationality.getSingleValue(qry)) = False Then
-            clsCommon.MyMessageBoxShow("Update No dues in Employee Master.")
+            clsCommon.MyMessageBoxShow(Me, "Update No dues in Employee Master.", Me.Text)
             Return False
         End If
         qry = "select sum(case when RETURNED='N' then 1 else 0 end) from TSPL_EMPLOYEE_ASSETS where EMP_CODE='" & Emp_Code & "'"
         If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) > 0 Then
-            clsCommon.MyMessageBoxShow("Some assets are not returned.")
+            clsCommon.MyMessageBoxShow(Me, "Some assets are not returned.", Me.Text)
             Return False
         End If
         Return True
@@ -884,7 +884,7 @@ Public Class frmEmpFullAndFinalSettlement
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -907,7 +907,7 @@ Public Class frmEmpFullAndFinalSettlement
                 End If
                 If (clsFFSettlement.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -938,19 +938,19 @@ Public Class frmEmpFullAndFinalSettlement
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsFFSettlement.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -984,7 +984,7 @@ Public Class frmEmpFullAndFinalSettlement
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1065,7 +1065,7 @@ Public Class frmEmpFullAndFinalSettlement
                 Throw New Exception("No Data Found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub printResignation()
@@ -1075,7 +1075,7 @@ Public Class frmEmpFullAndFinalSettlement
             Dim frmcrsytal As New frmCrystalReportViewer
             frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptresignationLetter", "Resignation Letter")
         Else
-            clsCommon.MyMessageBoxShow("Please select an Employee Code to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an Employee Code to print", Me.Text)
         End If
     End Sub
     Private Sub btnPrintResignation_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintResignation.Click
@@ -1108,7 +1108,7 @@ Public Class frmEmpFullAndFinalSettlement
             Dim frmcrsytal As New frmCrystalReportViewer
             frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptFinalDeclaration", "Final Declaration")
         Else
-            clsCommon.MyMessageBoxShow("Please select an Employee Code to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an Employee Code to print", Me.Text)
         End If
     End Sub
     Sub printNoDues()
@@ -1120,7 +1120,7 @@ Public Class frmEmpFullAndFinalSettlement
             Dim frmcrsytal As New frmCrystalReportViewer
             frmcrsytal.funreport(CrystalReportFolder.HRPayroll, dt, "crptNoDues", "No Dues Certificate")
         Else
-            clsCommon.MyMessageBoxShow("Please select an Employee Code to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an Employee Code to print", Me.Text)
         End If
     End Sub
     Private Sub BtnPrintNoDues_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnPrintNoDues.Click
@@ -1147,7 +1147,7 @@ Public Class frmEmpFullAndFinalSettlement
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1166,7 +1166,7 @@ Public Class frmEmpFullAndFinalSettlement
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1184,7 +1184,7 @@ Public Class frmEmpFullAndFinalSettlement
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

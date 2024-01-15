@@ -24,7 +24,7 @@ Public Class frmAttendanceRegister
     Sub LoadData()
         Try
             If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill the Pay Period First. ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill the Pay Period First. ", Me.Text)
                 txtFromPP.Focus()
                 Exit Sub
             End If
@@ -46,7 +46,7 @@ Public Class frmAttendanceRegister
             'SetupMasterForAutoGenerateHierarchy()
             btnGenrate.Enabled = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGenrate.Enabled = True
         End Try
     End Sub
@@ -131,7 +131,7 @@ Public Class frmAttendanceRegister
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -163,7 +163,7 @@ Public Class frmAttendanceRegister
 
     Private Sub RadMenuItemDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemDelete.Click
         clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnExpoExl_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -273,7 +273,7 @@ Public Class frmAttendanceRegister
     Sub LoadMusterRollData()
         Try
             If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill the Pay Period First. ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill the Pay Period First. ", Me.Text)
                 txtFromPP.Focus()
                 Exit Sub
             End If
@@ -296,7 +296,7 @@ Public Class frmAttendanceRegister
             'SetupMasterForAutoGenerateHierarchy()
             btnMusterRoll.Enabled = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnMusterRoll.Enabled = True
         End Try
     End Sub
@@ -356,7 +356,7 @@ Public Class frmAttendanceRegister
                 clsCommon.MyExportToPDF("Attendance Register", gv1, arrHeader, "Attendance Register", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

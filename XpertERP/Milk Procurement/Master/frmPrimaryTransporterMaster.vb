@@ -3844,7 +3844,7 @@ Public Class FrmPrimaryTransporterMaster
             txtbranchcode.Value = clsCommon.ShowSelectForm("FormIFSCCode", qry, "IFSCCode", " Bank_Code ='" & fndbankcode.Value & "' ", txtbranchcode.Value, "", isButtonClicked)
             txtbranchname.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & fndbankcode.Value & "' and Bank_IFSC_Code='" & txtbranchcode.Value & "' ")
         Else
-            clsCommon.MyMessageBoxShow("Please select Bank Code first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Bank Code first", Me.Text)
         End If
     End Sub
 
@@ -3937,7 +3937,7 @@ Public Class FrmPrimaryTransporterMaster
 
     Private Sub gvMCC_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvMCC.UserDeletingRow
         Try
-            If clsCommon.MyMessageBoxShow("Do You want to Delete Selected row.", "Delete Data", MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.No Then
+            If clsCommon.MyMessageBoxShow(Me, "Do You want to Delete Selected row.", "Delete Data", MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.No Then
                 e.Cancel = True
             End If
         Catch ex As Exception
@@ -4237,7 +4237,7 @@ Public Class FrmPrimaryTransporterMaster
                 MyTextBox2.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
 
@@ -4259,7 +4259,7 @@ Public Class FrmPrimaryTransporterMaster
             qry = "select CURRENCY_CODE from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='" & clsCommon.myCstr(strVendorAccountSet) & "' "
             Dim accCurrCode As String = clsDBFuncationality.getSingleValue(qry, trans).ToString
             If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(strVendorCurrency)) <> CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Account Set Currency and Vendor Currency must be same in case of Multicurrency. See At Line No :" + strlineNo) ',See At Line No.
+                clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Vendor Currency must be same in case of Multicurrency. See At Line No :" + strlineNo) ',See At Line No.
                 Return False
             End If
             '' match tax Group currency with vendor currency
@@ -4331,7 +4331,7 @@ Public Class FrmPrimaryTransporterMaster
                 GvAsset.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 End Class

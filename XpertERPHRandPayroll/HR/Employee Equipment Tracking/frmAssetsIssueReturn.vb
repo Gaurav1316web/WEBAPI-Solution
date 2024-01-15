@@ -323,7 +323,7 @@ Public Class frmAssetsIssueReturn
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadIssueData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -592,7 +592,7 @@ Public Class frmAssetsIssueReturn
             End If
             Return False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return False
     End Function
@@ -732,7 +732,7 @@ Public Class frmAssetsIssueReturn
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -742,12 +742,12 @@ Public Class frmAssetsIssueReturn
         Try
             If (clsCommon.MyMessageBoxShow("Do you want to Delete this record ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                 If (clsAssetsIssueReturn.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -755,7 +755,7 @@ Public Class frmAssetsIssueReturn
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
 
@@ -838,7 +838,7 @@ Public Class frmAssetsIssueReturn
             Dim sQuery As String = "Update TSPL_AssetIssueReturn set posted=1,posting_date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd-MMM-yyyy hh:mm:ss tt") & "' where Issuecode='" & clsCommon.myCstr(txtCode.Value) & "'"
             clsDBFuncationality.ExecuteNonQuery(sQuery)
 
-            clsCommon.MyMessageBoxShow("Posted Successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Posted Successfully.", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
@@ -850,7 +850,7 @@ Public Class frmAssetsIssueReturn
                 isCellValueChangedOpen = True
                 If e.Column Is gvIncrement.Columns(colReturnedQty) Then
                     If clsCommon.myCdbl(gvIncrement.CurrentRow.Cells(colReturnedQty).Value) > clsCommon.myCdbl(gvIncrement.CurrentRow.Cells(colQty).Value) Then
-                        clsCommon.MyMessageBoxShow("Return Qty can not be Greater then Issue Qty")
+                        clsCommon.MyMessageBoxShow(Me, "Return Qty can not be Greater then Issue Qty", Me.Text)
                         gvIncrement.CurrentRow.Cells(colReturnedQty).Value = 0
                     End If
                     isCellValueChangedOpen = False
@@ -860,7 +860,7 @@ Public Class frmAssetsIssueReturn
                     Dim stockqty As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
                     If clsCommon.myLen(clsCommon.myCstr(gvIncrement.CurrentRow.Cells(colAssetCode).Value)) > 0 Then
                         If stockqty < clsCommon.myCdbl(gvIncrement.CurrentRow.Cells(colQty).Value) Then
-                            clsCommon.MyMessageBoxShow("Stock not Avilable of This Item.Its Stock is [" & stockqty & "]")
+                            clsCommon.MyMessageBoxShow(Me, "Stock not Avilable of This Item.Its Stock is [" & stockqty & "]", Me.Text)
                             gvIncrement.CurrentRow.Cells(colQty).Value = 0
                         End If
                     End If

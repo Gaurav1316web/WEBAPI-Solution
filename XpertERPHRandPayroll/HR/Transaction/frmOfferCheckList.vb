@@ -303,7 +303,7 @@ Public Class FrmOfferCheckList
         obj.UserID = objCommonVar.CurrentUserCode
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
         ''richa agarwal regarding memory leakage
         obj.GridLayout.Close()
@@ -313,7 +313,7 @@ Public Class FrmOfferCheckList
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
         If clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode) Then
-            common.clsCommon.MyMessageBoxShow("Layout Deleted successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Deleted successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -344,7 +344,7 @@ Public Class FrmOfferCheckList
         If clsCommon.myLen(fndaccountsetcode.Value) > 0 Then
             PostData()
         Else
-            clsCommon.MyMessageBoxShow("code not found to post")
+            clsCommon.MyMessageBoxShow(Me, "code not found to post", Me.Text)
         End If
     End Sub
     'Sub reject()
@@ -399,7 +399,7 @@ Public Class FrmOfferCheckList
             gv.EndEdit()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -441,7 +441,7 @@ Public Class FrmOfferCheckList
                  
                     Dim objJoin As New clsofferChkListDetails
                     If clsCommon.myCBool(grow.Cells(colOfferMandatory).Value) = True And clsCommon.myCBool(grow.Cells(colReceived).Value) = False Then
-                        clsCommon.MyMessageBoxShow("Please check ! mandatory document (" + clsCommon.myCstr(grow.Cells(colOfferCode).Value) + ") must be received.")
+                        clsCommon.MyMessageBoxShow(Me, "Please check ! mandatory document (" + clsCommon.myCstr(grow.Cells(colOfferCode).Value) + ") must be received.")
                         Exit Sub
                     Else
                         objJoin.Received = clsCommon.myCdbl(grow.Cells(colReceived).Value)
@@ -461,9 +461,9 @@ Public Class FrmOfferCheckList
 
                 If clsOfferChkListHead.SaveData(objHead, objList, objListAttachment) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data posted successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                     End If
                     Me.gv.Rows.Clear()
                     LoadData(fndaccountsetcode.Value, NavigatorType.Current)
@@ -473,7 +473,7 @@ Public Class FrmOfferCheckList
 
         Catch ex As Exception
             'trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -517,7 +517,7 @@ Public Class FrmOfferCheckList
                     Dim qry As String = "update TSPL_HR_JOINING_DETAIL set Attachment ='' where APPLICANT_CODE ='" + colApplicantcode + "' and Chk_Code='" + colOfferCode + "' "
                     clsDBFuncationality.ExecuteNonQuery(qry)
                     If clsCommon.myCstr(gv.CurrentRow.Cells(colAttachmentpath).Value).ToString.Contains("\") Then
-                        clsCommon.MyMessageBoxShow("Document Deleted")
+                        clsCommon.MyMessageBoxShow(Me, "Document Deleted", Me.Text)
                     Else
                         objAttachment.funDelete(gv.CurrentRow.Cells(colAttachmentId).Value)
                     End If
@@ -530,7 +530,7 @@ Public Class FrmOfferCheckList
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -548,12 +548,12 @@ Public Class FrmOfferCheckList
                     If clsCommon.myCBool(gv.CurrentRow.Cells(colReceived).Value) = True And clsCommon.myCBool(gv.CurrentRow.Cells(colOfferMandatory).Value) = True Then
                         gv.CurrentRow.Cells(colAttachmentpath).Value = openFileDialog1.FileName
                     ElseIf clsCommon.myCBool(gv.CurrentRow.Cells(colReceived).Value) = False Then
-                        clsCommon.MyMessageBoxShow("Please check the received checkBox for'" + clsCommon.myCstr(gv.CurrentRow.Cells(colOfferCode).Value) + "'")
+                        clsCommon.MyMessageBoxShow(Me, "Please check the received checkBox for'" + clsCommon.myCstr(gv.CurrentRow.Cells(colOfferCode).Value) + "'")
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -584,7 +584,7 @@ Public Class FrmOfferCheckList
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try

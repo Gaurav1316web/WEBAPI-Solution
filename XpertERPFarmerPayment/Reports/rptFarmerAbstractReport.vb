@@ -47,7 +47,7 @@ Public Class rptFarmerAbstractReport
     Sub Print(ByVal isPrint As Boolean, Optional ByVal isPrerint As Boolean = False)
         Try
             If clsCommon.myLen(fndDocument.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No First", Me.Text)
                 Return
             End If
             PageSetupReport_ID = MyBase.Form_ID '+ IIf(rdbSms.Checked = True, "SMS", "EMAIL")
@@ -145,7 +145,7 @@ Public Class rptFarmerAbstractReport
                     frmCRV = Nothing
                     Exit Sub
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found to Print", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Print", Me.Text)
                     Exit Sub
                 End If
 
@@ -156,7 +156,7 @@ Public Class rptFarmerAbstractReport
                     frmCRV = Nothing
                     Exit Sub
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found to Print", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Print", Me.Text)
                     Exit Sub
                 End If
 
@@ -259,13 +259,13 @@ Public Class rptFarmerAbstractReport
 
                 Gv1.BestFitColumns()
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -309,7 +309,7 @@ Public Class rptFarmerAbstractReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -321,14 +321,14 @@ Public Class rptFarmerAbstractReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -345,7 +345,7 @@ Public Class rptFarmerAbstractReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -406,7 +406,7 @@ Public Class rptFarmerAbstractReport
             Dim qry As String = " select distinct tspl_vendor_master.Vendor_Group_Code as Code , tspl_vendor_master.Vendor_Group_Code_Desc as Name  from TSPL_MP_PAY_PROCESS_DETAIL left outer join tspl_vendor_master on tspl_vendor_master.Vendor_Code = TSPL_MP_PAY_PROCESS_DETAIL.VSP_CODE where  TSPL_MP_PAY_PROCESS_DETAIL.Doc_No = '" + fndDocument.Value + "' "
             TxtMultiSelectFinder1.arrValueMember = clsCommon.ShowMultipleSelectForm("VendorGroupcodeMulSel", qry, "Code", "Name", TxtMultiSelectFinder1.arrValueMember, TxtMultiSelectFinder1.arrDispalyMember)
         Else
-            clsCommon.MyMessageBoxShow("First Select Document Code ")
+            clsCommon.MyMessageBoxShow(Me, "First Select Document Code ", Me.Text)
         End If
         
     End Sub

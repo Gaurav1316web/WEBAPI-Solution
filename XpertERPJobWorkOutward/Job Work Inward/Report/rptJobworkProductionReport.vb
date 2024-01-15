@@ -101,14 +101,14 @@ Public Class rptJobworkProductionReport
             Gv1.ShowGroupPanel = False
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
         Try
             If (Gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
             If Gv1.Rows.Count > 0 Then
@@ -135,7 +135,7 @@ Public Class rptJobworkProductionReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : ERO/05/06/19-000632 By Prabhakar - add [TS%] and [TS KG] column
@@ -258,7 +258,7 @@ Public Class rptJobworkProductionReport
 
             dtqry = clsDBFuncationality.GetDataTable(qry)
             If dtqry Is Nothing OrElse dtqry.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Gv1.DataSource = Nothing
@@ -276,7 +276,7 @@ Public Class rptJobworkProductionReport
             btnGo.Enabled = True
             btnBack.Enabled = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -389,7 +389,7 @@ Public Class rptJobworkProductionReport
 
             dtqry = clsDBFuncationality.GetDataTable(qry)
             If dtqry Is Nothing OrElse dtqry.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Gv1.DataSource = Nothing
@@ -407,7 +407,7 @@ Public Class rptJobworkProductionReport
             btnGo.Enabled = False
             btnBack.Enabled = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -442,7 +442,7 @@ Public Class rptJobworkProductionReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -454,13 +454,13 @@ Public Class rptJobworkProductionReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         Try
             If (Gv1.Rows.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("No Data To Export")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
                 Exit Sub
             End If
             If Gv1.Rows.Count > 0 Then
@@ -487,7 +487,7 @@ Public Class rptJobworkProductionReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

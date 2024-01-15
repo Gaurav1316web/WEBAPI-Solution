@@ -218,7 +218,7 @@ Public Class FrmTDSPayment
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
                 gv1.MasterTemplate.FilterDescriptors.Clear()
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj = Nothing
 
@@ -233,7 +233,7 @@ Public Class FrmTDSPayment
     Private Sub RdDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RdDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID & "gv1", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Sub loadBlankItemGrid()
 
@@ -501,7 +501,7 @@ Public Class FrmTDSPayment
         dtAllDataDetail = clsDBFuncationality.GetDataTable(Qry)
         If dtAllDataDetail Is Nothing OrElse dtAllDataDetail.Rows.Count <= 0 Then
             loadBlankItemGrid()
-            common.clsCommon.MyMessageBoxShow("No data found ")
+            common.clsCommon.MyMessageBoxShow(Me, "No data found ", Me.Text)
         Else
             LoadDetailData()
         End If
@@ -549,7 +549,7 @@ Public Class FrmTDSPayment
            
             LoadTDSDetail()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -625,7 +625,7 @@ Public Class FrmTDSPayment
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData()

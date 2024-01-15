@@ -3549,7 +3549,7 @@ Public Class frmEXSalesInvoice
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FillBankDetail(ByVal Bank_Code As String)
@@ -4992,7 +4992,7 @@ Public Class frmEXSalesInvoice
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
 
                 If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
@@ -5001,7 +5001,7 @@ Public Class frmEXSalesInvoice
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5395,7 +5395,7 @@ Public Class frmEXSalesInvoice
 
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
             RadPageView1.SelectedPage = RadPageViewPage1
-            clsCommon.MyMessageBoxShow("Please select Customer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
             txtVendorNo.Focus()
             txtVendorNo.Select()
             Errorcontrol.SetError(lblVendorName, "Please select Customer first")
@@ -5937,7 +5937,7 @@ Public Class frmEXSalesInvoice
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function GetTaxRateTypeDT(ByVal DocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable

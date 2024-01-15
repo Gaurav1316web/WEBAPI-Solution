@@ -53,28 +53,28 @@ Public Class FrmMediclaimEntry
             'End If
 
             If clsCommon.myLen(txtempcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Employee", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Employee", Me.Text)
                 txtempcode.Focus()
                 txtempcode.Select()
                 Return False
             End If
 
             If clsCommon.myLen(txtfromdate.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select From Claim Period", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select From Claim Period", Me.Text)
                 txtfromdate.Focus()
                 txtfromdate.Select()
                 Return False
             End If
 
             If clsCommon.myLen(txttodate.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select To Claim Date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select To Claim Date", Me.Text)
                 txttodate.Focus()
                 txttodate.Select()
                 Return False
             End If
 
             If gv1.Rows.Count < 1 Then
-                clsCommon.MyMessageBoxShow("Please Fill Claim Period And Press Go Button For Proper Mediclaim Entry", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Claim Period And Press Go Button For Proper Mediclaim Entry", Me.Text)
                 Return False
             End If
 
@@ -130,7 +130,7 @@ Public Class FrmMediclaimEntry
 
 
             If clsMediclaimEntry.SaveData(obj, obj.docno, obj.Arr) Then
-                clsCommon.MyMessageBoxShow("Data Save Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Save Successfully", Me.Text)
                 txtCode.Value = obj.docno
                 btnsave.Enabled = True
                 btndelete.Enabled = True
@@ -138,7 +138,7 @@ Public Class FrmMediclaimEntry
                 btnsave.Text = "Update"
                 txtCode.MyReadOnly = True
             Else
-                clsCommon.MyMessageBoxShow("Data Can Not Saved", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Can Not Saved", Me.Text)
                 btnsave.Enabled = True
                 btndelete.Enabled = False
                 btnPost.Enabled = False
@@ -146,7 +146,7 @@ Public Class FrmMediclaimEntry
                 txtCode.MyReadOnly = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
@@ -160,7 +160,7 @@ Public Class FrmMediclaimEntry
             Dim qry As String = ""
 
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please First Select Mediclaim Code For Posting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please First Select Mediclaim Code For Posting", Me.Text)
                 Return
             End If
 
@@ -169,12 +169,12 @@ Public Class FrmMediclaimEntry
                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
                 If check <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found For Posting", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found For Posting", Me.Text)
                     Return
                 End If
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Post the Employee Mediclaim Code " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Post the Employee Mediclaim Code " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
 
@@ -182,14 +182,14 @@ Public Class FrmMediclaimEntry
             clsDBFuncationality.ExecuteNonQuery(qry)
 
 
-            clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
             btnsave.Enabled = False
             btndelete.Enabled = False
             btnPost.Enabled = False
             UsLock1.Status = ERPTransactionStatus.Approved
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -199,7 +199,7 @@ Public Class FrmMediclaimEntry
             Dim qry As String = ""
 
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please First Select Mediclaim Code For Deletion", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please First Select Mediclaim Code For Deletion", Me.Text)
                 Return
             End If
 
@@ -208,12 +208,12 @@ Public Class FrmMediclaimEntry
                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
                 If check <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found For Deletion", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found For Deletion", Me.Text)
                     Return
                 End If
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Delete the Employee Mediclaim Code " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Delete the Employee Mediclaim Code " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
 
@@ -223,10 +223,10 @@ Public Class FrmMediclaimEntry
             qry = "delete from tspl_mediclaim_detail where document_code='" + txtCode.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -369,7 +369,7 @@ Public Class FrmMediclaimEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -489,14 +489,14 @@ Public Class FrmMediclaimEntry
     Private Sub btngo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btngo.Click
         saveclick = False
         If clsCommon.myLen(txtempcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Employee First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select Employee First", Me.Text)
             txtempcode.Focus()
             txtempcode.Select()
             Return
         End If
 
         If Convert.ToDateTime(txttodate.Text) <= Convert.ToDateTime(txtfromdate.Text) Then
-            clsCommon.MyMessageBoxShow("To Claim Period Should Be Greater Than From Claim Period", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "To Claim Period Should Be Greater Than From Claim Period", Me.Text)
             txttodate.Focus()
             txttodate.Select()
             Return
@@ -559,7 +559,7 @@ Public Class FrmMediclaimEntry
             gv1.Rows(XR).Cells(5).Value = claimamt
             ClaimTotalAmt()
         Catch ex1 As Exception
-            clsCommon.MyMessageBoxShow(ex1.Message)
+            clsCommon.MyMessageBoxShow(Me, ex1.Message, Me.Text)
         End Try
     End Sub
 
@@ -688,7 +688,7 @@ Public Class FrmMediclaimEntry
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

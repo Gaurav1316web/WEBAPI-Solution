@@ -1023,17 +1023,17 @@ Public Class frmProductionEntryWithoutBatch
 
         If Math.Abs(TotIssueFatKg - TotProdFatKg) > 0 Then
             Message = "Total (Issued+Added) Fat: " & TotIssueFatKg & " " & Environment.NewLine & "Total (Produced+Removed) Fat: " & TotProdFatKg & ""
-            clsCommon.MyMessageBoxShow(Message)
+            clsCommon.MyMessageBoxShow(Me, Message, Me.Text)
             Return False
         ElseIf Math.Abs(TotIssueSnfKg - TotProdSnfKg) > 0 Then
             Message = "Total (Issued+Added) SNF: " & TotIssueSnfKg & " " & Environment.NewLine & "Total (Produced+Removed) SNF: " & TotProdSnfKg & ""
-            clsCommon.MyMessageBoxShow(Message)
+            clsCommon.MyMessageBoxShow(Me, Message, Me.Text)
             Return False
         ElseIf Math.Abs(TotIssueQty - TotProdQty) > 0 Then
             Dim diff As Decimal = Math.Abs(TotIssueQty - TotProdQty)
             If diff > ToleranceQty Then
                 Message = "Total (Issued+Added) Quantity: " & TotIssueQty & " " & Environment.NewLine & "Total (Produced+Removed) Quantity: " & TotProdQty & "" & Environment.NewLine & " Tolerance Quantity(+/-) : " & ToleranceQty & ""
-                clsCommon.MyMessageBoxShow(Message)
+                clsCommon.MyMessageBoxShow(Me, Message, Me.Text)
                 Return False
             End If
         End If

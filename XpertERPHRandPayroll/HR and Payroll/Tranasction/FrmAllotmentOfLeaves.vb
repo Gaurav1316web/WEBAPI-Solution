@@ -50,7 +50,7 @@ Public Class FrmAllotmentOfLeaves
                 'End If
                 For jj As Integer = (grow.Index + 1) To gvSalary.Rows.Count - 1
                     If clsCommon.myLen(grow.Cells(colEmpCode).Value) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colEmpCode).Value), clsCommon.myCstr(gvSalary.Rows(jj).Cells(colEmpCode).Value)) = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Duplicate Employees not allowed,see at row no. " + clsCommon.myCstr(jj + 1) + "")
+                        clsCommon.MyMessageBoxShow(Me, "Duplicate Employees not allowed,see at row no. " + clsCommon.myCstr(jj + 1) + "")
                         Return False
                     End If
                 Next
@@ -71,7 +71,7 @@ Public Class FrmAllotmentOfLeaves
                         Dim count1 As Decimal = 0
                         count1 = clsLeaveAllotment.GetOpeningBalance(fndCode.Value, clsCommon.myCstr(grow.Cells(colEmpCode).Value), Nothing)
                         If count1 > 0 Then
-                            clsCommon.MyMessageBoxShow("Opening Balance already  exist for employee '" + clsCommon.myCstr(grow.Cells(colEmpCode).Value) + "' at row no. " + clsCommon.myCstr(grow.Index + 1) + "")
+                            clsCommon.MyMessageBoxShow(Me, "Opening Balance already  exist for employee '" + clsCommon.myCstr(grow.Cells(colEmpCode).Value) + "' at row no. " + clsCommon.myCstr(grow.Index + 1) + "")
                             Return False
                         End If
                     End If
@@ -81,11 +81,11 @@ Public Class FrmAllotmentOfLeaves
         Next
 
         If clsCommon.CompairString(cboAllotmentType.SelectedValue, "A") = CompairStringResult.Equal AndAlso count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast one employee for All Case.")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one employee for All Case.", Me.Text)
             Return False
         End If
         If arrempcode Is Nothing OrElse arrempcode.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Select atleast one employee in grid.")
+            clsCommon.MyMessageBoxShow(Me, "Select atleast one employee in grid.", Me.Text)
             Return False
         End If
 
@@ -140,12 +140,12 @@ Public Class FrmAllotmentOfLeaves
 
                 Next
                 If (obj.SaveData(obj, isnewentry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.LVALLOTMENT_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndCode._MYNavigator
@@ -315,7 +315,7 @@ Public Class FrmAllotmentOfLeaves
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoad = False
         End Try
@@ -459,7 +459,7 @@ Public Class FrmAllotmentOfLeaves
                 End If
                 If (clsLeaveAllotment.DeleteData(fndCode.Value)) Then
                     'saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -575,7 +575,7 @@ Public Class FrmAllotmentOfLeaves
 
         Catch ex As Exception
             isCellValueChange = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -619,7 +619,7 @@ Public Class FrmAllotmentOfLeaves
             End If
         Catch ex As Exception
             isCellValueChange = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -652,7 +652,7 @@ Public Class FrmAllotmentOfLeaves
     '====================added by shivani tyagi against ticket[BM00000008638]
     Sub ImportIndividual(ByVal Allotment_Type As String)
         If clsCommon.myLen(Allotment_Type) <= 0 Or (clsCommon.CompairString(Allotment_Type, "I") <> CompairStringResult.Equal And clsCommon.CompairString(Allotment_Type, "A") <> CompairStringResult.Equal) Then
-            clsCommon.MyMessageBoxShow("Invalid Import Type")
+            clsCommon.MyMessageBoxShow(Me, "Invalid Import Type", Me.Text)
             Exit Sub
         End If
         Dim gv As New RadGridView()
@@ -791,7 +791,7 @@ Public Class FrmAllotmentOfLeaves
                     End If
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -804,7 +804,7 @@ Public Class FrmAllotmentOfLeaves
     End Sub
     Sub ImportALL(ByVal Allotment_Type As String)
         If clsCommon.myLen(Allotment_Type) <= 0 Or (clsCommon.CompairString(Allotment_Type, "I") <> CompairStringResult.Equal And clsCommon.CompairString(Allotment_Type, "A") <> CompairStringResult.Equal) Then
-            clsCommon.MyMessageBoxShow("Invalid Import Type")
+            clsCommon.MyMessageBoxShow(Me, "Invalid Import Type", Me.Text)
             Exit Sub
         End If
         Dim gv As New RadGridView()
@@ -974,7 +974,7 @@ Public Class FrmAllotmentOfLeaves
 
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -1040,7 +1040,7 @@ Public Class FrmAllotmentOfLeaves
             '    Throw New Exception("Only for opening Type Document")
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

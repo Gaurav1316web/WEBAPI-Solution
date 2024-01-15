@@ -895,7 +895,7 @@ Public Class FrmQuickSettlement
 
     Private Sub btnUpdateLoadIn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadOutView.Click
         If clsCommon.myLen(fndQuickSettlement.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Save This Transfer First To View Details.", "QuickSettlement", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Save This Transfer First To View Details.", "QuickSettlement", MessageBoxButtons.OK)
             Return
         Else
             If clsCommon.myLen(fndTransferNumber.Value) > 0 Then
@@ -933,11 +933,11 @@ Public Class FrmQuickSettlement
     Private Sub btnPostfinnancial_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPostfinnancial.Click
         If clsCommon.myLen(fndQuickSettlement.Value) > 0 Then
             If POstFinancialEnrty() Then
-                common.clsCommon.MyMessageBoxShow("Entry Posted Successfully.", "Financial Entry", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Entry Posted Successfully.", "Financial Entry", MessageBoxButtons.OK)
 
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("Please Save QuickSettlement Entry First!", "Financial Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Save QuickSettlement Entry First!", "Financial Entry", MessageBoxButtons.OK)
         End If
     End Sub
 

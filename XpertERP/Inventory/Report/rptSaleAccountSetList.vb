@@ -164,7 +164,7 @@ Public Class rptSaleAccountSetList
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -176,7 +176,7 @@ Public Class rptSaleAccountSetList
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs)
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
@@ -240,7 +240,7 @@ Public Class rptSaleAccountSetList
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1163,7 +1163,7 @@ Public Class rptSaleAccountSetList
 
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 btnPrint.Enabled = False
                 btnUpdate.Enabled = False
                 Exit Sub
@@ -1171,7 +1171,7 @@ Public Class rptSaleAccountSetList
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadItemType()
@@ -1188,14 +1188,14 @@ Public Class rptSaleAccountSetList
         'Returnable_Container , Schemes,Promotional , Cogs_InterBranch , Suspence_Account , Gain_Loss_Account , Stock_Transfer_AC, COGT_AC, DisplayPurpose_Account from TSPL_SALES_ACCOUNTS
         For Each grow As GridViewRowInfo In Gv1.Rows
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colSalesAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblsale", "Sales Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblsale", "Sales Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
             If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colSalesAccount).Value)) > 0 Then
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colSalesAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblsale", "Sales Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblsale", "Sales Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "", Me.Text)
                     'Throw New Exception("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblsale", "Sales Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
@@ -1203,7 +1203,7 @@ Public Class rptSaleAccountSetList
 
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colSalesReturnAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblreturns", "Sale Return Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblreturns", "Sale Return Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1211,13 +1211,13 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colSalesReturnAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblreturns", "Sale Return Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblreturns", "Sale Return Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colCostOfGoodsSoldAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblcostofgoodssold", "Cost Of Goods Sold Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblcostofgoodssold", "Cost Of Goods Sold Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1225,14 +1225,14 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colCostOfGoodsSoldAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblcostofgoodssold", "Cost Of Goods Sold Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblcostofgoodssold", "Cost Of Goods Sold Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
 
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colCostVarianceAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblcostvariance", "Cost Variance Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblcostvariance", "Cost Variance Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1240,13 +1240,13 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colCostVarianceAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblcostvariance", "Cost Variance Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblcostvariance", "Cost Variance Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colDamagedGoodsAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblDamagedgoods", "Damaged Goods Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblDamagedgoods", "Damaged Goods Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1254,7 +1254,7 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colDamagedGoodsAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblDamagedgoods", "Damaged Goods Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblDamagedgoods", "Damaged Goods Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
@@ -1263,7 +1263,7 @@ Public Class rptSaleAccountSetList
 
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colInternalUsageAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblInternalusage", "Internal Usage Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "rdlblInternalusage", "Internal Usage Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1271,13 +1271,13 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colInternalUsageAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblInternalusage", "Internal Usage Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "rdlblInternalusage", "Internal Usage Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colReturnableContainerAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "lblreturnable", "Returnable Container Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "lblreturnable", "Returnable Container Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1285,13 +1285,13 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colReturnableContainerAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "lblreturnable", "Returnable Container Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "lblreturnable", "Returnable Container Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colCogsInterBranchAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "MyLabel1", "Cogs InterBranch Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "MyLabel1", "Cogs InterBranch Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1299,14 +1299,14 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colCogsInterBranchAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel1", "Cogs InterBranch Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel1", "Cogs InterBranch Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
 
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colDisplayPurposeAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "MyLabel6", "Display Purpose Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "MyLabel6", "Display Purpose Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1314,14 +1314,14 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colDisplayPurposeAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel6", "Display Purpose Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel6", "Display Purpose Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
 
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colCostOfGoodsSoldAccount).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "MyLabel7", "Cost Of Goods Scheme Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill  (  " + GetcolumnName("ITEM-SAL-ACC", "MyLabel7", "Cost Of Goods Scheme Account") + "  ) of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1329,7 +1329,7 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colCostOfGoodsSoldAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel7", "Cost Of Goods Scheme Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel7", "Cost Of Goods Scheme Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
@@ -1339,7 +1339,7 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colSchemesAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "RadLabel1", "Schemes Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "RadLabel1", "Schemes Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
@@ -1348,7 +1348,7 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colPromotionalAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "RadLabel2", "Promotional Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "RadLabel2", "Promotional Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
@@ -1357,7 +1357,7 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colSuspenceAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel2", "Suspence Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel2", "Suspence Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
@@ -1366,7 +1366,7 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colStockTransferAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel4", "Stock Transfer Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel4", "Stock Transfer Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
@@ -1375,18 +1375,18 @@ Public Class rptSaleAccountSetList
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(grow.Cells(colCostofGoodsTransferAccount).Value) + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel5", "Cost of Goods Transfer Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
+                    clsCommon.MyMessageBoxShow(Me, "Filled  ( " + GetcolumnName("ITEM-SAL-ACC", "MyLabel5", "Cost of Goods Transfer Account") + ") must be control account." + Environment.NewLine + "For Item code " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + "")
                     Return
                 End If
             End If
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colStructureCode).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill Structure Code of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill Structure Code of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
             If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(colSaleAccountSetCode).Value)) Then
-                clsCommon.MyMessageBoxShow("Please fill Sale Account Set code  of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
+                clsCommon.MyMessageBoxShow(Me, "Please fill Sale Account Set code  of Item Code ( " & clsCommon.myCstr(grow.Cells(colItemCode).Value) & ") ")
                 Return
             End If
 
@@ -1429,11 +1429,11 @@ Public Class rptSaleAccountSetList
                 End If
 
             Next
-            clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
 
     End Sub
@@ -2372,7 +2372,7 @@ Public Class rptSaleAccountSetList
         If e.Column Is Gv1.Columns(colItemCode) Then
             Dim strCode As String = Gv1.CurrentRow.Cells(colItemCode).Value
             If clsCommon.myLen(strCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("No Item code Found.")
+                clsCommon.MyMessageBoxShow(Me, "No Item code Found.", Me.Text)
             Else
                 clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmItemMasterRMOther, strCode)
             End If

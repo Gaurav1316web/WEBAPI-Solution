@@ -38,7 +38,7 @@ Public Class Frmglsecurity
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.glsecurity)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -321,9 +321,9 @@ Public Class Frmglsecurity
         Next
 
         If countaccount = 0 And countsegment = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select at least one account or location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select at least one account or location", Me.Text)
         ElseIf no > 1 Then
-            common.clsCommon.MyMessageBoxShow("You can not provide two default segment in one time")
+            common.clsCommon.MyMessageBoxShow(Me, "You can not provide two default segment in one time", Me.Text)
         Else
             If MyBase.isModifyonPasswordFlag Then
                 If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.glsecurity, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
@@ -355,7 +355,7 @@ Public Class Frmglsecurity
                 funreset()
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("Please select the User Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the User Code", Me.Text)
             fndUserCode.Focus()
         End If
     End Sub
@@ -365,7 +365,7 @@ Public Class Frmglsecurity
             Dim da As New SqlDataAdapter("select User_Code  from TSPL_USER_MASTER ", connectSql.SqlCon())
             da.Fill(ds1, "TSPL_USER_MASTER")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
     ''to show data on the finderaccountcode
@@ -374,7 +374,7 @@ Public Class Frmglsecurity
             funloaddata()
             fndUserCode.Value = ds1.Tables(0).Rows(increment)(0).ToString()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
     '>> Added By abhishek as on 26/3/2012
@@ -385,7 +385,7 @@ Public Class Frmglsecurity
 
         If no = 0 AndAlso fndUserCode.Value <> "" Then
             fndUserCode.MyReadOnly = False
-            common.clsCommon.MyMessageBoxShow(" This User Id does not exist")
+            common.clsCommon.MyMessageBoxShow(Me, " This User Id does not exist", Me.Text)
             fndUserCode.Focus()
             Exit Sub
         Else
@@ -454,7 +454,7 @@ Public Class Frmglsecurity
             btndelete.Enabled = True
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -534,7 +534,7 @@ Public Class Frmglsecurity
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -878,7 +878,7 @@ Public Class Frmglsecurity
                 trans.Commit()
                 clsCommon.ProgressBarHide()
 
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
 
             Catch ex As Exception
                 trans.Rollback()
@@ -942,7 +942,7 @@ Public Class Frmglsecurity
                 trans.Commit()
                 clsCommon.ProgressBarHide()
 
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
 
             Catch ex As Exception
                 trans.Rollback()
@@ -955,13 +955,13 @@ Public Class Frmglsecurity
     End Sub
 
     Private Sub dgvaccount_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles dgvaccount.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
 
     Private Sub dgvsegment_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles dgvsegment.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub

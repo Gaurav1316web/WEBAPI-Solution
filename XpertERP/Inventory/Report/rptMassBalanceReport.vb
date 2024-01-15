@@ -134,7 +134,7 @@ Public Class rptMassBalanceReport
     Public Sub Load_Data()
         Try
             If clsCommon.GetDateWithStartTime(fromDate.Value) > clsCommon.GetDateWithEndTime(ToDate.Value) Then
-                common.clsCommon.MyMessageBoxShow(Me, "From-Date cannot be Greater than To-Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From-Date cannot be Greater than To-Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -223,12 +223,12 @@ Public Class rptMassBalanceReport
 
                 EnableDisableAllcontrol(False)
             Else
-                clsCommon.MyMessageBoxShow("No data found to display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If
             Gv1.BestFitColumns()
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -362,7 +362,7 @@ Public Class rptMassBalanceReport
             PageSetupReport_ID = GetReportID()
             Load_Data()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -399,7 +399,7 @@ Public Class rptMassBalanceReport
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(GetReportID(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -437,10 +437,10 @@ Public Class rptMassBalanceReport
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
             Else
-                clsCommon.MyMessageBoxShow("No data found to export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -502,12 +502,12 @@ Public Class rptMassBalanceReport
 
                         gvDetail.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                     Else
-                        clsCommon.MyMessageBoxShow("No data found to display", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -608,7 +608,7 @@ Public Class rptMassBalanceReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -629,11 +629,11 @@ Public Class rptMassBalanceReport
                     transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                     clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to export", Me.Text)
-                End If
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Gv1_ViewCellFormatting(sender As Object, e As CellFormattingEventArgs) Handles Gv1.ViewCellFormatting

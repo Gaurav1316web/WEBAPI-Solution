@@ -192,7 +192,7 @@ Public Class frmSaleAccountSetCode
 
             myMessages.update()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'This function is used to delete data.

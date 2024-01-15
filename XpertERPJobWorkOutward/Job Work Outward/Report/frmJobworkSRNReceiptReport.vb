@@ -187,7 +187,7 @@ Public Class frmJobworkSRNReceiptReport
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     gv.MasterTemplate.SummaryRowsBottom.Clear()
                     gv.DataSource = Nothing
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     gv.MasterTemplate.SummaryRowsBottom.Clear()
                     gv.DataSource = Nothing
@@ -204,7 +204,7 @@ Public Class frmJobworkSRNReceiptReport
                 clsCommon.MyExportToExcelGrid("Job Work SRN Receipt Report", gv, Nothing, Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -284,7 +284,7 @@ Public Class frmJobworkSRNReceiptReport
                 clsCommon.MyExportToPDF("Job Work SRN Receipt Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -318,7 +318,7 @@ Public Class frmJobworkSRNReceiptReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -401,7 +401,7 @@ Public Class frmJobworkSRNReceiptReport
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -410,7 +410,7 @@ Public Class frmJobworkSRNReceiptReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click

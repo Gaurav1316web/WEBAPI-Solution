@@ -1904,6 +1904,7 @@ Public Class frmDairyBookingCustomer
                     obj.Login_User_Zone_Code = lblLoginUserZone.Text
                 End If
                 obj.TCSAmount = clsCommon.myCdbl(lblTCSAmount.Text)
+                obj.Total_Amt = clsCommon.myCdbl(lblTotalDocAmt.Text)
                 obj.Is_Credit_Customer = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'"))
                 obj.Arr = New List(Of clsBookingDetailDairySale)
                 ''richa 4 Aug,2021 optimization related

@@ -173,18 +173,18 @@ Public Class frmCustomer
                             SaveDataFull()
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow("Select Customer Account Set", "Customer", MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Select Customer Account Set", "Customer", MessageBoxButtons.OK, Me.Text)
                         pageCus.SelectedPage = RadPageViewPage4
                         fndAccntSet.Focus()
                     End If
 
                 Else
-                    common.clsCommon.MyMessageBoxShow("Select Customer Group", "Customer", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Select Customer Group", "Customer", MessageBoxButtons.OK, Me.Text)
                     pageCus.SelectedPage = RadPageViewPage1
                     fndCusgrp.Focus()
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("Please fill customer name", "Customer", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Please fill customer name", "Customer", MessageBoxButtons.OK, Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtCustomerName.Focus()
             End If
@@ -1886,19 +1886,19 @@ Public Class frmCustomer
         qst = "Select Cust_Code from TSPL_RECEIPT_HEADER where Cust_Code = '" + fndCustomer.Value + "'"
         dpt = clsDBFuncationality.getSingleValue(qst)
         If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-            common.clsCommon.MyMessageBoxShow("This Customer Cannot be deleted." + Environment.NewLine + "This is already in Process")
+            common.clsCommon.MyMessageBoxShow(Me, "This Customer Cannot be deleted." + Environment.NewLine + "This is already in Process")
             Return
         End If
         qst = "Select Cust_Code from TSPL_SCRAPINVOICE_HEAD where Cust_Code = '" + fndCustomer.Value + "'"
         dpt = clsDBFuncationality.getSingleValue(qst)
         If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-            common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+            common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
             Return
         End If
         qst = "Select Customer_CODE from TSPL_ADJUSTMENT_HEADER where Customer_CODE = '" + fndCustomer.Value + "'"
         dpt = clsDBFuncationality.getSingleValue(qst)
         If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-            common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+            common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
             Return
         End If
         If fndCustomer.Value = "" Then
@@ -1973,7 +1973,7 @@ Public Class frmCustomer
             ''------------------Code Ends Here----------------------------------
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadMultiRoute()
@@ -1998,7 +1998,7 @@ Public Class frmCustomer
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadVisiDetail()
@@ -4312,7 +4312,7 @@ Public Class frmCustomer
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
 
@@ -4930,11 +4930,11 @@ Public Class frmCustomer
                         intCounter += 1
                     Next
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     'trans.Rollback()
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Error at row no:" + clsCommon.myCstr(intCounter) + Environment.NewLine + ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, "Error at row no:" + clsCommon.myCstr(intCounter) + Environment.NewLine + ex.Message)
                     '' myMessages.myExceptions(ex)
                 End Try
             End If
@@ -5635,7 +5635,7 @@ Public Class frmCustomer
             If ChkOther.Checked = False Then
                 Dim msg As String = clsERPFuncationality.CheckPanStructure(txtpan.Text.Trim(), txtCustomerName.Text)
                 If clsCommon.myLen(msg) > 0 Then
-                    clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     txtpan.Focus()
                     txtpan.Select()
                 End If
@@ -5941,7 +5941,7 @@ Public Class frmCustomer
                 Else
                     gvCan.CurrentRow.Cells(ColCanLocation).Value = ""
                     gvCan.CurrentRow.Cells(colCanLocationName).Value = ""
-                    common.clsCommon.MyMessageBoxShow("Same Location exist at Row No " & clsCommon.myCstr(ii))
+                    common.clsCommon.MyMessageBoxShow(Me, "Same Location exist at Row No " & clsCommon.myCstr(ii), Me.Text)
                 End If
             End If
 
@@ -6186,7 +6186,7 @@ Public Class frmCustomer
 
     Private Sub txtArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtArea._MYValidating
         If clsCommon.myLen(fndZone.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please First select " + fndZone.MyLinkLable1.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please First select " + fndZone.MyLinkLable1.Text)
         End If
         txtArea.Value = clsAreaMaster.getFinder("TSPL_AREA_MASTER.Zone_Code='" + fndZone.Value + "'", txtArea.Value, isButtonClicked)
     End Sub

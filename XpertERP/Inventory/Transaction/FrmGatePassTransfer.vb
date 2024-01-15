@@ -65,7 +65,7 @@ Public Class FrmGatePassTransfer
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -276,7 +276,7 @@ Public Class FrmGatePassTransfer
                 loadBlankItemGrid()
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please Select Booking No. First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Booking No. First", Me.Text)
         End If
 
 
@@ -435,7 +435,7 @@ Public Class FrmGatePassTransfer
 
                 If (ClsGatePassTransfer.SaveData(obj, isNewEntry)) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         LoadData(obj.Document_No, NavigatorType.Current)
                     End If
 
@@ -510,7 +510,7 @@ Public Class FrmGatePassTransfer
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             obj = Nothing
@@ -538,12 +538,12 @@ Public Class FrmGatePassTransfer
 
             If (deleteConfirm()) Then
                 If (ClsGatePassTransfer.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -551,7 +551,7 @@ Public Class FrmGatePassTransfer
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -568,7 +568,7 @@ Public Class FrmGatePassTransfer
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -639,7 +639,7 @@ Public Class FrmGatePassTransfer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isCellValueChangedOpen = False
         End Try

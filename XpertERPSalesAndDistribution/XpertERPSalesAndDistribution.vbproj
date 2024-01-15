@@ -701,6 +701,18 @@
     <Compile Include="Product Sale\Report\FrmMonthlySaleReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Product Sale\Report\MSIProductionSaleReport.Designer.vb">
+      <DependentUpon>MSIProductionSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\MSIProductionSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\RMStockConsumption.Designer.vb">
+      <DependentUpon>RMStockConsumption.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\RMStockConsumption.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Product Sale\Report\rptDCSSaleRegister.Designer.vb">
       <DependentUpon>rptDCSSaleRegister.vb</DependentUpon>
     </Compile>
@@ -2069,6 +2081,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Product Sale\Report\FrmMonthlySaleReport.resx">
       <DependentUpon>FrmMonthlySaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\MSIProductionSaleReport.resx">
+      <DependentUpon>MSIProductionSaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\RMStockConsumption.resx">
+      <DependentUpon>RMStockConsumption.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Product Sale\Report\rptDCSSaleRegister.resx">
       <DependentUpon>rptDCSSaleRegister.vb</DependentUpon>

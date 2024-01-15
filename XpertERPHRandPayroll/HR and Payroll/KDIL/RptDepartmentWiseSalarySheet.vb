@@ -78,7 +78,7 @@ Public Class RptDepartmentWiseSalarySheet
         'font.Size = 8.25
         Gv1.DataSource = Nothing
         If clsCommon.myLen(txtFromPP.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Pay Period.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
             Return
         End If
         NoOfPayHeadsInEachCol = Me.txtNum.Value
@@ -1309,10 +1309,10 @@ Public Class RptDepartmentWiseSalarySheet
                     clsCommon.MyExportToPDF("Salary Sheet", Gv1, arrHeader, "Salary Sheet", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

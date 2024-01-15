@@ -8161,6 +8161,7 @@ Public Class clsCreateAllTable
             coll.Add("BPL_Category", "varchar(50) NULL")
             coll.Add("TCSAmount", "decimal(18,2) null")
             coll.Add("TCSBaseAmt", "decimal(18,2) null")
+            coll.Add("Total_Amt", "decimal(18,2) null")
             coll.Add("Is_Credit_Customer", "char(1) null")
             coll.Add("LastCollectionDate", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
@@ -51478,6 +51479,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("TAx2rate", "float NULL")
             coll.Add("Tax2Amt", "float NULL")
             coll.Add("Sub_Location_code", "varchar(30)  NUll")
+            coll.Add("Is_CashSale", "char(1) default 'N'")
             clsCommonFunctionality.CreateOrAlterTable("Temp_table_MCC_Material_Sale_uploader", coll)
 
             coll = New Dictionary(Of String, String)()

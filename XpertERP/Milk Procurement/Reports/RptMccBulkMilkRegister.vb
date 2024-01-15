@@ -103,7 +103,7 @@ Public Class RptMccBulkMilkRegister
             Exit Sub
         End If
         If chkDocTypeSelect.IsChecked AndAlso cbgDocType.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Doc Type or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single Doc Type or select all.", Me.Text)
             Exit Sub
         End If
         'If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
@@ -779,7 +779,7 @@ Public Class RptMccBulkMilkRegister
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 

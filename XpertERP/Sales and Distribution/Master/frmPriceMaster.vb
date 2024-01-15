@@ -291,7 +291,7 @@ Public Class FrmPriceMaster
 
                         grdTax.Columns("Tax Rate").ReadOnly = True
                     Else
-                        common.clsCommon.MyMessageBoxShow("Create Item Wise Tax.", Me.Text, MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Create Item Wise Tax.", Me.Text, MessageBoxButtons.OK)
                         fndTaxGrp.Value = ""
                         Exit Sub
                     End If
@@ -1846,7 +1846,7 @@ Public Class FrmPriceMaster
                 If (clsPriceMaster.SaveData(Arr, False)) Then
                     clsCommon.ProgressBarPercentHide()
 
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
@@ -2011,7 +2011,7 @@ Public Class FrmPriceMaster
                 Next
                 If (clsPriceMaster.SaveData(Arr, False)) Then
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
@@ -2175,7 +2175,7 @@ Public Class FrmPriceMaster
                 Next
                 If (clsPriceMaster.SaveData(Arr, False)) Then
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
@@ -2341,7 +2341,7 @@ Public Class FrmPriceMaster
                 If (clsPriceMaster.SaveData(Arr, False)) Then
                     clsCommon.ProgressBarPercentHide()
 
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
@@ -3420,7 +3420,7 @@ Public Class FrmPriceMaster
                 Next
                 If (clsPriceMaster.SaveData(Arr, False)) Then
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()

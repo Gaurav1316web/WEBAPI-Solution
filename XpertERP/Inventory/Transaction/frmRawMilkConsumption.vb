@@ -869,7 +869,7 @@ Public Class frmRawMilkConsumption
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
 
@@ -1070,7 +1070,7 @@ Public Class frmRawMilkConsumption
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1300,7 +1300,7 @@ Public Class frmRawMilkConsumption
                 End If
 
                 If clsCommon.myCBool(gv1.Rows(ii).Cells(colisMRPMandatory).Value) AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please enter MRP for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter MRP for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
                     Return False
                 End If
             End If
@@ -1430,7 +1430,7 @@ Public Class frmRawMilkConsumption
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Adjustment_No, NavigatorType.Current)
                 Else
-                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 End If
                 'End If
 
@@ -1681,7 +1681,7 @@ Public Class frmRawMilkConsumption
                 End If
                 If (ClsJobWorkRMConsum.DeleteData(txtAdjustmentNo.Value, AdjustmentEnum.strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -2719,10 +2719,10 @@ Public Class frmRawMilkConsumption
     Private Sub cmdEditAndPost_Click(sender As Object, e As EventArgs) Handles cmdEditAndPost.Click
         '' added by Panch raj against Ticket No:BM00000008482
         If clsCommon.myLen(txtAdjustmentNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select Posted Document.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Posted Document.", Me.Text)
             Exit Sub
         ElseIf UsLock1.Status <> ERPTransactionStatus.Posted And UsLock1.Status <> ERPTransactionStatus.Approved Then
-            clsCommon.MyMessageBoxShow(Me, "Document must be posted for Edit and Post.")
+            clsCommon.MyMessageBoxShow(Me, "Document must be posted for Edit and Post.", Me.Text)
             Exit Sub
         End If
         Dim objNew As New ClsJobWorkRMConsum

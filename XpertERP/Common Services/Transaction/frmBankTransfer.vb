@@ -368,7 +368,7 @@ Public Class FrmBankTransfer
                 Dim var As String = "Select Transfer_No  from TSPL_BANK_TRANSFER where Cheque_No='" + txtchkno.Text + "' and Transfer_No not in ('" + Fnd_Transfernumber.Value + "') "
                 Dim trans_no As String = clsDBFuncationality.getSingleValue(var, trans)
                 If clsCommon.myLen(trans_no) > 0 Then
-                    common.clsCommon.MyMessageBoxShow("The cheque Number '" + txtchkno.Text + "' is already exist against '" + trans_no + "',please enter a valid cheque no.")
+                    common.clsCommon.MyMessageBoxShow(Me, "The cheque Number '" + txtchkno.Text + "' is already exist against '" + trans_no + "',please enter a valid cheque no.")
                     txtchkno.Focus()
                     Exit Sub
                 End If
@@ -415,7 +415,7 @@ Public Class FrmBankTransfer
             ''
            
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function CheckNegativeBankBalanceonDelete() As Boolean
@@ -1921,7 +1921,7 @@ Public Class FrmBankTransfer
 
     Private Sub btnReverseAndRecreate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseAndRecreate.Click
         If clsCommon.myLen(Fnd_Transfernumber.Value) > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Reverse and Recreate Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Recreate Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 Try
                     Dim qry As String = "select Post  from TSPL_BANK_TRANSFER where Transfer_No='" + Fnd_Transfernumber.Value + "'"
@@ -1940,7 +1940,7 @@ Public Class FrmBankTransfer
 
 
                     qry = "Update TSPL_BANK_TRANSFER set Post = 'n' where Transfer_No='" + Fnd_Transfernumber.Value + "'"
-                    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Fnd_Transfernumber.Value, "TSPL_BANK_TRANSFER", "Transfer_No", trans)
                     trans.Commit()
 

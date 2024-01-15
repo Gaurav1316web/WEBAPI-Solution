@@ -129,20 +129,20 @@ Public Class RptItemLocationDetailsNewVersion
 
 
             If chkitemSelect.IsChecked = True AndAlso cbgitem.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item or select ALL", Me.Text)
                 Exit Sub
             End If
 
             If chklocationselect.IsChecked = True AndAlso cbglocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
                 Exit Sub
             End If
             If chkbatchselect.IsChecked = True AndAlso cbgbatch.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Batch or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Batch or select ALL", Me.Text)
                 Exit Sub
             End If
             If chkmrpselect.IsChecked = True AndAlso cbgmrp.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one MRP or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one MRP or select ALL", Me.Text)
                 Exit Sub
             End If
             qry = " select Item_Code, Item_Desc,Location_Code, Location_Desc,MRP,Batch_No, Item_Qty,case when Item_Qty=0 then 0 else CONVERT(decimal(18,2), ROUND( Amount/Item_Qty,2)) end as Rate, Amount,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2  from("
@@ -168,7 +168,7 @@ Public Class RptItemLocationDetailsNewVersion
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 '' dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
@@ -177,7 +177,7 @@ Public Class RptItemLocationDetailsNewVersion
             End If
            
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

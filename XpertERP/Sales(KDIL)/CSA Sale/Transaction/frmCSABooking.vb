@@ -364,17 +364,17 @@ Public Class frmCSABooking
             For Each grow As GridViewRowInfo In gv1.Rows
                 If clsCommon.myLen(grow.Cells(colCSA_ITEM_TYPE).Value) > 0 Then
                     If grow.Cells(colBOOK_QTY).Value <= 0 Then
-                        clsCommon.MyMessageBoxShow("Booked Quantity at row no " & (grow.Index + 1) & " must be greater than zero.")
+                        clsCommon.MyMessageBoxShow(Me, "Booked Quantity at row no " & (grow.Index + 1) & " must be greater than zero.")
                         Return False
                     End If
 
                     If clsCommon.myLen(grow.Cells(colBOOK_QTY_UOM).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Please enter Booked Quantity UOM at row no " & (grow.Index + 1) & "")
+                        clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity UOM at row no " & (grow.Index + 1) & "")
                         Return False
                     End If
                     If clsCommon.CompairString(clsCommon.myCstr(MainFormId), clsCommon.myCstr(clsUserMgtCode.frmCSABooking)) = CompairStringResult.Equal Then
                         If clsCommon.myLen(grow.Cells(colBOOK_Rate).Value) <= 0 Then
-                            clsCommon.MyMessageBoxShow("Please enter Booked Rate at row no " & (grow.Index + 1) & "")
+                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate at row no " & (grow.Index + 1) & "")
                             Return False
                         End If
                     End If
@@ -385,13 +385,13 @@ Public Class frmCSABooking
                             grow.Cells(colBOOK_RATE_UOM).Value = clsCommon.myCstr(grow.Cells(colBOOK_QTY_UOM).Value)
                             isCellValueChangedOpen = False
                         Else
-                            clsCommon.MyMessageBoxShow("Please enter Booked Rate UOM at row no " & (grow.Index + 1) & "")
+                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate UOM at row no " & (grow.Index + 1) & "")
                             Return False
                         End If
                     End If
                     If clsCommon.CompairString(clsUserMgtCode.frmCSABooking, MainFormId) = CompairStringResult.Equal Then
                         If clsCommon.myLen(grow.Cells(colTAX_PAID).Value) <= 0 Then
-                            clsCommon.MyMessageBoxShow("Please select Tax Paid at row no " & (grow.Index + 1) & "")
+                            clsCommon.MyMessageBoxShow(Me, "Please select Tax Paid at row no " & (grow.Index + 1) & "")
                             Return False
                         End If
                     End If
@@ -400,12 +400,12 @@ Public Class frmCSABooking
                     totalRow = totalRow + 1
                     For jj As Integer = (grow.Index + 1) To gv1.Rows.Count - 1
                         If clsCommon.myLen(grow.Cells(colItemCode).Value) <= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colCSA_ITEM_TYPE).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colCSA_ITEM_TYPE).Value)) = CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("Duplicate value not allowed,see at row no. " + clsCommon.myCstr(jj + 1) + "")
+                            clsCommon.MyMessageBoxShow(Me, "Duplicate value not allowed,see at row no. " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         End If
 
                         If clsCommon.myLen(grow.Cells(colItemCode).Value) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colItemCode).Value)) = CompairStringResult.Equal Then
-                            clsCommon.MyMessageBoxShow("Duplicate item value not allowed,see at row no. " + clsCommon.myCstr(jj + 1) + "")
+                            clsCommon.MyMessageBoxShow(Me, "Duplicate item value not allowed,see at row no. " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         End If
                     Next
@@ -877,7 +877,7 @@ Public Class frmCSABooking
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -887,7 +887,7 @@ Public Class frmCSABooking
 
     Private Sub rmiDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiDeleteLayout.Click
         clsGridLayout.DeleteData(Me.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Delete layout successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Delete layout successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rbtn_group_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtn_group.ToggleStateChanged, rbtn_Item.ToggleStateChanged

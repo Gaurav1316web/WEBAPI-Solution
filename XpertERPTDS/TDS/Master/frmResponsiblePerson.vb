@@ -450,7 +450,7 @@ Public Class frmResponsiblePerson
             myMessages.blankValue("Person Name")
             txtName.Focus()
         ElseIf check.Success = False And txtEMail.Text <> "" Then
-            common.clsCommon.MyMessageBoxShow("Please insert the proper format of e-mail address", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please insert the proper format of e-mail address", Me.Text)
             'txtEMail.Text = ""
             txtEMail.Focus()
         ElseIf rbtnSave.Text = "Save" Then
@@ -670,7 +670,7 @@ Public Class frmResponsiblePerson
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

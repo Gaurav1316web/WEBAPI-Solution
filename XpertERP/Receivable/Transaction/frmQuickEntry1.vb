@@ -658,7 +658,7 @@ Public Class FrmQuickEntry1
             Return True
         Catch ex As Exception
             tran.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
             Return False
         End Try
     End Function
@@ -834,7 +834,7 @@ Public Class FrmQuickEntry1
                                                 obj.ConvRate = 1
                                                 obj.ConvRateOld = 1
                                             Else
-                                                clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & obj.CURRENCY_CODE & "'")
+                                                clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & obj.CURRENCY_CODE & "'")
                                                 Exit Function
                                             End If
                                         Else
@@ -1333,7 +1333,7 @@ Public Class FrmQuickEntry1
             Return True
         Catch ex As Exception
             tran.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
             Return False
         End Try
     End Function
@@ -1702,7 +1702,7 @@ Public Class FrmQuickEntry1
             Return True
         Catch ex As Exception
             tran.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Quick Book Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Quick Book Entry", MessageBoxButtons.OK)
             Return False
         End Try
     End Function
@@ -1718,14 +1718,14 @@ Public Class FrmQuickEntry1
                     Dim Qry As String = "select top 1 Receipt_No from TSPL_RECEIPT_HEADER where QuickEntryNo='" + txtEntryNo.Value + "' and Posted='Y'"
                     Qry = clsDBFuncationality.getSingleValue(Qry)
                     If clsCommon.myLen(Qry) > 0 Then
-                        clsCommon.MyMessageBoxShow("Receipt No:" + Qry + " Posted.Cannot Delete the quick book entry", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Receipt No:" + Qry + " Posted.Cannot Delete the quick book entry", Me.Text)
                         Exit Sub
                     End If
                 ElseIf ddlType.Text = "Payment" Then
                     Dim Qry As String = "select top 1 Payment_No from TSPL_PAYMENT_HEADER where QuickEntryNo='" + txtEntryNo.Value + "' and Posted='1'"
                     Qry = clsDBFuncationality.getSingleValue(Qry)
                     If clsCommon.myLen(Qry) > 0 Then
-                        clsCommon.MyMessageBoxShow("Payment No:" + Qry + " Posted.Cannot Delete the quick book entry", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Payment No:" + Qry + " Posted.Cannot Delete the quick book entry", Me.Text)
                         Exit Sub
                     End If
                 End If
@@ -1793,7 +1793,7 @@ Public Class FrmQuickEntry1
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = MasterTemplate.Columns.Count()
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2101,7 +2101,7 @@ Public Class FrmQuickEntry1
     End Sub
 
     Private Sub MasterTemplate_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles MasterTemplate.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -2331,7 +2331,7 @@ Public Class FrmQuickEntry1
                 Next
                 tran.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 tran.Rollback()
                 clsCommon.ProgressBarHide()
@@ -2532,7 +2532,7 @@ Public Class FrmQuickEntry1
                 Next
                 tran.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 tran.Rollback()
                 clsCommon.ProgressBarHide()
@@ -2660,7 +2660,7 @@ Public Class FrmQuickEntry1
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try

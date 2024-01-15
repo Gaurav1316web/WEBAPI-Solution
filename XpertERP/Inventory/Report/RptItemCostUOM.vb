@@ -181,7 +181,7 @@ Public Class RptItemCostUOM
                 gv.Columns.Clear()
 
                 If dtfinal IsNot Nothing AndAlso dtfinal.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 ElseIf IsPrint = Exporter.Print Then
 
                 Else
@@ -194,7 +194,7 @@ Public Class RptItemCostUOM
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -297,7 +297,7 @@ Public Class RptItemCostUOM
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -321,7 +321,7 @@ Public Class RptItemCostUOM
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -335,7 +335,7 @@ Public Class RptItemCostUOM
         Dim TempFormId As String = ""
         TempFormId = PageSetupReport_ID
         clsGridLayout.DeleteData(TempFormId, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 End Class

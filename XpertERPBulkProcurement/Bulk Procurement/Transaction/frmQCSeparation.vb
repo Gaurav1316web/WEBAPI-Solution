@@ -209,21 +209,21 @@ Public Class FrmQCSeparation
         If allowToSave(False) Then
             If FinalChamberwise = 0 Then
                 If clsCommon.myCdbl(gvParam.Rows(0).Cells(SNFColName).Value) <= 0 AndAlso clsCommon.myCdbl(gvParam.Rows(0).Cells(FATColName).Value) <= 0 Then
-                    If clsCommon.MyMessageBoxShow("SNF Value is 0 and FAT value is 0, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "SNF Value is 0 and FAT value is 0, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         SaveData(False)
                     Else
                         Exit Sub
                     End If
 
                 ElseIf clsCommon.myCdbl(gvParam.Rows(0).Cells(FATColName).Value) <= 0 Then
-                    If clsCommon.MyMessageBoxShow("FAT Value is 0, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "FAT Value is 0, Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         SaveData(False)
                     Else
                         Exit Sub
                     End If
 
                 ElseIf clsCommon.myCdbl(gvParam.Rows(0).Cells(SNFColName).Value) <= 0 Then
-                    If clsCommon.MyMessageBoxShow("SNF Value is 0 , Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "SNF Value is 0 , Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         SaveData(False)
                     Else
                         Exit Sub
@@ -237,21 +237,21 @@ Public Class FrmQCSeparation
                     Dim blnSave As Boolean = True
                     For ii As Integer = 0 To gvParam.Rows.Count - 1
                         If clsCommon.myCdbl(gvParam.Rows(ii).Cells(SNFColName).Value) <= 0 AndAlso clsCommon.myCdbl(gvParam.Rows(ii).Cells(FATColName).Value) <= 0 Then
-                            If clsCommon.MyMessageBoxShow("SNF Value is 0 and FAT value is 0 , At Line No " + clsCommon.myCstr(ii + 1) + " Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                            If clsCommon.MyMessageBoxShow(Me, "SNF Value is 0 and FAT value is 0 , At Line No " + clsCommon.myCstr(ii + 1) + " Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                                 blnSave = True
                             Else
                                 Exit Sub
                             End If
 
                         ElseIf clsCommon.myCdbl(gvParam.Rows(ii).Cells(FATColName).Value) <= 0 Then
-                            If clsCommon.MyMessageBoxShow("FAT Value is 0, At Line No" + clsCommon.myCstr(ii + 1) + " Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                            If clsCommon.MyMessageBoxShow(Me, "FAT Value is 0, At Line No" + clsCommon.myCstr(ii + 1) + " Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                                 blnSave = True
                             Else
                                 Exit Sub
                             End If
 
                         ElseIf clsCommon.myCdbl(gvParam.Rows(ii).Cells(SNFColName).Value) <= 0 Then
-                            If clsCommon.MyMessageBoxShow("SNF Value is 0  At Line No" + clsCommon.myCstr(ii + 1) + ", Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                            If clsCommon.MyMessageBoxShow(Me, "SNF Value is 0  At Line No" + clsCommon.myCstr(ii + 1) + ", Want to Continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                                 blnSave = True
                             Else
                                 Exit Sub
@@ -1935,7 +1935,7 @@ Public Class FrmQCSeparation
     End Sub
 
     Private Sub gvParam_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gvParam.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub

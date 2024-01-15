@@ -73,7 +73,7 @@ Public Class FrmHRTravelExpenseApproval
                 'Me.gv1.Rows.AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -105,7 +105,7 @@ Public Class FrmHRTravelExpenseApproval
             btnSave.Text = "Save"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub FormatGrid()
@@ -174,7 +174,7 @@ Public Class FrmHRTravelExpenseApproval
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -220,7 +220,7 @@ Public Class FrmHRTravelExpenseApproval
                 obj.Expense_Approval_Code = txtcode.Value
                 arr.Add(obj)
                 If (ClsHRTravelExpenseApproval.SaveData(arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Expense_Approval_Code, NavigatorType.Current)
                     btnSave.Text = "Update"
                     ' btnDelete.Enabled = True
@@ -291,7 +291,7 @@ Public Class FrmHRTravelExpenseApproval
             End If
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtcode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtcode._MYValidating

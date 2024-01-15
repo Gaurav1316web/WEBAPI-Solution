@@ -63,7 +63,7 @@ Public Class frmGenerateBonus
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -137,7 +137,7 @@ Public Class frmGenerateBonus
             Dim QryStr As String = "select POSTED from TSPL_EMPLOYEE_BONUS  where EMP_BONUS_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -195,7 +195,7 @@ Public Class frmGenerateBonus
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -218,7 +218,7 @@ Public Class frmGenerateBonus
                 End If
                 If (clsBonus.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -332,7 +332,7 @@ Public Class frmGenerateBonus
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -471,19 +471,19 @@ Public Class frmGenerateBonus
             If (myMessages.postConfirm()) Then
                 SavingData(True)
                 If (clsBonus.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
         End If
     End Sub
@@ -594,7 +594,7 @@ Public Class frmGenerateBonus
         End If
         If gv1.Rows.Count <= 0 Then
             gv1.Focus()
-            clsCommon.MyMessageBoxShow("Data not found.")
+            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
         Else
             clsCommon.MyExportToExcelGrid("Bonus Summary", gvBonusSummary, arr, "Bonus Summary", False)
         End If
@@ -620,7 +620,7 @@ Public Class frmGenerateBonus
         End If
         If gv1.Rows.Count <= 0 Then
             gv1.Focus()
-            clsCommon.MyMessageBoxShow("Data not found.")
+            clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
         Else
             clsCommon.MyExportToExcelGrid("Bonus Detail", gvBonusDetail, arr, "Bonus Detail", False)
         End If

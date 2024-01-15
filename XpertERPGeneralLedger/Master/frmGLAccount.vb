@@ -31,7 +31,7 @@ Public Class frmGLAccount
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.glAccount)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -60,7 +60,7 @@ Public Class frmGLAccount
             Dim da As New SqlDataAdapter("select account_code, description from tspl_gl_accounts where account_code='" + fndaccount.Value + "' ", connectSql.SqlCon())
             da.Fill(ds1, "tspl_gl_accounts")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -69,7 +69,7 @@ Public Class frmGLAccount
             funloaddata()
             fndaccount.Value = ds1.Tables(0).Rows(increment)(0).ToString()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -81,10 +81,10 @@ Public Class frmGLAccount
                     increment = increment + 1
                     funshowdata()
                 Else
-                    common.clsCommon.MyMessageBoxShow("This is the last data")
+                    common.clsCommon.MyMessageBoxShow(Me, "This is the last data", Me.Text)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("This is the last data")
+                common.clsCommon.MyMessageBoxShow(Me, "This is the last data", Me.Text)
 
             End If
         Catch ex As Exception
@@ -100,10 +100,10 @@ Public Class frmGLAccount
                     increment = increment - 1
                     funshowdata()
                 Else
-                    common.clsCommon.MyMessageBoxShow("This is the first data")
+                    common.clsCommon.MyMessageBoxShow(Me, "This is the first data", Me.Text)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("This is the first data")
+                common.clsCommon.MyMessageBoxShow(Me, "This is the first data", Me.Text)
             End If
         Catch ex As Exception
 
@@ -118,7 +118,7 @@ Public Class frmGLAccount
                 funshowdata()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -128,7 +128,7 @@ Public Class frmGLAccount
             increment = ds1.Tables(0).Rows.Count - 1
             funshowdata()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -515,7 +515,7 @@ Public Class frmGLAccount
                 myMessages.delete()
                 funreset()
             Else
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted. It is used by another Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted. It is used by another Process", Me.Text)
             End If
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -981,20 +981,20 @@ Public Class frmGLAccount
             qry = "select COUNT(*) from TSPL_GL_ROLLUP  where account ='" + fndaccount.Value + "'"
             count = clsDBFuncationality.getSingleValue(qry)
             If count > 0 Then
-                common.clsCommon.MyMessageBoxShow("This Account Code Cannot be deleted." + Environment.NewLine + "This is already Roll up")
+                common.clsCommon.MyMessageBoxShow(Me, "This Account Code Cannot be deleted." + Environment.NewLine + "This is already Roll up")
                 Return
             End If
         End If
         qst = "Select Account_No from TSPL_Receipt_Adjustment_Detail where Account_No = '" + fndaccount.Value + "'"
         dpt = clsDBFuncationality.getSingleValue(qst)
         If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-            common.clsCommon.MyMessageBoxShow("This Account Code Cannot be deleted." + Environment.NewLine + "This is already in Process")
+            common.clsCommon.MyMessageBoxShow(Me, "This Account Code Cannot be deleted." + Environment.NewLine + "This is already in Process")
             Return
         End If
         qst = "Select Account_Code from TSPL_RECEIPT_DETAIL where Account_Code = '" + fndaccount.Value + "'"
         dpt = clsDBFuncationality.getSingleValue(qst)
         If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-            common.clsCommon.MyMessageBoxShow("This Account Code Cannot be deleted." + Environment.NewLine + "This is already in Process")
+            common.clsCommon.MyMessageBoxShow(Me, "This Account Code Cannot be deleted." + Environment.NewLine + "This is already in Process")
             Return
         End If
 
@@ -1006,7 +1006,7 @@ Public Class frmGLAccount
             straccount = str
         End If
         If fndaccount.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please Enter the Account Id")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter the Account Id", Me.Text)
             'fndaccount1.txtValue.Focus()
         Else
             Dim Reason As String = ""
@@ -1026,7 +1026,7 @@ Public Class frmGLAccount
                     fundelete(Reason)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("This Account doesn't exist")
+                common.clsCommon.MyMessageBoxShow(Me, "This Account doesn't exist", Me.Text)
             End If
         End If
     End Sub
@@ -1047,27 +1047,27 @@ Public Class frmGLAccount
             Dim length As Integer = str.Length
             Dim length1 As Integer = funsegmentcodevalidation()
             If clsCommon.myLen(cboTaxType.SelectedValue) > 0 AndAlso rbtnNA.IsChecked Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Type i.e Purchase or sale")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Type i.e Purchase or sale", Me.Text)
                 RadGroupBox3.Focus()
                 Exit Sub
             End If
             clsGLAccount.GetLinkAccountWithGroup(5, fndaccount.Value, txtAccountSubGroup.Value, Nothing)
             If fndaccount.Value = "" Then
-                common.clsCommon.MyMessageBoxShow(" Account id can not be left blank  ")
+                common.clsCommon.MyMessageBoxShow(Me, " Account id can not be left blank  ", Me.Text)
                 fndaccount.Focus()
                 Exit Sub
             ElseIf fndstructurecode.Value = "" Then
-                common.clsCommon.MyMessageBoxShow(" Structure Code can not be left blank ")
+                common.clsCommon.MyMessageBoxShow(Me, " Structure Code can not be left blank ", Me.Text)
                 fndstructurecode.Focus()
                 Exit Sub
 
             ElseIf ddlnormalbal.Text = "select" Then
-                common.clsCommon.MyMessageBoxShow(" Account Balance can not be left blank")
+                common.clsCommon.MyMessageBoxShow(Me, " Account Balance can not be left blank", Me.Text)
                 ddlnormalbal.Focus()
                 Exit Sub
 
             ElseIf clsCommon.myLen(txtAccountSubGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("GL Main Account can not be left blank")
+                common.clsCommon.MyMessageBoxShow(Me, "GL Main Account can not be left blank", Me.Text)
                 txtAccountSubGroup.Focus()
                 Exit Sub
             Else
@@ -1091,12 +1091,12 @@ Public Class frmGLAccount
                                 total = total + grow.Cells(4).Value
                             Next
                             If fndsourcecode.Value = "" Then
-                                common.clsCommon.MyMessageBoxShow("Please select the source Code")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select the source Code", Me.Text)
                                 fndsourcecode.Focus()
                             ElseIf introwcount = 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select at least one account")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one account", Me.Text)
                             ElseIf total <> 100 Then
-                                common.clsCommon.MyMessageBoxShow("Percentage should be 100")
+                                common.clsCommon.MyMessageBoxShow(Me, "Percentage should be 100", Me.Text)
 
                             Else
                                 If length = length1 Then
@@ -1110,7 +1110,7 @@ Public Class frmGLAccount
                                         funfill()
                                     End If
                                 Else
-                                    common.clsCommon.MyMessageBoxShow("Please select all the segment code")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please select all the segment code", Me.Text)
                                 End If
                             End If
                         ElseIf chkcontrolaccount.Checked = True Then
@@ -1121,7 +1121,7 @@ Public Class frmGLAccount
                     Else : btnsave.Text = "Update"
                         If clsCommon.myLen(fndaccount.Value) > 0 Then
                             If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct Account_Seg_Code1  from TSPL_GL_ACCOUNTS where Account_Seg_Code1 ='" + fndaccount.Value + "'"))) < 0 Then
-                                common.clsCommon.MyMessageBoxShow("This Account Code does not exist")
+                                common.clsCommon.MyMessageBoxShow(Me, "This Account Code does not exist", Me.Text)
                                 fndaccount.Focus()
                             End If
                         End If
@@ -1134,12 +1134,12 @@ Public Class frmGLAccount
                                 total = total + grow.Cells(4).Value
                             Next
                             If fndsourcecode.Value = "" Then
-                                common.clsCommon.MyMessageBoxShow("Please select the source Code")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select the source Code", Me.Text)
                                 fndsourcecode.Focus()
                             ElseIf introwcount = 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select at least one account")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one account", Me.Text)
                             ElseIf total <> 100 Then
-                                common.clsCommon.MyMessageBoxShow("Percentage should be 100")
+                                common.clsCommon.MyMessageBoxShow(Me, "Percentage should be 100", Me.Text)
                             Else
                                 If length = length1 Then
                                     fundeleteallocation()
@@ -1147,7 +1147,7 @@ Public Class frmGLAccount
                                     funupdate()
                                     funfill()
                                 Else
-                                    common.clsCommon.MyMessageBoxShow("Please select all the segment code")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please select all the segment code", Me.Text)
                                 End If
                             End If
                         Else
@@ -1156,11 +1156,11 @@ Public Class frmGLAccount
                         End If
                     End If
                 Catch ex As Exception
-                    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1363,7 +1363,7 @@ Public Class frmGLAccount
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Imported Successfully!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Imported Successfully!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -1431,7 +1431,7 @@ Public Class frmGLAccount
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If (common.clsCommon.MyMessageBoxShow("There are some GL Accounts that need to be Rollup before  viewing the Trial Balance." + Environment.NewLine + "Do you want ot view those GL Account", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                If (common.clsCommon.MyMessageBoxShow(Me, "There are some GL Accounts that need to be Rollup before  viewing the Trial Balance." + Environment.NewLine + "Do you want ot view those GL Account", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                     Dim frm As New FrmFreeGrid()
                     frm.strFormName = "Pending Account that should be rollup"
                     frm.dt = dt
@@ -1442,7 +1442,7 @@ Public Class frmGLAccount
                 Exit Sub
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2088,7 +2088,7 @@ Public Class frmGLAccount
                     End If
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -2161,7 +2161,7 @@ Public Class frmGLAccount
         accountTextchanged()
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2408,7 +2408,7 @@ Public Class frmGLAccount
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Imported Successfully!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Imported Successfully!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

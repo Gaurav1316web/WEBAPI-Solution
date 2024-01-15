@@ -2053,20 +2053,20 @@ Public Class frmScrapSale
                 Dim Rate As Decimal = clsCommon.myCdbl(gv1.Rows(i).Cells(colprice).Value)
                 If clsCommon.myLen(gv1.Rows(i).Cells(colICode).Value) > 0 And qty = 0 Then
                     Dim str As String = clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value)
-                    common.clsCommon.MyMessageBoxShow("Shipped qty can't be zero for Item '" + str + "'")
+                    common.clsCommon.MyMessageBoxShow(Me, "Shipped qty can't be zero for Item '" + str + "'", Me.Text)
                     Return False
                 End If
 
                 'Sanjay 03/07/2018 Check Rate
                 If clsCommon.myLen(gv1.Rows(i).Cells(colICode).Value) > 0 And Rate = 0 Then
                     Dim str As String = clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value)
-                    common.clsCommon.MyMessageBoxShow("Rate can't be zero for Item '" + str + "'")
+                    common.clsCommon.MyMessageBoxShow(Me, "Rate can't be zero for Item '" + str + "'", Me.Text)
                     Return False
                 End If
             Else
                 If clsCommon.myLen(gv1.Rows(i).Cells(colAmt).Value) <= 0 Then
                     Dim str As String = clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value)
-                    common.clsCommon.MyMessageBoxShow("Shipped Amount can't be zero for '" + str + "'")
+                    common.clsCommon.MyMessageBoxShow(Me, "Shipped Amount can't be zero for '" + str + "'", Me.Text)
                     Return False
                 End If
             End If
@@ -2087,7 +2087,7 @@ Public Class frmScrapSale
                     End If
 
                     If clsCommon.myLen(strUOM) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter UOM of Item - " + strICode + ".At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter UOM of Item - " + strICode + ".At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                         Return False
                     End If
                     ''For RM Other balance Qty check And works only for one unit.
@@ -2108,7 +2108,7 @@ Public Class frmScrapSale
                     Next
                     dblEnteredQty = Math.Round(dblEnteredQty, 2, MidpointRounding.ToEven)
                     If dblEnteredQty > dblBalQty Then
-                        common.clsCommon.MyMessageBoxShow("Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblEnteredQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblEnteredQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
                         Return False
                     End If
                     If RunBatchFifowise = 1 Then
@@ -2374,7 +2374,7 @@ Public Class frmScrapSale
                     ElseIf strInvoiceType = "I" Then
                         strInvoiceTypeDesc = "Invoice"
                     End If
-                    If (common.clsCommon.MyMessageBoxShow("System is generating " & strInvoiceTypeDesc & "  Invoice Type.Do you still want to continue ?  ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No) Then
+                    If (common.clsCommon.MyMessageBoxShow(Me, "System is generating " & strInvoiceTypeDesc & "  Invoice Type.Do you still want to continue ?  ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No) Then
                         Return False
                     Else
                         ddlInvoiceType.SelectedValue = strInvoiceType
@@ -3502,7 +3502,7 @@ Public Class frmScrapSale
         SetTax()
         If chkTaxable.Checked = False AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
             fndcustNo.Value = ""
-            clsCommon.MyMessageBoxShow("Please Map exempted Tax Group on Location " & fndLocation.Value)
+            clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & fndLocation.Value)
             Exit Sub
         End If
         'SetTaxDetails()
@@ -4484,7 +4484,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -5279,7 +5279,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 Throw New Exception("Invoice Number not found to do this operation")
             End If
             Dim Reason As String = ""
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
 
 
                 '' REASON FOR Reverse 
@@ -5491,7 +5491,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
 
             Catch ex As Exception
                 trans.Rollback()
@@ -5548,7 +5548,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 For Each obj As clsBatchInventory In arr
                     strBatchunion += " Batch No - " & clsCommon.myCstr(obj.Batch_No) & "         Qty - " & clsCommon.myCstr(obj.Qty) + Environment.NewLine
                 Next
-                clsCommon.MyMessageBoxShow(strBatchunion, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, strBatchunion, Me.Text)
             End If
         End If
     End Sub

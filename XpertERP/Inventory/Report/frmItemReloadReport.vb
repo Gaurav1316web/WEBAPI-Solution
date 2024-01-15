@@ -163,7 +163,7 @@ Public Class FrmItemReloadReport
                     ReStoreGridLayout()
                 End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -185,7 +185,7 @@ Public Class FrmItemReloadReport
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(Me, err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
     Sub FormatGrid()
@@ -244,7 +244,7 @@ Public Class FrmItemReloadReport
                 frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemReorderLevel1", "crptItemReorderLevel1")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow(Me, "No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -270,7 +270,7 @@ Public Class FrmItemReloadReport
                 frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemReorderLevel1", "crptItemReorderLevel1")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow(Me, "No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -379,7 +379,7 @@ Public Class FrmItemReloadReport
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -388,6 +388,6 @@ Public Class FrmItemReloadReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 End Class

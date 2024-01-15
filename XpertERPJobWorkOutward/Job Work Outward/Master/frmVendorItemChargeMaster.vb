@@ -158,7 +158,7 @@ Public Class frmVendorItemChargeMaster
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -168,7 +168,7 @@ Public Class frmVendorItemChargeMaster
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Sub funReset()
@@ -232,7 +232,7 @@ Public Class frmVendorItemChargeMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenRMCodeList(ByVal isButtonClick As Boolean)
@@ -255,7 +255,7 @@ Public Class frmVendorItemChargeMaster
     End Sub
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
             SetBlankOfItemColumns()
             cboItemType.Focus()
             Exit Sub
@@ -288,7 +288,7 @@ Public Class frmVendorItemChargeMaster
     Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (SaveData(False)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
             Return True
         Else
@@ -320,7 +320,7 @@ Public Class frmVendorItemChargeMaster
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -333,7 +333,7 @@ Public Class frmVendorItemChargeMaster
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -341,7 +341,7 @@ Public Class frmVendorItemChargeMaster
     Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(txtPriceCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Price Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Price Code", Me.Text)
                 txtPriceCode.Focus()
                 Return False
             End If
@@ -363,7 +363,7 @@ Public Class frmVendorItemChargeMaster
                 End If
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -420,7 +420,7 @@ Public Class frmVendorItemChargeMaster
                 ShowUOMDetail(txtCode.Value)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -434,7 +434,7 @@ Public Class frmVendorItemChargeMaster
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -496,7 +496,7 @@ Public Class frmVendorItemChargeMaster
                     End If
 
                     If clsCommon.myLen(msg) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(msg)
+                        common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     End If
                     txtCode.Value = obj.Code
                     LoadData(txtCode.Value, NavigatorType.Current)
@@ -506,7 +506,7 @@ Public Class frmVendorItemChargeMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvTS_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
@@ -529,7 +529,7 @@ Public Class frmVendorItemChargeMaster
     Private Sub Import_Click(sender As Object, e As EventArgs) Handles Import.Click
         Try
             If clsCommon.myLen(txtPriceCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Price Code")
+                clsCommon.MyMessageBoxShow(Me, "Select Price Code", Me.Text)
                 txtPriceCode.Focus()
                 Exit Sub
             End If
@@ -606,7 +606,7 @@ Public Class frmVendorItemChargeMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -616,7 +616,7 @@ Public Class frmVendorItemChargeMaster
             transportSql.ExporttoExcel(qry, Me)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -639,7 +639,7 @@ Public Class frmVendorItemChargeMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -648,7 +648,7 @@ Public Class frmVendorItemChargeMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Code Ends 
@@ -659,7 +659,7 @@ Public Class frmVendorItemChargeMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsVendorItemChargeMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -672,7 +672,7 @@ Public Class frmVendorItemChargeMaster
         Try
             clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "Price_Code", "TSPL_JOB_OUTWARD_PRICE_HEAD", "TSPL_JOB_OUTWARD_PRICE_DETAIL")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub ShowUOMDetail(ByVal strPrice_Code As String)

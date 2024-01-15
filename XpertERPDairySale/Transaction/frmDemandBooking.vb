@@ -3526,11 +3526,11 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
             '            qry += "  where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
 
-            qry = "  select xx.*
- ,case when xx.SNO=1 then (isnull((select sum(ItemNetAmount) as netamt  from TSPL_DEMAND_BOOKING_MASTER left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ShiftType + "'  and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtDate.Value) + "')  and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + clsCommon.myCstr(txtRouteNo.Value) + "'  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) + isnull((xx.PrevItemNetAmount),0) ) else 0 end as AmountBE,'' as TCS ,
+            qry = " select xx.*
+ ,case when xx.SNO=1 then (isnull((select sum(ItemNetAmount) as netamt  from TSPL_DEMAND_BOOKING_MASTER left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ShiftType + "'  and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtDate.Value) + "')  and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + clsCommon.myCstr(txtRouteNo.Value) + "'  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) + isnull((xx.PrevItemNetAmount),0) ) else 0 end as AmountBE,
  case when xx.SNO=1 then xx.Crate_Collect else 0 end as TotalCollectCrate
    
-  from ( select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, max(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, max(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, max(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as Vehicle_Code, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO
+  from ( select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, max(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, max(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, max(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as Vehicle_Code,max(xxfinal.Description) as  Vehicle_Id, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(TCSAmount) as TCS
 
 from
 (
@@ -3540,7 +3540,7 @@ select
   TSPL_DEMAND_BOOKING_DETAIL.ShiftType, 
   TSPL_ITEM_MASTER.Sku_Seq, 
   TSPL_DEMAND_BOOKING_MASTER.Document_Date, 
-  TSPL_ITEM_MASTER.Short_Description, 
+ TSPL_ITEM_MASTER.Short_Description,
   TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty, 
   0 as PrevQty,
   TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
@@ -3555,9 +3555,10 @@ select
   TSPL_ROUTE_MASTER.Route_Desc, 
   Isnull(
     TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName, 
+  ) as CompanyName, TSPL_VEHICLE_MASTER.Description,
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName, 
+ isnull(TSPL_BOOKING_MATSER1.TCSAmount,0) as TCSAmount,
   TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 
   ITEMDETAIL.CFForLTR, 
   TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 
@@ -3570,8 +3571,13 @@ select
   0 as prevQtyLtr 
 from 
   TSPL_DEMAND_BOOKING_DETAIL 
+ left outer join TSPL_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_BOOKING_DETAIL.Against_DemandBooking_No and TSPL_BOOKING_DETAIL.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code and TSPL_BOOKING_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
   Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
-  Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+  Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+left join (select TSPL_BOOKING_MATSER.Document_No,Against_DemandBooking_No,Cust_Code,Item_Code,TCSAmount from TSPL_BOOKING_MATSER
+left outer join (select (Document_No) as document_no,Cust_Code,Item_Code from TSPL_BOOKING_DETAIL  ) TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No 
+where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + txtDocNo.Value + "' ) as TSPL_BOOKING_matser1 on TSPL_BOOKING_matser1.Against_DemandBooking_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+and TSPL_BOOKING_matser1.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  and TSPL_BOOKING_matser1.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code and TSPL_BOOKING_matser1.Document_No=TSPL_BOOKING_DETAIL.Document_No
   Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
   And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
   Left Join (
@@ -3618,9 +3624,10 @@ where
   TSPL_ROUTE_MASTER.Route_Desc, 
   Isnull(
     TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName, 
+  ) as CompanyName, TSPL_VEHICLE_MASTER.Description,
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName, 
+isnull(TSPL_BOOKING_MATSER1.TCSAmount,0) as TCSAmount ,
   TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 
   ITEMDETAIL.CFForLTR, 
   TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 
@@ -3668,7 +3675,12 @@ from
       xx.ORDCol
   )  TabCustWiseCrate 
     left join TSPL_Demand_Booking_Detail on TabCustWiseCrate.cust_Code=TSPL_Demand_Booking_Detail.cust_Code and TabCustWiseCrate.SNO=1
-  Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+left outer join TSPL_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_BOOKING_DETAIL.Against_DemandBooking_No and TSPL_BOOKING_DETAIL.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code and TSPL_BOOKING_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+  Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
+  left join (select TSPL_BOOKING_MATSER.Document_No,Against_DemandBooking_No,Cust_Code,Item_Code,TCSAmount from TSPL_BOOKING_MATSER
+left outer join (select (Document_No) as document_no,Cust_Code,Item_Code from TSPL_BOOKING_DETAIL  ) TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No 
+where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + txtDocNo.Value + "' ) as TSPL_BOOKING_matser1 on TSPL_BOOKING_matser1.Against_DemandBooking_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+and TSPL_BOOKING_matser1.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  and TSPL_BOOKING_matser1.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code and TSPL_BOOKING_matser1.Document_No=TSPL_BOOKING_DETAIL.Document_No
   Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
   Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
   And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
@@ -3682,7 +3694,7 @@ from
       UOM_code = 'LTR'
   ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
-  Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+  Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
   Left Join TSPL_COMPANY_MASTER on TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code 
   where TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "'

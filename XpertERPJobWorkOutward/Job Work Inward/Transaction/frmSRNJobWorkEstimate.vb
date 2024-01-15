@@ -319,11 +319,11 @@ Public Class FrmSRNJobWorkEstimate
 
     Sub LoadBlankGridFAT()
         If (Not clsfrmParameterMaster.isFATParmExist(True)) Then
-            clsCommon.MyMessageBoxShow("FAT parameter For Production Does not exist. Please make it first")
+            clsCommon.MyMessageBoxShow(Me, "FAT parameter For Production Does not exist. Please make it first", Me.Text)
             Exit Sub
         End If
         If Not clsfrmParameterMaster.isSNFParmExist(True) Then
-            clsCommon.MyMessageBoxShow("SNF parameter For Production Does not exist. Please make it first")
+            clsCommon.MyMessageBoxShow(Me, "SNF parameter For Production Does not exist. Please make it first", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty = " where 1=1 and IsProduction=1 "
@@ -540,11 +540,11 @@ Public Class FrmSRNJobWorkEstimate
 
     Sub LoadBlankGridSNF()
         If (Not clsfrmParameterMaster.isFATParmExist(True)) Then
-            clsCommon.MyMessageBoxShow("FAT parameter For Production Does not exist. Please make it first")
+            clsCommon.MyMessageBoxShow(Me, "FAT parameter For Production Does not exist. Please make it first", Me.Text)
             Exit Sub
         End If
         If Not clsfrmParameterMaster.isSNFParmExist(True) Then
-            clsCommon.MyMessageBoxShow("SNF parameter For Production Does not exist. Please make it first")
+            clsCommon.MyMessageBoxShow(Me, "SNF parameter For Production Does not exist. Please make it first", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty = " where 1=1 and IsProduction=1 "
@@ -986,7 +986,7 @@ Public Class FrmSRNJobWorkEstimate
             LoadBlankGridSNF()
             LoadBlankGridConsumption()
         Else
-            clsCommon.MyMessageBoxShow("First Select Location.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "First Select Location.", Me.Text)
         End If
     End Sub
 
@@ -1018,7 +1018,7 @@ Public Class FrmSRNJobWorkEstimate
             LoadBlankGridSNF()
             LoadBlankGridConsumption()
         Else
-            clsCommon.MyMessageBoxShow("First Select Location.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "First Select Location.", Me.Text)
         End If
     End Sub
 
@@ -1102,7 +1102,7 @@ Public Class FrmSRNJobWorkEstimate
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
             qry = BaseQry
@@ -1155,10 +1155,10 @@ Public Class FrmSRNJobWorkEstimate
 
                 Next
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1207,7 +1207,7 @@ Public Class FrmSRNJobWorkEstimate
 
     Private Sub gvWeighment_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvWeighment.UserDeletingRow
         DeleteParentSNoExist = False
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
         DeleteParentSNo = clsCommon.myCdbl(gvWeighment.CurrentRow.Cells(colWeightParentSNo).Value)
@@ -1869,12 +1869,12 @@ Public Class FrmSRNJobWorkEstimate
                     obj.ArrRawItem.Add(objTr)
                 Next
                 If obj.saveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_NO, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2024,7 +2024,7 @@ Public Class FrmSRNJobWorkEstimate
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2047,7 +2047,7 @@ Public Class FrmSRNJobWorkEstimate
                 LoadData(clsJWEStimate.getFinder("", txtDocumentNo.Value, isButtonClicked), NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2062,7 +2062,7 @@ Public Class FrmSRNJobWorkEstimate
     Sub DeleteData()
         Try
             If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Document No To delete ")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Document No To delete ", Me.Text)
             Else
                 If myMessages.deleteConfirm() Then
                     If clsJWEStimate.DeleteData(txtDocumentNo.Value) Then
@@ -2072,7 +2072,7 @@ Public Class FrmSRNJobWorkEstimate
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2120,7 +2120,7 @@ Public Class FrmSRNJobWorkEstimate
         If isItemfound = True Then
             PostData()
         Else
-            clsCommon.MyMessageBoxShow("Please select Item code in FAT/SNF Production Tab", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Item code in FAT/SNF Production Tab", Me.Text)
         End If
 
     End Sub
@@ -2152,14 +2152,14 @@ Public Class FrmSRNJobWorkEstimate
                 Throw New Exception("Total Estimated SNF Kg [" + clsCommon.myCstr(lblSNFKGWeighmentEst.Text) + "] but Weighment SNF KG [" + clsCommon.myCstr(lblSNFKGWeighment.Text) + "]")
             End If
 
-            If clsCommon.MyMessageBoxShow("Post the current Document No [" + txtDocumentNo.Value + "]", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Post the current Document No [" + txtDocumentNo.Value + "]", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 If clsJWEStimate.PostData(txtDocumentNo.Value) Then
                     myMessages.post()
                     LoadData(txtDocumentNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2202,7 +2202,7 @@ Public Class FrmSRNJobWorkEstimate
             End If
         Catch ex As Exception
             isCellValueChanged = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2222,14 +2222,14 @@ Public Class FrmSRNJobWorkEstimate
                 Throw New Exception("Already Used in Job Work Billing [" + TempJobWorkBilling + "]")
             End If
 
-            If clsCommon.MyMessageBoxShow("Unpost the current Document No [" + txtDocumentNo.Value + "]", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Unpost the current Document No [" + txtDocumentNo.Value + "]", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 If clsJWEStimate.ReverseAndUnpostData(txtDocumentNo.Value) Then
                     clsCommon.MyMessageBoxShow("Transaction unposted successfully", Me.Text)
                     LoadData(txtDocumentNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2370,7 +2370,7 @@ Public Class FrmSRNJobWorkEstimate
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2383,7 +2383,7 @@ Public Class FrmSRNJobWorkEstimate
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork ESTIMATE", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork ESTIMATE", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -2408,14 +2408,14 @@ Public Class FrmSRNJobWorkEstimate
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

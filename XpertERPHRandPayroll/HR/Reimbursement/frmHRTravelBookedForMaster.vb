@@ -38,26 +38,26 @@ Public Class FrmHRTravelBookedForMaster
         Try
             btnSave.Focus()
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill Code", Me.Text)
                 txtCode.Focus()
                 txtCode.Select()
                 Return False
             End If
             If clsCommon.myLen(txtempcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select emp code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select emp code", Me.Text)
                 txtempcode.Focus()
                 txtempcode.Select()
                 Return False
             End If
             If clsCommon.myLen(txtRemarks.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please fill remarks", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please fill remarks", Me.Text)
                 txtRemarks.Focus()
                 txtRemarks.Select()
                 Return False
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -74,7 +74,7 @@ Public Class FrmHRTravelBookedForMaster
                 obj.Is_Applicable = 0
             End If
             If ClsHRTravelBookedForMaster.SaveData(obj, txtCode.Value) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
                 LoadData(obj.Travel_Booked_Code, NavigatorType.Current)
@@ -85,7 +85,7 @@ Public Class FrmHRTravelBookedForMaster
                 btnDelete.Enabled = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -114,12 +114,12 @@ Public Class FrmHRTravelBookedForMaster
                 btnDelete.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "Code not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -128,7 +128,7 @@ Public Class FrmHRTravelBookedForMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsHRTravelBookedForMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
                     Reset()
                 End If
             End If
@@ -218,7 +218,7 @@ Public Class FrmHRTravelBookedForMaster
                     ClsHRTravelBookedForMaster.SaveData(obj, obj.Travel_Booked_Code)
                 Next
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
                 myMessages.myExceptions(ex)
@@ -264,7 +264,7 @@ Public Class FrmHRTravelBookedForMaster
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
