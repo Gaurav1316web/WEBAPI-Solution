@@ -1459,7 +1459,7 @@ Public Class frmJobWorkDispatch
                                 Dim str As String = "select SUM(QTY) from TSPL_INVENTORY_MOVEMENT where Item_Code='" + gv1.CurrentRow.Cells(colICode).Value + "' and Location_Code='" + fndLocation.Value + "' "
                                 stockqty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
                                 If clsCommon.myLen(txtnrg.Value) <= 0 AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) > stockqty Then
-                                    common.clsCommon.MyMessageBoxShow("Qty more then stock qty not allowed.Availabe Qty : " + clsCommon.myCstr(stockqty))
+                                    common.clsCommon.MyMessageBoxShow(Me, "Qty more then stock qty not allowed.Availabe Qty : " + clsCommon.myCstr(stockqty))
                                     gv1.CurrentRow.Cells(colQty).Value = 0
                                 End If
                             Else
@@ -2046,7 +2046,7 @@ Public Class frmJobWorkDispatch
                     ElseIf strInvoiceType = "I" Then
                         strInvoiceTypeDesc = "Invoice"
                     End If
-                    If (common.clsCommon.MyMessageBoxShow("System is generating " & strInvoiceTypeDesc & "  Invoice Type.Do you still want to continue ?  ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No) Then
+                    If (common.clsCommon.MyMessageBoxShow(Me, "System is generating " & strInvoiceTypeDesc & "  Invoice Type.Do you still want to continue ?  ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No) Then
                         Return False
                     Else
                         ddlInvoiceType.SelectedValue = strInvoiceType
@@ -3085,7 +3085,7 @@ Public Class frmJobWorkDispatch
         'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If (dt.Rows.Count > 10) Then
-                common.clsCommon.MyMessageBoxShow("Can't Handle More than 10 Tax Types in a Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Can't Handle More than 10 Tax Types in a Group", Me.Text)
                 Return
             End If
             lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
@@ -3356,7 +3356,7 @@ Public Class frmJobWorkDispatch
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3729,7 +3729,7 @@ Public Class frmJobWorkDispatch
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -4269,7 +4269,7 @@ Public Class frmJobWorkDispatch
                 Throw New Exception("Invoice Number not found to do this operation")
             End If
             Dim Reason As String = ""
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
 
 
                 '' REASON FOR Reverse 
@@ -4340,7 +4340,7 @@ Public Class frmJobWorkDispatch
                 For Each obj As clsBatchInventory In arr
                     strBatchunion += " Batch No - " & clsCommon.myCstr(obj.Batch_No) & "         Qty - " & clsCommon.myCstr(obj.Qty) + Environment.NewLine
                 Next
-                clsCommon.MyMessageBoxShow(strBatchunion, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, strBatchunion, Me.Text)
             End If
         End If
     End Sub

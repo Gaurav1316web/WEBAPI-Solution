@@ -3822,7 +3822,7 @@ Public Class frmVSP_VLCMaster
 
             'VLC
             If clsCommon.myLen(txtvlcname.Text) <= 0 Then
-                If common.clsCommon.MyMessageBoxShow("VLC Name is blank." + Environment.NewLine + "Do you want to Save/Update VSP without VSP?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+                If common.clsCommon.MyMessageBoxShow(Me, "VLC Name is blank." + Environment.NewLine + "Do you want to Save/Update VSP without VSP?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
                     pageCus.SelectedPage = RadPageViewPage5
                     txtvlcname.Focus()
                     txtvlcname.Select()
@@ -3837,7 +3837,7 @@ Public Class frmVSP_VLCMaster
             End If
 
             If btnsave.Text = "Save" Then
-                If common.clsCommon.MyMessageBoxShow("Please confirm MCC/BMC name in VLC Detail !", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Please confirm MCC/BMC name in VLC Detail !", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                 Else
                     pageCus.SelectedPage = RadPageViewPage3
                     fndMcc.Focus()
@@ -4928,7 +4928,7 @@ Public Class frmVSP_VLCMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5046,7 +5046,7 @@ Public Class frmVSP_VLCMaster
                 Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5174,7 +5174,7 @@ Public Class frmVSP_VLCMaster
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
     Function isDuplicateVLCCode(ByVal isUpdate As Boolean) As Boolean
@@ -5297,7 +5297,7 @@ Public Class frmVSP_VLCMaster
                 MyTextBox2.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
 
@@ -5312,7 +5312,7 @@ Public Class frmVSP_VLCMaster
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, "Upload Multiple Master")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Upload Multiple Master", Me.Text)
         End Try
     End Sub
 

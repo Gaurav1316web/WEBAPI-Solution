@@ -420,7 +420,7 @@ Public Class FrmViewLoadOutDetail
     Private Function AllowToSave() As Boolean
         For ii As Integer = 0 To gv1.Rows.Count - 1
             If Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalFOCinFC).Value), 2, MidpointRounding.ToEven) > Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colProvisionalSale).Value), 2, MidpointRounding.ToEven) Then
-                clsCommon.MyMessageBoxShow("Total Provision Sale " + clsCommon.myCstr(Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colProvisionalSale).Value), 2, MidpointRounding.ToEven)) + " and Total FOC Qty " + clsCommon.myCstr(Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalFOCinFC).Value), 2, MidpointRounding.ToEven)) + " At Row No" + clsCommon.myCstr(ii + 1))
+                clsCommon.MyMessageBoxShow(Me, "Total Provision Sale " + clsCommon.myCstr(Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colProvisionalSale).Value), 2, MidpointRounding.ToEven)) + " and Total FOC Qty " + clsCommon.myCstr(Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalFOCinFC).Value), 2, MidpointRounding.ToEven)) + " At Row No" + clsCommon.myCstr(ii + 1))
                 Return False
             End If
         Next
@@ -452,7 +452,7 @@ Public Class FrmViewLoadOutDetail
                 Arr.Add(objTr)
             Next
             If (clsQuickSettlementItemDetails.funSave(Arr, strQuickSettlementId, LoadOutNo)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 funFIll(strQuickSettlementId, LoadOutNo)
                 ReStoreGridLayout()
             End If
@@ -509,7 +509,7 @@ Public Class FrmViewLoadOutDetail
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

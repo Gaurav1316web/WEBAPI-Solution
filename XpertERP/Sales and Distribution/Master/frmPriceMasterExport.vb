@@ -87,14 +87,14 @@ Public Class FrmPriceMasterExport
                 vendrcode = clsCommon.ShowSelectForm("VNDFND", qry, "Code", "", vendrcode, "Code", True)
 
                 If clsCommon.myLen(vendrcode) <= 0 Then
-                    If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Export Without Any Principle Code/Price Code Filter Selection?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Export Without Any Principle Code/Price Code Filter Selection?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         Return
                     End If
                 Else
                     qry = "Select Distinct Price_Code as Code, Price_Code_Desc as [Description]  from TSPL_PRICE_COMPONENT_MAPPING "
                     prcecode = clsCommon.ShowSelectForm("PriceCode@PriceMaster", qry, "Code", " vendor_code='" + vendrcode + "'", prcecode, "", True)
                     If clsCommon.myLen(prcecode) <= 0 Then
-                        If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Export Without Any Price Code Filter Selection?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                        If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Export Without Any Price Code Filter Selection?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                             Return
                         Else
                             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " where vendor_code='" + vendrcode + "'")

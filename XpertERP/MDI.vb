@@ -8708,6 +8708,15 @@ Public Class MDI
                     Case clsUserMgtCode.rptTCSLedger
                         frm = New rptTCSLedger(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.RMStockConsumption
+                        frm = New RMStockConsumption
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
+                    Case clsUserMgtCode.MSIProductionSaleReport
+                        frm = New MSIProductionSaleReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.rptDCSSaleRegister
                     '    frm = New rptDCSSaleRegister()
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

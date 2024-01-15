@@ -478,7 +478,7 @@ Public Class FrmVLCRouteShiftMaster
             Errorcontrol.ResetError(fndcode)
         End If
 
-        If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Delete The VLC Route Shift Master Of Route Id " + clsCommon.myCstr(fndcode.Value) + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+        If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Delete The VLC Route Shift Master Of Route Id " + clsCommon.myCstr(fndcode.Value) + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
             Return
         End If
 

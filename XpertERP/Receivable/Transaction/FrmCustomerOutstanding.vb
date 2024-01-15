@@ -595,7 +595,7 @@ Public Class FrmCustomerOutstanding
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Customer Outstanding", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Customer Outstanding", MessageBoxButtons.OK)
         Finally
 
         End Try

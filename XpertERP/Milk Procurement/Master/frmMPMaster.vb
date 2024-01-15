@@ -437,7 +437,7 @@ Public Class FrmMPMaster
             End If
 
             If clsCommon.myLen(txtMPCodeVlcUploader.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow(" MP Code For VLC Uploader  Must Not be Blank (Under General Tab)")
+                clsCommon.MyMessageBoxShow(Me, " MP Code For VLC Uploader  Must Not be Blank (Under General Tab)", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtMPCodeVlcUploader.Focus()
                 errorControl.SetError(txtMPCodeVlcUploader, "MP Code For VLC Uploader  Must Not be Blank")
@@ -448,7 +448,7 @@ Public Class FrmMPMaster
 
             If isDuplicateMPCode(IIf(clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal, False, True)) Then
 
-                clsCommon.MyMessageBoxShow(" Duplicate MP Code for VLC Uploader")
+                clsCommon.MyMessageBoxShow(Me, " Duplicate MP Code for VLC Uploader", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtMPCodeVlcUploader.Focus()
                 errorControl.SetError(txtMPCodeVlcUploader, "Duplicate MP Code for VLC Uploader")
@@ -458,7 +458,7 @@ Public Class FrmMPMaster
             End If
 
             If clsCommon.myLen(txtAdd1.Text) <= 0 Then
-                clsCommon.MyMessageBoxShow(" Please Enter Address Line 1, It is Manadatory (Under General Tab)")
+                clsCommon.MyMessageBoxShow(Me, " Please Enter Address Line 1, It is Manadatory (Under General Tab)", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtAdd1.Focus()
                 errorControl.SetError(txtAdd1, "Please Enter Address Line 1, It is Manadatory ")
@@ -536,7 +536,7 @@ Public Class FrmMPMaster
             'If dgvNoofBuffaloes.Rows.Count > 0 Then
             For i = 0 To dgvNoofBuffaloes.Rows.Count - 1
                 If clsCommon.myLen(clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(colDesc).Value)) <= 0 AndAlso clsCommon.myLen(clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(COLTypeOfAnimal).Value)) > 0 Then
-                    clsCommon.MyMessageBoxShow(" Please Enter Bread Of Animal For Row No " & (i + 1) & ", It is Manadatory (Under Animal Details  Tab)")
+                    clsCommon.MyMessageBoxShow(Me, " Please Enter Bread Of Animal For Row No " & (i + 1) & ", It is Manadatory (Under Animal Details  Tab)", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage2
                     dgvNoofBuffaloes.Rows(i).Cells(colDesc).ErrorText = "Please Enter Bread Of Animal For Row No " & (i + 1) & ", It is Manadatory  "
                     Return False
@@ -547,7 +547,7 @@ Public Class FrmMPMaster
 
             For i = 0 To dgvNoofBuffaloes.Rows.Count - 1
                 If clsCommon.myLen(clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(colDesc).Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(COLTypeOfAnimal).Value)) <= 0 Then
-                    clsCommon.MyMessageBoxShow(" Please Select Type Of Animal For Row No " & (i + 1) & ", It is Manadatory (Under Animal Details  Tab)")
+                    clsCommon.MyMessageBoxShow(Me, " Please Select Type Of Animal For Row No " & (i + 1) & ", It is Manadatory (Under Animal Details  Tab)", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage2
                     dgvNoofBuffaloes.Rows(i).Cells(colDesc).ErrorText = "Please Type Of Animal For Row No " & (i + 1) & ", It is Manadatory  "
                     Return False
@@ -558,7 +558,7 @@ Public Class FrmMPMaster
             'End If
             For i = 0 To dgvNoofBuffaloes.Rows.Count - 1
                 If clsCommon.myLen(clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(colDesc).Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(COLTypeOfAnimal).Value)) > 0 AndAlso clsCommon.myCdbl(dgvNoofBuffaloes.Rows(i).Cells(colCountOfAnimal).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow(" Please Enter Count Of  '" & clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(COLTypeOfAnimal).Value) & "' For Row No " & (i + 1) & ", It is Manadatory (Under Animal Details  Tab)")
+                    clsCommon.MyMessageBoxShow(Me, " Please Enter Count Of  '" & clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(COLTypeOfAnimal).Value) & "' For Row No " & (i + 1) & ", It is Manadatory (Under Animal Details  Tab)", Me.Text)
                     RadPageView1.SelectedPage = RadPageViewPage2
                     dgvNoofBuffaloes.Rows(i).Cells(colDesc).ErrorText = "Please Enter Count Of  '" & clsCommon.myCstr(dgvNoofBuffaloes.Rows(i).Cells(COLTypeOfAnimal).Value) & "' For Row No " & (i + 1) & ", It is Manadatory (Under Animal Details  Tab)"
                     Return False
@@ -595,7 +595,7 @@ Public Class FrmMPMaster
             'End If
             If String.IsNullOrEmpty(txtTolerance.Text) = False Then
                 If clsCommon.myCdbl(txtTolerance.Text) > 100 Then
-                    clsCommon.MyMessageBoxShow("Tolerance value should be less then 100.")
+                    clsCommon.MyMessageBoxShow(Me, "Tolerance value should be less then 100.", Me.Text)
                     txtTolerance.Text = ""
                     txtTolerance.Focus()
                     Return False
@@ -1166,7 +1166,7 @@ Public Class FrmMPMaster
                 reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1228,7 +1228,7 @@ Public Class FrmMPMaster
     Private Sub fndCityCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndCityCode._MYValidating
         Try
             If clsCommon.myLen(fndCountryCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Country First..")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Country First..", Me.Text)
                 fndCountryCode.Focus()
                 Exit Sub
             End If
@@ -1262,7 +1262,7 @@ Public Class FrmMPMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1309,7 +1309,7 @@ Public Class FrmMPMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2079,7 +2079,7 @@ Public Class FrmMPMaster
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i, Me.Text)
             End Try
 
         End If
@@ -2323,7 +2323,7 @@ Public Class FrmMPMaster
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i, Me.Text)
             End Try
 
         End If
@@ -2448,7 +2448,7 @@ Public Class FrmMPMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndMPCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select MP Code")
+                clsCommon.MyMessageBoxShow(Me, "Select MP Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndMPCode.Value, "MP_Code", "tspl_mp_master")

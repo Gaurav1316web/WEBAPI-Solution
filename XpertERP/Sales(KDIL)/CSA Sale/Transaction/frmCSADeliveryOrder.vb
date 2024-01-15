@@ -448,7 +448,7 @@ Public Class FrmCSADeliveryOrder
                         If check > 0 Then ''if record exist then
                             Dim NewLimt As Double = clsCSADeliveryOrder.CustomerOutstandingAmount(clsCommon.myCstr(txttoloc_code.Value), clsCommon.myCstr(txtcustcode.Value), clsCommon.myCdbl(txttotal_amt.Text), Nothing, clsCommon.myCstr(txtCode.Value), clsCommon.myCDate(dtpdate.Text))
                             If NewLimt <= 0 Then
-                                If clsCommon.MyMessageBoxShow("Any updation in document need approval by " + clsCommon.myCstr(NewLimt) + " credit limit," + Environment.NewLine + "Are you sure want to send document for approval?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                                If clsCommon.MyMessageBoxShow(Me, "Any updation in document need approval by " + clsCommon.myCstr(NewLimt) + " credit limit," + Environment.NewLine + "Are you sure want to send document for approval?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
                                     Return False
                                 End If
                             End If
@@ -577,7 +577,7 @@ Public Class FrmCSADeliveryOrder
                     If check > 0 Then
                         approved = False
                         Dim NewLimt As Double = clsCSADeliveryOrder.CustomerOutstandingAmount(clsCommon.myCstr(txttoloc_code.Value), clsCommon.myCstr(txtcustcode.Value), clsCommon.myCdbl(txttotal_amt.Text), Nothing, clsCommon.myCstr(txtCode.Value), clsCommon.myCDate(dtpdate.Text))
-                        clsCommon.MyMessageBoxShow("Document required Approval for Credit Limit,before post." + Environment.NewLine + "(for this goto --> Transaction Approval)" + Environment.NewLine + "increase credit limit " + clsCommon.myCstr(NewLimt) + " for customer " + clsCommon.myCstr(txtcustName.Text) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Document required Approval for Credit Limit,before post." + Environment.NewLine + "(for this goto --> Transaction Approval)" + Environment.NewLine + "increase credit limit " + clsCommon.myCstr(NewLimt) + " for customer " + clsCommon.myCstr(txtcustName.Text) + ".")
                         Exit Sub
                     Else
                         approved = True
@@ -595,7 +595,7 @@ Public Class FrmCSADeliveryOrder
                     If CheckCreditLimit AndAlso Not AllowNLevel Then
                         Dim NewLimt As Double = clsCSADeliveryOrder.CustomerOutstandingAmount(clsCommon.myCstr(txttoloc_code.Value), clsCommon.myCstr(txtcustcode.Value), clsCommon.myCdbl(txttotal_amt.Text), Nothing, clsCommon.myCstr(txtCode.Value), clsCommon.myCDate(dtpdate.Text))
                         If Not approved AndAlso clsCommon.myCdbl(NewLimt) <= 0 Then
-                            clsCommon.MyMessageBoxShow("Document required Approval for Credit Limit,before post." + Environment.NewLine + "(for this goto --> Transaction Approval)" + Environment.NewLine + "increase credit limit " + clsCommon.myCstr(NewLimt) + " for customer " + clsCommon.myCstr(txtcustName.Text) + ".")
+                            clsCommon.MyMessageBoxShow(Me, "Document required Approval for Credit Limit,before post." + Environment.NewLine + "(for this goto --> Transaction Approval)" + Environment.NewLine + "increase credit limit " + clsCommon.myCstr(NewLimt) + " for customer " + clsCommon.myCstr(txtcustName.Text) + ".")
                             Exit Sub
                         End If
                     End If
@@ -1827,7 +1827,7 @@ Public Class FrmCSADeliveryOrder
     Private Sub gv_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv.UserDeletingRow
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 e.Cancel = True
             Else
                 If Not btnpost.Enabled AndAlso Not btnsave.Enabled AndAlso Not btndelete.Enabled Then
