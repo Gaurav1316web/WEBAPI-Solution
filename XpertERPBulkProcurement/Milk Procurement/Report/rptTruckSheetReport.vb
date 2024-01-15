@@ -21,6 +21,7 @@ Public Class rptTruckSheetReport
     End Sub
     Sub PrintNew(ByVal IsPrint As Exporter)
         Try
+            Dim ARRStop As New List(Of String)
             Dim dt As DataTable = New DataTable()
             Dim dtDCSDetail As DataTable = Nothing
             Dim dtMCCDetail As DataTable = Nothing
@@ -58,6 +59,11 @@ Public Class rptTruckSheetReport
             Dim Hist_SumFATKG11 As Decimal = 0.0
             Dim Hist_SumSNFKG11 As Decimal = 0.0
 
+            Dim MCCSumQty As Decimal = 0.0
+            Dim MCCSumFATKG As Decimal = 0.0
+            Dim MCCSumSNFKG As Decimal = 0.0
+            Dim MCCAVGFAT As Decimal = 0.0
+            Dim MCCAVGSNF As Decimal = 0.0
 
             dt.Columns.Add("DCS", GetType(String))
             dt.Columns.Add("Date", GetType(String))
@@ -142,11 +148,19 @@ Public Class rptTruckSheetReport
                     Dim dr5 As DataRow() = dtMCCHeadData.Select("[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "'")
                     If dr5 IsNot Nothing AndAlso dr5.Length > 0 Then
                         dtMCCHead = dr5.CopyToDataTable()
+                        Dim ArrMCCDoc As New Dictionary(Of String, List(Of String))
                         For i As Integer = 0 To dtMCCDetail.Rows.Count - 1
                             If clsCommon.CompairString(StrAgainst_Milk_Collection_MCC_Detail, "") = CompairStringResult.Equal Then
                                 StrAgainst_Milk_Collection_MCC_Detail = clsCommon.myCstr(dtMCCDetail.Rows(i).Item("PK_ID"))
                             Else
                                 StrAgainst_Milk_Collection_MCC_Detail = StrAgainst_Milk_Collection_MCC_Detail + "," + clsCommon.myCstr(dtMCCDetail.Rows(i).Item("PK_ID"))
+                            End If
+
+                            If Not ArrMCCDoc.ContainsKey(clsCommon.myCstr(dtMCCDetail.Rows(i).Item("MCC_Code"))) Then
+                                ArrMCCDoc.Add(clsCommon.myCstr(dtMCCDetail.Rows(i).Item("MCC_Code")), New List(Of String))
+                            End If
+                            If Not ArrMCCDoc.Item(clsCommon.myCstr(dtMCCDetail.Rows(i).Item("MCC_Code"))).Contains(clsCommon.myCstr(dtMCCDetail.Rows(i).Item("Document_No"))) Then
+                                ArrMCCDoc.Item(clsCommon.myCstr(dtMCCDetail.Rows(i).Item("MCC_Code"))).Add(clsCommon.myCstr(dtMCCDetail.Rows(i).Item("Document_No")))
                             End If
                         Next
                         qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date, TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail,
@@ -169,18 +183,26 @@ Public Class rptTruckSheetReport
                         dtDCSDetail = clsDBFuncationality.GetDataTable(qry)
 
                         For i As Integer = 0 To dtMCCHead.Rows.Count - 1
-                            If rbtnRouteWise.IsChecked = True Then
-                                dt.Rows.Add(clsCommon.myCstr("Tanker No : " + dtMCCHead.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
-                            End If
+                            Dim strUnique As String = ""
+                            Dim ActivateStop As Boolean = False
 
                             Dim TempdtMCCDetail As DataTable = Nothing
                             Dim dr As DataRow() = dtMCCDetail.Select("[Document_No]='" + clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_No")) + "'")
                             If dr IsNot Nothing AndAlso dr.Length > 0 Then
                                 TempdtMCCDetail = dr.CopyToDataTable()
-
                                 For j As Integer = 0 To TempdtMCCDetail.Rows.Count - 1
+                                    strUnique = clsCommon.GetPrintDate(dtMCCDate.Rows(t).Item("Document_Date"), "ddMMyyyy") + clsCommon.myCstr(TempdtMCCDetail.Rows(j).Item("MCC_Code"))
+                                    If rbtnRouteWise.IsChecked Then
+                                        strUnique += clsCommon.myCstr(dtMCCHead.Rows(i).Item("Route_Code"))
+                                    End If
+                                    If ARRStop.Contains(strUnique) Then
+                                        ActivateStop = True
+                                        Exit For
+                                    End If
+                                    If i = 0 AndAlso j = 0 AndAlso rbtnRouteWise.IsChecked = True Then
+                                        dt.Rows.Add(clsCommon.myCstr("Tanker No : " + dtMCCHead.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
+                                    End If
                                     dt.Rows.Add(clsCommon.myCstr("BMC : " + TempdtMCCDetail.Rows(j).Item("MCC_NAME")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
-
                                     SumQty = 0.0
                                     SumFATKG = 0.0
                                     SumSNFKG = 0.0
@@ -192,6 +214,12 @@ Public Class rptTruckSheetReport
                                     Hist_SumSNFKG = 0.0
                                     Hist_AVGFAT = 0.0
                                     Hist_AVGSNF = 0.0
+
+                                    MCCSumQty = 0.0
+                                    MCCSumFATKG = 0.0
+                                    MCCSumSNFKG = 0.0
+                                    MCCAVGFAT = 0.0
+                                    MCCAVGSNF = 0.0
 
                                     Dim TempdtDCSDetail As DataTable = Nothing
                                     Dim dr1 As DataRow() = dtDCSDetail.Select("[Against_Milk_Collection_MCC_Detail]='" + clsCommon.myCstr(TempdtMCCDetail.Rows(j).Item("PK_ID")) + "'")
@@ -229,23 +257,56 @@ Public Class rptTruckSheetReport
                                     End If
 
 
-                                    If rbtnRouteWise.IsChecked = True Then
-                                        dt.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(TempdtMCCDetail.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, TempdtMCCDetail.Rows(j).Item("Qty"), TempdtMCCDetail.Rows(j).Item("FAT"), TempdtMCCDetail.Rows(j).Item("SNF"), TempdtMCCDetail.Rows(j).Item("FATKG"), TempdtMCCDetail.Rows(j).Item("SNFKG"), TempdtMCCDetail.Rows(j).Item("Qty"), TempdtMCCDetail.Rows(j).Item("FAT"), TempdtMCCDetail.Rows(j).Item("SNF"), TempdtMCCDetail.Rows(j).Item("FATKG"), TempdtMCCDetail.Rows(j).Item("SNFKG"))
+                                    If ArrMCCDoc.ContainsKey(clsCommon.myCstr(TempdtMCCDetail.Rows(j).Item("MCC_Code"))) Then
+                                        Dim strFilter As String = "MCC_code ='" + clsCommon.myCstr(TempdtMCCDetail.Rows(j).Item("MCC_Code")) + "' and [Document_No] in (" + clsCommon.GetMulcallString(ArrMCCDoc.Item(clsCommon.myCstr(dr(0)("MCC_Code")))) + ")"
+                                        Dim dr3 As DataRow() = dtMCCDetail.Select(strFilter)
+                                        If dr3 IsNot Nothing AndAlso dr3.Length > 0 Then
+                                            Dim dtMCC As DataTable = dr3.CopyToDataTable()
+                                            MCCSumQty = Math.Round(clsCommon.myCdbl(dtMCC.Compute("SUM([Qty])", " [Qty] is not null")), 2)
+                                            MCCSumFATKG = Math.Round(clsCommon.myCdbl(dtMCC.Compute("SUM([FATKG])", " [FATKG] is not null")), 2)
+                                            MCCSumSNFKG = Math.Round(clsCommon.myCdbl(dtMCC.Compute("SUM([SNFKG])", " [SNFKG] is not null")), 2)
+                                            If MCCSumQty > 0 Then
+                                                MCCAVGFAT = Math.Round(clsCommon.myCdbl(dtMCC.Compute("(SUM([FATKG])*100)/SUM([Qty])", "")), 2)
+                                                MCCAVGSNF = Math.Round(clsCommon.myCdbl(dtMCC.Compute("(SUM([SNFKG])*100)/SUM([Qty])", "")), 2)
+                                            Else
+                                                MCCAVGFAT = 0.0
+                                                MCCAVGSNF = 0.0
+                                            End If
+                                        End If
                                     End If
 
-                                    Dim VariationQty As Decimal = Math.Round(SumQty - TempdtMCCDetail.Rows(j).Item("Qty"), 2)
-                                    Dim VariationFATKG As Decimal = Math.Round(SumFATKG - TempdtMCCDetail.Rows(j).Item("FATKG"), 2)
-                                    Dim VariationSNFKG As Decimal = Math.Round(SumSNFKG - TempdtMCCDetail.Rows(j).Item("SNFKG"), 2)
 
-                                    Dim Hist_VariationQty As Decimal = Math.Round(Hist_SumQty - TempdtMCCDetail.Rows(j).Item("Qty"), 2)
-                                    Dim Hist_VariationFATKG As Decimal = Math.Round(Hist_SumFATKG - TempdtMCCDetail.Rows(j).Item("FATKG"), 2)
-                                    Dim Hist_VariationSNFKG As Decimal = Math.Round(Hist_SumSNFKG - TempdtMCCDetail.Rows(j).Item("SNFKG"), 2)
+
+                                    If rbtnRouteWise.IsChecked = True Then
+                                        dt.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(TempdtMCCDetail.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                    End If
+
+                                    Dim VariationQty As Decimal = Math.Round(SumQty - MCCSumQty, 2)
+                                    Dim VariationFATKG As Decimal = Math.Round(SumFATKG - MCCSumFATKG, 2)
+                                    Dim VariationSNFKG As Decimal = Math.Round(SumSNFKG - MCCSumSNFKG, 2)
+
+                                    Dim Hist_VariationQty As Decimal = Math.Round(Hist_SumQty - MCCSumQty, 2)
+                                    Dim Hist_VariationFATKG As Decimal = Math.Round(Hist_SumFATKG - MCCSumFATKG, 2)
+                                    Dim Hist_VariationSNFKG As Decimal = Math.Round(Hist_SumSNFKG - MCCSumSNFKG, 2)
 
                                     If rbtnRouteWise.IsChecked = True Then
                                         dt.Rows.Add("Variation : ", DBNull.Value, DBNull.Value, DBNull.Value, VariationQty, DBNull.Value, DBNull.Value, VariationFATKG, VariationSNFKG, Hist_VariationQty, DBNull.Value, DBNull.Value, Hist_VariationFATKG, Hist_VariationSNFKG)
                                     End If
                                 Next
 
+                                If ActivateStop Then
+                                    Exit For
+                                Else
+                                    For j As Integer = 0 To TempdtMCCDetail.Rows.Count - 1
+                                        strUnique = clsCommon.GetPrintDate(dtMCCDate.Rows(t).Item("Document_Date"), "ddMMyyyy") + clsCommon.myCstr(TempdtMCCDetail.Rows(j).Item("MCC_Code"))
+                                        If rbtnRouteWise.IsChecked Then
+                                            strUnique += clsCommon.myCstr(dtMCCHead.Rows(i).Item("Route_Code"))
+                                        End If
+                                        If Not ARRStop.Contains(strUnique) Then
+                                            ARRStop.Add(strUnique)
+                                        End If
+                                    Next
+                                End If
                                 'MCC Detail Total
                                 SumQty1 = Math.Round(clsCommon.myCdbl(TempdtMCCDetail.Compute("SUM([Qty])", " [Qty] is not null")), 2)
                                 SumFATKG1 = Math.Round(clsCommon.myCdbl(TempdtMCCDetail.Compute("SUM([FATKG])", " [FATKG] is not null")), 2)
