@@ -632,7 +632,7 @@ select * from
             Dim Summary As String = " select final4.Issqty,final4.ISSUCOST,final4.prod_qty,final4.ISSUCOST/CASE WHEN ISNULL(final4.prod_qty,0)=0  THEN 1 ELSE ISNULL(final4.prod_qty,0) END as CostOfFeedPerQTL,
                                      (final4.Issqty-final4.prod_qty) as QuantityLoss ,((final4.Issqty-final4.prod_qty)*100)/CASE WHEN ISNULL(final4.prod_qty,0)=0  THEN 1 ELSE ISNULL(final4.prod_qty,0) END as ProcessLoss from (
                                         select sum(final3.Issqty) as Issqty,sum(final3.ISSUCOST) as ISSUCOST,sum(final3.prod_qty) as prod_qty from (
-                                        SELECT SUM(FINAL2.Issqty)/1000 AS Issqty,SUM(FINAL2.IssuCost)/1000 AS ISSUCOST ,0 as prod_qty FROM (
+                                        SELECT SUM(FINAL2.Issqty)/1000 AS Issqty,SUM(FINAL2.IssuCost) AS ISSUCOST ,0 as prod_qty FROM (
                                         select final1.Item_Code,final1.Item_Desc,max(final1.Stock_UOM) as Stock_UOM,sum(final1.Issqty) as Issqty,sum(final1.IssuCost) as IssuCost from ( 
                                         select convert(varchar, Punching_Date,103) as Punching_Date  ,Item_Code ,Item_Desc,Stock_UOM, 
                                         case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and 0=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty ,OPRate,OPCost ,
@@ -923,7 +923,7 @@ select * from
 					 ) FINAL2 --GROUP BY FINAL2.Item_Code,FINAL2.Item_Desc
 					 union all
 					 
-					 SELECT 0 as Issqty,0 AS ISSUCOST,SUM(FINAL_PRODUCTION_QTY)/100 AS ProdQTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+					 SELECT 0 as Issqty,0 AS ISSUCOST,SUM(FINAL_PRODUCTION_QTY)/1000 AS ProdQTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                         LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                         INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1
                         WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate((Slot1FD), "dd/MMM/yyyy") + "',103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate((Slot3TD), "dd/MMM/yyyy") + "',103)
