@@ -1846,6 +1846,7 @@
     <None Include="Crystal Reports\Sales Report\rptSalesReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesSummaryNew.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSaleSummaryAgainstPO.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptStockConsumptionreport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptVendorGroupWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\salevolumereport.rpt" />
     <None Include="Crystal Reports\Sales Report\salevolumereportby priti Mam.rpt" />
