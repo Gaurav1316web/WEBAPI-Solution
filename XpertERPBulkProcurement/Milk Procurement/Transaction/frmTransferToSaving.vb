@@ -40,37 +40,6 @@ Public Class frmTransferToSaving
     End Sub
 
     Private Sub FrmMultipleProcDeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_No", "varchar(30) NOT NULL PRIMARY KEY")
-        coll.Add("Document_Date", "datetime NOT NULL")
-        coll.Add("Loc_Seg_Code", "varchar(12) not NULL")
-        coll.Add("MCC_CODE", "Varchar(30) null references TSPL_MCC_MASTER(MCC_CODE)")
-        coll.Add("Remarks", "varchar(200) NULL")
-        coll.Add("Status", "integer null")
-        coll.Add("Created_By", "varchar(12)  NOT NULL")
-        coll.Add("Created_Date", "datetime  NOT NULL")
-        coll.Add("Modify_By", "varchar(12)  NOT NULL")
-        coll.Add("Modify_Date", "datetime NOT NULL")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_TO_SAVING", coll, Nothing, True, False, "", "Document_No", "Document_Date", False)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
-        coll.Add("Document_No", "varchar(30) NOT NULL References TSPL_TRANSFER_TO_SAVING(Document_No)")
-        coll.Add("Vendor_Code", "varchar(12)  NOT NULL")
-        coll.Add("Amount", "decimal (18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_TO_SAVING_DETAIL", coll, Nothing, True, False, "TSPL_TRANSFER_TO_SAVING", "Document_No", "")
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Is_Transfer_To_Saving", "integer not null default 0")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Against_TransferToSavingPKID", "integer null References TSPL_TRANSFER_TO_SAVING_DETAIL(PK_ID)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, False, "", "Document_No", "Posting_Date", True)
-
 
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
 
