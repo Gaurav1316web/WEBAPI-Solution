@@ -771,7 +771,7 @@ Public Class ucCheckSetting
             Next
             clsLableSetting.SaveData(strBankCode, arrLable)
             If isShowMsg Then
-                clsCommon.MyMessageBoxShow("Setting saved successfully")
+                clsCommon.MyMessageBoxShow(Me, "Setting saved successfully", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -102,7 +102,7 @@ Public Class FrmStockAdjustmentReport
         strSql = funPrint()
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
         Else
             dt = clsDBFuncationality.GetDataTable(strSql)
             Dim frmCRV As New frmCrystalReportViewer()
@@ -130,7 +130,7 @@ Public Class FrmStockAdjustmentReport
                 Throw New Exception("Please select at least one Location")
             End If
             If (dtpstart.Value > dtpend.Value) Then
-                common.clsCommon.MyMessageBoxShow(Me, "'Start Date' Cann't be more than 'End date'")
+                common.clsCommon.MyMessageBoxShow(Me, "'Start Date' Cann't be more than 'End date'", Me.Text)
                 'ElseIf (dtpStarttime.Value > dtpendtime.Value) Then
                 '    common.clsCommon.MyMessageBoxShow("'Start Time' Cann't be more than 'End Time'")
             Else
@@ -145,7 +145,7 @@ Public Class FrmStockAdjustmentReport
                 End If
 
                 If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location", Me.Text)
 
                     Return False
                     Exit Function
@@ -280,7 +280,7 @@ Public Class FrmStockAdjustmentReport
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             qry = ""
         End Try
 
@@ -690,7 +690,7 @@ Public Class FrmStockAdjustmentReport
                 clsCommon.MyExportToPDF("Stock adjustment", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

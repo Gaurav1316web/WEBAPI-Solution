@@ -121,7 +121,7 @@ Public Class FrmBarCodeGenerator1
             lblIName.Text = clsItemMaster.GetItemName(txtItemCode.Value, Nothing)
             LoadSerialNo(txtItemCode.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -157,7 +157,7 @@ Public Class FrmBarCodeGenerator1
                 btnSelect.Text = "Select All"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

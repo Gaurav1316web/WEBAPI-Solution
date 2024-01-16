@@ -121,24 +121,24 @@ Public Class FrmBreakageReport
 
     Public Sub funPrint()
         If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location", Me.Text)
             Return
         End If
 
         If chktypeSelect.IsChecked AndAlso cbgtype.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Type", Me.Text)
             Return
         End If
         Dim IsBreakage As String = ""
         Dim filter As String = ""
         If (dtpstart.Value > dtpend.Value) Then
-            common.clsCommon.MyMessageBoxShow(Me, "'Start Date' Cann't be more than 'End date'")
+            common.clsCommon.MyMessageBoxShow(Me, "'Start Date' Cann't be more than 'End date'", Me.Text)
         ElseIf (dtpStarttime.Value > dtpendtime.Value) Then
-            common.clsCommon.MyMessageBoxShow(Me, "'Start Time' Cann't be more than 'End Time'")
+            common.clsCommon.MyMessageBoxShow(Me, "'Start Time' Cann't be more than 'End Time'", Me.Text)
         ElseIf chktypeSelect.IsChecked = True AndAlso cbgtype.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Type Or Select All")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Type Or Select All", Me.Text)
         ElseIf chkLocSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "please Select Atleast Single Location Segment Or Select All")
+            common.clsCommon.MyMessageBoxShow(Me, "please Select Atleast Single Location Segment Or Select All", Me.Text)
         Else
             If clsCommon.myLen(txtBreakageType.Value) > 0 Then
                 IsBreakage = " AND TSPL_ADJUSTMENT_DETAIL.BreakageType= '" + txtBreakageType.Value + "'"
@@ -197,7 +197,7 @@ Public Class FrmBreakageReport
 
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
+                        common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                     Else
                             dt = clsDBFuncationality.GetDataTable(qry)
                         Dim frmCRV As New frmCrystalReportViewer()
@@ -206,7 +206,7 @@ Public Class FrmBreakageReport
                     End If
                 End If
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub

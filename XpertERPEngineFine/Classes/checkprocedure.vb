@@ -1292,6 +1292,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptMonthWiseSaleAnalysis, "Month Wise Analysis Report", "1.31.01.14", clsUserMgtCode.SubModuleMISReports, "", 37)
         InsertDefaultValue(clsUserMgtCode.MISMassBalanceReport, "Mass Balance Report", "1.31.01.15", clsUserMgtCode.SubModuleMISReports, "", 37)
         InsertDefaultValue(clsUserMgtCode.rptTCSLedger, "TCS Ledger", "1.31.01.16", clsUserMgtCode.SubModuleMISReports, "", 37)
+        InsertDefaultValue(clsUserMgtCode.RMStockConsumption, "Stock Consumption Report", "1.31.01.17", clsUserMgtCode.SubModuleMISReports, "", 37)
+        InsertDefaultValue(clsUserMgtCode.MSIProductionSaleReport, "MIS ProductionSale Report", "1.31.01.18", clsUserMgtCode.SubModuleMISReports, "", 37)
         ' InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.31.01.17", clsUserMgtCode.SubModuleMISReports, "", 37)
         '----------------------------MIS REPORTS----------------------------------------ENDS HERE
 
@@ -1543,8 +1545,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkVSPIssuePayment, "VSP Issue Payment Processing", "1.17.02.32", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmProvisionEntry, "Provision Entry", "1.17.02.33", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.IncentiveEntry, "Incentive Entry", "1.17.02.34", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, "Payment Process", "1.17.02.35", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, "Send Bill To DCS", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmTransferToSaving, "Transfer To Saving", "1.17.02.35", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, "Payment Process", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, "Send Bill To DCS", "1.17.02.37", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.FrmMCCMilkTransPortorInvoice, "Milk Recurring Payable Invoice", "1.17.02.31", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, "MP Bills and Incentive Processing", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, "MCC Tanker Dispatch Return", "1.17.02.37", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -1717,6 +1720,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, "DBT Milk Payment", "1.17.03.110", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCTankerTestingReport, "BMC Tanker Testing Report", "1.17.03.111", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.112", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.113", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup

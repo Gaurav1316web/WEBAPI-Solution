@@ -173,12 +173,12 @@ Public Class frmSerializeItemOutCheckBox
             End If
         Next
         If TotalSelected <> clsCommon.myCdbl(lblQty.Text) Then
-            clsCommon.MyMessageBoxShow("Entered Quantity" + lblQty.Text + " Entered Serail Numbers" + clsCommon.myCstr(TotalSelected))
+            clsCommon.MyMessageBoxShow(Me, "Entered Quantity" + lblQty.Text + " Entered Serail Numbers" + clsCommon.myCstr(TotalSelected))
             Return False
         End If
         For ii As Integer = 0 To gv1.RowCount - 1
             If clsCommon.myLen(gv1.Rows(ii).Cells(ColAutoSNo).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please enter Serial Number at line number" + clsCommon.myCstr(ii + 1))
+                clsCommon.MyMessageBoxShow(Me, "Please enter Serial Number at line number" + clsCommon.myCstr(ii + 1))
                 Return False
             End If
         Next
@@ -196,7 +196,7 @@ Public Class frmSerializeItemOutCheckBox
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -226,7 +226,7 @@ Public Class frmSerializeItemOutCheckBox
             Exit Sub
         End If
 
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -281,7 +281,7 @@ Public Class frmSerializeItemOutCheckBox
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(getQry() + " order by Document_Date ")
         Dim qry As String = getQry()
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Items serial number not found to fill")
+            clsCommon.MyMessageBoxShow(Me, "Items serial number not found to fill", Me.Text)
             isInsideLoadData = False
             Exit Sub
         End If

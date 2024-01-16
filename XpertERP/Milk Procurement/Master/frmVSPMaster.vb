@@ -4865,7 +4865,7 @@ Public Class frmVSPMaster
                 FndMPCode.Value = Nothing
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5630,7 +5630,7 @@ Public Class frmVSPMaster
                         If check > 0 Then
                             clsCommon.ProgressBarHide()
                             trans.Rollback()
-                            clsCommon.MyMessageBoxShow("Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.,See At Line No. " + clsCommon.myCstr(counter) + "", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Pan No. You Entered Is Already Exist,Please Enter Valid,Unique Pan No.,See At Line No. " + clsCommon.myCstr(counter) + "", Me.Text)
                             pageCus.SelectedPage = RadPageViewPage4
                             txtpan.Focus()
                             txtpan.Select()
@@ -6146,7 +6146,7 @@ Public Class frmVSPMaster
                         ' If obj.SaveData(obj, obj.ArrVisi, IIf(ii2 = 0, True, False), arrDBName, trans) = False Then
                         If obj.SaveData(obj, obj.ArrVisi, IIf(ii2 = 0, True, False), trans) = False Then
                             clsCommon.ProgressBarHide()
-                            clsCommon.MyMessageBoxShow("Error in Create Customer,See At Line No. " + clsCommon.myCstr(counter) + "")
+                            clsCommon.MyMessageBoxShow(Me, "Error in Create Customer,See At Line No. " + clsCommon.myCstr(counter) + "")
                             Exit Sub
                         End If
 
@@ -6360,7 +6360,7 @@ Public Class frmVSPMaster
             qry = "select CURRENCY_CODE from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='" & clsCommon.myCstr(strVendorAccountSet) & "' "
             Dim accCurrCode As String = clsDBFuncationality.getSingleValue(qry, trans).ToString
             If clsCommon.CompairString(accCurrCode, clsCommon.myCstr(strVendorCurrency)) <> CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Account Set Currency and Vendor Currency must be same in case of Multicurrency. See At Line No :" + strlineNo) ',See At Line No.
+                clsCommon.MyMessageBoxShow(Me, "Account Set Currency and Vendor Currency must be same in case of Multicurrency. See At Line No :" + strlineNo) ',See At Line No.
                 Return False
             End If
             '' match tax Group currency with vendor currency
@@ -6379,7 +6379,7 @@ Public Class frmVSPMaster
                 End If
             Next
             If clsCommon.myLen(taxCode) > 0 Then
-                clsCommon.MyMessageBoxShow("Tax Code '" & taxCode & "' in Tax Group " & clsCommon.myCstr(strTaxGroup) & " are created for currency other than " & clsCommon.myCstr(strVendorCurrency) & " .See At Line No :" + strlineNo)
+                clsCommon.MyMessageBoxShow(Me, "Tax Code '" & taxCode & "' in Tax Group " & clsCommon.myCstr(strTaxGroup) & " are created for currency other than " & clsCommon.myCstr(strVendorCurrency) & " .See At Line No :" + strlineNo)
                 Return False
             End If
             'End If

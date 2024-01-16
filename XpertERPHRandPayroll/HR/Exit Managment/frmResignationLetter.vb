@@ -63,7 +63,7 @@ Public Class FrmResignationLetter
             Errorcontrol.ResetError(txtResonOfResignation)
         End If
         If clsCommon.myLen(TxtNotice.Value) <= 0 OrElse clsCommon.myCdbl(TxtNotice.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Notice Period can not be left blank or incorrect")
+            clsCommon.MyMessageBoxShow(Me, "Notice Period can not be left blank or incorrect", Me.Text)
             TxtNotice.Focus()
             TxtNotice.Select()
             Errorcontrol.SetError(TxtNotice, "Notice Period")
@@ -107,10 +107,10 @@ Public Class FrmResignationLetter
                 Resig.NoticePeriod = clsCommon.myCstr(TxtNotice.Value)
 
                 If clsCommon.CompairString(clsCommon.myCstr(Txtemployeetype.Value), clsCommon.myCstr(txtResponsibilityCode.Value)) = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Employee Name and Handover Responsibility to should not be same")
+                    clsCommon.MyMessageBoxShow(Me, "Employee Name and Handover Responsibility to should not be same", Me.Text)
                 Else
                     If clsResignationLetter.savedata(Resig, isnewentry) Then
-                        clsCommon.MyMessageBoxShow("Data saved successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                         entry = Resig.DOC_CODE
                         getdata(Resig.DOC_CODE, NavigatorType.Current)
                         BtnSave.Text = "Update"
@@ -180,7 +180,7 @@ Public Class FrmResignationLetter
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsResignationLetter.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     DeleteData()
 
                     resetdata()
@@ -193,7 +193,7 @@ Public Class FrmResignationLetter
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -267,14 +267,14 @@ Public Class FrmResignationLetter
             Qry += " where 2=2 and  Tspl_HR_EM_Resignation_Letter.Doc_code = '" + strDocNo + "' "
             dt = clsDBFuncationality.GetDataTable(Qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return dt
     End Function
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to print.")
+            clsCommon.MyMessageBoxShow(Me, "No data found to print.", Me.Text)
         Else
             Dim dt As DataTable = funPrint(txtcode.Value)
 
@@ -283,7 +283,7 @@ Public Class FrmResignationLetter
                 frmcrystal.funreport(CrystalReportFolder.HumanResource, dt, "rptHREMResignationLetter", "Resignation Letter")
 
             Else
-                clsCommon.MyMessageBoxShow("No data found.")
+                clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
             End If
         End If
     End Sub
@@ -667,11 +667,11 @@ Public Class FrmResignationLetter
         Try
             If clsCommon.myLen(txtcode.Value) > 0 Then
                 Dim ask As MsgBoxResult
-                ask = clsCommon.MyMessageBoxShow("Are you sure to Sent For Approval???", "Post", MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question)
+                ask = clsCommon.MyMessageBoxShow(Me, "Are you sure to Sent For Approval???", "Post", MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question)
                 If ask = MsgBoxResult.Yes Then
                     Dim qry As String = "update Tspl_HR_EM_Resignation_Letter set STATUS='Pending' where Doc_CODE='" + txtcode.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
-                    clsCommon.MyMessageBoxShow("Sent For Approval Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Sent For Approval Successfully", Me.Text)
                     UsLock1.Status = ERPTransactionStatus.Pending
                     btnApproval.Enabled = False
                     BtnSave.Enabled = False
@@ -684,12 +684,12 @@ Public Class FrmResignationLetter
                     Exit Sub
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Document Selected")
+                clsCommon.MyMessageBoxShow(Me, "No Document Selected", Me.Text)
                 'Return False
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

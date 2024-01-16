@@ -198,14 +198,12 @@
     <Compile Include="Milk Procurement\Master\frmOwnBMCGainLossRate.vb">
       <SubType>Form</SubType>
     </Compile>
- 
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
       <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.vb">
       <SubType>Form</SubType>
     </Compile>
- 
     <Compile Include="Milk Procurement\Report\frmTDSReport.Designer.vb">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
     </Compile>
@@ -228,6 +226,12 @@
       <DependentUpon>rptAutoMultipleAdditionDeduction.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptAutoMultipleAdditionDeduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptCattleFeedSaleReport.Designer.vb">
+      <DependentUpon>rptCattleFeedSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptCattleFeedSaleReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptDBTMilkPayment.Designer.vb">
@@ -566,6 +570,12 @@
     <Compile Include="Milk Procurement\Transaction\frmSendBillToDCS.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmTransferToSaving.Designer.vb">
+      <DependentUpon>frmTransferToSaving.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmTransferToSaving.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Visual Report\VisualReportProcurement.Designer.vb">
       <DependentUpon>VisualReportProcurement.vb</DependentUpon>
     </Compile>
@@ -735,9 +745,7 @@
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
     </EmbeddedResource>
- 
     <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
- 
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -746,6 +754,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCTankerTesting.resx">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptCattleFeedSaleReport.resx">
+      <DependentUpon>rptCattleFeedSaleReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTMilkPayment.resx">
       <DependentUpon>rptDBTMilkPayment.vb</DependentUpon>
@@ -914,6 +925,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmSendBillToDCS.resx">
       <DependentUpon>frmSendBillToDCS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmTransferToSaving.resx">
+      <DependentUpon>frmTransferToSaving.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Visual Report\VisualReportProcurement.resx">
       <DependentUpon>VisualReportProcurement.vb</DependentUpon>

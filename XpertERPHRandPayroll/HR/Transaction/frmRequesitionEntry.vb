@@ -283,7 +283,7 @@ Public Class FrmRequesitionEntry
                 Req.ClosedStatus = clsCommon.myCstr(IIf(UsLock1.Status = ERPTransactionStatus.Close, 1, 0))
                 UsLock1.Status = ERPTransactionStatus.Close
                 If ((cbgQual.CheckedValue.Count) <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast one qualification ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one qualification ", Me.Text)
                     cbgQual.Focus()
                     Return
                 End If
@@ -303,7 +303,7 @@ Public Class FrmRequesitionEntry
                         arr.Add(obj)
                     Next
                     If clsrequisitionentry.savedata(Req, isnewentry, arr) Then
-                        clsCommon.MyMessageBoxShow("Data saved successfully")
+                        clsCommon.MyMessageBoxShow(Me,"Data saved successfully", Me.Text)
                         entry = Req.code
                         getdata(Req.code, NavigatorType.Current)
                         butnsave.Text = "Update"
@@ -456,7 +456,7 @@ Public Class FrmRequesitionEntry
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsrequisitionentry.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     resetdata()
                 End If
             End If
@@ -467,7 +467,7 @@ Public Class FrmRequesitionEntry
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("code not found to delete")
+            common.clsCommon.MyMessageBoxShow(Me, "code not found to delete", Me.Text)
             Exit Sub
         End If
 
@@ -758,7 +758,7 @@ Public Class FrmRequesitionEntry
                 LblVertical.Text = ""
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please select industry code first")
+            clsCommon.MyMessageBoxShow(Me, "Please select industry code first", Me.Text)
         End If
     End Sub
 End Class

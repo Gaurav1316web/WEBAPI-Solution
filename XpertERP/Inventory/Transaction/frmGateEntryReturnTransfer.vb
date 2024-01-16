@@ -69,7 +69,7 @@ Public Class frmGateEntryReturnTransfer
 
                 Exit Sub
             End If
-            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
             btnSave.Text = "Update"
             btnDelete.Enabled = False
 
@@ -78,7 +78,7 @@ Public Class frmGateEntryReturnTransfer
 
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -118,13 +118,13 @@ Public Class frmGateEntryReturnTransfer
                     myMessages.delete()
                     Reset()
                 Else
-                    clsCommon.MyMessageBoxShow("Can't delete the record")
+                    clsCommon.MyMessageBoxShow(Me, "Can't delete the record", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Select a document to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a document to delete", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -185,13 +185,13 @@ Public Class frmGateEntryReturnTransfer
                     myMessages.post()
                     loadData(fndDocNo.Value, NavigatorType.Current)
                 Else
-                    clsCommon.MyMessageBoxShow("Can't Post the record")
+                    clsCommon.MyMessageBoxShow(Me, "Can't Post the record", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Select a document to Post")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a document to Post", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

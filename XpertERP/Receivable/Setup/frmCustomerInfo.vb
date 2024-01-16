@@ -253,25 +253,25 @@ Public Class FrmCustomerInfo
         Try
             If fndCustomer.Value <> "" Then
                 If clsCommon.myLen(fndCusgrp.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Customer Group", "Customer", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Customer Group", "Customer", MessageBoxButtons.OK, Me.Text)
                     fndCusgrp.Focus()
                     Return False
                 ElseIf clsCommon.myLen(fndAccntSet.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Customer Account Set", "Customer", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Customer Account Set", "Customer", MessageBoxButtons.OK, Me.Text)
                     fndAccntSet.Focus()
                     Return False
                 ElseIf clsCommon.myLen(ddlCustType.SelectedValue) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select Customer Type", "Customer", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select Customer Type", "Customer", MessageBoxButtons.OK, Me.Text)
                     ddlCustType.Focus()
                     Return False
                 ElseIf chkDistributer.Checked = True Then
                     If fndcust.Value = "" Then
-                        common.clsCommon.MyMessageBoxShow("Please select the Customer ", "Customer", MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Please select the Customer ", "Customer", MessageBoxButtons.OK, Me.Text)
                         Return False
                     End If
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Customer Found to Save", "Customer", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "No Customer Found to Save", "Customer", MessageBoxButtons.OK, Me.Text)
                 Return False
             End If
             Return True
@@ -684,7 +684,7 @@ Public Class FrmCustomerInfo
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -896,14 +896,14 @@ Public Class FrmCustomerInfo
                         Dim strdistrubutor As String = clsCommon.myCstr(grow.Cells("Distributor").Value)
                         If strdistrubutor = "Y" Or strdistrubutor = "N" Then
                         Else
-                            common.clsCommon.MyMessageBoxShow("Value of Distributor type should be 'N' or 'Y' At Line '" + LineNo + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Value of Distributor type should be 'N' or 'Y' At Line '" + LineNo + "'")
                             trans.Rollback()
                             Exit Sub
                         End If
 
                         Dim strdistCust As String = clsCommon.myCstr(grow.Cells("Distributor Customer").Value)
                         If clsCommon.myLen(strdistCust) > 30 Then
-                            common.clsCommon.MyMessageBoxShow("Maximum Length Of Distributor Customer At Line '" + LineNo + "' Can be 30")
+                            common.clsCommon.MyMessageBoxShow(Me, "Maximum Length Of Distributor Customer At Line '" + LineNo + "' Can be 30")
                             trans.Rollback()
                             Exit Sub
                         End If
@@ -922,7 +922,7 @@ Public Class FrmCustomerInfo
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

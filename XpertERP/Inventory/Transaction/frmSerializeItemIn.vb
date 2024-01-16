@@ -207,12 +207,12 @@ Public Class FrmSerializeItemIn
 
     Private Function AllowToSave() As Boolean
         If gv1.RowCount <> clsCommon.myCdbl(lblQty.Text) Then
-            clsCommon.MyMessageBoxShow("Entered Quantity" + lblQty.Text + " Entered Serail Numbers" + clsCommon.myCstr(gv1.RowCount))
+            clsCommon.MyMessageBoxShow(Me, "Entered Quantity" + lblQty.Text + " Entered Serail Numbers" + clsCommon.myCstr(gv1.RowCount))
             Return False
         End If
         For ii As Integer = 0 To gv1.RowCount - 1
             If clsCommon.myLen(gv1.Rows(ii).Cells(ColAutoSNo).Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please enter Serial Number at line number" + clsCommon.myCstr(ii + 1))
+                clsCommon.MyMessageBoxShow(Me, "Please enter Serial Number at line number" + clsCommon.myCstr(ii + 1))
                 Return False
             End If
 

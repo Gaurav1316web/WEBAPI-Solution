@@ -242,7 +242,7 @@ Public Class FrmHRPerformanceGroup
                 Next
                 If (ClsHRPerformanceGroup.SaveData(txtCode.Value, Arr)) Then
                     '  trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                     btnSave.Text = "Update"
                     btnDelete.Enabled = True
@@ -252,7 +252,7 @@ Public Class FrmHRPerformanceGroup
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             '    trans.Rollback()
         End Try
     End Sub
@@ -324,7 +324,7 @@ Public Class FrmHRPerformanceGroup
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -335,21 +335,21 @@ Public Class FrmHRPerformanceGroup
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("Group code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Do you want to delete group '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to delete group '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 GrpMap = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_HR_PERFORMANCE_GROUP_MAPPING WHERE Performance_Group_Code='" & txtCode.Value & "'"))
                 If GrpMap > 0 Then
                     Throw New Exception("Group code is used in group mapping")
                 End If
                 Dim qry As String = "delete from TSPL_HR_PERFORMANCE_GROUP where Code='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Group code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Group code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Group code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -384,7 +384,7 @@ Public Class FrmHRPerformanceGroup
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -522,7 +522,7 @@ Public Class FrmHRPerformanceGroup
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

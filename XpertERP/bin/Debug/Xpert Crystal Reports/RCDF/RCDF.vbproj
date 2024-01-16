@@ -328,6 +328,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDispatchProductSale.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDockSummaryReport.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoice%28New%29.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoiceParty.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoicePartyForPreFormat.rpt" />

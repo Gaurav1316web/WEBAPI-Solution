@@ -287,7 +287,7 @@ Public Class frmEXCommercialInvoice
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -649,7 +649,7 @@ Public Class frmEXCommercialInvoice
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -2730,7 +2730,7 @@ Public Class frmEXCommercialInvoice
 
                                     Dim dblDamageQty As Double = 0 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colLeakQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colBurstQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colShortQty).Value)
                                     If (dblEnteredQty + dblDamageQty) > dblPendingQty Then
-                                        common.clsCommon.MyMessageBoxShow("Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblEnteredQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQty) + ". Damage Quantity : " + clsCommon.myCstr(dblDamageQty))
+                                        common.clsCommon.MyMessageBoxShow(Me, "Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblEnteredQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQty) + ". Damage Quantity : " + clsCommon.myCstr(dblDamageQty))
                                         gv1.CurrentCell.Value = 0
                                     End If
                                 End If
@@ -3485,7 +3485,7 @@ Public Class frmEXCommercialInvoice
                 If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then
 
                     If clsCommon.CompairString(cboItemType.SelectedValue, strItemType) <> CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("" + strIName + " item is not of selected type i.e. " + cboItemType.SelectedValue + " at row no. " + clsCommon.myCstr(ii + 1) + "")
+                        clsCommon.MyMessageBoxShow(Me, "" + strIName + " item is not of selected type i.e. " + cboItemType.SelectedValue + " at row no. " + clsCommon.myCstr(ii + 1) + "")
                         gv1.CurrentRow = gv1.Rows(ii)
                         gv1.CurrentColumn = gv1.Columns(colICode)
                         Return False
@@ -3493,7 +3493,7 @@ Public Class frmEXCommercialInvoice
 
                     If clsCommon.myLen(strUOM) <= 0 Then
                         RadPageView1.SelectedPage = RadPageViewPage1
-                        common.clsCommon.MyMessageBoxShow("Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         gv1.CurrentRow = gv1.Rows(ii)
                         gv1.CurrentColumn = gv1.Columns(colUnit)
                         Return False
@@ -3505,7 +3505,7 @@ Public Class frmEXCommercialInvoice
                         End If
                         If dblQty > dblPendingQty Then
                             RadPageView1.SelectedPage = RadPageViewPage1
-                            common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                            common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                             gv1.CurrentRow = gv1.Rows(ii)
                             gv1.CurrentColumn = gv1.Columns(colQty)
                             Return False
@@ -3518,7 +3518,7 @@ Public Class frmEXCommercialInvoice
                         End If
                         If dblQty > dblPendingQty Then
                             RadPageView1.SelectedPage = RadPageViewPage1
-                            common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                            common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Cannot be more than Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                             gv1.CurrentRow = gv1.Rows(ii)
                             gv1.CurrentColumn = gv1.Columns(colQty)
                             Return False
@@ -3536,7 +3536,7 @@ Public Class frmEXCommercialInvoice
                             RadPageView1.SelectedPage = RadPageViewPage1
                             gv1.CurrentRow = gv1.Rows(ii)
                             gv1.CurrentColumn = gv1.Columns(colQty)
-                            clsCommon.MyMessageBoxShow("Fill quantity at row no. " + clsCommon.myCstr(ii + 1) + "")
+                            clsCommon.MyMessageBoxShow(Me, "Fill quantity at row no. " + clsCommon.myCstr(ii + 1) + "")
                             Return False
                         End If
 
@@ -3549,7 +3549,7 @@ Public Class frmEXCommercialInvoice
                                 RadPageView1.SelectedPage = RadPageViewPage1
                                 gv1.CurrentRow = gv1.Rows(jj)
                                 gv1.CurrentColumn = gv1.Columns(colICode)
-                                common.clsCommon.MyMessageBoxShow("Item Code " + strICode + " is repeted at Row No" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1), Me.Text)
+                                common.clsCommon.MyMessageBoxShow(Me, "Item Code " + strICode + " is repeted at Row No" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1), Me.Text)
                                 Return False
                             End If
                         Next
@@ -3576,7 +3576,7 @@ Public Class frmEXCommercialInvoice
                             RadPageView1.SelectedPage = RadPageViewPage3
                             gvAC.CurrentRow = gvAC.Rows(jj)
                             gvAC.CurrentColumn = gvAC.Columns(colACCode)
-                            common.clsCommon.MyMessageBoxShow("Additional Charges: " + clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value) + "Repeated at Row No " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Additional Charges: " + clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value) + "Repeated at Row No " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         End If
                     Next
@@ -3599,7 +3599,7 @@ Public Class frmEXCommercialInvoice
                             RadPageView1.SelectedPage = RadPageViewPage5
                             gv_Notify_Party.CurrentRow = gv_Notify_Party.Rows(jj)
                             gv_Notify_Party.CurrentColumn = gv_Notify_Party.Columns(colNT_Cust_Code)
-                            clsCommon.MyMessageBoxShow("Duplicate notify party at line no. " + clsCommon.myCstr(jj + 1) + "")
+                            clsCommon.MyMessageBoxShow(Me, "Duplicate notify party at line no. " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         End If
                     Next
@@ -3622,7 +3622,7 @@ Public Class frmEXCommercialInvoice
                 txtAdvance_Pers.Focus()
                 txtAdvance_Pers.Select()
                 Errorcontrol.SetError(txtAdvance_Pers, "Fill advance percentage(%)")
-                clsCommon.MyMessageBoxShow("Fill advance percentage(%)")
+                clsCommon.MyMessageBoxShow(Me, "Fill advance percentage(%)", Me.Text)
                 Return False
             Else
                 Errorcontrol.ResetError(txtAdvance_Pers)
@@ -3692,7 +3692,7 @@ Public Class frmEXCommercialInvoice
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5230,13 +5230,13 @@ Public Class frmEXCommercialInvoice
                     SMSSENDONLY(True)
                 End If
 
-                If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                     funPrint(txtDocNo.Value)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5644,7 +5644,7 @@ Public Class frmEXCommercialInvoice
 
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
             RadPageView1.SelectedPage = RadPageViewPage1
-            clsCommon.MyMessageBoxShow("Please select buyer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select buyer first", Me.Text)
             txtVendorNo.Focus()
             txtVendorNo.Select()
             Errorcontrol.SetError(lblVendorName, "Please select buyer first")
@@ -6609,7 +6609,7 @@ Public Class frmEXCommercialInvoice
                 If dblMRP > 0 Then
                     strMsg = strMsg + Environment.NewLine + "MRP : " + clsCommon.myCstr(dblMRP)
                 End If
-                common.clsCommon.MyMessageBoxShow(strMsg)
+                common.clsCommon.MyMessageBoxShow(Me, strMsg, Me.Text)
                 Return False
             End If
         Next
@@ -7233,7 +7233,7 @@ Public Class frmEXCommercialInvoice
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -7426,7 +7426,7 @@ Public Class frmEXCommercialInvoice
 
     Private Sub btnReverseAndUnpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseAndUnpost.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsEXCommercialInvoiceHead.ReverseAndUnpost(txtDocNo.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -7602,7 +7602,7 @@ Public Class frmEXCommercialInvoice
             If clsCommon.myLen(strDatabaseName) = 0 Then
                 Throw New Exception("Please set Customer for child company ")
             End If
-            If common.clsCommon.MyMessageBoxShow("Are you sure to deliver Shipment?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Are you sure to deliver Shipment?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim qry = "Update TSPL_EX_COMMERCIAL_INVOICE_HEAD set Is_Delivered=1  where Document_Code='" + txtDocNo.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "Update " + strDatabaseName + ".dbo.TSPL_PURCHASE_ORDER_HEAD set SaleInvoiceNo='" & txtDocNo.Value & "' where PurchaseOrder_No='" & txtPONo.Text & "'"
@@ -7628,7 +7628,7 @@ Public Class frmEXCommercialInvoice
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Invoice No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Invoice No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -7817,7 +7817,7 @@ Public Class frmEXCommercialInvoice
     End Sub
     Private Sub InvoicePrint(Optional ByVal IsPdf As Boolean = False)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found.")
+            clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
         Else
             Dim dt As DataTable = funPrint(txtDocNo.Value)
 
@@ -7911,17 +7911,17 @@ Public Class frmEXCommercialInvoice
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
-            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Exit Function
             End If
             Dim count As Integer = clsDBFuncationality.getSingleValue("select count(*)  from TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Against_Com_Inv_No ='" + txtDocNo.Value + "' ")
             If count > 0 Then
-                clsCommon.MyMessageBoxShow("You can't cancelled because this documnet used in Merchant/Export Invoice")
+                clsCommon.MyMessageBoxShow(Me, "You can't cancelled because this documnet used in Merchant/Export Invoice")
                 Exit Function
             End If
 
             clsEXCommercialInvoiceHead.CancelData(Me.Form_ID, txtDocNo.Value, IIf(clsCommon.CompairString(clsUserMgtCode.frmCommercialInvoiceMT, FORMTYPE) = CompairStringResult.Equal, "MT", "EX"))
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -546,7 +546,7 @@ Public Class frmReverseTransaction
                     Dim docAmount As Double
                     If objCommonVar.IsDemoERP Then
                         If obj.TDS_Amount > 0 Then
-                            If clsCommon.MyMessageBoxShow("Do you want to reverse TDS Amount also ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
+                            If clsCommon.MyMessageBoxShow(Me, "Do you want to reverse TDS Amount also ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
                                 isTDSReverse = False
                                 docAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Payment_Amount as DocAmt from TSPL_PAYMENT_HEADER Where Payment_No='" + fndCheckPaymentNo.Value + "'"))
                             Else
@@ -573,7 +573,7 @@ Public Class frmReverseTransaction
                     If clsDBFuncationality.getSingleValue("select count(*) from TSPL_BANK_REVERSE where 1=1 and Document_No ='" + fndCheckPaymentNo.Value + "' and Reverse_Document ='Payments' ", Nothing) < 1 Then
                         connectSql.RunSp("sp_tspl_bankreverse_insert", New SqlParameter("@Reverse_Code", STR), New SqlParameter("@Reversal_Date", RvslDate), New SqlParameter("@Bank_Code", fndbankcode.Value), New SqlParameter("@Back_Acc_No", txt_BankaccountNo.Text), New SqlParameter("@Source_Type", "AP"), New SqlParameter("@Reverse_Document", txt_PaymentReverseDocument.Text), New SqlParameter("@Reason", txt_reason.Text), New SqlParameter("@Vendor_Code", fndVendorNo.Value), New SqlParameter("@Vendor_Name", txt_VendorNo.Text), New SqlParameter("@Cust_Code", ""), New SqlParameter("@Cust_Name", ""), New SqlParameter("@Document_No", fndCheckPaymentNo.Value), New SqlParameter("@Cheque_No", txt_checkpaymentno.Text), New SqlParameter("@Amount", clsCommon.myCstr(docAmount)), New SqlParameter("@Pay_Rec_Date", PayRevDate), New SqlParameter("@Post", "n"), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode))
                     Else
-                        clsCommon.MyMessageBoxShow("Document already created for Document No " + fndCheckPaymentNo.Value + " or used in Bank Reco. ")
+                        clsCommon.MyMessageBoxShow(Me, "Document already created for Document No " + fndCheckPaymentNo.Value + " or used in Bank Reco. ")
                         fndCheckPaymentNo.Focus()
                         Exit Sub
                     End If
@@ -619,7 +619,7 @@ Public Class frmReverseTransaction
                     myMessages.blankValue("Receipt Amount")
                     txt_receiptAmount.Focus()
                 ElseIf clsCommon.myCDate(dtp_reversaldate.Value) < clsCommon.myCDate(dtp_PayRecDate.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Reversal Date should be greator than or equal to Receipt Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "Reversal Date should be greator than or equal to Receipt Date")
                     dtp_reversaldate.Focus()
                 Else
                     'Dim tpd As String = Format(dtp_transferpostingdate.Value.ToString(), "dd/MM/yyyy")
@@ -635,7 +635,7 @@ Public Class frmReverseTransaction
                     If clsDBFuncationality.getSingleValue("select count(*) from TSPL_BANK_REVERSE where 1=1 and Document_No ='" + fndcheckReceiptNo.Value + "' and Reverse_Document ='Receipts' ", Nothing) < 1 Then
                         connectSql.RunSp("sp_tspl_bankreverse_insert", New SqlParameter("@Reverse_Code", STR), New SqlParameter("@Reversal_Date", RvslDate), New SqlParameter("@Bank_Code", fndbankcode.Value), New SqlParameter("@Back_Acc_No", txt_BankaccountNo.Text), New SqlParameter("@Source_Type", "AR"), New SqlParameter("@Reverse_Document", txt_ReceiptReversedocument.Text), New SqlParameter("@Reason", txt_reason.Text), New SqlParameter("@Vendor_Code", ""), New SqlParameter("@Vendor_Name", ""), New SqlParameter("@Cust_Code", fndcustomerNo.Value), New SqlParameter("@Cust_Name", txt_CustomerNo.Text), New SqlParameter("@Document_No", fndcheckReceiptNo.Value), New SqlParameter("@Cheque_No", txt_checkreceiptno.Text), New SqlParameter("@Amount", txt_receiptAmount.Text), New SqlParameter("@Pay_Rec_Date", PayRevDate), New SqlParameter("@Post", "n"), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode))
                     Else
-                        clsCommon.MyMessageBoxShow("Document already created for Document No " + fndcheckReceiptNo.Value + " or used in Bank Reco. ")
+                        clsCommon.MyMessageBoxShow(Me, "Document already created for Document No " + fndcheckReceiptNo.Value + " or used in Bank Reco. ")
                         fndcheckReceiptNo.Focus()
                         Exit Sub
                     End If
@@ -713,7 +713,7 @@ Public Class frmReverseTransaction
                     myMessages.blankValue("Payment Amount")
                     txt_paymentAmount.Focus()
                 ElseIf clsCommon.GetDateWithStartTime(clsCommon.myCDate(obj.Payment_Date)) > clsCommon.GetDateWithEndTime(dtp_reversaldate.Value.ToString()) Then
-                    common.clsCommon.MyMessageBoxShow("Reversal Date should be greator than Payment Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "Reversal Date should be greator than Payment Date")
                     dtp_reversaldate.Focus()
                 Else
                     Dim docAmount As Double
@@ -738,7 +738,7 @@ Public Class frmReverseTransaction
                     ''richa 23 june,2017
 
                     If obj.TAX1_Amt > 0 Then
-                        If clsCommon.MyMessageBoxShow("Do you want to reverse Tax Amount also ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
+                        If clsCommon.MyMessageBoxShow(Me, "Do you want to reverse Tax Amount also ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
                             isTaxReverse = False
                         Else
                             isTaxReverse = True
@@ -757,7 +757,7 @@ Public Class frmReverseTransaction
                     If clsDBFuncationality.getSingleValue("select count(*) from TSPL_BANK_REVERSE where 1=1 and Document_No ='" + fndCheckPaymentNo.Value + "' and Reverse_Document ='Payments' and Reverse_Code<>'" & clsCommon.myCstr(fndreversecode.Value) & "' ", Nothing) < 1 Then
                         connectSql.RunSp("sp_tspl_bankreverse_update", New SqlParameter("@Reverse_Code", fndreversecode.Value), New SqlParameter("@Reversal_Date", RvslDate), New SqlParameter("@Bank_Code", fndbankcode.Value), New SqlParameter("@Back_Acc_No", txt_BankaccountNo.Text), New SqlParameter("@Source_Type", "AP"), New SqlParameter("@Reverse_Document", txt_PaymentReverseDocument.Text), New SqlParameter("@Reason", txt_reason.Text), New SqlParameter("@Vendor_Code", fndVendorNo.Value), New SqlParameter("@Vendor_Name", txt_VendorNo.Text), New SqlParameter("@Cust_Code", ""), New SqlParameter("@Cust_Name", ""), New SqlParameter("@Document_No", fndCheckPaymentNo.Value), New SqlParameter("@Cheque_No", txt_checkpaymentno.Text), New SqlParameter("@Amount", clsCommon.myCstr(docAmount)), New SqlParameter("@Pay_Rec_Date", PayRevDate), New SqlParameter("@Post", "n"), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode))
                     Else
-                        clsCommon.MyMessageBoxShow("Document already created for Document No " + fndCheckPaymentNo.Value + " or used in Bank Reco. ")
+                        clsCommon.MyMessageBoxShow(Me, "Document already created for Document No " + fndCheckPaymentNo.Value + " or used in Bank Reco. ")
                         fndCheckPaymentNo.Focus()
                         Exit Sub
                     End If
@@ -805,7 +805,7 @@ Public Class frmReverseTransaction
                     If clsDBFuncationality.getSingleValue("select count(*) from TSPL_BANK_REVERSE where 1=1 and Document_No ='" + fndcheckReceiptNo.Value + "' and Reverse_Document ='Receipts' and Reverse_Code<>'" & clsCommon.myCstr(fndreversecode.Value) & "' ", Nothing) < 1 Then
                         connectSql.RunSp("sp_tspl_bankreverse_update", New SqlParameter("@Reverse_Code", fndreversecode.Value), New SqlParameter("@Reversal_Date", RvslDate), New SqlParameter("@Bank_Code", fndbankcode.Value), New SqlParameter("@Back_Acc_No", txt_BankaccountNo.Text), New SqlParameter("@Source_Type", "AR"), New SqlParameter("@Reverse_Document", txt_ReceiptReversedocument.Text), New SqlParameter("@Reason", txt_reason.Text), New SqlParameter("@Vendor_Code", ""), New SqlParameter("@Vendor_Name", ""), New SqlParameter("@Cust_Code", fndcustomerNo.Value), New SqlParameter("@Cust_Name", txt_CustomerNo.Text), New SqlParameter("@Document_No", fndcheckReceiptNo.Value), New SqlParameter("@Cheque_No", txt_checkreceiptno.Text), New SqlParameter("@Amount", txt_receiptAmount.Text), New SqlParameter("@Pay_Rec_Date", PayRevDate), New SqlParameter("@Post", "n"), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode))
                     Else
-                        clsCommon.MyMessageBoxShow("Document already created for Document No " + fndcheckReceiptNo.Value + " or used in Bank Reco. ")
+                        clsCommon.MyMessageBoxShow(Me, "Document already created for Document No " + fndcheckReceiptNo.Value + " or used in Bank Reco. ")
                         fndcheckReceiptNo.Focus()
                         Exit Sub
                     End If
@@ -2085,12 +2085,12 @@ Public Class frmReverseTransaction
   
     Private Sub btnReverseTransaction_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseTransaction.Click
         If Not UsLock1.Status = ERPTransactionStatus.Approved Then
-            If common.clsCommon.MyMessageBoxShow("Transaction status should be Approved to reverse and unpost", Me.Text) Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Transaction status should be Approved to reverse and unpost", Me.Text) Then
                 Exit Sub
             End If
         End If
         If clsCommon.myLen(fndreversecode.Value) > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Do you want to Reverse the current Transaction." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse the current Transaction." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Exit Sub
             End If
         Else

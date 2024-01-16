@@ -47,7 +47,7 @@ Public Class FrmBankUpdateUploader
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -57,7 +57,7 @@ Public Class FrmBankUpdateUploader
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -78,7 +78,7 @@ Public Class FrmBankUpdateUploader
             Dim qry As String = "select * from TEMP_PR_CHANGE_PARY_DATE_AMOUNT where Status is null"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If clsCommon.MyMessageBoxShow("Pending Document " + clsCommon.myCstr(dt.Rows.Count) + "Found" + Environment.NewLine + "Continue...", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Pending Document " + clsCommon.myCstr(dt.Rows.Count) + "Found" + Environment.NewLine + "Continue...", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     DocumentExists()
                     DocumentNotExists()
                     qry = "select * from TEMP_PR_CHANGE_PARY_DATE_AMOUNT where Status is null"
@@ -91,7 +91,7 @@ Public Class FrmBankUpdateUploader
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtRPBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRPBank._MYValidating
@@ -570,7 +570,7 @@ Public Class FrmBankUpdateUploader
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     BankExcelsavedata()
                 Catch ex As Exception
                     trans.Rollback()
@@ -581,8 +581,8 @@ Public Class FrmBankUpdateUploader
                 End Try
             End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
-            End Try
+            clsCommon.MyMessageBoxShow(Me, "Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub BankExcelsavedata()
@@ -614,7 +614,7 @@ Public Class FrmBankUpdateUploader
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Do you want to change Bank Code of " + clsCommon.myCstr(dt.Rows.Count) + " Transaction(s)", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Do you want to change Bank Code of " + clsCommon.myCstr(dt.Rows.Count) + " Transaction(s)", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocNo"))
@@ -679,7 +679,7 @@ Public Class FrmBankUpdateUploader
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
                         common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
@@ -736,7 +736,7 @@ Public Class FrmBankUpdateUploader
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Payment Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Payments.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Delete Payment Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Payments.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     Dim oldValueSkipLockLocation As String = clsFixedParameter.GetData(clsFixedParameterType.SkipLockLocation, clsFixedParameterCode.SkipLockLocation, Nothing)
                     Dim obj As clsPaymentHeader
@@ -766,7 +766,7 @@ Public Class FrmBankUpdateUploader
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
                         common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
@@ -803,7 +803,7 @@ Public Class FrmBankUpdateUploader
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -846,7 +846,7 @@ Public Class FrmBankUpdateUploader
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -881,7 +881,7 @@ Public Class FrmBankUpdateUploader
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Receipt Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Receipts", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Delete Receipt Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Receipts", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     Dim oldValueSkipLockLocation As String = clsFixedParameter.GetData(clsFixedParameterType.SkipLockLocation, clsFixedParameterCode.SkipLockLocation, Nothing)
                     For ii As Integer = 0 To dt.Rows.Count - 1

@@ -614,7 +614,7 @@ Public Class FrmCSACommissionItemWise
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -624,7 +624,7 @@ Public Class FrmCSACommissionItemWise
 
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
         If clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode) Then
-            common.clsCommon.MyMessageBoxShow("Delete layout successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Delete layout successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -1230,7 +1230,7 @@ Public Class FrmCSACommissionItemWise
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
 
             Catch ex As Exception
                 trans.Rollback()

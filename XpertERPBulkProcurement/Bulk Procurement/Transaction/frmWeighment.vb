@@ -475,7 +475,7 @@ Public Class FrmWeighment
             '    End If
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
             Return False
         End Try
         Return True
@@ -518,7 +518,7 @@ Public Class FrmWeighment
                     End If
                 End If
                 If clsCommon.myLen(obj.Weighment_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error In Weighment No Genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error In Weighment No Genertion")
                     'Exit Function
                 End If
             Else
@@ -675,7 +675,7 @@ Public Class FrmWeighment
             Return True
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
         Return True
     End Function
@@ -690,15 +690,15 @@ Public Class FrmWeighment
                             reset()
                             myMessages.delete()
                         Else
-                            clsCommon.MyMessageBoxShow("Could not deleted")
+                            clsCommon.MyMessageBoxShow(Me, "Could not deleted")
                         End If
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please select a weighment no to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please select a weighment no to delete")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
     End Sub
@@ -717,7 +717,7 @@ Public Class FrmWeighment
                 If allowToSave(True) Then
                     If (TankerFromMaster = 0 OrElse chkMccProc.IsChecked) Then
                         If clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colNetWeight).Value) <= 0 Then
-                            clsCommon.MyMessageBoxShow("Net Qty can not be 0")
+                            clsCommon.MyMessageBoxShow(Me, "Net Qty can not be 0")
                             Exit Sub
                         End If
                     End If
@@ -850,7 +850,7 @@ Public Class FrmWeighment
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -865,7 +865,7 @@ Public Class FrmWeighment
     '    End If
     'End Sub
     Sub printData()
-        clsCommon.MyMessageBoxShow("No Print Format Found")
+        clsCommon.MyMessageBoxShow(Me, "No Print Format Found")
     End Sub
     Sub loadData(ByVal strWeighmentNo As String, ByVal docType As String, ByVal navType As NavigatorType)
         Try
@@ -1218,7 +1218,7 @@ Public Class FrmWeighment
                 blnLoad = False
         Catch ex As Exception
             blnLoad = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -1425,7 +1425,7 @@ Public Class FrmWeighment
                     End If
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnReset.Enabled Then
             btnReset_Click(sender, e)
@@ -1456,9 +1456,9 @@ Public Class FrmWeighment
                     End If
                 Else
                     If chkBulkMilkProc.IsChecked Then
-                        clsCommon.MyMessageBoxShow("Bulk Milk SRN already has been created.First Unpost Bulk Milk SRN.")
+                        clsCommon.MyMessageBoxShow(Me, "Bulk Milk SRN already has been created.First Unpost Bulk Milk SRN.")
                     Else
-                        clsCommon.MyMessageBoxShow("Milk Transfer In already has been created.First Unpost Milk transfer In.")
+                        clsCommon.MyMessageBoxShow(Me, "Milk Transfer In already has been created.First Unpost Milk transfer In.")
                     End If
                 End If
             End If
@@ -1712,7 +1712,7 @@ Public Class FrmWeighment
                 loadData(fndDocNO.Value, IIf(chkBulkMilkProc.IsChecked, "bulkproc", "mccproc"), NavigatorType.Current)
             Else
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Not Saved ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Not Saved ")
                 End If
             End If
         End If
@@ -1724,7 +1724,7 @@ Public Class FrmWeighment
         '    'No QC Check required, QC is made before Weighment entry in Intermittent tanker
         'Else
         If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_quality_check where isposted=1 and weighment_no='" & fndDocNO.Value & "' ")) > 0 Then
-            clsCommon.MyMessageBoxShow("This document is in use, you can not delete it.")
+            clsCommon.MyMessageBoxShow(Me, "This document is in use, you can not delete it.")
             Exit Sub
         End If
         If myMessages.deleteConfirm() Then
@@ -1752,7 +1752,7 @@ Public Class FrmWeighment
                 strDocType = "MccProc"
             Else
                 fndDocNO.Value = ""
-                clsCommon.MyMessageBoxShow("Please Select a Weighment Type i.e Bulk Procurement or Mcc Procurement")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a Weighment Type i.e Bulk Procurement or Mcc Procurement")
                 Exit Sub
             End If
 
@@ -1830,8 +1830,8 @@ Public Class FrmWeighment
             'If FinalChamberwise = 1 AndAlso isCreateBulkProcPriceChartItemWise = 1 Then 
             If e.Column Is gvItemBulk.Columns(colSubLoc) Then
                     If clsCommon.myLen(lblLocationCodeBulk.Text) <= 0 Then
-                        clsCommon.MyMessageBoxShow(" Please select a tanker first ")
-                        Exit Sub
+                    clsCommon.MyMessageBoxShow(Me, " Please select a tanker first ")
+                    Exit Sub
                     End If
                     Dim whrCls As String = String.Empty
                     If Not clsMccMaster.isCurrentUserHO() Then
@@ -1907,7 +1907,7 @@ Public Class FrmWeighment
             obj.GridColumns = gvItemBulk.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1917,21 +1917,21 @@ Public Class FrmWeighment
 
     Private Sub btnReverse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsWeighment.ReverseAndUnpost(fndDocNO.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     loadData(fndDocNO.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub fndTankerNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndTankerNo._MYValidating
         Try
             If chkBulkMilkProc.IsChecked = False AndAlso chkMccProc.IsChecked = False Then
-                clsCommon.MyMessageBoxShow("Please select Weighment Type.")
+                clsCommon.MyMessageBoxShow(Me, "Please select Weighment Type.")
                 Exit Sub
             End If
             Dim whrCls As String = String.Empty
@@ -1990,7 +1990,7 @@ Public Class FrmWeighment
                 reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -2297,7 +2297,7 @@ Public Class FrmWeighment
 
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -2465,7 +2465,7 @@ Public Class FrmWeighment
             isCellValueChangedOpen = False
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -2484,14 +2484,14 @@ Public Class FrmWeighment
             'Else
             qry = clsDBFuncationality.ExecuteNonQuery("update TSPL_WEIGHMENT_CHEMBER_DETAILS set Gross_Weight=" & txtNewGross.Value & ",Tare_Weight=" & txtNewTare.Value & ",Net_Weight=" & txtNewNetWt.Value & " where Weighment_No='" & fndDocNO.Value & "' and Line_No=" & txtLineNo.Value & "")
             'End If
-            clsCommon.MyMessageBoxShow("Updated Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Updated Successfully", Me.Text)
             Panel2.Visible = False
             txtLineNo.Value = 0
             txtNewGross.Value = 0
             txtNewTare.Value = 0
             txtNewNetWt.Value = 0
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

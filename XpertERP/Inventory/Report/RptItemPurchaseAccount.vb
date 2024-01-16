@@ -169,7 +169,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "Select count(*) from tspl_purchase_accounts where purchase_class_code ='" + AccountCode + "'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Incorect Purchase Account Set (" & AccountCode & ") ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Incorect Purchase Account Set (" & AccountCode & ") ", Me.Text)
                         Return False
                     End If
                 End If
@@ -177,7 +177,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + Adj + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & Adj & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & Adj & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -185,7 +185,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + Breakage + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & Breakage & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & Breakage & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -193,7 +193,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + ChillingCharges + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & ChillingCharges & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & ChillingCharges & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -201,7 +201,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + CreditDebitNote + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & CreditDebitNote & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & CreditDebitNote & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -209,7 +209,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + HandlingCharges + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & HandlingCharges & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & HandlingCharges & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -225,7 +225,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + FAAccount + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & FAAccount & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & FAAccount & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -233,7 +233,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + FGShortage + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & FGShortage & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & FGShortage & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -241,7 +241,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "Select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + GainLossAccount + "'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & GainLossAccount & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & GainLossAccount & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -250,7 +250,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + InvControlEmpties + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & InvControlEmpties & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & InvControlEmpties & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -274,7 +274,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + JobWorkAC + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & JobWorkAC & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & JobWorkAC & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -282,7 +282,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + LossAccount + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & LossAccount & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & LossAccount & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -290,7 +290,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + Wreckage + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & Wreckage & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & Wreckage & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -298,7 +298,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + WIPAccount + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & WIPAccount & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & WIPAccount & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -306,7 +306,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + Rejected + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & Rejected & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & Rejected & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -314,7 +314,7 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + Shortage + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & Shortage & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & Shortage & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
@@ -322,14 +322,14 @@ Public Class RptItemPurchaseAccount
                     Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + RM + "' AND ControlAccount ='Y'"
                     Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                     If check1 <= 0 Then
-                        clsCommon.MyMessageBoxShow("Filled (" & RM & ") must be control account.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Filled (" & RM & ") must be control account.", Me.Text)
                         Return False
                     End If
                 End If
 
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -389,11 +389,11 @@ Public Class RptItemPurchaseAccount
                     End If
                 Next
                 If (obj.PurchaseMasterArr Is Nothing OrElse obj.PurchaseMasterArr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
                 If (obj.PurchaseUpdate(obj)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Update Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Update Successfully", Me.Text)
                     FunReset()
                 End If
             End If
@@ -565,7 +565,7 @@ Public Class RptItemPurchaseAccount
                 gv.Columns.Clear()
 
                 If dt IsNot Nothing AndAlso dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 ElseIf IsPrint = Exporter.Print Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemPurchase", "Item Purchase Account Set Report", clsCommon.GETSERVERDATE())
@@ -679,7 +679,7 @@ Public Class RptItemPurchaseAccount
             ReStoreGridLayout()
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
@@ -791,12 +791,12 @@ Public Class RptItemPurchaseAccount
 
                 RadPageView1.SelectedPage = RadPageViewPage2
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Data Transfered Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data Transfered Successfully.", Me.Text)
 
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -2099,7 +2099,7 @@ Public Class RptItemPurchaseAccount
                 clsCommon.MyExportToPDF("Item List", gv, arrHeader, "Item Purchase Account Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Else
-            clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
             Exit Sub
         End If
     End Sub
@@ -2119,7 +2119,7 @@ Public Class RptItemPurchaseAccount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -2133,7 +2133,7 @@ Public Class RptItemPurchaseAccount
         Dim TempFormId As String = PageSetupReport_ID
         TempFormId = Form_ID
         clsGridLayout.DeleteData(TempFormId, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     ' Ticket No : TEC/02/05/19-000470 by prabhakar
     Private Sub chkOnlyview_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlyview.CheckedChanged

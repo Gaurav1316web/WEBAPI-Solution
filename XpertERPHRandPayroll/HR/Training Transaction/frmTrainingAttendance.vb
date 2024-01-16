@@ -36,7 +36,7 @@ Public Class frmTrainingAttendance
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmMilkPurchaseInvoice)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -73,16 +73,16 @@ Public Class frmTrainingAttendance
                     Next
                 Next
                 If objList Is Nothing OrElse objList.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data found to save", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to save", Me.Text)
                 ElseIf clsTrainingAttendance.SaveData(objT, objList, trans) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
             trans.rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -101,7 +101,7 @@ Public Class frmTrainingAttendance
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -214,12 +214,12 @@ Public Class frmTrainingAttendance
                     End If
                 End If
                 If (clsScheduleForTraining.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -343,7 +343,7 @@ a:              Next
             UcAttachment1.LoadData(obj.Doc_Code)
             isInsideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -528,14 +528,14 @@ a:              Next
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtCode.Value)
                 'If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                 '    PrintDataNew()
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -550,7 +550,7 @@ a:              Next
         obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
         obj.GridColumns = gv1.ColumnCount
         If obj.SaveData() Then
-            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
         End If
 
         ''richa agarwal regarding memory leakage
@@ -591,7 +591,7 @@ a:              Next
             fndTraininer.Value = clsCommon.ShowSelectForm("Trainer", sQuery, "Doc_Code", "", fndTraininer.Value, "Doc_Code", isButtonClicked)
             lblTrainerName.Text = clsDBFuncationality.getSingleValue("select Doc_Name from Tspl_Trainer_Master where Doc_Code='" & fndTraininer.Value & "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -601,7 +601,7 @@ a:              Next
             fndTrainingCourse.Value = clsCommon.ShowSelectForm("Training", sQuery, "Code", "", fndTrainingCourse.Value, "Code", isButtonClicked)
             lblTrainingCourseDesc.Text = clsDBFuncationality.getSingleValue("select Name from Tspl_Training_Master where Code='" & fndTrainingCourse.Value & "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 

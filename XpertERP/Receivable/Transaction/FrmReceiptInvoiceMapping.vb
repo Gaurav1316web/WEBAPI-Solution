@@ -399,7 +399,7 @@ Public Class FrmReceiptInvoiceMapping
         CalculateTotal()
     End Sub
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         Else
             SetBlankOfItemColumns()
@@ -426,7 +426,7 @@ Public Class FrmReceiptInvoiceMapping
             Return False
         End If
         If gv1.Rows.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please enter atleast One Invoice to Map.")
+            clsCommon.MyMessageBoxShow(Me, "Please enter atleast One Invoice to Map.", Me.Text)
             Return False
         End If
         CalculateTotal()
