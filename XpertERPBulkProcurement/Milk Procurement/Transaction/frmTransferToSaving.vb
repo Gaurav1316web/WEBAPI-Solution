@@ -1,8 +1,5 @@
-﻿Imports System.Data.SqlClient
-Imports System.IO
+﻿Imports System.IO
 Imports common
-Imports System
-Imports XpertERPEngine
 Public Class frmTransferToSaving
     Inherits FrmMainTranScreen
 #Region "Variables"
