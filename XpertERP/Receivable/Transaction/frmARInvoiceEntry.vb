@@ -112,7 +112,7 @@ Public Class FrmARInvoiceEntry
         Try
             ERPStartDate = clsCommon.myCDate(objCommonVar.ERPStartDate)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Invalid ERP Start Date")
+            clsCommon.MyMessageBoxShow(Me, "Invalid ERP Start Date", Me.Text)
             Me.Close()
         End Try
 
@@ -1579,7 +1579,7 @@ Public Class FrmARInvoiceEntry
             End If
             strCustomerOpeningAccount = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select left(Customer_Opening_Clearing_AC,len(Customer_Opening_Clearing_AC)-4)  from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account in (select Cust_Account from TSPL_CUSTOMER_MASTER where cust_code='" & TxtCustomer.Value & "')"))
             If clsCommon.myLen(strCustomerOpeningAccount) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please set Customer Opening Clearing Account for customer - " + TxtCustomer.Value)
+                common.clsCommon.MyMessageBoxShow(Me, "Please set Customer Opening Clearing Account for customer - " + TxtCustomer.Value, Me.Text)
                 Return
             End If
             whrcls += " and Account_Seg_Code1='" & strCustomerOpeningAccount & "'"
@@ -3092,7 +3092,7 @@ Public Class FrmARInvoiceEntry
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtDocNo.Value)
             End If
 
@@ -3919,11 +3919,11 @@ Public Class FrmARInvoiceEntry
 
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                common.clsCommon.MyMessageBoxShow("Error at Rowno " + clsCommon.myCstr(Counter) + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                common.clsCommon.MyMessageBoxShow(Me, "Error at Rowno " + clsCommon.myCstr(Counter) + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
             Finally
                 clsCommon.ProgressBarHide()
                 Me.Controls.Remove(gv)
@@ -3961,7 +3961,7 @@ Public Class FrmARInvoiceEntry
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         ''richa TEC/22/01/19-000406
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -4010,7 +4010,7 @@ Public Class FrmARInvoiceEntry
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Sale Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Sale Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtDocNo.Value)
@@ -4043,7 +4043,7 @@ Public Class FrmARInvoiceEntry
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Sale Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Sale Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtDocNo.Value)
@@ -4345,7 +4345,7 @@ Public Class FrmARInvoiceEntry
 
     Private Sub mnuImportDN_Click(sender As Object, e As EventArgs) Handles mnuImportDN.Click
         cboDocType.SelectedValue = "D"
-        If clsCommon.MyMessageBoxShow("You are going to import " & IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "I", "Invoice", IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "D", "Debit Note", "Credit Note")) & Environment.NewLine & "want to continue ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "You are going to import " & IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "I", "Invoice", IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "D", "Debit Note", "Credit Note")) & Environment.NewLine & "want to continue ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         ImporAR_CN_DN("D")
@@ -4353,7 +4353,7 @@ Public Class FrmARInvoiceEntry
 
     Private Sub mnuImportCR_Click(sender As Object, e As EventArgs) Handles mnuImportCR.Click
         cboDocType.SelectedValue = "C"
-        If clsCommon.MyMessageBoxShow("You are going to import " & IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "I", "Invoice", IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "D", "Debit Note", "Credit Note")) & Environment.NewLine & "want to continue ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "You are going to import " & IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "I", "Invoice", IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "D", "Debit Note", "Credit Note")) & Environment.NewLine & "want to continue ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         ImporAR_CN_DN("C")
@@ -4646,11 +4646,11 @@ Public Class FrmARInvoiceEntry
                 Next
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Error at Rowno " + Counter + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                common.clsCommon.MyMessageBoxShow(Me, "Error at Rowno " + Counter + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
             Finally
                 clsCommon.ProgressBarHide()
                 Me.Controls.Remove(gv)
@@ -4684,7 +4684,7 @@ Public Class FrmARInvoiceEntry
 
     Sub ARInvoiceImport()
         cboDocType.SelectedValue = "I"
-        If clsCommon.MyMessageBoxShow("You are going to import " & IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "I", "Invoice", IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "D", "Debit Note", "Credit Note")) & Environment.NewLine & "want to continue ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "You are going to import " & IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "I", "Invoice", IIf(clsCommon.myCstr(cboDocType.SelectedValue) = "D", "Debit Note", "Credit Note")) & Environment.NewLine & "want to continue ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim strQry As String
@@ -4948,11 +4948,11 @@ Public Class FrmARInvoiceEntry
                 Next
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Error at Rowno " + Counter + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                common.clsCommon.MyMessageBoxShow(Me, "Error at Rowno " + Counter + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
             Finally
                 clsCommon.ProgressBarHide()
                 Me.Controls.Remove(gv)
@@ -5303,21 +5303,21 @@ Public Class FrmARInvoiceEntry
                                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                                 End Try
                             Next
-                            common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                         Else
-                            common.clsCommon.MyMessageBoxShow("Data Not Found", Me.Text, MessageBoxButtons.OK)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text, MessageBoxButtons.OK)
 
                         End If
 
                     Else
-                        common.clsCommon.MyMessageBoxShow("Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
                     End If
 
                     clsCommon.ProgressBarHide()
 
                 Catch ex As Exception
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             Else
                 clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
@@ -5328,7 +5328,7 @@ Public Class FrmARInvoiceEntry
             Me.Controls.Remove(gv)
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

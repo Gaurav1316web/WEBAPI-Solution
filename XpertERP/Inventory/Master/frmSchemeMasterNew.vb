@@ -315,7 +315,7 @@ Public Class FrmSchemeMasterNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -390,7 +390,7 @@ Public Class FrmSchemeMasterNew
             End If
             LoadData(fndScheme.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -474,7 +474,7 @@ Public Class FrmSchemeMasterNew
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -484,35 +484,35 @@ Public Class FrmSchemeMasterNew
         Dim linno As Integer = 0
 
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please enter Scheme Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Scheme Description", Me.Text)
             txtDesc.Focus()
             Return False
         ElseIf clsCommon.myLen(txtMainItem.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select main item.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select main item.", Me.Text)
             txtMainItem.Focus()
             Return False
         ElseIf clsCommon.myLen(txtUnitCode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select unit code.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select unit code.", Me.Text)
             txtUnitCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtQty.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please enter Main Item Quantity.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Main Item Quantity.", Me.Text)
             txtQty.Focus()
             Return False
         ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Quantitive") = CompairStringResult.Equal Then
             If gvItem.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single item.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select atleast single item.", Me.Text)
                 gvItem.Focus()
                 Return False
             End If
         ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Cash") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(txtPercentage.Text) <= 0 And clsCommon.myCdbl(txtAmount.Text) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please enter Percentage or Amount.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please enter Percentage or Amount.", Me.Text)
                 txtAmount.Focus()
                 Return False
             End If
         ElseIf dtpScheme.Value.Date < dtpInactive.Value.Date Then
-            common.clsCommon.MyMessageBoxShow(Me, "inactive date can not be before than scheme date.")
+            common.clsCommon.MyMessageBoxShow(Me, "inactive date can not be before than scheme date.", Me.Text)
             dtpInactive.Focus()
             Return False
         End If
@@ -620,7 +620,7 @@ Public Class FrmSchemeMasterNew
                 obj.SaveData(obj, isNewEntry)
                 LoadData(obj.Scheme_Code, NavigatorType.Current)
                 isNewEntry = False
-                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -635,14 +635,14 @@ Public Class FrmSchemeMasterNew
         Try
             If clsCommon.myLen(strSchemeCode) > 0 Then
                 If clsSchemeMaster.fundelete(strSchemeCode) Then
-                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     Reset()
                 End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "No Scheme found to delete.")
+                clsCommon.MyMessageBoxShow(Me, "No Scheme found to delete.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -839,7 +839,7 @@ Public Class FrmSchemeMasterNew
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -855,7 +855,7 @@ Public Class FrmSchemeMasterNew
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -871,7 +871,7 @@ Public Class FrmSchemeMasterNew
             End If
             transportSql.ExporttoExcel(qry, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1012,7 +1012,7 @@ Public Class FrmSchemeMasterNew
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1123,7 +1123,7 @@ Public Class FrmSchemeMasterNew
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1223,7 +1223,7 @@ Public Class FrmSchemeMasterNew
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

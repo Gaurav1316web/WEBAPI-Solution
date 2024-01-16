@@ -22,7 +22,7 @@ Public Class FrmStockReport
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt("STOCK-RPT+")
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -143,21 +143,21 @@ Public Class FrmStockReport
             Locfilter = Locfilter.Replace("'", "")
         End If
         If rbtnCompanySelect.IsChecked AndAlso cbgCompany.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one company or select ALL")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one company or select ALL", Me.Text)
             Return
 
 
         ElseIf chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
             Return
 
 
         ElseIf chkItemSelect.IsChecked = True AndAlso cbgItem.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item or select ALL")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item or select ALL", Me.Text)
             Return
 
         ElseIf chkmrpselect.IsChecked = True AndAlso cbgmrp.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one MRP or select ALL")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one MRP or select ALL", Me.Text)
             Return
 
         End If

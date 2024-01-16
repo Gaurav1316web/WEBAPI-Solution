@@ -766,7 +766,7 @@ Public Class FrmBankReco
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myCBool(gv1.Rows(ii).Cells(colSelect).Value) Then
                     If clsCommon.GetDateWithStartTime(dtStatementDate.Value) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(gv1.Rows(ii).Cells(colReconcileDate).Value)) Then
-                        clsCommon.MyMessageBoxShow("Statement Date Should be Less than or equla to Reco Date.At Row No " + clsCommon.myCstr(ii + 1))
+                        clsCommon.MyMessageBoxShow(Me, "Statement Date Should be Less than or equla to Reco Date.At Row No " + clsCommon.myCstr(ii + 1))
                         Exit Sub
                     End If
                 End If
@@ -1240,7 +1240,7 @@ Public Class FrmBankReco
             End If
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -1636,7 +1636,7 @@ Public Class FrmBankReco
 
 
 
-                If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                     '' REASON FOR Reverse 
                     Dim Reason As String = ""
                     Dim frm As New FrmFreeTxtBox1

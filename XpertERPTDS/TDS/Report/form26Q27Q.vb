@@ -92,11 +92,11 @@ Public Class form26Q27Q
         Try
 
             If fdnbranch.Value = "" And fndfiscal.Value = "" Then
-                common.clsCommon.MyMessageBoxShow("Select the value from Branch Code and Fiscal Year", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Select the value from Branch Code and Fiscal Year", Me.Text)
             ElseIf fdnbranch.Value <> "" And fndfiscal.Value = "" Then
-                common.clsCommon.MyMessageBoxShow("Select the value from Branch Code and Fiscal Year", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Select the value from Branch Code and Fiscal Year", Me.Text)
             ElseIf fdnbranch.Value = "" And fndfiscal.Value <> "" Then
-                common.clsCommon.MyMessageBoxShow("Select the value from Branch Code and Fiscal Year", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Select the value from Branch Code and Fiscal Year", Me.Text)
             Else
 
 
@@ -208,7 +208,7 @@ Public Class form26Q27Q
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

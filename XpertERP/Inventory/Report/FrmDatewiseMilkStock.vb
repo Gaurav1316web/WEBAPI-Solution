@@ -188,7 +188,7 @@ Public Class FrmDatewiseMilkStock
             clsCommon.ProgressBarHide()
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGo.Enabled = True
         End Try
     End Sub
@@ -238,7 +238,7 @@ Public Class FrmDatewiseMilkStock
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(Me, err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -306,7 +306,7 @@ Public Class FrmDatewiseMilkStock
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RadMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemSett1.Click
@@ -321,7 +321,7 @@ Public Class FrmDatewiseMilkStock
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -555,7 +555,7 @@ Public Class FrmDatewiseMilkStock
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

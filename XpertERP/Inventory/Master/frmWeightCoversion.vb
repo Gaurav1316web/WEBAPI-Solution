@@ -174,7 +174,7 @@ Public Class FrmWeightCoversion
                 gv.Rows.AddNew()
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -207,11 +207,11 @@ Public Class FrmWeightCoversion
                 End If
             Next
             If clsWeightConversionInfo.SaveData(arr) Then
-                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.", Me.Text)
             End If
             LoadData()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

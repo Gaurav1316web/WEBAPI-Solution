@@ -76,7 +76,7 @@ Public Class frmSubLocationMaster
         Try
             LoadData(fndSubLocid.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -175,13 +175,13 @@ Public Class frmSubLocationMaster
         'End If
 
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please Select Location Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Location Code", Me.Text)
             txtLocation.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtSubLoc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please Select Sub Location Name")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Sub Location Name", Me.Text)
             txtLocation.Focus()
             Return False
         End If
@@ -218,7 +218,7 @@ Public Class frmSubLocationMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -78,7 +78,7 @@ Public Class frmPriceChartPlanMasterTSDDCFDeduction
             gv1.AllowRowReorder = True
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

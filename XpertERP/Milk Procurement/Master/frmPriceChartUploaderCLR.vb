@@ -590,7 +590,7 @@ Public Class frmPriceChartUploaderCLR
             Next
             If totcharge > 0 Then
                 If Math.Round(clsCommon.myCdbl(CmbStandardRate.Text) - clsCommon.myCdbl(cmbrate.Text), 2) <> totcharge Then
-                    clsCommon.MyMessageBoxShow("Please Fill Charges Correctly.it's Rate Total should be [" & Math.Round(clsCommon.myCdbl(CmbStandardRate.Text) - clsCommon.myCdbl(cmbrate.Text), 2) & "]", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill Charges Correctly.it's Rate Total should be [" & Math.Round(clsCommon.myCdbl(CmbStandardRate.Text) - clsCommon.myCdbl(cmbrate.Text), 2) & "]", Me.Text)
                     gvCharges.Focus()
                     gvCharges.Select()
                     ErrorControl.SetError(gvCharges, "Please Fill Charges Correctly.it's Rate Total should be [" & Math.Round(clsCommon.myCdbl(CmbStandardRate.Text) - clsCommon.myCdbl(cmbrate.Text), 2) & "]")
@@ -599,7 +599,7 @@ Public Class frmPriceChartUploaderCLR
                     ErrorControl.ResetError(gvCharges)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please Fill Charges Correctly.it's Rate Total should be [" & Math.Round(clsCommon.myCdbl(CmbStandardRate.Text) - clsCommon.myCdbl(cmbrate.Text), 2) & "]", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Fill Charges Correctly.it's Rate Total should be [" & Math.Round(clsCommon.myCdbl(CmbStandardRate.Text) - clsCommon.myCdbl(cmbrate.Text), 2) & "]", Me.Text)
                 gvCharges.Focus()
                 gvCharges.Select()
                 ErrorControl.SetError(gvCharges, "Please Fill Charges Correctly.it's Rate Total should be [" & Math.Round(clsCommon.myCdbl(CmbStandardRate.Text) - clsCommon.myCdbl(cmbrate.Text), 2) & "]")

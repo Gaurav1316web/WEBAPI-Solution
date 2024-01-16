@@ -6,7 +6,7 @@ Public Class frmRptTransfer
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt("TRANSFER-RPT")
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -41,7 +41,7 @@ Public Class frmRptTransfer
         If chkTransferSelect.IsChecked Then
             arrList = cbg.CheckedValue
             If arrList.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one transaction to Print")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one transaction to Print", Me.Text)
                 Exit Sub
             End If
         End If
@@ -56,7 +56,7 @@ Public Class frmRptTransfer
             End If
             funTransfer(clsCommon.GetPrintDate(txtFromDate.Value, "yyyy-MM-dd"), clsCommon.GetPrintDate(txtToDate.Value, "yyyy-MM-dd"), strType, arrList)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -138,7 +138,7 @@ Public Class frmRptTransfer
                 LoadData(qry)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

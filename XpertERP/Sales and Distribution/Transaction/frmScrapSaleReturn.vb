@@ -1923,7 +1923,7 @@ Public Class frmScrapSaleReturn
                     PendingQty = clsCommon.myCdbl(result(0)("PendingQty"))
                   
                     If clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) > PendingQty Then
-                        clsCommon.MyMessageBoxShow("Can't enter more than shipped Quantity for Item-" & clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value))
+                        clsCommon.MyMessageBoxShow(Me, "Can't enter more than shipped Quantity for Item-" & clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value))
                         Return False
                     End If
                 End If
@@ -1972,7 +1972,7 @@ Public Class frmScrapSaleReturn
                     qry1 = " SELECT Stuff((SELECT N', ' + TSPL_SCRAPSALE_HEAD.shipment_No FROM TSPL_SCRAPSALE_HEAD left join TSPL_SCRAPSALE_GATE_OUT on TSPL_SCRAPSALE_HEAD.shipment_No=TSPL_SCRAPSALE_GATE_OUT.Shipment_No  where TSPL_SCRAPSALE_HEAD.Vehicle_code='" & txtvehicle_mannual_no.Text & "' and  TSPL_SCRAPSALE_GATE_OUT.Shipment_No is null FOR XML PATH(''),TYPE).value('text()[1]','nvarchar(max)'),1,2,N'') "
                     Dim result As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1))
                     If clsCommon.myLen(result) > 0 Then
-                        common.clsCommon.MyMessageBoxShow("Vehicle No ('" & txtvehicle_mannual_no.Text & "') used in other Shipment No. You can create new Shipment with Vehicle No ('" & txtvehicle_mannual_no.Text & "')  After  Gate Out following Shipment No : '" & result & "'")
+                        common.clsCommon.MyMessageBoxShow(Me, "Vehicle No ('" & txtvehicle_mannual_no.Text & "') used in other Shipment No. You can create new Shipment with Vehicle No ('" & txtvehicle_mannual_no.Text & "')  After  Gate Out following Shipment No : '" & result & "'")
                         Return False
 
                     End If
@@ -1984,25 +1984,25 @@ Public Class frmScrapSaleReturn
                 If CheckInvoiceWithGateEntry(txtShipmentNo.Value, fndGateEntryNo.Value) = False Then
                     Dim strCustomerOfGateEntry As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Customer_Code from  TSPL_Sale_Return_Gate_Entry_Head where Gate_Entry_No =  '" + fndGateEntryNo.Value + "'"))
                     If clsCommon.CompairString(strCustomerOfGateEntry, fndcustNo.Value) <> CompairStringResult.Equal Then
-                        common.clsCommon.MyMessageBoxShow("Document Customer Not match to Customer of [Gate Entry No].", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Document Customer Not match to Customer of [Gate Entry No].", Me.Text)
                         fndGateEntryNo.Focus()
                         Return False
                     End If
                     Dim isGateEntryNoUsed As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select count(*) from TSPL_SCRAPSALE_HEAD_Return where Gate_Entry_No = '" + fndGateEntryNo.Value + "' "))
                     If isGateEntryNoUsed > 0 AndAlso clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                        common.clsCommon.MyMessageBoxShow("[Gate Entry No] already used another Document.", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] already used another Document.", Me.Text)
                         fndGateEntryNo.Focus()
                         Return False
                     End If
                 End If
                 If isGateEntryLocAndSaleRetrunLocSame(fndLocation.Value, fndGateEntryNo.Value) = False Then
-                    common.clsCommon.MyMessageBoxShow("[Gate Entry No] location and Sale Return Location Should be Same.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] location and Sale Return Location Should be Same.", Me.Text)
                     fndGateEntryNo.Focus()
                     Return False
                 End If
 
                 If isCancelGateEntry(fndGateEntryNo.Value) = True Then
-                    common.clsCommon.MyMessageBoxShow("[Gate Entry No] canceled.Select another gate entry no.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "[Gate Entry No] canceled.Select another gate entry no.", Me.Text)
                     fndGateEntryNo.Focus()
                     Return False
                 End If
@@ -2023,7 +2023,7 @@ Public Class frmScrapSaleReturn
                     End If
 
                     If clsCommon.myLen(strUOM) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter UOM of Item - " + strICode + ".At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter UOM of Item - " + strICode + ".At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                         Return False
                     End If
 
@@ -3296,7 +3296,7 @@ Public Class frmScrapSaleReturn
         SetTax()
         If chkTaxable.Checked = False AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
             fndcustNo.Value = ""
-            clsCommon.MyMessageBoxShow("Please Map exempted Tax Group on Location " & fndLocation.Value)
+            clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & fndLocation.Value, Me.Text)
             Exit Sub
         End If
         'SetTaxDetails()
@@ -4038,7 +4038,7 @@ Public Class frmScrapSaleReturn
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -4971,7 +4971,7 @@ Public Class frmScrapSaleReturn
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
 
             Catch ex As Exception
                 trans.Rollback()
@@ -5086,7 +5086,7 @@ Public Class frmScrapSaleReturn
             Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
             Dim strReqCode As String = obj.shipment_No
             If clsCommon.myLen(strReqCode) > 0 AndAlso clsCommon.CompairString(strReqCode, obj.shipment_No) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strICode, obj.Item_Code) = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Shipment No : " + obj.shipment_No + "  Item : " + obj.Item_Desc + Environment.NewLine + "Already exist at row no:" + clsCommon.myCstr(ii + 1))
+                common.clsCommon.MyMessageBoxShow(Me, "Shipment No : " + obj.shipment_No + "  Item : " + obj.Item_Desc + Environment.NewLine + "Already exist at row no:" + clsCommon.myCstr(ii + 1))
                 Return True
             End If
         Next
@@ -5599,7 +5599,7 @@ Public Class frmScrapSaleReturn
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
-            If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
             End If
 

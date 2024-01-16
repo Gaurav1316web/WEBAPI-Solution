@@ -1292,6 +1292,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptMonthWiseSaleAnalysis, "Month Wise Analysis Report", "1.31.01.14", clsUserMgtCode.SubModuleMISReports, "", 37)
         InsertDefaultValue(clsUserMgtCode.MISMassBalanceReport, "Mass Balance Report", "1.31.01.15", clsUserMgtCode.SubModuleMISReports, "", 37)
         InsertDefaultValue(clsUserMgtCode.rptTCSLedger, "TCS Ledger", "1.31.01.16", clsUserMgtCode.SubModuleMISReports, "", 37)
+        InsertDefaultValue(clsUserMgtCode.RMStockConsumption, "Stock Consumption Report", "1.31.01.17", clsUserMgtCode.SubModuleMISReports, "", 37)
+        InsertDefaultValue(clsUserMgtCode.MSIProductionSaleReport, "MIS ProductionSale Report", "1.31.01.18", clsUserMgtCode.SubModuleMISReports, "", 37)
         ' InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.31.01.17", clsUserMgtCode.SubModuleMISReports, "", 37)
         '----------------------------MIS REPORTS----------------------------------------ENDS HERE
 

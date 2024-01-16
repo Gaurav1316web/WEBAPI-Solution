@@ -855,7 +855,7 @@ Public Class frmPartyDetails
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -952,7 +952,7 @@ Public Class frmPartyDetails
         qry += " select Vendor_Code from TSPL_PI_REMITTANCE where Vendor_Code = '" + fndvendorNew.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsCommon.MyMessageBoxShow("TDS Entry Exists against this vendor.Can't delete it")
+            clsCommon.MyMessageBoxShow(Me, "TDS Entry Exists against this vendor.Can't delete it", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm() Then

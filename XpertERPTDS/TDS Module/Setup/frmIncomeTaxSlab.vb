@@ -58,36 +58,36 @@ Public Class frmIncomeTaxSlab
                 linno += 1
                 If clsCommon.myCdbl(grow.Cells(colSlab_From).Value) >= 0 Then
                     If clsCommon.myLen(grow.Cells(colSlab_To).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Slab to value can not be left blank at line no. " + clsCommon.myCstr(linno) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Slab to value can not be left blank at line no. " + clsCommon.myCstr(linno) + ".")
                         Return False
                     End If
                     If clsCommon.myCdbl(grow.Cells(colSlab_From).Value) >= clsCommon.myCdbl(grow.Cells(colSlab_To).Value) Then
-                        clsCommon.MyMessageBoxShow("Slab to value must be greater than slab from at line no. " + clsCommon.myCstr(linno) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Slab to value must be greater than slab from at line no. " + clsCommon.myCstr(linno) + ".")
                         Return False
                     End If
                     If clsCommon.myCdbl(grow.Cells(colSlab_From).Value) = clsCommon.myCdbl(grow.Cells(colSlab_To).Value) Then
-                        clsCommon.MyMessageBoxShow("Slab to value must be greater than slab from at line no. " + clsCommon.myCstr(linno) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Slab to value must be greater than slab from at line no. " + clsCommon.myCstr(linno) + ".")
                         Return False
                     End If
                     If clsCommon.myCdbl(grow.Cells(colSlab_To).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Slab to value can not be negative at line no. " + clsCommon.myCstr(linno) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Slab to value can not be negative at line no. " + clsCommon.myCstr(linno) + ".")
                         Return False
                     End If
                     If clsCommon.myLen(grow.Cells(colTaxRate).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Tax rate can not be left blank at line no. " + clsCommon.myCstr(linno) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Tax rate can not be left blank at line no. " + clsCommon.myCstr(linno) + ".")
                         Return False
                     End If
                     If clsCommon.myCdbl(grow.Cells(colTaxRate).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Tax rate can not be negative or incorrect at line no. " + clsCommon.myCstr(linno) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Tax rate can not be negative or incorrect at line no. " + clsCommon.myCstr(linno) + ".")
                         Return False
                     End If
                     If clsCommon.myLen(cmbappliedfor.Text) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Applied for can not be left blank at line no. " + clsCommon.myCstr(linno) + ".")
+                        clsCommon.MyMessageBoxShow(Me, "Applied for can not be left blank at line no. " + clsCommon.myCstr(linno) + ".")
                         Return False
                     End If
                     totalSlab = totalSlab + 1
                 Else
-                    clsCommon.MyMessageBoxShow("Slab from value can not be negative at line no. " + clsCommon.myCstr(linno) + ".")
+                    clsCommon.MyMessageBoxShow(Me, "Slab from value can not be negative at line no. " + clsCommon.myCstr(linno) + ".")
                     Return False
                 End If
             End If

@@ -51,7 +51,7 @@ Public Class frmVSPMapping
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)

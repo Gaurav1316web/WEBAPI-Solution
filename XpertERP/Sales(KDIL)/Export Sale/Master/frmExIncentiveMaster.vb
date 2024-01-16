@@ -393,7 +393,7 @@ Public Class FrmExIncentiveMaster
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             obj1 = Nothing

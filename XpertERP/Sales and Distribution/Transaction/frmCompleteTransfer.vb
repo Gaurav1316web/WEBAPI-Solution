@@ -358,7 +358,7 @@ Public Class FrmCompleteTransfer
             strMessage += "But you can post maximum 100 Invoices.Post Top 100 Invoice" + Environment.NewLine
         End If
 
-        If common.clsCommon.MyMessageBoxShow(strMessage + "Are You Sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, strMessage + "Are You Sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         intCounter = 0
@@ -500,7 +500,7 @@ Public Class FrmCompleteTransfer
                 System.Threading.Thread.Sleep(3000)
                 postdata()
             Else
-                common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 LoadData(False)
             End If
         End Try

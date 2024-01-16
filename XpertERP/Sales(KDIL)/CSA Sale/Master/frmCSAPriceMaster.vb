@@ -1445,7 +1445,7 @@ Public Class FrmCSAPriceMaster
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1475,7 +1475,7 @@ Public Class FrmCSAPriceMaster
 
     Private Sub btndeletelayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndeletelayout.Click
         clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Delete layout successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Delete layout successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rbtnlocall_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnlocall.ToggleStateChanged

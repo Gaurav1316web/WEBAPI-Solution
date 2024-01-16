@@ -293,7 +293,7 @@ Public Class rptMilkPaymentSummary
                 whrRej += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ")"
             End If
 
-            qry = "  select  max(Comp_Name)Comp_Name,max(Regn_No)Regn_No,max(Phone)Phone, (xx.MCC),max([MCC Name])[MCC Name],sum(xx.SrnQty)SrnQty,sum(xx.SrnAmt)SrnAmt,sum(xx.FATKG)FATKG,sum(xx.SNFKG)SNFKG,
+            qry = "  select  max(Comp_Name)Comp_Name,'" + objCommonVar.CurrentUser + "' as User_Name, max(Regn_No)Regn_No,max(Phone)Phone, (xx.MCC),max([MCC Name])[MCC Name],sum(xx.SrnQty)SrnQty,sum(xx.SrnAmt)SrnAmt,sum(xx.FATKG)FATKG,sum(xx.SNFKG)SNFKG,
                             case when sum(SrnQty )=0 then 0 else (sum(FATKG )/sum(SrnQty ))*100 end as [FAT(%)],
                             case when sum(SrnQty )=0 then 0 else (sum(SNFKG )/sum(SrnQty ))*100 end as [SNF(%)],
                             sum(xx.SrnQty2)SrnQty2,sum(xx.SrnAmt2)SrnAmt2,sum(xx.FATKG2)FATKG2,sum(xx.SNFKG2)SNFKG2,

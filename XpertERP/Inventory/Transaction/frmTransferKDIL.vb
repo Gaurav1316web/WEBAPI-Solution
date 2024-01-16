@@ -2732,7 +2732,7 @@ Public Class FrmTransferKDIL
             End If
             If ApplyFEFO = True Then
                 If clsCommon.myLen(txtLoadingAdviceNo.Text) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Enter Loading Advice No ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Enter Loading Advice No ", Me.Text)
                     txtLoadingAdviceNo.Focus()
                     Return False
                 End If
@@ -2911,17 +2911,17 @@ Public Class FrmTransferKDIL
                 If clsCommon.myLen(strICode) > 0 Then
                     '===============Added by preeti gupta Against ticket no[ERO/15/02/19-000490]=========
                     If clsCommon.myCdbl(dblOutQty) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Out Qty can't be zero for [" + strIName + "] Item. At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Out Qty can't be zero for [" + strIName + "] Item. At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
                     '=====================================================================================
                     If clsCommon.myLen(strIHSNCode) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("HSN Code can't be blank for [" + strIName + "] Item. At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "HSN Code can't be blank for [" + strIName + "] Item. At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
 
                     If clsCommon.myCBool(gv1.Rows(ii).Cells(colisMRPMandatory).Value) AndAlso dblMRP <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter MRP for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter MRP for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
                     If IsItemRateeditable = True AndAlso clsCommon.CompairString(cboTransferType.Text, "Transfer Out") = CompairStringResult.Equal Then
@@ -3229,7 +3229,7 @@ Public Class FrmTransferKDIL
     Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (SaveData(False, ChekBtnPost)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
             Return True
         Else
@@ -3530,7 +3530,7 @@ Public Class FrmTransferKDIL
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -4253,7 +4253,7 @@ Public Class FrmTransferKDIL
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtTransporter_Code.Focus()
                     txtTransporter_Code.Select()
-                    clsCommon.MyMessageBoxShow(Me, "Select transporter detail.")
+                    clsCommon.MyMessageBoxShow(Me, "Select transporter detail.", Me.Text)
                     Exit Function
                 End If
 
@@ -4261,7 +4261,7 @@ Public Class FrmTransferKDIL
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtvehicle_mannual_no.Focus()
                     txtvehicle_mannual_no.Select()
-                    clsCommon.MyMessageBoxShow(Me, "Fill vehicle no. for provision booking.")
+                    clsCommon.MyMessageBoxShow(Me, "Fill vehicle no. for provision booking.", Me.Text)
                     Exit Function
                 End If
 
@@ -4269,7 +4269,7 @@ Public Class FrmTransferKDIL
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtVehicle_Capacity.Focus()
                     txtVehicle_Capacity.Select()
-                    clsCommon.MyMessageBoxShow(Me, "Fill vehicle capacity for provision booking.")
+                    clsCommon.MyMessageBoxShow(Me, "Fill vehicle capacity for provision booking.", Me.Text)
                     Exit Function
                 End If
             End If
@@ -4278,7 +4278,7 @@ Public Class FrmTransferKDIL
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtGross_Wt.Focus()
                 txtGross_Wt.Select()
-                clsCommon.MyMessageBoxShow(Me, "Fill Gross weight for provision booking.")
+                clsCommon.MyMessageBoxShow(Me, "Fill Gross weight for provision booking.", Me.Text)
                 Exit Function
             End If
 
@@ -4308,7 +4308,7 @@ Public Class FrmTransferKDIL
                     End If
 
                     If (clsTransferDCC.postTransfer(txtDocNo.Value, ProvisionAllow, txtglvoucher.Text)) Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted")
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
@@ -4342,7 +4342,7 @@ Public Class FrmTransferKDIL
                 End If
                 If (clsTransferDCC.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -4781,7 +4781,7 @@ Public Class FrmTransferKDIL
         If clsCommon.myCBool(EnableInternalTransfer) = True AndAlso (chkInternalTransfer.Checked) = True Then
 
             If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Select From Location")
+                clsCommon.MyMessageBoxShow(Me, "Please Select From Location", Me.Text)
                 Exit Sub
             End If
 
@@ -5638,7 +5638,7 @@ Public Class FrmTransferKDIL
                     If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "No") = CompairStringResult.Equal Then
                         If common.clsCommon.MyMessageBoxShow("Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                             If clsTransferDCCDetail.CompletePO(txtDocNo.Value, strICode, intSNo) Then
-                                common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed")
+                                common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                                 LoadData(txtDocNo.Value, NavigatorType.Current)
                             End If
                         End If
@@ -5662,7 +5662,7 @@ Public Class FrmTransferKDIL
     Public Sub funprint(ByVal i As Integer)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
+                common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
             End If
             Dim arr As New ArrayList()
             arr.Add(txtDocNo.Value)
@@ -5895,7 +5895,7 @@ Public Class FrmTransferKDIL
     Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ''Printing the amendment
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
         Else
             FrmPurchaseOrderReport.PrintAbandoment(txtDocNo.Value)
         End If
@@ -6108,7 +6108,7 @@ Public Class FrmTransferKDIL
 
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
         Else
             i = 1
             funprint(i)
@@ -6160,7 +6160,7 @@ Public Class FrmTransferKDIL
                 strQuery += " case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end +"
                 strQuery += " Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ' ,Phone'+TSPL_COMPANY_MASTER.Phone1 end + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End +"
                 strQuery += " case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end "
-                strQuery += " as Company_Address, TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_TRANSFER_ORDER_DETAIL.Amount,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No "
+                strQuery += " as Company_Address, TSPL_TRANSFER_ORDER_HEAD.DOC_Total_Amt,TSPL_TRANSFER_ORDER_DETAIL.Amount,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No,TSPL_COMPANY_MASTER .Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,tspl_company_master.GSTReg_No  "
                 strQuery += " from TSPL_TRANSFER_ORDER_DETAIL"
                 strQuery += " join TSPL_TRANSFER_ORDER_HEAD  on TSPL_TRANSFER_ORDER_HEAD.Document_No   =TSPL_TRANSFER_ORDER_DETAIL.Document_No"
                 strQuery += "  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_TRANSFER_ORDER_HEAD.From_Location  "
@@ -6241,7 +6241,7 @@ Public Class FrmTransferKDIL
 
     Private Sub btnpreprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print")
+            common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
         Else
             i = 2
             funprint(i)
@@ -6928,7 +6928,7 @@ Public Class FrmTransferKDIL
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -6970,7 +6970,7 @@ Public Class FrmTransferKDIL
 
     Private Sub btnReverseAndUnpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseAndUnpost.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 '' to check balance in case of transfer In 20 Oct,2020
                 If clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                     For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -7172,7 +7172,7 @@ Public Class FrmTransferKDIL
                     For Each obj As clsBatchInventory In arr
                         strBatchunion += " Batch No - " & clsCommon.myCstr(obj.Batch_No) & "         Qty - " & clsCommon.myCstr(obj.Qty) + Environment.NewLine
                     Next
-                    clsCommon.MyMessageBoxShow(strBatchunion, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, strBatchunion, Me.Text)
                 End If
             End If
         End If
@@ -7325,7 +7325,7 @@ Public Class FrmTransferKDIL
             UpdateAllTotals()
         Else
             txtToLoc.Enabled = True
-            clsCommon.MyMessageBoxShow("There is no Item of " & cmbGPItemType.Text & " type in selected Gate Pass No. Please select another Item type")
+            clsCommon.MyMessageBoxShow(Me, "There is no Item of " & cmbGPItemType.Text & " type in selected Gate Pass No. Please select another Item type")
         End If
         isInsideLoadData = False
     End Sub

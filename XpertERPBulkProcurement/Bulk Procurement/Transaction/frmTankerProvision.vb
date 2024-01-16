@@ -362,7 +362,7 @@ Public Class frmTankerProvision
                 ' **************************************************************************************************
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -390,7 +390,7 @@ Public Class frmTankerProvision
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -469,7 +469,7 @@ Public Class frmTankerProvision
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -519,7 +519,7 @@ Public Class frmTankerProvision
 
 
 
-            If common.clsCommon.MyMessageBoxShow(strmessage, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, strmessage, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
 
                 If clsCommon.myLen(lblVehicleDesc.Text) <= 0 Then
                     lblVehicleDesc.Focus()
@@ -591,17 +591,17 @@ Public Class frmTankerProvision
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Document", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(obj, isNewEntry, "DS")) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.GPCode, NavigatorType.Current)
                     arrShipmentFromMultiple = Nothing
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -697,7 +697,7 @@ Public Class frmTankerProvision
                 If clsCommon.myLen(FndTransferNo.Value) > 0 Then
                     funFillGrid_Transfer()
                 Else
-                    clsCommon.MyMessageBoxShow("Please select Transfer No")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Transfer No", Me.Text)
                 End If
 
             Else
@@ -766,7 +766,7 @@ Public Class frmTankerProvision
 
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -800,7 +800,7 @@ Public Class frmTankerProvision
 
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Document No not found to Post")
+            common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
             Exit Sub
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmTankerProvision, txtLocCode.Value, txtDate.Value, Nothing)
 
@@ -808,12 +808,12 @@ Public Class frmTankerProvision
 
         Dim isPost As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode = '" + txtCode.Value + "' and Post = 'Y'"))
         If isPost = True Then
-            common.clsCommon.MyMessageBoxShow("Record Already posted.")
+            common.clsCommon.MyMessageBoxShow(Me, "Record Already posted.", Me.Text)
             Exit Sub
         End If
         If myMessages.postConfirm() Then
             If (clsDairyGatePassEntry.PostData(MyBase.Form_ID, txtCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
                 btnSave.Enabled = False
                 btnPost.Enabled = False
@@ -851,7 +851,7 @@ Public Class frmTankerProvision
             frmStock.LoadDispatchData(strQuery)
             frmStock.Show()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -901,14 +901,14 @@ Public Class frmTankerProvision
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to Print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
         Else
             funPrint(txtCode.Value)
         End If
@@ -965,7 +965,7 @@ Public Class frmTankerProvision
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -1000,11 +1000,11 @@ Public Class frmTankerProvision
                 dclTollAmt = txtTollAmount.Text
             End If
             clsDairyGatePassEntry.UpdateClosingKMAndCreateProvision(txtCode.Value, txtClKM.Value, dclDistanceInRoute, dclPriceKM, dclTollAmt, MyBase.Form_ID)
-            clsCommon.MyMessageBoxShow("Closing KM Update successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Closing KM Update successfully", Me.Text)
             LoadData(txtCode.Value, NavigatorType.Current)
         Catch ex As Exception
             If clsCommon.myLen(ex.Message) > 0 Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -1013,7 +1013,7 @@ Public Class frmTankerProvision
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsDairyGatePassEntry.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     btnNew.PerformClick()
                 End If
             End If
@@ -1026,12 +1026,12 @@ Public Class frmTankerProvision
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsDairyGatePassEntry.ReverseAndUnpost(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1047,7 +1047,7 @@ Public Class frmTankerProvision
             End If
             FndTransferNo.Value = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1082,7 +1082,7 @@ Public Class frmTankerProvision
                 txtLocCode.Enabled = True
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please check Against Transfer checkbox first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please check Against Transfer checkbox first", Me.Text)
         End If
 
     End Sub
@@ -1164,7 +1164,7 @@ Public Class frmTankerProvision
                 ' **************************************************************************************************
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK)
         End Try
     End Sub
 

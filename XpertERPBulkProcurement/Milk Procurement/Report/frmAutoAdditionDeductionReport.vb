@@ -103,7 +103,7 @@ Public Class frmAutoAdditionDeductionReport
             ReStoreGridLayout()
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -331,7 +331,7 @@ Public Class frmAutoAdditionDeductionReport
             End If
             TxtMultiDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VLC@VMPIFSC", qry, "VSP_Code", "VLC_Code_VLC_Uploader", TxtMultiDCS.arrValueMember, TxtMultiDCS.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -363,7 +363,7 @@ Public Class frmAutoAdditionDeductionReport
 									 ,max(MILK_RECEIPT_DETAIL.ACC_WEIGHT)as ACC_WEIGHT
                                     ,sum(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount) As [Addition/Deduction Amount]
                                     ,max(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description]
-									,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate
+									,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name
                                      from TSPL_VENDOR_INVOICE_DETAIL
                                     LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
                                     LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
@@ -391,7 +391,7 @@ Public Class frmAutoAdditionDeductionReport
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 End Class

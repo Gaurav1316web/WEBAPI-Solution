@@ -23,7 +23,7 @@ Public Class FrmITSection
     Public Function SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmITSection)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Return False
         End If
@@ -34,7 +34,7 @@ Public Class FrmITSection
     End Function
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code can not be left blank", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Code can not be left blank", Me.Text)
             txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtITAct.Text) <= 0 Then
@@ -43,11 +43,11 @@ Public Class FrmITSection
             Return False
 
         ElseIf clsCommon.myLen(txtMinAmt.Text) > 0 AndAlso (clsCommon.myCdbl(txtMinAmt.Text) < 0 Or Not IsNumeric(txtMinAmt.Text)) < 0 Then
-            clsCommon.MyMessageBoxShow("Minimum Amount can not be negative", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Minimum Amount can not be negative", Me.Text)
             txtMinAmt.Focus()
             Return False
         ElseIf clsCommon.myLen(txtMaxAmt.Text) > 0 AndAlso (clsCommon.myCdbl(txtMaxAmt.Text) < 0 Or Not IsNumeric(txtMaxAmt.Text)) Then
-            clsCommon.MyMessageBoxShow("Maximum Amount can not be negative", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Maximum Amount can not be negative", Me.Text)
             txtMaxAmt.Focus()
             Return False
         End If
@@ -109,7 +109,7 @@ Public Class FrmITSection
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             If (obj.SaveData(obj, isNewEntry, trans)) Then
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.IT_SECTION_CODE, NavigatorType.Current)
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -123,7 +123,7 @@ Public Class FrmITSection
     End Function
     Sub DeleteData()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Code could not found to delete", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Code could not found to delete", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -132,7 +132,7 @@ Public Class FrmITSection
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsitsection.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -164,7 +164,7 @@ Public Class FrmITSection
         Try
             LoadData(txtcode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -256,7 +256,7 @@ Public Class FrmITSection
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

@@ -1755,7 +1755,7 @@ Public Class frmCreateBIReport
             'chkShowLables.Checked = False
             ShoChartsData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1768,7 +1768,7 @@ Public Class frmCreateBIReport
             'chkShowLables.Checked = False
             ShoChartsData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1781,7 +1781,7 @@ Public Class frmCreateBIReport
             'chkShowLables.Checked = False
             ShoChartsData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

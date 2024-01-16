@@ -59,7 +59,7 @@ Public Class FrmItemSerialTrackingReport
             cbgSerialNo.DisplayMember = "Item"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -70,7 +70,7 @@ Public Class FrmItemSerialTrackingReport
             cbgItem.ValueMember = "Item_Code"
             cbgItem.DisplayMember = "Item_Desc"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -375,7 +375,7 @@ Public Class FrmItemSerialTrackingReport
                 gv1.ShowGroupPanel = False
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     'Throw New Exception("No Data Found to Display")
-                    clsCommon.MyMessageBoxShow(Me, "No Data found to display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to display", Me.Text)
                 Else
                     gv1.DataSource = dt
                     SetGridFormationOFGV1()
@@ -505,7 +505,7 @@ Public Class FrmItemSerialTrackingReport
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub SetGridFormationOfGVSummary()
@@ -520,7 +520,7 @@ Public Class FrmItemSerialTrackingReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -626,7 +626,7 @@ Public Class FrmItemSerialTrackingReport
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -683,7 +683,7 @@ Public Class FrmItemSerialTrackingReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton3.Click
@@ -745,7 +745,7 @@ Public Class FrmItemSerialTrackingReport
             Reset()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -785,7 +785,7 @@ Public Class FrmItemSerialTrackingReport
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -795,7 +795,7 @@ Public Class FrmItemSerialTrackingReport
         If gvSerial.Rows.Count > 0 Then
             printSerialDetails(EnumExportTo.Excel)
         Else
-            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
 
     End Sub
@@ -861,7 +861,7 @@ Public Class FrmItemSerialTrackingReport
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -870,7 +870,7 @@ Public Class FrmItemSerialTrackingReport
         If gvSerial.Rows.Count > 0 Then
             printSerialDetails(EnumExportTo.PDF)
         Else
-            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
 
     End Sub
