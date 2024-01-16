@@ -1395,6 +1395,8 @@ Public Class clsFixedParameterCode
     Public Const Shift As String = "Shift"
     Public Const AllowFutureDateBooking As String = "Allow Future Date Booking"
     Public Const ApplyOrderConfirmation As String = "Apply Order Confirmation"
+    Public Const SelectDemandUOMAtRuntime = "Select Demand UOM at Runtime"
+
 
     Public Const comtecxpertappsaras As String = "com.tecxpert.app.saras"
     Public Const comTecxpertSarasPro As String = "com.tecxpert.saras_pro"
@@ -2740,6 +2742,7 @@ Public Class clsFixedParameterCode
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "Pick All BMC"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2924,6 +2927,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.Shift, "0", "0-Both;1-Morning;2-Evening")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.AllowFutureDateBooking, "0", "1-True;0-False")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ApplyOrderConfirmation, "0", "1-True;0-False")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.SelectDemandUOMAtRuntime, "0", "1-True;0-False")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
