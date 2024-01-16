@@ -228,6 +228,12 @@
     <Compile Include="Milk Procurement\Report\rptAutoMultipleAdditionDeduction.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptCattleFeedSaleReport.Designer.vb">
+      <DependentUpon>rptCattleFeedSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptCattleFeedSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptDBTMilkPayment.Designer.vb">
       <DependentUpon>rptDBTMilkPayment.vb</DependentUpon>
     </Compile>
@@ -748,6 +754,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCTankerTesting.resx">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptCattleFeedSaleReport.resx">
+      <DependentUpon>rptCattleFeedSaleReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTMilkPayment.resx">
       <DependentUpon>rptDBTMilkPayment.vb</DependentUpon>

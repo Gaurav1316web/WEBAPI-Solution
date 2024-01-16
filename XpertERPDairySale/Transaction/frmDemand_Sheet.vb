@@ -159,6 +159,9 @@ Public Class frmDemand_Sheet
             txtDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
             txtShift.Text = "Morning"
         End If
+        txtBoothName.Text = ""
+        txtDistributor.Text = ""
+        txtAddress.Text = ""
     End Sub
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
@@ -174,8 +177,8 @@ Public Class frmDemand_Sheet
                         gv1.CurrentRow.Cells(colCustPhone).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
                         gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
                             gv1.CurrentRow.Cells(colSetZero).Value = 1
-
-                            FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
+                        GetBoothDetail()
+                        FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
 
                         'GenerateLineNo()
                         'UpdateCurrentRow(gv1.CurrentRow.Index)
@@ -761,4 +764,20 @@ Public Class frmDemand_Sheet
             count += 1
         Next
     End Sub
+
+    Private Sub gv1_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles gv1.CurrentRowChanged
+        If gv1.CurrentRow IsNot Nothing AndAlso Not e.CurrentRow.Index < 0 Then
+            GetBoothDetail()
+        End If
+    End Sub
+
+    Public Sub GetBoothDetail()
+        If clsCommon.myLen(gv1.CurrentRow.Cells(colCustCode)) > 0 Then
+            txtBoothName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
+            txtDistributor.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code =(select Distributor_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "')"))
+            txtAddress.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Add1+Add2+Add3 from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + "'"))
+        End If
+
+    End Sub
+
 End Class

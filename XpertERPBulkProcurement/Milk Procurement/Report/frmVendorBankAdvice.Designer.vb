@@ -22,7 +22,7 @@ Partial Class frmVendorBankAdvice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -66,6 +66,7 @@ Partial Class frmVendorBankAdvice
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.ChkDetailWise = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -114,7 +115,6 @@ Partial Class frmVendorBankAdvice
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(815, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
@@ -169,6 +169,7 @@ Partial Class frmVendorBankAdvice
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.ChkDetailWise)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.txtbankgroupname)
         Me.RadPageViewPage1.Controls.Add(Me.txtBankGroup)
@@ -589,7 +590,7 @@ Partial Class frmVendorBankAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -655,6 +656,17 @@ Partial Class frmVendorBankAdvice
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'ChkDetailWise
+        '
+        Me.ChkDetailWise.AutoSize = True
+        Me.ChkDetailWise.Location = New System.Drawing.Point(425, 108)
+        Me.ChkDetailWise.Name = "ChkDetailWise"
+        Me.ChkDetailWise.Size = New System.Drawing.Size(77, 17)
+        Me.ChkDetailWise.TabIndex = 447
+        Me.ChkDetailWise.TabStop = True
+        Me.ChkDetailWise.Text = "IFSC Code"
+        Me.ChkDetailWise.UseVisualStyleBackColor = True
         '
         'frmVendorBankAdvice
         '
@@ -759,5 +771,6 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents rbtnSavingCompulsory As common.Controls.MyRadioButton
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents ChkDetailWise As RadioButton
 End Class
 
