@@ -60,7 +60,7 @@ Public Class MSIProductionSaleReport
 
             Dim Inventoryreport As String = "select SUM(CASE WHEN INOUT='I' THEN 1 ELSE -1 END * stock_Qty)/1000 AS QTY from tspl_inventory_movement
                                          INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=tspl_inventory_movement.Item_Code AND FG_for_CF=1
-                                         where Location_Code IN ('" + clsCommon.myCstr(txtLocation.Value) + "') AND convert(date,tspl_inventory_movement.Source_Doc_Date,103)=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) "
+                                         where Location_Code IN ('" + clsCommon.myCstr(txtLocation.Value) + "') AND convert(date,tspl_inventory_movement.Source_Doc_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(FromDate.Value) + "',103) "
 
             Dim dtinventory As DataTable = clsDBFuncationality.GetDataTable(Inventoryreport)
 
