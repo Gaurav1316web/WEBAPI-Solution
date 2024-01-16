@@ -164,6 +164,7 @@ Public Class FrmDeductionMaster
             obj.Is_Default_Advance_Interest = chkAdvanceInterest.Checked
             obj.Is_Default_PRO_Data = chkPROData.Checked
             obj.Is_Default_TIP = chkTIP.Checked
+            obj.Is_Transfer_To_Saving = chkTransferToSaving.Checked
             obj.Show_FAT_SNF = chkShowFATSNF.Checked
             obj.HO_TYPE = chkHO.Checked
             obj.VLC_TYPE = chkVLC.Checked
@@ -229,6 +230,7 @@ Public Class FrmDeductionMaster
                 chkOwnBMCExcess.Checked = obj.Is_Own_BMC_Excess
                 chkAdvanceInterest.Checked = obj.Is_Default_Advance_Interest
                 chkTIP.Checked = obj.Is_Default_TIP
+                chkTransferToSaving.Checked = obj.Is_Transfer_To_Saving
                 chkPROData.Checked = obj.Is_Default_PRO_Data
                 chkMILK.Checked = obj.Is_MILK
                 chkGHEE.Checked = obj.IS_GHEE
