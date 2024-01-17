@@ -39,6 +39,7 @@ Partial Class FrmDeductionMaster
         Me.chkOTHERS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkShowFATSNF = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.chkNegativeSRN = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtOwnBMCMilkRejectType = New common.UserControls.txtFinder()
         Me.lblDedGrpName = New common.Controls.MyLabel()
         Me.chkOwnBMCMilkRejectType = New Telerik.WinControls.UI.RadCheckBox()
@@ -71,7 +72,7 @@ Partial Class FrmDeductionMaster
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.chkNegativeSRN = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkTransferToSaving = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -87,6 +88,7 @@ Partial Class FrmDeductionMaster
         CType(Me.chkOTHERS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShowFATSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.chkNegativeSRN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDedGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOwnBMCMilkRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOwnBMCExcess, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -115,7 +117,7 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkNegativeSRN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTransferToSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -287,6 +289,7 @@ Partial Class FrmDeductionMaster
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkTransferToSaving)
         Me.GroupBox1.Controls.Add(Me.chkNegativeSRN)
         Me.GroupBox1.Controls.Add(Me.txtOwnBMCMilkRejectType)
         Me.GroupBox1.Controls.Add(Me.chkOwnBMCMilkRejectType)
@@ -311,6 +314,14 @@ Partial Class FrmDeductionMaster
         Me.GroupBox1.TabIndex = 84
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Default Deduction Type"
+        '
+        'chkNegativeSRN
+        '
+        Me.chkNegativeSRN.Location = New System.Drawing.Point(6, 71)
+        Me.chkNegativeSRN.Name = "chkNegativeSRN"
+        Me.chkNegativeSRN.Size = New System.Drawing.Size(89, 18)
+        Me.chkNegativeSRN.TabIndex = 92
+        Me.chkNegativeSRN.Text = "Negative SRN"
         '
         'txtOwnBMCMilkRejectType
         '
@@ -361,7 +372,7 @@ Partial Class FrmDeductionMaster
         '
         'chkOwnBMCExcess
         '
-        Me.chkOwnBMCExcess.Location = New System.Drawing.Point(132, 52)
+        Me.chkOwnBMCExcess.Location = New System.Drawing.Point(134, 52)
         Me.chkOwnBMCExcess.Name = "chkOwnBMCExcess"
         Me.chkOwnBMCExcess.Size = New System.Drawing.Size(105, 18)
         Me.chkOwnBMCExcess.TabIndex = 92
@@ -671,13 +682,13 @@ Partial Class FrmDeductionMaster
         Me.btnClose.TabIndex = 73
         Me.btnClose.Text = "Close"
         '
-        'chkNegativeSRN
+        'chkTransferToSaving
         '
-        Me.chkNegativeSRN.Location = New System.Drawing.Point(6, 71)
-        Me.chkNegativeSRN.Name = "chkNegativeSRN"
-        Me.chkNegativeSRN.Size = New System.Drawing.Size(89, 18)
-        Me.chkNegativeSRN.TabIndex = 92
-        Me.chkNegativeSRN.Text = "Negative SRN"
+        Me.chkTransferToSaving.Location = New System.Drawing.Point(134, 73)
+        Me.chkTransferToSaving.Name = "chkTransferToSaving"
+        Me.chkTransferToSaving.Size = New System.Drawing.Size(112, 18)
+        Me.chkTransferToSaving.TabIndex = 95
+        Me.chkTransferToSaving.Text = "Transfer To Saving"
         '
         'FrmDeductionMaster
         '
@@ -709,6 +720,7 @@ Partial Class FrmDeductionMaster
         CType(Me.chkShowFATSNF, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.chkNegativeSRN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDedGrpName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOwnBMCMilkRejectType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOwnBMCExcess, System.ComponentModel.ISupportInitialize).EndInit()
@@ -737,7 +749,7 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkNegativeSRN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTransferToSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -792,5 +804,6 @@ Partial Class FrmDeductionMaster
     Friend WithEvents txtOwnBMCMilkRejectType As common.UserControls.txtFinder
     Friend WithEvents chkOwnBMCMilkRejectType As RadCheckBox
     Friend WithEvents chkNegativeSRN As RadCheckBox
+    Friend WithEvents chkTransferToSaving As RadCheckBox
 End Class
 

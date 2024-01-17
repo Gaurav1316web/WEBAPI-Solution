@@ -22,21 +22,23 @@ Partial Class rptCattleFeedSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.txtItemCode = New common.UserControls.txtMultiSelectFinder()
+        Me.lblBMC = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtSubLocation = New common.UserControls.txtFinder()
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.lblBMC = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.ddCreditCash = New Telerik.WinControls.UI.RadDropDownList()
@@ -54,8 +56,8 @@ Partial Class rptCattleFeedSaleReport
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.txtItemCode = New common.UserControls.txtMultiSelectFinder()
+        Me.chkBalanceWise = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
@@ -64,9 +66,10 @@ Partial Class rptCattleFeedSaleReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddCreditCash, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,14 +84,15 @@ Partial Class rptCattleFeedSaleReport
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkBalanceWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition3
+        Me.gvDB.ViewDefinition = TableViewDefinition1
         '
         'RadPageView1
         '
@@ -113,6 +117,7 @@ Partial Class rptCattleFeedSaleReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.chkBalanceWise)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -142,6 +147,39 @@ Partial Class rptCattleFeedSaleReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(368, 200)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(5, 121)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(58, 18)
+        Me.MyLabel5.TabIndex = 393
+        Me.MyLabel5.Text = "Item Code"
+        '
+        'txtItemCode
+        '
+        Me.txtItemCode.arrDispalyMember = Nothing
+        Me.txtItemCode.arrValueMember = Nothing
+        Me.txtItemCode.Location = New System.Drawing.Point(95, 120)
+        Me.txtItemCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItemCode.MyLinkLable1 = Me.lblBMC
+        Me.txtItemCode.MyLinkLable2 = Nothing
+        Me.txtItemCode.MyNullText = "All"
+        Me.txtItemCode.Name = "txtItemCode"
+        Me.txtItemCode.Size = New System.Drawing.Size(190, 19)
+        Me.txtItemCode.TabIndex = 392
+        '
+        'lblBMC
+        '
+        Me.lblBMC.FieldName = Nothing
+        Me.lblBMC.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBMC.Location = New System.Drawing.Point(5, 69)
+        Me.lblBMC.Name = "lblBMC"
+        Me.lblBMC.Size = New System.Drawing.Size(71, 18)
+        Me.lblBMC.TabIndex = 356
+        Me.lblBMC.Text = "Sub Location"
         '
         'MyLabel2
         '
@@ -215,16 +253,6 @@ Partial Class rptCattleFeedSaleReport
         Me.MyLabel1.TabIndex = 362
         Me.MyLabel1.Text = "Credit/Cash"
         '
-        'lblBMC
-        '
-        Me.lblBMC.FieldName = Nothing
-        Me.lblBMC.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBMC.Location = New System.Drawing.Point(5, 69)
-        Me.lblBMC.Name = "lblBMC"
-        Me.lblBMC.Size = New System.Drawing.Size(71, 18)
-        Me.lblBMC.TabIndex = 356
-        Me.lblBMC.Text = "Sub Location"
-        '
         'lblLocation
         '
         Me.lblLocation.FieldName = Nothing
@@ -254,12 +282,12 @@ Partial Class rptCattleFeedSaleReport
         Me.ddCreditCash.AutoCompleteValueMember = Nothing
         Me.ddCreditCash.DropDownAnimationEnabled = True
         Me.ddCreditCash.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem4.Text = "Credit"
-        RadListDataItem5.Text = "Cash"
-        RadListDataItem6.Text = "Both"
-        Me.ddCreditCash.Items.Add(RadListDataItem4)
-        Me.ddCreditCash.Items.Add(RadListDataItem5)
-        Me.ddCreditCash.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Credit"
+        RadListDataItem2.Text = "Cash"
+        RadListDataItem3.Text = "Both"
+        Me.ddCreditCash.Items.Add(RadListDataItem1)
+        Me.ddCreditCash.Items.Add(RadListDataItem2)
+        Me.ddCreditCash.Items.Add(RadListDataItem3)
         Me.ddCreditCash.Location = New System.Drawing.Point(95, 146)
         Me.ddCreditCash.Name = "ddCreditCash"
         Me.ddCreditCash.Size = New System.Drawing.Size(139, 20)
@@ -365,7 +393,7 @@ Partial Class rptCattleFeedSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(956, 310)
@@ -373,6 +401,7 @@ Partial Class rptCattleFeedSaleReport
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnPrint)
         Me.Panel1.Controls.Add(Me.btnGo)
         Me.Panel1.Controls.Add(Me.btnReset)
         Me.Panel1.Controls.Add(Me.btnClose)
@@ -431,28 +460,21 @@ Partial Class rptCattleFeedSaleReport
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
-        'MyLabel5
+        'chkBalanceWise
         '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(5, 121)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(58, 18)
-        Me.MyLabel5.TabIndex = 393
-        Me.MyLabel5.Text = "Item Code"
+        Me.chkBalanceWise.Location = New System.Drawing.Point(422, 13)
+        Me.chkBalanceWise.Name = "chkBalanceWise"
+        Me.chkBalanceWise.Size = New System.Drawing.Size(86, 18)
+        Me.chkBalanceWise.TabIndex = 12133
+        Me.chkBalanceWise.Text = "Balance Wise"
         '
-        'txtItemCode
+        'btnPrint
         '
-        Me.txtItemCode.arrDispalyMember = Nothing
-        Me.txtItemCode.arrValueMember = Nothing
-        Me.txtItemCode.Location = New System.Drawing.Point(95, 120)
-        Me.txtItemCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtItemCode.MyLinkLable1 = Me.lblBMC
-        Me.txtItemCode.MyLinkLable2 = Nothing
-        Me.txtItemCode.MyNullText = "All"
-        Me.txtItemCode.Name = "txtItemCode"
-        Me.txtItemCode.Size = New System.Drawing.Size(190, 19)
-        Me.txtItemCode.TabIndex = 392
+        Me.btnPrint.Location = New System.Drawing.Point(157, 3)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(68, 18)
+        Me.btnPrint.TabIndex = 3
+        Me.btnPrint.Text = "Print"
         '
         'rptCattleFeedSaleReport
         '
@@ -475,12 +497,14 @@ Partial Class rptCattleFeedSaleReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        Me.RadPanel1.PerformLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddCreditCash, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -495,7 +519,8 @@ Partial Class rptCattleFeedSaleReport
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkBalanceWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -530,6 +555,8 @@ Partial Class rptCattleFeedSaleReport
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents txtItemCode As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents chkBalanceWise As RadCheckBox
+    Friend WithEvents btnPrint As RadButton
 End Class
 
 

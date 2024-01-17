@@ -96,6 +96,18 @@ Public Class rptCattleFeedSaleReport
 
     Private Sub LoadData()
         Try
+            If chkBalanceWise.Checked Then
+                If txtItemCode.arrValueMember IsNot Nothing AndAlso txtItemCode.arrValueMember.Count > 0 Then
+                    If txtItemCode.arrValueMember.Count > 1 Then
+                        clsCommon.MyMessageBoxShow(Me, "You can select only one item at a time when Balance Wise checked", Me.Text)
+                        Exit Sub
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You must select atleast one item when Balance Wise checked", Me.Text)
+                    Exit Sub
+                End If
+                ddCreditCash.SelectedIndex = 2
+            End If
             Dim finalQuery As String = ""
             Dim qry As String = ""
 
@@ -199,5 +211,9 @@ left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_SD
         qry = "select Item_Code as Code , Item_Desc  as [Item Description] , Short_Description AS [Short Description] from TSPL_ITEM_MASTER where Item_Used_as ='S'"
 
         txtItemCode.arrValueMember = clsCommon.ShowMultipleSelectForm("CattleFeedSale", qry, "Code", "Item Description", txtItemCode.arrValueMember, txtItemCode.arrDispalyMember)
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+
     End Sub
 End Class
