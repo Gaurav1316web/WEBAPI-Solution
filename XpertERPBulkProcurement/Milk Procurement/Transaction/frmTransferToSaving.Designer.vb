@@ -587,7 +587,7 @@ Partial Class frmTransferToSaving
         'btnsetting
         '
         Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem11, Me.RadMenuItem12})
-        Me.btnsetting.Location = New System.Drawing.Point(301, 6)
+        Me.btnsetting.Location = New System.Drawing.Point(622, 6)
         Me.btnsetting.Name = "btnsetting"
         Me.btnsetting.Size = New System.Drawing.Size(112, 22)
         Me.btnsetting.TabIndex = 1486
@@ -640,7 +640,7 @@ Partial Class frmTransferToSaving
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(418, 6)
+        Me.btnReverse.Location = New System.Drawing.Point(301, 6)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(177, 22)
         Me.btnReverse.TabIndex = 1
@@ -691,6 +691,7 @@ Partial Class frmTransferToSaving
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1041, 20)
         Me.RadMenu1.TabIndex = 0
+        Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
