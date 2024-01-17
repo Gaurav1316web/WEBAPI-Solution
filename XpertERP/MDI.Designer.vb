@@ -724,7 +724,6 @@ Partial Class MDI
         Me.RadStatusStrip1.SetSpring(Me.RadLabelElement1, False)
         Me.RadLabelElement1.Text = ""
         Me.RadLabelElement1.TextWrap = True
-        Me.RadLabelElement1.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
         '
         'lblDataBase
         '
@@ -734,7 +733,6 @@ Partial Class MDI
         Me.RadStatusStrip1.SetSpring(Me.lblDataBase, False)
         Me.lblDataBase.Text = ""
         Me.lblDataBase.TextWrap = True
-        Me.lblDataBase.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
         '
         'lblCompanyCode
         '
