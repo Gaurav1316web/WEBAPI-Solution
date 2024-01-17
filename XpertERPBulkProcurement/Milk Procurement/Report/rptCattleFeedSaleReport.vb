@@ -106,7 +106,7 @@ Public Class rptCattleFeedSaleReport
                     clsCommon.MyMessageBoxShow(Me, "You must select atleast one item when Balance Wise checked", Me.Text)
                     Exit Sub
                 End If
-                ddCreditCash.SelectedIndex = 3
+                ddCreditCash.SelectedIndex = 2
             End If
             Dim finalQuery As String = ""
             Dim qry As String = ""
