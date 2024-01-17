@@ -3852,7 +3852,7 @@ Public Class FrmMCCMilkRegister
             gv.MasterTemplate.AutoExpandGroups = True
 
             RadPageView1.SelectedPage = RadPageViewPage2
-            'ReStoreGridLayout()
+            ReStoreGridLayout()
             gv.BestFitColumns()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4090,12 +4090,12 @@ Public Class FrmMCCMilkRegister
             '    txtRoute.Focus()
             '    Throw New Exception("Please select at least route")
             'End If
-            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code where 2=2 and TSPL_VLC_MASTER_HEAD.Active='1' "
+            Dim qry As String = "select  TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [VlC Name],TSPL_VLC_MASTER_HEAD.Route_Code [Route Code],TSPL_MCC_ROUTE_MASTER.Route_Name as [Route Name] from TSPL_VLC_MASTER_HEAD left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code where 2=2 and TSPL_VLC_MASTER_HEAD.Active='1' "
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 qry += " and TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
             End If
 
-            txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "VLC_Code", "VLC_Name", txtVLC.arrValueMember, Nothing)
+            txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "VLC Code", "VLC Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

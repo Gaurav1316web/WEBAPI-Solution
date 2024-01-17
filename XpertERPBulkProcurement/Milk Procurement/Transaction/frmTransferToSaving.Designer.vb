@@ -23,22 +23,17 @@ Partial Class frmTransferToSaving
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTransferToSaving))
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.chkOpening = New Telerik.WinControls.UI.RadCheckBox()
-        Me.txtVoucherNo = New common.Controls.MyTextBox()
-        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtFiscalYear = New common.Controls.MyTextBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.txtPaymentCycleNo = New common.Controls.MyTextBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.lblType = New common.Controls.MyLabel()
         Me.txtDesc = New common.Controls.MyTextBox()
-        Me.ddlType = New common.Controls.MyComboBox()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadLabel2 = New Telerik.WinControls.UI.RadLabel()
@@ -88,17 +83,12 @@ Partial Class frmTransferToSaving
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtVoucherNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPaymentCycleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -195,17 +185,12 @@ Partial Class frmTransferToSaving
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.chkOpening)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtVoucherNo)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtFiscalYear)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel6)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtPaymentCycleNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel5)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel1)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDesc)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.ddlType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocNo)
@@ -227,47 +212,6 @@ Partial Class frmTransferToSaving
         Me.SplitContainer2.SplitterDistance = 132
         Me.SplitContainer2.SplitterWidth = 3
         Me.SplitContainer2.TabIndex = 617
-        '
-        'chkOpening
-        '
-        Me.chkOpening.Location = New System.Drawing.Point(729, 10)
-        Me.chkOpening.Name = "chkOpening"
-        Me.chkOpening.Size = New System.Drawing.Size(64, 18)
-        Me.chkOpening.TabIndex = 1519
-        Me.chkOpening.Text = "Opening"
-        '
-        'txtVoucherNo
-        '
-        Me.txtVoucherNo.BackColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(187, Byte), Integer), CType(CType(187, Byte), Integer))
-        Me.txtVoucherNo.CalculationExpression = Nothing
-        Me.txtVoucherNo.FieldCode = Nothing
-        Me.txtVoucherNo.FieldDesc = Nothing
-        Me.txtVoucherNo.FieldMaxLength = 0
-        Me.txtVoucherNo.FieldName = Nothing
-        Me.txtVoucherNo.isCalculatedField = False
-        Me.txtVoucherNo.IsSourceFromTable = False
-        Me.txtVoucherNo.IsSourceFromValueList = False
-        Me.txtVoucherNo.IsUnique = False
-        Me.txtVoucherNo.Location = New System.Drawing.Point(548, 95)
-        Me.txtVoucherNo.MendatroryField = False
-        Me.txtVoucherNo.MyLinkLable1 = Nothing
-        Me.txtVoucherNo.MyLinkLable2 = Nothing
-        Me.txtVoucherNo.Name = "txtVoucherNo"
-        Me.txtVoucherNo.ReferenceFieldDesc = Nothing
-        Me.txtVoucherNo.ReferenceFieldName = Nothing
-        Me.txtVoucherNo.ReferenceTableName = Nothing
-        Me.txtVoucherNo.Size = New System.Drawing.Size(162, 20)
-        Me.txtVoucherNo.TabIndex = 622
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(476, 97)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(66, 16)
-        Me.MyLabel1.TabIndex = 621
-        Me.MyLabel1.Text = "Voucher No"
         '
         'txtFiscalYear
         '
@@ -349,16 +293,6 @@ Partial Class frmTransferToSaving
         Me.RadLabel1.TabIndex = 32
         Me.RadLabel1.Text = "Document No"
         '
-        'lblType
-        '
-        Me.lblType.FieldName = Nothing
-        Me.lblType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblType.Location = New System.Drawing.Point(476, 75)
-        Me.lblType.Name = "lblType"
-        Me.lblType.Size = New System.Drawing.Size(31, 16)
-        Me.lblType.TabIndex = 615
-        Me.lblType.Text = "Type"
-        '
         'txtDesc
         '
         Me.txtDesc.CalculationExpression = Nothing
@@ -381,32 +315,6 @@ Partial Class frmTransferToSaving
         Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(613, 18)
         Me.txtDesc.TabIndex = 2
-        '
-        'ddlType
-        '
-        Me.ddlType.AutoCompleteDisplayMember = Nothing
-        Me.ddlType.AutoCompleteValueMember = Nothing
-        Me.ddlType.CalculationExpression = Nothing
-        Me.ddlType.DropDownAnimationEnabled = True
-        Me.ddlType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlType.FieldCode = Nothing
-        Me.ddlType.FieldDesc = Nothing
-        Me.ddlType.FieldMaxLength = 0
-        Me.ddlType.FieldName = Nothing
-        Me.ddlType.isCalculatedField = False
-        Me.ddlType.IsSourceFromTable = False
-        Me.ddlType.IsSourceFromValueList = False
-        Me.ddlType.IsUnique = False
-        Me.ddlType.Location = New System.Drawing.Point(548, 73)
-        Me.ddlType.MendatroryField = False
-        Me.ddlType.MyLinkLable1 = Me.lblType
-        Me.ddlType.MyLinkLable2 = Nothing
-        Me.ddlType.Name = "ddlType"
-        Me.ddlType.ReferenceFieldDesc = Nothing
-        Me.ddlType.ReferenceFieldName = Nothing
-        Me.ddlType.ReferenceTableName = Nothing
-        Me.ddlType.Size = New System.Drawing.Size(162, 20)
-        Me.ddlType.TabIndex = 616
         '
         'txtDate
         '
@@ -639,7 +547,7 @@ Partial Class frmTransferToSaving
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -679,7 +587,7 @@ Partial Class frmTransferToSaving
         'btnsetting
         '
         Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem11, Me.RadMenuItem12})
-        Me.btnsetting.Location = New System.Drawing.Point(301, 6)
+        Me.btnsetting.Location = New System.Drawing.Point(622, 6)
         Me.btnsetting.Name = "btnsetting"
         Me.btnsetting.Size = New System.Drawing.Size(112, 22)
         Me.btnsetting.TabIndex = 1486
@@ -732,7 +640,7 @@ Partial Class frmTransferToSaving
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(418, 6)
+        Me.btnReverse.Location = New System.Drawing.Point(301, 6)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(177, 22)
         Me.btnReverse.TabIndex = 1
@@ -783,6 +691,7 @@ Partial Class frmTransferToSaving
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1041, 20)
         Me.RadMenu1.TabIndex = 0
+        Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
@@ -866,17 +775,12 @@ Partial Class frmTransferToSaving
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.chkOpening, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtVoucherNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPaymentCycleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -938,7 +842,6 @@ Partial Class frmTransferToSaving
     Friend WithEvents Attachments As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents LblLocDesp As common.Controls.MyLabel
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
     Friend WithEvents Panel1 As Panel
     Friend WithEvents txtMCC As common.Controls.MyTextBox
     Friend WithEvents lblMCC As common.Controls.MyTextBox
@@ -947,8 +850,6 @@ Partial Class frmTransferToSaving
     Friend WithEvents RadPanel3 As RadPanel
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents lblTotalDocAmt As common.Controls.MyLabel
-    Friend WithEvents lblType As common.Controls.MyLabel
-    Friend WithEvents ddlType As common.Controls.MyComboBox
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents btnsetting As RadSplitButton
     Friend WithEvents RadMenuItem11 As RadMenuItem
@@ -957,9 +858,6 @@ Partial Class frmTransferToSaving
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents txtPaymentCycleNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
-    Friend WithEvents txtVoucherNo As common.Controls.MyTextBox
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents chkOpening As RadCheckBox
     Friend WithEvents RadMenuItem4 As RadMenuItem
     Friend WithEvents RadMenuItem5 As RadMenuItem
     Friend WithEvents RadMenuItem6 As RadMenuItem

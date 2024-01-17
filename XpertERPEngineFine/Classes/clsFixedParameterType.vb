@@ -2,6 +2,8 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
+    Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
     Public Const PurchaseSlab As String = "PurchaseSlab"
     Public Const RefreshDBTReco As String = "Refresh DBT Reco"
     Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
@@ -1311,6 +1313,8 @@ Public Class clsFixedParameterType
 
 End Class
 Public Class clsFixedParameterCode
+    Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
+    Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
     Public Const ApplyRange As String = "Apply Range"
     Public Const RangeNotApplicable As String = "RangeNotApplicable"
     Public Const RangePO As String = "Range PO"
@@ -1396,6 +1400,8 @@ Public Class clsFixedParameterCode
     Public Const Shift As String = "Shift"
     Public Const AllowFutureDateBooking As String = "Allow Future Date Booking"
     Public Const ApplyOrderConfirmation As String = "Apply Order Confirmation"
+    Public Const SelectDemandUOMAtRuntime = "Select Demand UOM at Runtime"
+
 
     Public Const comtecxpertappsaras As String = "com.tecxpert.app.saras"
     Public Const comTecxpertSarasPro As String = "com.tecxpert.saras_pro"
@@ -2742,6 +2748,7 @@ Public Class clsFixedParameterCode
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "Pick All BMC"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2829,6 +2836,8 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.ApplyRange, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeNotApplicable, "0.01-10000", "Doument Not Required")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangePO, "10000.01-100000", "PO Mandatory")
@@ -2926,6 +2935,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.Shift, "0", "0-Both;1-Morning;2-Evening")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.AllowFutureDateBooking, "0", "1-True;0-False")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ApplyOrderConfirmation, "0", "1-True;0-False")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.SelectDemandUOMAtRuntime, "0", "1-True;0-False")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
@@ -4486,6 +4496,11 @@ Public Class clsFixedParameterProgramMapping
 
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, EnumControlType.CheckBox)
+
+        InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FATSNFDiffReport, clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, EnumControlType.CheckBox)
+
         InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.RefreshDBTReco, clsFixedParameterCode.RefreshDBTReco, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, EnumControlType.CheckBox)
 

@@ -286,6 +286,7 @@ Public Class clsVedorInvoiceHead
     Public isDeduction As Integer
     Public is_Secondary_Transporter_Deduction As Boolean = False
     Public Against_Asset_Work As String = ""
+    Public Against_TransferToSavingPKID As Integer
     Public Against_VCGL As String = Nothing
     Public Hirerachy_Level_Code As String = String.Empty
     Public Cost_Centre_Fin_Level_Code As String = String.Empty
@@ -597,6 +598,7 @@ Public Class clsVedorInvoiceHead
         clsCommon.AddColumnsForChange(coll, "Is_Security", obj.Security)
         clsCommon.AddColumnsForChange(coll, "Against_Salary_Generation_Code", obj.Against_Salary_Generation_Code, True)
         clsCommon.AddColumnsForChange(coll, "Against_Asset_Work", obj.Against_Asset_Work, True)
+        clsCommon.AddColumnsForChange(coll, "Against_TransferToSavingPKID", obj.Against_TransferToSavingPKID, True)
         UpdateAllTax(obj.Document_No, trans)    '---This Function Updates All TaxGLAccount='' And TaxGLAmt=0
 
         Dim objTM As clsTaxMaster = clsTaxMaster.GetData(obj.TAX1, trans)
@@ -1499,6 +1501,7 @@ Public Class clsVedorInvoiceHead
             obj.Main_VSP_Milk_AP_Invoice_No = clsCommon.myCstr(dt.Rows(0)("Main_VSP_Milk_AP_Invoice_No"))
             '' END CURRENCYCONVERSION
             obj.Against_Asset_Work = clsCommon.myCstr(dt.Rows(0)("Against_Asset_Work"))
+            obj.Against_TransferToSavingPKID = clsCommon.myCDecimal(dt.Rows(0)("Against_TransferToSavingPKID"))
             obj.ArrAssetEMI = clsAPInvoiceAssetEMIDetails.GetData(obj.Document_No, trans)
             obj.ArrAdvanceInterest = clsAPInvoiceAdvanceInterest.GetData(obj.Document_No, trans)
             qry = "Select TSPL_VENDOR_INVOICE_DETAIL.*,TSPL_SAC_MASTER.Code as SAC_Code,TSPL_SAC_MASTER.Description as SAC_Name,TSPL_TDS_DEDUCTION_HEAD.Description as Deduction_Name,TSPL_TDS_DEDUCTION_HEAD.TDS_Section as Deduction_Section,TSPL_ACQUISITION_DETAIL.Asset_Name,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DEDUCTION_MASTER.Description end as DEDUCTION_DESC_New from TSPL_VENDOR_INVOICE_DETAIL left outer join TSPL_TDS_DEDUCTION_HEAD on TSPL_TDS_DEDUCTION_HEAD.Deduction_Code=TSPL_VENDOR_INVOICE_DETAIL.Deduction_Code left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode left join TSPL_ACQUISITION_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Asset_Code=TSPL_ACQUISITION_DETAIL.Asset_Code left outer join TSPL_SAC_MASTER on TSPL_SAC_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.SAC_Code where Document_No='" + strDocumentNo + "' ORDER BY Detail_Line_No"

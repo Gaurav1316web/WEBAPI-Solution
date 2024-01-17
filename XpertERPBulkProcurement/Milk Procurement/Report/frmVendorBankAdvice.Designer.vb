@@ -22,7 +22,7 @@ Partial Class frmVendorBankAdvice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -66,6 +66,7 @@ Partial Class frmVendorBankAdvice
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.ChkIFSCCode = New System.Windows.Forms.CheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -114,7 +115,6 @@ Partial Class frmVendorBankAdvice
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(815, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
@@ -169,6 +169,7 @@ Partial Class frmVendorBankAdvice
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.ChkIFSCCode)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.txtbankgroupname)
         Me.RadPageViewPage1.Controls.Add(Me.txtBankGroup)
@@ -589,7 +590,7 @@ Partial Class frmVendorBankAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -655,6 +656,16 @@ Partial Class frmVendorBankAdvice
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'ChkIFSCCode
+        '
+        Me.ChkIFSCCode.AutoSize = True
+        Me.ChkIFSCCode.Location = New System.Drawing.Point(424, 107)
+        Me.ChkIFSCCode.Name = "ChkIFSCCode"
+        Me.ChkIFSCCode.Size = New System.Drawing.Size(78, 17)
+        Me.ChkIFSCCode.TabIndex = 448
+        Me.ChkIFSCCode.Text = "IFSC Code"
+        Me.ChkIFSCCode.UseVisualStyleBackColor = True
         '
         'frmVendorBankAdvice
         '
@@ -759,5 +770,6 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents rbtnSavingCompulsory As common.Controls.MyRadioButton
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents ChkIFSCCode As CheckBox
 End Class
 
