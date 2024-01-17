@@ -327,6 +327,7 @@ Public Class frmPurchaseOrder
     Dim ShowMessageTDS As Boolean = False
     Dim dblPreviousTDSAmt As Double = 0
     Dim settCreatePOFromMultipleLocation As Boolean = True
+    Dim CommentSetting As Boolean = False
 #End Region
 
     Public Sub New(ByVal formid As String)
@@ -343,6 +344,7 @@ Public Class frmPurchaseOrder
 
         ShowMessageTDS = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowMessgForTDS, clsFixedParameterCode.ShowMessgForTDS, Nothing)) = "1", True, False))
         settCreatePOFromMultipleLocation = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreatePOFromMultipleLocation, clsFixedParameterCode.CreatePOFromMultipleLocation, Nothing)) > 0)
+        CommentSetting = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, Nothing)) > 0)
         SettingIndendFreePOClose = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FreeIndentQtyAfterPOClose, clsFixedParameterCode.FreeIndentQtyAfterPOClose, Nothing)) > 0)
         DoNotAllowSavePOWhenQtyAndRateZero = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotAllowSavePOWhenQtyNRateZero, clsFixedParameterCode.DoNotAllowSavePOWhenQtyNRateZero, Nothing)) > 0)
         ShowLastUnitCostZeroForNonInventoryItemOnPO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowLastUnitCostZeroForNonInventoryItemOnPO, clsFixedParameterCode.ShowLastUnitCostZeroForNonInventoryItemOnPO, Nothing)) = "1", True, False))
@@ -822,7 +824,9 @@ Public Class frmPurchaseOrder
         txtDocNo.MyMaxLength = 30
         txtDesc.MaxLength = 200
         txtRemarks.MaxLength = 200
-        txtComment.MaxLength = 5000 '' as per amit sir ticket no: BM00000005661
+        txtComment.MaxLength = 5000
+        'RTComment.MaxLength = 5000
+        '' as per amit sir ticket no: BM00000005661
         cboModeOfTransport.MaxLength = 12
         cboPOType.MaxLength = 1
         cboItemType.MaxLength = 1
@@ -873,8 +877,18 @@ Public Class frmPurchaseOrder
         lblAmtAfterTax.Text = ""
         MyLabel7.Text = ""
         txtKindAttentation.Text = ""
-        txtSubject.Text = ""
-        txtContentSubject.Text = ""
+        If clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing) = "1" Then
+        Else
+            txtFreight.Text = ""
+            txtComment.Text = ""
+            'RTComment.Text = ""
+            txtSubject.Text = ""
+            txtContentSubject.Text = ""
+            txtPaymentTerm.Text = ""
+            txtInsuranceTerms.Text = ""
+            txtPackingForward.Text = ""
+            txtInsurance.Text = ""
+        End If
         txtDelivery_Code.Value = ""
         txtDeliveryDesc.Text = ""
         Chkroadpermit.Checked = False
@@ -904,7 +918,6 @@ Public Class frmPurchaseOrder
         lblShipToLocation.Text = ""
         txtDesc.Text = ""
         txtRemarks.Text = ""
-        txtComment.Text = ""
         txtTaxGroup.Value = ""
         lblTaxGrpName.Text = ""
         txtTermCode.Value = ""
@@ -979,8 +992,6 @@ Public Class frmPurchaseOrder
         chkBlanket.Enabled = True
         cboPOType.Enabled = True
 
-        txtPaymentTerm.Text = ""
-        txtInsuranceTerms.Text = ""
         ''richa agarwal 08/04/2015
         txtVendorNo.Enabled = True
         cboPOType.Enabled = True
@@ -988,10 +999,7 @@ Public Class frmPurchaseOrder
         txtPINo.Enabled = True
         TxtBeneficiary.Enabled = True
         txtBillToLocation.Enabled = True
-        txtInsurance.Text = ""
-        txtPackingForward.Text = ""
         TxtRetention.Text = ""
-        txtFreight.Text = ""
 
 
         ''------------------
@@ -4148,6 +4156,7 @@ Public Class frmPurchaseOrder
         chk_emergency.Checked = False
         lblConfirmatory_PO_SRN_No.Text = ""
         btnPost.Visible = MyBase.isPostFlag
+
         BlankAllControls()
         txtBillToLocation.Enabled = True
         fndProject.Enabled = True
@@ -5223,6 +5232,7 @@ Public Class frmPurchaseOrder
                 obj.Ship_To_Location = txtShipToLocation.Value
                 obj.Sublocation_Code = txtSubLocation.Value
                 obj.Comments = txtComment.Text
+                'obj.Comments = RTComment.Rtf
                 obj.On_Hold = chkOnHold.Checked
                 obj.Mode_Of_Transport = cboModeOfTransport.Text
                 obj.Description = txtDesc.Text
@@ -6037,6 +6047,7 @@ Public Class frmPurchaseOrder
                 txtTaxGroup.Value = obj.Tax_Group
                 txtRGPNo.Value = obj.Against_RGP_NO
                 txtComment.Text = obj.Comments
+                'RTComment.Rtf = obj.Comments
                 txtShipToLocation.Value = obj.Ship_To_Location
                 txtBillToLocation.Value = obj.Bill_To_Location
                 txtSubLocation.Value = obj.Sublocation_Code
@@ -8002,6 +8013,7 @@ Public Class frmPurchaseOrder
                 Dim strContentSubject As String = txtContentSubject.Text
                 Dim strKindAttention As String = txtKindAttentation.Text
                 Dim strComment As String = txtComment.Text
+                'Dim strComment As String = RTComment.Rtf
                 Dim dblGRNQty As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(grn_qty) from TSPL_GRN_DETAIL left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No where isnull(Against_PO,'')='" & txtDocNo.Value & "' and item_code='" & strICode & "'"))
                 Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
                 If dblQty < dblGRNQty Then

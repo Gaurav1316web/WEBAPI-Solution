@@ -7,6 +7,7 @@ Public Class frmFATSNFDiffReport
 
     Dim dt As DataTable = Nothing
     Dim arr As New Dictionary(Of Integer, DataRow)
+    Dim SettCalculateFATSNFLossByCycleWise As Boolean = False
 
     'Dim ApplyZoneWiseVSP As Boolean = False
     Private Sub SetUserMgmtNew()
@@ -16,10 +17,13 @@ Public Class frmFATSNFDiffReport
         btnExp.Visible = MyBase.isExport
     End Sub
     Private Sub rptMilkBillProcurementSummary_Load(sender As Object, e As EventArgs) Handles Me.Load
+        SettCalculateFATSNFLossByCycleWise = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, Nothing)) = 1)
         Reset()
+        If SettCalculateFATSNFLossByCycleWise Then
+            rbtnMCCWise.IsChecked = True
+            GroupBox1.Visible = False
+        End If
     End Sub
-
-
 
     Sub Reset()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
@@ -61,7 +65,15 @@ Public Class frmFATSNFDiffReport
             If rbtnDetails.IsChecked Then
                 Qry = BaseQry + " order by Document_Date, MCC_NAME "
             ElseIf rbtnMCCWise.IsChecked Then
-                Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,sum(MCCQty) as MCCQty,convert(decimal(18,2),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18,2),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18,2),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18,2),sum(DCSSNFKG)) as DCSSNFKG,CONVERT(decimal(18,2),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18,2), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt from ( " + BaseQry + ")XX group by MCC_Code  order by MCC_NAME"
+                Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,sum(MCCQty) as MCCQty,convert(decimal(18,2),sum(MCCFATKG))  as MCCFATKG, CONVERT(decimal(18,2),sum(MCCSNFKG)) as MCCSNFKG ,sum(DCSQty) as DCSQty, CONVERT(decimal(18,2),sum(DCSFATKG))  as DCSFATKG,CONVERT(decimal(18,2),sum(DCSSNFKG)) as DCSSNFKG,CONVERT(decimal(18,2),sum(DiffFATKG)) as DiffFATKG, CONVERT(decimal(18,2), sum(DiffSNFKG)) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt,max(FindCode) as FindCode from ( " + BaseQry + ")XX group by MCC_Code  "
+                If SettCalculateFATSNFLossByCycleWise Then
+                    Qry = "select xxx.MCC_Code,xxx.MCC_NAME,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
+,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18,2)) as FatAmt 
+,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18,2)) as SNFAmt 
+,cast((((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG) +((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG))as decimal(18,2)) as Amt
+from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=xxx.FindCode"
+                End If
+                Qry += " order by MCC_NAME"
             Else
                 Throw New Exception("Wrong Method")
             End If
@@ -70,21 +82,6 @@ Public Class frmFATSNFDiffReport
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No Data Found to Display")
             End If
-
-            'If isPrint Then
-            '    If rbtnFarmerBankWiseDetail.IsChecked Then
-            '        Dim frmCRV As New frmCrystalReportViewer()
-            '        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankAdvice", "Farmer Bank Wise Details")
-            '        frmCRV = Nothing
-            '    ElseIf rbtnFarmerBankWiseSummary.IsChecked Then
-            '        Dim frmCRV As New frmCrystalReportViewer()
-            '        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankSummary", "Farmer Bank Wise Summary")
-            '        frmCRV = Nothing
-            '    End If
-            'End If
-
-
-
 
             Gv1.DataSource = dt
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -284,13 +281,66 @@ Public Class frmFATSNFDiffReport
         End Try
     End Sub
 
-
-
-
-
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Print(True)
     End Sub
 
+    Private Sub txtFromDate_Validating(sender As Object, e As CancelEventArgs) Handles txtFromDate.Validating
+        SetToDate()
+    End Sub
 
+    Sub SetToDate()
+        If SettCalculateFATSNFLossByCycleWise Then
+            Dim PaymentCycleType As String = ""
+            Dim PaymentCycleValue As Integer = 0
+            Dim strMCC As String = ""
+            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                strMCC = txtMCC.arrValueMember(0)
+            Else
+                strMCC = clsDBFuncationality.getSingleValue("select top 1 MCC_Code from TSPL_MCC_MASTER where In_active=0")
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code ='" + strMCC + "' ")
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
+                Exit Sub
+            End If
+            PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
+            PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
+            Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
+            If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
+                If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                    txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                    txtToDate.Value = txtFromDate.Value
+                    Exit Sub
+                End If
+                txtToDate.Value = txtFromDate.Value.AddDays(PaymentCycleValue - 1)
+
+                If txtFromDate.Value.Month <> txtToDate.Value.Month Then
+                    txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                End If
+                Dim dtNxtPay As DateTime = txtToDate.Value.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
+                If txtFromDate.Value.Month <> dtNxtPay.Month Then
+                    txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                End If
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
+                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    Exit Sub
+                End If
+                txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
+                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    Exit Sub
+                End If
+                txtToDate.Value = DateAdd(DateInterval.Year, PaymentCycleValue, txtFromDate.Value)
+            End If
+            ' End If
+        End If
+    End Sub
 End Class
