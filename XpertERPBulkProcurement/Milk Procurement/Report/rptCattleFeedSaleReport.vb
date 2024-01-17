@@ -96,6 +96,18 @@ Public Class rptCattleFeedSaleReport
 
     Private Sub LoadData()
         Try
+            If chkBalanceWise.Checked Then
+                If txtItemCode.arrValueMember IsNot Nothing AndAlso txtItemCode.arrValueMember.Count > 0 Then
+                    If txtItemCode.arrValueMember.Count > 1 Then
+                        clsCommon.MyMessageBoxShow(Me, "You can select only one item at a time when Balance Wise checked", Me.Text)
+                        Exit Sub
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You must select atleast one item when Balance Wise checked", Me.Text)
+                    Exit Sub
+                End If
+                ddCreditCash.SelectedIndex = 3
+            End If
             Dim finalQuery As String = ""
             Dim qry As String = ""
 
