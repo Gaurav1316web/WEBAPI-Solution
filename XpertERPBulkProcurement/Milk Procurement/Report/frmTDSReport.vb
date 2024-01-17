@@ -106,7 +106,7 @@ Public Class frmTDSReport
         Gv1.Columns("Comp_Name").IsVisible = False
         Gv1.Columns("Regn_No").IsVisible = False
         Gv1.Columns("Comp Contact No").IsVisible = False
-
+        Gv1.Columns("User_Name").IsVisible = False
         Gv1.AutoSizeRows = True
         Gv1.BestFitColumns()
         Gv1.MasterTemplate.AutoExpandGroups = True
@@ -125,7 +125,7 @@ Public Class frmTDSReport
     End Sub
 
     Private Function PrintData() As DataTable
-        Dim Qry As String = "select ROW_NUMBER() Over (Order By  cast(VLC_CODE_Uploader as int)) As [SNo.],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' As [To Date], "
+        Dim Qry As String = "select ROW_NUMBER() Over (Order By  cast(VLC_CODE_Uploader as int)) As [SNo.],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' As [To Date],'" + objCommonVar.CurrentUser + "' As User_Name, "
         If txtMultMCC.arrValueMember IsNot Nothing AndAlso txtMultMCC.arrValueMember.Count = 1 Then
             Qry += " TSPL_MCC_MASTER.MCC_NAME as [Location], "
         Else
