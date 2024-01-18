@@ -310,7 +310,7 @@ Public Class rptDBTMilkPayment
             atchqry = " select ROW_NUMBER() OVER (ORDER BY CONVERT(INT, aa.[VLC_Code_VLC_Uploader]) ASC) AS Sno " + MCCName + ",aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name] as VLCName,
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
                         ((aa.[SRN Qty]/aa.Conversion_Factor)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
-                        aa.Incetive_Rate,aa.Conversion_Factor,aa.Comp_Name,'" + txtFromDate.Value + "' As FromDate,'" + txtToDate.Value + "' As ToDate
+                        aa.Incetive_Rate,aa.Conversion_Factor,aa.Comp_Name,'" + txtFromDate.Value + "' As FromDate,'" + txtToDate.Value + "' As ToDate, '" + objCommonVar.CurrentUser + "' As User_Name
                         from (  " + GetAttachQry() + " "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)

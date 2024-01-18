@@ -48,9 +48,11 @@ Public Class frmMilkCollectionDCSMultipleDays
     Dim settMaxSNFPerLimit As Decimal = 0
     Dim corrFactor As Decimal = 0
     Dim SettMilkCollectionFATSNFTypeHeader As Integer
+    Dim SettApplyMergeForDCSMultipleDays As Boolean
 
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SettApplyMergeForDCSMultipleDays = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, Nothing)) > 0)
         SettShowAllMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing)) = 1)
         settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
@@ -64,10 +66,14 @@ Public Class frmMilkCollectionDCSMultipleDays
         settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, Nothing))
         SettHeaderFATSNFKGDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HeaderFATSNFKGDecimalPlaces, clsFixedParameterCode.HeaderFATSNFKGDecimalPlaces, Nothing))
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
+        If SettApplyMergeForDCSMultipleDays Then
+            btnPost.Visible = False
+            btnPost.Enabled = False
+        End If
         If isPickCLRInsteadOfSNF Then
             MyLabel14.Text = "CLR"
         End If
-        MyBase.SetUserMgmt(clsUserMgtCode.MilkCollectionDCS)
+        MyBase.SetUserMgmt(clsUserMgtCode.MilkCollectionDCSMultipleDays)
         LoadFATSNFType()
         txtDate.Value = clsCommon.GETSERVERDATE()
         AddNew()

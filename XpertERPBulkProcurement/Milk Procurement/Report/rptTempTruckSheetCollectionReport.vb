@@ -310,4 +310,30 @@ order by ROUTE_CODE asc "
         fromDate.Value = dtpToDate.Value.AddMonths(-1)
         Reset()
     End Sub
+
+    Private Sub Gv1_RowFormatting(sender As Object, e As RowFormattingEventArgs) Handles Gv1.RowFormatting
+        If Gv1.Rows.Count > 0 Then
+
+            e.RowElement.DrawFill = True
+            e.RowElement.GradientStyle = GradientStyles.Solid
+            e.RowElement.BackColor = Color.LightGreen
+            'e.RowElement.Font = font_Renamed
+        Else
+            e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+            e.RowElement.ResetValue(LightVisualElement.GradientStyleProperty, ValueResetFlags.Local)
+            'e.RowElement.ResetValue(LightVisualElement.ForeColorProperty, ValueResetFlags.Local)
+            e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+            ' e.RowElement.ResetValue(LightVisualElement.FontProperty, font_Renamed)
+            'e.RowElement.BackColor = Color.Black
+        End If
+        If e.RowElement.RowInfo.IsCurrent Then
+            e.RowElement.DrawFill = True
+            e.RowElement.BackColor = Color.LightGreen
+
+        Else
+            e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+            e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+        End If
+    End Sub
+
 End Class

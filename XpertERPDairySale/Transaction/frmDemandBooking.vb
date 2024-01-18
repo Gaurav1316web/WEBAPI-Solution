@@ -3530,7 +3530,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
  ,case when xx.SNO=1 then (isnull((select sum(ItemNetAmount) as netamt  from TSPL_DEMAND_BOOKING_MASTER left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ShiftType + "'  and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtDate.Value) + "')  and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + clsCommon.myCstr(txtRouteNo.Value) + "'  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) + isnull((xx.PrevItemNetAmount),0) ) else 0 end as AmountBE,
  case when xx.SNO=1 then xx.Crate_Collect else 0 end as TotalCollectCrate
    
-  from ( select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, max(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, max(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, max(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as Vehicle_Code,max(xxfinal.Description) as  Vehicle_Id, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(TCSAmount) as TCS
+  from ( select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, max(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, max(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, max(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as Vehicle_Code,max(xxfinal.Description) as  Vehicle_Id, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(TCSAmount) as TCS,max(xxfinal.PreTcsAmt) as PreTcsAmt
 
 from
 (
@@ -3551,6 +3551,7 @@ select
     Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then 0 Else 0 End As PrevPouch,
   TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount, 
     0 as PrevItemNetAmount,
+	 0 as PreTCSAmt ,
   TSPL_DEMAND_BOOKING_MASTER.Route_No, 
   TSPL_ROUTE_MASTER.Route_Desc, 
   Isnull(
@@ -3620,6 +3621,7 @@ where
     Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TabCustWiseCrate.qty Else 0 End As PrevPouch,
   0 as ItemNetAmount, 
     NetAmount as PrevItemNetAmount,
+tcsamt as PreTCSAmt,
   TSPL_DEMAND_BOOKING_MASTER.Route_No, 
   TSPL_ROUTE_MASTER.Route_Desc, 
   Isnull(
@@ -3648,21 +3650,28 @@ from
       sum(xx.TotalCrates_ItemWise) as TotalCrates_ItemWise, 
       sum(xx.TotalLtr_ItemWise) as TotalLtr, 
       sum(xx.ItemNetAmount) as NetAmount, 
-	  sum(xx.qty) as Qty
+	  sum(xx.qty) as Qty,
+	  isnull(sum(xx.tcsamount),0) as tcsamt,
+	 max (xx.ShiftType)ShiftType
     from 
       (
         select 
           innBD.Cust_Code, 
           convert(
             varchar, InnBM.Document_Date, 102
-          )+ case when innBD.ShiftType = 'Evening' then 'B' else 'A' end as ORDCol, 
+          )+ case when innBD.ShiftType = 'Evening' then 'B' else 'A' end ORDCol, 
           innBD.TotalCrates_ItemWise, 
           innBD.TotalLtr_ItemWise, 
-          innBD.ItemNetAmount,innBD.qty
+          innBD.ItemNetAmount,innBD.qty,
+		 case when TSPL_BOOKING_DETAIL.Line_No=1 then isnull(TSPL_BOOKING_matser.tcsamount,0)  else 0 end as tcsamount,
+		  innBD.ShiftType
+		  
         from 
           TSPL_DEMAND_BOOKING_MASTER as InnBM 
-          left outer join TSPL_DEMAND_BOOKING_DETAIL innBD on innBD.Document_No = InnBM.Document_No 
-        where 
+          left outer join TSPL_DEMAND_BOOKING_DETAIL innBD on innBD.Document_No = InnBM.Document_No
+		  left outer join TSPL_BOOKING_DETAIL on innBD.Document_No=TSPL_BOOKING_DETAIL.Against_DemandBooking_No and TSPL_BOOKING_DETAIL.Cust_Code=innBD.Cust_Code and TSPL_BOOKING_DETAIL.Item_Code=innBD.Item_Code
+		  inner join TSPL_BOOKING_matser on TSPL_BOOKING_matser.Document_No=TSPL_BOOKING_DETAIL.Document_No
+      where 
           2 = 2  "
             If rbtnMorning.IsChecked Then
                 qry += " and innBD.ShiftType='" + Previous_Shift + "' and ( CONVERT(date, InnBM.Document_Date, 103)= '" + clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)) + "') "

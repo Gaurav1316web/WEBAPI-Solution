@@ -90,7 +90,7 @@ Public Class rptTruckSheetDailySummaryReport
                                 ,sum([Milk Weight]) as [Total Qty]
                                 ,sum([FAT]) as [Total FAT Kg]
                                 ,sum([SNF]) AS [Total SNF Kg] ,
-                                '" + fromDate.Value + "' As FromDate,'" + ToDate.Value + "' As ToDate 
+                                '" + fromDate.Value + "' As FromDate,'" + ToDate.Value + "' As ToDate, '" & objCommonVar.CurrentUser & "' As User_Name 
 
                                 from(select AA.Comp_Name,aa.regn_no,aa.phone1, aa.[Milk Type],aa.[Milk Weight],[FAT], [SNF],aa.RejectType ,case When isnull(RejectType,'')='SOUR' then [Milk Weight] else 0 end as [SOUR] ,case When isnull(RejectType,'')='CURD' then [Milk Weight] else 0 end as [CURD] ,[Doc Date],[MCC Name]
                                  from (

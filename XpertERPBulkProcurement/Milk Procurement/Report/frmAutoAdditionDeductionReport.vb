@@ -363,7 +363,7 @@ Public Class frmAutoAdditionDeductionReport
 									 ,max(MILK_RECEIPT_DETAIL.ACC_WEIGHT)as ACC_WEIGHT
                                     ,sum(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount) As [Addition/Deduction Amount]
                                     ,max(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description]
-									,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate
+									,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name
                                      from TSPL_VENDOR_INVOICE_DETAIL
                                     LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
                                     LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
