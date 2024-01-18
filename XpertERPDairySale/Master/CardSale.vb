@@ -310,7 +310,7 @@ Public Class CardSale
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()

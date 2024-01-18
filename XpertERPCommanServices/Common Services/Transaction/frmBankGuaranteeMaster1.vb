@@ -177,7 +177,7 @@ Public Class FrmBankGuaranteeMaster1
             'End If
 
             If clsCommon.myLen(fndReceiving.Value) <= 0 And CmbGuaranteeType.SelectedValue = "RT" Then
-                clsCommon.MyMessageBoxShow("Please Enter Receiving Guarantee Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Receiving Guarantee Code", Me.Text)
                 fndReceiving.Focus()
                 fndReceiving.Select()
                 Return False
@@ -185,7 +185,7 @@ Public Class FrmBankGuaranteeMaster1
 
             Dim amount As Double = clsDBFuncationality.getSingleValue("select (coalesce(amount,0)-coalesce(amt,0)) from tspl_bank_guarantee_master  Left join (select SUM(amount) as amt ,receiving_code from tspl_bank_guarantee_master where receiving_code is not null group by receiving_code) tt on tt.receiving_code=tspl_bank_guarantee_master.docno where DocNo='" & fndReceiving.Value & "' ")
             If amount < clsCommon.myCdbl(txtamount.Text) And clsCommon.myCstr(CmbGuaranteeType.SelectedValue) = "RT" Then
-                clsCommon.MyMessageBoxShow("Please Enter Amount Less then Receiving Amount [" & amount & "] ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Amount Less then Receiving Amount [" & amount & "] ", Me.Text)
                 txtamount.Focus()
                 txtamount.Select()
                 Return False
@@ -218,7 +218,7 @@ Public Class FrmBankGuaranteeMaster1
                 ElseIf clsCommon.CompairString(ddltype.Text, "Customer") = CompairStringResult.Equal Then
                     Dim CustCode As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Count(*) As Row  From TSPL_CUSTOMER_MASTER  Where Cust_Code  ='" + clsCommon.myCstr(txtvendorcode.Value) + "'"))
                     If CustCode = 0 Then
-                        clsCommon.MyMessageBoxShow("Please check ! Customer code does not exist")
+                        clsCommon.MyMessageBoxShow(Me, "Please check ! Customer code does not exist", Me.Text)
                         txtvendorcode.Focus()
                         txtvendorcode.Select()
                         Return False

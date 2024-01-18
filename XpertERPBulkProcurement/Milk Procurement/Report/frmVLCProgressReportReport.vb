@@ -1159,7 +1159,7 @@ left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=xxx.Superv
             txtSupervisor.arrValueMember = clsCommon.ShowMultipleSelectForm("VLCPRS", qry, "SupervisorCode", "SupervisorName", txtSupervisor.arrValueMember, txtSupervisor.arrDispalyMember)
             RefreshVLC()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1174,7 +1174,7 @@ left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=xxx.Superv
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("VLCPRR", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
             RefreshVLC()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1186,7 +1186,7 @@ left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=xxx.Superv
             End If
             txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("VLCPRV", qry, "VLC_Code", "VLC_Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

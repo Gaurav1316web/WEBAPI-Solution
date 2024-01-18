@@ -1147,7 +1147,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
             Else
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select top 1 TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE is not null") ''TSPL_MCC_MASTER.MCC_Code  in ('" + txtMCC.Value + "') 
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                    clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                     Exit Sub
                 End If
                 PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -1376,7 +1376,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 obj.GridColumns = gvItem.ColumnCount
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
@@ -1389,7 +1389,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Try
             clsGridLayout.DeleteData(Me.Form_ID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

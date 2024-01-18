@@ -231,7 +231,7 @@ where TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No='" + obj.Document_No + "' ORDER
             'Credit Note 
             objVendInv.Document_No = ""
             objVendInv.Document_Type = "C"
-            objVendInv.Saving = 1
+            objVendInv.Saving = 2 ''Compulsory
             objVendInv.Description = "Transfer To Saving Credit Note"
             objVendInv.SaveData(objVendInv, True, trans)
             clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)

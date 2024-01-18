@@ -895,7 +895,7 @@ Public Class FrmCustomFieldMaster
 
     Private Sub fndFieldName__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndFieldName._MYValidating
         If clsCommon.myLen(fndReferenceTable.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Table First")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Table First", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select  upper(sys.columns.Name) as FieldName from sys.columns inner join sys.tables on sys.tables.object_id=sys.columns.object_id   "
@@ -947,7 +947,7 @@ Public Class FrmCustomFieldMaster
     End Sub
 
     Private Sub gv2_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv2.UserDeletingRow
-        If clsCommon.MyMessageBoxShow("Sure to Delete Row ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = vbNo Then
+        If clsCommon.MyMessageBoxShow(Me, "Sure to Delete Row ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = vbNo Then
             e.Cancel = True
         End If
     End Sub
