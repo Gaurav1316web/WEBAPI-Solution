@@ -642,7 +642,7 @@ Public Class rptTruckSheetReport
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -650,7 +650,7 @@ Public Class rptTruckSheetReport
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
@@ -671,7 +671,7 @@ Public Class rptTruckSheetReport
                 transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
 
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -779,7 +779,7 @@ Public Class rptTruckSheetReport
 
         Catch ex As Exception
             doc = Nothing
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_RowFormatting(sender As Object, e As RowFormattingEventArgs) Handles gv1.RowFormatting

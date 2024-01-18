@@ -488,7 +488,7 @@ Public Class frmMilkShiftUploader
     Private Function AllowToSave() As Boolean
         'Prevent future date transaction
         If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
-            clsCommon.MyMessageBoxShow("Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
+            clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
             txtDate.Focus()
             Return False
         End If
@@ -538,7 +538,7 @@ Public Class frmMilkShiftUploader
                             Dim dtLastQty As DataTable = clsDBFuncationality.GetDataTable("select QTY,cast( case when (QTY-(QTY*" + clsCommon.myCstr(settLastMilkReceiptQtyTollerance) + "/100)) < 0 then 0 else (QTY-(QTY*" + clsCommon.myCstr(settLastMilkReceiptQtyTollerance) + "/100)) end as decimal(18,2)) as MinQty,cast( (QTY+(QTY*" + clsCommon.myCstr(settLastMilkReceiptQtyTollerance) + "/100)) as decimal(18,2)) as MaxQty from TSPL_MILK_SRN_DETAIL where DOC_CODE in (select top 1  DOC_CODE from tspl_milk_srn_head where DOC_DATE<'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and VLC_CODE='" + clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value) + "' order by doc_date desc,SHIFT)")
                             If dtLastQty IsNot Nothing AndAlso dtLastQty.Rows.Count > 0 Then
                                 If qty < clsCommon.myCdbl(dtLastQty.Rows(0)("MinQty")) OrElse qty > clsCommon.myCdbl(dtLastQty.Rows(0)("MaxQty")) Then
-                                    If clsCommon.MyMessageBoxShow("Row No [" + clsCommon.myCstr(ii + 1) + "] Qty [" + clsCommon.myCstr(qty) + "] Tollerance [" + clsCommon.myCstr(settLastMilkReceiptQtyTollerance) + "] and Valid Qty Range [" + clsCommon.myCstr(dtLastQty.Rows(0)("MinQty")) + "-" + clsCommon.myCstr(dtLastQty.Rows(0)("MaxQty")) + "]" + Environment.NewLine + "Do you want to continue...", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                                    If clsCommon.MyMessageBoxShow(Me, "Row No [" + clsCommon.myCstr(ii + 1) + "] Qty [" + clsCommon.myCstr(qty) + "] Tollerance [" + clsCommon.myCstr(settLastMilkReceiptQtyTollerance) + "] and Valid Qty Range [" + clsCommon.myCstr(dtLastQty.Rows(0)("MinQty")) + "-" + clsCommon.myCstr(dtLastQty.Rows(0)("MaxQty")) + "]" + Environment.NewLine + "Do you want to continue...", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
                                         Return False
                                     End If
                                 End If
@@ -590,7 +590,7 @@ Public Class frmMilkShiftUploader
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

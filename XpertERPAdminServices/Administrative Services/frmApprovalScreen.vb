@@ -750,7 +750,7 @@ Public Class frmApprovalScreen
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
@@ -761,7 +761,7 @@ Public Class frmApprovalScreen
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click '' delete layout
         If clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
     End Sub
 

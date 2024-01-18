@@ -65,12 +65,11 @@ Public Class rptMobileAppMilkCollection
 
             If rbtnBMC.Checked Then
                 strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],(TSPL_MILK_COLLECTION_BMCDCS.PK_ID)PK_ID, (TSPL_MILK_COLLECTION_BMCDCS.IDate)IDate,(TSPL_MILK_COLLECTION_BMCDCS.Truck_Sheet_SNo)Truck_Sheet_SNo,
-                        TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
+                        TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,
                         (TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code)Route_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No)Trip_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity)Silo_Capacity,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading)Gaze_Reading,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty)Qty,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FAT)FAT,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF)SNF,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG)FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG)SNFKG,(TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp)Temp
                         From TSPL_MILK_COLLECTION_BMCDCS
                         left Join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
-                        Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
-                        inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code    
+                        Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code   
                         where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
 "
             End If
@@ -212,7 +211,7 @@ Public Class rptMobileAppMilkCollection
                 Gv1.Columns("Gaze_Reading").FormatString = "{0}"
                 Gv1.Columns("Temp").HeaderText = "Temp"
                 Gv1.Columns("Temp").FormatString = "{0}"
-                Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Uploader"
+                Gv1.Columns("Mcc_Code_VLC_Uploader").HeaderText = "DCS Uploader"
                 Gv1.Columns("Sample_No").HeaderText = "Sample No"
                 Gv1.Columns("Route_Code").HeaderText = "Route Code"
                 Gv1.Columns("Vehicle_No").HeaderText = "Vehicle No"

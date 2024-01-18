@@ -90,7 +90,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
             ReStoreGridLayout()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -191,7 +191,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim strHeading As String = "FAT SNF Differnece Report"
@@ -223,7 +223,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
     Private Sub RmiExcelGrid_Click(sender As Object, e As EventArgs) Handles rmiExcelGrid.Click
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
 
@@ -239,7 +239,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
 
             clsCommon.MyExportToExcelGrid(strHeading, Gv1, arrHeader, Me.Text, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
         End Try
     End Sub
     Private Sub TxtMultiSelectFinder1__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
@@ -262,7 +262,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 obj.GridColumns = Gv1.ColumnCount
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
@@ -275,7 +275,7 @@ from (" + Qry + ")xxx left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BM
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Try
             clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

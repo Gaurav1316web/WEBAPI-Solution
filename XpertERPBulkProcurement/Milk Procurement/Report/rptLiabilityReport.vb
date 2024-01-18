@@ -44,7 +44,7 @@ Public Class rptLiabilityReport
             Dim arrMCC As ArrayList = Nothing
 
             If clsCommon.myLen(txtmccode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select MCC First.", Me.Text)
                 txtmccode.Focus()
                 Exit Sub
 
@@ -54,12 +54,12 @@ Public Class rptLiabilityReport
                 arrMCC.Add(txtmccode.Value)
             End If
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtPaymentCycle.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Payment Cycle First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Payment Cycle First.", Me.Text)
                 txtPaymentCycle.Focus()
                 Exit Sub
             End If
@@ -77,7 +77,7 @@ Public Class rptLiabilityReport
             Gv1.MasterView.Refresh()
 
             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt1
@@ -86,7 +86,7 @@ Public Class rptLiabilityReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub EnableDisableCtrl(ByVal val As Boolean)
@@ -136,7 +136,7 @@ Public Class rptLiabilityReport
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -156,7 +156,7 @@ Public Class rptLiabilityReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -191,19 +191,19 @@ Public Class rptLiabilityReport
             Dim qry As String = "select Fiscal_Code,Fiscal_Name,Start_Date,End_Date from TSPL_FISCAL_YEAR_MASTER"
             txtFiscalYear.Value = clsCommon.ShowSelectForm("LRFY", qry, "Fiscal_Code", "", txtFiscalYear.Value, "", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
     Private Sub TxtPaymentCycle__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPaymentCycle._MYValidating
         Try
             If clsCommon.myLen(txtmccode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select MCC First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select MCC First.", Me.Text)
                 txtmccode.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
@@ -214,7 +214,7 @@ Public Class rptLiabilityReport
                 Patment_Cycle_changed()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
 
     End Sub
@@ -225,14 +225,14 @@ Public Class rptLiabilityReport
             Dim qry As String = "SELECT Name ,From_Date,To_Date FROM TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and MCC_Code='" + txtmccode.Value + "' and Name='" + txtPaymentCycle.Value + "' "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found on Selected MCC/Fiscal Year")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on Selected MCC/Fiscal Year", Me.Text)
                 Exit Sub
             End If
 
             fromDate.Value = clsCommon.myCDate(dt.Rows(0)("From_Date"))
             ToDate.Value = clsCommon.myCDate(dt.Rows(0)("To_Date"))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 

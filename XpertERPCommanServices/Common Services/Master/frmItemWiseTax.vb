@@ -967,7 +967,7 @@ Public Class FrmItemWiseTax
     Sub OpenTax2CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Code_Desc as Descriiption from TSPL_TAX_GROUP_DETAILS"
@@ -982,7 +982,7 @@ Public Class FrmItemWiseTax
     Sub OpenTax3CodeList(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colTAX_GROUP_CODE).Value)) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Tax Group Code", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = "select Tax_Code as Code,Tax_Code_Desc as Descriiption from TSPL_TAX_GROUP_DETAILS"
@@ -1241,7 +1241,7 @@ Public Class FrmItemWiseTax
             'Dim query As String = " select   max (xxxx.HCODE) as Doc_Code,max(Convert(varchar, TSPL_ITEM_WISE_TAX.DOC_DATE,103)) as DOC_DATE, (TSPL_ITEM_WISE_TAX.Type) as Type,max(case when TSPL_ITEM_WISE_TAX.Status =1 then 'Y' else 'N' end ) as Posted , xxxx.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc) as Item_Desc,max(TSPL_ITEM_MASTER.HSN_Code) as HSN_Code ,max(xxxx.Tax_Group_Code) as Tax_Group_Code,max (TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as Tax_Group_Desc,max (xxxx.[1]) as Tax1_Code,max (xxxx.[1T]) as TAX1_Rate , max (xxxx.[2]) as Tax2_Code,max (xxxx.[2T]) as TAX2_Rate ,max (xxxx.[3]) as Tax3_Code,max (xxxx.[3T]) as TAX3_Rate ,max (xxxx.[4]) as Tax4_Code,max (xxxx.[4T]) as TAX4_Rate ,max (xxxx.[5]) as Tax5_Code,max (xxxx.[5T]) as TAX5_Rate from ( select * from ( select * from ( select TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE, TSPL_ITEM_WISE_TAX_GROUP.SNO as TAX_Group_SNo,  TSPL_ITEM_WISE_TAX_GROUP.item_code,TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code,convert (nvarchar, DENSE_RANK() OVER (PARTITION BY TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE ORDER BY TSPL_ITEM_WISE_TAX_AUTHORITY.Tax_Authority)) as SNO,Convert (nvarchar,DENSE_RANK() OVER (PARTITION BY TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE ORDER BY TSPL_ITEM_WISE_TAX_AUTHORITY.Tax_Authority))+'T' as SNO2, TSPL_ITEM_WISE_TAX_AUTHORITY. DCODE,TSPL_ITEM_WISE_TAX_AUTHORITY.Tax_Authority,TSPL_ITEM_WISE_TAX_AUTHORITY.TAX_Rate  from TSPL_ITEM_WISE_TAX_AUTHORITY  inner join TSPL_ITEM_WISE_TAX_GROUP on TSPL_ITEM_WISE_TAX_GROUP.DCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.DCODE and TSPL_ITEM_WISE_TAX_GROUP.HCODE =TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE  )src pivot ( max(Tax_Authority) for SNO in ([1], [2],[3],[4],[5]) ) piv ) xxx pivot  ( max(TAX_Rate)   for SNO2 in ([1T], [2T],[3T],[4T],[5T])  ) piv2 ) xxxx left outer join TSPL_ITEM_WISE_TAX on TSPL_ITEM_WISE_TAX.HCODE = xxxx.HCODE  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = xxxx.Item_Code left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code = xxxx.Tax_Group_Code   "
             transportSql.ExporttoExcel(query, "  group by xxxx.Item_Code, Type,xxxx.Tax_Group_Code ", " Doc_Code,Tax_Group_Code asc  ", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, "Item Tax")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Item Tax", Me.Text)
         End Try
     End Sub
 
@@ -1297,7 +1297,7 @@ Public Class FrmItemWiseTax
                         If clsCommon.myLen(grow.Cells("Doc_Code").Value) > 0 Then
                             If clsCommon.myLen(fndCode.Value) > 0 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Doc_Code").Value), clsCommon.myCstr(fndCode.Value)) <> CompairStringResult.Equal Then
-                                    common.clsCommon.MyMessageBoxShow("Screen and Import  Document Code should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Screen and Import  Document Code should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1306,7 +1306,7 @@ Public Class FrmItemWiseTax
                         If clsCommon.myLen(grow.Cells("DOC_DATE").Value) > 0 Then
                             If clsCommon.myLen(dtpToDate.Value) > 0 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("DOC_DATE").Value), clsCommon.myCstr(clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy"))) <> CompairStringResult.Equal Then
-                                    common.clsCommon.MyMessageBoxShow("Screen and Import  Start Date should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Screen and Import  Start Date should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1316,7 +1316,7 @@ Public Class FrmItemWiseTax
                         If clsCommon.myLen(grow.Cells("Type").Value) > 0 Then
                             If clsCommon.myLen(ddlTransType.Text) > 0 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Type").Value), clsCommon.myCstr(ddlTransType.SelectedValue)) <> CompairStringResult.Equal Then
-                                    common.clsCommon.MyMessageBoxShow("Screen and Import Type should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Screen and Import Type should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1325,7 +1325,7 @@ Public Class FrmItemWiseTax
 
                         If clsCommon.myLen(prvDocCode) > 0 Then
                             If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Doc_Code").Value), clsCommon.myCstr(prvDocCode)) <> CompairStringResult.Equal Then
-                                common.clsCommon.MyMessageBoxShow("All Document No in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "All Document No in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
                                 isError = True
                                 Exit Sub
                             End If
@@ -1333,7 +1333,7 @@ Public Class FrmItemWiseTax
 
                         If clsCommon.myLen(prvDocDate) > 0 Then
                             If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("DOC_DATE").Value), clsCommon.myCstr(prvDocDate)) <> CompairStringResult.Equal Then
-                                common.clsCommon.MyMessageBoxShow("All Document Date in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "All Document Date in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
                                 isError = True
                                 Exit Sub
                             End If
@@ -1341,7 +1341,7 @@ Public Class FrmItemWiseTax
 
                         If clsCommon.myLen(prvType) > 0 Then
                             If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Type").Value), clsCommon.myCstr(prvType)) <> CompairStringResult.Equal Then
-                                common.clsCommon.MyMessageBoxShow("All Type in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "All Type in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
                                 isError = True
                                 Exit Sub
                             End If
@@ -1349,7 +1349,7 @@ Public Class FrmItemWiseTax
 
                         If clsCommon.myLen(prvPosted) > 0 Then
                             If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Posted").Value), clsCommon.myCstr(prvPosted)) <> CompairStringResult.Equal Then
-                                common.clsCommon.MyMessageBoxShow("All Posted in Excel Should be Same . Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "All Posted in Excel Should be Same . Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
                                 isError = True
                                 Exit Sub
                             End If
@@ -1359,7 +1359,7 @@ Public Class FrmItemWiseTax
                             prvDocCode = grow.Cells("Doc_Code").Value
                         End If
                         If clsCommon.myLen(grow.Cells("DOC_DATE").Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Document Date cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Document Date cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                             isError = True
                             Exit Sub
                         End If
@@ -1367,14 +1367,14 @@ Public Class FrmItemWiseTax
                             prvDocDate = grow.Cells("DOC_DATE").Value
                         End If
                         If clsCommon.myLen(grow.Cells("Type").Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Document Type cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "' ")
+                            common.clsCommon.MyMessageBoxShow(Me, "Document Type cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "' ")
                             isError = True
                             Exit Sub
                         End If
 
                         If (clsCommon.myCstr(grow.Cells("Type").Value) = "P" Or clsCommon.myCstr(grow.Cells("Type").Value) = "S" Or clsCommon.myCstr(grow.Cells("Type").Value) = "T") Then
                         Else
-                            common.clsCommon.MyMessageBoxShow("Type Should be 'P' or 'S' or 'T' at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Type Should be 'P' or 'S' or 'T' at line :'" + clsCommon.myCstr(lineNo) + "'")
                             'Throw New Exception("Type Should be 'Y' or 'N' at line :'" + clsCommon.myCstr(lineNo) + "'")
                             isError = True
                         End If
@@ -1382,7 +1382,7 @@ Public Class FrmItemWiseTax
                             prvType = grow.Cells("Type").Value
                         End If
                         If clsCommon.myLen(grow.Cells("Posted").Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Posted Value cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                            common.clsCommon.MyMessageBoxShow(Me, "Posted Value cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                             isError = True
                             Exit Sub
                         End If
@@ -1398,7 +1398,7 @@ Public Class FrmItemWiseTax
                         End If
                         '*********************** Comment Part ********************
                         If clsCommon.myLen(grow.Cells("Item_Code").Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Item Code cannot be blank.")
+                            common.clsCommon.MyMessageBoxShow(Me, "Item Code cannot be blank.", Me.Text)
                             isError = True
                             Exit Sub
                         ElseIf clsCommon.myLen(grow.Cells("Item_Code").Value) > 0 Then
@@ -1725,13 +1725,13 @@ Public Class FrmItemWiseTax
 
                 If clsItemWiseTax.ReverseAndUnpost(fndCode.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate")
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1788,7 +1788,7 @@ Public Class FrmItemWiseTax
                             If clsCommon.myLen(fndCode.Value) > 0 Then
                                 Dim isPostedDoc As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select count(*) from TSPL_ITEM_WISE_TAX where HCODE = '" + fndCode.Value + "' and Status =1 "))
                                 If isPostedDoc > 0 Then
-                                    common.clsCommon.MyMessageBoxShow(" Screen Document : '" + fndCode.Value + "'  already Posted.You Can't Import excel for this document.")
+                                    common.clsCommon.MyMessageBoxShow(Me, " Screen Document : '" + fndCode.Value + "'  already Posted.You Can't Import excel for this document.")
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1798,7 +1798,7 @@ Public Class FrmItemWiseTax
                             If clsCommon.myLen(grow.Cells("Doc_Code").Value) > 0 Then
                                 If clsCommon.myLen(fndCode.Value) > 0 Then
                                     If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Doc_Code").Value), clsCommon.myCstr(fndCode.Value)) <> CompairStringResult.Equal Then
-                                        common.clsCommon.MyMessageBoxShow("Screen and Import  Document Code should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
+                                        common.clsCommon.MyMessageBoxShow(Me, "Screen and Import  Document Code should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
                                         isError = True
                                         Exit Sub
                                     End If
@@ -1807,7 +1807,7 @@ Public Class FrmItemWiseTax
                             If clsCommon.myLen(grow.Cells("DOC_DATE").Value) > 0 Then
                                 If clsCommon.myLen(dtpToDate.Value) > 0 Then
                                     If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("DOC_DATE").Value), clsCommon.myCstr(clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy"))) <> CompairStringResult.Equal Then
-                                        common.clsCommon.MyMessageBoxShow("Screen and Import  Start Date should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
+                                        common.clsCommon.MyMessageBoxShow(Me, "Screen and Import  Start Date should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
                                         isError = True
                                         Exit Sub
                                     End If
@@ -1817,7 +1817,7 @@ Public Class FrmItemWiseTax
                             If clsCommon.myLen(grow.Cells("Type").Value) > 0 Then
                                 If clsCommon.myLen(ddlTransType.Text) > 0 Then
                                     If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Type").Value), clsCommon.myCstr(ddlTransType.SelectedValue)) <> CompairStringResult.Equal Then
-                                        common.clsCommon.MyMessageBoxShow("Screen and Import Type should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
+                                        common.clsCommon.MyMessageBoxShow(Me, "Screen and Import Type should be same at line no '" + clsCommon.myCstr(lineNo) + "' ")
                                         isError = True
                                         Exit Sub
                                     End If
@@ -1826,7 +1826,7 @@ Public Class FrmItemWiseTax
 
                             If clsCommon.myLen(prvDocCode) > 0 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Doc_Code").Value), clsCommon.myCstr(prvDocCode)) <> CompairStringResult.Equal Then
-                                    common.clsCommon.MyMessageBoxShow("All Document No in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
+                                    common.clsCommon.MyMessageBoxShow(Me, "All Document No in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1834,7 +1834,7 @@ Public Class FrmItemWiseTax
 
                             If clsCommon.myLen(prvDocDate) > 0 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("DOC_DATE").Value), clsCommon.myCstr(prvDocDate)) <> CompairStringResult.Equal Then
-                                    common.clsCommon.MyMessageBoxShow("All Document Date in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
+                                    common.clsCommon.MyMessageBoxShow(Me, "All Document Date in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1842,7 +1842,7 @@ Public Class FrmItemWiseTax
 
                             If clsCommon.myLen(prvType) > 0 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Type").Value), clsCommon.myCstr(prvType)) <> CompairStringResult.Equal Then
-                                    common.clsCommon.MyMessageBoxShow("All Type in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
+                                    common.clsCommon.MyMessageBoxShow(Me, "All Type in Excel Should be Same. Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1850,7 +1850,7 @@ Public Class FrmItemWiseTax
 
                             If clsCommon.myLen(prvPosted) > 0 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Posted").Value), clsCommon.myCstr(prvPosted)) <> CompairStringResult.Equal Then
-                                    common.clsCommon.MyMessageBoxShow("All Posted in Excel Should be Same . Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
+                                    common.clsCommon.MyMessageBoxShow(Me, "All Posted in Excel Should be Same . Check Line no : at line :'" + clsCommon.myCstr(lineNo) + "' and at line :'" + clsCommon.myCstr(lineNo - 1) + "'")
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1860,7 +1860,7 @@ Public Class FrmItemWiseTax
                                 prvDocCode = grow.Cells("Doc_Code").Value
                             End If
                             If clsCommon.myLen(grow.Cells("DOC_DATE").Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Document Date cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "Document Date cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                                 isError = True
                                 Exit Sub
                             End If
@@ -1868,14 +1868,14 @@ Public Class FrmItemWiseTax
                                 prvDocDate = grow.Cells("DOC_DATE").Value
                             End If
                             If clsCommon.myLen(grow.Cells("Type").Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Document Type cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "' ")
+                                common.clsCommon.MyMessageBoxShow(Me, "Document Type cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "' ")
                                 isError = True
                                 Exit Sub
                             End If
 
                             If (clsCommon.myCstr(grow.Cells("Type").Value) = "P" Or clsCommon.myCstr(grow.Cells("Type").Value) = "S" Or clsCommon.myCstr(grow.Cells("Type").Value) = "T") Then
                             Else
-                                common.clsCommon.MyMessageBoxShow("Type Should be 'P' or 'S' or 'T' at line :'" + clsCommon.myCstr(lineNo) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "Type Should be 'P' or 'S' or 'T' at line :'" + clsCommon.myCstr(lineNo) + "'")
                                 'Throw New Exception("Type Should be 'Y' or 'N' at line :'" + clsCommon.myCstr(lineNo) + "'")
                                 isError = True
                             End If
@@ -1883,7 +1883,7 @@ Public Class FrmItemWiseTax
                                 prvType = grow.Cells("Type").Value
                             End If
                             If clsCommon.myLen(grow.Cells("Posted").Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Posted Value cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
+                                common.clsCommon.MyMessageBoxShow(Me, "Posted Value cannot be blank at line :'" + clsCommon.myCstr(lineNo) + "'")
                                 isError = True
                                 Exit Sub
                             End If
@@ -1899,13 +1899,13 @@ Public Class FrmItemWiseTax
                             End If
                             '*********************** Comment Part ********************
                             If clsCommon.myLen(grow.Cells("HSN_Code").Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("HSN Code cannot be blank.")
+                                common.clsCommon.MyMessageBoxShow(Me, "HSN Code cannot be blank.")
                                 isError = True
                                 Exit Sub
                             ElseIf clsCommon.myLen(grow.Cells("HSN_Code").Value) > 0 Then
                                 Dim isValidItemcode As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Code)  from TSPL_HSN_MASTER  where Code ='" + grow.Cells("HSN_Code").Value.ToString() + "'"))
                                 If isValidItemcode <= 0 Then
-                                    common.clsCommon.MyMessageBoxShow("Invalid HSN code.")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Invalid HSN code.", Me.Text)
                                     isError = True
                                     Exit Sub
                                 End If
@@ -1917,13 +1917,13 @@ Public Class FrmItemWiseTax
 
                             '***********************  Comment Part ********************
                             If clsCommon.myLen(grow.Cells("Tax_Group_Code").Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Tax Group Code cannot be blank.")
+                                common.clsCommon.MyMessageBoxShow(Me, "Tax Group Code cannot be blank.", Me.Text)
                                 isError = True
                                 Exit Sub
                             ElseIf clsCommon.myLen(grow.Cells("Tax_Group_Code").Value) > 0 Then
                                 Dim isValidGroupcode As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Tax_Group_Code)  from TSPL_TAX_GROUP_MASTER  where Tax_Group_Code ='" + grow.Cells("Tax_Group_Code").Value.ToString() + "'"))
                                 If isValidGroupcode <= 0 Then
-                                    common.clsCommon.MyMessageBoxShow("Invalid Group code.")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Invalid Group code.", Me.Text)
                                     isError = True
                                     Exit Sub
                                 End If
@@ -2032,7 +2032,7 @@ Public Class FrmItemWiseTax
 
                                 Next
                             Else
-                                common.clsCommon.MyMessageBoxShow("Item Code not found with HSN Code " + HSN_Code + " .")
+                                common.clsCommon.MyMessageBoxShow(Me, "Item Code not found with HSN Code " + HSN_Code + " .")
                                 isError = True
                                 Exit Sub
                             End If

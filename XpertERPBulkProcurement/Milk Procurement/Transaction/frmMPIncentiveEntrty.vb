@@ -1442,7 +1442,7 @@ where TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' and TSPL_VLC_MASTER_HEAD.V
             obj.GridColumns = gvItem.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1454,7 +1454,7 @@ where TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' and TSPL_VLC_MASTER_HEAD.V
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()

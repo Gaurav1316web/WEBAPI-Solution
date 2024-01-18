@@ -122,7 +122,7 @@ Public Class frmDCSFinancialHead
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -131,7 +131,7 @@ Public Class frmDCSFinancialHead
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsDCSFinancialHead.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -167,7 +167,7 @@ Public Class frmDCSFinancialHead
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funReset()

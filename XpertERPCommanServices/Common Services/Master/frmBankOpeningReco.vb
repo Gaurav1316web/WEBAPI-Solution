@@ -301,11 +301,11 @@ Public Class frmBankOpeningReco
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(ex.Message + Environment.NewLine + "At line no " + clsCommon.myCstr(linno))
+                clsCommon.MyMessageBoxShow(Me, ex.Message + Environment.NewLine + "At line no " + clsCommon.myCstr(linno))
             Finally
                 Me.Controls.Remove(gv)
             End Try
