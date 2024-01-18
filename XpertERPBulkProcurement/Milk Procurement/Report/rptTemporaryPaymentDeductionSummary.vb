@@ -161,7 +161,7 @@ Public Class rptTemporaryPaymentDeductionSummary
                 Gv1.MasterView.Refresh()
 
                 If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     Gv1.DataSource = dt1
@@ -172,7 +172,7 @@ Public Class rptTemporaryPaymentDeductionSummary
                 EnableDisableControl(False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function GetBAseQeryUDP(ByVal fromDate As Date, ByVal ToDate As Date) As String
@@ -379,7 +379,7 @@ group by Document_Type,DeductionCode
             Gv1.MasterView.Refresh()
 
             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt1
@@ -389,7 +389,7 @@ group by Document_Type,DeductionCode
             End If
             EnableDisableControl(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -687,7 +687,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                 Gv1.MasterView.Refresh()
 
                 If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     Gv1.DataSource = dt1
@@ -698,7 +698,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                 EnableDisableControl(False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormatUDP()
@@ -836,7 +836,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim StrReportName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptTemporaryPaymentDeductionSummary & "'"))
@@ -907,7 +907,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -931,7 +931,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -940,7 +940,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()
@@ -979,7 +979,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -987,7 +987,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
             If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                 If fromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
                     fromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
                     ToDate.Value = fromDate.Value
                     Exit Sub
@@ -1003,7 +1003,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(fromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
                     fromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     ToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -1011,7 +1011,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                 ToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, fromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(fromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
                     fromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     ToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -1122,7 +1122,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                     Print(False)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("Check DCS Wise")
+                common.clsCommon.MyMessageBoxShow(Me, "Check DCS Wise", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)

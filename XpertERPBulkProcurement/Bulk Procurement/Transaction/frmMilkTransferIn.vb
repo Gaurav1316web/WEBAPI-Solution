@@ -1397,7 +1397,7 @@ Public Class FrmMilkTransferIn
             End If
 
             If clsCommon.myLen(fndRcptChalanNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Receipt Challan No To delete ")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Receipt Challan No To delete ", Me.Text)
             Else
                 'Dim isUsed As Integer = clsDBFuncationality.getSingleValue("select SUM(row_Count ) from (select COUNT(*) as row_Count from  TSPL_Weighment_Detail where gate_entry_no='" & fndGateEntryNO.Value & "' union all select COUNT(*) as row_Count from tspl_quality_check where gate_entry_no='" & fndGateEntryNO.Value & "') xx ")
                 'If isUsed > 0 Then

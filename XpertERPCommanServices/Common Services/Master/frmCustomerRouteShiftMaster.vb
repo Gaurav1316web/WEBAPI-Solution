@@ -550,7 +550,7 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
             Errorcontrol.ResetError(fndcode)
         End If
 
-        If Not clsCommon.MyMessageBoxShow("Are You Sure,Want To Delete The Customer Route Shift Master " + clsCommon.myCstr(fndcode.Value) + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+        If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure,Want To Delete The Customer Route Shift Master " + clsCommon.myCstr(fndcode.Value) + "?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
             Return
         End If
 

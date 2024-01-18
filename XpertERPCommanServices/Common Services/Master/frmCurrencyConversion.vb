@@ -91,7 +91,7 @@ Public Class frmCurrencyConversion
         Dim strCodeEx As String = clsDBFuncationality.getSingleValue(StrQry)
 
         If clsCommon.myLen(strCodeEx) > 0 Then
-            clsCommon.MyMessageBoxShow("Conversion rate for given date and Currency already define in Conversion Code : " + strCodeEx)
+            clsCommon.MyMessageBoxShow(Me, "Conversion rate for given date and Currency already define in Conversion Code : " + strCodeEx)
             Return False
         End If
 
@@ -320,7 +320,7 @@ Public Class frmCurrencyConversion
                     obj.SaveData(obj, True)
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

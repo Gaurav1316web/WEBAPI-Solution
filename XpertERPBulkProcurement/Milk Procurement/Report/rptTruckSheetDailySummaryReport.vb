@@ -482,7 +482,7 @@ Public Class rptTruckSheetDailySummaryReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -511,7 +511,7 @@ Public Class rptTruckSheetDailySummaryReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -520,7 +520,7 @@ Public Class rptTruckSheetDailySummaryReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()

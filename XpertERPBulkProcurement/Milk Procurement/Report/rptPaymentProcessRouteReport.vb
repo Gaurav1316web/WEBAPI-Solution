@@ -97,11 +97,11 @@ Public Class rptPaymentProcessRouteReport
             PageSetupReport_ID = setFormId()
             TemplateGridview = Gv1
             If clsCommon.myLen(txtMcc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select MCC Code first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC Code first", Me.Text)
                 Return
             End If
             If clsCommon.myLen(txtPaymentCycleCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Cycle Code first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Cycle Code first", Me.Text)
                 Return
             End If
             Dim qry As String = ""
@@ -562,14 +562,14 @@ Public Class rptPaymentProcessRouteReport
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadData_Old()
@@ -577,11 +577,11 @@ Public Class rptPaymentProcessRouteReport
             PageSetupReport_ID = setFormId()
             TemplateGridview = Gv1
             If clsCommon.myLen(txtMcc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select MCC Code first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC Code first", Me.Text)
                 Return
             End If
             If clsCommon.myLen(txtPaymentCycleCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select Cycle Code first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Cycle Code first", Me.Text)
                 Return
             End If
             Dim qry As String = ""
@@ -867,14 +867,14 @@ Public Class rptPaymentProcessRouteReport
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -950,7 +950,7 @@ Public Class rptPaymentProcessRouteReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -962,14 +962,14 @@ Public Class rptPaymentProcessRouteReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(setFormId(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -1001,7 +1001,7 @@ Public Class rptPaymentProcessRouteReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -1045,7 +1045,7 @@ Public Class rptPaymentProcessRouteReport
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -1070,7 +1070,7 @@ Public Class rptPaymentProcessRouteReport
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -1078,7 +1078,7 @@ Public Class rptPaymentProcessRouteReport
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -1086,7 +1086,7 @@ Public Class rptPaymentProcessRouteReport
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -1094,7 +1094,7 @@ Public Class rptPaymentProcessRouteReport
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -1102,7 +1102,7 @@ Public Class rptPaymentProcessRouteReport
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -1155,7 +1155,7 @@ Public Class rptPaymentProcessRouteReport
     Private Sub txtPaymentCycleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPaymentCycleCode._MYValidating
         Try
             If clsCommon.myLen(txtMcc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select MCC first..")
+                clsCommon.MyMessageBoxShow(Me, "Please select MCC first..", Me.Text)
                 Return
             End If
             Dim strMccCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Code from  TSPL_Location_MASTER where Loc_Segment_Code = '" + txtMcc.Value + "'"))
@@ -1163,7 +1163,7 @@ Public Class rptPaymentProcessRouteReport
             txtPaymentCycleCode.Value = clsCommon.ShowSelectForm("Route@paymentCycleReport", qry, "Code", " MCC_Code = '" + strMccCode + "' ", txtPaymentCycleCode.Value, "Code", isButtonClicked)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1173,7 +1173,7 @@ Public Class rptPaymentProcessRouteReport
             txtMcc.Value = clsCommon.ShowSelectForm("Route@MCCFinder@PCR", qry, "Loc_Segment_Code", " 1=1  and   Rejected_Type='N' and Location_Category='MCC' ", txtMcc.Value, "Loc_Segment_Code", isButtonClicked)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1516,7 +1516,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             End If
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -1872,7 +1872,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptDCSLedgerReport", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subAdditionHeader1.rpt", dtAdditionHeader, "subDeductionHeader11.rpt", dtDeductionHeader, "subAdditionTotal.rpt", dtAdditionTotal, "subDeductionTotal.rpt", dtDeductionTotal)
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -1880,7 +1880,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
         Try
             PageSetupReport_ID = MyBase.Form_ID + "DCS"
             If clsCommon.GetDateWithEndTime(dtpToDCS_Ledger.Value) < clsCommon.GetDateWithStartTime(dtpFromDCS_Ledger.Value) Then
-                clsCommon.MyMessageBoxShow("To Date cant be less than from date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "To Date cant be less than from date", Me.Text)
                 Exit Sub
             End If
 
@@ -2712,7 +2712,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                 Gv1.BestFitColumns()
             Else
                 Gv1.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -2727,7 +2727,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2761,7 +2761,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -2769,7 +2769,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
             Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
             If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                 If dtpLedgerFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day")
                     dtpLedgerFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
                     'dtpLedgerToDate.Value = dtpLedgerFromDate.Value
                     Exit Sub
@@ -2785,7 +2785,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpLedgerFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
                     dtpLedgerFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpLedgerToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -2793,7 +2793,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                 dtpLedgerToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpLedgerFromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpLedgerFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
                     dtpLedgerFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpLedgerToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -2819,7 +2819,7 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
             If SettShowMultipleLegers = True AndAlso isLoad = False Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Payment Cycle found")
+                    clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found", Me.Text)
                     Exit Sub
                 End If
                 Dim PaymentCycleType As String = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -3123,7 +3123,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -3144,7 +3144,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -3174,7 +3174,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             If SettShowMultipleLegers = True AndAlso isLoad = False Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Payment Cycle found")
+                    clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found", Me.Text)
                     Exit Sub
                 End If
                 Dim PaymentCycleType As String = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -3217,7 +3217,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -3225,7 +3225,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
             If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                 If dtpFromDCS_Ledger.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day")
                     dtpFromDCS_Ledger.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
                     'dtpToDCS_Ledger.Value = dtpFromDCS_Ledger.Value
                     Exit Sub
@@ -3241,7 +3241,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
                     dtpFromDCS_Ledger.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDCS_Ledger.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -3249,7 +3249,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 dtpToDCS_Ledger.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDCS_Ledger.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
                     dtpFromDCS_Ledger.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDCS_Ledger.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -3487,7 +3487,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -3504,7 +3504,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
         Try
             PageSetupReport_ID = MyBase.Form_ID + "GL"
             If clsCommon.GetDateWithEndTime(dtpGainLossToDate.Value) < clsCommon.GetDateWithStartTime(dtpGainLossFromDate.Value) Then
-                clsCommon.MyMessageBoxShow("To Date cant be less than from date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "To Date cant be less than from date", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = Nothing
@@ -3661,7 +3661,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 Gv1.BestFitColumns()
             Else
                 Gv1.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -3847,7 +3847,7 @@ TSPL_MILK_COLLECTION_MCC
                 Gv1.BestFitColumns()
             Else
                 Gv1.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -3888,10 +3888,10 @@ TSPL_MILK_COLLECTION_MCC
         Try
             If clsCommon.myLen(fndFinacialYear.Value) > 0 Then
                 If clsCommon.myCDate(txtDateFrom.Value) < clsCommon.myCDate(FYFromDate) Then
-                    clsCommon.MyMessageBoxShow("From Date can't be less then selected finacial year start date.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "From Date can't be less then selected finacial year start date.", Me.Text)
                     Exit Sub
                 ElseIf clsCommon.myCDate(txtDateTo.Value) > clsCommon.myCDate(FYToDate) Then
-                    clsCommon.MyMessageBoxShow("To Date can't be greater then selected finacial year end date.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "To Date can't be greater then selected finacial year end date.", Me.Text)
                     Exit Sub
                 End If
                 Dim MCCName As String
@@ -4185,7 +4185,7 @@ TSPL_MILK_COLLECTION_MCC
     Private Sub txtDateFrom_Leave(sender As Object, e As EventArgs) Handles txtDateFrom.Leave
         Try
             If clsCommon.myCDate(txtDateFrom.Value) < clsCommon.myCDate(FYFromDate) Then
-                clsCommon.MyMessageBoxShow("From Date can't be less then selected finacial year start date.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "From Date can't be less then selected finacial year start date.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

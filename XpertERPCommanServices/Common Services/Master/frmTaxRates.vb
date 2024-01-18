@@ -538,7 +538,7 @@ Public Class FrmTaxRates
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
 
                 trans.Rollback()
@@ -630,7 +630,7 @@ Public Class FrmTaxRates
     End Sub
 
     Private Sub gvTaxRates_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvTaxRates.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub

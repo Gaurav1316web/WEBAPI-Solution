@@ -163,7 +163,7 @@ Public Class frmRequestAproval
         Next
 
         If trnsLst.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Select Atleast One Document")
+            common.clsCommon.MyMessageBoxShow(Me, "Select Atleast One Document", Me.Text)
         Else
             If myMessages.RequestApprovalConfirm Then
                 For j As Integer = 0 To trnsLst.Count - 1

@@ -658,7 +658,7 @@ Public Class frmMilkCollectionDCSMultipleDays
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
