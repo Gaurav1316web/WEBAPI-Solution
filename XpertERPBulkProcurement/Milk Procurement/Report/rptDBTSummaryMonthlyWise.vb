@@ -36,7 +36,7 @@ Public Class rptDBTSummaryMonthlyWise
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -54,7 +54,7 @@ Public Class rptDBTSummaryMonthlyWise
 
             LoadData(txtFinancialYear.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -288,7 +288,7 @@ Public Class rptDBTSummaryMonthlyWise
     End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         If clsCommon.myLen(txtFinancialYear.Value) = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Financial Year cannot be Blank")
+            clsCommon.MyMessageBoxShow(Me, "Financial Year cannot be Blank", Me.Text)
             Exit Sub
         End If
         setGridData()
@@ -407,7 +407,7 @@ Public Class rptDBTSummaryMonthlyWise
             ReStoreGridLayout()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

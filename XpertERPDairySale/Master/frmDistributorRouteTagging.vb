@@ -247,13 +247,13 @@ Public Class frmDistributorRouteTagging
                 Next
 
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -308,7 +308,7 @@ Public Class frmDistributorRouteTagging
         Try
             RefeshSNO()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btndelete_Click(sender As Object, e As EventArgs) Handles btndelete.Click
@@ -363,7 +363,7 @@ Public Class frmDistributorRouteTagging
             End If
             LoadData(clsCommon.myCstr(txtCode.Value), NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -520,11 +520,11 @@ FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
                 Dim crysFrm As New frmCrystalReportViewer()
                 crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dtItem, "DistributorRouteTagging", "Distribute Route Tagging")
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

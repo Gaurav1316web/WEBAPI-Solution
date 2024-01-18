@@ -210,13 +210,13 @@ left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No
 
                     If txtToleranceFat.Value < 0 Or txtToleranceFat.Value >= 100 Then
 
-                        clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
                         txtToleranceFat.Focus()
                         Exit Sub
                     End If
 
                     If txtToleranceSNF.Value < 0 Or txtToleranceSNF.Value >= 100 Then
-                        clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
                         txtToleranceSNF.Focus()
                         Exit Sub
                     End If
@@ -388,7 +388,7 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
 
                     '==========================
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 ReStoreGridLayout()
@@ -397,7 +397,7 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                 End If
 
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Else
             Try
@@ -493,13 +493,13 @@ left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No
 
                     If txtToleranceFat.Value < 0 Or txtToleranceFat.Value >= 100 Then
 
-                        clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
                         txtToleranceFat.Focus()
                         Exit Sub
                     End If
 
                     If txtToleranceSNF.Value < 0 Or txtToleranceSNF.Value >= 100 Then
-                        clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
                         txtToleranceSNF.Focus()
                         Exit Sub
                     End If
@@ -667,7 +667,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
 
                     '==========================
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 ReStoreGridLayout()
@@ -676,7 +676,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 End If
 
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -1211,7 +1211,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -1247,7 +1247,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 'clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1323,7 +1323,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1338,7 +1338,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1615,7 +1615,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 End If
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("Data not found.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data not found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

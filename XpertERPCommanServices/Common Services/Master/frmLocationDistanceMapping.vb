@@ -80,7 +80,7 @@ Public Class frmLocationDistanceMapping
                 Dim strCustName As String = clsCommon.myCstr(dgvitem.Rows(ii).Cells(colCustdesc).Value)
                 Dim dblDistance As Double = clsCommon.myCdbl(dgvitem.Rows(ii).Cells(ColDistance).Value)
                 If dblDistance = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Enter Distance For Customer '" + strCustCode + "'")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Enter Distance For Customer '" + strCustCode + "'")
                     Return False
                 End If
                 For jj As Integer = 0 To dgvitem.Rows.Count - 1
@@ -88,7 +88,7 @@ Public Class frmLocationDistanceMapping
                         Continue For
                     End If
                     If (clsCommon.CompairString(strCustCode, clsCommon.myCstr(dgvitem.Rows(jj).Cells(colCustCode).Value)) = CompairStringResult.Equal) Then
-                        common.clsCommon.MyMessageBoxShow("Already selected Customer " + strCustCode.Trim() + "( " + strCustName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " and  " + clsCommon.myCstr(clsCommon.myCdbl(jj + 1)) + "")
+                        common.clsCommon.MyMessageBoxShow(Me, "Already selected Customer " + strCustCode.Trim() + "( " + strCustName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " and  " + clsCommon.myCstr(clsCommon.myCdbl(jj + 1)) + "")
                         Return False
                     End If
                 Next
@@ -409,7 +409,7 @@ Public Class frmLocationDistanceMapping
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -436,7 +436,7 @@ Public Class frmLocationDistanceMapping
 
 
     Private Sub dgvitem_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles dgvitem.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub

@@ -158,7 +158,7 @@ Public Class frmMPIncetiveSlab
                 btnsave.Text = "Update"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -188,7 +188,7 @@ Public Class frmMPIncetiveSlab
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -197,7 +197,7 @@ Public Class frmMPIncetiveSlab
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsMPIncetive.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -233,7 +233,7 @@ Public Class frmMPIncetiveSlab
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funReset()
@@ -294,7 +294,7 @@ Public Class frmMPIncetiveSlab
                     If clsCommon.myLen(txtCode.Value) > 0 Then
                         If clsCommon.MyMessageBoxShow(Me, "Current code [" + txtCode.Value + "] will be inactive" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             If (clsMPIncetive.InactiveData(txtCode.Value)) Then
-                                clsCommon.MyMessageBoxShow(Me, "Successfully Inactivated")
+                                clsCommon.MyMessageBoxShow(Me, "Successfully Inactivated", Me.Text)
                             End If
                         End If
                     End If
@@ -386,7 +386,7 @@ Public Class frmMPIncetiveSlab
             obj.End_Date = dtpEndDate.Value
             obj.End_Shift = clsCommon.myCstr(cboEndShift.SelectedValue)
             obj.SaveEndDateData(obj)
-            clsCommon.MyMessageBoxShow(Me, "Successfully Updated")
+            clsCommon.MyMessageBoxShow(Me, "Successfully Updated", Me.Text)
             LoadData(txtCode.Value, NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -466,7 +466,7 @@ Public Class frmMPIncetiveSlab
             gv1.TableElement.TableHeaderHeight = 40
             gv1.AutoSizeRows = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -476,7 +476,7 @@ Public Class frmMPIncetiveSlab
                 gv1.Rows(gv1.CurrentRow.Index - 1).Cells(colTo).Value = clsCommon.myCdbl(clsCommon.myCdbl(gv1.Rows(gv1.CurrentRow.Index).Cells(colValue).Value) - 0.01)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -523,7 +523,7 @@ Public Class frmMPIncetiveSlab
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

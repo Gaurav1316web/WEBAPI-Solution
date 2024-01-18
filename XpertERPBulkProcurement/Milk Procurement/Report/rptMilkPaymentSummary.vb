@@ -378,7 +378,7 @@ Public Class rptMilkPaymentSummary
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkPaymentSummary", "")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
         Catch ex As Exception
@@ -428,15 +428,15 @@ Public Class rptMilkPaymentSummary
                 transportSql.applyExportTemplate(gv, PageSetupReport_ID)
                 clsCommon.MyExportToExcelGrid("Milk Payment Summary Report", gv, arrHeader, Me.Text)
                 ' transportSql.exportdataChilRows(gv1, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-                common.clsCommon.MyMessageBoxShow("Exported Successfully.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
                 'Process.Start(filePath)
 
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

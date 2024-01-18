@@ -761,7 +761,7 @@ Public Class FrmBankBookLocationDetail
             obj.GridColumns = gvReport.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -773,7 +773,7 @@ Public Class FrmBankBookLocationDetail
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
 
     End Sub
 End Class
