@@ -679,6 +679,7 @@ Public Class FrmTransactionApproval
             End If
             If clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                 Dim obj1 As ClsTransactionApproval
+                Dim objDemandBooking As New clsDemandBookingSale
                 If Gv1.Rows.Count > 0 Then
                     For i As Integer = 0 To Gv1.Rows.Count - 1
                         If Gv1.Rows(i).Cells(colSelect).Value = True Then
@@ -697,10 +698,88 @@ Public Class FrmTransactionApproval
                             End If
                             If (ClsTransactionApproval.SaveData(obj1, isnewentry)) Then
                                 If clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
-                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_MASTER set Posted=1 where Document_No='" + obj1.Document_No + "' ")
+                                    'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_MASTER set Posted=1 where Document_No='" + obj1.Document_No + "' ")
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='1' where Document_No='" + obj1.Document_No + "'")
                                 End If
+                            End If
+                            'Dim intRow As Integer
+                            objDemandBooking = clsDemandBookingSale.GetData(obj1.Document_No, NavigatorType.Current, Nothing)
+                            If (objDemandBooking IsNot Nothing AndAlso clsCommon.myLen(objDemandBooking.Document_No) > 0) Then
+                                clsDemandBookingSale.PostData(MyBase.Form_ID, obj1.Document_No, IIf(clsCommon.CompairString(objDemandBooking.ShiftType, "Morning") = CompairStringResult.Equal, 1, 2))
 
+                                Dim isnewentryd As Boolean = False
+                                If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Then
+                                    objDemandBooking.Document_Date = clsCommon.myCDate(objDemandBooking.Document_Date).AddDays(1)
+                                    objDemandBooking.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(objDemandBooking.Route_No) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(objDemandBooking.Document_Date) + "') and location_code='" + clsCommon.myCstr(objDemandBooking.Location_Code) + "' and ShiftType='" + objDemandBooking.ShiftType + "' and IsIndividualCustomer=0 ")
+                                    If clsCommon.myLen(objDemandBooking.Document_No) > 0 Then
+                                        isnewentryd = False
+                                    Else
+                                        objDemandBooking.Document_No = ""
+                                        isnewentryd = True
+                                        If (objDemandBooking.SaveData(objDemandBooking, isnewentryd)) = True Then
+                                            'clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(objDemandBooking.ShiftType) + " Demand Data Saved Successfully", Me.Text)
+                                        End If
+                                    End If
+                                ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                                    Dim objDB As New clsDemandBookingSale
+                                    objDB.Document_Date = clsCommon.myCDate(objDemandBooking.Document_Date).AddDays(1)
+                                    objDB.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(objDemandBooking.Route_No) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(objDB.Document_Date) + "') and location_code='" + clsCommon.myCstr(objDemandBooking.Location_Code) + "' and ShiftType='" + objDemandBooking.ShiftType + "' and IsIndividualCustomer=0 ")
+                                    If clsCommon.myLen(objDB.Document_No) > 0 Then
+                                        isnewentryd = False
+                                    Else
+                                        Dim dbNetAmt As Double = 0
+                                        Dim dbTotalCrate As Double = 0
+                                        Dim dbtotalltr As Double = 0
+                                        objDB.Route_No = objDemandBooking.Route_No
+                                        objDB.Location_Code = objDemandBooking.Location_Code
+                                        objDB.City_Code = objDemandBooking.City_Code
+                                        objDB.ShiftType = objDemandBooking.ShiftType
+                                        objDB.ItemType = objDemandBooking.ItemType
+                                        objDB.TripNo = objDemandBooking.TripNo
+                                        objDB.IsIndividualCustomer = objDemandBooking.IsIndividualCustomer
+
+                                        isnewentryd = True
+                                        objDB.Arr = New List(Of clsDemandBookingSaleDetail)
+                                        Dim objTr As clsDemandBookingSaleDetail
+                                        If objDemandBooking.Arr.Count > 0 Then
+                                            For Each item As clsDemandBookingSaleDetail In objDemandBooking.Arr
+                                                Dim isReoder As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder from TSPL_CUSTOMER_MASTER where Cust_Code='" + item.Cust_Code + "'"))
+                                                If isReoder = 1 Then
+                                                    objTr = New clsDemandBookingSaleDetail
+                                                    objTr.Cust_Code = item.Cust_Code
+                                                    objTr.Vehicle_Code = item.Vehicle_Code
+                                                    'objTr.Document_No = item.Vehicle_Code
+                                                    objTr.Line_No = item.Line_No
+                                                    objTr.Item_Code = item.Item_Code
+                                                    objTr.Item_Desc = item.Item_Desc
+                                                    objTr.Unit_code = item.Unit_code
+                                                    objTr.Qty = item.Qty
+                                                    objTr.Rate = item.Rate
+                                                    objTr.ItemNetAmount = item.ItemNetAmount
+                                                    dbNetAmt += objTr.ItemNetAmount
+                                                    objTr.Price_Code = item.Price_Code
+                                                    objTr.ShiftType = item.ShiftType
+                                                    objTr.IsItemUpdate = item.IsItemUpdate
+                                                    objTr.TotalCrates_ItemWise = item.TotalCrates_ItemWise
+                                                    dbTotalCrate += objTr.TotalCrates_ItemWise
+                                                    objTr.TotalLtr_ItemWise = item.TotalLtr_ItemWise
+                                                    dbtotalltr += objTr.TotalLtr_ItemWise
+                                                    objTr.IsTruckSheetGenerated = item.IsTruckSheetGenerated
+                                                    objTr.IsGatePassGenerated = item.IsGatePassGenerated
+                                                    'objTr.Is_Posted = item.Vehicle_Code
+                                                    objDB.Arr.Add(objTr)
+                                                End If
+                                            Next
+                                        End If
+                                        objDB.TotalQtyInCrates = dbTotalCrate
+                                        objDB.TotalQtyInLtr = dbtotalltr
+                                        objDB.DocumentAmount = dbNetAmt
+                                        If (objDB.SaveData(objDB, isnewentryd)) = True Then
+                                            'clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(objDemandBooking.ShiftType) + " Demand Data Saved Successfully", Me.Text)
+
+                                        End If
+                                    End If
+                                End If
                             End If
                         End If
                     Next
@@ -1797,6 +1876,11 @@ Public Class FrmTransactionApproval
             End If
 
         End If
+        If e.Column Is Gv1.Columns(colbtnCol) AndAlso clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+
+            Dim OsBal As Decimal = GetOutStandingBal(Gv1.CurrentRow.Cells(colVendorCode).Value, clsCommon.GetPrintDate(Gv1.CurrentRow.Cells(colDocDate).Value))
+            clsCommon.MyMessageBoxShow(Me, "OutStatnding Balance :" + clsCommon.myCstr(OsBal), Me.Text)
+        End If
 
     End Sub
     Public Sub funPrint(ByVal strDocNo As String)
@@ -1869,14 +1953,40 @@ Public Class FrmTransactionApproval
                     End If
                 ElseIf e.Column Is Gv1.Columns(colNewBasicRate) AndAlso clsCommon.CompairString(clsUserMgtCode.frmBulkMilkSRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                     Gv1.CurrentRow.Cells(colNewNetRate).Value = (clsCommon.myCdbl(Gv1.CurrentRow.Cells(colNewBasicRate).Value) + clsCommon.myCdbl(Gv1.CurrentRow.Cells(colIncen).Value) + clsCommon.myCdbl(Gv1.CurrentRow.Cells(colDeduc).Value)) - clsCommon.myCdbl(Gv1.CurrentRow.Cells(colSpecialDeduc).Value)
+
                 End If
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         isInsideLoadData = False
     End Sub
+    Public Function GetOutStandingBal(ByVal VendorNo As String, ByVal dtDoc As DateTime) As Decimal
+        Dim OSBal As Decimal = 0
+        Try
 
+            Dim strcustomerfilter As String = String.Empty
+            strcustomerfilter = "'" + VendorNo + "'"
+            'Dim qry = ""
+            Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
+                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(dtDoc.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, Nothing, False) & "   " &
+                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(dtDoc, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & VendorNo & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                    ") XXX GROUP BY ACode ORDER BY ACode"
+
+            Dim dblBal As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
+            OSBal = dblBal
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+        Return OSBal
+    End Function
     Private Sub Gv1_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Gv1.VisibleChanged
         btnuSel.Visible = Gv1.Visible
         btnSelect.Visible = Gv1.Visible
