@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -33,6 +33,7 @@ Partial Class rptDailyQtyReport
         Me.ddlShift = New common.Controls.MyComboBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSummary = New System.Windows.Forms.RadioButton()
         Me.rbtnDockSummary = New System.Windows.Forms.RadioButton()
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
@@ -71,7 +72,7 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnSummary = New System.Windows.Forms.RadioButton()
+        Me.rbtnBmcSummary = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -120,7 +121,7 @@ Partial Class rptDailyQtyReport
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(740, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(956, 20)
         Me.RadMenu1.TabIndex = 2
         '
         'RadMenuItem1
@@ -159,8 +160,8 @@ Partial Class rptDailyQtyReport
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
-        Me.SplitContainer1.Size = New System.Drawing.Size(740, 376)
-        Me.SplitContainer1.SplitterDistance = 326
+        Me.SplitContainer1.Size = New System.Drawing.Size(956, 382)
+        Me.SplitContainer1.SplitterDistance = 332
         Me.SplitContainer1.TabIndex = 3
         '
         'RadPageView1
@@ -171,7 +172,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(740, 326)
+        Me.RadPageView1.Size = New System.Drawing.Size(956, 332)
         Me.RadPageView1.TabIndex = 11
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -201,7 +202,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(719, 278)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(935, 284)
         Me.RadPageViewPage1.Text = "Filters"
         '
         'ddlShift
@@ -255,6 +256,16 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox2.Size = New System.Drawing.Size(350, 42)
         Me.RadGroupBox2.TabIndex = 446
         Me.RadGroupBox2.Text = "Print"
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.AutoSize = True
+        Me.rbtnSummary.Location = New System.Drawing.Point(196, 15)
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(100, 17)
+        Me.rbtnSummary.TabIndex = 6
+        Me.rbtnSummary.Text = "Dock Summary"
+        Me.rbtnSummary.UseVisualStyleBackColor = True
         '
         'rbtnDockSummary
         '
@@ -461,6 +472,7 @@ Partial Class rptDailyQtyReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnBmcSummary)
         Me.RadGroupBox1.Controls.Add(Me.rdbTankerWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnTranpoterGainLoss)
         Me.RadGroupBox1.Controls.Add(Me.rbtnDock)
@@ -470,13 +482,13 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox1.Location = New System.Drawing.Point(369, 9)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(350, 42)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(450, 42)
         Me.RadGroupBox1.TabIndex = 406
         '
         'rdbTankerWise
         '
         Me.rdbTankerWise.AutoSize = True
-        Me.rdbTankerWise.Location = New System.Drawing.Point(350, 14)
+        Me.rdbTankerWise.Location = New System.Drawing.Point(463, 14)
         Me.rdbTankerWise.Name = "rdbTankerWise"
         Me.rdbTankerWise.Size = New System.Drawing.Size(87, 17)
         Me.rdbTankerWise.TabIndex = 7
@@ -697,7 +709,7 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -738,7 +750,7 @@ Partial Class rptDailyQtyReport
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(650, 15)
+        Me.btnClose.Location = New System.Drawing.Point(706, 15)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(84, 22)
         Me.btnClose.TabIndex = 153
@@ -764,21 +776,21 @@ Partial Class rptDailyQtyReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rbtnSummary
+        'rbtnBmcSummary
         '
-        Me.rbtnSummary.AutoSize = True
-        Me.rbtnSummary.Location = New System.Drawing.Point(196, 15)
-        Me.rbtnSummary.Name = "rbtnSummary"
-        Me.rbtnSummary.Size = New System.Drawing.Size(100, 17)
-        Me.rbtnSummary.TabIndex = 6
-        Me.rbtnSummary.Text = "Dock Summary"
-        Me.rbtnSummary.UseVisualStyleBackColor = True
+        Me.rbtnBmcSummary.AutoSize = True
+        Me.rbtnBmcSummary.Location = New System.Drawing.Point(350, 14)
+        Me.rbtnBmcSummary.Name = "rbtnBmcSummary"
+        Me.rbtnBmcSummary.Size = New System.Drawing.Size(97, 17)
+        Me.rbtnBmcSummary.TabIndex = 449
+        Me.rbtnBmcSummary.Text = "BMC Summary"
+        Me.rbtnBmcSummary.UseVisualStyleBackColor = True
         '
         'rptDailyQtyReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(740, 396)
+        Me.ClientSize = New System.Drawing.Size(956, 402)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "rptDailyQtyReport"
@@ -885,5 +897,6 @@ Partial Class rptDailyQtyReport
     Friend WithEvents ddlShift As common.Controls.MyComboBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents rbtnSummary As RadioButton
+    Friend WithEvents rbtnBmcSummary As RadioButton
 End Class
 

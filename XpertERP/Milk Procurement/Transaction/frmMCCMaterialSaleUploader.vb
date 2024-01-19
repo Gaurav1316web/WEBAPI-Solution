@@ -946,13 +946,13 @@ Public Class frmMCCMaterialSaleUploader
                     obj.Total_Tax_Amt = clsCommon.myCdbl(obj.TAX1_Amt) + clsCommon.myCdbl(obj.TAX2_Amt)
 
                     DocuAmount = DocuAmount + obj.Total_Tax_Amt
-                    If Math.Round(clsCommon.myCdbl(DocuAmount), 0) > clsCommon.myCdbl(DocuAmount) Then
-                        obj.RoundOffAmount = Math.Round(Math.Round(clsCommon.myCdbl(DocuAmount), 0) - clsCommon.myCdbl(DocuAmount), 2)
-                        obj.Total_Amt = Math.Round(clsCommon.myCdbl(DocuAmount), 0)
-                    Else
-                        obj.RoundOffAmount = Math.Round(Math.Round(clsCommon.myCdbl(DocuAmount)) - clsCommon.myCdbl(DocuAmount), 2)
-                        obj.Total_Amt = Math.Round(clsCommon.myCdbl(DocuAmount), 0)
-                    End If
+                    ' If Math.Round(clsCommon.myCdbl(DocuAmount), 0) > clsCommon.myCdbl(DocuAmount) Then
+                    obj.RoundOffAmount = Math.Round(Math.Round(clsCommon.myCdbl(DocuAmount), 0) - clsCommon.myCdbl(DocuAmount), 2)
+                    obj.Total_Amt = clsCommon.myCdbl(DocuAmount)
+                    'Else
+                    'obj.RoundOffAmount = Math.Round(Math.Round(clsCommon.myCdbl(DocuAmount)) - clsCommon.myCdbl(DocuAmount), 2)
+                    'obj.Total_Amt = Math.Round(clsCommon.myCdbl(DocuAmount), 0)
+                    'End If
 
                     ' objCommonVar.CurrentUserCode = clsERPFuncationality.getRandomUserCode("TSPL_SCRAPINVOICE_HEAD", "Created_By", obj.Bill_To_Location, "Loc_Code", trans)
 
