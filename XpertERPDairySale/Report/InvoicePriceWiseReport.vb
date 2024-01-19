@@ -31,7 +31,7 @@ Public Class InvoicePriceWiseReport
 
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -72,7 +72,7 @@ Public Class InvoicePriceWiseReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             ReStoreGridLayout()
@@ -82,7 +82,7 @@ Public Class InvoicePriceWiseReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -149,7 +149,7 @@ Public Class InvoicePriceWiseReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
   
@@ -164,7 +164,7 @@ Public Class InvoicePriceWiseReport
                 clsCommon.MyExportToExcelGrid("Invoice Price Wise Report", Gv1, arrHeader, "Invoice Price Wise Report")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -179,7 +179,7 @@ Public Class InvoicePriceWiseReport
                 clsCommon.MyExportToPDF("Invoice Price Wise Report", Gv1, arrHeader, "Invoice Price Wise Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -203,7 +203,7 @@ Public Class InvoicePriceWiseReport
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()

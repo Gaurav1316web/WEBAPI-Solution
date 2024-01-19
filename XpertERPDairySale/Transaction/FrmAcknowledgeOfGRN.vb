@@ -73,7 +73,7 @@ Public Class FrmAcknowledgeOfGRN
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -223,7 +223,7 @@ Public Class FrmAcknowledgeOfGRN
                 Next
                 If (clsAcknowledgementOfGRN.SaveData(obj, isNewEntry)) Then
                     If Not isFlag Then
-                        clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                         txtDocNo.Value = obj.ACKNOWLEDGEMENT_No
                         LoadData(obj.ACKNOWLEDGEMENT_No, NavigatorType.Current)
                     End If
@@ -286,7 +286,7 @@ Public Class FrmAcknowledgeOfGRN
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             dt = Nothing
@@ -297,7 +297,7 @@ Public Class FrmAcknowledgeOfGRN
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -315,7 +315,7 @@ Public Class FrmAcknowledgeOfGRN
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -339,12 +339,12 @@ Public Class FrmAcknowledgeOfGRN
         Try
             If (deleteConfirm()) Then
                 If (clsAcknowledgementOfGRN.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -365,13 +365,13 @@ Public Class FrmAcknowledgeOfGRN
                 SaveData()
                 If (clsAcknowledgementOfGRN.PostData(MyBase.Form_ID, arrLoc, txtDocNo.Value)) Then
                     msg = "Successfully posted"
-                    common.clsCommon.MyMessageBoxShow(msg)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
             msg = Nothing
@@ -419,7 +419,7 @@ Public Class FrmAcknowledgeOfGRN
             If obj.SaveData() Then
                 gv1.MasterTemplate.FilterDescriptors.Clear()
 
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -430,7 +430,7 @@ Public Class FrmAcknowledgeOfGRN
     Private Sub RDDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RDDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID & "gv1", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub fndCustomerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustomerNo._MYValidating
         fndCustomerNo.Value = clsCustomerMaster.getFinder("", fndCustomerNo.Value, isButtonClicked)
@@ -460,7 +460,7 @@ Public Class FrmAcknowledgeOfGRN
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub loadSaleInvoice()

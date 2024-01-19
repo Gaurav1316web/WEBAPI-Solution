@@ -73,7 +73,7 @@ Public Class RptEffectiveRateReport1
     End Sub
     Public Sub loadReport()
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
@@ -144,7 +144,7 @@ Public Class RptEffectiveRateReport1
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -314,7 +314,7 @@ Public Class RptEffectiveRateReport1
                 clsCommon.MyExportToPDF("Effective Rate Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
     Private Sub rmSavelayout_Click(sender As Object, e As EventArgs) Handles rmSavelayout.Click
@@ -329,7 +329,7 @@ Public Class RptEffectiveRateReport1
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -345,7 +345,7 @@ Public Class RptEffectiveRateReport1
     End Sub
     Private Sub rmDeleteLayut_Click(sender As Object, e As EventArgs) Handles rmDeleteLayut.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub rmExcel_Click(sender As Object, e As EventArgs) Handles rmExcel.Click
         Try
@@ -386,7 +386,7 @@ Public Class RptEffectiveRateReport1
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -19,12 +19,12 @@ Public Class FrmDairySaleSchemeReport
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         If txtfDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater than to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
             txtfDate.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtUOM.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select UOM first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select UOM first", Me.Text)
             Exit Sub
         End If
         PageSetupReport_ID = MyBase.Form_ID
@@ -264,7 +264,7 @@ Public Class FrmDairySaleSchemeReport
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -303,7 +303,7 @@ Public Class FrmDairySaleSchemeReport
             gvData.MasterTemplate.AutoExpandGroups = True
             gvData.MasterTemplate.ShowTotals = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -370,7 +370,7 @@ Public Class FrmDairySaleSchemeReport
                 clsCommon.MyExportToPDF(Me.Text, gvData, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -406,7 +406,7 @@ Public Class FrmDairySaleSchemeReport
                 txtToDate.ShowUpDown = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -421,7 +421,7 @@ Public Class FrmDairySaleSchemeReport
                 txtToDate.ShowUpDown = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -434,7 +434,7 @@ Public Class FrmDairySaleSchemeReport
                 txtToDate.CustomFormat = "dd/MM/yyyy"
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -456,7 +456,7 @@ Public Class FrmDairySaleSchemeReport
                 gvData.DataSource = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -472,7 +472,7 @@ Public Class FrmDairySaleSchemeReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gvData.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
