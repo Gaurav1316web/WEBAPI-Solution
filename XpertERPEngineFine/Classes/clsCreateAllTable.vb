@@ -23229,6 +23229,8 @@ Public Class clsCreateAllTable
             coll.Add("Own_BMC_FAT", "Decimal(18,2) null")
             coll.Add("Own_BMC_SNF", "Decimal(18,2) null")
             coll.Add("Own_BMC_Loose_Sale_Qty", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_FAT", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_SNF", "Decimal(18,2) null")
             coll.Add("Remarks", "Varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
