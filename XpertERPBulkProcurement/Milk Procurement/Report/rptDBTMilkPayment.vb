@@ -31,7 +31,7 @@ Public Class rptDBTMilkPayment
             Dim qry As String = "select MCC_Code as [MCC Code],MCC_NAME as [MCC Name],TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code"
             txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("@TSDSR1", qry, "MCC Code", "MCC Name", txtMCC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -40,7 +40,7 @@ Public Class rptDBTMilkPayment
             Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name from TSPL_VLC_MASTER_HEAD "
             txtDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "VLC_Code_VLC_Uploader", "VLC_Name", txtDCS.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -204,10 +204,10 @@ Public Class rptDBTMilkPayment
                 ReStoreGridLayout()
                 'ReStoreGridLayout()
             Else
-                clsCommon.MyMessageBoxShow("No data found to display.", "Sales Report")
+                clsCommon.MyMessageBoxShow(Me, "No data found to display.", "Sales Report", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -320,7 +320,7 @@ Public Class rptDBTMilkPayment
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptDBTPayment", "")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
         Catch ex As Exception
@@ -339,7 +339,7 @@ Public Class rptDBTMilkPayment
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If gv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim StrReportName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDBTMilkPayment & "'"))
@@ -398,7 +398,7 @@ Public Class rptDBTMilkPayment
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 

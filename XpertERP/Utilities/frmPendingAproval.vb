@@ -56,8 +56,10 @@ Public Class FrmPendingAproval
     Dim CreateProvisionOfTransporterInDairyDispatch As Boolean = False
     Dim FlagAllSelectWorking As Boolean = False
     Dim SettSeprateDemandForMorningEveningShift As Boolean = False
+    Dim SettApplyMergeForDCSMultipleDays As Boolean = False
 
     Private Sub FrmPendingAproval_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SettApplyMergeForDCSMultipleDays = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, Nothing)) > 0)
         SettSeprateDemandForMorningEveningShift = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, Nothing)) = 1)
         ShowDairySaleModuleOnBulkPosting = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowDairySaleModuleOnBulkPosting, clsFixedParameterCode.ShowDairySaleModuleOnBulkPosting, Nothing))
         CreateProvisionOfTransporterInDairyDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)) = 0, False, True)
@@ -930,14 +932,18 @@ Public Class FrmPendingAproval
         dr("Name") = "Purchase Invoice"
         dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "DCS Milk Collection Multiple Days"
-        dr("Name") = "DCS Milk Collection Multiple Days"
-        dt1.Rows.Add(dr)
-        dr = dt1.NewRow()
-        dr("Code") = "MCC Milk Collection Multiple Days"
-        dr("Name") = "MCC Milk Collection Multiple Days"
-        dt1.Rows.Add(dr)
+        If Not SettApplyMergeForDCSMultipleDays Then
+            dr = dt1.NewRow()
+            dr("Code") = "DCS Milk Collection Multiple Days"
+            dr("Name") = "DCS Milk Collection Multiple Days"
+            dt1.Rows.Add(dr)
+        End If
+
+
+        'dr = dt1.NewRow()
+        'dr("Code") = "MCC Milk Collection Multiple Days"
+        'dr("Name") = "MCC Milk Collection Multiple Days"
+        'dt1.Rows.Add(dr)
 
         cboTransaction.DataSource = dt1
         cboTransaction.DisplayMember = "Name"

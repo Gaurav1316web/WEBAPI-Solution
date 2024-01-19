@@ -94,19 +94,19 @@ Public Class FrmBankBrachMaster
                 Return False
             End If
             If clsDBFuncationality.getSingleValue("select count(*) from tspl_bank_Branch_master where IFSC_code='" & txtIFSCCode.Text.ToString.Trim & "'") > 0 AndAlso clsCommon.CompairString(rbtnSave.Text, "Save") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Duplicate IFSC Code. This Code is Already Assigned to Other Branch  ")
+                clsCommon.MyMessageBoxShow(Me, "Duplicate IFSC Code. This Code is Already Assigned to Other Branch  ", Me.Text)
                 Return False
             End If
             If clsDBFuncationality.getSingleValue("select count(*) from tspl_bank_Branch_master where IFSC_code='" & txtIFSCCode.Text.ToString.Trim & "' and branch_code<>'" & fndBranchCode.Value & "'") > 0 AndAlso clsCommon.CompairString(rbtnSave.Text, "Update") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Duplicate IFSC Code. This Code is Already Assigned to Other Branch  ")
+                clsCommon.MyMessageBoxShow(Me, "Duplicate IFSC Code. This Code is Already Assigned to Other Branch  ", Me.Text)
                 Return False
             End If
             If clsDBFuncationality.getSingleValue("select count(*) from tspl_bank_Branch_master where branch_name='" & txtBranchName.Text.ToString.Trim & "' and bank_code='" & fndBankCode.Value & "'") > 0 AndAlso clsCommon.CompairString(rbtnSave.Text, "Save") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Duplicate Branch Name  Against Specified Bank Code   ")
+                clsCommon.MyMessageBoxShow(Me, "Duplicate Branch Name  Against Specified Bank Code   ", Me.Text)
                 Return False
             End If
             If clsDBFuncationality.getSingleValue("select count(*) from tspl_bank_Branch_master where branch_name='" & txtBranchName.Text.ToString.Trim & "' and bank_code='" & fndBankCode.Value & "' and branch_code<>'" & fndBranchCode.Value & "'") > 0 AndAlso clsCommon.CompairString(rbtnSave.Text, "Update") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Duplicate Branch Name  Against Specified Bank Code   ")
+                clsCommon.MyMessageBoxShow(Me, "Duplicate Branch Name  Against Specified Bank Code   ", Me.Text)
                 Return False
             End If
             If clsCommon.myLen(fndBankCode.Value) = 0 Then
@@ -151,7 +151,7 @@ Public Class FrmBankBrachMaster
     Sub deleteData()
         Try
             If clsCommon.myLen(fndBranchCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Branch Code found to Delete", Me.Name)
+                common.clsCommon.MyMessageBoxShow(Me, "No Branch Code found to Delete", Me.Name)
                 'Return False
                 Exit Sub
             ElseIf Not (common.clsCommon.MyMessageBoxShow("Delete the Branch Code " + fndBranchCode.Value + Environment.NewLine + " Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
@@ -159,7 +159,7 @@ Public Class FrmBankBrachMaster
                 Exit Sub
             End If
             If (clsBankBranchMaster.DeleteData(fndBranchCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Sucessfully", Me.Name)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Sucessfully", Me.Name)
                 Reset()
                 'Return True
             End If

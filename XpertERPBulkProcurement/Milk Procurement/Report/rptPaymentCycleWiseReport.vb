@@ -33,7 +33,7 @@ Public Class rptPaymentCycleWiseReport
             dgv_Groupmapping.Columns(1).FieldName = "Description"
             dgv_Groupmapping.Select()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -109,7 +109,7 @@ Public Class rptPaymentCycleWiseReport
             End If
 
             If clsCommon.myLen(strDocumentCode) <= 0 Then
-                clsCommon.MyMessageBoxShow("Data Not Found!")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found!", Me.Text)
                 Return
             End If
 
@@ -150,7 +150,7 @@ Public Class rptPaymentCycleWiseReport
                     gv1.DataSource = dt2
                     SetGridFormat()
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                     Exit Sub
                 End If
             Else
@@ -158,7 +158,7 @@ Public Class rptPaymentCycleWiseReport
             End If
             EnableDisableCtrl(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -203,7 +203,7 @@ Public Class rptPaymentCycleWiseReport
 
             'If MultipleFinderFillAuto = True Then
             If mfndMcc.arrValueMember Is Nothing OrElse mfndMcc.arrValueMember.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Data Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                 Exit Sub
             End If
             'End If
@@ -214,7 +214,7 @@ Public Class rptPaymentCycleWiseReport
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (select Location_Code  from TSPL_LOCATION_MASTER where " + strMCCcode + " and Location_Category='MCC' and Rejected_Type='N') ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -222,7 +222,7 @@ Public Class rptPaymentCycleWiseReport
             Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
             If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                 If fromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
                     fromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
                     ToDate.Value = fromDate.Value
                     Exit Sub
@@ -238,7 +238,7 @@ Public Class rptPaymentCycleWiseReport
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(fromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                     fromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     ToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -246,7 +246,7 @@ Public Class rptPaymentCycleWiseReport
                 ToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, fromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(fromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                     fromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     ToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -305,7 +305,7 @@ Public Class rptPaymentCycleWiseReport
             mfndMcc.arrValueMember = clsCommon.ShowMultipleSelectForm("MULMCC@PaymentProcessCYCLEREPOT", qry, "Code", "", mfndMcc.arrValueMember, Nothing)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub FillAllMCCDefault()
@@ -334,7 +334,7 @@ Public Class rptPaymentCycleWiseReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -343,7 +343,7 @@ Public Class rptPaymentCycleWiseReport
             Dim qry As String = " select Vendor_Code  as Code, Vendor_Name as Name from TSPL_VENDOR_MASTER  "
             txtDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("PCWR@DCS@MFinder", qry, "Code", "Name", txtDCS.arrValueMember, txtDCS.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -352,7 +352,7 @@ Public Class rptPaymentCycleWiseReport
             Dim qry As String = " select BANK_CODE as Code , DESCRIPTION as Name from TSPL_BANK_MASTER  "
             txtBank.arrValueMember = clsCommon.ShowMultipleSelectForm("PCWR@BANK@MFinder", qry, "Code", "Name", txtBank.arrValueMember, txtBank.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -361,7 +361,7 @@ Public Class rptPaymentCycleWiseReport
             Dim qry As String = " select Location_Code as [Code],Location_Desc as Name from TSPL_Location_MASTER where Rejected_Type='N' and Location_Category='MCC' "
             txtMCC_BMC.arrValueMember = clsCommon.ShowMultipleSelectForm("MULMCC@Finder@PaymentCycleReport", qry, "Code", "", txtMCC_BMC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -376,7 +376,7 @@ Public Class rptPaymentCycleWiseReport
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -400,7 +400,7 @@ Public Class rptPaymentCycleWiseReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 

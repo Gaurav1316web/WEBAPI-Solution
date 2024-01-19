@@ -518,15 +518,15 @@ Public Class FrmPrefixGenerationNew
         For ii As Integer = 0 To gv1.RowCount - 1
             If clsCommon.myLen(gv1.Rows(ii).Cells(colPrefix).Value) > 0 Then
                 If Not isLocationReadOnly AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(colLoaction).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please enter location on line No:" + clsCommon.myCstr(ii + 1) + "")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter location on line No:" + clsCommon.myCstr(ii + 1) + "")
                     Return False
                 End If
                 If Not isTransactionTypeReadOnly AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(colTransType).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please enter transaction type on line No:" + clsCommon.myCstr(ii + 1) + "")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter transaction type on line No:" + clsCommon.myCstr(ii + 1) + "")
                     Return False
                 End If
                 If clsCommon.myCBool(gv1.Rows(ii).Cells(coldontDisplayYearInSeries).Value) AndAlso clsCommon.myCBool(gv1.Rows(ii).Cells(colShortFiscalYear).Value) Then
-                    common.clsCommon.MyMessageBoxShow("Select one at a time(Don't Add Fiscal Year/Short Fiscal Year) at line No:" + clsCommon.myCstr(ii + 1) + "")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select one at a time(Don't Add Fiscal Year/Short Fiscal Year) at line No:" + clsCommon.myCstr(ii + 1) + "")
                     Return False
                 End If
                 For jj As Integer = 0 To gv1.RowCount - 1
@@ -547,20 +547,20 @@ Public Class FrmPrefixGenerationNew
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colTransType).Value), strTranType) = CompairStringResult.Equal _
                         AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colLoaction).Value), strLocation) = CompairStringResult.Equal _
                         AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colMonth).Value) = clsCommon.myCdbl(gv1.Rows(jj).Cells(colMonth).Value) Then
-                            common.clsCommon.MyMessageBoxShow("Transaction Type : " + strTranType + " and Location : " + strLocation + " and Month : " + clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMonth).Value)) + "  Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Transaction Type : " + strTranType + " and Location : " + strLocation + " and Month : " + clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMonth).Value)) + "  Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colPrefix).Value), strPrefix) = CompairStringResult.Equal _
                         AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colMonth).Value) = clsCommon.myCdbl(gv1.Rows(jj).Cells(colMonth).Value) Then
-                            common.clsCommon.MyMessageBoxShow("Prefix : " + strPrefix + " and Month : " + clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMonth).Value)) + " Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Prefix : " + strPrefix + " and Month : " + clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMonth).Value)) + " Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         End If
                     ElseIf clsCommon.myCBool(gv1.Rows(ii).Cells(colIsChangeDaily).Value) Then
                         If clsCommon.myLen(gv1.Rows(ii).Cells(colCurrentDate).Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please select current date  at Line No:" + clsCommon.myCstr(ii + 1))
+                            common.clsCommon.MyMessageBoxShow(Me, "Please select current date  at Line No:" + clsCommon.myCstr(ii + 1))
                             Return False
                         End If
                         If clsCommon.myLen(gv1.Rows(jj).Cells(colCurrentDate).Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please select current date  at Line No:" + clsCommon.myCstr(jj + 1))
+                            common.clsCommon.MyMessageBoxShow(Me, "Please select current date  at Line No:" + clsCommon.myCstr(jj + 1))
                             Return False
                         End If
                         Dim dtOuterDate As Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colCurrentDate).Value, "dd/MMM/yyyy")
@@ -568,20 +568,20 @@ Public Class FrmPrefixGenerationNew
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colTransType).Value), strTranType) = CompairStringResult.Equal _
                         AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colLoaction).Value), strLocation) = CompairStringResult.Equal _
                         AndAlso dtOuterDate = dtInnerDate Then
-                            common.clsCommon.MyMessageBoxShow("Transaction Type : " + strTranType + " and Location : " + strLocation + " and current Date : " + clsCommon.GetPrintDate(dtOuterDate, "dd/MM/yyyy") + "  Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Transaction Type : " + strTranType + " and Location : " + strLocation + " and current Date : " + clsCommon.GetPrintDate(dtOuterDate, "dd/MM/yyyy") + "  Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colPrefix).Value), strPrefix) = CompairStringResult.Equal _
                         AndAlso dtOuterDate = dtInnerDate Then
-                            common.clsCommon.MyMessageBoxShow("Prefix : " + strPrefix + " and current Date : " + clsCommon.GetPrintDate(dtOuterDate, "dd/MM/yyyy") + " Repeted on Line No : " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Prefix : " + strPrefix + " and current Date : " + clsCommon.GetPrintDate(dtOuterDate, "dd/MM/yyyy") + " Repeted on Line No : " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         End If
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colTransType).Value), strTranType) = CompairStringResult.Equal _
                         AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colLoaction).Value), strLocation) = CompairStringResult.Equal Then
-                            common.clsCommon.MyMessageBoxShow("Transaction Type : " + strTranType + " and Location :" + strLocation + " Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Transaction Type : " + strTranType + " and Location :" + strLocation + " Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colPrefix).Value), strPrefix) = CompairStringResult.Equal Then
-                            common.clsCommon.MyMessageBoxShow("Prefix : " + strPrefix + " Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
+                            common.clsCommon.MyMessageBoxShow(Me, "Prefix : " + strPrefix + " Repeted on Line No:" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                             Return False
                         End If
                     End If
@@ -639,7 +639,7 @@ Public Class FrmPrefixGenerationNew
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
             If clsCommon.myLen(txtDocument.Value) <= 0 Then
                 Exit Sub
             End If

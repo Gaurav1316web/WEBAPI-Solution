@@ -70,6 +70,8 @@ Partial Class frmMilkCollectionDCS
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gv2 = New Telerik.WinControls.UI.RadGridView()
         Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.btnAddMissing = New Telerik.WinControls.UI.RadButton()
         Me.btnViewBalance = New Telerik.WinControls.UI.RadButton()
         Me.btnCreateDCS = New Telerik.WinControls.UI.RadButton()
@@ -82,8 +84,6 @@ Partial Class frmMilkCollectionDCS
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -130,6 +130,8 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnViewBalance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCreateDCS, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -142,8 +144,6 @@ Partial Class frmMilkCollectionDCS
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -282,7 +282,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtTotPendingSNFPer.Location = New System.Drawing.Point(632, 67)
         Me.txtTotPendingSNFPer.Name = "txtTotPendingSNFPer"
         Me.txtTotPendingSNFPer.Size = New System.Drawing.Size(60, 20)
-        Me.txtTotPendingSNFPer.TabIndex = 10
+        Me.txtTotPendingSNFPer.TabIndex = 0
         Me.txtTotPendingSNFPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingSNFPer.TextWrap = False
         '
@@ -693,7 +693,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(90, 18)
-        Me.txtDate.TabIndex = 0
+        Me.txtDate.TabIndex = 1
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
@@ -803,6 +803,26 @@ Partial Class frmMilkCollectionDCS
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(1091, 28)
         Me.Panel3.TabIndex = 40
+        '
+        'RadButton4
+        '
+        Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton4.Location = New System.Drawing.Point(838, 3)
+        Me.RadButton4.Name = "RadButton4"
+        Me.RadButton4.Size = New System.Drawing.Size(72, 22)
+        Me.RadButton4.TabIndex = 42
+        Me.RadButton4.Text = "Print2"
+        '
+        'RadButton3
+        '
+        Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton3.Location = New System.Drawing.Point(764, 3)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(72, 22)
+        Me.RadButton3.TabIndex = 10
+        Me.RadButton3.Text = "Print1"
         '
         'btnAddMissing
         '
@@ -924,26 +944,6 @@ Partial Class frmMilkCollectionDCS
         Me.btnExport.TabIndex = 7
         Me.btnExport.Text = "Export"
         '
-        'RadButton3
-        '
-        Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton3.Location = New System.Drawing.Point(764, 3)
-        Me.RadButton3.Name = "RadButton3"
-        Me.RadButton3.Size = New System.Drawing.Size(72, 22)
-        Me.RadButton3.TabIndex = 10
-        Me.RadButton3.Text = "Print1"
-        '
-        'RadButton4
-        '
-        Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton4.Location = New System.Drawing.Point(838, 3)
-        Me.RadButton4.Name = "RadButton4"
-        Me.RadButton4.Size = New System.Drawing.Size(72, 22)
-        Me.RadButton4.TabIndex = 42
-        Me.RadButton4.Text = "Print2"
-        '
         'frmMilkCollectionDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1007,6 +1007,8 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnViewBalance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCreateDCS, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1019,8 +1021,6 @@ Partial Class frmMilkCollectionDCS
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -656,7 +656,7 @@ Public Class FrmShipToLocationDetails
             If ChkOther.Checked = False Then
                 Dim msg As String = clsERPFuncationality.CheckPanStructure(txtpan.Text.Trim(), txtCustomerName.Text)
                 If clsCommon.myLen(msg) > 0 Then
-                    clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     txtpan.Focus()
                     txtpan.Select()
                 End If
@@ -1025,10 +1025,10 @@ Public Class FrmShipToLocationDetails
                 trans.Commit()
 
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message & " At Row number: " & rownum)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Row number: " & rownum)
                 trans.Rollback()
 
             End Try

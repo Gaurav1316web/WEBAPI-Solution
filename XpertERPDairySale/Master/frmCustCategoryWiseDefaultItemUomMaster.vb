@@ -144,7 +144,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -154,7 +154,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Sub funReset()
@@ -340,7 +340,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
 
                 End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -521,10 +521,10 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
 
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)
@@ -662,7 +662,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
         If clsCommon.CompairString(cmbCustomerCategory.Text, "Select") <> CompairStringResult.Equal AndAlso clsCommon.myLen(cmbCustomerCategory.Text) > 0 Then
             LoadData(cmbCustomerCategory.Text, NavigatorType.Current)
         Else
-            clsCommon.MyMessageBoxShow("Please Select Customer Category")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Customer Category", Me.Text)
         End If
     End Sub
 
@@ -693,7 +693,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
             End If
             str = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -121,7 +121,7 @@ Public Class FrmApplyCapping
             Dim qry As String = VSPQry(arrMCC, Nothing)
             txtVSP.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "VSPPVLF", qry, "VLC_CODE", "", txtVSP.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
