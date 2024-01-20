@@ -8324,6 +8324,11 @@ Public Class MDI
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptBmcCollection
+                        frm = New rptBmcCollection
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.rptDBTMilkPayment
                         frm = New rptDBTMilkPayment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

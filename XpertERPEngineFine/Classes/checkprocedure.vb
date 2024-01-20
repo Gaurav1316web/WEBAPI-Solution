@@ -1716,11 +1716,12 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "Truck Sheet Daily Summary Report", "1.17.03.106", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "Temporary Payment Deduction Summary", "1.17.03.107", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptAutoMultipleAdditionDeduction, "Auto Multiple Addition Deduction", "1.17.03.108", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDBTSummaryMonthlyWise, "DBT Year Wise Summary", "1.17.03.109", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, "DBT Milk Payment", "1.17.03.110", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptBMCTankerTestingReport, "BMC Tanker Testing Report", "1.17.03.111", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.112", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.113", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBmcCollection, "Bmc Collection Report", "1.17.03.109", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDBTSummaryMonthlyWise, "DBT Year Wise Summary", "1.17.03.110", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, "DBT Milk Payment", "1.17.03.111", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCTankerTestingReport, "BMC Tanker Testing Report", "1.17.03.112", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.113", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.114", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
