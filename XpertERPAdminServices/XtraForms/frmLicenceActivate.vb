@@ -26,7 +26,7 @@ Public Class FrmLicenceActivate
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Else
-            clsCommon.MyMessageBoxShow("Not a valid product key" + Environment.NewLine, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Not a valid product key" + Environment.NewLine, Me.Text)
         End If
     End Sub
 

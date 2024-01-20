@@ -106,7 +106,7 @@ Public Class frmDeptHeadCustomerMapping
             'dgv_Groupmapping.CurrentCell = New DataGridCell(0, 0)
             IsInsideLoadData = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
     Sub textbox_lostfocus()

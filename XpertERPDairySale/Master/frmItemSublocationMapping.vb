@@ -167,7 +167,7 @@ Public Class frmItemSublocationMapping
 
                     If e.Column Is gv1.Columns(colSubLocationCode) Then
                         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please select Location First")
+                            common.clsCommon.MyMessageBoxShow(Me, "Please select Location First", Me.Text)
                             isCellValueChangedOpen = False
                             Exit Sub
                         End If
@@ -186,7 +186,7 @@ Public Class frmItemSublocationMapping
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -255,7 +255,7 @@ Public Class frmItemSublocationMapping
                 Exit Function
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -268,7 +268,7 @@ Public Class frmItemSublocationMapping
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnAddNew.Focus()
             End If
         End If
@@ -293,7 +293,7 @@ Public Class frmItemSublocationMapping
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please fill at list one Sub Location", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please fill at list one Sub Location", Me.Text)
                     Return False
                 End If
                 If (obj.SaveData(obj)) = True Then
@@ -308,7 +308,7 @@ Public Class frmItemSublocationMapping
 
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -746,7 +746,7 @@ Public Class frmItemSublocationMapping
                 gv1.Rows(0).Cells(1).BeginEdit()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -774,14 +774,14 @@ Public Class frmItemSublocationMapping
                     txtLocation.Enabled = False
                     btnSave.Enabled = True
                 Else
-                    clsCommon.MyMessageBoxShow("No Item Found", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Item Found", Me.Text)
                 End If
 
             Else
-                clsCommon.MyMessageBoxShow("Please slect location first.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please slect location first.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -793,7 +793,7 @@ Public Class frmItemSublocationMapping
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
         Try
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please slect location first.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please slect location first.", Me.Text)
                 Exit Sub
             End If
             Dim strSql As String = " select  '" + txtLocation.Value + "' as [Location Code], '" + lblLocation.Text + "' as [Location Name] ,tspl_item_master.item_code as [Item Code], tspl_item_master.Item_Desc as [Item Name],tspl_item_master.Short_Description as [Item Short Description] , TSPL_Item_Sublocation_Mapping.Sub_Location_Code as [SubLocationCode] , TSPL_LOCATION_MASTER.Location_Desc  as [Sub Location Name] from tspl_item_master
@@ -803,13 +803,13 @@ Public Class frmItemSublocationMapping
 
             transportSql.ExporttoExcel(strSql, " and isnull(tspl_item_master.Chilled_Freezen, 0) = 1 And isnull(tspl_item_master.item_type,'')='F'  and tspl_item_master.Active=1", Me) ' tspl_item_master.Sku_Seq
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub rmImport_Click(sender As Object, e As EventArgs) Handles rmImport.Click
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please slect location first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please slect location first.", Me.Text)
             Exit Sub
         End If
         Dim gv As New RadGridView()

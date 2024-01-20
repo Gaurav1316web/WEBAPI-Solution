@@ -24,6 +24,7 @@ Public Class rptTruckSheetReport
             Dim ARRStop As New List(Of String)
             Dim dt As DataTable = New DataTable()
             Dim dtDCSDetail As DataTable = Nothing
+            Dim dtDCSDetailUnique As DataTable = Nothing
             Dim dtMCCDetail As DataTable = Nothing
             Dim dtMCCHead As DataTable = Nothing
             Dim dtMCCHeadData As DataTable = Nothing
@@ -181,6 +182,24 @@ Public Class rptTruckSheetReport
                         where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail IN (" + StrAgainst_Milk_Collection_MCC_Detail + ") order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
 
                         dtDCSDetail = clsDBFuncationality.GetDataTable(qry)
+
+                        qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date,
+                        TSPL_VLC_MASTER_HEAD.VLC_Name,(CASE WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type='C' THEN 'Cow' else 'Mixed' end) AS [CMType]
+                        ,TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.SNo,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
+                        ,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type
+                        ,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG
+                        ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG
+                        ,(case when isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Own_Qty,0)>0 then TSPL_MILK_COLLECTION_DCS_DETAIL.Own_Qty else isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,0) end) as Own_Qty
+                        ,(case when isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Own_FAT,0)>0 then TSPL_MILK_COLLECTION_DCS_DETAIL.Own_FAT else isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,0) end) as Own_FAT
+                        ,(case when isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Own_SNF,0)>0 then TSPL_MILK_COLLECTION_DCS_DETAIL.Own_SNF else isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,0) end) as Own_SNF
+                        ,(case when isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Own_FATKG,0)>0 then TSPL_MILK_COLLECTION_DCS_DETAIL.Own_FATKG else isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG,0) end) as Own_FATKG
+                        ,(case when isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Own_SNFKG,0)>0 then TSPL_MILK_COLLECTION_DCS_DETAIL.Own_SNFKG else isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG,0) end) as Own_SNFKG
+                        FROM TSPL_MILK_COLLECTION_DCS_DETAIL
+                        left join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.document_no=TSPL_MILK_COLLECTION_DCS_DETAIL.document_no
+                        inner join ( select  Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail In (" + StrAgainst_Milk_Collection_MCC_Detail + ") group by  Document_No) as TSPL_MILK_COLLECTION_DCS_MCC_DETAIL  on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
+                        left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.vlc_code=TSPL_MILK_COLLECTION_DCS_DETAIL.vlc_code
+                        where 2=2 order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
+                        dtDCSDetailUnique = clsDBFuncationality.GetDataTable(qry)
 
                         For i As Integer = 0 To dtMCCHead.Rows.Count - 1
                             Dim strUnique As String = ""
@@ -349,13 +368,13 @@ Public Class rptTruckSheetReport
                             End If
                         Next
 
-                        SumQty = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([Qty])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [Qty] is not null")), 2)
-                        SumFATKG = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([FATKG])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [FATKG] is not null")), 2)
-                        SumSNFKG = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([SNFKG])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [SNFKG] is not null")), 2)
+                        SumQty = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Qty])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [Qty] is not null")), 2)
+                        SumFATKG = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([FATKG])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [FATKG] is not null")), 2)
+                        SumSNFKG = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([SNFKG])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [SNFKG] is not null")), 2)
 
-                        Hist_SumQty = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([Own_Qty])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [Own_Qty] is not null")), 2)
-                        Hist_SumFATKG = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([Own_FATKG])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [Own_FATKG] is not null")), 2)
-                        Hist_SumSNFKG = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([Own_SNFKG])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [Own_SNFKG] is not null")), 2)
+                        Hist_SumQty = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Own_Qty])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [Own_Qty] is not null")), 2)
+                        Hist_SumFATKG = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Own_FATKG])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [Own_FATKG] is not null")), 2)
+                        Hist_SumSNFKG = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Own_SNFKG])", "[Document_Date]='" + clsCommon.myCstr(dtMCCDate.Rows(t).Item("Document_Date")) + "' and [Own_SNFKG] is not null")), 2)
 
 
                         dt.Rows.Add("Total Collection for Date : ", DBNull.Value, DBNull.Value, DBNull.Value, SumQty, DBNull.Value, DBNull.Value, SumFATKG, SumSNFKG, Hist_SumQty, DBNull.Value, DBNull.Value, Hist_SumFATKG, Hist_SumSNFKG)
@@ -408,9 +427,9 @@ Public Class rptTruckSheetReport
                 SumQty1 = Math.Round(clsCommon.myCdbl(dtMCCDetail.Compute("SUM([Qty])", "")), 2)
                 SumFATKG1 = Math.Round(clsCommon.myCdbl(dtMCCDetail.Compute("SUM([FATKG])", "")), 2)
                 SumSNFKG1 = Math.Round(clsCommon.myCdbl(dtMCCDetail.Compute("SUM([SNFKG])", "")), 2)
-                SumQty2 = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([Qty])", "")), 2)
-                SumFATKG2 = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([FATKG])", "")), 2)
-                SumSNFKG2 = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([SNFKG])", "")), 2)
+                SumQty2 = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Qty])", "")), 2)
+                SumFATKG2 = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([FATKG])", "")), 2)
+                SumSNFKG2 = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([SNFKG])", "")), 2)
 
                 SumQty = Math.Round(SumQty1 - SumQty2, 2)
                 SumFATKG = Math.Round(SumFATKG1 - SumFATKG2, 2)
@@ -420,9 +439,9 @@ Public Class rptTruckSheetReport
                 Hist_SumQty1 = Math.Round(clsCommon.myCdbl(dtMCCDetail.Compute("SUM([Qty])", "")), 2)
                 Hist_SumFATKG1 = Math.Round(clsCommon.myCdbl(dtMCCDetail.Compute("SUM([FATKG])", "")), 2)
                 Hist_SumSNFKG1 = Math.Round(clsCommon.myCdbl(dtMCCDetail.Compute("SUM([SNFKG])", "")), 2)
-                Hist_SumQty2 = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([Own_Qty])", "")), 2)
-                Hist_SumFATKG2 = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([Own_FATKG])", "")), 2)
-                Hist_SumSNFKG2 = Math.Round(clsCommon.myCdbl(dtDCSDetail.Compute("SUM([Own_SNFKG])", "")), 2)
+                Hist_SumQty2 = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Own_Qty])", "")), 2)
+                Hist_SumFATKG2 = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Own_FATKG])", "")), 2)
+                Hist_SumSNFKG2 = Math.Round(clsCommon.myCdbl(dtDCSDetailUnique.Compute("SUM([Own_SNFKG])", "")), 2)
 
                 Hist_SumQty = Math.Round(Hist_SumQty1 - Hist_SumQty2, 2)
                 Hist_SumFATKG = Math.Round(Hist_SumFATKG1 - Hist_SumFATKG2, 2)
@@ -623,7 +642,7 @@ Public Class rptTruckSheetReport
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -631,7 +650,7 @@ Public Class rptTruckSheetReport
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
@@ -652,7 +671,7 @@ Public Class rptTruckSheetReport
                 transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
 
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -760,7 +779,7 @@ Public Class rptTruckSheetReport
 
         Catch ex As Exception
             doc = Nothing
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_RowFormatting(sender As Object, e As RowFormattingEventArgs) Handles gv1.RowFormatting

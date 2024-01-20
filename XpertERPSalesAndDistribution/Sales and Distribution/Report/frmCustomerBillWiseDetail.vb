@@ -106,21 +106,21 @@ Public Class frmCustomerBillWiseDetail
         Dim strLoc As String = ""
         Dim strDateRange As String = ""
         Try
-            qry = "Select '" & Format(dtpFrmDate.Value(), "dd/MM/yyyy").ToString() + " To " + Format(dtpToDate.Value(), "dd/MM/yyyy").ToString() & "' as dtrng,  tspl_company_master.Logo_Img as img, TSPL_COMPANY_MASTER.Comp_Name as compname, case when ISNULL(TSPL_COMPANY_MASTER.Add1,'')<>'' then TSPL_COMPANY_MASTER.Add1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' then ', '+TSPL_COMPANY_MASTER.Add2 else '' end +case when ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' then ','+TSPL_COMPANY_MASTER.Add3 else '' end as'address', case when ISNULL(TSPL_COMPANY_MASTER.Phone1 ,'')<>'' then TSPL_COMPANY_MASTER.Phone1  else '' end + case when ISNULL(TSPL_COMPANY_MASTER.Phone2 ,'')<>'' then ', '+TSPL_COMPANY_MASTER.Phone2  else '' end as tel,TSPL_COMPANY_MASTER.Fax as fax, isnull(TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No,'')  as Po_no,case when isnull(TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' and isnull(TSPL_Customer_Invoice_Head.Against_Sale_return_No,'')='' then TSPL_Customer_Invoice_Head.Document_No  when  isnull(TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' then  TSPL_Customer_Invoice_Head.Against_Sale_return_No else TSPL_Customer_Invoice_Head.Against_Sale_No end   as Ref_No,  TSPL_Customer_Invoice_Head.Due_Date as Due_On,TSPL_Customer_Invoice_Head.Document_Date as Bill_Date, TSPL_Customer_Invoice_Head.Document_Total as Open_amt, TSPL_Customer_Invoice_Head.Balance_Amt as Pending_Amt, TSPL_CUSTOMER_MASTER.Cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name,case when ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location,'')='' then replace(TSPL_CUSTOMER_MASTER.Add1+','+TSPL_CUSTOMER_MASTER.Add2+',' +TSPL_CUSTOMER_MASTER.Add3,',,',',') else replace(TSPL_SHIP_TO_LOCATION.Add1 +',' + TSPL_SHIP_TO_LOCATION.Add2 + ',' + TSPL_SHIP_TO_LOCATION.Add3 + ',' +TSPL_SHIP_TO_LOCATION.Add4,',,',',' ) end   as InvAddress , TSPL_CUSTOMER_MASTER.Parent_Customer_No, isnull(Parent.Customer_Name,'') as ParentName from  TSPL_Customer_Invoice_Head  LEFT OUTER JOIN  TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code   LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_Customer_Invoice_Head.Against_Sale_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent ON Parent.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No  left outer join tspl_company_master on tspl_company_master.comp_code=tspl_customer_invoice_head.Comp_Code left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_to_code=TSPL_SD_SALE_INVOICE_HEAD.ship_to_location    "
+            qry = "Select '" & Format(dtpFrmDate.Value(), "dd/MM/yyyy").ToString() + " To " + Format(dtpToDate.Value(), "dd/MM/yyyy").ToString() & "' as dtrng, '" & objCommonVar.CurrentUser & "' as User_Name ,  tspl_company_master.Logo_Img as img, TSPL_COMPANY_MASTER.Comp_Name as compname, case when ISNULL(TSPL_COMPANY_MASTER.Add1,'')<>'' then TSPL_COMPANY_MASTER.Add1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' then ', '+TSPL_COMPANY_MASTER.Add2 else '' end +case when ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' then ','+TSPL_COMPANY_MASTER.Add3 else '' end as'address', case when ISNULL(TSPL_COMPANY_MASTER.Phone1 ,'')<>'' then TSPL_COMPANY_MASTER.Phone1  else '' end + case when ISNULL(TSPL_COMPANY_MASTER.Phone2 ,'')<>'' then ', '+TSPL_COMPANY_MASTER.Phone2  else '' end as tel,TSPL_COMPANY_MASTER.Fax as fax, isnull(TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No,'')  as Po_no,case when isnull(TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' and isnull(TSPL_Customer_Invoice_Head.Against_Sale_return_No,'')='' then TSPL_Customer_Invoice_Head.Document_No  when  isnull(TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' then  TSPL_Customer_Invoice_Head.Against_Sale_return_No else TSPL_Customer_Invoice_Head.Against_Sale_No end   as Ref_No,  TSPL_Customer_Invoice_Head.Due_Date as Due_On,TSPL_Customer_Invoice_Head.Document_Date as Bill_Date, TSPL_Customer_Invoice_Head.Document_Total as Open_amt, TSPL_Customer_Invoice_Head.Balance_Amt as Pending_Amt, TSPL_CUSTOMER_MASTER.Cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name,case when ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location,'')='' then replace(TSPL_CUSTOMER_MASTER.Add1+','+TSPL_CUSTOMER_MASTER.Add2+',' +TSPL_CUSTOMER_MASTER.Add3,',,',',') else replace(TSPL_SHIP_TO_LOCATION.Add1 +',' + TSPL_SHIP_TO_LOCATION.Add2 + ',' + TSPL_SHIP_TO_LOCATION.Add3 + ',' +TSPL_SHIP_TO_LOCATION.Add4,',,',',' ) end   as InvAddress , TSPL_CUSTOMER_MASTER.Parent_Customer_No, isnull(Parent.Customer_Name,'') as ParentName from  TSPL_Customer_Invoice_Head  LEFT OUTER JOIN  TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code   LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_Customer_Invoice_Head.Against_Sale_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent ON Parent.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No  left outer join tspl_company_master on tspl_company_master.comp_code=tspl_customer_invoice_head.Comp_Code left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_to_code=TSPL_SD_SALE_INVOICE_HEAD.ship_to_location    "
             ' qry = "Select tspl_company_master.Logo_Img as img, TSPL_COMPANY_MASTER.Comp_Name as compname, case when ISNULL(TSPL_COMPANY_MASTER.Add1,'')<>'' then TSPL_COMPANY_MASTER.Add1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' then ', '+TSPL_COMPANY_MASTER.Add2 else '' end +case when ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' then ','+TSPL_COMPANY_MASTER.Add3 else '' end as'address', case when ISNULL(TSPL_COMPANY_MASTER.Phone1 ,'')<>'' then TSPL_COMPANY_MASTER.Phone1  else '' end + case when ISNULL(TSPL_COMPANY_MASTER.Phone2 ,'')<>'' then ', '+TSPL_COMPANY_MASTER.Phone2  else '' end as tel,TSPL_COMPANY_MASTER.Fax as fax, '" + Format(dtpFrmDate.Value(), "dd/MM/yyyy").ToString() + " To " + Format(dtpToDate.Value(), "dd/MM/yyyy").ToString() + "' as dtrng, TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No as Po_no,TSPL_Customer_Invoice_Head.Document_No as Ref_No,  TSPL_Customer_Invoice_Head.Due_Date as Due_On,TSPL_Customer_Invoice_Head.Document_Date as Bill_Date, TSPL_Customer_Invoice_Head.Document_Total as Open_amt, TSPL_Customer_Invoice_Head.Balance_Amt as Pending_Amt, TSPL_CUSTOMER_MASTER.Cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_CUSTOMER_MASTER.Parent_Customer_No, Parent.Customer_Name as ParentName from  TSPL_Customer_Invoice_Head "
             'qry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code "
             'qry += "  LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_Customer_Invoice_Head.Document_No "
             'qry += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent ON Parent.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No  left outer join tspl_company_master on tspl_company_master.comp_code=tspl_customer_invoice_head.Comp_Code where "
 
 
-            If cbgCustomer.CheckedValue.Count > 0 Then
+            If (cbgCustomer.CheckedValue IsNot Nothing AndAlso cbgCustomer.CheckedValue.Count > 0) Then
                 strCustomer += " and TSPL_Customer_Invoice_Head.Customer_Code in (" + clsCommon.GetMulcallString(cbgCustomer.CheckedValue) + ") "
             Else
                 strCustomer = ""
 
             End If
-            If cbgLocation.CheckedValue.Count > 0 Then
-                strLoc += " and TSPL_Customer_Invoice_Head.Loc_Code in  (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            If (cbgLocation.CheckedDisplayMember IsNot Nothing AndAlso cbgLocation.CheckedDisplayMember.Count > 0) Then
+                strLoc += " and TSPL_Customer_Invoice_Head.Loc_Code in  (" + clsCommon.GetMulcallString(cbgLocation.CheckedDisplayMember) + ") "
             Else
                 If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
                     strLoc += " and TSPL_Customer_Invoice_Head.Loc_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
@@ -219,7 +219,7 @@ Public Class frmCustomerBillWiseDetail
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
         If dtpFrmDate.Value > dtpToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("Start Date Can Not Be Greater Then End Date")
+            common.clsCommon.MyMessageBoxShow(Me, "Start Date Can Not Be Greater Then End Date", Me.Text)
             dtpFrmDate.Focus()
             Exit Sub
         End If
@@ -251,18 +251,33 @@ Public Class frmCustomerBillWiseDetail
         Try
             qry = "Select '" & Format(dtpFrmDate.Value(), "dd/MM/yyyy").ToString() + " To " + Format(dtpToDate.Value(), "dd/MM/yyyy").ToString() & "' as dtrng,  tspl_company_master.Logo_Img as img, TSPL_COMPANY_MASTER.Comp_Name as compname, case when ISNULL(TSPL_COMPANY_MASTER.Add1,'')<>'' then TSPL_COMPANY_MASTER.Add1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' then ', '+TSPL_COMPANY_MASTER.Add2 else '' end +case when ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' then ','+TSPL_COMPANY_MASTER.Add3 else '' end as'address', case when ISNULL(TSPL_COMPANY_MASTER.Phone1 ,'')<>'' then TSPL_COMPANY_MASTER.Phone1  else '' end + case when ISNULL(TSPL_COMPANY_MASTER.Phone2 ,'')<>'' then ', '+TSPL_COMPANY_MASTER.Phone2  else '' end as tel,TSPL_COMPANY_MASTER.Fax as fax, isnull(TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No,'')  as Po_no,case when isnull(TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' and isnull(TSPL_Customer_Invoice_Head.Against_Sale_return_No,'')='' then TSPL_Customer_Invoice_Head.Document_No  when  isnull(TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' then  TSPL_Customer_Invoice_Head.Against_Sale_return_No else TSPL_Customer_Invoice_Head.Against_Sale_No end   as Ref_No,  TSPL_Customer_Invoice_Head.Due_Date as Due_On,TSPL_Customer_Invoice_Head.Document_Date as Bill_Date, TSPL_Customer_Invoice_Head.Document_Total as Open_amt, TSPL_Customer_Invoice_Head.Balance_Amt as Pending_Amt,TSPL_CUSTOMER_MASTER.Parent_Customer_No, isnull(Parent.Customer_Name,'') as ParentName ,TSPL_CUSTOMER_MASTER.Cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name,case when ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location,'')='' then replace(TSPL_CUSTOMER_MASTER.Add1+','+TSPL_CUSTOMER_MASTER.Add2+',' +TSPL_CUSTOMER_MASTER.Add3,',,',',') else replace(TSPL_SHIP_TO_LOCATION.Add1 +',' + TSPL_SHIP_TO_LOCATION.Add2 + ',' + TSPL_SHIP_TO_LOCATION.Add3 + ',' +TSPL_SHIP_TO_LOCATION.Add4,',,',',' ) end   as InvAddress  from  TSPL_Customer_Invoice_Head  LEFT OUTER JOIN  TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code   LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_Customer_Invoice_Head.Against_Sale_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent ON Parent.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No  left outer join tspl_company_master on tspl_company_master.comp_code=tspl_customer_invoice_head.Comp_Code left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_to_code=TSPL_SD_SALE_INVOICE_HEAD.ship_to_location    "
 
-            If chkChapterSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count > 0 Then
+            If (chkChapterSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count > 0) Then
                 strCustomer += " and TSPL_Customer_Invoice_Head.Customer_Code in (" + clsCommon.GetMulcallString(cbgCustomer.CheckedValue) + ") "
             Else
                 strCustomer = ""
+
             End If
-            If MyRadioButton3.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
-                strLoc += " and TSPL_Customer_Invoice_Head.Loc_Code in  (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            If (MyRadioButton3.IsChecked AndAlso cbgLocation.CheckedDisplayMember.Count > 0) Then
+                strLoc += " and TSPL_Customer_Invoice_Head.Loc_Code in  (" + clsCommon.GetMulcallString(cbgLocation.CheckedDisplayMember) + ") "
             Else
                 If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
                     strLoc += " and TSPL_Customer_Invoice_Head.Loc_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
                 End If
             End If
+
+            'If chkChapterSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count > 0 Then
+            '    'If chkChapterSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count > 0 Then
+            '    strCustomer += " and TSPL_Customer_Invoice_Head.Customer_Code in (" + clsCommon.GetMulcallString(cbgCustomer.CheckedValue) + ") "
+            'Else
+            '    strCustomer = ""
+            'End If
+            'If MyRadioButton3.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+            '    strLoc += " and TSPL_Customer_Invoice_Head.Loc_Code in  (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            'Else
+            '    If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
+            '        strLoc += " and TSPL_Customer_Invoice_Head.Loc_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
+            '    End If
+            'End If
 
             strDateRange = " where CONVERT(DATE, TSPL_Customer_Invoice_Head.Document_Date, 103)>=CONVERT(DATE, '" + clsCommon.GetPrintDate(dtpFrmDate.Value, "dd/MMM/yyyy") + "', 103) AND CONVERT(DATE, TSPL_Customer_Invoice_Head.Document_Date, 103)<=CONVERT(DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "', 103)"
 

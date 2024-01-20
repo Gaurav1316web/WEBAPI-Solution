@@ -200,7 +200,7 @@ Public Class FrmSaleVsReceipReport
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -369,7 +369,7 @@ Public Class FrmSaleVsReceipReport
             obj.GridColumns = gvData.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -400,7 +400,7 @@ Public Class FrmSaleVsReceipReport
     End Sub
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub txtBusinessVertical__My_Click(sender As Object, e As EventArgs) Handles txtBusinessVertical._My_Click
@@ -433,10 +433,10 @@ Public Class FrmSaleVsReceipReport
             'clsCommon.MyExportToExcelGrid(" Monthly Sale Report:" + ddlReportType.SelectedValue, Gv1, arrHeader, Me.Text)
             Dim Export As New ExportToExcelML(gvData)
             Export.RunExport(filePath)
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
             Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -472,7 +472,7 @@ Public Class FrmSaleVsReceipReport
             clsCommon.MyExportToPDF("Sale Register Detail", gvData, arrHeader, "Sale Register Detail", PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

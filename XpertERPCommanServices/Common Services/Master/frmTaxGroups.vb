@@ -222,7 +222,7 @@ Public Class FrmTaxGroups
                 For jj As Integer = ii + 1 To gvTaxGroups.Rows.Count - 1
                     If clsCommon.myLen(gvTaxGroups.Rows(ii).Cells(0).Value) > 0 Then
                         If clsCommon.CompairString(gvTaxGroups.Rows(ii).Cells(0).Value, gvTaxGroups.Rows(jj).Cells(0).Value) = CompairStringResult.Equal Then
-                            common.clsCommon.MyMessageBoxShow("Duplicate tax authorities are not allowed.")
+                            common.clsCommon.MyMessageBoxShow(Me, "Duplicate tax authorities are not allowed.", Me.Text)
                             Return False
                         End If
                     End If
@@ -230,7 +230,7 @@ Public Class FrmTaxGroups
             Next
             For Each grow As GridViewRowInfo In gvTaxGroups.Rows
                 If grow.Cells(3).Value = "Yes" And grow.Cells(4).Value = "" Then
-                    common.clsCommon.MyMessageBoxShow("Surcharge can not be left blank for " + grow.Cells(0).Value)
+                    common.clsCommon.MyMessageBoxShow(Me, "Surcharge can not be left blank for " + grow.Cells(0).Value)
                     Return False
                 End If
             Next

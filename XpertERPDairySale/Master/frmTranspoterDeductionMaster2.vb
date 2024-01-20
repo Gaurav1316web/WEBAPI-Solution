@@ -212,7 +212,7 @@ Public Class frmTranspoterDeductionMaster2
                 'End If
                 If obj.SaveData(obj, isNewEntry) Then
                     If isPost = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.DEDUCTION_CODE, NavigatorType.Current)
                         Exit Sub
                     End If
@@ -228,13 +228,13 @@ Public Class frmTranspoterDeductionMaster2
         Dim linno As Integer = 0
 
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Deduction Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Deduction Description", Me.Text)
             txtDesc.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtCatgory.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Range UOM")
+            clsCommon.MyMessageBoxShow(Me, "Please select Range UOM", Me.Text)
             txtCatgory.Focus()
             Return False
         End If
@@ -246,11 +246,11 @@ Public Class frmTranspoterDeductionMaster2
                 'If clsCommon.myCdbl(gv.Rows(ii).Cells(colToRange).Value) > 0 AndAlso clsCommon.myCdbl(gv.Rows(ii).Cells(colFromRange).Value) > 0 Then
 
                 If clsCommon.myLen(gv.Rows(ii).Cells(colAmount).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Amount is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Amount is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(gv.Rows(ii).Cells(colGLCode).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("GL Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "GL Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                     Return False
                 End If
                 'End If
@@ -334,7 +334,7 @@ Public Class frmTranspoterDeductionMaster2
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -350,22 +350,22 @@ Public Class frmTranspoterDeductionMaster2
 
     Private Sub DeleteData(ByVal strIcentiveCode As String)
         If clsCommon.myLen(strIcentiveCode) = 0 Then
-            clsCommon.MyMessageBoxShow("No Deduction Code found to delete.")
+            clsCommon.MyMessageBoxShow(Me, "No Deduction Code found to delete.", Me.Text)
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.myLen(strIcentiveCode) > 0 Then
                 If clsTranspoterDeductionHeader.fundelete(strIcentiveCode, trans) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     Reset()
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Deduction Code found to delete.")
+                clsCommon.MyMessageBoxShow(Me, "No Deduction Code found to delete.", Me.Text)
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -808,7 +808,7 @@ Public Class frmTranspoterDeductionMaster2
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -825,11 +825,11 @@ Public Class frmTranspoterDeductionMaster2
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 clsTranspoterDeductionHeader.postData(txtDeductionCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtDeductionCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -857,7 +857,7 @@ Public Class frmTranspoterDeductionMaster2
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1003,7 +1003,7 @@ Public Class frmTranspoterDeductionMaster2
         If clsCommon.myLen(clsCommon.myCstr(txtCatgory.Value)) > 0 Then
             Dim isCategoryExist As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEDUCTION_CODE from TSPL_TRANSPOTER_DEDUCTION_HEADER where DEDUCTION_CATEGORY = '" + clsCommon.myCstr(txtCatgory.Value) + "'"))
             If clsCommon.myLen(isCategoryExist) > 0 Then
-                clsCommon.MyMessageBoxShow("Selected Deduction Category (" + clsCommon.myCstr(txtCatgory.Value) + ") Already Exist in Deduction Code " + isCategoryExist + "  ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Selected Deduction Category (" + clsCommon.myCstr(txtCatgory.Value) + ") Already Exist in Deduction Code " + isCategoryExist + "  ", Me.Text)
                 txtCatgory.Value = ""
                 Exit Sub
             End If

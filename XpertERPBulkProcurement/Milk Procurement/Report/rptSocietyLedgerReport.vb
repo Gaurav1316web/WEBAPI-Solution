@@ -47,34 +47,34 @@ Public Class rptSocietyLedgerReport
             Dim whrcls1 As String = " where 2=2 "
 
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Location First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Location First.", Me.Text)
                 fndLoc.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtVSP.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select VSP First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select VSP First.", Me.Text)
                 txtVSP.Focus()
                 Exit Sub
             End If
 
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtPaymentCycleFrom.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Payment Cycle From First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Payment Cycle From First.", Me.Text)
                 txtPaymentCycleFrom.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtPaymentCycleTo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Payment Cycle To First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Payment Cycle To First.", Me.Text)
                 txtPaymentCycleTo.Focus()
                 Exit Sub
             End If
 
             If clsCommon.myCdbl(txtPaymentCycleFrom.Value) > clsCommon.myCdbl(txtPaymentCycleTo.Value) Then
-                common.clsCommon.MyMessageBoxShow("From Payment Cycle can not be greater then to Payment Cycle")
+                common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle", Me.Text)
                 txtPaymentCycleFrom.Focus()
                 Exit Sub
             End If
@@ -169,7 +169,7 @@ Public Class rptSocietyLedgerReport
             Gv1.MasterView.Refresh()
 
             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt1
@@ -179,7 +179,7 @@ Public Class rptSocietyLedgerReport
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -255,7 +255,7 @@ Public Class rptSocietyLedgerReport
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim strHeading As String = clsCommon.myCstr("Society Ledger For Cycle : " + txtPaymentCycleFrom.Value + " To " + txtPaymentCycleTo.Value + ", " + txtFiscalYear.Value + "")
@@ -281,7 +281,7 @@ Public Class rptSocietyLedgerReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -323,7 +323,7 @@ Public Class rptSocietyLedgerReport
     Private Sub TxtPaymentCycleFrom__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPaymentCycleFrom._MYValidating
         Try
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
@@ -336,7 +336,7 @@ Public Class rptSocietyLedgerReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
 
     End Sub
@@ -347,21 +347,21 @@ Public Class rptSocietyLedgerReport
             Dim qry As String = "SELECT Name ,From_Date,To_Date FROM TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and Name='" + txtPaymentCycleFrom.Value + "' "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found for Selected Fiscal Year")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found for Selected Fiscal Year", Me.Text)
                 Exit Sub
             End If
 
             fromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select From_Date from TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and Name='" + txtPaymentCycleFrom.Value + "' "))
             ToDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select To_Date from TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and Name='" + txtPaymentCycleTo.Value + "' "))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
     Private Sub TxtPaymentCycleTo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPaymentCycleTo._MYValidating
         Try
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
@@ -369,14 +369,14 @@ Public Class rptSocietyLedgerReport
             Dim qry As String = "SELECT distinct convert(int,name) as Code,convert(varchar,From_Date,103) as [From Date],convert(varchar,To_Date,103) as [To Date] FROM TSPL_PAYMENT_CYCLE_GENERATED"
             txtPaymentCycleTo.Value = clsCommon.ShowSelectForm("LRPCT", qry, "Code", whrcls, txtPaymentCycleTo.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
     Private Sub RmiExcelGrid_Click(sender As Object, e As EventArgs) Handles rmiExcelGrid.Click
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim strHeading As String = clsCommon.myCstr("Society Ledger For Cycle : " + txtPaymentCycleFrom.Value + " To " + txtPaymentCycleTo.Value + ", " + txtFiscalYear.Value + "")
@@ -391,7 +391,7 @@ Public Class rptSocietyLedgerReport
             clsCommon.MyExportToExcelGrid(strHeading, Gv1, arrHeader, Me.Text, True)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -424,7 +424,7 @@ Public Class rptSocietyLedgerReport
     Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRouteNo._MYValidating
         Try
             If clsCommon.myLen(fndLoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Location First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Location First.", Me.Text)
                 fndLoc.Focus()
                 Exit Sub
             End If
@@ -445,14 +445,14 @@ Public Class rptSocietyLedgerReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtVSP__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVSP._MYValidating
         Try
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Route First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Route First.", Me.Text)
                 txtRouteNo.Focus()
                 Exit Sub
             End If
@@ -470,14 +470,14 @@ Public Class rptSocietyLedgerReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtVLC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVLC._MYValidating
         Try
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Route First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Route First.", Me.Text)
                 txtRouteNo.Focus()
                 Exit Sub
             End If
@@ -496,7 +496,7 @@ Public Class rptSocietyLedgerReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -534,7 +534,7 @@ Public Class rptSocietyLedgerReport
             lblVSPDesc.Text = ""
             lblUploaderCode.Text = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ReStoreGridLayout()
@@ -559,7 +559,7 @@ Public Class rptSocietyLedgerReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
@@ -573,7 +573,7 @@ Public Class rptSocietyLedgerReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 

@@ -850,7 +850,7 @@ Public Class FrmWeighment
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -865,7 +865,7 @@ Public Class FrmWeighment
     '    End If
     'End Sub
     Sub printData()
-        clsCommon.MyMessageBoxShow(Me, "No Print Format Found")
+        clsCommon.MyMessageBoxShow(Me, "No Print Format Found", Me.Text)
     End Sub
     Sub loadData(ByVal strWeighmentNo As String, ByVal docType As String, ByVal navType As NavigatorType)
         Try
@@ -1218,7 +1218,7 @@ Public Class FrmWeighment
                 blnLoad = False
         Catch ex As Exception
             blnLoad = False
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1712,7 +1712,7 @@ Public Class FrmWeighment
                 loadData(fndDocNO.Value, IIf(chkBulkMilkProc.IsChecked, "bulkproc", "mccproc"), NavigatorType.Current)
             Else
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(Me, "Data Not Saved ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Not Saved ", Me.Text)
                 End If
             End If
         End If
@@ -1724,7 +1724,7 @@ Public Class FrmWeighment
         '    'No QC Check required, QC is made before Weighment entry in Intermittent tanker
         'Else
         If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_quality_check where isposted=1 and weighment_no='" & fndDocNO.Value & "' ")) > 0 Then
-            clsCommon.MyMessageBoxShow(Me, "This document is in use, you can not delete it.")
+            clsCommon.MyMessageBoxShow(Me, "This document is in use, you can not delete it.", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm() Then
@@ -1830,7 +1830,7 @@ Public Class FrmWeighment
             'If FinalChamberwise = 1 AndAlso isCreateBulkProcPriceChartItemWise = 1 Then 
             If e.Column Is gvItemBulk.Columns(colSubLoc) Then
                     If clsCommon.myLen(lblLocationCodeBulk.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, " Please select a tanker first ")
+                    clsCommon.MyMessageBoxShow(Me, " Please select a tanker first ", Me.Text)
                     Exit Sub
                     End If
                     Dim whrCls As String = String.Empty
@@ -1870,7 +1870,7 @@ Public Class FrmWeighment
     Private Sub mnuDeleteLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub mnuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuExit.Click
@@ -1907,7 +1907,7 @@ Public Class FrmWeighment
             obj.GridColumns = gvItemBulk.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1931,7 +1931,7 @@ Public Class FrmWeighment
     Private Sub fndTankerNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndTankerNo._MYValidating
         Try
             If chkBulkMilkProc.IsChecked = False AndAlso chkMccProc.IsChecked = False Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Weighment Type.")
+                clsCommon.MyMessageBoxShow(Me, "Please select Weighment Type.", Me.Text)
                 Exit Sub
             End If
             Dim whrCls As String = String.Empty
@@ -1990,7 +1990,7 @@ Public Class FrmWeighment
                 reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2297,7 +2297,7 @@ Public Class FrmWeighment
 
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2465,7 +2465,7 @@ Public Class FrmWeighment
             isCellValueChangedOpen = False
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2491,7 +2491,7 @@ Public Class FrmWeighment
             txtNewTare.Value = 0
             txtNewNetWt.Value = 0
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

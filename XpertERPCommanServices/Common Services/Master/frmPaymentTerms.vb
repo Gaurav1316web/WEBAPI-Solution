@@ -541,14 +541,14 @@ Public Class frmPaymentTerms
                         'Dim gh As d = Integer.Parse(grow.Cells(2).Value)
                         Dim dc As Decimal = Decimal.Parse(grow.Cells(2).Value)
                         If dc > 999 Or dc < 0 Then
-                            common.clsCommon.MyMessageBoxShow(Me, "No_Of_Days must between 0 - 999")
+                            common.clsCommon.MyMessageBoxShow(Me, "No_Of_Days must between 0 - 999", Me.Text)
                             trans.Rollback()
                             Exit Sub
                         Else
                             strno_of_days = grow.Cells(2).Value.ToString()
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "No_of_days only accept numeric value")
+                        common.clsCommon.MyMessageBoxShow(Me, "No_of_days only accept numeric value", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
@@ -557,7 +557,7 @@ Public Class frmPaymentTerms
                         'Dim gh As d = Integer.Parse(grow.Cells(2).Value)
                         Dim dcv As Decimal = Decimal.Parse(grow.Cells("LC Required").Value)
                         If dcv > 1 Or dcv < 0 Then
-                            common.clsCommon.MyMessageBoxShow("LC Required must be 0 or 1")
+                            common.clsCommon.MyMessageBoxShow(Me, "LC Required must be 0 or 1", Me.Text)
                             trans.Rollback()
                             Exit Sub
                         Else
@@ -624,7 +624,7 @@ Public Class frmPaymentTerms
                     End If
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()
@@ -852,7 +852,7 @@ Public Class frmPaymentTerms
     End Sub
 
     Private Sub gvDB_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvDB.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
