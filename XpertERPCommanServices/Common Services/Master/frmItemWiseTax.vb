@@ -2108,7 +2108,7 @@ Public Class FrmItemWiseTax
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Doc_Code"})
             transportSql.ExporttoExcel(query, " ", " ", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "HSN")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, "Item Tax")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Item Tax", Me.Text)
         End Try
     End Sub
 

@@ -413,7 +413,7 @@ Public Class frmPerformaInvoiceDairy
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -2515,7 +2515,7 @@ Public Class frmPerformaInvoiceDairy
 
                                     Dim dblDamageQty As Double = 0 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colLeakQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colBurstQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colShortQty).Value)
                                     If (dblEnteredQty + dblDamageQty) > dblPendingQty Then
-                                        common.clsCommon.MyMessageBoxShow("Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblEnteredQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQty))
+                                        common.clsCommon.MyMessageBoxShow(Me, "Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblEnteredQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQty))
                                         gv1.CurrentCell.Value = dblPendingQty
                                     End If
                                 ElseIf clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) = 0 Then
@@ -2553,7 +2553,7 @@ Public Class frmPerformaInvoiceDairy
                             If clsCommon.myLen(gv1.CurrentRow.Cells(colUnitRate).Value) > 0 Then
                                 findQtyandPromoSchemeCode(False, gv1.CurrentRow.Cells(colFromSchemeCode).Value)
                             Else
-                                common.clsCommon.MyMessageBoxShow("Please select Rate Unit")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Rate Unit", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
@@ -2581,7 +2581,7 @@ Public Class frmPerformaInvoiceDairy
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -2603,7 +2603,7 @@ Public Class frmPerformaInvoiceDairy
                 If SaveData(True, Nothing) Then
                     If (clsBookingProformaInvoice.PostData(MyBase.Form_ID, txtDocNo.Value, True)) Then
                         msg = "Successfully Posted"
-                        common.clsCommon.MyMessageBoxShow(msg)
+                        common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     Else
                         qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
                         dt = clsDBFuncationality.GetDataTable(qry)
@@ -2638,7 +2638,7 @@ Public Class frmPerformaInvoiceDairy
             Return True
         Catch ex As Exception
             If blnReverse = False Then
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Return False
             Else
                 Throw New Exception(ex.Message)
@@ -3304,7 +3304,7 @@ Public Class frmPerformaInvoiceDairy
                             End If
                         Else
 
-                            clsCommon.MyMessageBoxShow("Please fill conversion factor for this unit at line no." & IntRowNo + 1 & "")
+                            clsCommon.MyMessageBoxShow(Me, "Please fill conversion factor for this unit at line no." & IntRowNo + 1 & "")
 
                         End If
                     End If
@@ -3318,7 +3318,7 @@ Public Class frmPerformaInvoiceDairy
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function GetCurrentRowTotalTaxAmt(ByVal IntRowNo As Integer) As Double
@@ -3452,10 +3452,10 @@ Public Class frmPerformaInvoiceDairy
     End Function
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer First")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
             Exit Sub
         ElseIf clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location First")
+            common.clsCommon.MyMessageBoxShow(Me,"Please select Location First", Me.Text)
             Exit Sub
             'ElseIf clsCommon.myLen(txtTaxGroup.Value) = 0 Then
             '    common.clsCommon.MyMessageBoxShow("Either Map taxgroup with location or Select tax group First")
@@ -3464,7 +3464,7 @@ Public Class frmPerformaInvoiceDairy
         'gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow("Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -3573,7 +3573,7 @@ Public Class frmPerformaInvoiceDairy
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv2_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv2.CellValueChanged
@@ -3591,7 +3591,7 @@ Public Class frmPerformaInvoiceDairy
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv2_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv2.CellFormatting
@@ -3632,7 +3632,7 @@ Public Class frmPerformaInvoiceDairy
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function ItemPrice(ByVal strItem As String, ByVal strUnit As String, ByVal introw As Integer) As Double
@@ -4000,7 +4000,7 @@ Public Class frmPerformaInvoiceDairy
         If SeparateDairyDispatchTaxableNonTaxable = 1 Then
             If clsCommon.CompairString(cmbDisItemType.SelectedValue, "") = CompairStringResult.Equal Then
                 cmbDisItemType.Focusable = True
-                clsCommon.MyMessageBoxShow("Please Select Item Type.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Item Type.", Me.Text)
                 Exit Sub
             End If
         End If
@@ -4113,7 +4113,7 @@ Public Class frmPerformaInvoiceDairy
         SetTax()
         If clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
             txtVendorNo.Value = ""
-            clsCommon.MyMessageBoxShow("Please Map exempted Tax Group on Location " & txtBillToLocation.Value)
+            clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & txtBillToLocation.Value)
             Exit Sub
         End If
 
@@ -4142,12 +4142,12 @@ Public Class frmPerformaInvoiceDairy
 
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShipToLocation._MYValidating
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtBillToLocation.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
             txtVendorNo.Focus()
             Exit Sub
         End If
@@ -4252,7 +4252,7 @@ Public Class frmPerformaInvoiceDairy
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -4464,7 +4464,7 @@ Public Class frmPerformaInvoiceDairy
             'Return True
         Catch ex As Exception
             If blnReverse = False Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Return False
             Else
                 Throw New Exception(ex.Message)
@@ -4486,13 +4486,13 @@ Public Class frmPerformaInvoiceDairy
                 Throw New Exception("Please select Customer")
             End If
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 txtBillToLocation.Focus()
             Else
                 SelectBookingItems()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub BlankAllControls()
@@ -5077,7 +5077,7 @@ Public Class frmPerformaInvoiceDairy
                 If (clsBookingProformaInvoice.SaveData(obj, isNewEntry, True)) Then
                     UcAttachment1.SaveData(obj.Document_Code)
                     If ChekPostBtn = False And IsDataImported = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Document_Code, NavigatorType.Current)
                 End If
@@ -5087,7 +5087,7 @@ Public Class frmPerformaInvoiceDairy
         Catch ex As Exception
             If blnReverse = False Then
                 If ChekPostBtn = False Then
-                    common.clsCommon.MyMessageBoxShow(ex.Message)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Else
                     Throw New Exception(ex.Message)
                 End If
@@ -5121,11 +5121,11 @@ Public Class frmPerformaInvoiceDairy
                 End If
 
                 If clsBookingProformaInvoice.UpdateAfterPosting(obj, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -5807,7 +5807,7 @@ Public Class frmPerformaInvoiceDairy
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -5888,11 +5888,11 @@ Public Class frmPerformaInvoiceDairy
             End If
             If (clsBookingProformaInvoice.DeleteData(txtDocNo.Value)) Then
                 saveCancelLog(Reason, "Delete", Nothing)
-                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -6037,7 +6037,7 @@ Public Class frmPerformaInvoiceDairy
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
