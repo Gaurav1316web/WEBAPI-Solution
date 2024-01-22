@@ -117,41 +117,41 @@ Public Class FrmShipmentDetail
                     strLocationInv += " and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
             End If
-            Dim str As String = "select '" & fromDate.Value & "' as Fdate,'" & ToDate.Value & "' as Tdate,'" & strStatus & "' as status, " & _
-                          "Document_Code,Document_Date,Customer_Name,Customer_Code,Salesman_Name,Bill_To_Location ,Location_Desc,Item_Code,Item_Desc,sum(ShippedQty) as ShippedQty, " & _
-                          "sum(InvQty) as InvoiceQty,sum(ShippedQty-InvQty) as Outstanding,Unit_code,max(rate) as rate,sum(Amount) as Amount, " & _
-                          "max(Disc_Per) as Disc_Per,sum(Disc_Amt) as Disc_Amt,sum(Amt_Less_Discount) as Amt_Less_Discount,sum(Total_Tax_Amt) as Total_Tax_Amt, " & _
-                          "sum(totalShipAmt) as totalShipAmt,sum(totalInvAmt) as totalInvAmt from ( " & _
-                          "SELECT  TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_SD_SHIPMENT_HEAD.Document_Date, " & _
-                          "TSPL_SD_SHIPMENT_HEAD.Customer_Code, TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SHIPMENT_HEAD.Salesman_Code, " & _
-                          "TSPL_SD_SHIPMENT_HEAD.Salesman_Name,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location ,TSPL_LOCATION_MASTER.Location_Desc, TSPL_SD_SHIPMENT_Detail.Item_Code, " & _
-                          "TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SHIPMENT_Detail.Qty as ShippedQty, 0 as InvQty,TSPL_SD_SHIPMENT_Detail.Unit_code, " & _
-                          "Item_Cost as rate,Amount,Disc_Per,Disc_Amt,TSPL_SD_SHIPMENT_Detail.Amt_Less_Discount,TSPL_SD_SHIPMENT_Detail.Total_Tax_Amt, " & _
-                          "TSPL_SD_SHIPMENT_Detail.Item_Net_Amt as totalShipAmt,0 as totalInvAmt FROM TSPL_CUSTOMER_MASTER RIGHT OUTER JOIN " & _
-                          "TSPL_SD_SHIPMENT_HEAD ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code RIGHT OUTER JOIN " & _
-                          "TSPL_ITEM_MASTER RIGHT OUTER JOIN " & _
-                          "TSPL_SD_SHIPMENT_Detail ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_Detail.Item_Code ON " & _
-                          "TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_Detail.Document_Code " & _
-                     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location " & _
-" where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and " & _
-                         " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "'  " & strCustomer & "  " & strLocationInv & " " & strItemShip & " " & _
-                          "union all " & _
-                          " SELECT  TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No AS Document_Code, TSPL_SD_SHIPMENT_HEAD.Document_Date, " & _
-                          "TSPL_SD_SALE_INVOICE_HEAD.Customer_Code, TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Salesman_Code, " & _
-                          "TSPL_SD_SALE_INVOICE_HEAD.Salesman_Name,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location ,TSPL_LOCATION_MASTER.Location_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code, " & _
-                          "TSPL_ITEM_MASTER.Item_Desc,0as ShippedQty,  TSPL_SD_SALE_INVOICE_DETAIL.Qty  as InvQty, " & _
-                          "TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,Item_Cost as rate,0 as amount,0 as Disc_Per,0 as Disc_Amt,0 as Amt_Less_Discount, " & _
-                          " 0 as Total_Tax_Amt,0 as totalShipAmt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt as totalInvAmt " & _
-                          " FROM   TSPL_ITEM_MASTER RIGHT OUTER JOIN " & _
-                          " TSPL_SD_SALE_INVOICE_DETAIL ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code RIGHT OUTER JOIN " & _
-                          " TSPL_SD_SALE_INVOICE_HEAD INNER JOIN " & _
-                          " TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No ON " & _
-                          " TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code LEFT OUTER JOIN " & _
-                          " TSPL_CUSTOMER_MASTER ON TSPL_SD_SALE_INVOICE_HEAD.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code " & _
-                     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " & _
-" where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and " & _
-                          " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "'  " & strCustomer & "  " & strLocationInv & " " & strItemInv & " " & _
-                          ") xx " & _
+            Dim str As String = "select '" & fromDate.Value & "' as Fdate,'" & ToDate.Value & "' as Tdate,'" & strStatus & "' as status, " &
+                          "Document_Code,Document_Date,'" & objCommonVar.CurrentUser & "' as User_Name ,Customer_Name,Customer_Code,Salesman_Name,Bill_To_Location ,Location_Desc,Item_Code,Item_Desc,sum(ShippedQty) as ShippedQty, " &
+                          "sum(InvQty) as InvoiceQty,sum(ShippedQty-InvQty) as Outstanding,Unit_code,max(rate) as rate,sum(Amount) as Amount, " &
+                          "max(Disc_Per) as Disc_Per,sum(Disc_Amt) as Disc_Amt,sum(Amt_Less_Discount) as Amt_Less_Discount,sum(Total_Tax_Amt) as Total_Tax_Amt, " &
+                          "sum(totalShipAmt) as totalShipAmt,sum(totalInvAmt) as totalInvAmt from ( " &
+                          "SELECT  TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_SD_SHIPMENT_HEAD.Document_Date, " &
+                          "TSPL_SD_SHIPMENT_HEAD.Customer_Code, TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SHIPMENT_HEAD.Salesman_Code, " &
+                          "TSPL_SD_SHIPMENT_HEAD.Salesman_Name,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location ,TSPL_LOCATION_MASTER.Location_Desc, TSPL_SD_SHIPMENT_Detail.Item_Code, " &
+                          "TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SHIPMENT_Detail.Qty as ShippedQty, 0 as InvQty,TSPL_SD_SHIPMENT_Detail.Unit_code, " &
+                          "Item_Cost as rate,Amount,Disc_Per,Disc_Amt,TSPL_SD_SHIPMENT_Detail.Amt_Less_Discount,TSPL_SD_SHIPMENT_Detail.Total_Tax_Amt, " &
+                          "TSPL_SD_SHIPMENT_Detail.Item_Net_Amt as totalShipAmt,0 as totalInvAmt FROM TSPL_CUSTOMER_MASTER RIGHT OUTER JOIN " &
+                          "TSPL_SD_SHIPMENT_HEAD ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code RIGHT OUTER JOIN " &
+                          "TSPL_ITEM_MASTER RIGHT OUTER JOIN " &
+                          "TSPL_SD_SHIPMENT_Detail ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_Detail.Item_Code ON " &
+                          "TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_Detail.Document_Code " &
+                     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location " &
+" where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and " &
+                         " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "'  " & strCustomer & "  " & strLocationInv & " " & strItemShip & " " &
+                          "union all " &
+                          " SELECT  TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No AS Document_Code, TSPL_SD_SHIPMENT_HEAD.Document_Date, " &
+                          "TSPL_SD_SALE_INVOICE_HEAD.Customer_Code, TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Salesman_Code, " &
+                          "TSPL_SD_SALE_INVOICE_HEAD.Salesman_Name,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location ,TSPL_LOCATION_MASTER.Location_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code, " &
+                          "TSPL_ITEM_MASTER.Item_Desc,0as ShippedQty,  TSPL_SD_SALE_INVOICE_DETAIL.Qty  as InvQty, " &
+                          "TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,Item_Cost as rate,0 as amount,0 as Disc_Per,0 as Disc_Amt,0 as Amt_Less_Discount, " &
+                          " 0 as Total_Tax_Amt,0 as totalShipAmt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt as totalInvAmt " &
+                          " FROM   TSPL_ITEM_MASTER RIGHT OUTER JOIN " &
+                          " TSPL_SD_SALE_INVOICE_DETAIL ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code RIGHT OUTER JOIN " &
+                          " TSPL_SD_SALE_INVOICE_HEAD INNER JOIN " &
+                          " TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No ON " &
+                          " TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code LEFT OUTER JOIN " &
+                          " TSPL_CUSTOMER_MASTER ON TSPL_SD_SALE_INVOICE_HEAD.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code " &
+                     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
+" where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and " &
+                          " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "'  " & strCustomer & "  " & strLocationInv & " " & strItemInv & " " &
+                          ") xx " &
                           " group by Item_Code,Document_Code,Document_Date,Customer_Name,Customer_Code,Salesman_Name,Item_Code,Item_Desc,Unit_code,Bill_To_Location,Location_Desc "
             If rdbAll.IsChecked Then
                 str = str & " order by Document_Code"

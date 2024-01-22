@@ -78,7 +78,7 @@ Public Class RptDeliveryOrderReport1
                 pivtvar = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strq))
                 If clsCommon.CompairString(clsCommon.myCstr(pivtvar), "") = CompairStringResult.Equal Then
                     gv.DataSource = Nothing
-                    clsCommon.MyMessageBoxShow("No record found", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No record found", Me.Text)
                     Return
                 End If
 
@@ -167,7 +167,7 @@ Public Class RptDeliveryOrderReport1
                 pivtvar = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strq))
                 If clsCommon.CompairString(clsCommon.myCstr(pivtvar), "") = CompairStringResult.Equal Then
                     gv.DataSource = Nothing
-                    clsCommon.MyMessageBoxShow("No record found", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No record found", Me.Text)
                     Return
                 End If
                 'qry = "select * " & StrToatl & " as 'Total'" & _
@@ -234,11 +234,11 @@ Public Class RptDeliveryOrderReport1
                 gv.ReadOnly = True
             Else
                 gv.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("No record found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No record found", Me.Text)
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -255,7 +255,7 @@ Public Class RptDeliveryOrderReport1
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -269,7 +269,7 @@ Public Class RptDeliveryOrderReport1
 
     Private Sub rptDeleteLayout_Click(sender As Object, e As EventArgs) Handles rptDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RptDeliveryOrderReport1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -343,7 +343,7 @@ Public Class RptDeliveryOrderReport1
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -359,7 +359,7 @@ Public Class RptDeliveryOrderReport1
             clsCommon.MyExportToPDF("Delivery Order Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

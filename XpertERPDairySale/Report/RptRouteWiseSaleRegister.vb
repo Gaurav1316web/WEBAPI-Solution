@@ -75,7 +75,7 @@ Public Class RptRouteWiseSaleRegister
         Dim dtCategory As DataTable = clsDBFuncationality.GetDataTable(PivtQry)
         strCodeColumn = ""
         If dtCategory Is Nothing OrElse dtCategory.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         For ii As Integer = 0 To dtCategory.Rows.Count - 1
@@ -256,7 +256,7 @@ Public Class RptRouteWiseSaleRegister
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -350,7 +350,7 @@ Public Class RptRouteWiseSaleRegister
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
    
@@ -436,7 +436,7 @@ Public Class RptRouteWiseSaleRegister
             obj.GridColumns = gvData.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             obj.GridLayout.Close()
@@ -446,7 +446,7 @@ Public Class RptRouteWiseSaleRegister
     End Sub
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs)  ''delete layout
         If clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode) AndAlso RadPageViewPage2.Item.Visibility = ElementVisibility.Visible Then
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
     End Sub
 

@@ -162,7 +162,7 @@ Public Class rptDailyreceiptReport
                 Dim qrySpell1 As String
                 Dim qrySpell2 As String
                 If Month(fromDate.Value) <> Month(ToDate.Value) Then
-                    clsCommon.MyMessageBoxShow("From Date to To Date month must be same for Spell Wise Report.")
+                    clsCommon.MyMessageBoxShow(Me, "From Date to To Date month must be same for Spell Wise Report.", Me.Text)
                     Exit Sub
                 End If
                 Dim MonthStartDate As Date = New DateTime(Year(fromDate.Value), Month(fromDate.Value), 1)
@@ -178,12 +178,12 @@ Public Class rptDailyreceiptReport
                 Dim strItem2 As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( TSPL_ITEM_MASTER.Alies_Name) as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
 
                 If String.IsNullOrEmpty(strItem2) Then
-                    clsCommon.MyMessageBoxShow("No Item Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Item Found to Display", Me.Text)
                     Exit Sub
                 End If
 
                 If String.IsNullOrEmpty(strPayment) Then
-                    clsCommon.MyMessageBoxShow("No Payment Code Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Payment Code Found to Display", Me.Text)
                     Exit Sub
                 End If
                 ',Created_Date as Document_Date
@@ -397,8 +397,8 @@ Public Class rptDailyreceiptReport
                     RadSplitExp.Items("rmiPDFCollection").Visibility = ElementVisibility.Visible
                     Exit Sub
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
-                        Exit Sub
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
                     End If
 
                 ElseIf chkSaleandRealisationDetail.Checked = True Then
@@ -407,8 +407,8 @@ Public Class rptDailyreceiptReport
                     'strTotaPayment = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))'  as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
 
                     If String.IsNullOrEmpty(strPayment) Then
-                        clsCommon.MyMessageBoxShow("No Data Found to Display")
-                        Exit Sub
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
                     End If
 
                 ' qry = "  select ROW_NUMBER () over (order by Booking_Type) As SNo,Booking_Type as Particulars,sum([Total In Ltr]) as [Qty],sum(DocumentAmount) as [Amount]," + strPaymentSum + ",(" + strTotaPayment + ") as [Total]" &
@@ -516,8 +516,8 @@ Public Class rptDailyreceiptReport
                     'strPaymentSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                     'strTotaPayment = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))'  as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
                     If String.IsNullOrEmpty(strPayment) Then
-                        clsCommon.MyMessageBoxShow("No Data Found to Display")
-                        Exit Sub
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
                     End If
 
                 'qry = "  select ROW_NUMBER () over (order by Zone_Code) As SNo,Zone_Code as [Zone],[Total In Ltr] as [Qty],DocumentAmount as [Amount]," + strPaymentHeading + ",(" + strTotaPayment + ") as [Total],DocumentAmount-(" + strTotaPayment + ") as [Vendors Not Paid]" &
@@ -566,8 +566,8 @@ Public Class rptDailyreceiptReport
                     'strPayment = clsDBFuncationality.getSingleValue("  Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) Select   STUFF((Select distinct ',' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc ) as Alies_Name FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                     'strPaymentSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) +',0))' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                     If String.IsNullOrEmpty(strPayment) Then
-                        clsCommon.MyMessageBoxShow("No Data Found to Display")
-                        Exit Sub
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
                     End If
 
 
@@ -625,13 +625,13 @@ Public Class rptDailyreceiptReport
                 RadSplitExp.Items("rmiExcelCollection").Visibility = ElementVisibility.Collapsed
                 RadSplitExp.Items("rmiPDFCollection").Visibility = ElementVisibility.Collapsed
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -678,7 +678,7 @@ Public Class rptDailyreceiptReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -690,7 +690,7 @@ Public Class rptDailyreceiptReport
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         If clsCommon.myLen(ReportID) > 0 Then
             clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -701,22 +701,22 @@ Public Class rptDailyreceiptReport
             If chkCardSaleCollectionDetail.Checked = True Then
                 If clsCommon.CompairString(ReportAbstractType, "Sale") = CompairStringResult.Equal Then
                     If gv_Sale.Rows.Count <= 0 Then
-                        clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                         Exit Sub
                     End If
                 ElseIf clsCommon.CompairString(ReportAbstractType, "Collection") = CompairStringResult.Equal Then
                     If gv_Collection.Rows.Count <= 0 Then
-                        clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                         Exit Sub
                     End If
                 Else
                     If gvCS_CD.Rows.Count <= 0 Then
-                        clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                         Exit Sub
                     End If
                 End If
             ElseIf Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
 
@@ -793,7 +793,7 @@ Public Class rptDailyreceiptReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
