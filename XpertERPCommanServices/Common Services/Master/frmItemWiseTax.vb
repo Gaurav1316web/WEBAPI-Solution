@@ -57,7 +57,7 @@ Public Class FrmItemWiseTax
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
         End If
         btnAdd.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
@@ -284,12 +284,12 @@ Public Class FrmItemWiseTax
             'End If
             If gv1.Rows.Count <= 0 Then
                 Dim Msg As String = "Please fill Item first... "
-                common.clsCommon.MyMessageBoxShow(Msg)
+                common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                 Return False
             End If
             If clsCommon.myLen(gv1.Rows(0).Cells(colItem_Code).Value) <= 0 Then
                 Dim Msg As String = "Please fill Item first ... "
-                common.clsCommon.MyMessageBoxShow(Msg)
+                common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                 Return False
             End If
             For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -298,7 +298,7 @@ Public Class FrmItemWiseTax
                 Dim strSno As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colLineNo).Value)
                 If clsCommon.myLen(strItemCode) <= 0 And clsCommon.myLen(strSno) > 0 Then
                     Dim Msg As String = "Item Code Can not be blank at Row No " + clsCommon.myCstr(ii + 1)
-                    common.clsCommon.MyMessageBoxShow(Msg)
+                    common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(strItemCode) > 0 And clsCommon.myLen(strSno) > 0 Then
@@ -2108,7 +2108,7 @@ Public Class FrmItemWiseTax
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Doc_Code"})
             transportSql.ExporttoExcel(query, " ", " ", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "HSN")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, "Item Tax")
+            clsCommon.MyMessageBoxShow(Me, ex.Message, "Item Tax", Me.Text)
         End Try
     End Sub
 

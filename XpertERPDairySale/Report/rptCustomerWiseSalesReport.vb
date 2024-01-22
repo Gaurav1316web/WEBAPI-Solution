@@ -59,7 +59,7 @@ Public Class rptCustomerWiseSalesReport
             Dim dt As New DataTable
 
             If clsCommon.myLen(txtUOM.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select UOM first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select UOM first", Me.Text)
                 Exit Sub
             End If
 
@@ -83,7 +83,7 @@ Public Class rptCustomerWiseSalesReport
             If rdbDay.Checked = True Then
                 strDateForPivot = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ',['+thedate+']'  from (select  convert (varchar,thedate,103) as thedate from ExplodeDates ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "')    ) XXX order by convert (date, thedate,103) asc   For XML Path('')),1,1,'') "))
                 If clsCommon.myLen(strDateForPivot) <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 strDateWithIsNull = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ',isnull (['+thedate+'],0) as ['+thedate+'] '  from (select  convert (varchar,thedate,103) as thedate from ExplodeDates ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "')    ) XXX order by convert (date, thedate,103) asc   For XML Path('')),1,1,'') "))
@@ -98,7 +98,7 @@ Public Class rptCustomerWiseSalesReport
                 '                  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"))
                 strDateForPivot = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select STUFF((Select ',['+thedate+']'  from (select  distinct  convert (varchar,DATENAME(month,(thedate)))+ '-'+ convert (varchar, year((thedate))) as thedate, month((thedate)) as MonthNo, year((thedate)) as YearNo from ExplodeDates ('" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "' )    ) XXX order by YearNo, MonthNo asc   For XML Path('')),1,1,'') "))
                 If clsCommon.myLen(strDateForPivot) <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 'strDateWithIsNull = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Declare @colsMonthYear As NVARCHAR(MAX),@query  As NVARCHAR(MAX) with dates_cte(Date) as (select convert(date,'" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy")) + "',103) union all select dateadd(month,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value.AddMonths(-1), "dd-MMM-yyyy")) + "',103))
@@ -128,7 +128,7 @@ Public Class rptCustomerWiseSalesReport
                 '                  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
                 strDateForPivot = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select STUFF((Select ',['+thedate+']'  from (select  distinct   convert (varchar, year((thedate))) as thedate, year((thedate)) as YearNo from ExplodeDates ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "' )    ) XXX order by YearNo asc   For XML Path('')),1,1,'') "))
                 If clsCommon.myLen(strDateForPivot) <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 'strDateWithIsNull = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Declare @colsYear As NVARCHAR(MAX),@query  As NVARCHAR(MAX) with dates_cte(Date) as (select convert(date,'01-Jan-" + fromDate.Text + "',103) union all select dateadd(month,1,date) from dates_cte where convert(date,date,103)<convert(date,'30-Nov-" + ToDate.Text + "',103))
@@ -220,13 +220,13 @@ Public Class rptCustomerWiseSalesReport
                 'txtZone.Enabled = False
 
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -269,7 +269,7 @@ Public Class rptCustomerWiseSalesReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
 
@@ -281,14 +281,14 @@ Public Class rptCustomerWiseSalesReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
@@ -321,7 +321,7 @@ Public Class rptCustomerWiseSalesReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 

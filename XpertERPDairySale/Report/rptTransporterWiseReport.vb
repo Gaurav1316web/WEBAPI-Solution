@@ -102,7 +102,7 @@ Public Class rptTransporterWiseReport
                                                                                          and TSPL_BOOKING_MATSER.Posted = 1 and  len (isnull (TSPL_VEHICLE_MASTER.Transport_Id,'') ) > 0  and TSPL_VEHICLE_MASTER.Transport_Id= '" + clsCommon.myCstr(txtTransport.Value) + "'  " + strZoneSel + "  " + strRouteSel + "  " + strCustCategoryMappInUserMaster + "  ) xxxx  order by   Route_Desc asc     FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')   "))
 
                 If clsCommon.myLen(strPivotRouteColumn) <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                     Exit Sub
                 End If
                 Dim strPivotRouteColumnWithSum As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT  ',' + ' Sum ( isnull ( '+ QUOTENAME( Route_Desc) + ',0)) as ' + Route_Desc  as Route_Desc FROM  ( select distinct  TSPL_ROUTE_MASTER.Route_Desc from  TSPL_BOOKING_DETAIL Left Outer Join TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No   Left Outer Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_BOOKING_DETAIL.route_no 
@@ -179,7 +179,7 @@ Public Class rptTransporterWiseReport
                 txtmultiRoute.Enabled = False
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -332,7 +332,7 @@ Public Class rptTransporterWiseReport
         Try
 
             If clsCommon.myLen(txtTransport.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Plz Select Transporter.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Plz Select Transporter.", Me.Text)
                 txtTransport.Focus()
                 Exit Sub
             End If
@@ -362,7 +362,7 @@ Public Class rptTransporterWiseReport
             Print(Exporter.Refresh)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -407,7 +407,7 @@ Public Class rptTransporterWiseReport
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -416,7 +416,7 @@ Public Class rptTransporterWiseReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
@@ -463,10 +463,10 @@ Public Class rptTransporterWiseReport
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -551,10 +551,10 @@ Public Class rptTransporterWiseReport
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF(objCommonVar.CurrentCompanyName, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode, arrFooter)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -567,7 +567,7 @@ Public Class rptTransporterWiseReport
                 lblTransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Transporter_Name from tspl_transport_Master WHERE Transport_Id='" + txtTransport.Value + "'"))
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -576,7 +576,7 @@ Public Class rptTransporterWiseReport
             Dim qry As String = " select Zone_Code as Code, Description as Name from TSPL_Zone_MASTER "
             txtmultiZone.arrValueMember = clsCommon.ShowMultipleSelectForm("Zone@Sel", qry, "Code", "Name", txtmultiZone.arrValueMember, txtmultiZone.arrDispalyMember)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -585,7 +585,7 @@ Public Class rptTransporterWiseReport
             Dim qry As String = " Select Route_No as Code, Route_Desc as Name from TSPL_ROUTE_MASTER "
             txtmultiRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RoutMulti@Sel@Transpoter", qry, "Code", "Name", txtmultiRoute.arrValueMember, txtmultiRoute.arrDispalyMember)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

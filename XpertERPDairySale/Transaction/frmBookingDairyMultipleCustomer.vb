@@ -76,7 +76,7 @@ Public Class frmBookingDairyMultipleCustomer
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -120,7 +120,7 @@ Public Class frmBookingDairyMultipleCustomer
                         btnUnlock.Visible = True
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Select a Document for Unlock.", "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+                    common.clsCommon.MyMessageBoxShow(Me, "Select a Document for Unlock.", "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
                 End If
             End If
             'sanjay GKD/20/06/18-000150 
@@ -239,7 +239,7 @@ Public Class frmBookingDairyMultipleCustomer
             btnUnlock.Visible = False
             'sanjay GKD/20/06/18-000150
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -312,7 +312,7 @@ Public Class frmBookingDairyMultipleCustomer
             End If
             If clsCommon.CompairString(ddlTaxType.Text, "Select") = CompairStringResult.Equal Then
                 gv1.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("Please select Tax type ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Tax type ", Me.Text)
                 ddlTaxType.Focus()
                 blnPageLoad = False
                 Exit Sub
@@ -342,7 +342,7 @@ Public Class frmBookingDairyMultipleCustomer
 
             If clsCommon.myLen(strtotalShort) = 0 Then
                 gv1.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("Please MAP Customer with Location . " & txtLocation.Value, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please MAP Customer with Location . " & txtLocation.Value, Me.Text)
                 blnPageLoad = False
                 Exit Sub
             End If
@@ -709,7 +709,7 @@ Public Class frmBookingDairyMultipleCustomer
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             strItemcode = Nothing
             strtotal = Nothing
@@ -811,7 +811,7 @@ Public Class frmBookingDairyMultipleCustomer
             txtMultiCustomer.arrValueMember = Nothing
             FlagPaste = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -858,7 +858,7 @@ Public Class frmBookingDairyMultipleCustomer
                         isCellValueChangedOpen = True
                         If e.Column.Index > 5 And e.Column.Name <> colTotalQty Then
                             If clsCommon.myLen(txtLocation.Value) = 0 Then
-                                clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
                                 txtLocation.Focus()
                                 Exit Sub
                             End If
@@ -876,7 +876,7 @@ Public Class frmBookingDairyMultipleCustomer
         Catch ex As Exception
             isInsideLoadData = False
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
             'Finally
             '    isInsideLoadData = False
             '    isCellValueChangedOpen = False
@@ -902,7 +902,7 @@ Public Class frmBookingDairyMultipleCustomer
                     gv1.CurrentRow.Cells("Zone_Code").Value = clsCommon.myCstr(dt.Rows(0)("Zone_Code"))
                     Dim strRoute = clsCommon.myCstr(dt.Rows(0)("Route_No"))
                     If clsCommon.myLen(strRoute) = 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please Map Route for customer " & gv1.CurrentRow.Cells("Customer Name").Value, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Map Route for customer " & gv1.CurrentRow.Cells("Customer Name").Value, Me.Text)
                     End If
                 End If
             Else
@@ -1086,7 +1086,7 @@ Public Class frmBookingDairyMultipleCustomer
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
         'sanjay GKD/20/06/18-000150
 
@@ -1171,7 +1171,7 @@ Public Class frmBookingDairyMultipleCustomer
                 txtLocation.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Sub CalculateItemRate(ByVal intRow As Integer, ByVal intColumn As Integer)
@@ -1421,7 +1421,7 @@ Public Class frmBookingDairyMultipleCustomer
 
         Dim MessageString As String = ""
         If clsCommon.myLen(txtLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtLocation.Focus()
             Exit Sub
         End If
@@ -1593,7 +1593,7 @@ Public Class frmBookingDairyMultipleCustomer
         Next
 
         If clsCommon.myLen(MessageString) > 0 Then
-            clsCommon.MyMessageBoxShow(MessageString, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, MessageString, Me.Text)
             Exit Sub
         End If
 
@@ -1803,12 +1803,12 @@ Public Class frmBookingDairyMultipleCustomer
                 Next
                 If blnRatezero = True Then
                     trans.Rollback()
-                    clsCommon.MyMessageBoxShow(DOmsg, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, DOmsg, Me.Text)
                     Return
                 End If
                 If (obj.Document_No Is Nothing OrElse obj.Arr.Count <= 0) Then
                     trans.Rollback()
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Booking", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Booking", Me.Text)
                     Return
                 End If
 
@@ -1918,7 +1918,7 @@ Public Class frmBookingDairyMultipleCustomer
                     'sanjay
                     trans.Commit()
                     LoadData(obj.Document_No, NavigatorType.Current)
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
                     trans.Rollback()
                 End If
@@ -1927,7 +1927,7 @@ Public Class frmBookingDairyMultipleCustomer
         Catch ex As Exception
             'trans.Rollback()
             blnSaveTotalQTy = False
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
             obj = Nothing
@@ -2039,7 +2039,7 @@ Public Class frmBookingDairyMultipleCustomer
 
             'Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         Finally
             qry = Nothing
@@ -2280,7 +2280,7 @@ Public Class frmBookingDairyMultipleCustomer
             'clsCommon.MyMessageBoxShow(msg)
             Return True
         Catch ex As Exception
-            Common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSaveTotalQTy = False
             Return False
         End Try
@@ -2369,7 +2369,7 @@ Public Class frmBookingDairyMultipleCustomer
 
         dt = clsDBFuncationality.GetDataTable(finalQuery)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         gv2.DataSource = Nothing
@@ -2595,7 +2595,7 @@ Public Class frmBookingDairyMultipleCustomer
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             isLoadData = False
@@ -2620,13 +2620,13 @@ Public Class frmBookingDairyMultipleCustomer
                     clsDBFuncationality.ExecuteNonQuery(qry1)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
             'sanjay
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2643,13 +2643,13 @@ Public Class frmBookingDairyMultipleCustomer
                     clsDBFuncationality.ExecuteNonQuery(qry1)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
             'sanjay GKD/20/06/18-000150
             Reset()
             LoadData(clsCommon.ShowSelectForm("FSBookDocNo", qry, "DocumentNo", whrClas, txtDocNo.Value, "DocumentNo", isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2663,7 +2663,7 @@ Public Class frmBookingDairyMultipleCustomer
         Try
             DeleteData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
@@ -2683,12 +2683,12 @@ Public Class frmBookingDairyMultipleCustomer
                 End If
                 If (clsBookingEntryDairySale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    Common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            Common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -2706,14 +2706,14 @@ Public Class frmBookingDairyMultipleCustomer
             Export()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Export()
         If gv1.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            Common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
     Private Sub ExportToExcel()
@@ -2777,7 +2777,7 @@ Public Class frmBookingDairyMultipleCustomer
                     ''====================================================
                     trans.Commit()
                     Dim msg = "Successfully Posted"
-                    common.clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     btnCreateDO.Enabled = True
                 Else
@@ -2786,7 +2786,7 @@ Public Class frmBookingDairyMultipleCustomer
             End If
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -2893,7 +2893,7 @@ Public Class frmBookingDairyMultipleCustomer
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                Common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2973,11 +2973,11 @@ Public Class frmBookingDairyMultipleCustomer
 
                 trans.Commit()
                 If clsCommon.myLen(DOmsg) > 0 Then
-                    Common.clsCommon.MyMessageBoxShow(DOmsg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, DOmsg, Me.Text)
                 End If
                 If DOCreated = True Then
                     Dim msg = "Successfully created"
-                    Common.clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     msg = Nothing
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -2986,7 +2986,7 @@ Public Class frmBookingDairyMultipleCustomer
             End If
         Catch ex As Exception
             trans.Rollback()
-            Common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -3114,7 +3114,7 @@ Public Class frmBookingDairyMultipleCustomer
 
             If clsCommon.myLen(strtotalShort) = 0 Then
                 gv1.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("Please MAP Customer with Location . " & txtLocation.Value, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please MAP Customer with Location . " & txtLocation.Value, Me.Text)
                 blnPageLoad = False
                 Exit Sub
             End If
@@ -3148,7 +3148,7 @@ Public Class frmBookingDairyMultipleCustomer
 
             transportSql.ExporttoExcel(qry, "", " isnull(Sku_Seq,0),Item_Code asc ", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         'Dim qry As String = "select count(*) from TSPL_BOOKING_DETAIL"
@@ -3189,7 +3189,7 @@ Public Class frmBookingDairyMultipleCustomer
         'sanjay Ticket no-MIL/08/05/19-000080
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                clsCommon.MyMessageBoxShow("Load New Document Data.")
+                clsCommon.MyMessageBoxShow(Me, "Load New Document Data.", Me.Text)
                 Exit Sub
             End If
             ImportProcess = True
@@ -3214,18 +3214,18 @@ Public Class frmBookingDairyMultipleCustomer
                             CheckBookingQty(False)
                             CalculateItemRate(irow, icol)
                         Else
-                            common.clsCommon.MyMessageBoxShow("Excel Sheet is not in expected format.")
+                            common.clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format.", Me.Text)
                             Exit Sub
                         End If
 
                     End If
                 Next
             Next
-            common.clsCommon.MyMessageBoxShow("Data Load Completed!", "Load", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, "Data Load Completed!", "Load", MessageBoxButtons.OK)
             ImportProcess = False
         Catch ex As Exception
             ImportProcess = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'sanjay
 
@@ -3473,7 +3473,7 @@ Public Class frmBookingDairyMultipleCustomer
 
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         If clsCommon.myLen(txtCustGrp.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer Group first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer Group first", Me.Text)
             'txtCustGrp.Focus()
             Exit Sub
         End If
@@ -3512,7 +3512,7 @@ Public Class frmBookingDairyMultipleCustomer
             clsCommon.MyExportToExcelGrid("Booking Entry", gv2, arrHeader, Me.Text)
 
         Catch ex As Exception
-            Common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -3538,12 +3538,12 @@ Public Class frmBookingDairyMultipleCustomer
             Dim obj As clsEmailSMSSettingNew = clsEmailSMSSettingNew.GetData(clsUserMgtCode.frmbookingdairy)
 
             If obj Is Nothing Then
-                clsCommon.MyMessageBoxShow("First do setting of email", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do setting of email", Me.Text)
                 Return
             End If
 
             If clsCommon.myLen(obj.mailsubjct) <= 0 Then
-                clsCommon.MyMessageBoxShow("First do setting of email", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do setting of email", Me.Text)
                 Return
             End If
             For ii As Integer = 9 To gv1.Columns.Count - 1
@@ -3598,7 +3598,7 @@ Public Class frmBookingDairyMultipleCustomer
             Next
 
 
-            clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3641,7 +3641,7 @@ Public Class frmBookingDairyMultipleCustomer
             End If
 
         Catch ex As Exception
-            Common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function GetQuery() As String
@@ -3745,7 +3745,7 @@ Public Class frmBookingDairyMultipleCustomer
                 gv1.Columns(ii).HeaderText = strCustomerDesc + Environment.NewLine + "Vehicle - " + strCustVehicleCode + Environment.NewLine + "Performa Inv No - " + strPerformaInvoiceNo + Environment.NewLine + "DO No - " + strDeliveryNo + Environment.NewLine + "DO Status - " + clsCommon.myCstr(strDOStatus) + Environment.NewLine + "Amount - " + clsCommon.myCstr(dblAmount) + Environment.NewLine + "BO Status - " + clsCommon.myCstr(strBOstatus) + Environment.NewLine + "Outstanding -        " + clsCommon.myCstr(dblCustOutstandingAmt)
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3783,13 +3783,13 @@ Public Class frmBookingDairyMultipleCustomer
                 Next
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtCustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCustomer._MYValidating
         Try
             If clsCommon.myLen(txtCustGrp.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select Customer Group first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer Group first", Me.Text)
                 Exit Sub
             End If
             Dim WhrCls As String = ""
@@ -3800,7 +3800,7 @@ Public Class frmBookingDairyMultipleCustomer
             txtCustomer.Value = clsCommon.ShowSelectForm("CustomerFnder", qry, "Code", WhrCls, txtCustomer.Value, "Code", isButtonClicked)
             lblName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtCustomer.Value + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3823,7 +3823,7 @@ Public Class frmBookingDairyMultipleCustomer
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
         Try
             If clsCommon.myLen(txtCustGrp.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select Customer Group first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer Group first", Me.Text)
                 Exit Sub
             End If
             Dim WhrCls As String = ""
@@ -3832,7 +3832,7 @@ Public Class frmBookingDairyMultipleCustomer
             qry = qry + " where " + WhrCls
             txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustomerFinder", qry, "Code", "", txtMultiCustomer.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3865,7 +3865,7 @@ Public Class frmBookingDairyMultipleCustomer
             '"where TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code='" & txtLocation.Value & "' and Cust_Group_Code='" & txtCustGrp.Value & "' order by TSPL_VEHICLE_MASTER.SequenceNo,TSPL_CUSTOMER_LOCATION_MAPPING.SequenceNo "
             '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3888,11 +3888,11 @@ Public Class frmBookingDairyMultipleCustomer
             '    Exit Sub
             'End If
             If IsNothing(txtMultiCustomer.arrValueMember) Then
-                clsCommon.MyMessageBoxShow("Please select Customer first", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(fndvehicalcode.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select New Vehicle", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select New Vehicle", Me.Text)
                 Exit Sub
             End If
 

@@ -26,7 +26,7 @@ Public Class FrmPrintDistributerInvoiceStatement
     Public Sub loadReport()
         Dim WhrCls As String = " and 2=2 "
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
@@ -36,7 +36,7 @@ Public Class FrmPrintDistributerInvoiceStatement
         'End If
         If clsCommon.myCDate(txtFromDate.Value) >= objCommonVar.GSTApplicableDate AndAlso clsCommon.myCDate(txtToDate.Value) >= objCommonVar.GSTApplicableDate Then
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Please Select Report Type.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Report Type.", Me.Text)
                 cboReportType.Focus()
                 Exit Sub
             End If
@@ -96,7 +96,7 @@ Public Class FrmPrintDistributerInvoiceStatement
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         ReStoreGridLayout()
     End Sub
@@ -298,12 +298,12 @@ Public Class FrmPrintDistributerInvoiceStatement
                 'End If
                 'clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
                 If clsCommon.CompairString(clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy"), clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy")) <> CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("From Date and To Date should be same month of year.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "From Date and To Date should be same month of year.", Me.Text)
                     Return
                 End If
 
                 If clsCommon.myLen(fndCustom.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select Customer First", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Customer First", Me.Text)
                     Return
                 End If
 
@@ -431,10 +431,10 @@ Public Class FrmPrintDistributerInvoiceStatement
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(False, CrystalReportFolder.SalesReport, dt, "rptMonthlyInvoicePrint", "Customer Monthly Sales")
                 Else
-                    common.clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 End If
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
             End Try
         Else
             Printing()
@@ -670,7 +670,7 @@ Public Class FrmPrintDistributerInvoiceStatement
 
 
         If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
             Exit Sub
         End If
@@ -821,7 +821,7 @@ Public Class FrmPrintDistributerInvoiceStatement
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
     Private Sub rmExcel_Click(sender As Object, e As EventArgs) Handles rmExcel.Click
@@ -857,7 +857,7 @@ Public Class FrmPrintDistributerInvoiceStatement
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -929,7 +929,7 @@ Public Class FrmPrintDistributerInvoiceStatement
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             obj.GridLayout.Close()
@@ -939,14 +939,14 @@ Public Class FrmPrintDistributerInvoiceStatement
 
     Private Sub rmiDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmiDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
     'Ticket No-ERO/03/09/19-001018,Send Email with Invoice PDF attachment
     Private Sub BtnEmailSms_Click(sender As Object, e As EventArgs) Handles BtnEmailSms.Click
         Try
             Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
             If dtContent Is Nothing OrElse dtContent.Rows.Count = 0 Then
-                clsCommon.MyMessageBoxShow("First do email setting", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First do email setting", Me.Text)
                 Exit Sub
             End If
 
@@ -985,9 +985,9 @@ Public Class FrmPrintDistributerInvoiceStatement
                     objEmailH = Nothing
                 End If
             Next
-            clsCommon.MyMessageBoxShow("E-Mail Send Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -1028,14 +1028,14 @@ Public Class FrmPrintDistributerInvoiceStatement
             End If
             clsPSShipmentPrint.PrintDataBatchWiseInvoice(InvoiceNo)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnCombinedInvoice_Click(sender As Object, e As EventArgs) Handles btnCombinedInvoice.Click
         Try
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
@@ -1087,10 +1087,10 @@ Public Class FrmPrintDistributerInvoiceStatement
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Amount", "Amount(Rs)", False, DosPrintAlignment.Right, 20, True, DecimalPlaces.Two))
                 obj.Print(obj, dt, PageSetup.Potrate)
             Else
-                clsCommon.MyMessageBoxShow("Data Not Found!")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found!", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

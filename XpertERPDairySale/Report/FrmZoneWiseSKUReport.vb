@@ -19,12 +19,12 @@ Public Class FrmZoneWiseSKUReport
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         If txtfDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater than to Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
             txtfDate.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtUOM.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select UOM first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select UOM first", Me.Text)
             Exit Sub
         End If
         PageSetupReport_ID = MyBase.Form_ID
@@ -86,7 +86,7 @@ Public Class FrmZoneWiseSKUReport
 
             dtZone = clsDBFuncationality.GetDataTable(QryZone)
             If dtZone Is Nothing OrElse dtZone.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Dim strZone As String = ""
@@ -257,7 +257,7 @@ Public Class FrmZoneWiseSKUReport
             If rbtn_DateWise.Checked = True Then
                 strPivotCol = clsDBFuncationality.getSingleValue(" Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) with dates_cte(Date) as (select convert(date,'" + txtfDate.Value + "',103) union all select dateadd(day,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + txtToDate.Value + "',103)) select  STUFF((Select ',' + QUOTENAME(convert(varchar,dates_cte.Date,103) ) as Alies_Name FROM dates_cte where convert(date,date,103)<=convert(date,'" + txtToDate.Value + "',103) order by convert(date,dates_cte.Date,103) FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                 If clsCommon.myLen(strPivotCol) <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 strPivotColSum = clsDBFuncationality.getSingleValue(" Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX)  with dates_cte(Date) as (select convert(date,'" + txtfDate.Value + "',103) union all select dateadd(day,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + txtToDate.Value + "',103)) select  STUFF((SELECT ',' +'Sum(isnull(' + QUOTENAME(convert(varchar,dates_cte.Date,103)) +',0))' +' as ' + QUOTENAME(convert(varchar,dates_cte.Date,103)) as Alies_Name FROM dates_cte where convert(date,date,103)<=convert(date,'" + txtToDate.Value + "',103) order by convert(date,dates_cte.Date,103) FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
@@ -269,7 +269,7 @@ Public Class FrmZoneWiseSKUReport
             ElseIf rbtn_MonthWise.Checked = True Then
                 strPivotCol = clsDBFuncationality.getSingleValue("Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) with dates_cte(Date) as (select convert(date,'" + txtfDate.Value + "',103) union all select dateadd(month,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + txtToDate.Value.AddMonths(1) + "',103)) select  STUFF((Select  ',' + QUOTENAME(convert(varchar,DATENAME(MONTH,dates_cte.Date)) + '/' +convert(varchar,Year(dates_cte.Date))) as Alies_Name FROM dates_cte where convert(date,date,103)<=convert(date,'" + txtToDate.Value.AddMonths(1) + "',103) order by  Year(dates_cte.Date),MONTH(dates_cte.Date) FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')")
                 If clsCommon.myLen(strPivotCol) <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 strPivotColSum = clsDBFuncationality.getSingleValue("Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) with dates_cte(Date) as (select convert(date,'" + txtfDate.Value + "',103) union all select dateadd(month,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + txtToDate.Value.AddMonths(1) + "',103)) select STUFF((Select  ',' +'Sum(isnull('  + QUOTENAME(convert(varchar,DATENAME(MONTH,dates_cte.Date)) + '/' +convert(varchar,Year(dates_cte.Date))) +',0))' +' as ' + QUOTENAME(convert(varchar,DATENAME(MONTH,dates_cte.Date)) + '/' +convert(varchar,Year(dates_cte.Date))) as Alies_Name FROM dates_cte where convert(date,date,103)<=convert(date,'" + txtToDate.Value.AddMonths(1) + "',103) order by  Year(dates_cte.Date),MONTH(dates_cte.Date) FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')")
@@ -282,7 +282,7 @@ Public Class FrmZoneWiseSKUReport
             ElseIf rbtn_YearWise.Checked = True Then
                 strPivotCol = clsDBFuncationality.getSingleValue("Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) with dates_cte(Date) as (select convert(date,'" + txtfDate.Value + "',103) union all select dateadd(year,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + txtToDate.Value + "',103)) select  STUFF((Select  ',' + QUOTENAME(convert(varchar,Year(dates_cte.Date))) as Alies_Name FROM dates_cte where year(date)<=year('" + txtToDate.Value + "') order by  Year(dates_cte.Date) FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')")
                 If clsCommon.myLen(strPivotCol) <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 strPivotColSum = clsDBFuncationality.getSingleValue("Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) with dates_cte(Date) as (select convert(date,'" + txtfDate.Value + "',103) union all select dateadd(year,1,date) from dates_cte where convert(date,date,103)<convert(date,'" + txtToDate.Value + "',103)) select STUFF((Select  ',' +'Sum(isnull('  + QUOTENAME(convert(varchar,Year(dates_cte.Date))) +',0))' +' as ' + QUOTENAME(convert(varchar,Year(dates_cte.Date))) as Alies_Name FROM dates_cte where year(date)<=year('" + txtToDate.Value + "') order by  Year(dates_cte.Date) FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')")
@@ -346,7 +346,7 @@ Public Class FrmZoneWiseSKUReport
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -432,7 +432,7 @@ Public Class FrmZoneWiseSKUReport
             gvData.MasterTemplate.AutoExpandGroups = True
             gvData.MasterTemplate.ShowTotals = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -467,7 +467,7 @@ Public Class FrmZoneWiseSKUReport
                 gvData.ViewDefinition = view
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -557,7 +557,7 @@ Public Class FrmZoneWiseSKUReport
                 clsCommon.MyExportToPDF(Me.Text, gvData, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -593,7 +593,7 @@ Public Class FrmZoneWiseSKUReport
                 txtToDate.ShowUpDown = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -608,7 +608,7 @@ Public Class FrmZoneWiseSKUReport
                 txtToDate.ShowUpDown = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -621,7 +621,7 @@ Public Class FrmZoneWiseSKUReport
                 txtToDate.CustomFormat = "dd/MM/yyyy"
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -643,7 +643,7 @@ Public Class FrmZoneWiseSKUReport
                 gvData.DataSource = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 End Class

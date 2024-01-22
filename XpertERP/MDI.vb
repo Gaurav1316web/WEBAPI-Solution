@@ -3743,6 +3743,10 @@ Public Class MDI
                         frm = New VehicleUnloadingReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptRMUnloading
+                        frm = New rptRMUnloading()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
 
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()
@@ -8330,6 +8334,11 @@ Public Class MDI
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptBmcCollection
+                        frm = New rptBmcCollection
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.rptDBTMilkPayment
                         frm = New rptDBTMilkPayment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
