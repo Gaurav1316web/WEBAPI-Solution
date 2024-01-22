@@ -175,8 +175,8 @@ Public Class FrmSaleOrderSummary
             End If
 
 
-            Dim qry As String = "select distinct (Fdate) as Fdate,(Tdate) as Tdate,(status) as status,Document_Code,Document_Date, " & _
-            "aa.ParentCode,Customer_Code,Customer_Name,Salesman_Name,Bill_To_Location,Location_Desc,Delivery_date,(TotalOrderAmt) as TotalOrderAmt,(TotalShippedAmt) as totalShipAmt, " & _
+            Dim qry As String = "select distinct (Fdate) as Fdate,(Tdate) as Tdate,'" & objCommonVar.CurrentUser & "' as User_Name,(status) as status,Document_Code,Document_Date, " &
+            "aa.ParentCode,Customer_Code,Customer_Name,Salesman_Name,Bill_To_Location,Location_Desc,Delivery_date,(TotalOrderAmt) as TotalOrderAmt,(TotalShippedAmt) as totalShipAmt, " &
             "(TotalOrderAmt-TotalShippedAmt) as Outstanding,item_code,OrderQty  from ( " & str & " ) aa "
 
             str = qry

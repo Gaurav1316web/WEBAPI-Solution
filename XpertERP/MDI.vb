@@ -7822,20 +7822,26 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         objCommonVar.IsAutoTabOrdering = x
                     Case clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge
-                        settDCS = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowDCSDetMerge, clsFixedParameterCode.ShowDCSDetMerge, Nothing))
-                        If settDCS = True Then
-                            Dim x As Boolean = objCommonVar.IsAutoTabOrdering
-                            frm = New frmDCSMilkCollectionMergeSetting
-                            objCommonVar.IsAutoTabOrdering = False
-                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                            objCommonVar.IsAutoTabOrdering = x
+                        settDCS = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, Nothing)) = 1)
+                        If settDCS Then
+                            settDCS = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowDCSDetMerge, clsFixedParameterCode.ShowDCSDetMerge, Nothing))
+                            If settDCS = True Then
+                                Dim x As Boolean = objCommonVar.IsAutoTabOrdering
+                                frm = New frmDCSMilkCollectionMergeSetting
+                                objCommonVar.IsAutoTabOrdering = False
+                                formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                                objCommonVar.IsAutoTabOrdering = x
+                            Else
+                                Dim x As Boolean = objCommonVar.IsAutoTabOrdering
+                                frm = New frmMilkCollectionDCSMultipleDaysMerge
+                                objCommonVar.IsAutoTabOrdering = False
+                                formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                                objCommonVar.IsAutoTabOrdering = x
+                            End If
                         Else
-                            Dim x As Boolean = objCommonVar.IsAutoTabOrdering
-                            frm = New frmMilkCollectionDCSMultipleDaysMerge
-                            objCommonVar.IsAutoTabOrdering = False
-                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                            objCommonVar.IsAutoTabOrdering = x
+                            clsCommon.MyMessageBoxShow(Me, "This feature is not for you")
                         End If
+
                     'Case clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge
                     '    Dim x As Boolean = objCommonVar.IsAutoTabOrdering
                     '    frm = New frmMilkCollectionDCSMultipleDaysMerge
@@ -8328,6 +8334,11 @@ Public Class MDI
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptBmcCollection
+                        frm = New rptBmcCollection
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.rptDBTMilkPayment
                         frm = New rptDBTMilkPayment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

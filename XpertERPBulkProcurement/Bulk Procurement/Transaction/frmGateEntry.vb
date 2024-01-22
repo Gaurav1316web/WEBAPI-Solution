@@ -1047,7 +1047,7 @@ Public Class FrmGateEntry
                         txtPriceCode.Enabled = True
                     End If
                 Else
-                    clsCommon.MyMessageBoxShow("You cannot change Price code. Bulk milk SRN is already created.")
+                    clsCommon.MyMessageBoxShow(Me, "You cannot change Price code. Bulk milk SRN is already created.", Me.Text)
                 End If
             End If
         End If
@@ -1545,7 +1545,7 @@ Public Class FrmGateEntry
                         Dim HSNCode As String = clsItemMaster.GetItemHSNCode(gvItemBulk.Rows(ii).Cells(colItemCode).Value, Nothing)
                         gvItemBulk.Rows(ii).Cells(colHSN).Value = HSNCode
                         If clsCommon.myLen(HSNCode) <= 0 Then
-                            clsCommon.MyMessageBoxShow("HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                            clsCommon.MyMessageBoxShow(Me, "HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                             Return False
                         End If
                     End If
@@ -2206,7 +2206,7 @@ Public Class FrmGateEntry
         ElseIf chkMccProc.IsChecked Then
             strDocType = "MccProc"
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement")
+            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement", Me.Text)
             Exit Sub
         End If
         LoadData(fndGateEntryNO.Value, strDocType, NavType)
@@ -2219,7 +2219,7 @@ Public Class FrmGateEntry
         ElseIf chkMccProc.IsChecked Then
             strDocType = "MccProc"
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement")
+            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement", Me.Text)
             Exit Sub
         End If
         Dim whrcls As String = " 2=2 "
@@ -2366,7 +2366,7 @@ Public Class FrmGateEntry
             obj.GridColumns = gvItemBulk.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2377,7 +2377,7 @@ Public Class FrmGateEntry
     Private Sub mnuDeleteLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub mnuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuExit.Click
@@ -3148,7 +3148,7 @@ Public Class FrmGateEntry
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

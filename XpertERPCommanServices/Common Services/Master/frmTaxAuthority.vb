@@ -920,7 +920,7 @@ Public Class frmTaxAuthority
                         Dim txtrate1 As RadTextBox
                         For Each txtrate1 In txtRate
                             If txtrate1.Enabled = True And ((If(txtrate1.Text = "", 0.0, Convert.ToDouble(txtrate1.Text))) = 0.0) Then
-                                common.clsCommon.MyMessageBoxShow("Your Recoverable Rate Equal to 100 so you can not select any other Account and also fill Recoverable Rate")
+                                common.clsCommon.MyMessageBoxShow(Me, "Your Recoverable Rate Equal to 100 so you can not select any other Account and also fill Recoverable Rate")
                                 Return False
                             End If
                         Next
@@ -934,7 +934,7 @@ Public Class frmTaxAuthority
             Dim qry As String = "select GL_Account_Code from TSPL_TAX_RATES where Tax_Code='" + findTaxAuthority.Value + "' and Tax_Type='P' and len(ISNULL( GL_Account_Code,''))>0"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                common.clsCommon.MyMessageBoxShow("Please first remove all GL Account from Tax rate of " + findTaxAuthority.Value + " Authority", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please first remove all GL Account from Tax rate of " + findTaxAuthority.Value + " Authority", Me.Text)
                 Return False
             End If
         End If
@@ -1344,35 +1344,35 @@ Public Class frmTaxAuthority
 
     Private Sub txtRecoverRate_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtRecoverRate.Validating
         If txtRecoverRate.Value > 100 Then
-            common.clsCommon.MyMessageBoxShow("Value should be less then 100")
+            common.clsCommon.MyMessageBoxShow(Me, "Value should be less then 100", Me.Text)
             txtRecoverRate.Value = 0.0
         End If
     End Sub
 
     Private Sub txtRecovRate2_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtRecovRate2.Validating
         If txtRecovRate2.Value > 100 Then
-            common.clsCommon.MyMessageBoxShow("Value should be less then 100")
+            common.clsCommon.MyMessageBoxShow(Me, "Value should be less then 100", Me.Text)
             txtRecovRate2.Value = 0.0
         End If
     End Sub
 
     Private Sub txtRecovRate3_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtRecovRate3.Validating
         If txtRecovRate3.Value > 100 Then
-            common.clsCommon.MyMessageBoxShow("Value should be less then 100")
+            common.clsCommon.MyMessageBoxShow("Me,Value should be less then 100", Me.Text)
             txtRecovRate3.Value = 0.0
         End If
     End Sub
 
     Private Sub txtRecovRate4_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtRecovRate4.Validating
         If txtRecovRate4.Value > 100 Then
-            common.clsCommon.MyMessageBoxShow("Value should be less then 100")
+            common.clsCommon.MyMessageBoxShow(Me, "Value should be less then 100", Me.Text)
             txtRecovRate4.Value = 0.0
         End If
     End Sub
 
     Private Sub txtRecovRate5_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtRecovRate5.Validating
         If txtRecovRate5.Value > 100 Then
-            common.clsCommon.MyMessageBoxShow("Value should be less then 100")
+            common.clsCommon.MyMessageBoxShow(Me, "Value should be less then 100", Me.Text)
             txtRecovRate5.Value = 0.0
         End If
     End Sub
@@ -1862,7 +1862,7 @@ Public Class frmTaxAuthority
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(findTaxAuthority.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Tax Authority Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Tax Authority Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(findTaxAuthority.Value, "Tax_Code", "TSPL_TAX_MASTER")

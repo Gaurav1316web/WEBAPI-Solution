@@ -13753,6 +13753,7 @@ Public Class clsCreateAllTable
             coll.Add("OTP", "varchar(6) NULL")
             coll.Add("OTP_Validity", "Datetime  NULL")
             coll.Add("Entry_UOM", "integer null")
+            coll.Add("Entry_UOM_Mobile", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -23229,6 +23230,8 @@ Public Class clsCreateAllTable
             coll.Add("Own_BMC_FAT", "Decimal(18,2) null")
             coll.Add("Own_BMC_SNF", "Decimal(18,2) null")
             coll.Add("Own_BMC_Loose_Sale_Qty", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_FAT", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_SNF", "Decimal(18,2) null")
             coll.Add("Remarks", "Varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try

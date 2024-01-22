@@ -166,7 +166,7 @@ Public Class RptDairyBookingDistributorReport
                 clsCommon.MyExportToExcelGrid("Dairy Booking Distributor Report", Gv1, arrHeader, "Dairy Booking Distributor Report")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -310,7 +310,7 @@ Public Class RptDairyBookingDistributorReport
             RadSplitButton1.Enabled = True
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -358,7 +358,7 @@ Public Class RptDairyBookingDistributorReport
             'qry = " select  case when len(tspl_item_master.Short_Description) <=0 then tspl_item_master.Item_Desc else tspl_item_master.Short_Description end  as Item_Code  from tspl_item_master "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             For Each dr As DataRow In dt.Rows
@@ -433,7 +433,7 @@ Public Class RptDairyBookingDistributorReport
 
             dtqry = clsDBFuncationality.GetDataTable(qry)
             If dtqry Is Nothing OrElse dtqry.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Gv1.DataSource = Nothing
@@ -462,7 +462,7 @@ Public Class RptDairyBookingDistributorReport
             RadSplitButton1.Enabled = True
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -495,7 +495,7 @@ Public Class RptDairyBookingDistributorReport
             'qry = " select  case when len(tspl_item_master.Short_Description) <=0 then tspl_item_master.Item_Desc else tspl_item_master.Short_Description end  as Item_Code  from tspl_item_master "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             For Each dr As DataRow In dt.Rows
@@ -562,7 +562,7 @@ Public Class RptDairyBookingDistributorReport
 
             dtqry = clsDBFuncationality.GetDataTable(qry)
             If dtqry Is Nothing OrElse dtqry.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Gv1.DataSource = Nothing
@@ -590,7 +590,7 @@ Public Class RptDairyBookingDistributorReport
             RadSplitButton1.Enabled = True
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -624,7 +624,7 @@ Public Class RptDairyBookingDistributorReport
             'qry = " select  case when len(tspl_item_master.Short_Description) <=0 then tspl_item_master.Item_Desc else tspl_item_master.Short_Description end  as Item_Code  from tspl_item_master "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             For Each dr As DataRow In dt.Rows
@@ -692,7 +692,7 @@ Public Class RptDairyBookingDistributorReport
 
             dtqry = clsDBFuncationality.GetDataTable(qry)
             If dtqry Is Nothing OrElse dtqry.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Gv1.DataSource = Nothing
@@ -720,7 +720,7 @@ Public Class RptDairyBookingDistributorReport
             RadSplitButton1.Enabled = True
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -753,7 +753,7 @@ Public Class RptDairyBookingDistributorReport
             'qry = " select  case when len(tspl_item_master.Short_Description) <=0 then tspl_item_master.Item_Desc else tspl_item_master.Short_Description end  as Item_Code  from tspl_item_master "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             For Each dr As DataRow In dt.Rows
@@ -818,7 +818,7 @@ Public Class RptDairyBookingDistributorReport
 
             dtqry = clsDBFuncationality.GetDataTable(qry)
             If dtqry Is Nothing OrElse dtqry.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Gv1.DataSource = Nothing
@@ -847,7 +847,7 @@ Public Class RptDairyBookingDistributorReport
             RadSplitButton1.Enabled = True
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -895,7 +895,7 @@ Public Class RptDairyBookingDistributorReport
                 clsCommon.MyExportToPDF("Dairy Booking Distributor Report", Gv1, arrHeader, "Dairy Booking Distributor Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

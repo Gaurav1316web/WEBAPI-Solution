@@ -100,20 +100,20 @@ Public Class FrmSaleInvoiceDetail
                 End If
             End If
 
-            Dim str As String = "SELECT    '" & fromDate.Value & "' as Fdate,'" & ToDate.Value & "' as Tdate, " & _
-            " TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Parent_Customer_No as ParentCode,Parent_Master.Customer_Name as ParentName ,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code, " & _
-                        "TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Salesman_Code, " & _
-                        "TSPL_SD_SALE_INVOICE_HEAD.Salesman_Name,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location ,TSPL_LOCATION_MASTER.Location_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code, " & _
-                        "TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Qty as InvoiceQty, 0 as ShippedQty, " & _
-                        "TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,Item_Cost as rate,Amount,Disc_Per,Disc_Amt, " & _
-                       "TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt, " & _
-    " TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt as TotalAmt FROM TSPL_CUSTOMER_MASTER left outer join tspl_customer_master as Parent_Master on Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No RIGHT OUTER JOIN " & _
-                            "TSPL_SD_SALE_INVOICE_HEAD ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code RIGHT OUTER JOIN " & _
-                            "TSPL_ITEM_MASTER RIGHT OUTER JOIN " & _
-                            "TSPL_SD_SALE_INVOICE_DETAIL ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code ON " & _
-                            "TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code " & _
-"left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " & _
-" where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and " & _
+            Dim str As String = "SELECT    '" & fromDate.Value & "' as Fdate,'" & ToDate.Value & "' as Tdate, " &
+            " TSPL_SD_SALE_INVOICE_HEAD.Document_Code, '" & objCommonVar.CurrentUser & "' as User_Name ,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Parent_Customer_No as ParentCode,Parent_Master.Customer_Name as ParentName ,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code, " &
+                        "TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Salesman_Code, " &
+                        "TSPL_SD_SALE_INVOICE_HEAD.Salesman_Name,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location ,TSPL_LOCATION_MASTER.Location_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code, " &
+                        "TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Qty as InvoiceQty, 0 as ShippedQty, " &
+                        "TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,Item_Cost as rate,Amount,Disc_Per,Disc_Amt, " &
+                       "TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt, " &
+    " TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt as TotalAmt FROM TSPL_CUSTOMER_MASTER left outer join tspl_customer_master as Parent_Master on Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No RIGHT OUTER JOIN " &
+                            "TSPL_SD_SALE_INVOICE_HEAD ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code RIGHT OUTER JOIN " &
+                            "TSPL_ITEM_MASTER RIGHT OUTER JOIN " &
+                            "TSPL_SD_SALE_INVOICE_DETAIL ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code ON " &
+                            "TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code " &
+"left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
+" where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and " &
                             " convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "'   " & strCustomer & " " & strLocationInv & " " & strItemInv & ""
             str += " order by Document_Code"
 

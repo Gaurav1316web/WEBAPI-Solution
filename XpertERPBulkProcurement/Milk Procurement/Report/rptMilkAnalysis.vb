@@ -109,24 +109,24 @@ Public Class rptMilkAnalysis
             'Dim strSRNQuery As String = Nothing
             'Dim strRejectionQuery As String = Nothing
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
             If Not MultipleFinderFillAuto Then
                 If clsCommon.myLen(txtPaymentCycleFrom.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Plz Select Payment Cycle From First.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Plz Select Payment Cycle From First.", Me.Text)
                     txtPaymentCycleFrom.Focus()
                     Exit Sub
                 End If
                 If clsCommon.myLen(txtPaymentCycleTo.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Plz Select Payment Cycle To First.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Plz Select Payment Cycle To First.", Me.Text)
                     txtPaymentCycleTo.Focus()
                     Exit Sub
                 End If
 
                 If clsCommon.myCdbl(txtPaymentCycleFrom.Value) > clsCommon.myCdbl(txtPaymentCycleTo.Value) Then
-                    common.clsCommon.MyMessageBoxShow("From Payment Cycle can not be greater then to Payment Cycle")
+                    common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle")
                     txtPaymentCycleFrom.Focus()
                     Exit Sub
                 End If
@@ -293,7 +293,7 @@ Public Class rptMilkAnalysis
             End If
 
             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 Gv1.DataSource = dt1
@@ -304,7 +304,7 @@ Public Class rptMilkAnalysis
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormat()
@@ -407,7 +407,7 @@ Public Class rptMilkAnalysis
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim strHeading As String = clsCommon.myCstr("Milk Analysis For Cycle : " + txtPaymentCycleFrom.Value + " To " + txtPaymentCycleTo.Value + ", " + txtFiscalYear.Value + "")
@@ -428,7 +428,7 @@ Public Class rptMilkAnalysis
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -465,14 +465,14 @@ Public Class rptMilkAnalysis
             'fromDate.Value = clsCommon.GETSERVERDATE()
             'ToDate.Value = clsCommon.GETSERVERDATE()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
     Private Sub TxtPaymentCycleFrom__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPaymentCycleFrom._MYValidating
         Try
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
@@ -485,7 +485,7 @@ Public Class rptMilkAnalysis
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
 
     End Sub
@@ -496,21 +496,21 @@ Public Class rptMilkAnalysis
             Dim qry As String = "SELECT Name ,From_Date,To_Date FROM TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and Name='" + txtPaymentCycleFrom.Value + "' "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found for Selected Fiscal Year")
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found for Selected Fiscal Year", Me.Text)
                 Exit Sub
             End If
 
             fromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select From_Date from TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and Name='" + txtPaymentCycleFrom.Value + "' "))
             ToDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select To_Date from TSPL_PAYMENT_CYCLE_GENERATED where Fiscal_Code='" + txtFiscalYear.Value + "' and Name='" + txtPaymentCycleTo.Value + "' "))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
     Private Sub TxtPaymentCycleTo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPaymentCycleTo._MYValidating
         Try
             If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Plz Select Fiscal Year First.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
                 txtFiscalYear.Focus()
                 Exit Sub
             End If
@@ -518,14 +518,14 @@ Public Class rptMilkAnalysis
             Dim qry As String = "SELECT distinct convert(int,name) as Code,convert(varchar,From_Date,103) as [From Date],convert(varchar,To_Date,103) as [To Date] FROM TSPL_PAYMENT_CYCLE_GENERATED"
             txtPaymentCycleTo.Value = clsCommon.ShowSelectForm("LRPCT", qry, "Code", whrcls, txtPaymentCycleTo.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
     Private Sub RmiExcelGrid_Click(sender As Object, e As EventArgs) Handles rmiExcelGrid.Click
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim strHeading As String = clsCommon.myCstr("Milk Analysis For Cycle : " + txtPaymentCycleFrom.Value + " To " + txtPaymentCycleTo.Value + ", " + txtFiscalYear.Value + "")
@@ -538,7 +538,7 @@ Public Class rptMilkAnalysis
             clsCommon.MyExportToExcelGrid(strHeading, Gv1, arrHeader, Me.Text, True)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -563,7 +563,7 @@ Public Class rptMilkAnalysis
         Dim isSaved As Boolean = False
         isSaved = obj.SaveData(arrSLAB)
         If isSaved Then
-            clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
         End If
     End Sub
 
@@ -580,7 +580,7 @@ Public Class rptMilkAnalysis
                 'End If
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -591,7 +591,7 @@ Public Class rptMilkAnalysis
                 gvTS.Rows(gvTS.CurrentRow.Index - 1).Cells(colTo).Value = clsCommon.myCdbl(clsCommon.myCdbl(gvTS.Rows(gvTS.CurrentRow.Index).Cells(colRange).Value) - 0.01)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -620,7 +620,7 @@ Public Class rptMilkAnalysis
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -688,7 +688,7 @@ Public Class rptMilkAnalysis
             gvTS.AllowRowReorder = True
             'gvTS.Rows.AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -741,7 +741,7 @@ Public Class rptMilkAnalysis
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (select Location_Code  from TSPL_LOCATION_MASTER where " + strMCCcode + "  Location_Category='MCC' and Rejected_Type='N') ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location")
+                clsCommon.MyMessageBoxShow("No Payment Cycle found on current MCC/Location", Me.Text)
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
@@ -765,7 +765,7 @@ Public Class rptMilkAnalysis
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(fromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
                     fromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     ToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -773,7 +773,7 @@ Public Class rptMilkAnalysis
                 ToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, fromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(fromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
                     fromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     ToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub

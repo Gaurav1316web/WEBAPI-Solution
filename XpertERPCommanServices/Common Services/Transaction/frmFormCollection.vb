@@ -75,7 +75,7 @@ Public Class FrmFormCollection
             connectSql.RunSql(SrtQDtl)
             myMessages.delete()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Collection Form", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Collection Form", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
     Public Sub Fill_Evnt(ByVal sender As Object, ByVal e As EventArgs)
@@ -83,11 +83,11 @@ Public Class FrmFormCollection
     End Sub
     Sub Funfill()
         Try
-            StrQ = " SELECT TSPL_Collection_Form_Header.Collection_No, TSPL_Collection_Form_Header.Description, TSPL_Collection_Form_Header.Collection_Date, " & _
-            " TSPL_Collection_Form_Header.Type, TSPL_Collection_Form_Header.Form_Code, TSPL_Collection_Form_Header.Source_Code, " & _
-            " TSPL_Collection_Form_Header.Source_Name, TSPL_Collection_Form_Header.Form_No, " & _
-            " TSPL_Collection_Form_Detail.Is_Select, TSPL_Collection_Form_Detail.Document_No, TSPL_Collection_Form_Detail.Document_Date," & _
-            " TSPL_Collection_Form_Detail.Document_Amount FROM TSPL_Collection_Form_Header INNER JOIN " & _
+            StrQ = " SELECT TSPL_Collection_Form_Header.Collection_No, TSPL_Collection_Form_Header.Description, TSPL_Collection_Form_Header.Collection_Date, " &
+            " TSPL_Collection_Form_Header.Type, TSPL_Collection_Form_Header.Form_Code, TSPL_Collection_Form_Header.Source_Code, " &
+            " TSPL_Collection_Form_Header.Source_Name, TSPL_Collection_Form_Header.Form_No, " &
+            " TSPL_Collection_Form_Detail.Is_Select, TSPL_Collection_Form_Detail.Document_No, TSPL_Collection_Form_Detail.Document_Date," &
+            " TSPL_Collection_Form_Detail.Document_Amount FROM TSPL_Collection_Form_Header INNER JOIN " &
             " TSPL_Collection_Form_Detail ON TSPL_Collection_Form_Header.Collection_No = TSPL_Collection_Form_Detail.Collection_No where TSPL_Collection_Form_Header.collection_No='" + fndCollection.Value + "'"
             Dr = clsDBFuncationality.GetDataTable(StrQ)
             'Dr.Read()
@@ -106,7 +106,7 @@ Public Class FrmFormCollection
                 txtSrcName.Text = row("Source_Name").ToString()
                 txtFormNo.Text = row("Form_No").ToString()
             Next
-            Dim StrQue As String = " SELECT Collection_No, Is_Select, Document_No, Document_Date, Document_Amount" & _
+            Dim StrQue As String = " SELECT Collection_No, Is_Select, Document_No, Document_Date, Document_Amount" &
                                    " FROM TSPL_Collection_Form_Detail where collection_No ='" + fndCollection.Value + "'"
             grdFrmDetails.Rows.Clear()
             grdFrmDetails.AutoGenerateColumns = False
@@ -123,7 +123,7 @@ Public Class FrmFormCollection
             'rdbCustomer.Enabled = False
             'rdbVendor.Enabled = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Collection Form", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Collection Form", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
     Sub funInsert()
@@ -141,7 +141,7 @@ Public Class FrmFormCollection
                 End If
             Next
             If x = 0 Then
-                common.clsCommon.MyMessageBoxShow("Select Atleast One Document!", "Collection Form", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Select Atleast One Document!", "Collection Form", MessageBoxButtons.OK)
                 Exit Sub
             End If
             Dim EntryNo As String = fnAutoGenerateNo()
@@ -163,7 +163,7 @@ Public Class FrmFormCollection
             myMessages.insert()
             'fndCollection.txtValue.Text = EntryNo
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Collection Form", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Collection Form", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
     Sub GridBind()
@@ -300,7 +300,7 @@ Public Class FrmFormCollection
                 End If
             Next
             If x = 0 Then
-                common.clsCommon.MyMessageBoxShow("Select Atleast One Document!", "Collection Form", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Select Atleast One Document!", "Collection Form", MessageBoxButtons.OK, Me.Text)
                 Exit Sub
             End If
             Dim CollectionDate As String = clsCommon.GetPrintDate(dtCollectionDate.Value, "dd/MMM/yyyy hh:mm tt")
@@ -323,7 +323,7 @@ Public Class FrmFormCollection
             Next
             myMessages.update()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Collection Form", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Collection Form", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
@@ -349,13 +349,13 @@ Public Class FrmFormCollection
                         End If
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Fill Up Form NO.!", "Collection Form", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Fill Up Form NO.!", "Collection Form", MessageBoxButtons.OK, Me.Text)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("Select Source Code!", "Collection Form", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Select Source Code!", "Collection Form", MessageBoxButtons.OK, Me.Text)
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("Select Form Code!", "Collection Form", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, "Select Form Code!", "Collection Form", MessageBoxButtons.OK, Me.Text)
         End If
     End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click

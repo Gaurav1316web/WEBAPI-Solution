@@ -37,7 +37,7 @@ Public Class frmGazeReading
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
@@ -66,7 +66,7 @@ Public Class frmGazeReading
             'End If
             UcAttachment1.AllowToSave()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -156,7 +156,7 @@ Public Class frmGazeReading
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndcode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator

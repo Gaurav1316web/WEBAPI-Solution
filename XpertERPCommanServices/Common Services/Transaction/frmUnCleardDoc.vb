@@ -536,7 +536,7 @@ Public Class frmUnCleardDoc
     Private Sub DeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub saveLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -550,7 +550,7 @@ Public Class frmUnCleardDoc
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
@@ -600,12 +600,12 @@ Public Class frmUnCleardDoc
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
             If clsCommon.myLen(txtVendor.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please first select " + MyLabel3.Text, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please first select " + MyLabel3.Text, Me.Text)
                 txtVendor.Focus()
                 Exit Sub
             End If
             If clsCommon.myLen(txtUnclearedDoc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please first select uncleared document", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please first select uncleared document", Me.Text)
                 txtUnclearedDoc.Focus()
                 Exit Sub
             End If

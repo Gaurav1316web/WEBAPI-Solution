@@ -270,7 +270,7 @@ Public Class frmDBTRecoVsIncentiveReport
                 ReStoreGridLayout()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -339,7 +339,7 @@ Public Class frmDBTRecoVsIncentiveReport
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmDBTRecoVsIncentiveReport & "'"))
@@ -363,7 +363,7 @@ Public Class frmDBTRecoVsIncentiveReport
                 clsCommon.MyExportToPDF(strHeading, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -456,7 +456,7 @@ Public Class frmDBTRecoVsIncentiveReport
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 obj.GridColumns = Gv1.ColumnCount
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
@@ -469,7 +469,7 @@ Public Class frmDBTRecoVsIncentiveReport
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Try
             clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

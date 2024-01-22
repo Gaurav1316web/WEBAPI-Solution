@@ -74,7 +74,7 @@ Public Class frmCancelledTransactions_DairySale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -151,7 +151,7 @@ Public Class frmCancelledTransactions_DairySale
 #Region "Showing Details on GRID"
     Private Sub btnShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShow.Click
         If dtpFromDate.Value > dtpToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("'From date' Can't Be Greater Than 'To Date'")
+            common.clsCommon.MyMessageBoxShow(Me, "'From date' Can't Be Greater Than 'To Date'", Me.Text)
         Else
             qry = Nothing
             ShowData()
@@ -191,7 +191,7 @@ Public Class frmCancelledTransactions_DairySale
                 FillDairySale()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

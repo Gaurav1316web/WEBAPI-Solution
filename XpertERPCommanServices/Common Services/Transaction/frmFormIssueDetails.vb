@@ -36,7 +36,7 @@ Public Class FrmFormIssueDetails
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FormIssue)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -91,12 +91,12 @@ Public Class FrmFormIssueDetails
         '    Return False
         'End If
         If clsCommon.myLen(txtDemandNo.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Demand no")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Demand no", Me.Text)
             fndFormIssueNo.Focus()
             Return False
         End If
         If clsCommon.myLen(ddlFromType.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Form type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Form type", Me.Text)
             ddlFromType.Focus()
             Return False
         End If
@@ -268,7 +268,7 @@ Public Class FrmFormIssueDetails
         Try
             LoadData(fndFormIssueNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub BlankAllControls()
