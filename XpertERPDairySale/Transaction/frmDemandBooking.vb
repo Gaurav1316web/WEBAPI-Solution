@@ -2245,7 +2245,17 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         Dim desc As String = Nothing
         Dim IsPost As Boolean = False
         Try
-            Dim custCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where route_no='" + txtRouteNo.Value + "' and IsDistributor='Y'"))
+            'Dim custCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where route_no='" + txtRouteNo.Value + "' and IsDistributor='Y'"))
+            Dim StrQry As String = "select  x.Cust_Code 
+from(
+select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,count(distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No) as NoOfRoute,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
+from TSPL_DISTRIBUTOR_ROUTE
+left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code =TSPL_DISTRIBUTOR_ROUTE.Code) and TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='509'
+ Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
+) X"
+            Dim custCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(StrQry))
+
             If (myMessages.postConfirm()) Then
                 If checkCreditLimit Then
                     If clsCommon.CompairString(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + custCode + "'"), "N") = CompairStringResult.Equal Then
@@ -2270,7 +2280,11 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                     common.clsCommon.MyMessageBoxShow(Me, "Demand already send for Approval", Me.Text)
                                 End If
                             Else
-                                common.clsCommon.MyMessageBoxShow(Me, "Distributor  Not Found!", Me.Text)
+                                If clsCommon.MyMessageBoxShow(Me, "Distributor Not Found! Do You Want to Continue?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                                    IsPost = True
+                                Else
+                                    IsPost = False
+                                End If
                             End If
                         End If
                     Else

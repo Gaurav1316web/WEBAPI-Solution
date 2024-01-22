@@ -673,12 +673,12 @@ Public Class frmCashIndentBookingMobApp
 
                         If e.Column Is gv1.Columns(colICode) Then
                             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Customer First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
                             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Location First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Location First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
@@ -690,12 +690,12 @@ Public Class frmCashIndentBookingMobApp
                             'SKG
                         ElseIf e.Column Is gv1.Columns(colIShortName) Then
                             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Customer First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
                             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Location First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Location First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
@@ -737,12 +737,12 @@ Public Class frmCashIndentBookingMobApp
                         ElseIf e.Column Is gv1.Columns(colRate) Then
                             If ShowMulMRPOfSameItemOnDairyBookingCustomer Then
                                 If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)) <= 0 Then
-                                    common.clsCommon.MyMessageBoxShow("Please select Item First")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please select Item First", Me.Text)
                                     isCellValueChangedOpen = False
                                     Exit Sub
                                 End If
                                 If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)) <= 0 Then
-                                    common.clsCommon.MyMessageBoxShow("Please select Item Uom First")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please select Item Uom First", Me.Text)
                                     isCellValueChangedOpen = False
                                     Exit Sub
                                 End If
@@ -762,7 +762,7 @@ Public Class frmCashIndentBookingMobApp
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -952,7 +952,7 @@ Public Class frmCashIndentBookingMobApp
             End If
 
         Else
-            clsCommon.MyMessageBoxShow("Please create Price chart for customer " & clsCommon.myCstr(txtVendorNo.Value) & " for Location " & clsCommon.myCstr(txtLocation.Value) & "  for item " & gv1.Rows(introw).Cells(colICode).Value & ".", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please create Price chart for customer " & clsCommon.myCstr(txtVendorNo.Value) & " for Location " & clsCommon.myCstr(txtLocation.Value) & "  for item " & gv1.Rows(introw).Cells(colICode).Value & ".", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = Nothing
             gv1.CurrentRow.Cells(colUnit).Value = Nothing
             gv1.CurrentRow.Cells(colIName).Value = Nothing
@@ -1082,7 +1082,7 @@ Public Class frmCashIndentBookingMobApp
             End If
 
         Else
-            clsCommon.MyMessageBoxShow("Please create Price chart for customer " & clsCommon.myCstr(txtVendorNo.Value) & " for Location " & clsCommon.myCstr(txtLocation.Value) & "  for item " & gv1.Rows(introw).Cells(colICode).Value & ".", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please create Price chart for customer " & clsCommon.myCstr(txtVendorNo.Value) & " for Location " & clsCommon.myCstr(txtLocation.Value) & "  for item " & gv1.Rows(introw).Cells(colICode).Value & ".", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = Nothing
             gv1.CurrentRow.Cells(colUnit).Value = Nothing
             gv1.CurrentRow.Cells(colIName).Value = Nothing
@@ -1281,7 +1281,7 @@ Public Class frmCashIndentBookingMobApp
                             dblTotalCrateRowWise = 0
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Please fill conversion factor for this unit at line no." & i + 1 & "")
+                        clsCommon.MyMessageBoxShow(Me, "Please fill conversion factor for this unit at line no." & i + 1 & "")
                     End If
                 End If
             End If
@@ -1424,7 +1424,7 @@ Public Class frmCashIndentBookingMobApp
             'Sanjay Ticket No- ERO/12/07/18-000371
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If Is_Cancelled = 1 Then
-                    clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Update", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Update", Me.Text)
                     'Exit Function
                     Return False
                 End If
@@ -1432,7 +1432,7 @@ Public Class frmCashIndentBookingMobApp
             'Sanjay Ticket No- ERO/12/07/18-000371
 
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 txtVendorNo.Focus()
                 Return False
             End If
@@ -1463,14 +1463,14 @@ Public Class frmCashIndentBookingMobApp
                 Dim STRSQL As String = "select count(*) as cc from TSPL_BOOKING_DETAIL left join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_BOOKING_DETAIL.cust_code where TSPL_BOOKING_MATSER.From_Screen_Code ='BOOK-DS-CU' and TSPL_BOOKING_MATSER.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_DETAIL.Cust_Code='" & txtVendorNo.Value & "' AND convert(date,TSPL_BOOKING_MATSER.Document_Date ,103)=convert(date,'" & txtDate.Value & "',103) and TSPL_CUSTOMER_MASTER.customer_category<>'Others'"
                 Dim TempBookingExist As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(STRSQL, trans))
                 If TempBookingExist > 0 Then
-                    common.clsCommon.MyMessageBoxShow("Booking already exist for Date [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Booking already exist for Date [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]", Me.Text)
                     btn_ChangeIndent.Focus()
                     Return False
                 End If
             End If
 
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Booking Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "Booking Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
@@ -1507,22 +1507,22 @@ Public Class frmCashIndentBookingMobApp
                 dblQuantity = dblQuantity + dblQty
                 If (clsCommon.myLen(strICode) > 0) Then
                     If clsCommon.myLen(strUOM) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter Booked Quantity UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                         Return False
                     End If
                     If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
                         If dblQty > 0 AndAlso dblrate <= 0 Then
-                            clsCommon.MyMessageBoxShow("Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                             Return False
                         End If
                     Else
                         If dblQty <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                             Return False
                         End If
 
                         If dblrate <= 0 Then
-                            clsCommon.MyMessageBoxShow("Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                             Return False
                         End If
                     End If
@@ -1534,7 +1534,7 @@ Public Class frmCashIndentBookingMobApp
                             If (FlagCreateDo = False) And (FlagFirstRecord = False) Then 'And (AvgQty > 0)
                                 ''  ERO/29/07/19-000971 by Balwinder on 30/07/2019
                                 If Math.Abs(dblQty - AvgQty) > SettDairyBookingTolleranceQty Then
-                                    If common.clsCommon.MyMessageBoxShow("Booking Quantity Should be in Average Quantity [" + clsCommon.myCstr(IIf(AvgQty - SettDairyBookingTolleranceQty < 0, 0, (AvgQty - SettDairyBookingTolleranceQty))) + " - " + clsCommon.myCstr(AvgQty + SettDairyBookingTolleranceQty) + " ] for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                    If common.clsCommon.MyMessageBoxShow(Me, "Booking Quantity Should be in Average Quantity [" + clsCommon.myCstr(IIf(AvgQty - SettDairyBookingTolleranceQty < 0, 0, (AvgQty - SettDairyBookingTolleranceQty))) + " - " + clsCommon.myCstr(AvgQty + SettDairyBookingTolleranceQty) + " ] for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1) + vbNewLine + " Do you want to continue? ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                                         Return False
                                     Else
                                         Dim frm As New FrmFreeTxtBox1
@@ -1611,7 +1611,7 @@ Public Class frmCashIndentBookingMobApp
             Next
             If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
                 If dblQuantity <= 0 AndAlso AllowZeroQtyOnDairyBooking = False Then
-                    clsCommon.MyMessageBoxShow("Please enter Qunatity at least in one row")
+                    clsCommon.MyMessageBoxShow(Me, "Please enter Qunatity at least in one row", Me.Text)
                     Return False
                 End If
             End If
@@ -1619,7 +1619,7 @@ Public Class frmCashIndentBookingMobApp
             If PrintTruckSheetAfterGenerate = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "") <> CompairStringResult.Equal) Then
                 Dim isTruckSheetGenerated As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select max(truckSheetGenerate) from TSPL_BOOKING_MATSER where convert(date,Document_Date ,103)=convert(date,'" & txtDate.Value & "',103)")) = 1, True, False)
                 If isTruckSheetGenerated = True And chkGatePass.Checked = False Then
-                    clsCommon.MyMessageBoxShow("Truck sheet has been generated for date " & txtDate.Value & "..Please create Gate Pass. ")
+                    clsCommon.MyMessageBoxShow(Me, "Truck sheet has been generated for date " & txtDate.Value & "..Please create Gate Pass. ", Me.Text)
                     Return False
                 End If
             End If
@@ -1627,7 +1627,7 @@ Public Class frmCashIndentBookingMobApp
             UpdateAllTotals()
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1646,7 +1646,7 @@ Public Class frmCashIndentBookingMobApp
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnAddNew.Focus()
             End If
 
@@ -1821,7 +1821,7 @@ Public Class frmCashIndentBookingMobApp
                 obj.Total_Outstanding = clsCommon.myCdbl(lblTotalOutstansing.Text)
 
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
                 If (obj.SaveData(obj, isNewEntry)) = True Then
@@ -1934,7 +1934,7 @@ Public Class frmCashIndentBookingMobApp
             blnSaveTotalQTy = True
         Catch ex As Exception
             blnSaveTotalQTy = True
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -2490,7 +2490,7 @@ Public Class frmCashIndentBookingMobApp
             'End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2510,12 +2510,12 @@ Public Class frmCashIndentBookingMobApp
         'Sanjay Ticket No- ERO/12/07/18-000371
         If clsCommon.myLen(txtDocNo.Value) > 0 Then
             If Is_Cancelled = 1 Then
-                clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Post.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Post.", Me.Text)
                 Exit Sub
             End If
             'Sanjay Ticket No- BHA/03/10/18-000589
             If BookingStatus = 2 Then
-                clsCommon.MyMessageBoxShow("Booking is pending for approval,Can not Post.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Booking is pending for approval,Can not Post.", Me.Text)
                 Exit Sub
             End If
             'Sanjay Ticket No- BHA/03/10/18-000589
@@ -2525,7 +2525,7 @@ Public Class frmCashIndentBookingMobApp
         ''richa 14 Dec,2018 ERO/11/12/18-000434
         Dim strOrderBookingPosted As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when ISNULL(Route_Time,'')<>''  then CASE WHEN CAST(GETDATE() AS TIME)<=CAST(Route_Time  AS TIME) THEN 'Y' ELSE 'N' END else 'Y' end  from tspl_route_MASTER where Route_No ='" & clsCommon.myCstr(lblroutecode.Text) & "'"))
         If clsCommon.CompairString(strOrderBookingPosted, "N") = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow("Booking time has exceeded for Route " & lblroutecode.Text & ", it cannot be posted.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Booking time has exceeded for Route " & lblroutecode.Text & ", it cannot be posted.", Me.Text)
             Exit Sub
         End If
         ''--------------------------------------
@@ -2569,7 +2569,7 @@ Public Class frmCashIndentBookingMobApp
                     '== Complete
                     trans.Commit()
                     Dim msg = "Successfully Posted"
-                    common.clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     btnCreateDO.Enabled = True
                 Else
@@ -2578,7 +2578,7 @@ Public Class frmCashIndentBookingMobApp
             End If
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
     Private Shared Function CreateNotificationContentEMP(ByVal Booking_Id As String, ByVal Booking_Date As DateTime, ByVal Ex_Factory_Date As DateTime, ByVal trans As SqlTransaction) As Boolean
@@ -2651,12 +2651,12 @@ Public Class frmCashIndentBookingMobApp
                 End If
                 If (clsBookingEntryDairySale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2734,7 +2734,7 @@ Public Class frmCashIndentBookingMobApp
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2784,12 +2784,12 @@ Public Class frmCashIndentBookingMobApp
             'Sanjay Ticket No- ERO/12/07/18-000371
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If Is_Cancelled = 1 Then
-                    clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Post.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Post.", Me.Text)
                     Exit Sub
                 End If
                 'Sanjay Ticket No- BHA/03/10/18-000589
                 If BookingStatus = 2 Then
-                    clsCommon.MyMessageBoxShow("Booking is pending for approval,Can not Post.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Booking is pending for approval,Can not Post.", Me.Text)
                     Exit Sub
                 End If
                 'Sanjay Ticket No- BHA/03/10/18-000589
@@ -2847,7 +2847,7 @@ Public Class frmCashIndentBookingMobApp
         BlankControlOnCustomer()
         If SettTagMultipleRouteWithCustomer Then
             If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please first select route")
+                clsCommon.MyMessageBoxShow(Me, "Please first select route", Me.Text)
                 txtRouteNo.Focus()
                 Exit Sub
             End If
@@ -2960,7 +2960,7 @@ Public Class frmCashIndentBookingMobApp
                 Export()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2968,7 +2968,7 @@ Public Class frmCashIndentBookingMobApp
         If gv1.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
     Private Sub ExportToExcel()
@@ -2993,7 +2993,7 @@ Public Class frmCashIndentBookingMobApp
             clsCommon.MyExportToExcelGrid("Booking Entry", gv1, arrHeader, Me.Text)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -3087,7 +3087,7 @@ Public Class frmCashIndentBookingMobApp
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
 
             e.Cancel = True
             'ElseIf clsCommon.myCBool(gv1.CurrentRow.Cells(colItemUsedINGRN).Value) Then
@@ -3209,7 +3209,7 @@ Public Class frmCashIndentBookingMobApp
 
     Private Sub btnpreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
             txtDocNo.Focus()
             txtDocNo.Select()
             Return
@@ -3364,7 +3364,7 @@ Public Class frmCashIndentBookingMobApp
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -3376,7 +3376,7 @@ Public Class frmCashIndentBookingMobApp
     Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem4.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RadMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem5.Click
@@ -3443,21 +3443,21 @@ Public Class frmCashIndentBookingMobApp
         End If
 
         If Is_Cancelled = 1 Then
-            clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Creat/Post DO", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Creat/Post DO", Me.Text)
             Exit Sub
         End If
         If BookingStatus = 1 Then
-            clsCommon.MyMessageBoxShow("Please Post booking before creating DO", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Post booking before creating DO", Me.Text)
             Exit Sub
         ElseIf BookingStatus = 2 Then
-            clsCommon.MyMessageBoxShow("Please Approve and post booking before creating DO", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please Approve and post booking before creating DO", Me.Text)
             Exit Sub
         ElseIf BookingStatus = 3 Then
-            clsCommon.MyMessageBoxShow("Please post booking before creating DO", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please post booking before creating DO", Me.Text)
             Exit Sub
         End If
         If DOStatus = 2 Then
-            clsCommon.MyMessageBoxShow("DO is pending for approval.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "DO is pending for approval.", Me.Text)
             Exit Sub
         End If
 
@@ -3471,11 +3471,11 @@ Public Class frmCashIndentBookingMobApp
 
                 'trans.Commit()
                 If clsCommon.myLen(DOmsg) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(DOmsg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, DOmsg, Me.Text)
                 End If
                 If DOCreated = True Then
                     Dim msg = "Successfully created"
-                    common.clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     msg = Nothing
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -3484,7 +3484,7 @@ Public Class frmCashIndentBookingMobApp
             End If
         Catch ex As Exception
             'trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
             FlagCreateDo = False
@@ -3787,7 +3787,7 @@ Public Class frmCashIndentBookingMobApp
             'clsCommon.MyMessageBoxShow(msg)
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             blnSaveTotalQTy = False
             Return False
         End Try
@@ -3919,7 +3919,7 @@ Public Class frmCashIndentBookingMobApp
                 'End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3999,7 +3999,7 @@ Public Class frmCashIndentBookingMobApp
             Dim isSaved As Boolean = True
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If clsCommon.myLen(lblDONumber.Text) > 0 Then
-                    clsCommon.MyMessageBoxShow("Booking Can not cancelled, DO already created!")
+                    clsCommon.MyMessageBoxShow(Me, "Booking Can not cancelled, DO already created!", Me.Text)
                     Exit Sub
                 End If
 
@@ -4007,14 +4007,14 @@ Public Class frmCashIndentBookingMobApp
                     Dim qrySaveCancel = "Update tspl_booking_matser set Is_Cancelled=1 where Document_No='" & txtDocNo.Value & "'"
                     isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qrySaveCancel)
                     If isSaved = True Then
-                        clsCommon.MyMessageBoxShow("Booking cancelled successfully!")
+                        clsCommon.MyMessageBoxShow(Me, "Booking cancelled successfully!", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
 
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -4022,7 +4022,7 @@ Public Class frmCashIndentBookingMobApp
     ''richa ERO/11/12/18-000431 -------------- 11 Dec,2018
     Private Sub btnreverse_Click(sender As Object, e As EventArgs) Handles btnreverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -4035,12 +4035,12 @@ Public Class frmCashIndentBookingMobApp
                 End If
                 If clsBookingEntryDairySale.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '====added by preeti gupta Against ticket no[TEC/05/06/19-000520,TEC/30/07/19-000968]
@@ -4089,7 +4089,7 @@ Public Class frmCashIndentBookingMobApp
                 LoadItemsFromPreviousBooking()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa agarwal VIJ/28/11/19-000081 29 Nov,2019
@@ -4348,7 +4348,7 @@ Public Class frmCashIndentBookingMobApp
             IsLoadBookingType = False
         Catch ex As Exception
             IsLoadBookingType = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -4357,7 +4357,7 @@ Public Class frmCashIndentBookingMobApp
     Private Sub btn_ChangeIndent_Click(sender As Object, e As EventArgs) Handles btn_ChangeIndent.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer and then click on Change Indent.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer and then click on Change Indent.", Me.Text)
                 txtVendorNo.Focus()
                 Exit Sub
             End If
@@ -4372,7 +4372,7 @@ Public Class frmCashIndentBookingMobApp
             If clsCommon.myLen(TempBookingNo) > 0 Then
                 LoadData(TempBookingNo, NavigatorType.Current)
             Else
-                common.clsCommon.MyMessageBoxShow("Booking Not found for Date [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Booking Not found for Date [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]", Me.Text)
             End If
         End If
     End Sub
@@ -4386,12 +4386,12 @@ Public Class frmCashIndentBookingMobApp
     'End Sub
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShipToLocation._MYValidating
         If clsCommon.myLen(txtLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtLocation.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
             txtVendorNo.Focus()
             Exit Sub
         End If

@@ -48,7 +48,7 @@ Public Class rptDailyLeakageReplacementReport
                 Dim strTotalComplaint As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_CUSTOMER_COMPLAINT_MASTER.Description) +',0))'  as Alies_Name  FROM TSPL_CUSTOMER_COMPLAINT_MASTER order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
 
                 If String.IsNullOrEmpty(strComplaintType) Then
-                    clsCommon.MyMessageBoxShow("No Item Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Item Found to Display", Me.Text)
                     Exit Sub
                 End If
 
@@ -115,8 +115,8 @@ Public Class rptDailyLeakageReplacementReport
                     Dim strItem2 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( TSPL_ITEM_MASTER.Alies_Name) as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
 
                     If String.IsNullOrEmpty(strItem2) Then
-                        clsCommon.MyMessageBoxShow("No Data Found to Display")
-                        Exit Sub
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
                     End If
 
                     ''Dim strGrandTotalWithoutScheme As String = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME( TSPL_ITEM_MASTER.Alies_Name) +',0))'  as Alies_Name  FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
@@ -141,7 +141,7 @@ Public Class rptDailyLeakageReplacementReport
                 Dim strItem2 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( TSPL_ITEM_MASTER.Alies_Name) as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
 
                 If String.IsNullOrEmpty(strItem2) Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 End If
                 'Dim strItmeHeadingReplacement As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +  QUOTENAME( TSPL_ITEM_MASTER.Alies_Name) +' as ' + QUOTENAME( TSPL_ITEM_MASTER.Alies_Name+'(R)')  as Alies_Name FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
@@ -228,8 +228,8 @@ Public Class rptDailyLeakageReplacementReport
                 Gv1.BestFitColumns()
 
                 If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data Found to Display")
-                    Exit Sub
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
                 End If
 
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -274,7 +274,7 @@ Public Class rptDailyLeakageReplacementReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -312,7 +312,7 @@ Public Class rptDailyLeakageReplacementReport
             arrHeader.Add("Name : " & ReportName + "")
             transportSql.QuickExportToExcel(Gv1, "", ReportName, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -337,7 +337,7 @@ Public Class rptDailyLeakageReplacementReport
 
             clsCommon.MyExportToPDF(ReportName, Gv1, arrHeader, ReportName, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

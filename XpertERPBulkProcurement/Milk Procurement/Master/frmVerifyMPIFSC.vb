@@ -56,7 +56,7 @@ Public Class frmVerifyMPIFSC
             End If
             txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("VLC@VMPIFSC", qry, "VLC_Code", "VLC_Name", txtVLC.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -400,7 +400,7 @@ where 2=2  "
             End If
             Me.Controls.Remove(gvImport)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -324,7 +324,7 @@ Public Class FrmBulkMilkSRN
         clsGridLayout.DeleteData(MyBase.Form_ID & "gvRange", objCommonVar.CurrentUserCode)
         ''=====================================================
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub mnuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuExit.Click
@@ -1180,7 +1180,7 @@ Public Class FrmBulkMilkSRN
 
                         If (obj.SaveData(obj, True, True)) Then
                             ' clsMilkRGPHead.PostData(obj.RGP_No)
-                            clsCommon.MyMessageBoxShow("RGP [" & obj.RGP_No & "] has been created.")
+                            clsCommon.MyMessageBoxShow("RGP [" & obj.RGP_No & "] has been created.", Me.Text)
                         End If
                     End If
                 Next
@@ -2055,7 +2055,7 @@ a:
             End If
             '============================================
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -3335,7 +3335,7 @@ a:
 
     Private Sub btnReverse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsBulkMilkSRN.ReverseAndUnpost(fndSRNNo.Value, True) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndSRNNo.Value, NavigatorType.Current)

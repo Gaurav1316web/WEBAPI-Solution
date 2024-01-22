@@ -41,7 +41,7 @@ Public Class rptBMCTankerTesting
 
             txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("BMCRoute", qry, "ROUTE NO", "ROUTE NAME", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -230,7 +230,7 @@ Public Class rptBMCTankerTesting
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(Me, err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 

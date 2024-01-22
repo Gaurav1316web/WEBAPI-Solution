@@ -867,7 +867,7 @@ where Document_Code='" + txtDocNo.Value + "')x  Group by Item_Code
                         exportdataBOQ(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, Nothing, False, False, False, True)
                     End If
                     If clsCommon.CompairString(ext, ".csv") = CompairStringResult.Equal Then
-                        common.clsCommon.MyMessageBoxShow("Data transfer Completed!", "Export", MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Data transfer Completed!", "Export", MessageBoxButtons.OK)
                         System.Diagnostics.Process.Start(filePath)
                     End If
                 Catch ex As Exception
@@ -877,7 +877,7 @@ where Document_Code='" + txtDocNo.Value + "')x  Group by Item_Code
                 End Try
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow("No data transfered." + Environment.NewLine + ex.Message, "Export Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, "No data transfered." + Environment.NewLine + ex.Message, "Export Error", MessageBoxButtons.OK)
         End Try
         Return True
     End Function

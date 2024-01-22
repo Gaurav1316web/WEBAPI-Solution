@@ -319,11 +319,11 @@ Public Class frmDeliveryNoteDairySale
     End Sub
     Private Sub fndBookingNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndBookingNo._MYValidating
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
         ElseIf clsCommon.myLen(fndCustomerNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             fndCustomerNo.Focus()
             Exit Sub
         End If
@@ -385,7 +385,7 @@ Public Class frmDeliveryNoteDairySale
         Try
 
             If clsCommon.myLen(fndCustomerNo.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select Customer ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer ", Me.Text)
                 fndCustomerNo.Focus()
             End If
 
@@ -440,7 +440,7 @@ Public Class frmDeliveryNoteDairySale
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndLocation__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndLocation._MYValidating
@@ -464,7 +464,7 @@ Public Class frmDeliveryNoteDairySale
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' Anubhooti 16-Mar-2015 (Fetch Alies Name On Finder)
@@ -530,7 +530,7 @@ Public Class frmDeliveryNoteDairySale
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -681,7 +681,7 @@ Public Class frmDeliveryNoteDairySale
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -756,7 +756,7 @@ Public Class frmDeliveryNoteDairySale
             gv1.Rows(IntRowNo).Cells(colOrgUnit).Value = strOrgUnit
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub UpdateAllTotals()
@@ -771,7 +771,7 @@ Public Class frmDeliveryNoteDairySale
                 lblTotRAmt1.Text = clsCommon.myFormat(dblTotAmt)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function CustomerOutstandingAmount(ByVal strCustomer As String, ByVal ChekPostBtn As Boolean) As Boolean
@@ -812,12 +812,12 @@ Public Class frmDeliveryNoteDairySale
 
             If dblAmt < lblTotRAmt1.Text AndAlso UsLock1.Status = ERPTransactionStatus.Open Then
                 Dim dblNewCredtitLimit = dblAmt - lblTotRAmt1.Text
-                common.clsCommon.MyMessageBoxShow("Please send for approval for increasing credit limit " + clsCommon.myCstr(dblNewCredtitLimit))
+                common.clsCommon.MyMessageBoxShow(Me, "Please send for approval for increasing credit limit " + clsCommon.myCstr(dblNewCredtitLimit))
                 Return False
             End If
             If dblAmt < lblTotRAmt1.Text And UsLock1.Status = ERPTransactionStatus.Pending Then
                 Dim dblNewCredtitLimit = dblAmt - lblTotRAmt1.Text
-                common.clsCommon.MyMessageBoxShow("Please increase credit limit " + clsCommon.myCstr(dblNewCredtitLimit) + " for customer " + fndCustomerNo.Value)
+                common.clsCommon.MyMessageBoxShow(Me, "Please increase credit limit " + clsCommon.myCstr(dblNewCredtitLimit) + " for customer " + fndCustomerNo.Value)
                 Return False
             End If
             If ChekPostBtn = True Then
@@ -825,7 +825,7 @@ Public Class frmDeliveryNoteDairySale
             End If
             'Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -841,7 +841,7 @@ Public Class frmDeliveryNoteDairySale
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -863,17 +863,17 @@ Public Class frmDeliveryNoteDairySale
         Try
             UpdateAllTotals()
             If clsCommon.myLen(fndCustomerNo.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select Customer", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 fndCustomerNo.Focus()
                 Return False
             End If
             If clsCommon.myLen(fndLocation.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select Location", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()
                 Return False
             End If
             If clsCommon.myLen(fndBookingNo.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Please select Booking No", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Booking No", Me.Text)
                 fndBookingNo.Focus()
                 Return False
             End If
@@ -888,7 +888,7 @@ Public Class frmDeliveryNoteDairySale
                 If clsCommon.myLen(strICode) > 0 AndAlso dblQty > 0 Then
                     If dblQty > 0 Then
                         If clsCommon.myLen(strUnit) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            common.clsCommon.MyMessageBoxShow(Me, "Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                             Return False
                         End If
                     End If
@@ -898,7 +898,7 @@ Public Class frmDeliveryNoteDairySale
                         If AllowDelQtygreaterthanBookingQty = False Then
                             Dim dblPendingQTy = GetBalanceBookingQty(fndBookingNo.Value, strICode, fndLocation.Value, fndCustomerNo.Value)
                             If dblQty > dblPendingQTy Then
-                                common.clsCommon.MyMessageBoxShow("Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQTy))
+                                common.clsCommon.MyMessageBoxShow(Me, "Entered Quantity Can't be more than Pending Quantity." + Environment.NewLine + "Entered Quantity : " + clsCommon.myCstr(dblQty) + ". Pending Quantity : " + clsCommon.myCstr(dblPendingQTy))
                                 gv1.Rows(ii).Cells(colQty).Value = dblPendingQTy
                                 Return False
                             End If
@@ -911,11 +911,11 @@ Public Class frmDeliveryNoteDairySale
                             If dblMRP <= 0 Then
                                 If clsCommon.CompairString(AllowToEnterMRPManually, "1") = CompairStringResult.Equal Then
                                     gv1.Columns(colMRP).ReadOnly = False
-                                    common.clsCommon.MyMessageBoxShow("Please enter numeric value MRP for " + strIName + " at line no " + clsCommon.myCstr(ii + 1))
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please enter numeric value MRP for " + strIName + " at line no " + clsCommon.myCstr(ii + 1))
                                     Return False
                                 Else
                                     gv1.Columns(colMRP).ReadOnly = True
-                                    common.clsCommon.MyMessageBoxShow("Please make price code for customer '" & clsCommon.myCstr(fndCustomerNo.Value) & "'")
+                                    common.clsCommon.MyMessageBoxShow(Me, "Please make price code for customer '" & clsCommon.myCstr(fndCustomerNo.Value) & "'")
                                     Return False
                                 End If
                             End If
@@ -930,7 +930,7 @@ Public Class frmDeliveryNoteDairySale
             End If
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -997,20 +997,20 @@ Public Class frmDeliveryNoteDairySale
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Document_No)
                     If ChekPostBtn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1142,7 +1142,7 @@ Public Class frmDeliveryNoteDairySale
                     UsLock1.Status = ERPTransactionStatus.Pending
                     btnDelete.Enabled = False
                     btnPost.Enabled = False
-                    clsCommon.MyMessageBoxShow("Approval is required for this order")
+                    clsCommon.MyMessageBoxShow(Me, "Approval is required for this order", Me.Text)
                 ElseIf obj.Status = 3 Then
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnPost.Enabled = True
@@ -1188,7 +1188,7 @@ Public Class frmDeliveryNoteDairySale
                 CustomerOutstandingAmount(fndCustomerNo.Value, obj.Total_Amt, Nothing, txtDocNo.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1241,7 +1241,7 @@ Public Class frmDeliveryNoteDairySale
 
             'Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         Finally
             qry = Nothing
@@ -1252,13 +1252,13 @@ Public Class frmDeliveryNoteDairySale
     Private Sub BtnSend_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnSend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Delivery No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Delivery No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -1266,7 +1266,7 @@ Public Class frmDeliveryNoteDairySale
             lstUsers.Add(fndCustomerNo.Value)
             'SendEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub SetMailRight()
@@ -1301,7 +1301,7 @@ Public Class frmDeliveryNoteDairySale
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnAddNew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
@@ -1332,12 +1332,12 @@ Public Class frmDeliveryNoteDairySale
                 End If
                 If (clsDeliveryNoteFreshSale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1420,13 +1420,13 @@ Public Class frmDeliveryNoteDairySale
     Private Sub BtnSendForApproval_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Delivery No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Delivery No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -1548,7 +1548,7 @@ Public Class frmDeliveryNoteDairySale
 
 
 
-            If common.clsCommon.MyMessageBoxShow(strmessage, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, strmessage, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
 
                 If clsCommon.myLen(lblVehicleNo.Text) <= 0 Then
                     lblVehicleNo.Focus()
@@ -1613,12 +1613,12 @@ Public Class frmDeliveryNoteDairySale
 
             '    Return
             'End If
-            If Not (common.clsCommon.MyMessageBoxShow("Want To Close Delivery Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Want To Close Delivery Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
 
             If clsCommon.myLen(txtDocNo.Value) = 0 Then
-                clsCommon.MyMessageBoxShow("Select Delivery Order No for close.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Delivery Order No for close.", Me.Text)
                 txtDocNo.Focus()
                 Return
             End If
@@ -1638,7 +1638,7 @@ Public Class frmDeliveryNoteDairySale
                 End If
             Next
             If AllowClose = False Then
-                clsCommon.MyMessageBoxShow("Dispatch Already Created against this Delivery Order, Can't be Close.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Dispatch Already Created against this Delivery Order, Can't be Close.", Me.Text)
                 Return
             End If
             'If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
@@ -1649,7 +1649,7 @@ Public Class frmDeliveryNoteDairySale
         End If
 
         If Not chkShortClose.Checked And btnSave.Enabled = False Then
-            If Not (common.clsCommon.MyMessageBoxShow("Want To Open Delivery Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Want To Open Delivery Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
         End If
@@ -1657,7 +1657,7 @@ Public Class frmDeliveryNoteDairySale
         Dim qry As String = "select count(*) from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Document_No='" + txtDocNo.Value + "' and comp_code='" + objCommonVar.CurrentCompanyCode + "'"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
         If check <= 0 Then
-            clsCommon.MyMessageBoxShow("There is no data found for closed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "There is no data found for closed", Me.Text)
             Return
         End If
 
@@ -1669,7 +1669,7 @@ Public Class frmDeliveryNoteDairySale
 
         If clsDeliveryNoteFreshSale.ClosedData(obj, txtDocNo.Value) Then
             If chkShortClose.Checked Then
-                clsCommon.MyMessageBoxShow("Delivery Order No. " + txtDocNo.Value + " Is Closed Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Delivery Order No. " + txtDocNo.Value + " Is Closed Successfully", Me.Text)
                 chkShortClose.Checked = True
                 btnSave.Enabled = False
                 btnPost.Enabled = False
@@ -1677,7 +1677,7 @@ Public Class frmDeliveryNoteDairySale
 
             End If
             If Not chkShortClose.Checked And btnSave.Enabled = False Then
-                clsCommon.MyMessageBoxShow("Delivery Order No. " + txtDocNo.Value + " Is Opened Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Delivery Order No. " + txtDocNo.Value + " Is Opened Successfully", Me.Text)
                 chkShortClose.Checked = False
                 If UsLock1.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
@@ -1697,13 +1697,13 @@ Public Class frmDeliveryNoteDairySale
     Private Sub btnApproveCreditLimit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApproveCreditLimit.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtDocNo.Focus()
                 txtDocNo.Select()
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS for approval Of Respective Delivery No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS for approval Of Respective Delivery No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -1726,7 +1726,7 @@ Public Class frmDeliveryNoteDairySale
             clsDBFuncationality.ExecuteNonQuery(qry)
             LoadData(txtDocNo.Value, NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1757,20 +1757,20 @@ Public Class frmDeliveryNoteDairySale
 
                 End If
 
-                clsCommon.MyMessageBoxShow("Vehicle updated successfully")
+                clsCommon.MyMessageBoxShow(Me, "Vehicle updated successfully", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow("Document already Posted successfully")
+                clsCommon.MyMessageBoxShow(Me, "Document already Posted successfully", Me.Text)
             End If
            
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Delivery Order No not found to Print", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Delivery Order No not found to Print", Me.Text)
                 Return
             End If
             Dim Qry As String = " SELECT  case when  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Posted =1 then 'Approved' else 'Pending' end as Approved_Status, " & _
@@ -1816,7 +1816,7 @@ Public Class frmDeliveryNoteDairySale
                 'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairyDeliveryOrder", "Delivery Order Dairy Sale", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter(), "MMM.rpt", Nothing)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

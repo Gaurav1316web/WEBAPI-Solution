@@ -135,31 +135,31 @@ Public Class FrmTaxTracking
                 tacxodefilter = tacxodefilter.Replace("'", "")
             End If
             If chkRateselect.IsChecked AndAlso cgvRate.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select at least one Rate.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select at least one Rate.", Me.Text)
                 Return
             End If
             If chkSelectTax.IsChecked AndAlso cgvTaxCode.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select at least one Tax.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select at least one Tax.", Me.Text)
                 Return
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select at least one Location.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select at least one Location.", Me.Text)
                 Return
             End If
             If chkStateselect.IsChecked AndAlso cgvState.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select at least one State.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select at least one State.", Me.Text)
                 Return
             End If
 
             Dim qry As String = ""
             If (rdoPur.IsChecked) Then
                 If (ChkAll.Checked = False AndAlso ChkVendorInvoice.Checked = False) Then
-                    common.clsCommon.MyMessageBoxShow("Please Select at least one Screen.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select at least one Screen.", Me.Text)
                     Return
                 End If
             Else
                 If (ChkAll.Checked = False AndAlso chkSaleInvoice.Checked = False AndAlso chkARinvoice.Checked = False AndAlso ChkSaleReturn.Checked = False AndAlso ChkSRInter.Checked = False AndAlso chkSaleInvoice.Checked = False AndAlso chkTransfer.Checked = False) Then
-                    common.clsCommon.MyMessageBoxShow("Please Select at least one Screen.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select at least one Screen.", Me.Text)
                     Return
                 End If
             End If
@@ -400,7 +400,7 @@ Public Class FrmTaxTracking
 
                         qry += " and TaxRate in  (" + clsCommon.GetMulcallString(cgvRate.CheckedValue) + ")  "
                     Else
-                        common.clsCommon.MyMessageBoxShow("Please select atleast one Tax Rate")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Tax Rate", Me.Text)
                         Exit Sub
                     End If
                 End If
@@ -651,7 +651,7 @@ Public Class FrmTaxTracking
             End If
             StrWhrmain = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub ExportToExcel(ByVal exporter As EnumExportTo)
@@ -713,7 +713,7 @@ Public Class FrmTaxTracking
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -1427,7 +1427,7 @@ Public Class FrmTaxTracking
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1437,7 +1437,7 @@ Public Class FrmTaxTracking
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 

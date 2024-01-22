@@ -3052,7 +3052,7 @@ Public Class FrmMilkPurchaseInvoice
                 End If
                 If dtpFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
                     AllowDateChanged = False
-                    clsCommon.MyMessageBoxShow("Invalid date.Date should be multiple of " & clsCommon.myCstr(PaymentCycleValue) & " + 1 ")
+                    clsCommon.MyMessageBoxShow(Me, "Invalid date.Date should be multiple of " & clsCommon.myCstr(PaymentCycleValue) & " + 1 ")
                     dtpFromDate.Value = clsCommon.GetDateWithStartTime(dtpFromDate.MinDate)
                     dtpFromDate.Text = clsCommon.GetDateWithStartTime(dtpFromDate.MinDate)
                     AllowDateChanged = True
@@ -3430,7 +3430,7 @@ Public Class FrmMilkPurchaseInvoice
                     fndVendor.Value = ""
                     If clsCommon.myLen(txtVendorInvoiceNo.Text) > 0 Then
                         If clsDBFuncationality.getSingleValue("Select count(*) from tspl_Bulk_milk_purchase_Invoice_head where DOC_NO<>'" & fndDocNo.Value & "' and  Vendor_Invoice_No ='" & txtVendorInvoiceNo.Text & "'") > 1 Then
-                            clsCommon.MyMessageBoxShow("Duplicate Vendor Invoice No.,Please enter different vendor invoice no")
+                            clsCommon.MyMessageBoxShow(Me, "Duplicate Vendor Invoice No.,Please enter different vendor invoice no")
                         Else
                             If UpdateVendorAfterPosting() Then
                                 clsCommon.MyMessageBoxShow(Me, "Vendor updated successfully.", Me.Text)

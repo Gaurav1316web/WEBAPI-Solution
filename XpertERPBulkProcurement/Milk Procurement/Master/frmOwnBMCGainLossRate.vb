@@ -55,12 +55,12 @@ Public Class frmOwnBMCGainLossRate
                 obj.Loss_FAT_Allow = txtLossFATPer.Value
                 obj.Loss_SNF_Allow = txtLossSNFPer.Value
                 If obj.SaveData(obj, isNewEntry) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -109,7 +109,7 @@ Public Class frmOwnBMCGainLossRate
                 btnSave.Text = "Update"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -160,7 +160,7 @@ Public Class frmOwnBMCGainLossRate
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -170,7 +170,7 @@ Public Class frmOwnBMCGainLossRate
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsOwnBMCGainLossRate.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -209,7 +209,7 @@ Public Class frmOwnBMCGainLossRate
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -276,7 +276,7 @@ Public Class frmOwnBMCGainLossRate
                     If clsCommon.myLen(txtCode.Value) > 0 Then
                         If clsCommon.MyMessageBoxShow("Current code [" + txtCode.Value + "] will be inactive" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             If (clsOwnBMCGainLossRate.InactiveData(txtCode.Value)) Then
-                                clsCommon.MyMessageBoxShow(Me, "Successfully Inactivated")
+                                clsCommon.MyMessageBoxShow(Me, "Successfully Inactivated", Me.Text)
                             End If
                         End If
                     End If

@@ -28,7 +28,7 @@ Public Class FrmMultipleCustomerforDo
             gv1.BestFitColumns()
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
    
@@ -135,7 +135,7 @@ Public Class FrmMultipleCustomerforDo
                 End If
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
         Else
             Dim Qry As String = LoadPrintQuery(strCustomerNo)
@@ -146,7 +146,7 @@ Public Class FrmMultipleCustomerforDo
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDSBoking", "Performa Invoice", "rptCompanyAddress.rpt")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
         End If
     End Sub

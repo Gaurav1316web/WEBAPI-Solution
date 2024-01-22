@@ -900,7 +900,7 @@ Public Class frmMilkCollectionDCS
                 UpdateAllTotal()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try

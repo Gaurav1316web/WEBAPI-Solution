@@ -337,7 +337,7 @@ Public Class frmDairyFreshDispatchMultiple
 
     Public Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -508,7 +508,7 @@ Public Class frmDairyFreshDispatchMultiple
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -2685,7 +2685,7 @@ Public Class frmDairyFreshDispatchMultiple
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             'isInsideLoadData = False
         End Try
@@ -2863,7 +2863,7 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenGetbalance(ByVal isButtonClick As Boolean)
@@ -3466,9 +3466,9 @@ Public Class frmDairyFreshDispatchMultiple
                                     For Each obj As clsBatchInventory In frm.arr
                                         batchQty += obj.Qty
                                     Next
-                                    clsCommon.MyMessageBoxShow("Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
                                 Else
-                                    clsCommon.MyMessageBoxShow("Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
 
                                 End If
                                 blnBatchqty = False
@@ -3588,9 +3588,9 @@ Public Class frmDairyFreshDispatchMultiple
                                     For Each obj As clsBatchInventory In frm.arr
                                         batchQty += obj.Qty
                                     Next
-                                    clsCommon.MyMessageBoxShow("Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
                                 Else
-                                    clsCommon.MyMessageBoxShow("Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
 
                                 End If
                                 blnBatchqty = False
@@ -3645,7 +3645,7 @@ Public Class frmDairyFreshDispatchMultiple
             ''    End If
             ''End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3653,7 +3653,7 @@ Public Class frmDairyFreshDispatchMultiple
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -3816,7 +3816,7 @@ Public Class frmDairyFreshDispatchMultiple
         gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Row Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
 
@@ -4357,7 +4357,7 @@ Public Class frmDairyFreshDispatchMultiple
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Dairy Invoice", txtBillToLocation.Value, txtDate.Value, Nothing)
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -4379,7 +4379,7 @@ Public Class frmDairyFreshDispatchMultiple
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function saveDataClicked() As Boolean
@@ -4387,7 +4387,7 @@ Public Class frmDairyFreshDispatchMultiple
             iiDeadlockErrors = 1
             Return saveDataClickedNew()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             If rdbNew.IsChecked Then
                 LoadMultipleDO()
                 btnSave.Enabled = True
@@ -4423,7 +4423,7 @@ Public Class frmDairyFreshDispatchMultiple
                     Dim dblEnteredQty As Double = clsCommon.myCdbl(row.Cells(colQty).Value)
                     Dim dblDamageQty As Double = 0
                     If (dblEnteredQty + dblDamageQty) > dblPendingQty Then
-                        common.clsCommon.MyMessageBoxShow("Cannot Save the Entry " + Environment.NewLine + "Because Entered Qty can't be more than Pending Qty " + Environment.NewLine + "Delivery Order No : " + "'" + row.Cells(colOrderNo).Value + "'" + Environment.NewLine + "For Item : " + row.Cells(colICode).Value.ToString() + Environment.NewLine + "Entered Qty is : " + clsCommon.myCstr(dblEnteredQty) + Environment.NewLine + "Where Pending Qts is : " + clsCommon.myCstr(dblPendingQty))
+                        common.clsCommon.MyMessageBoxShow(Me, "Cannot Save the Entry " + Environment.NewLine + "Because Entered Qty can't be more than Pending Qty " + Environment.NewLine + "Delivery Order No : " + "'" + row.Cells(colOrderNo).Value + "'" + Environment.NewLine + "For Item : " + row.Cells(colICode).Value.ToString() + Environment.NewLine + "Entered Qty is : " + clsCommon.myCstr(dblEnteredQty) + Environment.NewLine + "Where Pending Qts is : " + clsCommon.myCstr(dblPendingQty))
                         row.Cells(colQty).Value = dblPendingQty
                         pendingCounts = pendingCounts + 1
                     End If
@@ -4504,12 +4504,12 @@ Public Class frmDairyFreshDispatchMultiple
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         If RunBatchFifowise = 1 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
             If OpenBatchItem("") = False Then
-                clsCommon.MyMessageBoxShow("Please increase stock batch wise.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please increase stock batch wise.", Me.Text)
                 Return False
             End If
         End If
@@ -4900,7 +4900,7 @@ Public Class frmDairyFreshDispatchMultiple
                                     End If
                                     'Next
                                     If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colCustCode).Value)) > 0 Then
-                                        common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                                        common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                                     End If
                                     objTr.Distributor_Commission_PKID = clsCommon.myCstr(gv1.Rows(jj).Cells(ColDCPKID).Value)
                                     objTr.Distributor_Commission_Rate = clsCommon.myCdbl(gv1.Rows(jj).Cells(ColDCRate).Value)
@@ -5036,13 +5036,13 @@ Public Class frmDairyFreshDispatchMultiple
             clsCommon.ProgressBarPercentHide()
             'trans.Commit()
             If clsCommon.myLen(msg) > 0 Then
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
             End If
             If clsCommon.myLen(Ratemsg) > 0 Then
-                common.clsCommon.MyMessageBoxShow(Ratemsg)
+                common.clsCommon.MyMessageBoxShow(Me, Ratemsg, Me.Text)
             End If
             If clsCommon.myLen(DOCompletedmsg) > 0 Then
-                common.clsCommon.MyMessageBoxShow(DOCompletedmsg)
+                common.clsCommon.MyMessageBoxShow(Me, DOCompletedmsg, Me.Text)
             End If
             If blnInsert = True Then
                 common.clsCommon.MyMessageBoxShow(gv1, "Dispatch created successfully.")
@@ -5333,7 +5333,7 @@ Public Class frmDairyFreshDispatchMultiple
                             End If
                         End If
                     End If
-                    common.clsCommon.MyMessageBoxShow(msg)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     'LoadData(txtDocNo.Value, NavigatorType.Current)
                     If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                         funPrint()
@@ -5341,7 +5341,7 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5366,12 +5366,12 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
                 If (clsDispatchNoteFreshSale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5410,7 +5410,7 @@ Public Class frmDairyFreshDispatchMultiple
             End If
             'LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5499,19 +5499,19 @@ Public Class frmDairyFreshDispatchMultiple
             End If
             Dim qry As String = ""
             If Status = False Then
-                If clsCommon.MyMessageBoxShow("Scheme Validation will be activated, Are you sure ?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                If clsCommon.MyMessageBoxShow(Me, "Scheme Validation will be activated, Are you sure ?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                     Exit Sub
                 End If
                 qry = clsAllSQLTrigger.trg_TSPL_SD_SHIPMENT_DETAIL_Scheme()
                 clsDBFuncationality.ExecuteNonQuery(qry)
                 clsCommon.MyMessageBoxShow("Scheme Validation applied successfully")
             Else
-                If clsCommon.MyMessageBoxShow("Scheme Validation will be de-activated, Are you sure ?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                If clsCommon.MyMessageBoxShow(Me, "Scheme Validation will be de-activated, Are you sure ?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                     Exit Sub
                 End If
                 qry = "drop trigger [trg_TSPL_SD_SHIPMENT_DETAIL_Scheme]"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                clsCommon.MyMessageBoxShow("Scheme Validation Removed successfully")
+                clsCommon.MyMessageBoxShow(Me, "Scheme Validation Removed successfully", Me.Text)
             End If
 
         End If
@@ -5803,7 +5803,7 @@ Public Class frmDairyFreshDispatchMultiple
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
         btnHistory.Enabled = True
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  "
@@ -6099,12 +6099,12 @@ Public Class frmDairyFreshDispatchMultiple
 
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShipToLocation._MYValidating
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtBillToLocation.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer first")
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
             txtVendorNo.Focus()
             Exit Sub
         End If
@@ -6192,7 +6192,7 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '============created by preeti gupta===============
@@ -6208,7 +6208,7 @@ Public Class frmDairyFreshDispatchMultiple
                     For Each obj As clsBatchInventory In arr
                         strBatchunion += " Batch No - " & clsCommon.myCstr(obj.Batch_No) & "  Unit - " & clsCommon.myCstr(obj.UOM) & "        Qty - " & clsCommon.myCstr(obj.Qty) + Environment.NewLine
                     Next
-                    clsCommon.MyMessageBoxShow(strBatchunion, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, strBatchunion, Me.Text)
                 End If
             End If
         End If
@@ -6369,7 +6369,7 @@ Public Class frmDairyFreshDispatchMultiple
 
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
             Dim frmCRV As New frmCrystalReportViewer()
@@ -6463,7 +6463,7 @@ Public Class frmDairyFreshDispatchMultiple
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6672,7 +6672,7 @@ Public Class frmDairyFreshDispatchMultiple
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6702,7 +6702,7 @@ Public Class frmDairyFreshDispatchMultiple
             frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptMRDA", "MRDA Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6982,7 +6982,7 @@ Public Class frmDairyFreshDispatchMultiple
                     Else
                         If CheckConFactor = True Then
                             ConvFactMsg = True
-                            clsCommon.MyMessageBoxShow("Please fill conversion factor for this unit at line no." & IntRowNo + 1 & "")
+                            clsCommon.MyMessageBoxShow(Me, "Please fill conversion factor for this unit at line no." & IntRowNo + 1 & "")
                         Else
                             ConvFactMsg = False
                         End If
@@ -7016,7 +7016,7 @@ Public Class frmDairyFreshDispatchMultiple
                     Else
                         If CheckConFactor = True Then
                             ConvFactMsg = True
-                            clsCommon.MyMessageBoxShow("Please fill conversion factor for this unit at line no." & IntRowNo + 1 & "")
+                            clsCommon.MyMessageBoxShow(Me, "Please fill conversion factor for this unit at line no." & IntRowNo + 1 & "")
                         Else
                             ConvFactMsg = False
                         End If
@@ -7041,7 +7041,7 @@ Public Class frmDairyFreshDispatchMultiple
             End If
             'Sanjay CAN Calclation end
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub FillVolumeSlabCashDisScheme(ByVal IntRowNo As Integer)
@@ -7156,7 +7156,7 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7171,7 +7171,7 @@ Public Class frmDairyFreshDispatchMultiple
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -7240,7 +7240,7 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7283,7 +7283,7 @@ Public Class frmDairyFreshDispatchMultiple
                 e.RowElement.ForeColor = Color.Black
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -7677,7 +7677,7 @@ Public Class frmDairyFreshDispatchMultiple
             dcRouteNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select tspl_route_master.Route_No  from TSPL_VEHICLE_MASTER left join tspl_route_master on Tspl_route_master.vehicle_code=TSPL_VEHICLE_MASTER.vehicle_id where TSPL_VEHICLE_MASTER.Vehicle_Id= '" + Convert.ToString(txtVehicleCode.Value) + "'"))
             LoadBlankGrid()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function funvalidatevehicle() As Boolean
@@ -7764,7 +7764,7 @@ Public Class frmDairyFreshDispatchMultiple
         If clsCommon.myLen(txtReqNo.Value) > 0 Then
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSNSalesOrder, txtReqNo.Value)
         Else
-            common.clsCommon.MyMessageBoxShow("No data found")
+            common.clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End If
     End Sub
 
@@ -7941,7 +7941,7 @@ Public Class frmDairyFreshDispatchMultiple
 
     Private Sub btnpreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreview.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("First Select Shipment Document No.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "First Select Shipment Document No.", Me.Text)
             txtDocNo.Focus()
             txtDocNo.Focus()
             Return
@@ -7959,7 +7959,7 @@ Public Class frmDairyFreshDispatchMultiple
     Private Sub btnsend_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsend.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
@@ -7973,7 +7973,7 @@ Public Class frmDairyFreshDispatchMultiple
             lstUsers.Add(txtVendorNo.Value)
             'SendEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #End Region
@@ -7982,13 +7982,13 @@ Public Class frmDairyFreshDispatchMultiple
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSendForApproval.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Document No. First", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Document No. First", Me.Text)
                 txtReqNo.Focus()
                 txtReqNo.Select()
                 Return
             End If
 
-            If Not (common.clsCommon.MyMessageBoxShow("Send E-Mail/SMS Of Respective Sale Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            If Not (common.clsCommon.MyMessageBoxShow(Me, "Send E-Mail/SMS Of Respective Sale Order No. " + txtDocNo.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 Return
             End If
             'LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -8008,7 +8008,7 @@ Public Class frmDairyFreshDispatchMultiple
             End If
             'SendEmail(lstUsers, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8266,7 +8266,7 @@ Public Class frmDairyFreshDispatchMultiple
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return qry
     End Function
@@ -8535,11 +8535,11 @@ Public Class frmDairyFreshDispatchMultiple
                 lblPendingDoc.Text = clsCommon.myCstr(strCounts) + " total pending documents"
                 lblPendingDoc.Visible = True
             Else
-                clsCommon.MyMessageBoxShow("No Data found")
+                clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
             isInsideLoadData = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isInsideLoadData = False
         End Try
     End Sub
@@ -8863,12 +8863,12 @@ Public Class frmDairyFreshDispatchMultiple
                     btnSave.Enabled = True
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data found")
+                clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
             isInsideLoadData = False
             lblPendingDoc.Visible = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isInsideLoadData = False
         End Try
     End Sub
@@ -8960,12 +8960,12 @@ Public Class frmDairyFreshDispatchMultiple
 
                 Next
             Else
-                clsCommon.MyMessageBoxShow("No Data found")
+                clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
             isInsideLoadData = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isInsideLoadData = False
         End Try
     End Sub
@@ -8988,7 +8988,7 @@ Public Class frmDairyFreshDispatchMultiple
             lblAlternateVehicle.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtAlternateVehcile.Value) + "'")
             'txtVehicleCapacity.Text = clsDBFuncationality.getSingleValue("Select Capacity  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9080,7 +9080,7 @@ Public Class frmDairyFreshDispatchMultiple
             End If
             clsPSShipmentPrint.PrintDataBatchWiseInvoice(InvoiceNo)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9095,7 +9095,7 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txttcstaxbaseamount_TextChanged(sender As Object, e As EventArgs) Handles txttcstaxbaseamount.TextChanged
@@ -9122,7 +9122,7 @@ Public Class frmDairyFreshDispatchMultiple
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

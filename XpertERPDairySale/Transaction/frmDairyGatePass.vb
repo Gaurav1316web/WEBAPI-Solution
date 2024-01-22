@@ -531,11 +531,11 @@ Public Class frmDairyGatePass
                 txtCrateQty.Text = totalCrate
                 txtCanQty.Text = totalCan
             Else
-                clsCommon.MyMessageBoxShow("Data Not Found.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
                 ' **************************************************************************************************
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -579,7 +579,7 @@ Public Class frmDairyGatePass
                 txtCanQty.Text = totalCan
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -689,7 +689,7 @@ Public Class frmDairyGatePass
             End If
             isInsideLoadData = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -850,14 +850,14 @@ Public Class frmDairyGatePass
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Document", Me.Text)
                     Return
                 End If
                 Dim CheckVehicle As String = clsDBFuncationality.getSingleValue("select Vehicle_Number from TSPL_DAIRYSALE_GATEPASS_Master where Convert(Date,GPDate,103)=Convert(Date,'" + txtDate.Value + "',103) And Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' And ShiftType='" + clsCommon.myCstr(obj.ShiftType) + "' and Vehicle_Number='" + clsCommon.myCstr(obj.Vehicle_Number) + "'")
                 If CheckVehicle IsNot Nothing AndAlso clsCommon.myLen(CheckVehicle) > 0 Then
                     If clsCommon.MyMessageBoxShow(Me, "Vehicle No. is already used for another gatepass." + Environment.NewLine + "Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                         If (obj.SaveData(obj, isNewEntry, "DS")) Then
-                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                             LoadData(obj.GPCode, NavigatorType.Current)
                             arrShipmentFromMultiple = Nothing
                             btnGo.Enabled = False
@@ -866,7 +866,7 @@ Public Class frmDairyGatePass
                     End If
                 Else
                     If (obj.SaveData(obj, isNewEntry, "DS")) Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.GPCode, NavigatorType.Current)
                         arrShipmentFromMultiple = Nothing
                         btnGo.Enabled = False
@@ -875,7 +875,7 @@ Public Class frmDairyGatePass
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -974,7 +974,7 @@ Public Class frmDairyGatePass
             'End If
             If CreateGatePassFromDemand = True Then
                 If clsCommon.myLen(fndRouteNo.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select Route No.")
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Route No.", Me.Text)
                     fndRouteNo.Focus()
                     Exit Sub
                 End If
@@ -987,7 +987,7 @@ Public Class frmDairyGatePass
                 If clsCommon.myLen(FndTransferNo.Value) > 0 Then
                     funFillGrid_Transfer()
                 Else
-                    clsCommon.MyMessageBoxShow("Please select Transfer No")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Transfer No", Me.Text)
                 End If
 
             Else
@@ -1086,7 +1086,7 @@ Public Class frmDairyGatePass
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1143,18 +1143,18 @@ Public Class frmDairyGatePass
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No not found to Post")
+                common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
                 Exit Sub
             End If
 
             Dim isPost As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode = '" + txtCode.Value + "' and Post = 'Y'"))
             If isPost = True Then
-                common.clsCommon.MyMessageBoxShow("Record Already posted.")
+                common.clsCommon.MyMessageBoxShow(Me, "Record Already posted.", Me.Text)
                 Exit Sub
             End If
             If myMessages.postConfirm() Then
                 If (clsDairyGatePassEntry.PostData(MyBase.Form_ID, txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -1165,7 +1165,7 @@ Public Class frmDairyGatePass
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
 
@@ -1198,7 +1198,7 @@ Public Class frmDairyGatePass
             frmStock.LoadDispatchData(strQuery)
             frmStock.Show()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1296,7 +1296,7 @@ Public Class frmDairyGatePass
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1320,7 +1320,7 @@ Public Class frmDairyGatePass
                     End If
                 End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1362,7 +1362,7 @@ Public Class frmDairyGatePass
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to Print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
         Else
             funPrint(txtCode.Value)
         End If
@@ -1370,7 +1370,7 @@ Public Class frmDairyGatePass
     Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
         '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to Print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
         Else
             funPrint2(txtCode.Value)
         End If
@@ -1401,7 +1401,7 @@ Public Class frmDairyGatePass
             If CreateGatePassFromDemand = True Then
                 Dim StrGP_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GPCode from TSPL_DAIRYSALE_GATEPASS_MASTER where convert(date, TSPL_DAIRYSALE_GATEPASS_MASTER.gpdate ,103)=convert(date,'" & txtDate.Value & "',103) and Route_No='" & fndRouteNo.Value & "'"))
                 If clsCommon.myLen(StrGP_No) > 0 Then
-                    clsCommon.MyMessageBoxShow("GatePass Already Created.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "GatePass Already Created.", Me.Text)
                     LoadData(StrGP_No, NavigatorType.Current)
                 Else
                     setRouteVehicleDetail()
@@ -1505,7 +1505,7 @@ Public Class frmDairyGatePass
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -1540,11 +1540,11 @@ Public Class frmDairyGatePass
                 dclTollAmt = txtTollAmount.Text
             End If
             clsDairyGatePassEntry.UpdateClosingKMAndCreateProvision(txtCode.Value, txtClKM.Value, dclDistanceInRoute, dclPriceKM, dclTollAmt, MyBase.Form_ID)
-            clsCommon.MyMessageBoxShow("Closing KM Update successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Closing KM Update successfully", Me.Text)
             LoadData(txtCode.Value, NavigatorType.Current)
         Catch ex As Exception
             If clsCommon.myLen(ex.Message) > 0 Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -1553,7 +1553,7 @@ Public Class frmDairyGatePass
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsDairyGatePassEntry.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     btnNew.PerformClick()
                 End If
             End If
@@ -1564,14 +1564,14 @@ Public Class frmDairyGatePass
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsDairyGatePassEntry.ReverseAndUnpost(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1587,7 +1587,7 @@ Public Class frmDairyGatePass
             End If
             FndTransferNo.Value = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1622,7 +1622,7 @@ Public Class frmDairyGatePass
                 txtLocCode.Enabled = True
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please check Against Transfer checkbox first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please check Against Transfer checkbox first", Me.Text)
         End If
 
     End Sub
@@ -1704,7 +1704,7 @@ Public Class frmDairyGatePass
                 ' **************************************************************************************************
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -1727,13 +1727,13 @@ Public Class frmDairyGatePass
                 End Try
             Next
             If clsCommon.myLen(StrAllException) > 0 Then
-                clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, StrAllException, Me.Text)
             Else
                 TxtMultiDairyGPassReverse.arrValueMember = Nothing
-                clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1746,18 +1746,18 @@ Public Class frmDairyGatePass
     Private Sub btnGPCancel_Click(sender As Object, e As EventArgs) Handles btnGPCancel.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No not found to Post")
+                common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
                 Exit Sub
             End If
 
             Dim isCancel As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode = '" + txtCode.Value + "' and Status = 'Y'"))
             If isCancel = True Then
-                common.clsCommon.MyMessageBoxShow("Record Already canceled.")
+                common.clsCommon.MyMessageBoxShow(Me, "Record Already canceled.", Me.Text)
                 Exit Sub
             End If
             If myMessages.cancelConfirm() Then
                 If (clsDairyGatePassEntry.CancelData(MyBase.Form_ID, txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully canceled")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully canceled", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -1768,7 +1768,7 @@ Public Class frmDairyGatePass
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

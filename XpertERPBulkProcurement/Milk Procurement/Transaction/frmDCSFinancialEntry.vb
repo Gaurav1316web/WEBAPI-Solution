@@ -330,7 +330,7 @@ Public Class frmDCSFinancialEntry
             clsLockMPPaymentCycle.LockMPTransaction(txtDCS.Value, txtdate.Value)
             If (deleteConfirm()) Then
                 If (clsDCSFinancialEntry.DeleteData(txtDocumentNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

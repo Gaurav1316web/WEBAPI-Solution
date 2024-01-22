@@ -122,12 +122,12 @@ Public Class frmCustomerDeduction
                 obj.Deduction_Amount = txtAmount.Value
                 obj.arr = txtCustomer.arrValueMember
                 If (clsCustomerDeductionHead.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Deduction_Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -228,7 +228,7 @@ Public Class frmCustomerDeduction
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -236,7 +236,7 @@ Public Class frmCustomerDeduction
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -260,12 +260,12 @@ Public Class frmCustomerDeduction
         Try
             If (deleteConfirm()) Then
                 If (clsCustomerDeductionHead.DeleteData(txtCode.Value)) Then
-                    clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -287,12 +287,12 @@ Public Class frmCustomerDeduction
             End If
             If (postConfirm()) Then
                 If (clsCustomerDeductionHead.PostData(txtCode.Value)) Then
-                    clsCommon.MyMessageBoxShow("Successfully Posted")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -303,7 +303,7 @@ Public Class frmCustomerDeduction
                     If clsCommon.myLen(txtCode.Value) > 0 Then
                         If clsCommon.MyMessageBoxShow("Current deduction code [" + txtCode.Value + "] will be inactive" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             If (clsCustomerDeductionHead.InactiveData(txtCode.Value)) Then
-                                clsCommon.MyMessageBoxShow("Successfully Inactivated")
+                                clsCommon.MyMessageBoxShow(Me, "Successfully Inactivated", Me.Text)
                             End If
                         End If
                     End If
@@ -311,7 +311,7 @@ Public Class frmCustomerDeduction
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

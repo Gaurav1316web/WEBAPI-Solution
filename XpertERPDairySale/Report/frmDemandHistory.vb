@@ -238,7 +238,7 @@ Public Class frmDemandHistory
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
     '    Private Sub fillGridReport(ByVal frmdate As Date, ByVal Shift As String, ByVal BoothCode As String)
@@ -404,7 +404,7 @@ Public Class frmDemandHistory
                 SetRouteColumns()
                 ReStoreGridLayout()
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found for this Booth  ")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found for this Booth  ", Me.Text)
                 gv1.DataSource = Nothing
             End If
         Catch ex As Exception
@@ -522,7 +522,7 @@ Public Class frmDemandHistory
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

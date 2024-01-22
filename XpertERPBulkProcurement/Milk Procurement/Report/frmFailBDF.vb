@@ -182,7 +182,7 @@ Public Class frmFailBDF
                 clsCommon.MyMessageBoxShow(Me, "No Failed BDF File Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -227,7 +227,7 @@ Public Class frmFailBDF
                 isInsideLoadData = False
                 End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

@@ -19,7 +19,7 @@ Public Class frmCustomerAdvanceAgainstBooking
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtLocation.Value + "' "))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -40,7 +40,7 @@ Public Class frmCustomerAdvanceAgainstBooking
             LoadBooking()
             chkread.Checked = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub LoadBooking()
@@ -126,7 +126,7 @@ Public Class frmCustomerAdvanceAgainstBooking
                 'objCommonVar.CurrentUserCode = CurrentUserCode
 
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadBooking()
             Else
                 Throw New Exception("Please select atleast one Row")
@@ -137,7 +137,7 @@ Public Class frmCustomerAdvanceAgainstBooking
                 clsCommon.ProgressBarPercentHide()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message & " At Row No " & (i + 1))
+            clsCommon.MyMessageBoxShow(Me, ex.Message & " At Row No " & (i + 1), Me.Text)
         End Try
     End Sub
 
@@ -307,7 +307,7 @@ Public Class frmCustomerAdvanceAgainstBooking
             txtLocation.Value = clsCommon.ShowSelectForm("AdvanceLocFinder", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -318,7 +318,7 @@ Public Class frmCustomerAdvanceAgainstBooking
             strWhrcls += " and TSPL_bank_master.INACTIVE ='Active' "
             fndBankCode.Value = clsCommon.ShowSelectForm("AdvanceBankFinder", qry, "Code", strWhrcls, fndBankCode.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -326,7 +326,7 @@ Public Class frmCustomerAdvanceAgainstBooking
         Try
             addNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub addNew()
@@ -365,7 +365,7 @@ Public Class frmCustomerAdvanceAgainstBooking
 
             txtCustomerNo.arrValueMember = clsCommon.ShowMultipleSelectForm("ADvMulSelCust", qry, "Code", "Name", txtCustomerNo.arrValueMember, txtCustomerNo.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -388,7 +388,7 @@ Public Class frmCustomerAdvanceAgainstBooking
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa VIJ/17/12/19-000122
@@ -411,7 +411,7 @@ Public Class frmCustomerAdvanceAgainstBooking
             Dim Qry1 As String = "select Payment_Code as [PaymentMode], Payment_Desc as [Description], Payment_Type  as [PaymentType]  from TSPL_PAYMENT_CODE "
             FndPaymentMode.Value = clsCommon.ShowSelectForm("PaymentMode_Selector1", Qry1, "PaymentMode", "", FndPaymentMode.Value, "PaymentMode", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

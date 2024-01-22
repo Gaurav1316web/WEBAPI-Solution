@@ -206,7 +206,7 @@ Public Class rptDairyTruckSheetReport
                 clsCommon.MyExportToExcelGrid("Truck Sheet Report", Gv1, arrHeader, "Truck Sheet Report")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -333,7 +333,7 @@ Public Class rptDairyTruckSheetReport
             'qry = " select  case when len(tspl_item_master.Short_Description) <=0 then tspl_item_master.Item_Desc else tspl_item_master.Short_Description end  as Item_Code  from tspl_item_master "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             For Each dr As DataRow In dt.Rows
@@ -396,7 +396,7 @@ Public Class rptDairyTruckSheetReport
 
             dtqry = clsDBFuncationality.GetDataTable(qry)
             If dtqry Is Nothing OrElse dtqry.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             Gv1.DataSource = Nothing
@@ -426,7 +426,7 @@ Public Class rptDairyTruckSheetReport
             RadSplitButton1.Enabled = True
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1064,17 +1064,17 @@ Public Class rptDairyTruckSheetReport
 
                     '=====================================================================
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 End If
             Else
                 Dim StrQry As String = ""
                 If clsCommon.myLen(txtLorryNo.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Vehicle No")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle No", Me.Text)
                     txtLorryNo.Focus()
                     Exit Sub
                 End If
                 If txtRouteNo.arrValueMember Is Nothing OrElse txtRouteNo.arrValueMember.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select Route No")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Route No", Me.Text)
                     txtRouteNo.Focus()
                     Exit Sub
                 End If
@@ -1144,7 +1144,7 @@ Public Class rptDairyTruckSheetReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1189,12 +1189,12 @@ Public Class rptDairyTruckSheetReport
             Dim StrQry As String = ""
             Dim StrQry1 As String = ""
             If clsCommon.myLen(txtLorryNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Vechile No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Vechile No", Me.Text)
                 txtLorryNo.Focus()
                 Exit Sub
             End If
             If txtRouteNo.arrValueMember Is Nothing OrElse txtRouteNo.arrValueMember.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Route No")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Route No", Me.Text)
                 txtRouteNo.Focus()
                 Exit Sub
             End If
@@ -1261,7 +1261,7 @@ Public Class rptDairyTruckSheetReport
                 Throw New Exception("No data found to print")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1289,7 +1289,7 @@ Public Class rptDairyTruckSheetReport
                 clsCommon.MyExportToPDF("Truck Sheet Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub WriteDataToFile(ByVal submittedDataTable As DataTable, ByVal submittedFilePath As String, Optional isGatePass As Boolean = False)
@@ -1813,7 +1813,7 @@ Public Class rptDairyTruckSheetReport
             '=========================================
             sw.Close()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2169,10 +2169,10 @@ Public Class rptDairyTruckSheetReport
                 StrNonEarlyRoute = clsCommon.myCstr(clsDBFuncationality.getSingleValue("DECLARE @temp VARCHAR(MAX) SET @temp =(SELECT ',''' + cast(Route_No as varchar) + '''' FROM TSPL_ROUTE_MASTER where IsEarlyRoute=0 order by Route_No FOR XML PATH('')) select SUBSTRING(@temp, 2, 200000) AS Route"))
             End If
             If chkShowEarlyRoute.Checked = True AndAlso clsCommon.myLen(StrEarlyRoute) <= 0 Then
-                clsCommon.MyMessageBoxShow("Early Route Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Early Route Not Found", Me.Text)
                 Exit Sub
             ElseIf chkShowEarlyRoute.Checked = False AndAlso clsCommon.myLen(StrNonEarlyRoute) <= 0 Then
-                clsCommon.MyMessageBoxShow("Non Early Route Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Non Early Route Not Found", Me.Text)
                 Exit Sub
             End If
 
@@ -2226,7 +2226,7 @@ Public Class rptDairyTruckSheetReport
                 Dim dtPendingBooking As DataTable = clsDBFuncationality.GetDataTable(strPendingBooking)
                 If dtPendingBooking IsNot Nothing And dtPendingBooking.Rows.Count > 0 Then
 
-                    If common.clsCommon.MyMessageBoxShow("Please Post Pending Document First." + Environment.NewLine + "Do you want to Post Pending Document?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If common.clsCommon.MyMessageBoxShow(Me, "Please Post Pending Document First." + Environment.NewLine + "Do you want to Post Pending Document?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         'Dim strPostingDocument As String = " update TSPL_BOOKING_MATSER set posted = 1 where TSPL_BOOKING_MATSER.Document_No in (" + strPendingBooking + ")"
                         'clsDBFuncationality.ExecuteNonQuery(strPostingDocument)
                         '=======
@@ -2340,7 +2340,7 @@ Public Class rptDairyTruckSheetReport
                 WriteDataToFile(dtMain, subPath)
                 Process.Start(subPath)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         End If
     End Sub
@@ -2731,10 +2731,10 @@ Public Class rptDairyTruckSheetReport
 
 
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         'Dim qry As String = " select XXXXXFinal.Document_Date,XXXXXFinal.Cust_Code, XXXXXFinal.Customer_Name as Customer_Name, case when XXXXXFinal.DataSNO = 4 then 'ITEM TOTAL' else XXXXXFinal.route_no end as route_no , case when XXXXXFinal.DataSNO = 4 then 'ITEM TOTAL' else XXXXXFinal.Route_Desc end as Route_Desc,XXXXXFinal.Zone_Code,XXXXXFinal.Zone_Name,XXXXXFinal.Item_Code,SUBSTRING (XXXXXFinal.Alies_Name,0,8) as Alies_Name, Convert (integer,XXXXXFinal.CR) as CR,Convert (Integer ,XXXXXFinal.CD) as CD,convert (Integer,XXXXXFinal.SO) as SO,Convert (Integer ,XXXXXFinal.Cash,103) as Cash ,Convert (Integer,XXXXXFinal.Total) as Total,XXXXXFinal.CrateQty_New as CrateQty_New , XXXXXFinal.PendingPcsQty_New as PendingPcsQty_New, XXXXXFinal.Amount_with_Tax, XXXXXFinal.  DataSNO,   XXXXXFinal. Unit_code,TBL_Count.No_Of_Item from (  " & _
@@ -3250,14 +3250,14 @@ Public Class rptDairyTruckSheetReport
             ElseIf chkShowEarlyRoute.Checked = False AndAlso clsCommon.myLen(StrNonEarlyRoute) <= 0 Then
                 Throw New Exception("Non Early Route Not Found")
             End If
-            If common.clsCommon.MyMessageBoxShow("No booking will be created for Date [" + clsCommon.GetPrintDate(TSP_Date.Value, "dd/MMM/yyyy") + "] after generating truck sheet" + Environment.NewLine + "Do you want to continue?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "No booking will be created for Date [" + clsCommon.GetPrintDate(TSP_Date.Value, "dd/MMM/yyyy") + "] after generating truck sheet" + Environment.NewLine + "Do you want to continue?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 'Dim Qry As String = "Update TSPL_BOOKING_MATSER set TruckSheetGenerate = 1 where Convert(date, Document_Date,103) =  Convert(date, '" + TSP_Date.Value + "',103) "
                 Dim Qry As String = "Update TSPL_BOOKING_MATSER set TruckSheetGenerate = 1 from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_BOOKING_DETAIL.cust_code where ISNULL(TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY,'') not in ('Others','Distributor','') and Convert(date, Document_Date,103) =  Convert(date, '" + TSP_Date.Value + "',103) and TSPL_BOOKING_DETAIL.Booking_Status <>2 "
                 clsDBFuncationality.ExecuteNonQuery(Qry)
                 'common.clsCommon.MyMessageBoxShow("Truck Sheet Generated Successfully.", Me.Text)
                 btn_TruckSheetGenerated.Enabled = False
                 btn_CancelTruckSheet.Enabled = True
-                If common.clsCommon.MyMessageBoxShow("Truck Sheet Generated Successfully." + Environment.NewLine + "Do you want to Open Truck Sheet Preview?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Truck Sheet Generated Successfully." + Environment.NewLine + "Do you want to Open Truck Sheet Preview?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     isTruckSheetPriview = True
                     btnDotMatrixPrinter.PerformClick()
                     isTruckSheetPriview = False
@@ -3265,7 +3265,7 @@ Public Class rptDairyTruckSheetReport
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3274,13 +3274,13 @@ Public Class rptDairyTruckSheetReport
             Dim qry As String = "select 'Vendor' as Code union all select 'Institution CR' as Code union all select 'Institution SO' as Code union all select 'Distributor' as Code"
             TxtMultiCustomerCategory.arrValueMember = clsCommon.ShowMultipleSelectForm("CustCatMu@Sel", qry, "Code", "Code", TxtMultiCustomerCategory.arrValueMember, TxtMultiCustomerCategory.arrDispalyMember)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub btn_PrintGatePass_Click(sender As Object, e As EventArgs) Handles btn_PrintGatePass.Click
         If (clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Or clsCommon.CompairString(cmbGatePassType.Text, "") = CompairStringResult.Equal) Then
-            clsCommon.MyMessageBoxShow("Please select Gate Pass type(AM/PM)")
+            clsCommon.MyMessageBoxShow(Me, "Please select Gate Pass type(AM/PM)", Me.Text)
             cmbGatePassType.Focus()
             Return
         End If
@@ -3979,11 +3979,11 @@ Public Class rptDairyTruckSheetReport
                 End If
                 obj.Print(obj, dt, PageSetup.Potrate)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -4012,7 +4012,7 @@ Public Class rptDairyTruckSheetReport
                 btn_CancelTruckSheet.Enabled = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4025,7 +4025,7 @@ Public Class rptDairyTruckSheetReport
             '    Return
             'End If
             If clsCommon.myLen(txtIDSCustomer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Customer First")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Customer First", Me.Text)
                 Return
             End If
             'Dim Qry As String = "  Select TBL_Source.thedate, XXXFinal.Item_Selling_Price, isnull( XXXFinal.Booking_Qty,0) as Booking_Qty ,isnull (XXXFinal.Amount_with_Tax,0) as Amount_with_Tax, XXXFinal.Cust_Code, XXXFinal.customer_Name, XXXFinal.OldName, XXXFinal.Zone_Code, XXXFinal.Zone_Name from ( " & _
@@ -4085,7 +4085,7 @@ Public Class rptDairyTruckSheetReport
 
             Dim dtDataExist As DataTable = clsDBFuncationality.GetDataTable("select isnull(TSPL_ITEM_MASTER.Alies_Name,'')  Alies_Name from " + ItemInUse)
             If dtDataExist Is Nothing OrElse dtDataExist.Rows.Count = 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -4216,11 +4216,11 @@ Public Class rptDairyTruckSheetReport
                     obj.Print(obj, dt, PageSetup.Landscap)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4231,7 +4231,7 @@ Public Class rptDairyTruckSheetReport
             Dim dtTo As DateTime = dtpIDStodate.Value
 
             If clsCommon.myLen(txtIDSCustomer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select Customer First")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Customer First", Me.Text)
                 Return
             End If
 
@@ -4243,7 +4243,7 @@ Public Class rptDairyTruckSheetReport
 
             Dim dtDataExist As DataTable = clsDBFuncationality.GetDataTable("select isnull(TSPL_ITEM_MASTER.Alies_Name,'')  Alies_Name from " + ItemInUse)
             If dtDataExist Is Nothing OrElse dtDataExist.Rows.Count = 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -4388,11 +4388,11 @@ Public Class rptDairyTruckSheetReport
                     obj.Print(obj, dt, PageSetup.Landscap)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4422,10 +4422,10 @@ Public Class rptDairyTruckSheetReport
                 StrNonEarlyRoute = clsCommon.myCstr(clsDBFuncationality.getSingleValue("DECLARE @temp VARCHAR(MAX) SET @temp =(SELECT ',''' + cast(Route_No as varchar) + '''' FROM TSPL_ROUTE_MASTER where IsEarlyRoute=0 order by Route_No FOR XML PATH('')) select SUBSTRING(@temp, 2, 200000) AS Route"))
             End If
             If chkShowEarlyRoute.Checked = True AndAlso clsCommon.myLen(StrEarlyRoute) <= 0 Then
-                clsCommon.MyMessageBoxShow("Early Route Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Early Route Not Found", Me.Text)
                 Exit Sub
             ElseIf chkShowEarlyRoute.Checked = False AndAlso clsCommon.myLen(StrNonEarlyRoute) <= 0 Then
-                clsCommon.MyMessageBoxShow("Non Early Route Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Non Early Route Not Found", Me.Text)
                 Exit Sub
             End If
             Dim whr As String = "" ' and tspl_booking_matser.AgainstGatePass=1 "
@@ -4534,7 +4534,7 @@ Public Class rptDairyTruckSheetReport
                 'obj.arrReportFooter.Add(clsDosPrintReportFooter.GetObject("LOADED BY", "SECURITY", "Shift-In Charge", "RMD", ""))
                 obj.Print(obj, dt, PageSetup.Potrate)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         End If
     End Sub
@@ -4546,15 +4546,15 @@ Public Class rptDairyTruckSheetReport
 
     Private Sub btn_CancelTruckSheet_Click(sender As Object, e As EventArgs) Handles btn_CancelTruckSheet.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Do you want to Cancel Truck Sheet for Date [" + clsCommon.GetPrintDate(TSP_Date.Value, "dd/MMM/yyyy") + "]" + " ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Do you want to Cancel Truck Sheet for Date [" + clsCommon.GetPrintDate(TSP_Date.Value, "dd/MMM/yyyy") + "]" + " ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim Qry As String = "Update TSPL_BOOKING_MATSER set TruckSheetGenerate = 0 from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_BOOKING_DETAIL.cust_code where ISNULL(TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY,'') not in ('Others','Distributor','') and Convert(date, Document_Date,103) =  Convert(date, '" + TSP_Date.Value + "',103) "
                 clsDBFuncationality.ExecuteNonQuery(Qry)
-                common.clsCommon.MyMessageBoxShow("Truck Sheet Cancel Successfully.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Truck Sheet Cancel Successfully.", Me.Text)
                 btn_TruckSheetGenerated.Enabled = True
                 btn_CancelTruckSheet.Enabled = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4566,10 +4566,10 @@ Public Class rptDairyTruckSheetReport
                 StrNonEarlyRoute = clsCommon.myCstr(clsDBFuncationality.getSingleValue("DECLARE @temp VARCHAR(MAX) SET @temp =(SELECT ',''' + cast(Route_No as varchar) + '''' FROM TSPL_ROUTE_MASTER where IsEarlyRoute=0 order by Route_No FOR XML PATH('')) select SUBSTRING(@temp, 2, 200000) AS Route"))
             End If
             If chkShowEarlyRoute.Checked = True AndAlso clsCommon.myLen(StrEarlyRoute) <= 0 Then
-                clsCommon.MyMessageBoxShow("Early Route Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Early Route Not Found", Me.Text)
                 Exit Sub
             ElseIf chkShowEarlyRoute.Checked = False AndAlso clsCommon.myLen(StrNonEarlyRoute) <= 0 Then
-                clsCommon.MyMessageBoxShow("Non Early Route Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Non Early Route Not Found", Me.Text)
                 Exit Sub
             End If
             Dim whr As String = " and " + strCondition + " "
@@ -4701,7 +4701,7 @@ Public Class rptDairyTruckSheetReport
                 WriteDataToFile(dtMain, subPath, True)
                 Process.Start(subPath)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         End If
     End Sub

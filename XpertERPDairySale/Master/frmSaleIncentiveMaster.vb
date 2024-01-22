@@ -247,7 +247,7 @@ Public Class frmSaleIncentiveMaster
                 'End If
                 If obj.SaveData(obj, isNewEntry) Then
                     If isPost = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.INCENTIVE_CODE, NavigatorType.Current)
                         Exit Sub
                     End If
@@ -263,7 +263,7 @@ Public Class frmSaleIncentiveMaster
         Dim linno As Integer = 0
 
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please enter Incentive Description")
+            common.clsCommon.MyMessageBoxShow(Me, "Please enter Incentive Description", Me.Text)
             txtDesc.Focus()
             Return False
         End If
@@ -274,49 +274,49 @@ Public Class frmSaleIncentiveMaster
             Dim strToDAteValue As String = clsCommon.myCDate(DateSerial(txtToDate.Value.Year, txtToDate.Value.Month + 1, 0))
             Dim To_Date As Date = clsCommon.myCDate(DateSerial(txtToDate.Value.Year, txtToDate.Value.Month + 1, 0))
             If From_Date > To_Date Then
-                clsCommon.MyMessageBoxShow("From Date can not be greater then To Date.")
+                clsCommon.MyMessageBoxShow(Me, "From Date can not be greater then To Date.", Me.Text)
                 Return False
             End If
         End If
         If clsCommon.myLen(txtRangeUnit.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Range UOM")
+            clsCommon.MyMessageBoxShow(Me, "Please select Range UOM", Me.Text)
             txtRangeUnit.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtGLAccount.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select GL Account")
+            clsCommon.MyMessageBoxShow(Me, "Please select GL Account", Me.Text)
             txtGLAccount.Focus()
             Return False
         End If
         If clsCommon.myLen(txtIncentiveUnit.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Incentive UOM")
+            clsCommon.MyMessageBoxShow(Me, "Please select Incentive UOM", Me.Text)
             txtIncentiveUnit.Focus()
             Return False
         End If
         If txtCustomer.arrValueMember Is Nothing OrElse txtCustomer.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select at least one customer")
+            clsCommon.MyMessageBoxShow(Me, "Please select at least one customer", Me.Text)
             txtCustomer.Focus()
             Return False
         End If
         If txtItemSturcture.arrValueMember Is Nothing OrElse txtItemSturcture.arrValueMember.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select at least one Item Structure")
+            clsCommon.MyMessageBoxShow(Me, "Please select at least one Item Structure", Me.Text)
             txtItemSturcture.Focus()
             Return False
         End If
         If clsCommon.myLen(gv.Rows(0).Cells(colToRange).Value) <= 0 AndAlso clsCommon.myLen(gv.Rows(0).Cells(colFromRange).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please Enter Atleast one SLAB in grid.")
+            clsCommon.MyMessageBoxShow(Me, "Please Enter Atleast one SLAB in grid.", Me.Text)
             Return False
         End If
         If gv.Rows.Count > 0 Then
             For ii As Integer = 0 To gv.RowCount - 1
                 If clsCommon.myCdbl(gv.Rows(ii).Cells(colToRange).Value) > 0 AndAlso clsCommon.myCdbl(gv.Rows(ii).Cells(colFromRange).Value) > 0 Then
                     If clsCommon.myCdbl(gv.Rows(ii).Cells(colToRange).Value) <= clsCommon.myCdbl(gv.Rows(ii).Cells(colFromRange).Value) Then
-                        clsCommon.MyMessageBoxShow("To Range should be greater  then From Range . At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "To Range should be greater  then From Range . At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                         Return False
                     End If
                     If clsCommon.myLen(gv.Rows(ii).Cells(colIncentiveValue).Value) <= 0 Then
-                        clsCommon.MyMessageBoxShow("Incentive Value is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Incentive Value is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                         Return False
                     End If
                 End If
@@ -403,7 +403,7 @@ Public Class frmSaleIncentiveMaster
                 Reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -419,22 +419,22 @@ Public Class frmSaleIncentiveMaster
 
     Private Sub DeleteData(ByVal strIcentiveCode As String)
         If clsCommon.myLen(strIcentiveCode) = 0 Then
-            clsCommon.MyMessageBoxShow("No Incentive Code found to delete.")
+            clsCommon.MyMessageBoxShow(Me, "No Incentive Code found to delete.", Me.Text)
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.myLen(strIcentiveCode) > 0 Then
                 If clsSaleIncentiveHeader.fundelete(strIcentiveCode, trans) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     Reset()
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Incentive Code found to delete.")
+                clsCommon.MyMessageBoxShow(Me, "No Incentive Code found to delete.", Me.Text)
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -681,7 +681,7 @@ Public Class frmSaleIncentiveMaster
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -689,7 +689,7 @@ Public Class frmSaleIncentiveMaster
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
         End Try
@@ -756,7 +756,7 @@ Public Class frmSaleIncentiveMaster
             End If
             LoadData(txtIncentive.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -806,7 +806,7 @@ Public Class frmSaleIncentiveMaster
             Dim qry = "select distinct Structure_Code as Code, Structure_Descq as Name from tspl_Structure_Master "
             txtItemSturcture.arrValueMember = clsCommon.ShowMultipleSelectForm("FND@Structure", qry, "Code", "Name", txtItemSturcture.arrValueMember, txtItemSturcture.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -815,7 +815,7 @@ Public Class frmSaleIncentiveMaster
             Dim qry = "select distinct TSPL_CUSTOMER_MASTER.Cust_Code  as Code ,TSPL_CUSTOMER_MASTER.CUSTOMER_NAME as Name,TSPL_CUSTOMER_MASTER.add1 as Address,TSPL_CUSTOMER_MASTER.Zone_Code as [Zone Code],TSPL_ZONE_MASTER.Description as Zone from TSPL_CUSTOMER_MASTER left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_CUSTOMER_MASTER.Zone_Code"
             txtCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("FND@Customer", qry, "Code", "NAME", txtCustomer.arrValueMember, txtCustomer.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
  
@@ -867,7 +867,7 @@ Public Class frmSaleIncentiveMaster
    
 
     Private Sub gv_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs)
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -888,7 +888,7 @@ Public Class frmSaleIncentiveMaster
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -905,11 +905,11 @@ Public Class frmSaleIncentiveMaster
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 clsSaleIncentiveHeader.postData(txtIncentive.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtIncentive.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -937,7 +937,7 @@ Public Class frmSaleIncentiveMaster
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1008,7 +1008,7 @@ Public Class frmSaleIncentiveMaster
             If Not isInsideLoadData Then
                 If chkInactive.Checked Then
                     If clsCommon.myLen(txtIncentive.Value) > 0 Then
-                        If clsCommon.MyMessageBoxShow("Current Incentive will be getting in active" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                        If clsCommon.MyMessageBoxShow(Me, "Current Incentive will be getting in active" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             clsSaleIncentiveHeader.InActiveData(txtIncentive.Value)
                             clsCommon.MyMessageBoxShow("Successfully Incentive the Incentive", Me.Text)
                             LoadData(txtIncentive.Value, NavigatorType.Current)
@@ -1017,7 +1017,7 @@ Public Class frmSaleIncentiveMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1053,7 +1053,7 @@ Public Class frmSaleIncentiveMaster
                             Next
                         End If
                         trans.Commit()
-                        clsCommon.MyMessageBoxShow("Customer Added Surressfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Customer Added Surressfully", Me.Text)
                         LoadData(txtIncentive.Value, NavigatorType.Current)
                     Catch ex As Exception
                         trans.Rollback()

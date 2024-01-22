@@ -44,246 +44,248 @@ Public Class RptRouteWiseSaleRegister
         Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
         Dim strSumColumn As String = ""
 
+        If chkdemand.Checked = False Then
 
-        Dim PivtQry = " select distinct  TSPL_ITEM_MASTER.Item_Desc+char(10)+'('+TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')' as Item_Desc "
-        PivtQry += "         from TSPL_SD_SALE_INVOICE_HEAD"
-        PivtQry += " left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
-        PivtQry += " left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No"
-        PivtQry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code"
-        PivtQry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code "
-        PivtQry += " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code "
-        PivtQry += " where 2=2 and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " + Environment.NewLine & _
+            Dim PivtQry = " select distinct  TSPL_ITEM_MASTER.Item_Desc+char(10)+'('+TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')' as Item_Desc "
+            PivtQry += "         from TSPL_SD_SALE_INVOICE_HEAD"
+            PivtQry += " left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
+            PivtQry += " left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No"
+            PivtQry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code"
+            PivtQry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code "
+            PivtQry += " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code "
+            PivtQry += " where 2=2 and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " + Environment.NewLine &
                    "CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= convert(date,'" + strToDate + "',103)"
-        If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
-        End If
-        Dim dtCategory As DataTable = clsDBFuncationality.GetDataTable(PivtQry)
-        strCodeColumn = ""
-        If dtCategory Is Nothing OrElse dtCategory.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
-            Exit Sub
-        End If
-        For ii As Integer = 0 To dtCategory.Rows.Count - 1
-            If ii <> 0 Then
-                strCodeColumn += ","
-                strSumColumn += "+"
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
             End If
-            strCodeColumn += "[" + clsCommon.myCstr(dtCategory.Rows(ii)("Item_Desc")).Trim() + "]"
-        Next
+            If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
+            End If
+            Dim dtCategory As DataTable = clsDBFuncationality.GetDataTable(PivtQry)
+            strCodeColumn = ""
+            If dtCategory Is Nothing OrElse dtCategory.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+            For ii As Integer = 0 To dtCategory.Rows.Count - 1
+                If ii <> 0 Then
+                    strCodeColumn += ","
+                    strSumColumn += "+"
+                End If
+                strCodeColumn += "[" + clsCommon.myCstr(dtCategory.Rows(ii)("Item_Desc")).Trim() + "]"
+            Next
 
-        Dim qry As String = "select *,[CRATE LTR]+[CAN LTR] as [Total LTR] from (select *,isnull(CRATE_Qty,0) as CRT,isnull(CAN_Qty,0) as CAN,isnull(BOX_Qty,0) as BOX, ISNULL(CRATE_Qty,0)+isnull(CAN_Qty,0)+isnull(BOX_Qty,0) as [Total],isnull(CarteQtyLtr,0) as [CRATE LTR],isnull(CanQtyLtr,0) as [CAN LTR] from ( select * from (select (TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location) as LocationCode,(tspl_location_master.location_desc) as LocationDesc,isnull(TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code,'') as [Customer Category Code],isnull(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC,'') as [Customer Category Desc],(TSPL_SD_SALE_INVOICE_HEAD.Customer_Code) as Customer_Code,(TSPL_CUSTOMER_MASTER.Customer_Name) as CustomerName,(TSPL_ITEM_MASTER.Item_Desc+char(10)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')') as Item_Desc " & Environment.NewLine & _
-        " ,(TSPL_SD_SALE_INVOICE_DETAIL.Qty) - isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine & _
-        " ,(TSPL_ROUTE_MASTER.Route_Desc) as Route,Customerqty,CAN_Qty,CRATE_Qty,BOX_Qty,cast(CRATE_Total.CarteQtyLtr as decimal(18,0) ) as CarteQtyLtr,cast(CAN_Total.CanQtyLtr as decimal(18,0) ) as CanQtyLtr " & Environment.NewLine & _
-        " from TSPL_SD_SALE_INVOICE_HEAD" & Environment.NewLine & _
-        " left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" & Environment.NewLine & _
-        " left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No" & Environment.NewLine & _
-        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine & _
-        " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location" & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine & _
-        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine & _
-        " ---------------------------------------------- Total Qty ------------------------- " & Environment.NewLine & _
-        " left outer join (select Route_No,Customer_Code,max(Item_Desc) as Item_Desc,sum(Qty) as Customerqty from (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_ITEM_MASTER.Item_Desc+char(13)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')'  as Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine & _
-        " from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & Environment.NewLine & _
-        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine & _
-        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine & _
-        " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " + Environment.NewLine & _
+            Dim qry As String = "select *,[CRATE LTR]+[CAN LTR] as [Total LTR] from (select *,isnull(CRATE_Qty,0) as CRT,isnull(CAN_Qty,0) as CAN,isnull(BOX_Qty,0) as BOX, ISNULL(CRATE_Qty,0)+isnull(CAN_Qty,0)+isnull(BOX_Qty,0) as [Total],isnull(CarteQtyLtr,0) as [CRATE LTR],isnull(CanQtyLtr,0) as [CAN LTR] from ( select * from (select (TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location) as LocationCode,(tspl_location_master.location_desc) as LocationDesc,isnull(TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code,'') as [Customer Category Code],isnull(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC,'') as [Customer Category Desc],(TSPL_SD_SALE_INVOICE_HEAD.Customer_Code) as Customer_Code,(TSPL_CUSTOMER_MASTER.Customer_Name) as CustomerName,(TSPL_ITEM_MASTER.Item_Desc+char(10)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')') as Item_Desc " & Environment.NewLine &
+        " ,(TSPL_SD_SALE_INVOICE_DETAIL.Qty) - isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine &
+        " ,(TSPL_ROUTE_MASTER.Route_Desc) as Route,Customerqty,CAN_Qty,CRATE_Qty,BOX_Qty,cast(CRATE_Total.CarteQtyLtr as decimal(18,0) ) as CarteQtyLtr,cast(CAN_Total.CanQtyLtr as decimal(18,0) ) as CanQtyLtr " & Environment.NewLine &
+        " from TSPL_SD_SALE_INVOICE_HEAD" & Environment.NewLine &
+        " left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" & Environment.NewLine &
+        " left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No" & Environment.NewLine &
+        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine &
+        " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location" & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine &
+        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine &
+        " ---------------------------------------------- Total Qty ------------------------- " & Environment.NewLine &
+        " left outer join (select Route_No,Customer_Code,max(Item_Desc) as Item_Desc,sum(Qty) as Customerqty from (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_ITEM_MASTER.Item_Desc+char(13)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')'  as Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine &
+        " from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & Environment.NewLine &
+        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine &
+        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine &
+        " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " + Environment.NewLine &
         " CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= convert(date,'" + strToDate + "',103) "
 
-        If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
-            qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
-        End If
-        'If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
-        '    PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
-        'End If
-        If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
-        End If
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
+                qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
+            End If
+            'If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
+            '    PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
+            'End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
+            End If
 
-        qry += " )xx group by Customer_Code,Route_No) as CustomerTotal on CustomerTotal.Customer_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-             " and CustomerTotal.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No " & Environment.NewLine & _
-        " ------------------------------------------------- Total CAN ------------------------------------- " & Environment.NewLine & _
-        " left outer join (select Route_No,Customer_Code,max(Item_Desc) as Item_Desc,sum(Qty) as CAN_Qty,sum(CanQtyLtr) as CanQtyLtr from (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_ITEM_MASTER.Item_Desc+char(13)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')'  as Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine & _
-" ,(case when coalesce(stockLtr.Conversion_Factor,0)=0 then 0 else cast((TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0))* (Stock_SU.Conversion_Factor)/(coalesce(stockLtr.Conversion_Factor,1)) as numeric(18,3)) end) CanQtyLtr " & Environment.NewLine & _
-" from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & Environment.NewLine & _
-        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine & _
-        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine & _
-" left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL ) as Stock_SU on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code =Stock_SU.Item_Code and TSPL_SD_SALE_INVOICE_DETAIL.Unit_code =Stock_SU.UOM_Code " & Environment.NewLine & _
-        " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where UOM_Code='Ltr') as StockLtr on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code =StockLtr.Item_Code " & Environment.NewLine & _
- " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " & Environment.NewLine & _
+            qry += " )xx group by Customer_Code,Route_No) as CustomerTotal on CustomerTotal.Customer_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+             " and CustomerTotal.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No " & Environment.NewLine &
+        " ------------------------------------------------- Total CAN ------------------------------------- " & Environment.NewLine &
+        " left outer join (select Route_No,Customer_Code,max(Item_Desc) as Item_Desc,sum(Qty) as CAN_Qty,sum(CanQtyLtr) as CanQtyLtr from (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_ITEM_MASTER.Item_Desc+char(13)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')'  as Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine &
+" ,(case when coalesce(stockLtr.Conversion_Factor,0)=0 then 0 else cast((TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0))* (Stock_SU.Conversion_Factor)/(coalesce(stockLtr.Conversion_Factor,1)) as numeric(18,3)) end) CanQtyLtr " & Environment.NewLine &
+" from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & Environment.NewLine &
+        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine &
+        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine &
+" left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL ) as Stock_SU on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code =Stock_SU.Item_Code and TSPL_SD_SALE_INVOICE_DETAIL.Unit_code =Stock_SU.UOM_Code " & Environment.NewLine &
+        " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where UOM_Code='Ltr') as StockLtr on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code =StockLtr.Item_Code " & Environment.NewLine &
+ " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " & Environment.NewLine &
         " CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= convert(date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='CAN' "
 
-        If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
-            qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
-        End If
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
+                qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
+            End If
 
-        qry += " )xx group by Customer_Code,Route_No) as CAN_Total on CAN_Total.Customer_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-             " and CAN_Total.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No " & Environment.NewLine & _
-        " -------------------------------------------- Total CRATE ----------------------------------- " & Environment.NewLine & _
-        " left outer join (select Route_No,Customer_Code,max(Item_Desc) as Item_Desc,sum(Qty) as CRATE_Qty,sum(CarteQtyLtr) as CarteQtyLtr  from (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_ITEM_MASTER.Item_Desc+char(13)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')'  as Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine & _
-        " ,(case when coalesce(stockLtr.Conversion_Factor,0)=0 then 0 else cast((TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0))* (Stock_SU.Conversion_Factor)/(coalesce(stockLtr.Conversion_Factor,1)) as numeric(18,3)) end) CarteQtyLtr " & Environment.NewLine & _
-        " from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & Environment.NewLine & _
-        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine & _
-        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine & _
-        " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL ) as Stock_SU on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code =Stock_SU.Item_Code and TSPL_SD_SALE_INVOICE_DETAIL.Unit_code =Stock_SU.UOM_Code " & Environment.NewLine & _
-        " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where UOM_Code='Ltr') as StockLtr on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code =StockLtr.Item_Code " & Environment.NewLine & _
-        " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " & Environment.NewLine & _
+            qry += " )xx group by Customer_Code,Route_No) as CAN_Total on CAN_Total.Customer_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+             " and CAN_Total.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No " & Environment.NewLine &
+        " -------------------------------------------- Total CRATE ----------------------------------- " & Environment.NewLine &
+        " left outer join (select Route_No,Customer_Code,max(Item_Desc) as Item_Desc,sum(Qty) as CRATE_Qty,sum(CarteQtyLtr) as CarteQtyLtr  from (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_ITEM_MASTER.Item_Desc+char(13)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')'  as Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine &
+        " ,(case when coalesce(stockLtr.Conversion_Factor,0)=0 then 0 else cast((TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0))* (Stock_SU.Conversion_Factor)/(coalesce(stockLtr.Conversion_Factor,1)) as numeric(18,3)) end) CarteQtyLtr " & Environment.NewLine &
+        " from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & Environment.NewLine &
+        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine &
+        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine &
+        " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL ) as Stock_SU on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code =Stock_SU.Item_Code and TSPL_SD_SALE_INVOICE_DETAIL.Unit_code =Stock_SU.UOM_Code " & Environment.NewLine &
+        " left join (select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where UOM_Code='Ltr') as StockLtr on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code =StockLtr.Item_Code " & Environment.NewLine &
+        " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " & Environment.NewLine &
         " CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= convert(date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='CRATE'"
 
-        If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
-            qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
-        End If
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
+                qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
+            End If
 
-        qry += " )xx group by Customer_Code,Route_No) as CRATE_Total on CRATE_Total.Customer_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-            " and CRATE_Total.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No " & Environment.NewLine & _
-        " -------------------------------------- Total BOX ----------------------------------- " & Environment.NewLine & _
-        " left outer join (select Route_No,Customer_Code,max(Item_Desc) as Item_Desc,sum(Qty) as BOX_Qty from (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_ITEM_MASTER.Item_Desc+char(13)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')'  as Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine & _
-        " from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & Environment.NewLine & _
-        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine & _
-        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine & _
-        " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " & Environment.NewLine & _
+            qry += " )xx group by Customer_Code,Route_No) as CRATE_Total on CRATE_Total.Customer_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+            " and CRATE_Total.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No " & Environment.NewLine &
+        " -------------------------------------- Total BOX ----------------------------------- " & Environment.NewLine &
+        " left outer join (select Route_No,Customer_Code,max(Item_Desc) as Item_Desc,sum(Qty) as BOX_Qty from (select TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_ITEM_MASTER.Item_Desc+char(13)+'('+ TSPL_SD_SALE_INVOICE_DETAIL.Unit_code+')'  as Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.qty- isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty " & Environment.NewLine &
+        " from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & Environment.NewLine &
+        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+        " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code " & Environment.NewLine &
+        " left outer join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code and TSPL_SD_SALE_RETURN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & Environment.NewLine &
+        " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " & Environment.NewLine &
         " CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= convert(date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='BOX'"
 
-        If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
-            qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
-            PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
-        End If
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
+                qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
+                PivtQry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
+            End If
 
-        qry += "  )xx group by Customer_Code,Route_No) as BOX_Total on BOX_Total.Customer_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine & _
-        " and BOX_Total.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No " & Environment.NewLine & _
-        " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " & Environment.NewLine & _
+            qry += "  )xx group by Customer_Code,Route_No) as BOX_Total on BOX_Total.Customer_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & Environment.NewLine &
+        " and BOX_Total.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No " & Environment.NewLine &
+        " where 2=2  and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " & Environment.NewLine &
         " CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= convert(date,'" + strToDate + "',103)"
 
-        If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
-            qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
-            qry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-            qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
-        End If
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
+                qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_Detail.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtStructure.arrValueMember IsNot Nothing AndAlso txtStructure.arrValueMember.Count > 0 Then
+                qry += " and TSPL_ITEM_MASTER.Structure_Code in(" + clsCommon.GetMulcallString(txtStructure.arrValueMember) + ")" + Environment.NewLine
+            End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
+            End If
 
-        qry += " )Final " & Environment.NewLine & _
-        " pivot(Sum(Qty) for Item_Desc in (" + strCodeColumn + "))pvt" & Environment.NewLine & _
-        " ) finalQry" & Environment.NewLine & _
+            qry += " )Final " & Environment.NewLine &
+        " pivot(Sum(Qty) for Item_Desc in (" + strCodeColumn + "))pvt" & Environment.NewLine &
+        " ) finalQry" & Environment.NewLine &
         " ) LastQry"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                Exit Sub
+            Else
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gvData.GroupDescriptors.Clear()
+                gvData.MasterTemplate.SummaryRowsBottom.Clear()
+                gvData.DataSource = dt
 
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
-            Exit Sub
+                gvData.Columns("Customer_Code").IsVisible = False
+                gvData.Columns("Customerqty").IsVisible = False
+                gvData.Columns("CAN_Qty").IsVisible = False
+                gvData.Columns("CRATE_Qty").IsVisible = False
+                gvData.Columns("BOX_Qty").IsVisible = False
+                gvData.Columns("CarteQtyLtr").IsVisible = False
+                gvData.Columns("CanQtyLtr").IsVisible = False
+
+
+                SetGridFormationOFGV1()
+                gvData.AutoExpandGroups = True
+                gvData.ShowGroupPanel = True
+                gvData.ShowRowHeaderColumn = False
+                gvData.AllowAddNewRow = False
+                gvData.AllowDeleteRow = False
+                gvData.EnableFiltering = True
+                gvData.ShowFilteringRow = True
+                gvData.BestFitColumns()
+            End If
         Else
-            RadPageView1.SelectedPage = RadPageViewPage2
-            gvData.GroupDescriptors.Clear()
-            gvData.MasterTemplate.SummaryRowsBottom.Clear()
-            gvData.DataSource = dt
-
-            gvData.Columns("Customer_Code").IsVisible = False
-            gvData.Columns("Customerqty").IsVisible = False
-            gvData.Columns("CAN_Qty").IsVisible = False
-            gvData.Columns("CRATE_Qty").IsVisible = False
-            gvData.Columns("BOX_Qty").IsVisible = False
-            gvData.Columns("CarteQtyLtr").IsVisible = False
-            gvData.Columns("CanQtyLtr").IsVisible = False
-
-
-            SetGridFormationOFGV1()
-            gvData.AutoExpandGroups = True
-            gvData.ShowGroupPanel = False
-            gvData.ShowRowHeaderColumn = False
-            gvData.AllowAddNewRow = False
-            gvData.AllowDeleteRow = False
-            gvData.EnableFiltering = True
-            gvData.ShowFilteringRow = True
-            gvData.BestFitColumns()
+            Printt()
         End If
-
     End Sub
     Sub SetGridFormationOFGV1()
         gvData.TableElement.TableHeaderHeight = 40
@@ -293,9 +295,8 @@ Public Class RptRouteWiseSaleRegister
 
         Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
-       
-        gvData.GroupDescriptors.Add(New GridGroupByExpression("Route as RouteName format ""{0}: {1}"" Group By Route"))
 
+        ' gvData.GroupDescriptors.Add(New GridGroupByExpression("Route as RouteName format ""{0}: {1}"" Group By Route"))
 
         For i As Integer = 9 To gvData.Columns.Count - 1
             Dim aa = gvData.Columns(i).HeaderText()
@@ -304,7 +305,7 @@ Public Class RptRouteWiseSaleRegister
 
         Next
 
-        gvData.ShowGroupPanel = False
+        gvData.ShowGroupPanel = True
         gvData.MasterTemplate.AutoExpandGroups = True
 
         gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
@@ -353,7 +354,7 @@ Public Class RptRouteWiseSaleRegister
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
-   
+
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub
@@ -463,5 +464,117 @@ Public Class RptRouteWiseSaleRegister
     Private Sub TxtMultiCustomerCategory__My_Click(sender As Object, e As EventArgs) Handles TxtMultiCustomerCategory._My_Click
         Dim qry As String = " select cust_category_code as [Code], CUST_CATEGORY_DESC as [Desc] from TSPL_CUSTOMER_CATEGORY_MASTER "
         TxtMultiCustomerCategory.arrValueMember = clsCommon.ShowMultipleSelectForm("CustCategMulSel", qry, "Code", "Desc", TxtMultiCustomerCategory.arrValueMember, TxtMultiCustomerCategory.arrDispalyMember)
+    End Sub
+    Sub Printt()
+        'Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
+        Dim qry As String = "select * from (
+                 SELECT TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise, TSPL_ROUTE_MASTER.Route_No,Total_Qty,tspl_item_master.Short_Description as Short_Description FROM TSPL_BOOKING_DETAIL 
+                 LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code 
+                 left outer join TSPL_ROUTE_MASTER on TSPL_BOOKING_DETAIL.Route_No=TSPL_ROUTE_MASTER.Route_No 
+                 left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No= TSPL_BOOKING_DETAIL.Document_No
+				 left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Item_Code= TSPL_BOOKING_DETAIL.Item_Code
+                 left outer join tspl_item_master on tspl_item_master.Item_code=TSPL_BOOKING_DETAIL.Item_code WHERE IsTaxable='0' and Is_FreshItem='1' and TSPL_BOOKING_MATSER.Document_Date<='" & clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy") & "'  and (TSPL_BOOKING_MATSER.Document_Date >= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'  or TSPL_BOOKING_MATSER.Document_Date is null)) as st
+				 PIVOT ( sum(Total_Qty)
+         FOR Short_Description IN ([GM 500] , [GM 1LT] , [GM 6LT] , [SM 500] , [SM 1LT] , [TM 500] , [TM 1LT] , [TM 6LT])
+         ) AS pivot1 "
+        '  Dim whrClas As String = " From_Screen_code='" & clsUserMgtCode.frmDairyBookingCustomer & "'"
+        '-------richa 17/12/2019 show customer according to customer permission Ticket No. ---------
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            Exit Sub
+        Else
+            RadPageView1.SelectedPage = RadPageViewPage2
+            gvData.GroupDescriptors.Clear()
+            gvData.MasterTemplate.SummaryRowsBottom.Clear()
+            gvData.DataSource = dt
+
+            'gvData.Columns("Customer_Code").IsVisible = False
+            'gvData.Columns("Customerqty").IsVisible = False
+            'gvData.Columns("CAN_Qty").IsVisible = False
+            'gvData.Columns("CRATE_Qty").IsVisible = False
+            'gvData.Columns("CouponCode").IsVisible = False
+            'gvData.Columns("CouponDate").IsVisible = False
+            'gvData.Columns("CanQtyLtr").IsVisible = False
+
+
+            FormatGrid()
+            gvData.AutoExpandGroups = True
+            gvData.ShowGroupPanel = True
+            gvData.ShowRowHeaderColumn = False
+            gvData.AllowAddNewRow = False
+            gvData.AllowDeleteRow = False
+            gvData.EnableFiltering = True
+            gvData.ShowFilteringRow = True
+            gvData.BestFitColumns()
+        End If
+        'End If
+    End Sub
+
+    Sub FormatGrid()
+        Dim summaryItem As New GridViewSummaryItem()
+        gvData.TableElement.TableHeaderHeight = 25
+        gvData.MasterTemplate.ShowRowHeaderColumn = True
+        If chkdemand.Checked Then
+            'gvData.Columns("Item_Code").IsVisible = True
+            'gvData.Columns("Item_Code").Width = 100
+            'gvData.Columns("Item_Code").HeaderText = "Item_Code"
+
+            'gvData.Columns("route_no").IsVisible = True
+            'gvData.Columns("route_no").Width = 100
+            'gvData.Columns("route_no").HeaderText = " route_no"
+
+            'gvData.Columns("item_desc").IsVisible = True
+            'gvData.Columns("item_desc").Width = 100
+            'gvData.Columns("item_desc").HeaderText = "item_desc"
+
+            'gvData.Columns("item_Short_Description").IsVisible = True
+            'gvData.Columns("item_Short_Description").Width = 100
+            'gvData.Columns("item_Short_Description").HeaderText = "item_Short_Description"
+
+            ''gvData.Columns("Shift Type").IsVisible = False
+            ''gvData.Columns("Shift Type").Width = 100
+            ''gvData.Columns("Shift Type").HeaderText = "Shift Type"
+
+            'gvData.Columns("HSN_Code").IsVisible = True
+            'gvData.Columns("HSN_Code").Width = 100
+            'gvData.Columns("HSN_Code").HeaderText = "HSN_Code"
+
+            'gvData.Columns("Scheme_Item_UOM").IsVisible = True
+            'gvData.Columns("Scheme_Item_UOM").Width = 100
+            'gvData.Columns("Scheme_Item_UOM").HeaderText = "Scheme_Item_UOM"
+
+            'gvData.Columns("Delivery No").IsVisible = True
+            'gvData.Columns("Delivery No").Width = 100
+            'gvData.Columns("Delivery No").HeaderText = "Delivery No"
+
+            'gvData.Columns("Customer Category Code").IsVisible = True
+            'gvData.Columns("Customer Category Code").Width = 100
+            'gvData.Columns("Customer Category Code").HeaderText = "Customer Category Code"
+
+            'gvData.Columns("Booking Type").IsVisible = True
+            'gvData.Columns("Booking Type").Width = 100
+            'gvData.Columns("Booking Type").HeaderText = "Booking Type"
+
+            'gvData.Columns("Against Demand Booking No").IsVisible = True
+            'gvData.Columns("Against Demand Booking No").Width = 100
+            'gvData.Columns("Against Demand Booking No").HeaderText = "Against Demand Booking No"
+
+            'gvData.Columns("Coupon Code").IsVisible = True
+            'gvData.Columns("Coupon Code").Width = 100
+            'gvData.Columns("Coupon Code").HeaderText = "Coupon Code"
+
+            'gvData.Columns("Coupon Date").IsVisible = True
+            'gvData.Columns("Coupon Date").Width = 100
+            'gvData.Columns("Coupon Date").HeaderText = "Coupon Date"
+
+            'gvData.Columns("Is_FreshItem").IsVisible = True
+            'gvData.Columns("Is_FreshItem").Width = 100
+            'gvData.Columns("Is_FreshItem").HeaderText = "Is_FreshItem"
+
+            'gvData.Columns("IsTaxable").IsVisible = True
+            'gvData.Columns("IsTaxable").Width = 100
+            'gvData.Columns("IsTaxable").HeaderText = "IsTaxable"
+        End If
     End Sub
 End Class

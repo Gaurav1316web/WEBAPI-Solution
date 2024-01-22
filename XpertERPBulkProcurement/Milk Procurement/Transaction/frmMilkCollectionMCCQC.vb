@@ -375,24 +375,8 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
     End Sub
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-        If gv1.Rows.Count > 0 Then
-            ExportToExcel(EnumExportTo.Excel)
-        Else
-            RadMessageBox.Show("No Data Found to Display", Me.Text)
-        End If
-    End Sub
-    Private Sub ExportToExcel(ByVal exporter As EnumExportTo)
-        Try
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
-                transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
-            Else
-                transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
-                clsCommon.MyExportToPDF("Milk BMC QC ", gv1, arrHeader, "Milk BMC QC", PageSetupReport_ID, objCommonVar.CurrentUserCode)
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
-        End Try
+        Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [Date], '1.'as [SNO], '1.' as [No], 'gadota' as [BMC Name]," &
+               " '1000' as [R.NO.], '1-1' as [DCS], '7' as [FAT], '9' as [SNF], '27' as [CLR],'0.125' as [ACIDITY],'' as [Remarks]"
+        transportSql.ExporttoExcel(qry, Me)
     End Sub
 End Class

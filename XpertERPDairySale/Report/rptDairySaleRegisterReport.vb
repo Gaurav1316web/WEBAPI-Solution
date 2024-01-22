@@ -38,7 +38,7 @@ Public Class rptDairySaleRegisterReport
         'Ticket no-ERO/26/09/18-000403 Client - Erode,show Alies Name value in grid instead of Short description from Item master
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -141,7 +141,7 @@ Public Class rptDairySaleRegisterReport
             Dim strSchemeItem As String = "  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + '0 as ' + QUOTENAME( TSPL_ITEM_MASTER.Alies_Name+'(S)') as Alies_Name FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "
             strSchemeItem = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strSchemeItem))
             If String.IsNullOrEmpty(strSchemeItem) Then
-                clsCommon.MyMessageBoxShow("Please set Alies Name in item master")
+                clsCommon.MyMessageBoxShow(Me, "Please set Alies Name in item master", Me.Text)
                 Exit Sub
             End If
 
@@ -189,7 +189,7 @@ Public Class rptDairySaleRegisterReport
             Gv1.BestFitColumns()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
@@ -264,7 +264,7 @@ Public Class rptDairySaleRegisterReport
             Next
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -344,7 +344,7 @@ Public Class rptDairySaleRegisterReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -411,7 +411,7 @@ Public Class rptDairySaleRegisterReport
 
             clsCommon.MyExportToPDF("Dairy Sale Register Report", Gv1, arrHeader, "Dairy Sale Register Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

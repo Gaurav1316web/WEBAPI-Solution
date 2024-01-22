@@ -231,7 +231,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception
@@ -345,7 +345,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception
@@ -405,7 +405,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception
@@ -602,7 +602,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception
@@ -621,7 +621,7 @@ Public Class frmDasboardCombined
                 PageSetupReport_ID = clsUserMgtCode.frmDasboard + "MilkSale"
                 clsCommon.MyExportToPDF("Milk Sale", gv_MilkSale, arrHeader, "Milk Sale", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -666,7 +666,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception
@@ -730,7 +730,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception
@@ -788,7 +788,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception
@@ -852,7 +852,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception
@@ -911,7 +911,7 @@ Public Class frmDasboardCombined
                 clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
                 Process.Start(filePath)
             Else
-                clsCommon.MyMessageBoxShow("Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
+                clsCommon.MyMessageBoxShow(Me, "Data Exported in directory -" & System.IO.Path.GetDirectoryName(filePath) & "\" & System.IO.Path.GetFileName(filePath) & " in " & filecount & " files")
             End If
 
         Catch ex As Exception

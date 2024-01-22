@@ -103,7 +103,7 @@ Public Class FrmFormMaster
             myMessages.insert()
             FunFill()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Form Master", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Form Master", MessageBoxButtons.OK)
             trans.Rollback()
         End Try
     End Sub
