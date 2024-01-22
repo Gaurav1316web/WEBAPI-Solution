@@ -2205,11 +2205,11 @@ Public Class FrmCrateJaliReport
             End If
 
             Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate,
-                      tspl_route_master.Route_No,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,
                       Convert(varchar(10),TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,105) as Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
-                      CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
+                      CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,tspl_route_master.Route_No,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,
                       TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
@@ -2259,11 +2259,11 @@ Public Class FrmCrateJaliReport
         Gv1.Columns("Invoice_Date").Width = 100
         Gv1.Columns("Invoice_Date").HeaderText = "Date"
 
-        Gv1.Columns("Route_No").IsVisible = False
+        Gv1.Columns("Route_No").IsVisible = True
         Gv1.Columns("Route_No").Width = 100
         Gv1.Columns("Route_No").HeaderText = "Route No"
 
-        Gv1.Columns("Vehicle_Code").IsVisible = True
+        Gv1.Columns("Vehicle_Code").IsVisible = False
         Gv1.Columns("Vehicle_Code").Width = 100
         Gv1.Columns("Vehicle_Code").HeaderText = "Vehicle_Code"
 
