@@ -2381,6 +2381,7 @@ Public Class clsUserMgtCode
     Public Const rptrlPenaltyRegister As String = "RL-PEN-REG"
     Public Const rptPerformanceReport As String = "PERF-RPT"
     Public Const VehicleUnloadingReport As String = "VEH-UNL-RPT"
+    Public Const rptRMUnloading As String = "RM-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"
     Public Const frmCancelledTransactions_Purchase As String = "PO_CanRPT"

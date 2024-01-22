@@ -3743,6 +3743,10 @@ Public Class MDI
                         frm = New VehicleUnloadingReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptRMUnloading
+                        frm = New rptRMUnloading()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
 
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()
