@@ -152,7 +152,7 @@ Public Class frmCreateReceivedDairySale
             txtDate.Focus()
             gv1.Focus()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenCustomerFinder(ByVal isButtonClick As Boolean)
@@ -163,14 +163,14 @@ Public Class frmCreateReceivedDairySale
             gv1.CurrentRow.Cells(colCustName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name as Name from tspl_customer_master where Cust_Code ='" + gv1.CurrentRow.Cells(colCustCode).Value + "' "))
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub OpenInvoiceFinder(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(gv1.CurrentRow.Cells(colCustCode).Value) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             Else
                 Dim qry As String = "select Document_Code as Code,Document_Date,CrateQty from TSPL_SD_SALE_INVOICE_HEAD "
                 Dim whrCls As String = " customer_code ='" + gv1.CurrentRow.Cells(colCustCode).Value + "' and Status=1  and Document_Code not in (select Sale_Invoice_No from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE)"
@@ -181,7 +181,7 @@ Public Class frmCreateReceivedDairySale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenVehcileFinder(ByVal isButtonClick As Boolean)
@@ -192,7 +192,7 @@ Public Class frmCreateReceivedDairySale
             gv1.CurrentRow.Cells(colVehicleNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" + gv1.CurrentRow.Cells(colVehicleCode).Value + "'"))
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -645,7 +645,7 @@ Public Class frmCreateReceivedDairySale
             Dim strRoute As String = Nothing
             Dim variable1 As String = Nothing
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()
                 Exit Sub
 
@@ -958,10 +958,10 @@ Public Class frmCreateReceivedDairySale
                 Tempfrm.Dispose()
                 'Set balance - Get from crate jali report
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub FillGrid()
@@ -974,7 +974,7 @@ Public Class frmCreateReceivedDairySale
         Dim strSaleInvRoute As String = Nothing
         Dim strSaleReturnRoute As String = Nothing
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
 
@@ -1032,7 +1032,7 @@ Public Class frmCreateReceivedDairySale
             Next
             SetIDs()
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
     Private Sub SetIDs()
@@ -1152,7 +1152,7 @@ Public Class frmCreateReceivedDairySale
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -1204,7 +1204,7 @@ Public Class frmCreateReceivedDairySale
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub GetMCCAndScrapClosing(ByVal intRow As Integer, ByVal isCellValuedChanged As Boolean)
@@ -1215,7 +1215,7 @@ Public Class frmCreateReceivedDairySale
             Dim dblCrateQty As Double = 0
             Dim strWhrClause As String = ""
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()
                 Exit Sub
 
@@ -1449,7 +1449,7 @@ Public Class frmCreateReceivedDairySale
                 Return False
             End If
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()
                 Return False
             End If
@@ -1465,13 +1465,13 @@ Public Class frmCreateReceivedDairySale
                     If clsCommon.myLen(strCustomerCode) > 0 AndAlso clsCommon.CompairString(ddlType.SelectedValue, "I") = CompairStringResult.Equal Then
                         If dblCrateRecQty > 0 Then
                             If dblCrateRecQty > dblCrateOutStandingQty Then
-                                clsCommon.MyMessageBoxShow("Crate/Can Qty recevied is not greater then Crate/Can out Standing Qty. At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, "Crate/Can Qty recevied is not greater then Crate/Can out Standing Qty. At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                                 Return False
                             End If
                         End If
                         If dblCanREcQty > 0 Then
                             If dblCanREcQty > dblCanOutStandingQty Then
-                                clsCommon.MyMessageBoxShow("Crate/Can Qty recevied is not greater then Crate/Can out Standing Qty. At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, "Crate/Can Qty recevied is not greater then Crate/Can out Standing Qty. At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                                 Return False
                             End If
                         End If
@@ -1483,13 +1483,13 @@ Public Class frmCreateReceivedDairySale
                         If clsCommon.myLen(strRouteCode) > 0 AndAlso clsCommon.CompairString(ddlType.SelectedValue, "I") = CompairStringResult.Equal Then
                             If dblCrateRecQty > 0 Then
                                 If dblCrateRecQty > dblCrateOutStandingQty Then
-                                    clsCommon.MyMessageBoxShow("Crate/Can Qty recevied is not greater then Crate/Can out Standing Qty. At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Crate/Can Qty recevied is not greater then Crate/Can out Standing Qty. At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                                     Return False
                                 End If
                             End If
                             If dblCanREcQty > 0 Then
                                 If dblCanREcQty > dblCanOutStandingQty Then
-                                    clsCommon.MyMessageBoxShow("Crate/Can Qty recevied is not greater then Crate/Can out Standing Qty. At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Crate/Can Qty recevied is not greater then Crate/Can out Standing Qty. At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                                     Return False
                                 End If
                             End If
@@ -1507,7 +1507,7 @@ Public Class frmCreateReceivedDairySale
 
                                 If clsCommon.CompairString(strRouteCode, strInnerRouteCode) = CompairStringResult.Equal Then
                                     Dim Msg As String = "Same Item Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
-                                    common.clsCommon.MyMessageBoxShow(Msg)
+                                    common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                                     Return False
                                 End If
 
@@ -1523,7 +1523,7 @@ Public Class frmCreateReceivedDairySale
             UpdateAllTotal()
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -1538,7 +1538,7 @@ Public Class frmCreateReceivedDairySale
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1552,7 +1552,7 @@ Public Class frmCreateReceivedDairySale
 
             LoadData(clsCommon.ShowSelectForm("Docfnd", Qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -1606,7 +1606,7 @@ Public Class frmCreateReceivedDairySale
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SaveData(ByVal ChekPostBtn As Boolean)
@@ -1693,20 +1693,20 @@ Public Class frmCreateReceivedDairySale
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
                 If (obj.SaveData(obj, isNewEntry)) Then
 
                     If ChekPostBtn = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1844,7 +1844,7 @@ Public Class frmCreateReceivedDairySale
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             isInsideLoadMCCAndScrapCustomer = False
@@ -2125,12 +2125,12 @@ Public Class frmCreateReceivedDairySale
                 arrHeader.Add("Location : " + clsCommon.myCstr(fndLocation.Value))
                 clsCommon.MyExportToExcel("CRATE RECEIVED", gv1, arrHeader, "Crate Received For Fresh Sale")
             Else
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2154,12 +2154,12 @@ Public Class frmCreateReceivedDairySale
                 End If
                 If (clsCrateReceivedHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2181,12 +2181,12 @@ Public Class frmCreateReceivedDairySale
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 If (clsCrateReceivedHead.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
-                    clsCommon.MyMessageBoxShow("Successfully Posted ")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted ", Me.Text)
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2325,7 +2325,7 @@ Public Class frmCreateReceivedDairySale
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -2376,7 +2376,7 @@ Public Class frmCreateReceivedDairySale
             If (deleteConfirm()) Then
                 If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Document_No ='" & txtDocNo.Value & "' ", trans) > 0 Then
                     If (clsCrateReceivedHead.ReverseAndRecrate(txtDocNo.Value, trans)) Then
-                        common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                         trans.Commit()
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
@@ -2532,11 +2532,11 @@ Public Class frmCreateReceivedDairySale
 
                 clsCommon.ProgressBarHide()
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                common.clsCommon.MyMessageBoxShow("Error at Rowno " + clsCommon.myCstr(Counter) + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                common.clsCommon.MyMessageBoxShow(Me, "Error at Rowno " + clsCommon.myCstr(Counter) + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
             Finally
                 clsCommon.ProgressBarHide()
                 Me.Controls.Remove(gv)

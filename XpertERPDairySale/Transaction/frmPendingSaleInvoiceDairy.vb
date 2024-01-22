@@ -86,7 +86,7 @@ Public Class frmPendingSaleInvoiceDairy
         qry += " group by Code,ICode,Unit,MRP having SUM(Chk)>0 and SUM(Qty *RI) <>0 order by Code,max(Line_No)"
         dtAllData = clsDBFuncationality.GetDataTable(qry)
         If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No item found for vendor " + VendorName + "")
+            common.clsCommon.MyMessageBoxShow(Me, "No item found for vendor " + VendorName + "", Me.Text)
             Me.Close()
         End If
         LoadHeadData()
@@ -563,7 +563,7 @@ Public Class frmPendingSaleInvoiceDairy
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Invoice item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Invoice item", Me.Text)
         Else
             Me.Close()
         End If

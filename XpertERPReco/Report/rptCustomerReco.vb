@@ -280,7 +280,7 @@ Public Class rptCustomerReco
 
             RadPageView1.SelectedPage = RadPageViewPage3
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Print(ByVal IsPrint As Exporter, Optional ByVal BulkExport As Integer = 0)
@@ -421,7 +421,7 @@ Public Class rptCustomerReco
             Gv1.EnableFiltering = True
             Gv1.Tag = cboType.SelectedValue
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 EnableDisableAllControl(False)
@@ -435,7 +435,7 @@ Public Class rptCustomerReco
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -815,7 +815,7 @@ Public Class rptCustomerReco
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -864,7 +864,7 @@ Public Class rptCustomerReco
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1077,7 +1077,7 @@ Public Class rptCustomerReco
             End If
             PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, cboType.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1104,7 +1104,7 @@ Public Class rptCustomerReco
             RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
             PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, cboType.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1131,7 +1131,7 @@ Public Class rptCustomerReco
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Customer Reco", Gv1, arrHeader, "Customer Reco", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

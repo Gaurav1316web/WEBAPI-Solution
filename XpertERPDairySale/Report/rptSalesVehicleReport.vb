@@ -122,7 +122,7 @@ Public Class rptSalesVehicleReport
 
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
 
             gv1.DataSource = dt
