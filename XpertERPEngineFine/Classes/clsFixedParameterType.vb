@@ -34,6 +34,7 @@ Public Class clsFixedParameterType
     Public Const HideShiftCollection As String = "Hide Shift Collection"
     Public Const MilkCollectionPickBulkRoute As String = "Milk Collection Pick Bulk Route"
     Public Const DailyQtyReport As String = "Daily Qty Report"
+    Public Const ShowOwnBMCDCS As String = "Show Own BMC DCS"
     Public Const OwnBMCCreateDRCRNote As String = "Own BMC Create DR CR Note"
     Public Const OwnBMCApplicationFATRatio As String = "Own BMC Application FAT Ratio"
     Public Const OwnBMCApplicationSNFRatio As String = "Own BMC Application SNF Ratio"
@@ -1311,6 +1312,7 @@ Public Class clsFixedParameterType
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "VSP Milk Not Sold"
 
+
 End Class
 Public Class clsFixedParameterCode
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
@@ -1995,6 +1997,7 @@ Public Class clsFixedParameterCode
     Public Const ShowBinMapping As String = "ShowBinMapping"
     Public Const ShowPrintChallanInDairyDispatch As String = "ShowPrintChallanInDairyDispatch"
     Public Const FATKGSNFKGRoundOff As String = "FAT KG & SNF KG Round Off"
+    Public Const ShowOwnBMCDCS As String = "Show Own BMC DCS"
     Public Const ShowCrateJaaliBoxIntransfer As String = "Show Crate Jaali & Box In transfer"
     Public Const DefaultCorrectionFactorForBulkSale As String = "DefaultCorrectionFactorForBulkSale"
     Public Const MCCdefaultCorrectionFactorBS As String = "MCCdefaultCorrectionFactorBS"
@@ -2879,6 +2882,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, "2", "SNF Decaimal Places")
         InsertDefaultValueFixedParameter(clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, "0", "0-Show Both Shift;1-Hide Evening Shift;2-Hide Morning Shift")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, "0", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowOwnBMCDCS, clsFixedParameterCode.ShowOwnBMCDCS, "0", "0-OFF;1-ON")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.DailyQtyReport, clsFixedParameterCode.FATKGSNFKGRoundOff, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OwnBMCApplicationFATRatio, clsFixedParameterCode.OwnBMCApplicationFATRatio, "100", "Applicable Ratio")
@@ -4535,6 +4539,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, clsFixedParameterType.DailyQtyReport, clsFixedParameterCode.FATKGSNFKGRoundOff, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmHeadLoadMaster, clsFixedParameterType.ShowOwnBMCDCS, clsFixedParameterCode.ShowOwnBMCDCS, EnumControlType.CheckBox)
 
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationFATRatio, clsFixedParameterCode.OwnBMCApplicationFATRatio, EnumControlType.NumericBox)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationSNFRatio, clsFixedParameterCode.OwnBMCApplicationSNFRatio, EnumControlType.NumericBox)
