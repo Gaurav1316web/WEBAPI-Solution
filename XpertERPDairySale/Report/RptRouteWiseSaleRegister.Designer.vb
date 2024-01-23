@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class RptRouteWiseSaleRegister
     Inherits XpertERPEngine.FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,12 +20,17 @@ Partial Class RptRouteWiseSaleRegister
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkdemand = New System.Windows.Forms.CheckBox()
+        Me.TxtMultiCustomerCategory = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtStructure = New common.UserControls.txtMultiSelectFinder()
@@ -34,7 +39,6 @@ Partial Class RptRouteWiseSaleRegister
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtMultItem = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel13 = New common.Controls.MyLabel()
         Me.txtMultiCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -49,8 +53,6 @@ Partial Class RptRouteWiseSaleRegister
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.TxtMultiCustomerCategory = New common.UserControls.txtMultiSelectFinder()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -59,11 +61,12 @@ Partial Class RptRouteWiseSaleRegister
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,7 +80,6 @@ Partial Class RptRouteWiseSaleRegister
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,11 +129,11 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1044, 454)
         Me.RadPageView1.TabIndex = 72
-        Me.RadPageView1.Text = "RadPageView2"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkdemand)
         Me.RadPageViewPage1.Controls.Add(Me.TxtMultiCustomerCategory)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
@@ -150,6 +152,49 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1023, 406)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkdemand
+        '
+        Me.chkdemand.AutoSize = True
+        Me.chkdemand.Location = New System.Drawing.Point(345, 16)
+        Me.chkdemand.Name = "chkdemand"
+        Me.chkdemand.Size = New System.Drawing.Size(68, 17)
+        Me.chkdemand.TabIndex = 419
+        Me.chkdemand.Text = "demand"
+        Me.chkdemand.UseVisualStyleBackColor = True
+        '
+        'TxtMultiCustomerCategory
+        '
+        Me.TxtMultiCustomerCategory.arrDispalyMember = Nothing
+        Me.TxtMultiCustomerCategory.arrValueMember = Nothing
+        Me.TxtMultiCustomerCategory.Location = New System.Drawing.Point(121, 170)
+        Me.TxtMultiCustomerCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiCustomerCategory.MyLinkLable1 = Me.MyLabel13
+        Me.TxtMultiCustomerCategory.MyLinkLable2 = Nothing
+        Me.TxtMultiCustomerCategory.MyNullText = "All"
+        Me.TxtMultiCustomerCategory.Name = "TxtMultiCustomerCategory"
+        Me.TxtMultiCustomerCategory.Size = New System.Drawing.Size(300, 19)
+        Me.TxtMultiCustomerCategory.TabIndex = 418
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel13.Location = New System.Drawing.Point(13, 50)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel13.TabIndex = 334
+        Me.MyLabel13.Text = "Customer"
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(12, 171)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(103, 18)
+        Me.MyLabel5.TabIndex = 417
+        Me.MyLabel5.Text = "Customer Category"
         '
         'txtLocation
         '
@@ -243,16 +288,6 @@ Partial Class RptRouteWiseSaleRegister
         Me.txtMultItem.Size = New System.Drawing.Size(299, 19)
         Me.txtMultItem.TabIndex = 335
         '
-        'MyLabel13
-        '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(13, 50)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
-        Me.MyLabel13.TabIndex = 334
-        Me.MyLabel13.Text = "Customer"
-        '
         'txtMultiCustomer
         '
         Me.txtMultiCustomer.arrDispalyMember = Nothing
@@ -333,7 +368,7 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1023, 380)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1023, 406)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gvData
@@ -343,12 +378,13 @@ Partial Class RptRouteWiseSaleRegister
         '
         '
         '
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
-        Me.gvData.Size = New System.Drawing.Size(1023, 380)
+        Me.gvData.Size = New System.Drawing.Size(1023, 406)
         Me.gvData.TabIndex = 0
-        Me.gvData.Text = "RadGridView1"
         '
         'RadSplitButton1
         '
@@ -362,15 +398,11 @@ Partial Class RptRouteWiseSaleRegister
         '
         'rmenuExport
         '
-        Me.rmenuExport.AccessibleDescription = "Export"
-        Me.rmenuExport.AccessibleName = "Export"
         Me.rmenuExport.Name = "rmenuExport"
         Me.rmenuExport.Text = "Export"
         '
         'rmenuPDF
         '
-        Me.rmenuPDF.AccessibleDescription = "PDF"
-        Me.rmenuPDF.AccessibleName = "PDF"
         Me.rmenuPDF.Name = "rmenuPDF"
         Me.rmenuPDF.Text = "PDF"
         '
@@ -401,29 +433,6 @@ Partial Class RptRouteWiseSaleRegister
         Me.btnReset.TabIndex = 159
         Me.btnReset.Text = "Reset"
         '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(12, 171)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(103, 18)
-        Me.MyLabel5.TabIndex = 417
-        Me.MyLabel5.Text = "Customer Category"
-        '
-        'TxtMultiCustomerCategory
-        '
-        Me.TxtMultiCustomerCategory.arrDispalyMember = Nothing
-        Me.TxtMultiCustomerCategory.arrValueMember = Nothing
-        Me.TxtMultiCustomerCategory.Location = New System.Drawing.Point(121, 170)
-        Me.TxtMultiCustomerCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMultiCustomerCategory.MyLinkLable1 = Me.MyLabel13
-        Me.TxtMultiCustomerCategory.MyLinkLable2 = Nothing
-        Me.TxtMultiCustomerCategory.MyNullText = "All"
-        Me.TxtMultiCustomerCategory.Name = "TxtMultiCustomerCategory"
-        Me.TxtMultiCustomerCategory.Size = New System.Drawing.Size(300, 19)
-        Me.TxtMultiCustomerCategory.TabIndex = 418
-        '
         'RptRouteWiseSaleRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -445,11 +454,12 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
@@ -464,7 +474,6 @@ Partial Class RptRouteWiseSaleRegister
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -498,5 +507,6 @@ Partial Class RptRouteWiseSaleRegister
     Friend WithEvents rmenuPDF As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents TxtMultiCustomerCategory As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents chkdemand As CheckBox
 End Class
 
