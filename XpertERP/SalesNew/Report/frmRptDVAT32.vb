@@ -78,48 +78,48 @@ Public Class frmRptDVAT32
             End If
 
 
-            StrQuery = "select LM1.Location_Desc 'From Location', LM2.Location_Desc 'Ship Location', convert(varchar(15), CURRENT_TIMESTAMP, 103) 'Current Date'," & _
-                       "(case when isnull(LM1.Add1,'')<>'' then LM1.Add1+', ' else '' end + case when isnull(LM1.Add2,'')<>'' then LM1.Add2+', ' else '' end + " & _
-                       "case when isnull(LM1.Add3,'')<>'' then LM1.Add3+', ' else '' end  + case when isnull(LM1.Add4,'')<>'' then LM1.Add4 else '' end + " & _
-                       "case when isnull(LM1.City_Code,'')<>'' then LM1.City_Code+', ' else '' end + case when isnull(SM1.STATE_NAME,'')<>'' then SM1.STATE_NAME else '' end ) as 'From Address', " & _
-                       "LM1.Tin_No 'From Tin No',LM1.CST_No 'From CST No',(case when isnull(SIHead.Ship_To_Location,'')<> '' then " & _
-                       "(case when isnull(LM2.Add1,'')<>'' then LM2.Add1+', ' else '' end + case when isnull(LM2.Add2,'')<>'' then LM2.Add2+', ' else '' end + " & _
-                       "case when isnull(LM2.Add3,'')<>'' then LM2.Add3+', ' else '' end +case when isnull(LM2.Add4,'')<>'' then LM2.Add4 else '' end  + " & _
-                       "case when isnull(LM2.City_Code,'')<>'' then LM2.City_Code+', ' else '' end + case when isnull(SM2.STATE_NAME,'')<>'' then SM2.STATE_NAME else '' end ) else (case when isnull(CM.Add1,'')<>'' then CM.Add1+', ' else '' end + case when isnull(CM.Add2,'')<>'' then CM.Add2+', ' else '' end + " & _
-                       "case when isnull(CM.Add3,'')<>'' then CM.Add3 else '' end ) end) as 'Shipping Address', " & _
-                       "CM.Customer_Name 'Customer Name',CM.Tin_No 'Customer TIN No', CM.CST 'Customer CST No', SIDetail.Qty 'Quantity' ,SIDetail.Unit_code 'Packing',  SIDetail.Amount 'Invoice Amt', " & _
-                       "SIDetail.TotalItem_Weight 'Weight', SIDetail.ActualRate 'Rate', SIDetail.Remarks 'Remarks', " & _
-                       "(case when AC1.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " & _
-                       "case when AC2.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt2,0) else 0 end + " & _
-                       "case when AC3.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt3,0) else 0 end + " & _
-                       "case when AC4.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " & _
-                       "case when AC5.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " & _
-                       "case when AC6.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " & _
-                       "case when AC7.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " & _
-                       "case when AC8.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " & _
-                       "case when AC9.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " & _
-                       "case when AC10.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end  " & _
-                       ") as TotalFreight, CompanyMaster.Comp_Name 'Company Name',  SIDetail.Item_Net_Amt 'Item Net Amt', IM.Item_Desc 'Item Description', VH.Vehicle_No 'Vehicle No' " & _
-                       "from TSPL_SD_SALE_INVOICE_DETAIL SIDetail " & _
-                       "LEFT OUTER JOIN TSPL_ITEM_MASTER IM ON IM.Item_Code = SIDetail.Item_Code " & _
-                       "LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD SIHead on SIHead.Document_Code= SIDetail.DOCUMENT_CODE " & _
-                       "LEFT OUTER JOIN TSPL_COMPANY_MASTER CompanyMaster on CompanyMaster.Comp_Code = SIHead.Comp_Code " & _
-                       "LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM on CM.Cust_Code= SIHead.Customer_Code " & _
-                       "LEFT OUTER JOIN TSPL_LOCATION_MASTER LM1 on LM1.Location_Code = SIHead.Bill_To_Location " & _
-                       "LEFT OUTER JOIN TSPL_LOCATION_MASTER LM2 on LM2.Location_Code = SIHead.Ship_To_Location " & _
-                       "LEFT OUTER JOIN TSPL_STATE_MASTER SM1 on SM1.STATE_CODE= LM1.State " & _
-                       "LEFT OUTER JOIN TSPL_STATE_MASTER SM2 on SM2.STATE_CODE= LM2.State " & _
-                       "LEFT OUTER JOIN TSPL_VEHICLE_MASTER VH ON VH.Vehicle_Id= SIHead.Vehicle_Code " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC1 ON AC1.Code = SIHead.Add_Charge_Code1  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC2 ON AC2.Code = SIHead.Add_Charge_Code2  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC3 ON AC3.Code = SIHead.Add_Charge_Code3  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC4 ON AC4.Code = SIHead.Add_Charge_Code4  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC5 ON AC5.Code = SIHead.Add_Charge_Code5  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC6 ON AC6.Code = SIHead.Add_Charge_Code6  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC7 ON AC7.Code = SIHead.Add_Charge_Code7  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC8 ON AC8.Code = SIHead.Add_Charge_Code8  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC9 ON AC9.Code = SIHead.Add_Charge_Code9  " & _
-                       "LEFT OUTER JOIN TSPL_Additional_Charges AC10 ON AC10.Code = SIHead.Add_Charge_Code10  " & _
+            StrQuery = "select LM1.Location_Desc 'From Location', LM2.Location_Desc 'Ship Location',  '" & objCommonVar.CurrentUser & "' as User_Name ,convert(varchar(15), CURRENT_TIMESTAMP, 103) 'Current Date'," &
+                       "(case when isnull(LM1.Add1,'')<>'' then LM1.Add1+', ' else '' end + case when isnull(LM1.Add2,'')<>'' then LM1.Add2+', ' else '' end + " &
+                       "case when isnull(LM1.Add3,'')<>'' then LM1.Add3+', ' else '' end  + case when isnull(LM1.Add4,'')<>'' then LM1.Add4 else '' end + " &
+                       "case when isnull(LM1.City_Code,'')<>'' then LM1.City_Code+', ' else '' end + case when isnull(SM1.STATE_NAME,'')<>'' then SM1.STATE_NAME else '' end ) as 'From Address', " &
+                       "LM1.Tin_No 'From Tin No',LM1.CST_No 'From CST No',(case when isnull(SIHead.Ship_To_Location,'')<> '' then " &
+                       "(case when isnull(LM2.Add1,'')<>'' then LM2.Add1+', ' else '' end + case when isnull(LM2.Add2,'')<>'' then LM2.Add2+', ' else '' end + " &
+                       "case when isnull(LM2.Add3,'')<>'' then LM2.Add3+', ' else '' end +case when isnull(LM2.Add4,'')<>'' then LM2.Add4 else '' end  + " &
+                       "case when isnull(LM2.City_Code,'')<>'' then LM2.City_Code+', ' else '' end + case when isnull(SM2.STATE_NAME,'')<>'' then SM2.STATE_NAME else '' end ) else (case when isnull(CM.Add1,'')<>'' then CM.Add1+', ' else '' end + case when isnull(CM.Add2,'')<>'' then CM.Add2+', ' else '' end + " &
+                       "case when isnull(CM.Add3,'')<>'' then CM.Add3 else '' end ) end) as 'Shipping Address', " &
+                       "CM.Customer_Name 'Customer Name',CM.Tin_No 'Customer TIN No', CM.CST 'Customer CST No', SIDetail.Qty 'Quantity' ,SIDetail.Unit_code 'Packing',  SIDetail.Amount 'Invoice Amt', " &
+                       "SIDetail.TotalItem_Weight 'Weight', SIDetail.ActualRate 'Rate', SIDetail.Remarks 'Remarks', " &
+                       "(case when AC1.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " &
+                       "case when AC2.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt2,0) else 0 end + " &
+                       "case when AC3.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt3,0) else 0 end + " &
+                       "case when AC4.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " &
+                       "case when AC5.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " &
+                       "case when AC6.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " &
+                       "case when AC7.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " &
+                       "case when AC8.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " &
+                       "case when AC9.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end + " &
+                       "case when AC10.FreightCharges='Y' then ISNULL( SIHead.Add_Charge_Amt1,0) else 0 end  " &
+                       ") as TotalFreight, CompanyMaster.Comp_Name 'Company Name',  SIDetail.Item_Net_Amt 'Item Net Amt', IM.Item_Desc 'Item Description', VH.Vehicle_No 'Vehicle No' " &
+                       "from TSPL_SD_SALE_INVOICE_DETAIL SIDetail " &
+                       "LEFT OUTER JOIN TSPL_ITEM_MASTER IM ON IM.Item_Code = SIDetail.Item_Code " &
+                       "LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD SIHead on SIHead.Document_Code= SIDetail.DOCUMENT_CODE " &
+                       "LEFT OUTER JOIN TSPL_COMPANY_MASTER CompanyMaster on CompanyMaster.Comp_Code = SIHead.Comp_Code " &
+                       "LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM on CM.Cust_Code= SIHead.Customer_Code " &
+                       "LEFT OUTER JOIN TSPL_LOCATION_MASTER LM1 on LM1.Location_Code = SIHead.Bill_To_Location " &
+                       "LEFT OUTER JOIN TSPL_LOCATION_MASTER LM2 on LM2.Location_Code = SIHead.Ship_To_Location " &
+                       "LEFT OUTER JOIN TSPL_STATE_MASTER SM1 on SM1.STATE_CODE= LM1.State " &
+                       "LEFT OUTER JOIN TSPL_STATE_MASTER SM2 on SM2.STATE_CODE= LM2.State " &
+                       "LEFT OUTER JOIN TSPL_VEHICLE_MASTER VH ON VH.Vehicle_Id= SIHead.Vehicle_Code " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC1 ON AC1.Code = SIHead.Add_Charge_Code1  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC2 ON AC2.Code = SIHead.Add_Charge_Code2  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC3 ON AC3.Code = SIHead.Add_Charge_Code3  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC4 ON AC4.Code = SIHead.Add_Charge_Code4  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC5 ON AC5.Code = SIHead.Add_Charge_Code5  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC6 ON AC6.Code = SIHead.Add_Charge_Code6  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC7 ON AC7.Code = SIHead.Add_Charge_Code7  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC8 ON AC8.Code = SIHead.Add_Charge_Code8  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC9 ON AC9.Code = SIHead.Add_Charge_Code9  " &
+                       "LEFT OUTER JOIN TSPL_Additional_Charges AC10 ON AC10.Code = SIHead.Add_Charge_Code10  " &
                        "where 1 = 1 "
 
             If (chkInvoiceSelect.IsChecked AndAlso cbgInvoice.CheckedValue.Count > 0) Then

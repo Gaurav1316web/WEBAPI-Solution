@@ -21,7 +21,7 @@ Public Class RptPlantCustomerDemandReport
             MultLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("bank", qry, "Code", "Name", MultLocation.arrValueMember, MultLocation.arrDispalyMember)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -32,7 +32,7 @@ Public Class RptPlantCustomerDemandReport
             Dim qry As String = "select Cust_Code as Code,Customer_Name as Name from TSPL_CUSTOMER_master order by Cust_Code"
             MultCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("Cust", qry, "Code", "Name", MultCustomer.arrValueMember, MultCustomer.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -47,7 +47,7 @@ Public Class RptPlantCustomerDemandReport
             ButtonToolTip.SetToolTip(btnGo, "Press Alt+N Refresh ")
             ButtonToolTip.SetToolTip(BtnReset, "Press Alt+R Adding New")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' KUNAL > TICKET : BM00000009967 : DATE 14 -OCT -2016
@@ -63,7 +63,7 @@ Public Class RptPlantCustomerDemandReport
                 End If
 
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         ElseIf e.Alt And e.KeyCode = Keys.C Then
             Me.Close()
@@ -80,7 +80,7 @@ Public Class RptPlantCustomerDemandReport
             Dim qry As String = Nothing
             Dim finalQuery As String = Nothing
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
@@ -186,13 +186,13 @@ Public Class RptPlantCustomerDemandReport
                 qry += " ) as aa GROUP BY [PLANT CODE], [PRODUCT CODE], [UOM], [VEHICLE ID], [CUSTOMER CODE] "
                 qry += "ORDER BY [PLANT CODE], [CUSTOMER CODE] "
             ElseIf rdbCustomer.IsChecked Or rdbAll.IsChecked Then
-                clsCommon.MyMessageBoxShow("Under Development")
+                clsCommon.MyMessageBoxShow(Me, "Under Development", Me.Text)
             End If
 
             ' FILL RESULT IN GRID VIEW  ===========================================
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             gv2.DataSource = Nothing
@@ -207,7 +207,7 @@ Public Class RptPlantCustomerDemandReport
             RadPageView1.SelectedPage = RadPageViewPage2
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -218,7 +218,7 @@ Public Class RptPlantCustomerDemandReport
             Dim qry As String = Nothing
             Dim finalQuery As String = Nothing
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
@@ -312,7 +312,7 @@ Public Class RptPlantCustomerDemandReport
             ' FILL RESULT IN GRID VIEW  ===========================================
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             gv2.DataSource = Nothing
@@ -327,7 +327,7 @@ Public Class RptPlantCustomerDemandReport
             RadPageView1.SelectedPage = RadPageViewPage2
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -339,7 +339,7 @@ Public Class RptPlantCustomerDemandReport
             Dim qry As String = Nothing
             Dim finalQuery As String = Nothing
             If txtFromDate.Value > txtToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 txtFromDate.Focus()
                 Exit Sub
             End If
@@ -373,7 +373,7 @@ Public Class RptPlantCustomerDemandReport
             strPivotForInternalBranch = clsCommon.myCstr(clsCommon.myCstr(clsDBFuncationality.getSingleValue(strPivotForInternalqueryBranch)))
 
             If String.IsNullOrEmpty(strPivotForInternalBranch) Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
@@ -445,13 +445,13 @@ Public Class RptPlantCustomerDemandReport
                 qry += " ) as aa GROUP BY [PLANT CODE],[PRODUCT CODE],[UOM], [BRANCH CODE] "
                 qry += "order by [PLANT CODE] ,  [BRANCH CODE] "
             ElseIf rdbCustomer.IsChecked Or rdbAll.IsChecked Then
-                clsCommon.MyMessageBoxShow("Under Development")
+                clsCommon.MyMessageBoxShow(Me, "Under Development", Me.Text)
             End If
 
             '===============================================================================
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             gv2.DataSource = Nothing
@@ -465,7 +465,7 @@ Public Class RptPlantCustomerDemandReport
             RadPageView1.SelectedPage = RadPageViewPage2
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -483,7 +483,7 @@ Public Class RptPlantCustomerDemandReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -537,7 +537,7 @@ Public Class RptPlantCustomerDemandReport
                 clsCommon.MyExportToPDF("Plant Customer Demand Report", gv2, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -1165,7 +1165,7 @@ Public Class RptPlantCustomerDemandReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv2, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1186,7 +1186,7 @@ Public Class RptPlantCustomerDemandReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv2.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1196,7 +1196,7 @@ Public Class RptPlantCustomerDemandReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub MultVehicle__My_Click(sender As Object, e As EventArgs) Handles MultVehicle._My_Click

@@ -531,11 +531,11 @@ Public Class frmDairyGatePass
                 txtCrateQty.Text = totalCrate
                 txtCanQty.Text = totalCan
             Else
-                clsCommon.MyMessageBoxShow("Data Not Found.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
                 ' **************************************************************************************************
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -579,7 +579,7 @@ Public Class frmDairyGatePass
                 txtCanQty.Text = totalCan
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -689,7 +689,7 @@ Public Class frmDairyGatePass
             End If
             isInsideLoadData = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -850,14 +850,14 @@ Public Class frmDairyGatePass
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Document", Me.Text)
                     Return
                 End If
                 Dim CheckVehicle As String = clsDBFuncationality.getSingleValue("select Vehicle_Number from TSPL_DAIRYSALE_GATEPASS_Master where Convert(Date,GPDate,103)=Convert(Date,'" + txtDate.Value + "',103) And Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' And ShiftType='" + clsCommon.myCstr(obj.ShiftType) + "' and Vehicle_Number='" + clsCommon.myCstr(obj.Vehicle_Number) + "'")
                 If CheckVehicle IsNot Nothing AndAlso clsCommon.myLen(CheckVehicle) > 0 Then
                     If clsCommon.MyMessageBoxShow(Me, "Vehicle No. is already used for another gatepass." + Environment.NewLine + "Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                         If (obj.SaveData(obj, isNewEntry, "DS")) Then
-                            common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                             LoadData(obj.GPCode, NavigatorType.Current)
                             arrShipmentFromMultiple = Nothing
                             btnGo.Enabled = False
@@ -866,7 +866,7 @@ Public Class frmDairyGatePass
                     End If
                 Else
                     If (obj.SaveData(obj, isNewEntry, "DS")) Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                         LoadData(obj.GPCode, NavigatorType.Current)
                         arrShipmentFromMultiple = Nothing
                         btnGo.Enabled = False
@@ -875,7 +875,7 @@ Public Class frmDairyGatePass
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -974,7 +974,7 @@ Public Class frmDairyGatePass
             'End If
             If CreateGatePassFromDemand = True Then
                 If clsCommon.myLen(fndRouteNo.Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Select Route No.")
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Route No.", Me.Text)
                     fndRouteNo.Focus()
                     Exit Sub
                 End If
@@ -987,7 +987,7 @@ Public Class frmDairyGatePass
                 If clsCommon.myLen(FndTransferNo.Value) > 0 Then
                     funFillGrid_Transfer()
                 Else
-                    clsCommon.MyMessageBoxShow("Please select Transfer No")
+                    clsCommon.MyMessageBoxShow(Me, "Please select Transfer No", Me.Text)
                 End If
 
             Else
@@ -1086,7 +1086,7 @@ Public Class frmDairyGatePass
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1143,18 +1143,18 @@ Public Class frmDairyGatePass
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No not found to Post")
+                common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
                 Exit Sub
             End If
 
             Dim isPost As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode = '" + txtCode.Value + "' and Post = 'Y'"))
             If isPost = True Then
-                common.clsCommon.MyMessageBoxShow("Record Already posted.")
+                common.clsCommon.MyMessageBoxShow(Me, "Record Already posted.", Me.Text)
                 Exit Sub
             End If
             If myMessages.postConfirm() Then
                 If (clsDairyGatePassEntry.PostData(MyBase.Form_ID, txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -1165,7 +1165,7 @@ Public Class frmDairyGatePass
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
 
@@ -1198,14 +1198,31 @@ Public Class frmDairyGatePass
             frmStock.LoadDispatchData(strQuery)
             frmStock.Show()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
     Private Function GetAttachQry(ByVal StrCode As String) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
-        Dim Qry As String = " Select Case When CFinPouch > 0 Then ( ( Final.Crate_Qty * Final.Conversion_Factor )/ CFinPouch ) Else 0 End AS 'NoOfPouch', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) Else 0 End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr', CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then cast( ( cast(qty as int)% Column_Crate ) as int ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch', CAST( CASE WHEN qty > 0 THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt END AS decimal(18,2) ) AS CrateQtydd, CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2 FROM ( Select max(Conversion_FactorCrt) as Conversion_FactorCrt, MAX(gpUnit) AS gpUnit, Max(Distributor) Distributor, Max(CFinPouch) CFinPouch, Max(CFinLTR) CFinLTR, Max(CFinBOX) CFinBOX, Max(CFinKG) CFinKG, Max(Conversion_Factor) Conversion_Factor, Max(AgainstTransferNo) AgainstTransferNo, Max(Comp_Code) Comp_Code, Sum( Qty * case when Unit_Code = 'Crate' then 1 else 0 end ) Crate_Qty, Sum( Qty * case when Unit_Code = 'Pouch' then 1 else 0 end ) Pouch_Qty, Sum(Box_Crate_Qty) Box_Crate_Qty, Max(Insurance_No) Insurance_No, Max(Insurance_Comp_Name) Insurance_Comp_Name, Max(comp_name) comp_name, Max(unit_code) unit_code, Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Sum(Column_Crate) Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Sum(Amount) Amount, Sum(Margin) Margin, sum(SecurityAmt) as SecurityAmt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax, Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo FROM ( select ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , gpUnit.Conversion_Factor AS gpUnit, TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor', ItemConversionInPouch.Conversion_Factor As 'CFinPouch', ItemConversionInLTR.Conversion_Factor AS 'CFinLTR', ItemConversionInKG.Conversion_Factor AS 'CFinKG', ItemConversionInBox.Conversion_Factor AS 'CFinBOX', CurrentUnit.Conversion_Factor, isnull( TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo, '' ) as AgainstTransferNo, TSPL_COMPANY_MASTER.Comp_Code, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Box' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CrateUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Crate' and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Pouch' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CurrentUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) else 0 end as Box_Crate_Qty, TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Insurance_Comp_Name, TSPL_COMPANY_MASTER.comp_name, TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code, TSPL_DAIRYSALE_GATEPASS_DETAIL.qty, TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address, tspl_location_master.add1 + case when len(tspl_location_master.add2)> 0 then ', ' + tspl_location_master.add2 else '' end + case when LEN( isnull(tspl_location_master.Add3, '') )> 0 then ', ' + isnull(tspl_location_master.Add3, '') else ' ' end as Loc_add, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate, TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan, tspl_route_master.Route_Desc, TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode, convert( varchar, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103 ) as GPDate, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 'hh:mm tt' ) as GPTime, TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc, TSPL_DAIRYSALE_GATEPASS_MASTER.location_code, tspl_location_master.Location_desc, TSPL_DAIRYSALE_GATEPASS_MASTER.transporter, TSPL_DAIRYSALE_GATEPASS_MASTER.remarks, TSPL_DAIRYSALE_GATEPASS_MASTER.comments, TSPL_DAIRYSALE_GATEPASS_MASTER.post, TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code, tspl_item_master.item_desc, tspl_item_master.short_description, tspl_item_master.sku_seq, TSPL_TRANSPORT_MASTER.Transporter_Name as TranporterNameFromMaster, TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.Salesman, tspl_vehicle_master.Column_Crate, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No AS Area_Code, TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType, tspl_company_master.GSTReg_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip, ( Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode='" + StrCode + "') AS 'DispatchDate',xyz.Amount,xyz.Margin, xyz.SecurityAmt, xyz.Dist_Commission_Ratewithtax,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from TSPL_DAIRYSALE_GATEPASS_DETAIL " &
+        Dim Qry As String = " Select Case When CFinPouch > 0 Then ( ( Final.Crate_Qty * Final.Conversion_Factor )/ CFinPouch ) Else 0 End AS 'NoOfPouch', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) Else 0 End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr', CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then cast( ( cast(qty as int)% Column_Crate ) as int ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch', CAST( CASE WHEN qty > 0 THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt END AS decimal(18,2) ) AS CrateQtydd, CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2 FROM 
+                   ( Select "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt ,MAX(gpUnit) AS gpUnit, "
+        Else
+            Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt, "
+        End If
+
+        Qry += " Max(Distributor) Distributor, Max(CFinPouch) CFinPouch, Max(CFinLTR) CFinLTR, Max(CFinBOX) CFinBOX, Max(CFinKG) CFinKG, Max(Conversion_Factor) Conversion_Factor, Max(AgainstTransferNo) AgainstTransferNo, Max(Comp_Code) Comp_Code, Sum( Qty * case when Unit_Code = 'Crate' then 1 else 0 end ) Crate_Qty, Sum( Qty * case when Unit_Code = 'Pouch' then 1 else 0 end ) Pouch_Qty, Sum(Box_Crate_Qty) Box_Crate_Qty, Max(Insurance_No) Insurance_No, Max(Insurance_Comp_Name) Insurance_Comp_Name, Max(comp_name) comp_name, Max(unit_code) unit_code, Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Sum(Column_Crate) Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Sum(Amount) Amount, Sum(Margin) Margin, sum(SecurityAmt) as SecurityAmt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax, Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo FROM
+                   ( select"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , gpUnit.Conversion_Factor AS gpUnit, "
+        Else
+            Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , "
+        End If
+
+        Qry += " TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor', ItemConversionInPouch.Conversion_Factor As 'CFinPouch', ItemConversionInLTR.Conversion_Factor AS 'CFinLTR', ItemConversionInKG.Conversion_Factor AS 'CFinKG', ItemConversionInBox.Conversion_Factor AS 'CFinBOX', CurrentUnit.Conversion_Factor, isnull( TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo, '' ) as AgainstTransferNo, TSPL_COMPANY_MASTER.Comp_Code, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Box' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CrateUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Crate' and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Pouch' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CurrentUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) else 0 end as Box_Crate_Qty, TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Insurance_Comp_Name, TSPL_COMPANY_MASTER.comp_name, TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code, TSPL_DAIRYSALE_GATEPASS_DETAIL.qty, TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address, tspl_location_master.add1 + case when len(tspl_location_master.add2)> 0 then ', ' + tspl_location_master.add2 else '' end + case when LEN( isnull(tspl_location_master.Add3, '') )> 0 then ', ' + isnull(tspl_location_master.Add3, '') else ' ' end as Loc_add, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate, TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan, tspl_route_master.Route_Desc, TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode, convert( varchar, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103 ) as GPDate, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 'hh:mm tt' ) as GPTime, TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc, TSPL_DAIRYSALE_GATEPASS_MASTER.location_code, tspl_location_master.Location_desc, TSPL_DAIRYSALE_GATEPASS_MASTER.transporter, TSPL_DAIRYSALE_GATEPASS_MASTER.remarks, TSPL_DAIRYSALE_GATEPASS_MASTER.comments, TSPL_DAIRYSALE_GATEPASS_MASTER.post, TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code, tspl_item_master.item_desc, tspl_item_master.short_description, tspl_item_master.sku_seq, TSPL_TRANSPORT_MASTER.Transporter_Name as TranporterNameFromMaster, TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.Salesman, tspl_vehicle_master.Column_Crate, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No AS Area_Code, TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType, tspl_company_master.GSTReg_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip, ( Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode='" + StrCode + "') AS 'DispatchDate',xyz.Amount,xyz.Margin, xyz.SecurityAmt, xyz.Dist_Commission_Ratewithtax,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from TSPL_DAIRYSALE_GATEPASS_DETAIL " &
                    " left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
                    " left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id " &
                    " left outer join tspl_location_master on tspl_location_master.location_code=TSPL_DAIRYSALE_GATEPASS_MASTER.location_code " &
@@ -1213,7 +1230,6 @@ Public Class frmDairyGatePass
                    " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code " &
                    " left outer join  TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id " &
                    " left outer join  tspl_route_master on tspl_route_master.Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No " &
-                   " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id " &
                    " left join tspl_item_uom_detail StockUnit on StockUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code	and StockUnit.stocking_unit='Y'  " &
                    " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code " &
                    " left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code  and 	CrateUnit.uom_code=	'Crate' " &
@@ -1221,9 +1237,17 @@ Public Class frmDairyGatePass
                     left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate' ) as ItemConversionCrate on ItemConversionCrate.Item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code 
                      left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code 
                      left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Box') as ItemConversionInBox on ItemConversionInBox.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
-                     left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code " &
-                     " left join tspl_item_uom_detail gpUnit on gpUnit.item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and CrateUnit.uom_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code " &
-                      " left outer join 
+                     left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code "
+        '--" left join tspl_item_uom_detail gpUnit on gpUnit.item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and CrateUnit.uom_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id  left join tspl_item_uom_detail gpUnit on gpUnit.item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and CrateUnit.uom_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code "
+        Else
+            Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id  "
+        End If
+
+        Qry += " left outer join 
+     
                      ((select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,sum( IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))as SecurityAmt,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax from TSPL_SD_SHIPMENT_DETAIL   
                        Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
 					   Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
@@ -1272,7 +1296,7 @@ Public Class frmDairyGatePass
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1296,7 +1320,7 @@ Public Class frmDairyGatePass
                     End If
                 End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1338,7 +1362,7 @@ Public Class frmDairyGatePass
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to Print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
         Else
             funPrint(txtCode.Value)
         End If
@@ -1346,7 +1370,7 @@ Public Class frmDairyGatePass
     Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
         '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to Print")
+            clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
         Else
             funPrint2(txtCode.Value)
         End If
@@ -1377,7 +1401,7 @@ Public Class frmDairyGatePass
             If CreateGatePassFromDemand = True Then
                 Dim StrGP_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GPCode from TSPL_DAIRYSALE_GATEPASS_MASTER where convert(date, TSPL_DAIRYSALE_GATEPASS_MASTER.gpdate ,103)=convert(date,'" & txtDate.Value & "',103) and Route_No='" & fndRouteNo.Value & "'"))
                 If clsCommon.myLen(StrGP_No) > 0 Then
-                    clsCommon.MyMessageBoxShow("GatePass Already Created.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "GatePass Already Created.", Me.Text)
                     LoadData(StrGP_No, NavigatorType.Current)
                 Else
                     setRouteVehicleDetail()
@@ -1481,7 +1505,7 @@ Public Class frmDairyGatePass
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -1516,11 +1540,11 @@ Public Class frmDairyGatePass
                 dclTollAmt = txtTollAmount.Text
             End If
             clsDairyGatePassEntry.UpdateClosingKMAndCreateProvision(txtCode.Value, txtClKM.Value, dclDistanceInRoute, dclPriceKM, dclTollAmt, MyBase.Form_ID)
-            clsCommon.MyMessageBoxShow("Closing KM Update successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Closing KM Update successfully", Me.Text)
             LoadData(txtCode.Value, NavigatorType.Current)
         Catch ex As Exception
             If clsCommon.myLen(ex.Message) > 0 Then
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -1529,7 +1553,7 @@ Public Class frmDairyGatePass
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsDairyGatePassEntry.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     btnNew.PerformClick()
                 End If
             End If
@@ -1540,14 +1564,14 @@ Public Class frmDairyGatePass
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsDairyGatePassEntry.ReverseAndUnpost(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1563,7 +1587,7 @@ Public Class frmDairyGatePass
             End If
             FndTransferNo.Value = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1598,7 +1622,7 @@ Public Class frmDairyGatePass
                 txtLocCode.Enabled = True
             End If
         Else
-            clsCommon.MyMessageBoxShow("Please check Against Transfer checkbox first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please check Against Transfer checkbox first", Me.Text)
         End If
 
     End Sub
@@ -1680,7 +1704,7 @@ Public Class frmDairyGatePass
                 ' **************************************************************************************************
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -1703,13 +1727,13 @@ Public Class frmDairyGatePass
                 End Try
             Next
             If clsCommon.myLen(StrAllException) > 0 Then
-                clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, StrAllException, Me.Text)
             Else
                 TxtMultiDairyGPassReverse.arrValueMember = Nothing
-                clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1722,18 +1746,18 @@ Public Class frmDairyGatePass
     Private Sub btnGPCancel_Click(sender As Object, e As EventArgs) Handles btnGPCancel.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No not found to Post")
+                common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
                 Exit Sub
             End If
 
             Dim isCancel As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode = '" + txtCode.Value + "' and Status = 'Y'"))
             If isCancel = True Then
-                common.clsCommon.MyMessageBoxShow("Record Already canceled.")
+                common.clsCommon.MyMessageBoxShow(Me, "Record Already canceled.", Me.Text)
                 Exit Sub
             End If
             If myMessages.cancelConfirm() Then
                 If (clsDairyGatePassEntry.CancelData(MyBase.Form_ID, txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully canceled")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully canceled", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -1744,7 +1768,7 @@ Public Class frmDairyGatePass
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub

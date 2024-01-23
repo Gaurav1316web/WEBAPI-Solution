@@ -560,6 +560,25 @@ Public Class frmPurchaseOrder
         If clsCommon.CompairString(objCommonVar.CurrentIndustryType, "D") <> CompairStringResult.Equal Then
             chkBlanket.Visible = False
         End If
+        If clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing) = "1" Then
+            Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject FROM TSPL_PURCHASE_ORDER_HEAD ORDER BY PurchaseOrder_Date DESC"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                txtComment.Text = clsCommon.myCstr(dt.Rows(i)("Comments"))
+                txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject"))
+                txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject"))
+            End If
+        Else
+            txtFreight.Text = ""
+            txtComment.Text = ""
+            'RTComment.Text = ""
+            txtSubject.Text = ""
+            txtContentSubject.Text = ""
+            txtPaymentTerm.Text = ""
+            txtInsuranceTerms.Text = ""
+            txtPackingForward.Text = ""
+            txtInsurance.Text = ""
+        End If
     End Sub
 
     Public Sub SetUserMgmtNew()

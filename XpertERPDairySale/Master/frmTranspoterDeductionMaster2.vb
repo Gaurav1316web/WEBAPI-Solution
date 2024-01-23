@@ -808,7 +808,7 @@ Public Class frmTranspoterDeductionMaster2
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -825,11 +825,11 @@ Public Class frmTranspoterDeductionMaster2
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 clsTranspoterDeductionHeader.postData(txtDeductionCode.Value)
-                clsCommon.MyMessageBoxShow("Successfully Posted")
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtDeductionCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -857,7 +857,7 @@ Public Class frmTranspoterDeductionMaster2
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1003,7 +1003,7 @@ Public Class frmTranspoterDeductionMaster2
         If clsCommon.myLen(clsCommon.myCstr(txtCatgory.Value)) > 0 Then
             Dim isCategoryExist As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEDUCTION_CODE from TSPL_TRANSPOTER_DEDUCTION_HEADER where DEDUCTION_CATEGORY = '" + clsCommon.myCstr(txtCatgory.Value) + "'"))
             If clsCommon.myLen(isCategoryExist) > 0 Then
-                clsCommon.MyMessageBoxShow("Selected Deduction Category (" + clsCommon.myCstr(txtCatgory.Value) + ") Already Exist in Deduction Code " + isCategoryExist + "  ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Selected Deduction Category (" + clsCommon.myCstr(txtCatgory.Value) + ") Already Exist in Deduction Code " + isCategoryExist + "  ", Me.Text)
                 txtCatgory.Value = ""
                 Exit Sub
             End If

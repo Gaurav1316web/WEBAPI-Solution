@@ -171,7 +171,7 @@ Public Class frmCustomerIncetiveEntry
             " left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_CUSTOMER_MASTER.Zone_Code"
             txtCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "cusInEn@c", qry, "Code", "", txtCustomer.arrValueMember, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -958,14 +958,14 @@ Public Class frmCustomerIncetiveEntry
         If SettCustomerIncetiveAutoSecuity Then
             If txtADSecuity.Value <= 0 Then
                 txtADSecuity.Value = 0
-                If clsCommon.MyMessageBoxShow("AD Secutity is Zero." + Environment.NewLine + "Do you want to continue..") = DialogResult.No Then
+                If clsCommon.MyMessageBoxShow(Me, "AD Secutity is Zero." + Environment.NewLine + "Do you want to continue..") = DialogResult.No Then
                     txtADSecuity.Focus()
                     Exit Sub
                 End If
             End If
             If txtSecuityPart.Value <= 0 Then
                 txtSecuityPart.Value = 0
-                If clsCommon.MyMessageBoxShow("Secutity Part is Zero." + Environment.NewLine + "Do you want to continue..") = DialogResult.No Then
+                If clsCommon.MyMessageBoxShow(Me, "Secutity Part is Zero." + Environment.NewLine + "Do you want to continue..") = DialogResult.No Then
                     Exit Sub
                 End If
             End If
@@ -1175,7 +1175,7 @@ Public Class frmCustomerIncetiveEntry
             EnableDisableFilter(False)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1448,11 +1448,11 @@ Public Class frmCustomerIncetiveEntry
                     obj.arrInvoice.Add(objtr)
                 Next
                 obj.SaveData(obj, IsNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Doc_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1582,7 +1582,7 @@ Public Class frmCustomerIncetiveEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1600,7 +1600,7 @@ Public Class frmCustomerIncetiveEntry
 
             If (myMessages.deleteConfirm()) Then
                 If clsCustomerIncentiveEntryHead.DeleteData(txtCode.Value) Then
-                    clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -1617,12 +1617,12 @@ Public Class frmCustomerIncetiveEntry
         Try
             If (clsCommon.myLen(txtCode.Value) > 0 AndAlso myMessages.postConfirm()) Then
                 If (clsCustomerIncentiveEntryHead.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1637,7 +1637,7 @@ Public Class frmCustomerIncetiveEntry
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1652,7 +1652,7 @@ Public Class frmCustomerIncetiveEntry
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document Not Found For Print", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document Not Found For Print", Me.Text)
                 Return
             End If
             Dim qry As String = ""
@@ -1793,7 +1793,7 @@ Public Class frmCustomerIncetiveEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1935,7 +1935,7 @@ Public Class frmCustomerIncetiveEntry
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1946,13 +1946,13 @@ Public Class frmCustomerIncetiveEntry
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
             If clsCommon.myLen(txtCode.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Reverese and unpost current document " + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Reverese and unpost current document " + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCustomerIncentiveEntryHead.ReverseAndUnpostData(txtCode.Value)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1976,7 +1976,7 @@ Public Class frmCustomerIncetiveEntry
     Private Sub rmSummary_Click(sender As Object, e As EventArgs) Handles rmSummary.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document Not Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document Not Found", Me.Text)
                 Return
             End If
             Dim qry As String = ""
@@ -2101,12 +2101,12 @@ Public Class frmCustomerIncetiveEntry
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("NetAmount", " Net   Margin", False, DosPrintAlignment.Right, 10, True, DecimalPlaces.Two))
                     obj.Print(obj, dt, PageSetup.Potrate)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Not Found.", Me.Text)
-                End If
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
+            End If
             ' End If
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         
     End Sub
@@ -2114,7 +2114,7 @@ Public Class frmCustomerIncetiveEntry
     Private Sub rmDetails_Click(sender As Object, e As EventArgs) Handles rmDetails.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document Not Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document Not Found", Me.Text)
                 Return
             End If
             Dim dtFrom As DateTime = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1)
@@ -2229,10 +2229,10 @@ Public Class frmCustomerIncetiveEntry
 
 
             Else
-                clsCommon.MyMessageBoxShow("Data Not Found.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
        
 
@@ -2312,10 +2312,10 @@ Public Class frmCustomerIncetiveEntry
             ElseIf clsCommon.CompairString(Me.RadPageView1.SelectedPage.Name, "RadPageViewPage5") = CompairStringResult.Equal AndAlso gvInvoice.Rows.Count > 0 Then
                 clsCommon.MyExportToExcelGrid("Customer Incentive Entry(Invoice Detail)", gvInvoice, arrHeader, Me.Text)
             Else
-                clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
     Private Sub UpdateAllTotals()

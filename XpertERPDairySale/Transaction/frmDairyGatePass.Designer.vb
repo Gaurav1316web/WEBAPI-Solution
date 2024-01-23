@@ -22,10 +22,10 @@ Partial Class frmDairyGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.lblSalesman = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
@@ -33,6 +33,8 @@ Partial Class frmDairyGatePass
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtDistributorName = New common.Controls.MyTextBox()
+        Me.lblDistributorName = New common.Controls.MyLabel()
         Me.txtDriverMobNo = New common.Controls.MyTextBox()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.txtDriverName = New common.Controls.MyTextBox()
@@ -102,8 +104,6 @@ Partial Class frmDairyGatePass
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.txtDistributorName = New common.Controls.MyTextBox()
-        Me.lblDistributorName = New common.Controls.MyLabel()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -112,6 +112,8 @@ Partial Class frmDairyGatePass
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDriverMobNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -174,8 +176,6 @@ Partial Class frmDairyGatePass
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -188,7 +188,7 @@ Partial Class frmDairyGatePass
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1031, 197)
@@ -304,6 +304,41 @@ Partial Class frmDairyGatePass
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1031, 199)
         Me.Panel1.TabIndex = 0
+        '
+        'txtDistributorName
+        '
+        Me.txtDistributorName.CalculationExpression = Nothing
+        Me.txtDistributorName.FieldCode = Nothing
+        Me.txtDistributorName.FieldDesc = Nothing
+        Me.txtDistributorName.FieldMaxLength = 0
+        Me.txtDistributorName.FieldName = Nothing
+        Me.txtDistributorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDistributorName.isCalculatedField = False
+        Me.txtDistributorName.IsSourceFromTable = False
+        Me.txtDistributorName.IsSourceFromValueList = False
+        Me.txtDistributorName.IsUnique = False
+        Me.txtDistributorName.Location = New System.Drawing.Point(161, 153)
+        Me.txtDistributorName.MaxLength = 200
+        Me.txtDistributorName.MendatroryField = False
+        Me.txtDistributorName.MyLinkLable1 = Me.lblDistributorName
+        Me.txtDistributorName.MyLinkLable2 = Nothing
+        Me.txtDistributorName.Name = "txtDistributorName"
+        Me.txtDistributorName.ReadOnly = True
+        Me.txtDistributorName.ReferenceFieldDesc = Nothing
+        Me.txtDistributorName.ReferenceFieldName = Nothing
+        Me.txtDistributorName.ReferenceTableName = Nothing
+        Me.txtDistributorName.Size = New System.Drawing.Size(210, 18)
+        Me.txtDistributorName.TabIndex = 1040
+        '
+        'lblDistributorName
+        '
+        Me.lblDistributorName.FieldName = Nothing
+        Me.lblDistributorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDistributorName.Location = New System.Drawing.Point(6, 153)
+        Me.lblDistributorName.Name = "lblDistributorName"
+        Me.lblDistributorName.Size = New System.Drawing.Size(149, 16)
+        Me.lblDistributorName.TabIndex = 1041
+        Me.lblDistributorName.Text = "Distributor/Transpoter Name"
         '
         'txtDriverMobNo
         '
@@ -1161,12 +1196,12 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype.IsSourceFromTable = False
         Me.cmbitemtype.IsSourceFromValueList = False
         Me.cmbitemtype.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Full"
-        RadListDataItem3.Text = "Empty"
-        Me.cmbitemtype.Items.Add(RadListDataItem1)
-        Me.cmbitemtype.Items.Add(RadListDataItem2)
-        Me.cmbitemtype.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "Full"
+        RadListDataItem6.Text = "Empty"
+        Me.cmbitemtype.Items.Add(RadListDataItem4)
+        Me.cmbitemtype.Items.Add(RadListDataItem5)
+        Me.cmbitemtype.Items.Add(RadListDataItem6)
         Me.cmbitemtype.Location = New System.Drawing.Point(785, 7)
         Me.cmbitemtype.MendatroryField = False
         Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
@@ -1265,7 +1300,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnPrint2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint2.Location = New System.Drawing.Point(146, 9)
+        Me.btnPrint2.Location = New System.Drawing.Point(216, 9)
         Me.btnPrint2.Name = "btnPrint2"
         Me.btnPrint2.Size = New System.Drawing.Size(68, 24)
         Me.btnPrint2.TabIndex = 2
@@ -1319,7 +1354,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(216, 9)
+        Me.btnPrint.Location = New System.Drawing.Point(75, 9)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(68, 24)
         Me.btnPrint.TabIndex = 1
@@ -1350,7 +1385,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(76, 9)
+        Me.btnPost.Location = New System.Drawing.Point(607, 8)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(68, 24)
         Me.btnPost.TabIndex = 4
@@ -1375,41 +1410,6 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1031, 20)
         Me.RadMenu1.TabIndex = 0
         '
-        'txtDistributorName
-        '
-        Me.txtDistributorName.CalculationExpression = Nothing
-        Me.txtDistributorName.FieldCode = Nothing
-        Me.txtDistributorName.FieldDesc = Nothing
-        Me.txtDistributorName.FieldMaxLength = 0
-        Me.txtDistributorName.FieldName = Nothing
-        Me.txtDistributorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDistributorName.isCalculatedField = False
-        Me.txtDistributorName.IsSourceFromTable = False
-        Me.txtDistributorName.IsSourceFromValueList = False
-        Me.txtDistributorName.IsUnique = False
-        Me.txtDistributorName.Location = New System.Drawing.Point(161, 153)
-        Me.txtDistributorName.MaxLength = 200
-        Me.txtDistributorName.MendatroryField = False
-        Me.txtDistributorName.MyLinkLable1 = Me.lblDistributorName
-        Me.txtDistributorName.MyLinkLable2 = Nothing
-        Me.txtDistributorName.Name = "txtDistributorName"
-        Me.txtDistributorName.ReadOnly = True
-        Me.txtDistributorName.ReferenceFieldDesc = Nothing
-        Me.txtDistributorName.ReferenceFieldName = Nothing
-        Me.txtDistributorName.ReferenceTableName = Nothing
-        Me.txtDistributorName.Size = New System.Drawing.Size(210, 18)
-        Me.txtDistributorName.TabIndex = 1040
-        '
-        'lblDistributorName
-        '
-        Me.lblDistributorName.FieldName = Nothing
-        Me.lblDistributorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDistributorName.Location = New System.Drawing.Point(6, 153)
-        Me.lblDistributorName.Name = "lblDistributorName"
-        Me.lblDistributorName.Size = New System.Drawing.Size(149, 16)
-        Me.lblDistributorName.TabIndex = 1041
-        Me.lblDistributorName.Text = "Distributor/Transpoter Name"
-        '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1432,6 +1432,8 @@ Partial Class frmDairyGatePass
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDriverMobNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1497,8 +1499,6 @@ Partial Class frmDairyGatePass
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

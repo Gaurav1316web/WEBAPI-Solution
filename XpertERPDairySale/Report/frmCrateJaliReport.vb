@@ -471,7 +471,7 @@ Public Class FrmCrateJaliReport
         Gv1.DataSource = dt
         Gv1.BestFitColumns()
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
 
@@ -704,7 +704,7 @@ Public Class FrmCrateJaliReport
         Gv1.DataSource = dt
         Gv1.BestFitColumns()
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         FormatGridRouteWise()
@@ -1568,7 +1568,7 @@ Public Class FrmCrateJaliReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -1580,7 +1580,7 @@ Public Class FrmCrateJaliReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -1661,7 +1661,7 @@ Public Class FrmCrateJaliReport
                 clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
    
@@ -1699,7 +1699,7 @@ Public Class FrmCrateJaliReport
 
             clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, StrReportName, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -1767,7 +1767,7 @@ Public Class FrmCrateJaliReport
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -1861,7 +1861,7 @@ Public Class FrmCrateJaliReport
 
         Catch ex As Exception
             doc = Nothing
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1885,7 +1885,7 @@ Public Class FrmCrateJaliReport
     Private Sub PartyWiseReport()
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -1970,7 +1970,7 @@ Public Class FrmCrateJaliReport
             Gv1.BestFitColumns()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 
@@ -2064,7 +2064,7 @@ Public Class FrmCrateJaliReport
     Private Sub SupplyCrateReport()
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -2113,7 +2113,7 @@ Public Class FrmCrateJaliReport
             Gv1.BestFitColumns()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -2185,7 +2185,7 @@ Public Class FrmCrateJaliReport
     Private Sub DepositCrateDetailReport()
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -2205,11 +2205,11 @@ Public Class FrmCrateJaliReport
             End If
 
             Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate,
-                      tspl_route_master.Route_No,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,
                       Convert(varchar(10),TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,105) as Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
-                      CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
+                      CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,tspl_route_master.Route_No,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,
                       TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
@@ -2230,7 +2230,7 @@ Public Class FrmCrateJaliReport
             Gv1.BestFitColumns()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
@@ -2259,11 +2259,11 @@ Public Class FrmCrateJaliReport
         Gv1.Columns("Invoice_Date").Width = 100
         Gv1.Columns("Invoice_Date").HeaderText = "Date"
 
-        Gv1.Columns("Route_No").IsVisible = False
+        Gv1.Columns("Route_No").IsVisible = True
         Gv1.Columns("Route_No").Width = 100
         Gv1.Columns("Route_No").HeaderText = "Route No"
 
-        Gv1.Columns("Vehicle_Code").IsVisible = True
+        Gv1.Columns("Vehicle_Code").IsVisible = False
         Gv1.Columns("Vehicle_Code").Width = 100
         Gv1.Columns("Vehicle_Code").HeaderText = "Vehicle_Code"
 
@@ -2309,7 +2309,7 @@ Public Class FrmCrateJaliReport
         If clsCommon.CompairString(ddlReportType.SelectedValue, "DCD") = CompairStringResult.Equal Then
             Try
                 If fromDate.Value > ToDate.Value Then
-                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                     fromDate.Focus()
                     Exit Sub
                 End If
@@ -2348,7 +2348,7 @@ Public Class FrmCrateJaliReport
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDepositCrateDetail", "")
                     frmCRV = Nothing
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 End If
 
             Catch ex As Exception
@@ -2359,7 +2359,7 @@ Public Class FrmCrateJaliReport
         If clsCommon.CompairString(ddlReportType.SelectedValue, "SCR") = CompairStringResult.Equal Then
             Try
                 If fromDate.Value > ToDate.Value Then
-                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                     fromDate.Focus()
                     Exit Sub
                 End If
@@ -2403,7 +2403,7 @@ Public Class FrmCrateJaliReport
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptSupplyCrate", "")
                     frmCRV = Nothing
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 End If
 
             Catch ex As Exception
@@ -2414,7 +2414,7 @@ Public Class FrmCrateJaliReport
         If clsCommon.CompairString(ddlReportType.SelectedValue, "PWR") = CompairStringResult.Equal Then
             Try
                 If fromDate.Value > ToDate.Value Then
-                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
                     fromDate.Focus()
                     Exit Sub
                 End If
@@ -2492,7 +2492,7 @@ Public Class FrmCrateJaliReport
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptPartyWise", "")
                     frmCRV = Nothing
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 End If
 
             Catch ex As Exception
