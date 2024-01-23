@@ -8579,7 +8579,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     and TSPL_TENDER_DETAIL.Item_Code=TSPL_PI_DETAIL.Item_Code AND TSPL_TENDER_DETAIL.Vendor_Code=TSPL_GRN_HEAD.Vendor_Code
                     left join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No
                      left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_grn_head.ref_no
-					 left outer join  ( select DocumentCode,min(From_Date) as schedule_from_date,max(To_Date) as schedule_to_date,max(Schedule_Qty) as Schedule_Qty,max(Schedule_Qty_Per) as Schedule_Qty_Per,max(Schedule_Short) as Schedule_Short,max(Schedule_Short_Per) as Schedule_Short_Per,max(Schedule_No ) as Schedule_No,count(*) as NoOfSchedule,min(Schedule_No) as Schedule_No_Min from TSPL_TENDER_SCHEDULE 
+					 left outer join  ( select DocumentCode,min(From_Date) as schedule_from_date,max(DATEADD(day, Extension_Days, to_date)) as schedule_to_date,max(Schedule_Qty) as Schedule_Qty,max(Schedule_Qty_Per) as Schedule_Qty_Per,max(Schedule_Short) as Schedule_Short,max(Schedule_Short_Per) as Schedule_Short_Per,max(Schedule_No ) as Schedule_No,count(*) as NoOfSchedule,min(Schedule_No) as Schedule_No_Min from TSPL_TENDER_SCHEDULE 
                      where TSPL_TENDER_SCHEDULE.DocumentCode ='" + txtRefNo.Text + "'and 
 					 TSPL_TENDER_SCHEDULE.Item_Code in (" + ItemCode + ")and
 					 TSPL_TENDER_SCHEDULE.Vendor_Code='" + txtVendorNo.Value + "' and
