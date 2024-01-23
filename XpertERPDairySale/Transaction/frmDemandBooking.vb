@@ -3761,9 +3761,9 @@ select
   TSPL_ROUTE_MASTER.Route_Desc, 
   Isnull(
     TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName, 
+  ) as CompanyName,
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
-  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Vehicle_No, 
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
   TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 
   ITEMDETAIL.CFForLTR, 
   TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 
@@ -3831,9 +3831,9 @@ where
   TSPL_ROUTE_MASTER.Route_Desc, 
   Isnull(
     TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName, 
+  ) as CompanyName,
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
-  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Vehicle_No, 
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
   TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 
   ITEMDETAIL.CFForLTR, 
   TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 
