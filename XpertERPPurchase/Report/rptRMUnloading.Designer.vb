@@ -52,6 +52,7 @@ Partial Class rptRMUnloading
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -64,8 +65,9 @@ Partial Class rptRMUnloading
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
-        Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 395
+        Me.SplitContainer1.Size = New System.Drawing.Size(982, 401)
+        Me.SplitContainer1.SplitterDistance = 351
+        Me.SplitContainer1.SplitterWidth = 3
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -75,7 +77,7 @@ Partial Class rptRMUnloading
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 395)
+        Me.RadPageView1.Size = New System.Drawing.Size(982, 351)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -88,8 +90,9 @@ Partial Class rptRMUnloading
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 347)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(961, 303)
         Me.RadPageViewPage1.Text = "Filter"
         '
         'lblLocation
@@ -98,19 +101,18 @@ Partial Class rptRMUnloading
         Me.lblLocation.BorderVisible = True
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(264, 88)
+        Me.lblLocation.Location = New System.Drawing.Point(178, 58)
         Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(262, 28)
+        Me.lblLocation.Size = New System.Drawing.Size(172, 18)
         Me.lblLocation.TabIndex = 403
         Me.lblLocation.TextWrap = False
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(7, 33)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Location = New System.Drawing.Point(3, 20)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(61, 23)
+        Me.Label1.Size = New System.Drawing.Size(42, 13)
         Me.Label1.TabIndex = 402
         Me.Label1.Text = "Month"
         '
@@ -128,7 +130,7 @@ Partial Class rptRMUnloading
         Me.txtMonth.IsSourceFromTable = False
         Me.txtMonth.IsSourceFromValueList = False
         Me.txtMonth.IsUnique = False
-        Me.txtMonth.Location = New System.Drawing.Point(89, 32)
+        Me.txtMonth.Location = New System.Drawing.Point(60, 20)
         Me.txtMonth.MendatroryField = True
         Me.txtMonth.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtMonth.MyLinkLable1 = Nothing
@@ -138,7 +140,7 @@ Partial Class rptRMUnloading
         Me.txtMonth.ReferenceFieldDesc = Nothing
         Me.txtMonth.ReferenceFieldName = Nothing
         Me.txtMonth.ReferenceTableName = Nothing
-        Me.txtMonth.Size = New System.Drawing.Size(296, 24)
+        Me.txtMonth.Size = New System.Drawing.Size(290, 18)
         Me.txtMonth.TabIndex = 401
         Me.txtMonth.TabStop = False
         Me.txtMonth.Text = "Sep - 2023"
@@ -147,10 +149,9 @@ Partial Class rptRMUnloading
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(4, 93)
-        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label3.Location = New System.Drawing.Point(3, 60)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(75, 23)
+        Me.Label3.Size = New System.Drawing.Size(51, 13)
         Me.Label3.TabIndex = 400
         Me.Label3.Text = "Location"
         '
@@ -165,8 +166,8 @@ Partial Class rptRMUnloading
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(89, 88)
-        Me.txtLocation.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
+        Me.txtLocation.Location = New System.Drawing.Point(60, 57)
+        Me.txtLocation.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Nothing
@@ -177,7 +178,7 @@ Partial Class rptRMUnloading
         Me.txtLocation.ReferenceFieldDesc = Nothing
         Me.txtLocation.ReferenceFieldName = Nothing
         Me.txtLocation.ReferenceTableName = Nothing
-        Me.txtLocation.Size = New System.Drawing.Size(148, 28)
+        Me.txtLocation.Size = New System.Drawing.Size(109, 18)
         Me.txtLocation.TabIndex = 399
         Me.txtLocation.Value = ""
         '
@@ -185,7 +186,7 @@ Partial Class rptRMUnloading
         '
         Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReset.Location = New System.Drawing.Point(86, 17)
+        Me.BtnReset.Location = New System.Drawing.Point(86, 21)
         Me.BtnReset.Name = "BtnReset"
         Me.BtnReset.Size = New System.Drawing.Size(62, 17)
         Me.BtnReset.TabIndex = 45
@@ -195,7 +196,7 @@ Partial Class rptRMUnloading
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(715, 17)
+        Me.btnclose.Location = New System.Drawing.Point(1164, 31)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(71, 17)
         Me.btnclose.TabIndex = 46
@@ -205,7 +206,7 @@ Partial Class rptRMUnloading
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(15, 17)
+        Me.btnPrint.Location = New System.Drawing.Point(15, 21)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(57, 17)
         Me.btnPrint.TabIndex = 44
@@ -213,10 +214,11 @@ Partial Class rptRMUnloading
         '
         'rptRMUnloading
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(982, 401)
         Me.Controls.Add(Me.SplitContainer1)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "rptRMUnloading"
         '
         '

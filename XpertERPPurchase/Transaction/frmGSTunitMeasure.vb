@@ -28,12 +28,12 @@ Public Class frmGSTunitMeasure
     End Sub
     Private Sub btnSave1_Click(sender As Object, e As EventArgs) Handles btnSave1.Click
         If clsCommon.myLen(txtcode1.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter  Code.")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter  Code.", Me.Text)
             lblcode.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtName1.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Name")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Name", Me.Text)
             txtName1.Focus()
             Exit Sub
         End If
@@ -55,7 +55,7 @@ Public Class frmGSTunitMeasure
                     End If
                 End If
                 clsGstunitMeasure.SaveData(obj, isNewEntry, trans)
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave1.Text = "Save"
                 btnDelete1.Enabled = True
             Else
@@ -73,7 +73,7 @@ Public Class frmGSTunitMeasure
             Return False
             'End If
         ElseIf clsCommon.myLen(txtcode1.Value) > 30 Then
-            clsCommon.MyMessageBoxShow("Code Max Length should be 30")
+            clsCommon.MyMessageBoxShow(Me, "Code Max Length should be 30", Me.Text)
             lblcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtName1.Text) <= 0 Then
@@ -147,12 +147,12 @@ Public Class frmGSTunitMeasure
     Private Sub btnDelete1_Click(sender As Object, e As EventArgs) Handles btnDelete1.Click
         Try
             If clsCommon.myLen(txtcode1.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+                common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
                 Exit Sub
             End If
             If (myMessages.deleteConfirm()) Then
                 If (clsGstunitMeasure.DeleteData(txtcode1.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -247,7 +247,7 @@ Public Class frmGSTunitMeasure
         Try
             LoadData(txtcode1.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -286,7 +286,7 @@ Public Class frmGSTunitMeasure
                 End Try
                 tran.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

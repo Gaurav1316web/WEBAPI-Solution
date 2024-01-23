@@ -223,7 +223,7 @@ and TSPL_CUSTOMER_MASTER.Zone_Code='" + clsCommon.myCstr(txtZone.Value) + "'"
             Dim Location_Code As String = GV1.Rows(0).Cells("Location_Code").Value
             Dim qry As String = "Update TSPL_TRANSACTION_APPROVAL set Approve=1,Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") + "' where Document_No='" & Document_No & "' and Cust_Code='" & Cust_Code & "' and Loc_Code='" & Location_Code & "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
-            clsCommon.MyMessageBoxShow("Approved Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Approved Successfully", Me.Text)
             btnApprove.Enabled = False
             btnReject.Enabled = False
         Catch ex As Exception
@@ -237,7 +237,7 @@ and TSPL_CUSTOMER_MASTER.Zone_Code='" + clsCommon.myCstr(txtZone.Value) + "'"
             Dim Location_Code As String = GV1.Rows(0).Cells("Location_Code").Value
             Dim qry As String = "Update TSPL_TRANSACTION_APPROVAL set Approve=2,Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") + "' where Document_No='" & Document_No & "' and Cust_Code='" & Cust_Code & "' and Loc_Code='" & Location_Code & "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
-            clsCommon.MyMessageBoxShow("Reject Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Reject Successfully", Me.Text)
             btnApprove.Enabled = False
             btnReject.Enabled = False
         Catch ex As Exception

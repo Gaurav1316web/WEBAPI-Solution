@@ -42,7 +42,7 @@ Public Class FrmGenerateFreshBooking
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -87,7 +87,7 @@ Public Class FrmGenerateFreshBooking
             LoadBooking()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -212,7 +212,7 @@ Public Class FrmGenerateFreshBooking
 
             txtCustomerNo.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSelCust", qry, "Code", "Name", txtCustomerNo.arrValueMember, txtCustomerNo.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -234,7 +234,7 @@ Public Class FrmGenerateFreshBooking
                 lblLocation.Text = clsCommon.myCstr(clsLocation.GetName(txtLocation.Value, Nothing))
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -413,11 +413,11 @@ Public Class FrmGenerateFreshBooking
                         End If
                     End If
                 Next
-                clsCommon.MyMessageBoxShow("Booking Created Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Booking Created Successfully", Me.Text)
             End If
             LoadBooking()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -426,7 +426,7 @@ Public Class FrmGenerateFreshBooking
             txtBookingDate.Value = txtDate.Value.AddDays(1)
             gv1.DataSource = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -436,7 +436,7 @@ Public Class FrmGenerateFreshBooking
             Dim qry As String = " Select Route_No as Code,Route_Desc as Name,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER "
             fndRouteNo.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSelRoute", qry, "Code", "Name", fndRouteNo.arrValueMember, fndRouteNo.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -73,17 +73,17 @@ Public Class frmPendingDeliveryDairySale
     End Sub
     Sub LoadFormData()
         If clsCommon.myLen(tp_FromDate.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("From Date Can't be Blank. ")
+            clsCommon.MyMessageBoxShow(Me, "From Date Can't be Blank. ", Me.Text)
             tp_FromDate.Focus()
             Return
         End If
         If clsCommon.myLen(tp_ToDate.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("To Date Can't be Blank.")
+            clsCommon.MyMessageBoxShow(Me, "To Date Can't be Blank.", Me.Text)
             tp_ToDate.Focus()
             Return
         End If
         If tp_FromDate.Value > tp_ToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then To Date")
+            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then To Date", Me.Text)
             tp_FromDate.Focus()
             Return
         End If
@@ -199,9 +199,9 @@ Public Class frmPendingDeliveryDairySale
         dtAllData = clsDBFuncationality.GetDataTable(qry)
         If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
             If clsCommon.myLen(VendorName) > 0 Then
-                common.clsCommon.MyMessageBoxShow("No record found for Customer " + VendorName + "")
+                common.clsCommon.MyMessageBoxShow(Me, "No record found for Customer " + VendorName + "", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.")
+                common.clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
             End If
             'Me.Close()
         End If
@@ -592,15 +592,15 @@ Public Class frmPendingDeliveryDairySale
             Next
 
             If arrPONo.Count > 1 Then
-                common.clsCommon.MyMessageBoxShow("PO Number should be the same")
+                common.clsCommon.MyMessageBoxShow(Me, "PO Number should be the same", Me.Text)
                 Exit Sub
             End If
             If arrPODate.Count > 1 Then
-                common.clsCommon.MyMessageBoxShow("PO Date should be the same")
+                common.clsCommon.MyMessageBoxShow(Me, "PO Date should be the same", Me.Text)
                 Exit Sub
             End If
             If arrSalesmanCode.Count > 1 Then
-                common.clsCommon.MyMessageBoxShow("Salesman should be the same")
+                common.clsCommon.MyMessageBoxShow(Me, "Salesman should be the same", Me.Text)
                 Exit Sub
             End If
         End If
@@ -634,7 +634,7 @@ Public Class frmPendingDeliveryDairySale
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Delivery item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Delivery item", Me.Text)
         Else
             Me.Close()
         End If
@@ -688,7 +688,7 @@ Public Class frmPendingDeliveryDairySale
                             LoadDetailData(e.NewValue, strCode)
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow("Order's Customer should be `" + VendorName)
+                        common.clsCommon.MyMessageBoxShow(Me, "Order's Customer should be `" + VendorName, Me.Text)
                         e.Cancel = True
                     End If
 
@@ -772,7 +772,7 @@ Public Class frmPendingDeliveryDairySale
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -782,7 +782,7 @@ Public Class frmPendingDeliveryDairySale
     Private Sub RadMenuRadMenuDeleteLayout_Click(sender As Object, e As EventArgs) Handles RadMenuRadMenuDeleteLayout.Click
         clsGridLayout.DeleteData(ReportIDHead, objCommonVar.CurrentUserCode)
         clsGridLayout.DeleteData(ReportIDDT, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout delete successfully", "Information", Me.Text)
     End Sub
 
     'Private Sub RadMenuItemSaveLayoutDetail_Click(sender As Object, e As EventArgs)

@@ -97,7 +97,7 @@ Public Class frmCreateReceivedCustomerDairySale
             txtDate.Focus()
             gv1.Focus()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenCustomerFinder(ByVal isButtonClick As Boolean)
@@ -108,14 +108,14 @@ Public Class frmCreateReceivedCustomerDairySale
             gv1.CurrentRow.Cells(colLocationName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name as Name from tspl_customer_master where Cust_Code ='" + gv1.CurrentRow.Cells(colLocationCode).Value + "' "))
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub OpenInvoiceFinder(ByVal isButtonClick As Boolean)
         Try
             If clsCommon.myLen(gv1.CurrentRow.Cells(colLocationCode).Value) = 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
             Else
                 Dim qry As String = "select Document_Code as Code,Document_Date,CrateQty from TSPL_SD_SALE_INVOICE_HEAD "
                 Dim whrCls As String = " customer_code ='" + gv1.CurrentRow.Cells(colLocationCode).Value + "' and Status=1  and Document_Code not in (select Sale_Invoice_No from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE)"
@@ -126,7 +126,7 @@ Public Class frmCreateReceivedCustomerDairySale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenVehcileFinder(ByVal isButtonClick As Boolean)
@@ -137,7 +137,7 @@ Public Class frmCreateReceivedCustomerDairySale
             gv1.CurrentRow.Cells(colVehicleNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" + gv1.CurrentRow.Cells(colVehicleCode).Value + "'"))
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -454,7 +454,7 @@ Public Class frmCreateReceivedCustomerDairySale
             gv1.TableElement.TableHeaderHeight = 40
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -531,7 +531,7 @@ Public Class frmCreateReceivedCustomerDairySale
                 '    End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -544,7 +544,7 @@ Public Class frmCreateReceivedCustomerDairySale
         Dim strLocation As String = ""
 
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
 
@@ -585,7 +585,7 @@ Public Class frmCreateReceivedCustomerDairySale
             Next
             'SetIDs()
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
     'Private Sub SetIDs()
@@ -677,7 +677,7 @@ Public Class frmCreateReceivedCustomerDairySale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -713,7 +713,7 @@ Public Class frmCreateReceivedCustomerDairySale
     Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()
                 Return False
                 'ElseIf clsCommon.myLen(fndVehicle.Value) <= 0 Then
@@ -744,7 +744,7 @@ Public Class frmCreateReceivedCustomerDairySale
             'Next
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -759,7 +759,7 @@ Public Class frmCreateReceivedCustomerDairySale
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -774,7 +774,7 @@ Public Class frmCreateReceivedCustomerDairySale
             LoadData(clsCommon.ShowSelectForm("Docfnd", Qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -836,20 +836,20 @@ Public Class frmCreateReceivedCustomerDairySale
                     End If
             Next
             If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
-                Return
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
+                    Return
             End If
 
             If (obj.SaveData(obj, isNewEntry)) Then
 
                 If ChekPostBtn = False Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
-                End If
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    End If
                 LoadData(obj.Document_No, NavigatorType.Current)
             End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -948,7 +948,7 @@ Public Class frmCreateReceivedCustomerDairySale
                 fndLocation.Enabled = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -973,7 +973,7 @@ Public Class frmCreateReceivedCustomerDairySale
             lblTaggedDocs.Visible = False
             UsLock1.Status = ERPTransactionStatus.Pending
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -992,7 +992,7 @@ Public Class frmCreateReceivedCustomerDairySale
             gv1.Rows.AddNew()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' Anubhooti 11-Sep-2014
@@ -1098,7 +1098,7 @@ Public Class frmCreateReceivedCustomerDairySale
             AddNew()
             lblLocation.Text = "Location"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1111,7 +1111,7 @@ Public Class frmCreateReceivedCustomerDairySale
         Try
             FillGrid()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1134,12 +1134,12 @@ Public Class frmCreateReceivedCustomerDairySale
                 arrHeader.Add("Branch : " + clsCommon.myCstr(BranchName))
                 clsCommon.MyExportToExcel("TRANSFER CRATE RECEIVED", gv1, arrHeader, "Crate Received For Transfer")
             Else
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1163,12 +1163,12 @@ Public Class frmCreateReceivedCustomerDairySale
                 End If
                 If (clsTransferCrateReceivedHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1190,13 +1190,13 @@ Public Class frmCreateReceivedCustomerDairySale
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 If (clsTransferCrateReceivedHead.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
-                    clsCommon.MyMessageBoxShow("Successfully Posted ")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted ", Me.Text)
                     UsLock1.Status = ERPTransactionStatus.Approved
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1359,7 +1359,7 @@ Public Class frmCreateReceivedCustomerDairySale
            
 
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
 
@@ -1379,7 +1379,7 @@ Public Class frmCreateReceivedCustomerDairySale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1396,7 +1396,7 @@ Public Class frmCreateReceivedCustomerDairySale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1412,7 +1412,7 @@ Public Class frmCreateReceivedCustomerDairySale
             gv1.Rows(intRow).Cells(colLocationCode).Value = locCode
             gv1.Rows(intRow).Cells(colLocationName).Value = locDesc
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'KUNAL > TICKET : BM00000010096 > DATE : 21 - OCTOBER - 2016
@@ -1437,7 +1437,7 @@ Public Class frmCreateReceivedCustomerDairySale
             gv1.Rows(intRow).Cells(colVehicleNo).Value = vehName
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Dim isCellValueChanged As Boolean = False
@@ -1493,7 +1493,7 @@ Public Class frmCreateReceivedCustomerDairySale
         Catch ex As Exception
 
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try

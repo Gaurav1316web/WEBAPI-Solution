@@ -323,7 +323,7 @@ Public Class rptPurchaseReco
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -886,7 +886,7 @@ Public Class rptPurchaseReco
             Gv1.GroupDescriptors.Clear()
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -931,7 +931,7 @@ Public Class rptPurchaseReco
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -956,7 +956,7 @@ Public Class rptPurchaseReco
 
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Try
@@ -992,7 +992,7 @@ Public Class rptPurchaseReco
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1242,7 +1242,7 @@ Public Class rptPurchaseReco
             End If
             PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, cboType.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1267,7 +1267,7 @@ Public Class rptPurchaseReco
             End If
             PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, cboType.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1293,7 +1293,7 @@ Public Class rptPurchaseReco
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Purchase Reco", Gv1, arrHeader, "Purchase Reco", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

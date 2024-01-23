@@ -587,7 +587,7 @@ Public Class frmWorkEstimationEng
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -606,7 +606,7 @@ Public Class frmWorkEstimationEng
         ''Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Item_Desc,Unit_Code from TSPL_ITEM_MASTER where Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'")
 
         If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
             gv1.CurrentRow.Cells(colICode).Value = ""
             gv1.CurrentRow.Cells(colIName).Value = ""
             gv1.CurrentRow.Cells(colHSN).Value = ""
@@ -739,7 +739,7 @@ Public Class frmWorkEstimationEng
                 Dim strchk As String = "select Status from TSPL_WORK_ESTIMATION_HEAD where WorkEstimation_Id='" + txtReqNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
@@ -760,7 +760,7 @@ Public Class frmWorkEstimationEng
             If ShowCapex Then
                 If clsCommon.CompairString(clsCommon.myCstr(ddl_category.SelectedValue), "Capex") = CompairStringResult.Equal Then
                     If clsCommon.myLen(fndcapexsubcode.Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Please select Capex SubCode")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please select Capex SubCode", Me.Text)
                         fndcapexsubcode.Focus()
                         Return False
                     End If
@@ -783,7 +783,7 @@ Public Class frmWorkEstimationEng
 
 
                 If clsCommon.myLen(ddl_category.SelectedValue) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please select Category")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Category", Me.Text)
                     ddl_category.Focus()
                     Return False
                 End If
@@ -791,24 +791,24 @@ Public Class frmWorkEstimationEng
             End If
 
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 txtLocation.Focus()
                 Return False
             End If
 
             If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item Type", Me.Text)
                 cboItemType.Focus()
                 Return False
             End If
 
             If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsLocation.isLocatinExcisable(txtLocation.Value) Then
-                common.clsCommon.MyMessageBoxShow(Me, "Location Can't be excisable of finished goods")
+                common.clsCommon.MyMessageBoxShow(Me, "Location Can't be excisable of finished goods", Me.Text)
                 Return False
             End If
 
             If clsCommon.myLen(txtDept.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select Department")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Department", Me.Text)
                 txtDept.Focus()
                 Return False
             End If
@@ -879,7 +879,7 @@ Public Class frmWorkEstimationEng
                 ''--------------------------------------------------------------
 
             Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
         Return True
@@ -994,7 +994,7 @@ Public Class frmWorkEstimationEng
 
 
                 If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
 
@@ -1012,7 +1012,7 @@ Public Class frmWorkEstimationEng
                 If (obj.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.WorkEstimation_Id)
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
 
                     'If objCommonVar.IsDemoERP Then
@@ -1041,7 +1041,7 @@ Public Class frmWorkEstimationEng
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '--------------richa 09/07/2014 Ticket No BM00000003042---------
@@ -1120,10 +1120,10 @@ Public Class frmWorkEstimationEng
                 desc = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.NotificationSettingforReOrderInPurchaseRequisition, clsFixedParameterCode.NotificationSettingforReOrderInPurchaseRequisition, Nothing))
                 If clsCommon.CompairString(desc, "1") = CompairStringResult.Equal Then
                     StrMessage = StrMessage & " So you do not create/update Purchase Indent"
-                    clsCommon.MyMessageBoxShow(Me, StrMessage)
+                    clsCommon.MyMessageBoxShow(Me, StrMessage, Me.Text)
                     Return False
                 ElseIf clsCommon.CompairString(desc, "2") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow(Me, StrMessage)
+                    clsCommon.MyMessageBoxShow(Me, StrMessage, Me.Text)
                     Return True
 
                 End If
@@ -1314,7 +1314,7 @@ Public Class frmWorkEstimationEng
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1504,7 +1504,7 @@ Public Class frmWorkEstimationEng
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1536,7 +1536,7 @@ Public Class frmWorkEstimationEng
                 ''=====================end here===================
 
                 If (clsWorkEstimationHead.PostData(txtReqNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ", Me.Text)
                     LoadData(txtReqNo.Value, NavigatorType.Current)
                     '=send sms at post if setting is on===================
                     If clsSMSAtPost_Purchase.SMSATPOST_PUR() Then
@@ -1550,7 +1550,7 @@ Public Class frmWorkEstimationEng
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1577,12 +1577,12 @@ Public Class frmWorkEstimationEng
                 End If
                 If (clsWorkEstimationHead.DeleteData(txtReqNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1660,7 +1660,7 @@ Public Class frmWorkEstimationEng
             LoadData(txtReqNo.Value, NavType)
         Catch ex As Exception
             vaddnew = "N"
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1710,7 +1710,7 @@ Public Class frmWorkEstimationEng
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1762,7 +1762,7 @@ Public Class frmWorkEstimationEng
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1838,7 +1838,7 @@ Public Class frmWorkEstimationEng
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1852,14 +1852,14 @@ Public Class frmWorkEstimationEng
                 If clsCommon.myLen(txtReqNo.Value) > 0 AndAlso clsCommon.myLen(strICode) > 0 AndAlso intSNo > 0 AndAlso clsCommon.CompairString(strStatus, "N") = CompairStringResult.Equal Then
                     If common.clsCommon.MyMessageBoxShow(Me, "Do you want to complete the item " + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value), Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         If clsRequistionDetail.CompleteRequition(txtReqNo.Value, strICode, intSNo) Then
-                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed")
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Completed", Me.Text)
                             LoadData(txtReqNo.Value, NavigatorType.Current)
                         End If
                     End If
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1887,7 +1887,7 @@ Public Class frmWorkEstimationEng
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2147,14 +2147,14 @@ Public Class frmWorkEstimationEng
         Try
             If (clsWorkEstimationHead.CloseprData(txtReqNo.Value, closeyn)) Then
                 If closeyn = "Y" Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Closed Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Closed Successfully ", Me.Text)
                 ElseIf closeyn = "N" Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Opened Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Opened Successfully ", Me.Text)
                 End If
                 LoadData(txtReqNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub chkprclose_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkprclose.CheckedChanged
@@ -2184,7 +2184,7 @@ Public Class frmWorkEstimationEng
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2194,7 +2194,7 @@ Public Class frmWorkEstimationEng
 
     Private Sub DeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub RadPageView1_SelectedPageChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadPageView1.SelectedPageChanged
@@ -2217,7 +2217,7 @@ Public Class frmWorkEstimationEng
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2592,7 +2592,7 @@ Public Class frmWorkEstimationEng
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2642,7 +2642,7 @@ Public Class frmWorkEstimationEng
                 LoadDataRequisition(txtRequisition.Value)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

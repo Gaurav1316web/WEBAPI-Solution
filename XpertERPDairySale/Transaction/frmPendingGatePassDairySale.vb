@@ -119,9 +119,9 @@ Public Class frmPendingGatePassDairySale
         dtAllData = clsDBFuncationality.GetDataTable(qry)
         If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
             If clsCommon.myLen(VendorName) > 0 Then
-                common.clsCommon.MyMessageBoxShow("No record found for Customer " + VendorName + "")
+                common.clsCommon.MyMessageBoxShow(Me, "No record found for Customer " + VendorName + "", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.")
+                common.clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)
             End If
             Me.Close()
         End If
@@ -425,7 +425,7 @@ Public Class frmPendingGatePassDairySale
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one non zero Pending Delivery item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one non zero Pending Delivery item", Me.Text)
         Else
             Me.Close()
         End If
@@ -468,7 +468,7 @@ Public Class frmPendingGatePassDairySale
                             LoadDetailData(e.NewValue, strCode)
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow("Order's Customer should be `" + VendorName)
+                        common.clsCommon.MyMessageBoxShow(Me, "Order's Customer should be `" + VendorName, Me.Text)
                         e.Cancel = True
                     End If
                 End If

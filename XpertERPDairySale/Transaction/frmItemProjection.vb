@@ -43,7 +43,7 @@ Public Class FrmItemProjection
             strAllPivotItemCode = strPivotDocumentDate
         Else
             strAllPivotItemCode = ""
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         If clsCommon.myLen(strAllPivotItemCode) > 0 AndAlso clsCommon.myLen(strFreePivotItemCode) > 0 Then
@@ -279,7 +279,7 @@ Public Class FrmItemProjection
         gv.DataSource = dtgv
 
         If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             'gv.DataSource = Nothing
@@ -342,7 +342,7 @@ Public Class FrmItemProjection
            
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -415,14 +415,14 @@ Public Class FrmItemProjection
             'Next
             If obj.SaveData(obj, isNewEntry) Then
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 LoadData(obj.Projection_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Sub LoadBlankGrid()
@@ -506,7 +506,7 @@ Public Class FrmItemProjection
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -555,7 +555,7 @@ Public Class FrmItemProjection
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -565,14 +565,14 @@ Public Class FrmItemProjection
                 Throw New Exception("No Projection Code found to post")
             End If
 
-            If clsCommon.MyMessageBoxShow("Post the current Projection Code - " + txtDocNo.Value + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Post the current Projection Code - " + txtDocNo.Value + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsItemProjectionHead.PostData(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow("Sucessfully Posted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Sucessfully Posted", Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

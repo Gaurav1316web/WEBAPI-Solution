@@ -68,7 +68,7 @@ Public Class rptSRNReco
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
             Gv1.EnableFiltering = True
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 EnableDisableAllControl(False)
@@ -80,7 +80,7 @@ Public Class rptSRNReco
             Gv1.MasterTemplate.AllowAddNewRow = False
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -154,7 +154,7 @@ Public Class rptSRNReco
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -179,7 +179,7 @@ Public Class rptSRNReco
 
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
         If (Gv1.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow("No Data To Export")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data To Export", Me.Text)
             Exit Sub
         End If
         Try
@@ -192,7 +192,7 @@ Public Class rptSRNReco
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -228,7 +228,7 @@ Public Class rptSRNReco
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Milk SRN Reco", Gv1, arrHeader, "Milk SRN Reco", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
