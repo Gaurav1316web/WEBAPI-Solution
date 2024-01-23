@@ -204,16 +204,16 @@ left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_SD
     Private Function LoadBalanceWiseData() As DataTable
         Dim BaseQry As String = ""
 
-        BaseQry = "With CTE as (select VLC_Name , VLC_Code_VLC_Uploader , VLC_Code , Doc_Date , Date , [Short Description] , UOM , Qty , ActualQty , Rate , Amount , Stock_Type,OutQty , RecQty   from
+        BaseQry = "With CTE as (select VLC_Name , VLC_Code_VLC_Uploader , VLC_Code , Doc_Date , Date , [Short Description] , UOM , Qty , ActualQty , Rate , Amount ,OutQty , RecQty   from
        ( select  convert(varchar,Doc_Date , 103) Date,Doc_Date, VLC_Code , max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader , max(VLC_Name)VLC_Name, max([Short Description])[Short Description] , max(UOM_Code)UOM , 
        sum(Qty * case when Stock_Type = -1 and Transaction_Type = 'MCC-MSALE'  then 1 else 0 end ) as Qty, max(Rate * case when Stock_Type = -1 and Transaction_Type = 'MCC-MSALE'  then 1 else 0 end )  Rate ,sum(Amount * case when Stock_Type = -1 and Transaction_Type = 'MCC-MSALE'  then 1 else 0 end ) As Amount,
-       sum (qty * case when (Stock_Type) = -1 and (Transaction_Type) = 'SA' THEN 1 else 0 end) as OutQty, sum(Qty * case when Stock_Type = 1  then 1 else 0 end ) as RecQty , sum(Qty) as ActualQty , max(Stock_Type)Stock_Type from ( " & Environment.NewLine & "" & BaseQry & ""
+       sum (qty * case when (Stock_Type) = -1 and (Transaction_Type) = 'SA' THEN 1 else 0 end) as OutQty, sum(Qty * case when Stock_Type = 1  then 1 else 0 end ) as RecQty , sum(Qty * Stock_Type) as ActualQty  from ( " & Environment.NewLine & "" & BaseQry & ""
 
         BaseQry += "select Transaction_Type  ,Stock_Type, VLC_Code , VLC_Code_VLC_Uploader , VLC_Name ,Doc_Date ,xxx.Item_Code, [Short Description] , TabDiv.UOM_Code
          , ((Qty * TabMul.Conversion_Factor)/TabDiv.Conversion_Factor) as Qty , Rate , Amount   from ( " & Environment.NewLine & ""
 
         BaseQry += "select 'MCC-MSALE' as Transaction_Type, (VLC_Code_VLC_Uploader)  , (VLC_Name) ,(VLC_Code) ,convert(Date ,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Doc_Date ,
-        (TSPL_ITEM_MASTER.Short_Description) as [Short Description] , TSPL_SD_SHIPMENT_DETAIL. OrgUnit_code AS UOM ,TSPL_SD_SHIPMENT_DETAIL.Qty, (TSPL_SD_SHIPMENT_DETAIL.Item_Cost) AS Rate , (TSPL_SD_SHIPMENT_DETAIL.Amount) as Amount, -1 as Stock_Type, TSPL_ITEM_MASTER.Item_Code   
+        (TSPL_ITEM_MASTER.Short_Description) as [Short Description] , TSPL_SD_SHIPMENT_DETAIL. OrgUnit_code AS UOM ,TSPL_SD_SHIPMENT_DETAIL.Qty, (TSPL_SD_SHIPMENT_DETAIL.Item_Cost) AS Rate , (TSPL_SD_SHIPMENT_DETAIL.Amount) as Amount, '-1' as Stock_Type, TSPL_ITEM_MASTER.Item_Code   
          from TSPL_SD_SHIPMENT_DETAIL
          left outer join TSPL_SD_SHIPMENT_HEAD on  TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
          left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
@@ -233,7 +233,7 @@ left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_SD
 
         BaseQry += "" & Environment.NewLine & " union all " & Environment.NewLine & ""
 
-        BaseQry += "select 'SRN' as Transaction_Type , '' as VLC_Code_VLC_Uploader , '' as VLC_Name , '' as VLC_Code,convert(date ,TSPL_SRN_HEAD.SRN_Date,103) as Doc_Date , (tspl_item_master.Short_Description) as [Short Description] ,TSPL_SRN_DETAIL.Unit_code as UOM ,TSPL_SRN_DETAIL.SRN_Qty as Qty,0 AS Rate , 0  as Amount, 1 as Stock_Type , TSPL_SRN_DETAIL.Item_Code  
+        BaseQry += "select 'SRN' as Transaction_Type , '' as VLC_Code_VLC_Uploader , '' as VLC_Name , '' as VLC_Code,convert(date ,TSPL_SRN_HEAD.SRN_Date,103) as Doc_Date , (tspl_item_master.Short_Description) as [Short Description] ,TSPL_SRN_DETAIL.Unit_code as UOM ,TSPL_SRN_DETAIL.SRN_Qty as Qty,0 AS Rate , 0  as Amount, '1' as Stock_Type , TSPL_SRN_DETAIL.Item_Code  
              from TSPL_SRN_DETAIL 
 			  			left outer join TSPL_SRN_HEAD on TSPL_SRN_DETAIL.SRN_No = TSPL_SRN_HEAD.SRN_No
 						left outer join tspl_item_master on tspl_item_master.Item_Code = TSPL_SRN_DETAIL.Item_Code
@@ -252,7 +252,7 @@ left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_SD
 
         BaseQry += "" & Environment.NewLine & " union all " & Environment.NewLine & ""
         BaseQry += " 
-			   select 'SA' as Transaction_Type ,  '' as VLC_Code_VLC_Uploader , '' as VLC_Name , '' as VLC_Code , convert(date ,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103) as  Doc_Date, tspl_item_master.Short_Description as [Short Description] ,TSPL_ADJUSTMENT_DETAIL.Unit_code as UOM ,TSPL_ADJUSTMENT_DETAIL.Item_Quantity as Qty,0 AS Rate , 0  as Amount, (case when TSPL_ADJUSTMENT_HEADER.Trans_Type = 'In' THEN 1 ELSE -1 END ) as Stock_Type ,TSPL_ADJUSTMENT_DETAIL.Item_Code  			   
+			   select 'SA' as Transaction_Type ,  '' as VLC_Code_VLC_Uploader , '' as VLC_Name , '' as VLC_Code , convert(date ,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103) as  Doc_Date, tspl_item_master.Short_Description as [Short Description] ,TSPL_ADJUSTMENT_DETAIL.Unit_code as UOM ,TSPL_ADJUSTMENT_DETAIL.Item_Quantity as Qty,0 AS Rate , 0  as Amount, (case when TSPL_ADJUSTMENT_HEADER.Trans_Type = 'In' THEN '1' ELSE '-1' END ) as Stock_Type ,TSPL_ADJUSTMENT_DETAIL.Item_Code  			   
 			   from TSPL_ADJUSTMENT_DETAIL
 			   left outer join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_DETAIL.Adjustment_No = TSPL_ADJUSTMENT_HEADER.Adjustment_No
 			   left outer join tspl_item_master on tspl_item_master.Item_Code = TSPL_ADJUSTMENT_DETAIL.Item_Code
@@ -270,7 +270,7 @@ left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_SD
 
         BaseQry += "" & Environment.NewLine & " union all  " & Environment.NewLine & ""
 
-        BaseQry += "select 'MCC-MSALERETURN' as Transaction_Type , (VLC_Code_VLC_Uploader), (VLC_Name), VLC_Code , convert(date ,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)  as Doc_Date ,tspl_item_master.Short_Description as [Short Description] ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code UOM ,TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty, 0 AS Rate , 0  as Amount, 1 as Stock_Type,TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+        BaseQry += "select 'MCC-MSALERETURN' as Transaction_Type , (VLC_Code_VLC_Uploader), (VLC_Name), VLC_Code , convert(date ,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)  as Doc_Date ,tspl_item_master.Short_Description as [Short Description] ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code UOM ,TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty, 0 AS Rate , 0  as Amount, '1' as Stock_Type,TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
            from TSPL_SD_SALE_RETURN_DETAIL
 left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_RETURN_HEAD.Document_Code
 			   left outer join tspl_item_master on tspl_item_master.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code
@@ -296,7 +296,7 @@ left join  TSPL_ITEM_UOM_DETAIL  as TabDiv on TabDiv.Item_Code=xxx.Item_Code and
 
         BaseQry += "group by Doc_Date  , VLC_Code ) xxxx )" & Environment.NewLine & "
         Select ROW_NUMBER() Over (Order By Doc_Date) AS [SNo.], xxxxx.VLC_Name,VLC_Code_VLC_Uploader,Date,[Short Description],UOM,Qty,Rate,Amount,OP as OPQty,OutQty,RecQty ,(xxxxx.OP + xxxxx.RecQty - xxxxx.OutQty) as Total_Qty ,  (xxxxx.OP + xxxxx.RecQty - xxxxx.OutQty - xxxxx.Qty) as Closing_Qty  from (
-	   select CTE.* ,isnull((select sum(InnerCTE.ActualQty * Stock_Type) from CTE as InnerCTE where 2= (case when InnerCTE.Doc_Date <  CTE.Doc_Date then 2 else 3 end )
+	   select CTE.* ,isnull((select sum(InnerCTE.ActualQty) from CTE as InnerCTE where 2= (case when InnerCTE.Doc_Date <  CTE.Doc_Date then 2 else 3 end )
           ),0) as OP  from CTE ) xxxxx " & Environment.NewLine & " where convert( date ,xxxxx.Doc_Date , 103) >= CONVERT(date, '" & txtFromDate.Value & "', 103)
 and convert( date ,xxxxx.Doc_Date , 103) <= CONVERT(date, '" & txtToDate.Value & "', 103) "
 
