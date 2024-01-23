@@ -3038,9 +3038,9 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
             'Qry += "and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + clsCommon.myCstr(txtRouteNo.Value) + "'"
 
             Qry += "and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) + isnull((xx.PrevItemNetAmount),0) ) else 0 end as AmountBE,
- case when xx.SNO=1 then xx.Crate_Collect else 0 end as TotalCollectCrate
+ case when xx.SNO=1 then xx.Crate_Collect else 0 end as TotalCollectCrate,case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull(xx.TcsAmt,0)+isnull(xx.PrevTCSAmt,0)) else 0 end) else 0 end as TotalTCSAmt
    
-  from ( select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, max(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, max(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, max(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName, max(xxfinal.tcs_amt) as TCS ,max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as Vehicle_Code,max(description) as description, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO
+  from ( select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, max(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, max(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, max(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName ,max(XXFinal.TranspoterName) as TranspoterName,max(XXFinal.DriverName) as DriverName,max(XXFinal.Vehicle_No) as Vehicle_No, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(XXFinal.TCSAmt) as TcsAmt,max(XXFinal.PrevTCSAmt) as PrevTCSAmt
 
 from
 (
@@ -3065,10 +3065,9 @@ select
   TSPL_ROUTE_MASTER.Route_Desc, 
   Isnull(
     TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName,  TSPL_VEHICLE_MASTER.Description,
+  ) as CompanyName, 
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
-  TSPL_VEHICLE_MASTER.DriverName,
-TSPL_BOOKING_matser.tcs_amt,
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Vehicle_No, 
   TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 
   ITEMDETAIL.CFForLTR, 
   TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 
@@ -3078,12 +3077,12 @@ TSPL_BOOKING_matser.tcs_amt,
       TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor
     )/ ITEMDETAIL.CFForLTR
   ) As QTYLtr, 
-  0 as prevQtyLtr 
+  0 as prevQtyLtr, tcs.TCSAmount as TCSAmt,
+  0 as PrevTCSAmt 
 from 
   TSPL_DEMAND_BOOKING_DETAIL 
   Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
   Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
- inner join (select Against_DemandBooking_No,sum(isnull(TCSAmount,0)) as tcs_amt from TSPL_BOOKING_matser group by Against_DemandBooking_No) as TSPL_BOOKING_matser on TSPL_BOOKING_matser.Against_DemandBooking_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
   Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
   And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
   Left Join (
@@ -3098,7 +3097,14 @@ from
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
   Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
-  Left Join TSPL_COMPANY_MASTER on TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code 
+  Left Join TSPL_COMPANY_MASTER on TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code
+ left join (
+ select max(TSPL_BOOKING_MATSER.TCSAmount) as TCSAmount,max(TSPL_BOOKING_MATSER.Against_DemandBooking_No) as Against_DemandBooking_No,TSPL_BOOKING_DETAIL.Cust_Code from TSPL_BOOKING_MATSER
+left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
+where TSPL_BOOKING_MATSER.GatePass_Type='" + ddlPTSShift.Text + "' and  (CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "') 
+group by TSPL_BOOKING_DETAIL.Cust_Code
+  ) as tcs on TSPL_DEMAND_BOOKING_MASTER.Document_No=tcs.Against_DemandBooking_No and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=tcs.Cust_Code
+
 where 
   TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "' 
   and (
@@ -3129,7 +3135,7 @@ where
   '" + ddlPTSShift.Text + "'  as ShiftType, 
   TSPL_ITEM_MASTER.Sku_Seq, 
   '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "' as Document_Date, 
-  TSPL_ITEM_MASTER.Short_Description, 
+ TSPL_ITEM_MASTER.Short_Description, 
   0 as Qty, 
   TabCustWiseCrate.Qty as PrevQty,
   TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
@@ -3144,15 +3150,15 @@ where
   TSPL_ROUTE_MASTER.Route_Desc, 
   Isnull(
     TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName,  TSPL_VEHICLE_MASTER.Description,
+  ) as CompanyName, 
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
-  TSPL_VEHICLE_MASTER.DriverName,
- TSPL_BOOKING_matser.tcs_amt,
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Vehicle_No, 
   TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, 
   ITEMDETAIL.CFForLTR, 
   TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 
   0 As QTYLtr, 
-  TotalLtr as prevQtyLtr 
+  TotalLtr as prevQtyLtr,0 as TCSAmt,
+ TabCustWiseCrate.tcsamt as PrevTCSAmt 
 
 from 
   (
@@ -3168,7 +3174,7 @@ from
       sum(xx.TotalCrates_ItemWise) as TotalCrates_ItemWise, 
       sum(xx.TotalLtr_ItemWise) as TotalLtr, 
       sum(xx.ItemNetAmount) as NetAmount, 
-	  sum(xx.qty) as Qty
+	  sum(xx.qty) as Qty,max(xx.pTCSAmount) as tcsamt
     from 
       (
         select 
@@ -3178,10 +3184,22 @@ from
           )+ case when innBD.ShiftType = 'Evening' then 'B' else 'A' end as ORDCol, 
           innBD.TotalCrates_ItemWise, 
           innBD.TotalLtr_ItemWise, 
-          innBD.ItemNetAmount,innBD.qty
+          innBD.ItemNetAmount,innBD.qty,prevtcs.pTCSAmount
         from 
           TSPL_DEMAND_BOOKING_MASTER as InnBM 
           left outer join TSPL_DEMAND_BOOKING_DETAIL innBD on innBD.Document_No = InnBM.Document_No 
+left join (select max(TSPL_BOOKING_MATSER.TCSAmount) as pTCSAmount ,max(TSPL_BOOKING_MATSER.Against_DemandBooking_No) Against_DemandBooking_No,TSPL_BOOKING_DETAIL.Cust_Code
+		  from TSPL_BOOKING_MATSER
+left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
+where 2=2 "
+            If clsCommon.CompairString(ddlPTSShift.Text, "Morning") = CompairStringResult.Equal Then
+                Qry += " and TSPL_BOOKING_MATSER.GatePass_Type='PM' and  (CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value.AddDays(-1)) + "') "
+            ElseIf clsCommon.CompairString(ddlPTSShift.Text, "Evening") = CompairStringResult.Equal Then
+                Qry += " and TSPL_BOOKING_MATSER.GatePass_Type='AM' and  (CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "') "
+            End If
+            Qry += "         
+group by TSPL_BOOKING_DETAIL.Cust_Code
+) as prevtcs on InnBM.Document_No=prevtcs.Against_DemandBooking_No and innBD.Cust_Code=prevtcs.Cust_Code
         where 
           2 = 2  "
             If clsCommon.CompairString(ddlPTSShift.Text, "Morning") = CompairStringResult.Equal Then
