@@ -40,7 +40,8 @@ Public Class frmPPLogSheetMaster
         TxtDepart_desc.Text = ""
         chkAll.IsChecked = True
         cbgUsers.CheckedAll()
-
+        txtISRef.Text = ""
+        txtClsRef.Text = ""
         UcAttachment1.Form_ID = Me.Form_ID
         UcAttachment1.BlankAllControls()
 
@@ -77,9 +78,9 @@ Public Class frmPPLogSheetMaster
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                                            "TSPL_QC_LOG_SHEET_MASTER " + Environment.NewLine + _
-                                                            "TSPL_QC_LOG_SHEET_USER_MASTER " + Environment.NewLine + _
+            ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                            "TSPL_QC_LOG_SHEET_MASTER " + Environment.NewLine +
+                                                            "TSPL_QC_LOG_SHEET_USER_MASTER " + Environment.NewLine +
                                                             "TSPL_PARAMETER_MASTER ")
         End If
     End Sub
@@ -257,7 +258,6 @@ Public Class frmPPLogSheetMaster
             Return False
         End Try
     End Function
-
     Sub SaveData()
         Dim obj As New clsPPLogSheetMaster()
         Dim objtr As New clsPPLogSheetUserMaster()
@@ -296,7 +296,8 @@ Public Class frmPPLogSheetMaster
             obj.Trans_Id = trans_id
 
             obj.Department_COde = clsCommon.myCstr(fndDepart_code.Value)
-
+            obj.ClauseRef = clsCommon.myCstr(txtClsRef.Text)
+            obj.ISRef = clsCommon.myCstr(txtISRef.Text)
             obj.Arr = New List(Of clsPPLogSheetUserMaster)
 
             If cbgUsers.CheckedValue.Count > 0 Then
@@ -402,7 +403,8 @@ Public Class frmPPLogSheetMaster
                 fndDepart_code.Value = obj.Department_COde
                 TxtDepart_desc.Text = obj.Department_Name
                 cbonature.SelectedValue = obj.nature
-
+                txtClsRef.Text = obj.ClauseRef
+                txtISRef.Text = obj.ISRef
                 chkAll.IsChecked = True
                 cbgUsers.CheckedAll()
 
@@ -894,4 +896,5 @@ Public Class frmPPLogSheetMaster
             obj = Nothing
         End Try
     End Sub
+
 End Class

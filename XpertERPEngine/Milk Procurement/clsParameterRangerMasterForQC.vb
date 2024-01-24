@@ -35,6 +35,7 @@ Public Class clsParameterRangeMasterForQC
     Public Deduction_lower_range3 As Decimal = Nothing
     Public Deduction_upper_range3 As Decimal = Nothing
     Public Deduction_Ratio3 As Decimal = Nothing
+    Public Description As String = Nothing
 #End Region
 
     Public Shared Function SaveData(ByVal arr As List(Of clsParameterRangeMasterForQC), ByVal Trans_Id As String) As Boolean
@@ -92,6 +93,7 @@ Public Class clsParameterRangeMasterForQC
                     clsCommon.AddColumnsForChange(coll, "Deduction_lower_range3", obj.Deduction_lower_range3)
                     clsCommon.AddColumnsForChange(coll, "Deduction_upper_range3", obj.Deduction_upper_range3)
                     clsCommon.AddColumnsForChange(coll, "Deduction_Ratio3", obj.Deduction_Ratio3)
+                    clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
                     If IsDate(obj.Eff_date) Then
                         clsCommon.AddColumnsForChange(coll, "effective_date", clsCommon.GetPrintDate(obj.Eff_date, "dd/MMM/yyyy"))
                     End If

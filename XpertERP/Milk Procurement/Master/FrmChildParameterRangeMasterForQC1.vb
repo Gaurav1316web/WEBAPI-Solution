@@ -9,6 +9,7 @@ Public Class FrmChildParameterRangeMasterForQC1
     Private isNewEntry As Boolean = True
     Public code As String = Nothing
     Public desc As String = Nothing
+    Public description As String = Nothing
     Public Lrange As Decimal = 0
     Public Urange As Decimal = 0
     Public Eff_date As Date = Nothing
@@ -55,7 +56,9 @@ Public Class FrmChildParameterRangeMasterForQC1
             txtlRange.Text = Lrange
             txtUrange.Text = Urange
             txtvalue.Text = value1
+            txtDescription.Text = desc
             txtDeductionPer.Text = Deduction_Per
+            txtDescription.Text = description
             'txtDeductionLRange.Text = Deduction_lower_range
             'txtDeductionURange.Text = Deduction_upper_range
             'txtDeductionRatio.Text = Deduction_Ratio
@@ -110,11 +113,12 @@ Public Class FrmChildParameterRangeMasterForQC1
             If clsCommon.myLen(code) <= 0 Then
                 Throw New Exception("Please Fill Atleast One Parameter Range")
             End If
-            Dim III As Double = lrange
+            Dim III As Double = Lrange
 
             ' For ii As Integer = 0 To gv.Rows.Count - 1
             'code = FndParameterCode.Value
             ' QC_Param_Code = FndParameterCode.Value
+            description = clsCommon.myCstr(txtDescription.Text)
             Lrange = clsCommon.myCdbl(txtlRange.Text)
             urange = clsCommon.myCdbl(txtUrange.Text)
             Status1 = clsCommon.myCstr(cboStatus.SelectedValue)
@@ -226,6 +230,7 @@ Public Class FrmChildParameterRangeMasterForQC1
             obj.Lrange_Prev = Lrange_Prev
             obj.Urange_Prev = Urange_Prev
             obj.Qc_Status_prev = Qc_Status_prev
+            obj.Description = description
             'obj.Deduction_lower_range = Deduction_lower_range
             'obj.Deduction_upper_range = Deduction_upper_range
             'obj.Deduction_Ratio = Deduction_Ratio
@@ -343,5 +348,9 @@ Public Class FrmChildParameterRangeMasterForQC1
             trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub MyLabel9_Click(sender As Object, e As EventArgs) Handles MyLabel9.Click
+
     End Sub
 End Class
