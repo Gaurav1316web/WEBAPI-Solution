@@ -10,7 +10,7 @@ Public Class frmSNShipment
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
     Dim SettAutoCreateSaleInvoice As Boolean = True
     Dim GSTStatus As Boolean = False
-
+    Public strrptpath As String = Nothing
     Public AllowModifcationByApprovalUser As Boolean = False
     Dim IsRateChangeForAprilOnly As Boolean = False
     Private StrSql As String
@@ -7546,7 +7546,7 @@ Public Class frmSNShipment
         End If
     End Sub
 
-    Private Sub funPrintNew(ByVal strDocNo As String)
+    Private Sub funPrintNew(ByVal strDocNo As String, Optional ByVal isPdf As Boolean = False)
         Try
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AllowToPrintInvoiceAfterPosting & "'")) = 1 Then
@@ -7554,13 +7554,120 @@ Public Class frmSNShipment
                     frmCRV.ShowCystalReportToolbar = False
                 End If
             End If
-            Dim objInvoice As New frmSaleInvoiceProductSale
-            objInvoice.funPrint(strDocNo)
+            Dim qry As String = "  Select * from ( select   TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate as dTAX1_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate as dTAX2_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate as dTAX3_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate as dTAX4_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate as dTAX5_Rate  ,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate as dTAX6_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate as dTAX7_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate as dTAX8_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate as dTAX9_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate as dTAX10_Rate,tspl_location_master.gstno as LocGstNo, TSPL_LOCATION_MASTER.TIN_No as Loc_Tin_No,TSPL_LOCATION_MASTER.Service_Tax_Reg_No as reg_no,
+                                 TSPL_COMPANY_MASTER.Pan_No as ComPanNo,cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.comp_code,TSPL_COMPANY_MASTER.Comp_Name as CompName,TSPL_LOCATION_MASTER.Location_Desc , isnull(TSPL_SD_SALE_INVOICE_head.Invoice_No_For_Supplementary,'') as Invoice_No_For_Supplementary, 
+                                 Case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as  Loc_Phn, TSPL_SD_SALE_INVOICE_HEAD.is_taxable,cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) As BarCode_Img,isnull (TSPL_SD_SALE_INVOICE_HEAD.IRN_No,'') as IRN_No,isnull (TSPL_SD_SALE_INVOICE_HEAD.Ack_No,'') as Ack_No,case when len(isnull (TSPL_SD_SALE_INVOICE_HEAD.Ack_No,'')) > 0 then convert (varchar, TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,103) else ''  end as Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceNo,convert(varchar ,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as InvoiceDate,case when isnull(TSPL_SD_SALE_INVOICE_head.Invoice_No_For_Supplementary,'') <>'' then Supplimentry_Head.EWayBillNo  else TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo end as EWayBillNo,  case when isnull(TSPL_SD_SALE_INVOICE_head.Invoice_No_For_Supplementary,'') <>'' then Supplimentry_Head.EWayBillDate  else TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate end as EWayBillDate,TSPL_CUSTOMER_MASTER.Customer_Name ,tspl_ship_to_location.ship_to_code, TSPL_SHIP_TO_LOCATION.Ship_To_Desc, TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_add2,TSPL_CUSTOMER_MASTER.Add3 as cust_add3,TSPL_CUSTOMER_MASTER.PIN_Code as Cust_PinCode,   case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End  as Cust_Phn, TSPL_CUSTOMER_MASTER.pin_no,Tspl_customer_master.gstno as CustGSTNo,TSPL_CUSTOMER_MASTER.PAN  as Customer_Pan,TSPL_STATE_MASTER.GST_STATE_Code AS Cust_Gst_StateCode, TSPL_SD_SHIPMENT_HEAD.SHIP_TO_DELIVERY_AT,TSPL_SHIP_TO_LOCATION.pin_code as Ship_PIN_Code,COALESCE(TSPL_ITEM_MASTER.Item_Desc,TAC.DESCRIPTION) + case when Scheme_Item='Y' then '  ( Free Scheme Not For Sale )' when Scheme_Item='N' then '' end   as itemdesc,COALESCE(TSPL_ITEM_MASTER.HSN_CODE, TAC.SAC_Code) AS HSN_CODE, TSPL_SD_SHIPMENT_HEAD.LR_GR_NO as GP_No ,TSPL_SD_SHIPMENT_HEAD.document_code as ShipmentNo,convert(varchar,TSPL_SD_SHIPMENT_HEAD.LR_GR_Date,103) as GP_Date,((TSPL_SD_SALE_INVOICE_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor) /BagUOM.Conversion_Factor) AS BagCount,BagUOM.Conversion_Factor AS BagWt,TSPL_SD_SHIPMENT_HEAD.Beejak_No,TSPL_SD_SHIPMENT_HEAD.Comments,(TSPL_SD_SALE_INVOICE_DETAIL.Qty*TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor) as TotalItem_Weight,TSPL_SD_SALE_INVOICE_DETAIL.item_cost as itemcost,TSPL_SD_SHIPMENT_HEAD.Form_38_No AS Vehicle,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name = '' THEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual ELSE  TSPL_SD_SHIPMENT_HEAD.Transporter_Name END AS Transporter_Name,TSPL_SD_SALE_INVOICE_DETAIL.amount as amount,  dtax1.Type as tax1Type,dtax2.Type as tax2Type,dtax3.Type as tax3Type,dtax4.Type as tax4Type,dtax5.Type as tax5Type,dtax6.Type as tax6Type,dtax7.Type as tax7Type,dtax8.Type as tax8Type,dtax9.Type as tax9Type,dtax10.Type as tax10Type,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item , isnull(TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt,0) as Disc_Amt, TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name1,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt1,0) as Add_Charge_Amt1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name2,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt2,0) as Add_Charge_Amt2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name3,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt3,0) as Add_Charge_Amt3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name4,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt4,0) as Add_Charge_Amt4,Case when tax1.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate when  tax2.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate when tax3.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate when tax4.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate  when tax5.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate when tax6.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX6_Rate  when tax7.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX7_Rate when tax8.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX8_Rate when tax9.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX9_Rate when tax10.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX10_Rate end as TCS_Rate,Case when tax1.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt when  tax2.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt when tax3.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt when tax4.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt  when tax5.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt when tax6.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt  when tax7.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX7_Amt when tax8.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX8_Amt when tax9.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX9_Amt when tax10.Is_TCS = 'Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX10_Amt end  as TCS_Amount, TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount as Roundoff,   TSPL_LOCATION_MASTER.Bank as Loc_Bank,TSPL_LOCATION_MASTER.Branch as Loc_Branch,TSPL_LOCATION_MASTER.ACType as Loc_ACType,TSPL_LOCATION_MASTER.bankaccno as Loc_bankaccno,TSPL_LOCATION_MASTER.bankifsccode AS Loc_bankifsccode,TSPL_LOCATION_MASTER.accountholdername as Loc_accountholdername,TSPL_SD_SALE_INVOICE_DETAIL.Line_No, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as Total_Amt, '1' as CopyType from TSPL_SD_SALE_INVOICE_HEAD
+                                 left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE 
+                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code 
+                                left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location = TSPL_LOCATION_MASTER.Location_Code 
+                                left outer join TSPL_COMPANY_MASTER on tspl_company_Master.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.comp_code 
+                                left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+                                left outer join TSPL_CUSTOMER_MASTER TCM on tcm.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Ship_To_Party 
+                                left outer join TSPL_STATE_MASTER as PARTY_STATE_MASTER on TCM.State = PARTY_STATE_MASTER.STATE_CODE 
+                                left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE = TSPL_CUSTOMER_MASTER.State 
+                                Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                                left join TSPL_Additional_Charges TAC ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = TAC.Code 
+                                LEFT JOIN TSPL_SAC_MASTER SAC ON TAC.SAC_Code = SAC.Code 
+                                left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code = TSPL_SD_SALE_INVOICE_HEAD.tax1 
+                                left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_HEAD.tax2 
+                                left outer join tspl_tax_master as tax3 on tax3.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.TAX3 
+                                left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.tax4 
+                                left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.tax5 
+                                left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.TAX6 
+                                left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.TAX7 
+                                left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.TAX8 
+                                left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.TAX9 
+                                left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.TAX10 
+                                left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code = TSPL_SD_SALE_INVOICE_DETAIL.tax1 
+                                left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SD_SALE_INVOICE_DETAIL.tax2 
+                                left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.TAX3 
+                                left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.tax4 
+                                left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.tax5 
+                                left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.TAX6 
+                                left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.TAX7 
+                                left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.TAX8 
+                                left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.TAX9 
+                                left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.TAX10 
+                                left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
+                                and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code 
+                                left outer join TSPL_ITEM_UOM_DETAIL as Uom_Detail on Uom_Detail.Item_Code = TSPL_ITEM_MASTER.Item_Code 
+                                and Uom_Detail.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM 
+                                --left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code = TSPL_CUSTOMER_MASTER.City_Code 
+                                --LEFT OUTER JOIN TSPL_CITY_MASTER AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code = TSPL_COMPANY_MASTER.City_Code 
+                                LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp ON TSPL_STATE_MASTER_For_Comp.STATE_CODE = TSPL_COMPANY_MASTER.State 
+                                --left outer join TSPL_CITY_MASTER as TSPL_CITY_MASTER_For_Location on TSPL_CITY_MASTER_For_Location.City_Code = TSPL_LOCATION_MASTER.City_Code 
+                                left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_For_State on TSPL_STATE_MASTER_For_State.STATE_CODE = TSPL_LOCATION_MASTER.state 
+                                --left outer join TSPL_CHAPTER_HEAD on TSPL_CHAPTER_HEAD.Chapter_Head_Code = TSPL_ITEM_MASTER.Cheapter_Heads 
+                                left outer join tspl_state_master as Location_State on Location_State.state_code = tspl_location_master.state 
+                                left join TSPL_SD_SALE_INVOICE_HEAD as Supplimentry_Head on TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary = Supplimentry_Head.Document_Code 
+                                --left outer join TSPL_CURRENCY_MASTER on TSPL_CURRENCY_MASTER.CURRENCY_CODE = TSPL_CUSTOMER_MASTER.CURRENCY_CODE 
+                                left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code = TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location 
+                                left outer join TSPL_CUSTOMER_MASTER as TSPL_CUSTOMER_MASTER_Ship_To_Location on TSPL_CUSTOMER_MASTER_Ship_To_Location.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Ship_To_Party 
+                                left outer join TSPL_CITY_MASTER as TSPL_CITY_MASTER_For_Ship_To_Location on TSPL_CITY_MASTER_For_Ship_To_Location.City_Code = TSPL_LOCATION_MASTER.City_Code 
+                                left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_For_Ship_To_Location on TSPL_STATE_MASTER_For_Ship_To_Location.STATE_CODE = TSPL_LOCATION_MASTER.state 
+                                LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_Ship_To_Location ON TSPL_STATE_MASTER_Ship_To_Location.STATE_CODE = TSPL_CUSTOMER_MASTER_Ship_To_Location.State 
+                                --left join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.terms_code = tspl_customer_master.terms_code 
+                                --left join tspl_payment_code on tspl_payment_code.payment_code = tspl_customer_master.payment_code 
+                                left join TSpl_state_master SHip_to_State on SHip_to_State.state_code = tspl_ship_to_location.state 
+                                left join tspl_route_master on tspl_route_master.route_no = tspl_customer_master.route_no 
+                                left join tspl_vehicle_master on tspl_vehicle_master.vehicle_id = TSPL_SD_SHIPMENT_HEAD.vehicle_code 
+                                --left join tspl_employee_master on tspl_employee_master.emp_code = TSPL_VEHICLE_MASTER.employee_id 
+                                left outer join TSPL_ITEM_UOM_DETAIL as BagUOM ON BagUOM.item_code = TSPL_SD_SALE_INVOICE_DETAIL.item_code 
+                                and BagUOM.UOM_Code = 'Bag' 
+                                left outer join TSPL_ITEM_UOM_DETAIL as KgUOM ON KgUOM.item_code = TSPL_SD_SALE_INVOICE_DETAIL.item_code 
+                                and BagUOM.UOM_Code = 'Kg' 
+                                where 
+                                  TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + strDocNo + "')
+                                ) XXX 
+                                LEFT OUTER JOIN (
+                                  Select 
+                                    '1' as COL1, 
+                                    1 as COL2, 
+                                    'ORIGINAL' as CopyType1 
+                                  UNION 
+                                  Select 
+                                    '1' as COL1, 
+                                    2 as COL2, 
+                                    'DUPLICATE' as CopyType1 
+                                  UNION 
+                                  Select 
+                                    '1' as COL1, 
+                                    3 as COL2, 
+                                    'TRIPLICATE' as CopyType1 
+                                  UNION 
+                                  Select 
+                                    '1' as COL1, 
+                                    4 as COL2, 
+                                    'EXTRA COPY' as CopyType1
+                                ) YYY ON YYY.COL1 = XXX.CopyType 
+                                ORDER BY 
+                                  YYY.COL2, 
+                                  XXX.Line_No"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
+                If dt.Rows.Count > 0 Then
+                    Dim QryItemSummary As String = "select max(TSPL_ITEM_MASTER.Item_Desc) AS Item_Name 
+                                                        ,SUM(TSPL_SD_SALE_INVOICE_DETAIL.Qty*TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor) as WeightInKg
+                                                        ,SUM((TSPL_SD_SALE_INVOICE_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor) /BagUOM.Conversion_Factor) AS BagCount
+                                                       ,sum(TSPL_SD_SALE_INVOICE_DETAIL.Amount) as Amt
+                                                        from TSPL_SD_SALE_INVOICE_HEAD 
+                                                        left outer join TSPL_SD_SALE_INVOICE_DETAIL ON TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE
+                                                        LEFT OUTER JOIN TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                                                        left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  and   TSPL_ITEM_UOM_DETAIL.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Unit_code 
+                                                        left outer join TSPL_ITEM_UOM_DETAIL as BagUOM ON BagUOM.item_code=TSPL_SD_SALE_INVOICE_DETAIL.item_code and BagUOM.UOM_Code='Bag'
+                                                        where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strDocNo + "'
+                                                        group by TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code"
+                    Dim dtItemSummary As DataTable = clsDBFuncationality.GetDataTable(QryItemSummary)
+                    strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                End If
+                Exit Sub
+            End If
             frmCRV = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+
 
     Private Sub btnReverseAndUnpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseAndUnpost.Click
         Try

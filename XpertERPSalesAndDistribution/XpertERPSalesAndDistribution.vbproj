@@ -1763,6 +1763,12 @@
     <Compile Include="Sales and Distribution\Report\RptTransfer_IncompleteReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sales and Distribution\Report\SaleConsignee.Designer.vb">
+      <DependentUpon>SaleConsignee.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\SaleConsignee.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales and Distribution\Report\TransferRegister.Designer.vb">
       <DependentUpon>TransferRegister.vb</DependentUpon>
     </Compile>
@@ -2615,6 +2621,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\RptTransfer_IncompleteReport.resx">
       <DependentUpon>RptTransfer_IncompleteReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\SaleConsignee.resx">
+      <DependentUpon>SaleConsignee.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\TransferRegister.resx">
       <DependentUpon>TransferRegister.vb</DependentUpon>

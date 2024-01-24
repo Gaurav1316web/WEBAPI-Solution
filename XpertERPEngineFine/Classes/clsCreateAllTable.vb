@@ -25937,7 +25937,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Is_TDS_Provision", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_REMITTANCE", coll, "unique (Document_No)", True, False)
 
-
+            Try
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_REMITTANCE set Is_TDS_Provision='N' where Is_TDS_Provision is null;")
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_REMITTANCE ADD CONSTRAINT DF_Is_TDS_Provision_N DEFAULT 'N' FOR Is_TDS_Provision;")
+            Catch ex As Exception
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Vendor_Code", "varchar(12) NULL")
