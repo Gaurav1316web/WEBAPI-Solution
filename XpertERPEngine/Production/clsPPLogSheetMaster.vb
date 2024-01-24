@@ -13,6 +13,8 @@ Public Class clsPPLogSheetMaster
     Public IsReq_Parameter_Master As Integer = 0
     Public Department_COde As String = Nothing
     Public Department_Name As String = Nothing
+    Public ClauseRef As String = Nothing
+    Public ISRef As String = Nothing
     Public Trans_Id As String = Nothing
     Public Import As Boolean = False
     Public Arr As List(Of clsPPLogSheetUserMaster) = Nothing
@@ -63,6 +65,8 @@ Public Class clsPPLogSheetMaster
             clsCommon.AddColumnsForChange(coll, "IsRequired_InParameter_Master", obj.IsReq_Parameter_Master)
             clsCommon.AddColumnsForChange(coll, "Pick_Batch_No", obj.Pick_BO)
             clsCommon.AddColumnsForChange(coll, "Department_Code", obj.Department_COde)
+            clsCommon.AddColumnsForChange(coll, "Clause_Ref", obj.ClauseRef)
+            clsCommon.AddColumnsForChange(coll, "IS_Ref", obj.ISRef)
             clsCommon.AddColumnsForChange(coll, "modified_by", clsCommon.myCstr(objCommonVar.CurrentUserCode))
             clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.myCstr(clsCommon.GETSERVERDATE(trans).ToString("dd/MM/yyyy")))
 
@@ -176,7 +180,8 @@ Public Class clsPPLogSheetMaster
                 obj.Pick_BO = clsCommon.myCdbl(dt.Rows(0)("Pick_Batch_No"))
                 obj.Department_COde = clsCommon.myCstr(dt.Rows(0)("Department_Code"))
                 obj.Department_Name = clsCommon.myCstr(dt.Rows(0)("department_name"))
-
+                obj.ClauseRef = clsCommon.myCstr(dt.Rows(0)("Clause"))
+                obj.ISRef = clsCommon.myCstr(dt.Rows(0)("IS_Ref"))
                 qry = "select * from TSPL_QC_LOG_SHEET_USER_MASTER where code='" + obj.code + "'"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 

@@ -9377,6 +9377,8 @@ Public Class clsCreateAllTable
             coll.Add("Pick_Batch_No", "int not null default 0")
             coll.Add("Trans_Id", "varchar(10) not null default 'PRODUCTION'") 'or for QC
             coll.Add("AliasName", "varchar(150) null")
+            coll.Add("Clause_Ref", "varchar(100) null")
+            coll.Add("IS_Ref", "varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_QC_LOG_SHEET_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -9414,6 +9416,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_lower_range3", "float not null default 0")
             coll.Add("Deduction_upper_range3", "float not null default 0")
             coll.Add("Deduction_Ratio3", "float not null default 0")
+            coll.Add("Description", "varchar(500) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER_QC", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -9445,6 +9448,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_lower_range3", "float not null default 0")
             coll.Add("Deduction_upper_range3", "float not null default 0")
             coll.Add("Deduction_Ratio3", "float not null default 0")
+            coll.Add("Description", "varchar(500) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER_QC_HISTORY", coll)
 
             coll = New Dictionary(Of String, String)()

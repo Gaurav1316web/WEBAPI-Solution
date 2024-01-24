@@ -35,7 +35,7 @@ Public Class frmParameterRangeMasterForQC
     Const colDedLower3 As String = "colDedLower3"
     Const colDedUpper3 As String = "colDedUpper3"
     Const colDedRatio3 As String = "colDedRatio3"
-
+    Const colDes As String = "colDescription"
     Dim isLoadData As Boolean = False
     Dim isValueChanged As Boolean = True
 
@@ -93,6 +93,7 @@ Public Class frmParameterRangeMasterForQC
         btnNew.Enabled = False
         RadPageView1.SelectedPage = RadPageViewPage1
         gv.CurrentRow = gv.Rows(0)
+        txtDescription.Text = ""
     End Sub
 
     Sub LoadData(ByVal readOnlyLoad As Boolean)
@@ -144,6 +145,7 @@ Public Class frmParameterRangeMasterForQC
                             gv.Rows(gv.Rows.Count - 1).Cells(colDedLower3).Value = clsCommon.myCdbl(dr("Deduction_lower_range3"))
                             gv.Rows(gv.Rows.Count - 1).Cells(colDedUpper3).Value = clsCommon.myCdbl(dr("Deduction_upper_range3"))
                             gv.Rows(gv.Rows.Count - 1).Cells(colDedRatio3).Value = clsCommon.myCdbl(dr("Deduction_Ratio3"))
+                            gv.Rows(gv.Rows.Count - 1).Cells(colDes).Value = clsCommon.myCstr(dr("Decription"))
                             Try
                                 gv.Rows(gv.Rows.Count - 1).Cells(colDate).Value = Convert.ToDateTime(dr("effective_date"))
                             Catch exx As Exception
@@ -714,6 +716,7 @@ Public Class frmParameterRangeMasterForQC
                 obj.Deduction_lower_range3 = clsCommon.myCdbl(grow.Cells(colDedLower3).Value)
                 obj.Deduction_upper_range3 = clsCommon.myCdbl(grow.Cells(colDedUpper3).Value)
                 obj.Deduction_Ratio3 = clsCommon.myCdbl(grow.Cells(colDedRatio3).Value)
+                obj.Description = clsCommon.myCdbl(grow.Cells(colDes).Value)
                 'obj.value2 = clsCommon.myCstr(grow.Cells(colValue2).Value)
                 Try
                     obj.Eff_date = grow.Cells(colDate).Value
@@ -1211,20 +1214,21 @@ Public Class frmParameterRangeMasterForQC
                 frm.Qc_Status = clsCommon.myCstr(gv.CurrentRow.Cells("qc_status").Value)
                 frm.Qc_Status_prev = clsCommon.myCstr(gv.CurrentRow.Cells("qc_status").Value)
                 frm.value1 = clsCommon.myCstr(gv.CurrentRow.Cells("Value1").Value)
-                If clsCommon.myLen(clsCommon.myCstr(gv.CurrentRow.Cells("effective_date").Value)) > 0 Then
-                    frm.Eff_date = clsCommon.myCstr(gv.CurrentRow.Cells("effective_date").Value)
-                Else
-                    frm.Eff_date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
-                End If
 
-                frm.Trans_Id = trans_id
-                'frm.FORMTYPE = "QM-P-RNG"
-                frm.FORMTYPE = FORMTYPE
-                frm.WindowState = FormWindowState.Normal
-                frm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
-                frm.ShowDialog()
-                LoadData(True)
-            End If
+                If clsCommon.myLen(clsCommon.myCstr(gv.CurrentRow.Cells("effective_date").Value)) > 0 Then
+                        frm.Eff_date = clsCommon.myCstr(gv.CurrentRow.Cells("effective_date").Value)
+                    Else
+                        frm.Eff_date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
+                    End If
+
+                    frm.Trans_Id = trans_id
+                    'frm.FORMTYPE = "QM-P-RNG"
+                    frm.FORMTYPE = FORMTYPE
+                    frm.WindowState = FormWindowState.Normal
+                    frm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
+                    frm.ShowDialog()
+                    LoadData(True)
+                End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
@@ -1274,6 +1278,7 @@ Public Class frmParameterRangeMasterForQC
             clsCommon.AddColumnsForChange(coll, "Deduction_lower_range3", txtDeductionLRange3.Text)
             clsCommon.AddColumnsForChange(coll, "Deduction_upper_range3", txtDeductionURange3.Text)
             clsCommon.AddColumnsForChange(coll, "Deduction_Ratio3", txtDeductionRatio3.Text)
+            clsCommon.AddColumnsForChange(coll, "Description", txtDescription.Text)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PARAMETER_RANGE_MASTER_QC", OMInsertOrUpdate.Update, whr, trans)
 
             'Mapping
@@ -1309,6 +1314,7 @@ Public Class frmParameterRangeMasterForQC
             ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_lower_range3
             ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_upper_range3,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Ratio3
             ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Method
+            ,TSPL_PARAMETER_RANGE_MASTER_QC.Description
              from TSPL_QC_LOG_SHEET_MASTER
             left join TSPL_PARAMETER_RANGE_MASTER_QC on TSPL_PARAMETER_RANGE_MASTER_QC.QC_Param_Code=TSPL_QC_LOG_SHEET_MASTER.code
             where 1=1"
@@ -1329,6 +1335,7 @@ Public Class frmParameterRangeMasterForQC
                 txtLowerRange.Text = clsCommon.myCDecimal(rows("Lower_Range"))
                 txtUpperRange.Text = clsCommon.myCDecimal(rows("Upper_Range"))
                 txtQcStatus.Text = clsCommon.myCstr(rows("Qc_Status"))
+                txtDescription.Text = clsCommon.myCstr(rows("decription"))
                 rbtnDedMethodRatio.IsChecked = (clsCommon.myCDecimal(rows("Deduction_Method")) = 0)
                 rbtnDedMethodFixed.IsChecked = (clsCommon.myCDecimal(rows("Deduction_Method")) = 1)
 
