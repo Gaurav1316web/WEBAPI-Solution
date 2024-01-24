@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -527,12 +527,6 @@
       <DependentUpon>RptSecurityMatrix.vb</DependentUpon>
     </Compile>
     <Compile Include="Administrative Services\RptSecurityMatrix.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Administrative Services\frmAppIntegrator.Designer.vb">
-      <DependentUpon>frmAppIntegrator.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Administrative Services\frmAppIntegrator.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Administrative Services\frmApprovalAlertSumm.Designer.vb">
@@ -5151,12 +5145,6 @@
     <Compile Include="Utilities\frmVersion.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utilities\PB.Designer.vb">
-      <DependentUpon>PB.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\PB.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Utilities\Reports\frmUserPerformanceDetail.Designer.vb">
       <DependentUpon>frmUserPerformanceDetail.vb</DependentUpon>
     </Compile>
@@ -5181,9 +5169,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\RptSecurityMatrix.resx">
       <DependentUpon>RptSecurityMatrix.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Administrative Services\frmAppIntegrator.resx">
-      <DependentUpon>frmAppIntegrator.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmApprovalAlertSumm.resx">
       <DependentUpon>frmApprovalAlertSumm.vb</DependentUpon>
@@ -7931,10 +7916,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\frmVersion.resx">
       <DependentUpon>frmVersion.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utilities\PB.resx">
-      <DependentUpon>PB.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\Reports\frmUserPerformanceDetail.resx">
       <DependentUpon>frmUserPerformanceDetail.vb</DependentUpon>

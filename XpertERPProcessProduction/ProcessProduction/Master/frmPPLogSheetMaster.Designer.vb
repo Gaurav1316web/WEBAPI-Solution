@@ -35,6 +35,12 @@ Partial Class frmPPLogSheetMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtISRef = New common.Controls.MyTextBox()
+        Me.lblAliasName = New common.Controls.MyLabel()
+        Me.txtClsRef = New common.Controls.MyTextBox()
+        Me.txtAliasName = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.cmbtype = New common.Controls.MyComboBox()
         Me.chk_batch_no = New System.Windows.Forms.CheckBox()
@@ -60,8 +66,6 @@ Partial Class frmPPLogSheetMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.lblAliasName = New common.Controls.MyLabel()
-        Me.txtAliasName = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -74,6 +78,12 @@ Partial Class frmPPLogSheetMaster
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtISRef, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAliasName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtClsRef, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAliasName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbtype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,8 +103,6 @@ Partial Class frmPPLogSheetMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblAliasName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAliasName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -117,7 +125,7 @@ Partial Class frmPPLogSheetMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(591, 526)
+        Me.SplitContainer1.Size = New System.Drawing.Size(842, 526)
         Me.SplitContainer1.SplitterDistance = 490
         Me.SplitContainer1.TabIndex = 0
         '
@@ -139,7 +147,7 @@ Partial Class frmPPLogSheetMaster
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
         Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(5)
-        Me.SplitContainer2.Size = New System.Drawing.Size(579, 478)
+        Me.SplitContainer2.Size = New System.Drawing.Size(830, 478)
         Me.SplitContainer2.SplitterDistance = 31
         Me.SplitContainer2.TabIndex = 18
         '
@@ -148,7 +156,7 @@ Partial Class frmPPLogSheetMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuClose})
         Me.RadMenu1.Location = New System.Drawing.Point(5, 5)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(569, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(820, 20)
         Me.RadMenu1.TabIndex = 16
         '
         'MenuClose
@@ -197,7 +205,7 @@ Partial Class frmPPLogSheetMaster
         Me.RadPageView1.Location = New System.Drawing.Point(5, 5)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(569, 433)
+        Me.RadPageView1.Size = New System.Drawing.Size(820, 433)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -207,18 +215,22 @@ Partial Class frmPPLogSheetMaster
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(548, 385)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(799, 385)
         Me.RadPageViewPage1.Text = "Detail"
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
+        Me.RadGroupBox1.Controls.Add(Me.chkReq_Para_Mst)
+        Me.RadGroupBox1.Controls.Add(Me.cmbtype)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
+        Me.RadGroupBox1.Controls.Add(Me.txtISRef)
+        Me.RadGroupBox1.Controls.Add(Me.txtClsRef)
         Me.RadGroupBox1.Controls.Add(Me.txtAliasName)
         Me.RadGroupBox1.Controls.Add(Me.lblAliasName)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
-        Me.RadGroupBox1.Controls.Add(Me.cmbtype)
         Me.RadGroupBox1.Controls.Add(Me.chk_batch_no)
-        Me.RadGroupBox1.Controls.Add(Me.chkReq_Para_Mst)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox2)
         Me.RadGroupBox1.Controls.Add(Me.TxtDepart_desc)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
@@ -232,16 +244,121 @@ Partial Class frmPPLogSheetMaster
         Me.RadGroupBox1.Controls.Add(Me.lblvendorname)
         Me.RadGroupBox1.Controls.Add(Me.fndNo)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(9, 9)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(8, 2)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(508, 373)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(508, 384)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(11, 158)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(41, 16)
+        Me.MyLabel5.TabIndex = 41
+        Me.MyLabel5.Text = "IS Ref."
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(10, 136)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel4.TabIndex = 40
+        Me.MyLabel4.Text = "Clause Ref."
+        '
+        'txtISRef
+        '
+        Me.txtISRef.CalculationExpression = Nothing
+        Me.txtISRef.FieldCode = Nothing
+        Me.txtISRef.FieldDesc = Nothing
+        Me.txtISRef.FieldMaxLength = 0
+        Me.txtISRef.FieldName = Nothing
+        Me.txtISRef.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtISRef.isCalculatedField = False
+        Me.txtISRef.IsSourceFromTable = False
+        Me.txtISRef.IsSourceFromValueList = False
+        Me.txtISRef.IsUnique = False
+        Me.txtISRef.Location = New System.Drawing.Point(86, 157)
+        Me.txtISRef.MaxLength = 150
+        Me.txtISRef.MendatroryField = True
+        Me.txtISRef.MyLinkLable1 = Me.lblAliasName
+        Me.txtISRef.MyLinkLable2 = Nothing
+        Me.txtISRef.Name = "txtISRef"
+        Me.txtISRef.ReferenceFieldDesc = Nothing
+        Me.txtISRef.ReferenceFieldName = Nothing
+        Me.txtISRef.ReferenceTableName = Nothing
+        Me.txtISRef.Size = New System.Drawing.Size(383, 18)
+        Me.txtISRef.TabIndex = 39
+        Me.txtISRef.TabStop = False
+        '
+        'lblAliasName
+        '
+        Me.lblAliasName.FieldName = Nothing
+        Me.lblAliasName.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblAliasName.Location = New System.Drawing.Point(11, 67)
+        Me.lblAliasName.Name = "lblAliasName"
+        Me.lblAliasName.Size = New System.Drawing.Size(64, 16)
+        Me.lblAliasName.TabIndex = 36
+        Me.lblAliasName.Text = "Alias Name"
+        '
+        'txtClsRef
+        '
+        Me.txtClsRef.CalculationExpression = Nothing
+        Me.txtClsRef.FieldCode = Nothing
+        Me.txtClsRef.FieldDesc = Nothing
+        Me.txtClsRef.FieldMaxLength = 0
+        Me.txtClsRef.FieldName = Nothing
+        Me.txtClsRef.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtClsRef.isCalculatedField = False
+        Me.txtClsRef.IsSourceFromTable = False
+        Me.txtClsRef.IsSourceFromValueList = False
+        Me.txtClsRef.IsUnique = False
+        Me.txtClsRef.Location = New System.Drawing.Point(86, 135)
+        Me.txtClsRef.MaxLength = 150
+        Me.txtClsRef.MendatroryField = True
+        Me.txtClsRef.MyLinkLable1 = Me.lblAliasName
+        Me.txtClsRef.MyLinkLable2 = Nothing
+        Me.txtClsRef.Name = "txtClsRef"
+        Me.txtClsRef.ReferenceFieldDesc = Nothing
+        Me.txtClsRef.ReferenceFieldName = Nothing
+        Me.txtClsRef.ReferenceTableName = Nothing
+        Me.txtClsRef.Size = New System.Drawing.Size(383, 18)
+        Me.txtClsRef.TabIndex = 38
+        Me.txtClsRef.TabStop = False
+        '
+        'txtAliasName
+        '
+        Me.txtAliasName.CalculationExpression = Nothing
+        Me.txtAliasName.FieldCode = Nothing
+        Me.txtAliasName.FieldDesc = Nothing
+        Me.txtAliasName.FieldMaxLength = 0
+        Me.txtAliasName.FieldName = Nothing
+        Me.txtAliasName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAliasName.isCalculatedField = False
+        Me.txtAliasName.IsSourceFromTable = False
+        Me.txtAliasName.IsSourceFromValueList = False
+        Me.txtAliasName.IsUnique = False
+        Me.txtAliasName.Location = New System.Drawing.Point(86, 64)
+        Me.txtAliasName.MaxLength = 150
+        Me.txtAliasName.MendatroryField = True
+        Me.txtAliasName.MyLinkLable1 = Me.lblAliasName
+        Me.txtAliasName.MyLinkLable2 = Nothing
+        Me.txtAliasName.Name = "txtAliasName"
+        Me.txtAliasName.ReferenceFieldDesc = Nothing
+        Me.txtAliasName.ReferenceFieldName = Nothing
+        Me.txtAliasName.ReferenceTableName = Nothing
+        Me.txtAliasName.Size = New System.Drawing.Size(383, 18)
+        Me.txtAliasName.TabIndex = 37
+        Me.txtAliasName.TabStop = False
         '
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(11, 136)
+        Me.MyLabel3.Location = New System.Drawing.Point(12, 180)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(31, 16)
         Me.MyLabel3.TabIndex = 5
@@ -261,7 +378,7 @@ Partial Class frmPPLogSheetMaster
         Me.cmbtype.IsSourceFromTable = False
         Me.cmbtype.IsSourceFromValueList = False
         Me.cmbtype.IsUnique = False
-        Me.cmbtype.Location = New System.Drawing.Point(86, 134)
+        Me.cmbtype.Location = New System.Drawing.Point(86, 179)
         Me.cmbtype.MendatroryField = True
         Me.cmbtype.MyLinkLable1 = Me.MyLabel3
         Me.cmbtype.MyLinkLable2 = Nothing
@@ -286,7 +403,7 @@ Partial Class frmPPLogSheetMaster
         'chkReq_Para_Mst
         '
         Me.chkReq_Para_Mst.AutoSize = True
-        Me.chkReq_Para_Mst.Location = New System.Drawing.Point(248, 137)
+        Me.chkReq_Para_Mst.Location = New System.Drawing.Point(238, 181)
         Me.chkReq_Para_Mst.Name = "chkReq_Para_Mst"
         Me.chkReq_Para_Mst.Size = New System.Drawing.Size(178, 17)
         Me.chkReq_Para_Mst.TabIndex = 7
@@ -299,7 +416,7 @@ Partial Class frmPPLogSheetMaster
         Me.RadGroupBox2.Controls.Add(Me.cbgUsers)
         Me.RadGroupBox2.Controls.Add(Me.Panel5)
         Me.RadGroupBox2.HeaderText = "Users"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(86, 192)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(86, 203)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(383, 170)
@@ -533,7 +650,7 @@ Partial Class frmPPLogSheetMaster
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(505, 5)
+        Me.btnclose.Location = New System.Drawing.Point(756, 5)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(78, 21)
         Me.btnclose.TabIndex = 2
@@ -557,46 +674,11 @@ Partial Class frmPPLogSheetMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'lblAliasName
-        '
-        Me.lblAliasName.FieldName = Nothing
-        Me.lblAliasName.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblAliasName.Location = New System.Drawing.Point(11, 67)
-        Me.lblAliasName.Name = "lblAliasName"
-        Me.lblAliasName.Size = New System.Drawing.Size(64, 16)
-        Me.lblAliasName.TabIndex = 36
-        Me.lblAliasName.Text = "Alias Name"
-        '
-        'txtAliasName
-        '
-        Me.txtAliasName.CalculationExpression = Nothing
-        Me.txtAliasName.FieldCode = Nothing
-        Me.txtAliasName.FieldDesc = Nothing
-        Me.txtAliasName.FieldMaxLength = 0
-        Me.txtAliasName.FieldName = Nothing
-        Me.txtAliasName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAliasName.isCalculatedField = False
-        Me.txtAliasName.IsSourceFromTable = False
-        Me.txtAliasName.IsSourceFromValueList = False
-        Me.txtAliasName.IsUnique = False
-        Me.txtAliasName.Location = New System.Drawing.Point(86, 64)
-        Me.txtAliasName.MaxLength = 150
-        Me.txtAliasName.MendatroryField = True
-        Me.txtAliasName.MyLinkLable1 = Me.lblAliasName
-        Me.txtAliasName.MyLinkLable2 = Nothing
-        Me.txtAliasName.Name = "txtAliasName"
-        Me.txtAliasName.ReferenceFieldDesc = Nothing
-        Me.txtAliasName.ReferenceFieldName = Nothing
-        Me.txtAliasName.ReferenceTableName = Nothing
-        Me.txtAliasName.Size = New System.Drawing.Size(383, 18)
-        Me.txtAliasName.TabIndex = 37
-        Me.txtAliasName.TabStop = False
-        '
         'frmPPLogSheetMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(591, 526)
+        Me.ClientSize = New System.Drawing.Size(842, 526)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmPPLogSheetMaster"
         '
@@ -618,6 +700,12 @@ Partial Class frmPPLogSheetMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtISRef, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAliasName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtClsRef, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAliasName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbtype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -638,8 +726,6 @@ Partial Class frmPPLogSheetMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblAliasName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAliasName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -684,5 +770,9 @@ Partial Class frmPPLogSheetMaster
     Friend WithEvents chk_batch_no As System.Windows.Forms.CheckBox
     Friend WithEvents lblAliasName As common.Controls.MyLabel
     Friend WithEvents txtAliasName As common.Controls.MyTextBox
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtISRef As common.Controls.MyTextBox
+    Friend WithEvents txtClsRef As common.Controls.MyTextBox
 End Class
 

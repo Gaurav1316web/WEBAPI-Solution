@@ -1602,9 +1602,9 @@ Public Class FrmItemMasterRMOther
                 Next
                 '-----------------------------------------------------------------------
 
-                '---------------------------Purchase Parameter Range----------------------------
+                '---------------------------Purchase Param  eter Range----------------------------
                 If SettItemWiseQualityCheckInGeneralPurchase Then
-                    If ChkAllowQC.Checked Then
+                    If ChkAllowQC.Checked OrElse chkqcprod.Checked Then
                         obj.Arr_Purchase_QC_Parameter = New List(Of clsItemPurchaseQCParameter)
                         Dim counter As Integer = 0
                         For Each grow As GridViewRowInfo In gvPurQCPar.Rows

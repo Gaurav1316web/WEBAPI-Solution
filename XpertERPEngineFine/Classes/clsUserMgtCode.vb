@@ -2285,6 +2285,7 @@ Public Class clsUserMgtCode
     Public Const RMStockConsumption As String = "STK-CNSP"
     Public Const MSIProductionSaleReport As String = "MIS-PSRPT"
     Public Const rptDCSSaleRegister As String = "DCS-SAL-REG"
+    Public Const saleconsignee As String = "SAL_CON-DET"
     Public Const MISSaleRegisterWithCSASalePatti As String = "MSCSAPATIREG"
     Public Const MISSaleRegisterWithCSASalePattiProductLocationWise As String = "MISPrdLocWis"
     Public Const MISSaleRegisterWithCSASalePattiProductPackWise As String = "MISPrdPckWis"

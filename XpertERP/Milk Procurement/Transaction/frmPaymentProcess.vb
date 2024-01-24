@@ -3542,7 +3542,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 If grow.Cells(colSelect).Value = True Then
                     For i As Integer = 0 To gv.Rows.Count - 1
                         If gv.Rows(i).Cells(colSelect).Value = True Then
-                            If clsCommon.CompairString(gvInvoice.Rows(i).Cells(colVendorCode).Value, grow.Cells(colCustomerCode).Value) = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(gv.Rows(i).Cells(colVendorCode).Value, grow.Cells(colCustomerCode).Value) = CompairStringResult.Equal Then
                                 IsInvalidVendor = False
                             End If
                         End If
@@ -3559,7 +3559,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 If grow.Cells(colSelect).Value = True Then
                     For i As Integer = 0 To gv.Rows.Count - 1
                         If gv.Rows(i).Cells(colSelect).Value = True Then
-                            If clsCommon.CompairString(gvInvoice.Rows(i).Cells(colVendorCode).Value, grow.Cells(colCustomerCode).Value) = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(gv.Rows(i).Cells(colVendorCode).Value, grow.Cells(colCustomerCode).Value) = CompairStringResult.Equal Then
                                 IsInvalidVendor = False
                             End If
                         End If
@@ -3576,7 +3576,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 If grow.Cells(colSelect).Value = True Then
                     For i As Integer = 0 To gv.Rows.Count - 1
                         If gv.Rows(i).Cells(colSelect).Value = True Then
-                            If clsCommon.CompairString(gvInvoice.Rows(i).Cells(colVendorCode).Value, grow.Cells(colVendorCode).Value) = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(gv.Rows(i).Cells(colVendorCode).Value, grow.Cells(colVendorCode).Value) = CompairStringResult.Equal Then
                                 IsInvalidVendor = False
                             End If
                         End If
@@ -3593,7 +3593,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 If grow.Cells(colSelect).Value = True Then
                     For i As Integer = 0 To gv.Rows.Count - 1
                         If gv.Rows(i).Cells(colSelect).Value = True Then
-                            If clsCommon.CompairString(gvInvoice.Rows(i).Cells(colVendorCode).Value, grow.Cells(colVendorCode).Value) = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(gv.Rows(i).Cells(colVendorCode).Value, grow.Cells(colVendorCode).Value) = CompairStringResult.Equal Then
                                 IsInvalidVendor = False
                             End If
                         End If
@@ -3610,7 +3610,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 If grow.Cells(colSelect).Value = True Then
                     For i As Integer = 0 To gv.Rows.Count - 1
                         If gv.Rows(i).Cells(colSelect).Value = True Then
-                            If clsCommon.CompairString(gvInvoice.Rows(i).Cells(colVendorCode).Value, grow.Cells(colVendorCode).Value) = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(gv.Rows(i).Cells(colVendorCode).Value, grow.Cells(colVendorCode).Value) = CompairStringResult.Equal Then
                                 IsInvalidVendor = False
                             End If
                         End If
@@ -3626,7 +3626,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 If grow.Cells(colSelect).Value = True Then
                     For i As Integer = 0 To gv.Rows.Count - 1
                         If gv.Rows(i).Cells(colSelect).Value = True Then
-                            If clsCommon.CompairString(gvInvoice.Rows(i).Cells(colVendorCode).Value, grow.Cells(colVendorCode).Value) = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(gv.Rows(i).Cells(colVendorCode).Value, grow.Cells(colVendorCode).Value) = CompairStringResult.Equal Then
                                 IsInvalidVendor = False
                             End If
                         End If
