@@ -149,15 +149,15 @@ Public Class frmLeakageReplacementUploader
         Dim ValidateStatus As String = String.Empty
 
         If Gv1.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("There is no row in grid please select a sheet to import")
+            clsCommon.MyMessageBoxShow(Me, "There is no row in grid please select a sheet to import", Me.Text)
         End If
         If ValidatedCount = Gv1.Rows.Count Then
-            clsCommon.MyMessageBoxShow("All Rows are already validated")
+            clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
             Exit Sub
         End If
 
         If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location")
+            clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             Exit Sub
         End If
         ValidatedCount = 0
@@ -285,7 +285,7 @@ Public Class frmLeakageReplacementUploader
 
                 clsCommon.ProgressBarPercentHide()
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Saved Successfully")
+                clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                 Gv1.Columns.Clear()
             Else
                 Throw New Exception("No Validated Rows found to save")
@@ -296,7 +296,7 @@ Public Class frmLeakageReplacementUploader
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message & " At Row No " & (i + 1))
+            clsCommon.MyMessageBoxShow(Me, ex.Message & " At Row No " & (i + 1))
         End Try
     End Sub
 

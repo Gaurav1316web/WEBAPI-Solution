@@ -8118,7 +8118,7 @@ Public Class frmSRN
 "isnull (TSPL_SRN_HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SRN_HEAD.tax6_amt,0) as txt6amt " &
 ",tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SRN_HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name," &
 "isnull (TSPL_SRN_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SRN_HEAD.tax9_amt,0) as txt9amt," &
-"tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SRN_HEAD.tax10_amt,0) as txt10amt, TSPL_COMPANY_MASTER.Comp_Name as compname, " &
+"tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SRN_HEAD.tax10_amt,0) as txt10amt, TSPL_COMPANY_MASTER.Comp_Name as compname,'" & objCommonVar.CurrentUser & "' as User_Name, " &
 "TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_SRN_DETAIL.SRN_Qty," &
 "case when tax1.Tax_Recoverable='Y' then TSPL_SRN_HEAD.tax1_amt else null end as Tax1Recoverable," &
 "case when tax2.Tax_Recoverable='Y' then TSPL_SRN_HEAD.TAX2_Amt else null end as Tax2Recoverable, " &

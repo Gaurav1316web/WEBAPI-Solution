@@ -38,7 +38,7 @@ Public Class frmWorkOrderStatusEng
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmParameterRangeMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -65,30 +65,30 @@ Public Class frmWorkOrderStatusEng
 
     Sub LoadData()
         If clsCommon.myLen(fndLoc.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select a Location", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select a Location", Me.Text)
             Exit Sub
         End If
         If IsItemMilkType = 0 Then
             If clsCommon.myLen(cmbVendorClass.SelectedValue) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select a Vendor Class", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select a Vendor Class", Me.Text)
                 Exit Sub
             End If
         Else
             If clsCommon.myLen(txtMilktypeCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please select a Milk Type Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select a Milk Type Code", Me.Text)
                 Exit Sub
             End If
         End If
         If CheckParameterRangerProcurementTypewise = 1 Then
             If ddlBulProcType.SelectedValue = "" Then
-                clsCommon.MyMessageBoxShow("Please select Procurement Type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please select Procurement Type", Me.Text)
                 Exit Sub
             End If
         End If
 
         Dim DtParam As DataTable = clsDBFuncationality.GetDataTable("select distinct Code from tspl_parameter_master")
         If DtParam Is Nothing OrElse DtParam.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No parameter found in master")
+            clsCommon.MyMessageBoxShow(Me, "No parameter found in master", Me.Text)
             Exit Sub
         End If
         Dim strParameterRange As String = ""
@@ -1140,9 +1140,9 @@ Public Class frmWorkOrderStatusEng
                 trans.Commit()
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
 
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -1154,7 +1154,7 @@ Public Class frmWorkOrderStatusEng
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1164,7 +1164,7 @@ Public Class frmWorkOrderStatusEng
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         If clsCommon.myLen(gv.Rows(0).Cells(colCode).Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to delete", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to delete", Me.Text)
             Return
         End If
 
@@ -1183,12 +1183,12 @@ Public Class frmWorkOrderStatusEng
         Try
             Dim qry As String = "delete from tspl_parameter_range_master " & whrCls
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
             trans.Commit()
             Reset()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1254,11 +1254,11 @@ Public Class frmWorkOrderStatusEng
                     If clsfrmParameterRangeMaster.SaveData(arr, trans, True) Then
                         trans.Commit()
                         clsCommon.ProgressBarHide()
-                        clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
                     Else
                         trans.Rollback()
                         clsCommon.ProgressBarHide()
-                        clsCommon.MyMessageBoxShow("No Data Transfer", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "No Data Transfer", Me.Text)
                     End If
                 End If
                 clsCommon.ProgressBarHide()
@@ -1270,7 +1270,7 @@ Public Class frmWorkOrderStatusEng
                 Catch exx As Exception
                 End Try
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv1)
@@ -1475,7 +1475,7 @@ Public Class frmWorkOrderStatusEng
     'End Sub
     Private Sub gv_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv.UserDeletingRow
 
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "It will delete the record permanently " + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "It will delete the record permanently " + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
             Exit Sub
         Else
@@ -1498,7 +1498,7 @@ Public Class frmWorkOrderStatusEng
             fndLoc.Value = clsLocation.getFinder(whrCls, fndLoc.Value, isButtonClicked)
             txtLocName.Text = clsLocation.GetName(fndLoc.Value, Nothing)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

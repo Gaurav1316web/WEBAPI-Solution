@@ -31,6 +31,7 @@ Partial Class rptCattleFeedSaleReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.chkBalanceWise = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtItemCode = New common.UserControls.txtMultiSelectFinder()
@@ -49,6 +50,9 @@ Partial Class rptCattleFeedSaleReport
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -56,14 +60,13 @@ Partial Class rptCattleFeedSaleReport
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkBalanceWise = New Telerik.WinControls.UI.RadCheckBox()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.chkBalanceWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,12 +83,11 @@ Partial Class rptCattleFeedSaleReport
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkBalanceWise, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -124,6 +126,14 @@ Partial Class rptCattleFeedSaleReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(956, 310)
         Me.RadPanel1.TabIndex = 15
+        '
+        'chkBalanceWise
+        '
+        Me.chkBalanceWise.Location = New System.Drawing.Point(422, 13)
+        Me.chkBalanceWise.Name = "chkBalanceWise"
+        Me.chkBalanceWise.Size = New System.Drawing.Size(86, 18)
+        Me.chkBalanceWise.TabIndex = 12133
+        Me.chkBalanceWise.Text = "Balance Wise"
         '
         'RadGroupBox1
         '
@@ -401,7 +411,7 @@ Partial Class rptCattleFeedSaleReport
         '
         'Panel1
         '
-        Me.Panel1.Controls.Add(Me.btnPrint)
+        Me.Panel1.Controls.Add(Me.btnSplitExport)
         Me.Panel1.Controls.Add(Me.btnGo)
         Me.Panel1.Controls.Add(Me.btnReset)
         Me.Panel1.Controls.Add(Me.btnClose)
@@ -410,6 +420,28 @@ Partial Class rptCattleFeedSaleReport
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(977, 23)
         Me.Panel1.TabIndex = 1
+        '
+        'btnSplitExport
+        '
+        Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnSplitExport.Location = New System.Drawing.Point(161, 0)
+        Me.btnSplitExport.Name = "btnSplitExport"
+        Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
+        Me.btnSplitExport.TabIndex = 157
+        Me.btnSplitExport.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
+        Me.rmiPDF.UseCompatibleTextRendering = False
         '
         'btnGo
         '
@@ -460,22 +492,6 @@ Partial Class rptCattleFeedSaleReport
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
-        'chkBalanceWise
-        '
-        Me.chkBalanceWise.Location = New System.Drawing.Point(422, 13)
-        Me.chkBalanceWise.Name = "chkBalanceWise"
-        Me.chkBalanceWise.Size = New System.Drawing.Size(86, 18)
-        Me.chkBalanceWise.TabIndex = 12133
-        Me.chkBalanceWise.Text = "Balance Wise"
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Location = New System.Drawing.Point(157, 3)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(68, 18)
-        Me.btnPrint.TabIndex = 3
-        Me.btnPrint.Text = "Print"
-        '
         'rptCattleFeedSaleReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -498,6 +514,7 @@ Partial Class rptCattleFeedSaleReport
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.chkBalanceWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -515,12 +532,11 @@ Partial Class rptCattleFeedSaleReport
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkBalanceWise, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -556,7 +572,9 @@ Partial Class rptCattleFeedSaleReport
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents txtItemCode As common.UserControls.txtMultiSelectFinder
     Friend WithEvents chkBalanceWise As RadCheckBox
-    Friend WithEvents btnPrint As RadButton
+    Friend WithEvents btnSplitExport As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents rmiPDF As RadMenuItem
 End Class
 
 

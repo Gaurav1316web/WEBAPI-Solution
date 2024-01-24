@@ -711,7 +711,7 @@ or abs(sum(Amount * case when Company='Milkosoft' then 1 else 0 end)-sum(Amount 
             PageSetupReport_ID = "NMis"
             transportSql.QuickExportToExcel(gvTSMismatch, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1247,7 +1247,7 @@ or abs(sum(Amount * case when Company='Milkosoft' then 1 else 0 end)-sum(Amount 
             PageSetupReport_ID = "GPMis"
             transportSql.QuickExportToExcel(gvGPMismatch, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

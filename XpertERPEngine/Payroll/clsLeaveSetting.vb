@@ -150,6 +150,7 @@ Public Class clsLeaveSetting
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "LEAVE_CODE", obj.Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)

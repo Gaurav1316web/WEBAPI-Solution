@@ -669,12 +669,12 @@ Public Class frmDairyBookingCustomer_FreshSale
                             'SKG
                         ElseIf e.Column Is gv1.Columns(colIShortName) Then
                             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Customer First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
                             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                                common.clsCommon.MyMessageBoxShow("Please select Location First")
+                                common.clsCommon.MyMessageBoxShow(Me, "Please select Location First", Me.Text)
                                 isCellValueChangedOpen = False
                                 Exit Sub
                             End If
@@ -750,7 +750,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1186,7 +1186,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                 gvPaymentDetails.VerticalScroll.Visible = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1194,7 +1194,7 @@ Public Class frmDairyBookingCustomer_FreshSale
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If Is_Cancelled = 1 Then
-                    clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Update", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Update", Me.Text)
                     Return False
                 End If
 
@@ -1202,7 +1202,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             End If
 
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 txtVendorNo.Focus()
                 Return False
             End If
@@ -1239,7 +1239,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             End If
 
             If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Booking Not found to save")
+                common.clsCommon.MyMessageBoxShow(Me, "Booking Not found to save", Me.Text)
                 txtDocNo.Focus()
                 Return False
             End If
@@ -1360,12 +1360,12 @@ Public Class frmDairyBookingCustomer_FreshSale
             Next
 
             If dblQuantity <= 0 Then
-                clsCommon.MyMessageBoxShow("Please enter Qunatity at least in one row")
+                clsCommon.MyMessageBoxShow(Me, "Please enter Qunatity at least in one row", Me.Text)
                 Return False
             End If
             UpdateAllTotals()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1380,11 +1380,11 @@ Public Class frmDairyBookingCustomer_FreshSale
         End If
         If isNewEntry = False Then
             If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TOP 1 ISNULL(Against_Receipt_No,'') from TSPL_BOOKING_PAYMENT_MODE_DETAIL WHERE Document_No ='" & clsCommon.myCstr(txtDocNo.Value) & "'"))) > 0 Then
-                clsCommon.MyMessageBoxShow("Booking cannot be updated because its advance has been generated.")
+                clsCommon.MyMessageBoxShow(Me, "Booking cannot be updated because its advance has been generated.", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(Against_Booking_No ,'') from TSPL_BOOKING_MATSER where document_no='" & clsCommon.myCstr(txtDocNo.Value) & "'"))) > 0 Then
-                clsCommon.MyMessageBoxShow("Booking cannot be updated because it has been generated against Card Sale.")
+                clsCommon.MyMessageBoxShow(Me, "Booking cannot be updated because it has been generated against Card Sale.", Me.Text)
                 Exit Sub
             End If
         End If
@@ -1394,7 +1394,7 @@ Public Class frmDairyBookingCustomer_FreshSale
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (SaveData(False)) Then
             If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnAddNew.Focus()
             End If
 
@@ -1569,7 +1569,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                 Next
 
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -1694,7 +1694,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             blnSaveTotalQTy = True
         Catch ex As Exception
             blnSaveTotalQTy = True
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -1877,7 +1877,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             
             'Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -2142,7 +2142,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             'End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -2161,11 +2161,11 @@ Public Class frmDairyBookingCustomer_FreshSale
 
         If clsCommon.myLen(txtDocNo.Value) > 0 Then
             If Is_Cancelled = 1 Then
-                clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Post.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Post.", Me.Text)
                 Exit Sub
             End If
             If BookingStatus = 2 Then
-                clsCommon.MyMessageBoxShow("Booking is pending for approval,Can not Post.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Booking is pending for approval,Can not Post.", Me.Text)
                 Exit Sub
             End If
             If clsCommon.CompairString(cmbBookingType.Text, "CD") = CompairStringResult.Equal Then
@@ -2197,12 +2197,12 @@ Public Class frmDairyBookingCustomer_FreshSale
                         For Each dr As DataRow In dt.Rows
                             Dim strReceiptNo As String = clsCommon.myCstr(dr("Against_Receipt_No"))
                             If clsCommon.myLen(strReceiptNo) <= 0 Then
-                                clsCommon.MyMessageBoxShow("Please create Advance Against Booking Entry No. " & txtDocNo.Value & "")
+                                clsCommon.MyMessageBoxShow(Me, "Please create Advance Against Booking Entry No. " & txtDocNo.Value & "")
                                 Exit Sub
                             End If
                             If clsCommon.myLen(strReceiptNo) >= 0 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Posted  from TSPL_RECEIPT_HEADER WHERE Receipt_No ='" & strReceiptNo & "' AND IsChkReverse ='N'")), "Y") <> CompairStringResult.Equal Then
-                                    clsCommon.MyMessageBoxShow("Please Post Advance Receipt No " & strReceiptNo & " before posting of Booking Entry")
+                                    clsCommon.MyMessageBoxShow(Me, "Please Post Advance Receipt No " & strReceiptNo & " before posting of Booking Entry")
                                     Exit Sub
                                 End If
                             End If
@@ -2268,7 +2268,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                     '== Complete
                     trans.Commit()
                     Dim msg = "Successfully Posted"
-                    common.clsCommon.MyMessageBoxShow(msg, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     btnCreateDO.Enabled = True
                 Else
@@ -2277,7 +2277,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             End If
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
     Private Shared Function CreateNotificationContentEMP(ByVal Booking_Id As String, ByVal Booking_Date As DateTime, ByVal Ex_Factory_Date As DateTime, ByVal trans As SqlTransaction) As Boolean

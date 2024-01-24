@@ -174,7 +174,7 @@ Public Class frmCustomerComplain
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Customer Complain", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Customer Complain", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 
@@ -266,12 +266,12 @@ Public Class frmCustomerComplain
                 '    Return
                 'End If
                 If (obj.SaveData(obj, isNewEntry, Nothing)) Then
-                    common.clsCommon.MyMessageBoxShow(Gv1, "Data Saved Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Gv1, "Data Saved Successfully")
                     LoadData(obj.Complaint_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -308,20 +308,20 @@ Public Class frmCustomerComplain
 
 
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Document No not found to Post")
-                Exit Sub
+            common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
+            Exit Sub
             End If
 
             If clsCommon.myLen(fndInvoice.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Invoice No not found, please post it from Bulk Posting ")
-                Exit Sub
+            common.clsCommon.MyMessageBoxShow(Me, "Invoice No not found, please post it from Bulk Posting ", Me.Text)
+            Exit Sub
             End If
 
 
             Dim isPost As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_CUSTOMER_COMPLAINT_HEAD where Complaint_No = '" + txtDocNo.Value + "' and IsPosted = 'Y'"))
             If isPost = True Then
-                common.clsCommon.MyMessageBoxShow("Record Already posted.")
-                Exit Sub
+            common.clsCommon.MyMessageBoxShow(Me, "Record Already posted.", Me.Text)
+            Exit Sub
             End If
             If myMessages.postConfirm() Then
                 ' If (clsCustomerComplainHead.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
@@ -390,7 +390,7 @@ Public Class frmCustomerComplain
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsCustomerComplainHead.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     btnAddNew.PerformClick()
                 End If
             End If
@@ -429,7 +429,7 @@ Public Class frmCustomerComplain
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -509,7 +509,7 @@ Public Class frmCustomerComplain
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -682,14 +682,14 @@ Public Class frmCustomerComplain
 
     Private Sub btnReverseAndUnpost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnpost.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsCustomerComplainHead.ReverseAndUnpost(txtDocNo.Value) Then
                     common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

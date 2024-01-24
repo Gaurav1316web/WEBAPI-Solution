@@ -418,18 +418,18 @@ Public Class FrmGRNReport
         '    Return
         'End If
 
-        Dim qry As String = "select head.GRN_No as 'GRN No', head.GRN_Date as 'GRN Date', head.Vendor_Code as 'Vendor Code', head.Vendor_Name as 'Vendor Name',head.Amount_Less_Discount as 'Amount After Discount',head.Comments as 'Comment', detail.Item_Code as 'Item Code', detail.Item_Desc as 'Descripton',detail.GRN_Qty as 'Quantity', detail.Item_Cost as 'Item Cost', detail.Disc_Amt as 'Discount', detail.Amount as 'Amount', HEAD.Discount_Base as 'Total Amount',HEAD.Discount_Amt as 'Discount Amount', HEAD.GRN_Total_Amt as 'Net Amount',head.Bill_To_Location as 'Location', tax1.Tax_Code_Desc as tax1name,isnull (HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (HEAD.tax10_amt,0) as txt10amt,isnull(HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1  from TSPL_GRN_HEAD as head " & _
-" left outer join TSPL_GRN_DETAIL as detail on head.GRN_No=detail.grn_no " & _
-" left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =HEAD.tax1 " & _
-" left outer join tspl_tax_master as tax2 on tax2.tax_code = HEAD.tax2 " & _
-" left outer join tspl_tax_master as tax3 on tax3.Tax_Code=HEAD .TAX3" & _
-" left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= HEAD .tax4" & _
-" left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=HEAD .tax5 " & _
-" left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =HEAD .TAX6 " & _
-" left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =HEAD .TAX7 " & _
-" left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =HEAD .TAX8 " & _
-" left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =HEAD .TAX9" & _
-" left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =HEAD .TAX10 " & _
+        Dim qry As String = "select head.GRN_No as 'GRN No', head.GRN_Date as 'GRN Date', head.Vendor_Code as 'Vendor Code', head.Vendor_Name as 'Vendor Name',head.Amount_Less_Discount as 'Amount After Discount',head.Comments as 'Comment', detail.Item_Code as 'Item Code', detail.Item_Desc as 'Descripton',detail.GRN_Qty as 'Quantity', detail.Item_Cost as 'Item Cost', detail.Disc_Amt as 'Discount', detail.Amount as 'Amount', HEAD.Discount_Base as 'Total Amount',HEAD.Discount_Amt as 'Discount Amount', HEAD.GRN_Total_Amt as 'Net Amount',head.Bill_To_Location as 'Location', tax1.Tax_Code_Desc as tax1name,isnull (HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (HEAD.tax10_amt,0) as txt10amt,isnull(HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_COMPANY_MASTER.Comp_Name as compname,'" & objCommonVar.CurrentUser & "' as User_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1  from TSPL_GRN_HEAD as head " &
+" left outer join TSPL_GRN_DETAIL as detail on head.GRN_No=detail.grn_no " &
+" left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =HEAD.tax1 " &
+" left outer join tspl_tax_master as tax2 on tax2.tax_code = HEAD.tax2 " &
+" left outer join tspl_tax_master as tax3 on tax3.Tax_Code=HEAD .TAX3" &
+" left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= HEAD .tax4" &
+" left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=HEAD .tax5 " &
+" left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =HEAD .TAX6 " &
+" left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =HEAD .TAX7 " &
+" left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =HEAD .TAX8 " &
+" left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =HEAD .TAX9" &
+" left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =HEAD .TAX10 " &
 " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = HEAD.comp_code where 2=2 "
 
         'For ii As Integer = 1 To 10

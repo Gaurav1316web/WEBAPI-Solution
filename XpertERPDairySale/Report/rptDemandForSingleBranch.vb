@@ -75,7 +75,7 @@ Public Class RptDemandForSingleBranch
                 clsCommon.MyExportToPDF("Plant Customer Demand Report", gv2, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -137,11 +137,11 @@ Public Class RptDemandForSingleBranch
         dtExtraColumn = clsDBFuncationality.GetDataTable(dtExtraColumnQry)
         If dtExtraColumn.Rows.Count > 0 Then
             If String.IsNullOrEmpty(clsCommon.myCstr(dtExtraColumn.Rows(0)(0))) Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
         Else
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
        
@@ -290,7 +290,7 @@ Public Class RptDemandForSingleBranch
         FormatGrid(dtExtraColumn)
         gv2.BestFitColumns()
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         RadPageView1.SelectedPage = RadPageViewPage2

@@ -210,6 +210,12 @@
     <Compile Include="Milk Procurement\Report\frmTDSReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptBmcCollection.Designer.vb">
+      <DependentUpon>rptBmcCollection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBmcCollection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCTankerTesting.Designer.vb">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>
     </Compile>
@@ -751,6 +757,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptAutoMultipleAdditionDeduction.resx">
       <DependentUpon>rptAutoMultipleAdditionDeduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBmcCollection.resx">
+      <DependentUpon>rptBmcCollection.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCTankerTesting.resx">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>

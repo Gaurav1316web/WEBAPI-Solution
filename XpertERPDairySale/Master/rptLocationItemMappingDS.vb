@@ -148,7 +148,7 @@ Public Class RptLocationItemMappingDS
             End If
         Next
         If strcount > 1 Then
-            clsCommon.MyMessageBoxShow("Select only one location at a time.")
+            clsCommon.MyMessageBoxShow(Me, "Select only one location at a time.", Me.Text)
             Return False
         End If
 
@@ -159,7 +159,7 @@ Public Class RptLocationItemMappingDS
                 For j As Integer = i + 1 To GvItem.Rows.Count - 1
                     dblsequencenoInter = clsCommon.myCdbl(GvItem.Rows(j).Cells("SequenceNo").Value)
                     If dblsequenceno = dblsequencenoInter Then
-                        clsCommon.MyMessageBoxShow("Sequence no should not be same for two customers.")
+                        clsCommon.MyMessageBoxShow(Me, "Sequence no should not be same for two customers.", Me.Text)
                         Return False
                     End If
                 Next
@@ -196,7 +196,7 @@ Public Class RptLocationItemMappingDS
                 myMessages.insert()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -226,7 +226,7 @@ Public Class RptLocationItemMappingDS
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -343,10 +343,10 @@ Public Class RptLocationItemMappingDS
                     End If
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(gv)

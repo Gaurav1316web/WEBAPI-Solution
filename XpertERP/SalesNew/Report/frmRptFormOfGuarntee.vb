@@ -79,19 +79,19 @@ Public Class frmRptFormOfGuarntee
             End If
 
 
-            StrQuery = " select SUBSTRING(SIHead.Document_Code,0 , LEN(SIHead.Document_Code)-4)+STUFF((SELECT DISTINCT ', '+RIGHT(t1.Document_Code,5) from TSPL_SD_SALE_INVOICE_HEAD as t1 WHERE t1.Customer_Code=SIHead.Customer_Code FOR xml pATH ('')),1,2,'') AS [Invoice], " & _
-                       " SIHead.Document_Code 'Invoice No', SIHead.Document_Date 'Date of Sale', SIHead.Customer_Code 'Customer Code',  " & _
-                       " CM.Customer_Name 'Customer Name',SIHead.Bill_To_Location 'Bill Location', CMP.Comp_Name 'Company', " & _
-                       " CM.Add1 as 'Address1', CM.Add2 as 'Address2', CM.Add3 as 'Address3', " & _
-                       "(LEFT( RIGHT(CONVERT(VARCHAR, SIDetail.MFG_Date,106), 8),3) + ' - '+ RIGHT(CONVERT(VARCHAR, SIDetail.MFG_Date,106), 2)) 'Date of Pkg', " & _
-                       "(LEFT( RIGHT(CONVERT(VARCHAR, SIDetail.Expiry_Date,106), 8),3) +'-'+ RIGHT(CONVERT(VARCHAR, SIDetail.Expiry_Date,106), 2)) 'Date of Exp' , " & _
-                       " convert(varchar(15), CURRENT_TIMESTAMP ,103 )as 'Current Date',SIDetail.Item_Code 'Item Code', IM.Item_Desc 'Item Description',  " & _
-                       " SIDetail.Batch_No 'Batch No', SIDetail.Qty 'Qty', SIDetail.Item_Cost 'Item Cost'  " & _
-                       " from TSPL_SD_SALE_INVOICE_DETAIL SIDetail " & _
-                       " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD SIHead on SIHead.Document_Code = SIDetail.DOCUMENT_CODE " & _
-                       " LEFT OUTER JOIN TSPL_ITEM_MASTER IM ON IM.Item_Code = SIDetail.Item_Code " & _
-                       " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM ON CM.Cust_Code = SIHead.Customer_Code " & _
-                       " LEFT OUTER JOIN TSPL_COMPANY_MASTER CMP ON CMP.Comp_Code = SIHead.Comp_Code " & _
+            StrQuery = " select SUBSTRING(SIHead.Document_Code,0 , LEN(SIHead.Document_Code)-4)+STUFF((SELECT DISTINCT ', '+RIGHT(t1.Document_Code,5) from TSPL_SD_SALE_INVOICE_HEAD as t1 WHERE t1.Customer_Code=SIHead.Customer_Code FOR xml pATH ('')),1,2,'') AS [Invoice], " &
+                       " SIHead.Document_Code 'Invoice No', SIHead.Document_Date 'Date of Sale', SIHead.Customer_Code 'Customer Code',  " &
+                       " CM.Customer_Name 'Customer Name',SIHead.Bill_To_Location 'Bill Location', CMP.Comp_Name 'Company', " &
+                       " CM.Add1 as 'Address1',  '" & objCommonVar.CurrentUser & "' as User_Name ,CM.Add2 as 'Address2', CM.Add3 as 'Address3', " &
+                       "(LEFT( RIGHT(CONVERT(VARCHAR, SIDetail.MFG_Date,106), 8),3) + ' - '+ RIGHT(CONVERT(VARCHAR, SIDetail.MFG_Date,106), 2)) 'Date of Pkg', " &
+                       "(LEFT( RIGHT(CONVERT(VARCHAR, SIDetail.Expiry_Date,106), 8),3) +'-'+ RIGHT(CONVERT(VARCHAR, SIDetail.Expiry_Date,106), 2)) 'Date of Exp' , " &
+                       " convert(varchar(15), CURRENT_TIMESTAMP ,103 )as 'Current Date',SIDetail.Item_Code 'Item Code', IM.Item_Desc 'Item Description',  " &
+                       " SIDetail.Batch_No 'Batch No', SIDetail.Qty 'Qty', SIDetail.Item_Cost 'Item Cost'  " &
+                       " from TSPL_SD_SALE_INVOICE_DETAIL SIDetail " &
+                       " LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD SIHead on SIHead.Document_Code = SIDetail.DOCUMENT_CODE " &
+                       " LEFT OUTER JOIN TSPL_ITEM_MASTER IM ON IM.Item_Code = SIDetail.Item_Code " &
+                       " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM ON CM.Cust_Code = SIHead.Customer_Code " &
+                       " LEFT OUTER JOIN TSPL_COMPANY_MASTER CMP ON CMP.Comp_Code = SIHead.Comp_Code " &
                        " where 1=1 "
 
             If (chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0) Then

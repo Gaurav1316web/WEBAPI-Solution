@@ -534,7 +534,7 @@ Public Class frmLogSheetEng
                 pFields = True
             Else
                 pFields = False
-                clsCommon.MyMessageBoxShow("Please map parameter first.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please map parameter first.", Me.Text)
                 Exit Sub
             End If
             gvParam.Rows.Clear()
@@ -658,7 +658,7 @@ Public Class frmLogSheetEng
     End Sub
 
     Private Sub gvParam_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gvParam.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -692,7 +692,7 @@ Public Class frmLogSheetEng
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
