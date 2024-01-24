@@ -9377,6 +9377,8 @@ Public Class clsCreateAllTable
             coll.Add("Pick_Batch_No", "int not null default 0")
             coll.Add("Trans_Id", "varchar(10) not null default 'PRODUCTION'") 'or for QC
             coll.Add("AliasName", "varchar(150) null")
+            coll.Add("Clause_Ref", "varchar(100) null")
+            coll.Add("IS_Ref", "varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_QC_LOG_SHEET_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -9414,6 +9416,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_lower_range3", "float not null default 0")
             coll.Add("Deduction_upper_range3", "float not null default 0")
             coll.Add("Deduction_Ratio3", "float not null default 0")
+            coll.Add("Description", "varchar(500) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER_QC", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -9445,6 +9448,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_lower_range3", "float not null default 0")
             coll.Add("Deduction_upper_range3", "float not null default 0")
             coll.Add("Deduction_Ratio3", "float not null default 0")
+            coll.Add("Description", "varchar(500) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER_QC_HISTORY", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -25937,7 +25941,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Is_TDS_Provision", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_REMITTANCE", coll, "unique (Document_No)", True, False)
 
-
+            Try
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_REMITTANCE set Is_TDS_Provision='N' where Is_TDS_Provision is null;")
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_REMITTANCE ADD CONSTRAINT DF_Is_TDS_Provision_N DEFAULT 'N' FOR Is_TDS_Provision;")
+            Catch ex As Exception
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Vendor_Code", "varchar(12) NULL")
