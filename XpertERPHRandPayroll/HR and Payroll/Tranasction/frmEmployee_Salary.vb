@@ -703,7 +703,7 @@ Public Class frmEmployee_Salary
                         Throw New Exception("Applicable Date can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                     End If
                     obj.APPLICABLE_FROM = clsCommon.GetPrintDate(strDate, "dd/MMM/yyyy")
-
+                    obj.Location_Code = clsCommon.myCstr(grow.Cells("Location_Code").Value)
 
                     ''''''''''''''''''''''''''Detail part''''''''''''''''''''''''''''''''''
                     Dim intLoop As Integer = 1

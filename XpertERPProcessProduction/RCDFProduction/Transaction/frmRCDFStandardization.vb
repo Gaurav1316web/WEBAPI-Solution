@@ -2251,9 +2251,9 @@ Public Class frmRCDFStandardization
                                 gvAddRemove.CurrentRow.Cells(colARItemProductType).Tag = objItem.Product_Type
                                 gvAddRemove.CurrentRow.Cells(colARIsBatchItem).Value = objItem.Is_Batch_Item
                                 gvAddRemove.CurrentRow.Cells(colARUom).Value = objItem.Unit_Code
-                                gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value = Nothing
+                                gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value = objItem.STD_FatPer
                                 gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = Nothing
-                                gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value = Nothing
+                                gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value = objItem.STD_SNFPer
                                 gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = Nothing
                                 SetARBalance()
                             End If

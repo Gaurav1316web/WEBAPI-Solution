@@ -561,6 +561,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailSaleAndDistribution, "Sale And Distribution Audit Trail Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.06.03.30", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.06.03.31", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.32", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
