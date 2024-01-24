@@ -199,14 +199,14 @@ Public Class frmTransactionHistory
                         strDetailTransCodeHistColumn += ","
                     End If
                     strMasterCodeColumn += "" + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ""
-                    strDetailTransCodeHistColumn += "max(" & DetailTable + clsCommon.HistTablePostFix & "." + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ") as " + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ""
+                    strDetailTransCodeHistColumn += "(" & DetailTable + clsCommon.HistTablePostFix & "." + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ") as " + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ""
                 Next
             End If
             '' End
             '' =========Final Binding Main Qry=======
 
-            Mainqry = "select max(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],max(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,max(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,max(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
-            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "' and " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & " in (" & strVersionNoSelect & ") group by " & DetailTable + clsCommon.HistTablePostFix & ".Hist_Version  "
+            Mainqry = "select (" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
+            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "' and " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & " in (" & strVersionNoSelect & ")   "
             If clsCommon.CompairString(HeadTable, "TSPL_ITEM_MASTER") = CompairStringResult.Equal Then
                 Mainqry += "  ,Conversion_Factor "
             End If
@@ -418,12 +418,12 @@ Public Class frmTransactionHistory
                         strDetailTransCodeHistColumn += ","
                     End If
                     strMasterCodeColumn += "" + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ""
-                    strDetailTransCodeHistColumn += "max(" & DetailTable + clsCommon.HistTablePostFix & "." + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ") as " + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ""
+                    strDetailTransCodeHistColumn += "(" & DetailTable + clsCommon.HistTablePostFix & "." + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ") as " + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ""
                 Next
             End If
-           
-            Mainqry = " select CAST(0 as bit) as Sel, max(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],max(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,max(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,max(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
-            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "'  group by " & DetailTable + clsCommon.HistTablePostFix & ".Hist_Version  "
+
+            Mainqry = " select CAST(0 as bit) as Sel, (" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
+            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "'   "
             If clsCommon.CompairString(HeadTable, "TSPL_ITEM_MASTER") = CompairStringResult.Equal Then
                 Mainqry += "  ,Conversion_Factor "
             End If
