@@ -619,15 +619,15 @@ Public Class MDI
                 Throw New Exception("More Than one Customize DLL exists here.Please remove excess customize dll.")
             End If
 
-            If System.IO.File.Exists(Application.StartupPath + "\XpertErpMPD.dll") Then
-                frmAppIntegrator.CallStartupFunction("XpertErpMPD.dll")
-            ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpViney.dll") Then
-                frmAppIntegrator.CallStartupFunction("XpertErpViney.dll")
-            ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpJakson.dll") Then
-                frmAppIntegrator.CallStartupFunction("XpertErpJakson.dll")
-            ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpPatanjali.dll") Then
-                frmAppIntegrator.CallStartupFunction("XpertErpPatanjali.dll")
-            End If
+            'If System.IO.File.Exists(Application.StartupPath + "\XpertErpMPD.dll") Then
+            '    frmAppIntegrator.CallStartupFunction("XpertErpMPD.dll")
+            'ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpViney.dll") Then
+            '    frmAppIntegrator.CallStartupFunction("XpertErpViney.dll")
+            'ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpJakson.dll") Then
+            '    frmAppIntegrator.CallStartupFunction("XpertErpJakson.dll")
+            'ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpPatanjali.dll") Then
+            '    frmAppIntegrator.CallStartupFunction("XpertErpPatanjali.dll")
+            'End If
             ''To Run Customize Function
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_Version_Info")
             clsDBFuncationality.ExecuteNonQuery("insert into TSPL_Version_Info(Last_Version) Values('" + CurrEXEVersion + "')")
@@ -3623,9 +3623,9 @@ Public Class MDI
                     Case clsUserMgtCode.FisaclYearEndProcess
                         frm = New FrmFiscalYearEndProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmAppIntegrator
-                        frm = New frmAppIntegrator
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.frmAppIntegrator
+                    '    frm = New frmAppIntegrator
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     '------------------ Purchase Masters---------------------------------------
                     Case clsUserMgtCode.vendormaster
                         frm = New frmVendorMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
