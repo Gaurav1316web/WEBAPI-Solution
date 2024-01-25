@@ -597,7 +597,7 @@ Public Class frmMapPayHeadsToSalaStructure
             Dim isNewCode As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SALSTRUCT_PAYHEADS where SALARY_STRUCTURE_CODE = '" + txtCode.Value + "' "))
             Code = txtCode.Value
             Name = txtName.Text
-            If isNewCode <= 0 Then
+            If isNewCode > 0 Then
                 Dim qry As String = " select distinct TSPL_SALARY_STRUCTURE.SALARY_STRUCTURE_CODE as Code, TSPL_SALARY_STRUCTURE.SALARY_STRUCTURE_NAME as Name, TSPL_SALARY_STRUCTURE.SAL_PRINT_NAME as 'Print Name' from TSPL_SALARY_STRUCTURE inner join TSPL_SALSTRUCT_PAYHEADS on TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE = TSPL_SALARY_STRUCTURE.SALARY_STRUCTURE_CODE "
                 txtStructureCodeCopy.Value = clsCommon.ShowSelectForm("SALARY_STRUCTURE_COPY", qry, "Code", "", txtStructureCodeCopy.Value, "TSPL_SALARY_STRUCTURE.SALARY_STRUCTURE_CODE", isButtonClicked)
                 If txtStructureCodeCopy.Value <> "" Then
