@@ -2723,7 +2723,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     End If
                     UpdateCurrentRow(jj)
                 Next
-                lblTotalDocAmt.Text = Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2)
+                lblTotalDocAmt.Text = obj.Total_Amt 'Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2)
                 txtTCSBaseAmt.Text = obj.TCSBaseAmt
                 lblTCSAmount.Text = obj.TCSAmount
                 'Try
