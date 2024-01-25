@@ -529,12 +529,6 @@
     <Compile Include="Administrative Services\RptSecurityMatrix.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Administrative Services\frmAppIntegrator.Designer.vb">
-      <DependentUpon>frmAppIntegrator.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Administrative Services\frmAppIntegrator.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Administrative Services\frmApprovalAlertSumm.Designer.vb">
       <DependentUpon>frmApprovalAlertSumm.vb</DependentUpon>
     </Compile>
@@ -571,45 +565,7 @@
     <Compile Include="Administrative Services\rptUserScreenRightsReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppCode\BAL\BALLoadOut.vb" />
-    <Compile Include="AppCode\BAL\BALPrice.vb" />
-    <Compile Include="AppCode\BAL\BALPriceComponant.vb" />
-    <Compile Include="AppCode\BAL\BALScheme.vb" />
-    <Compile Include="AppCode\DAL\DALLoadOut.vb" />
-    <Compile Include="AppCode\DAL\DALPrice.vb" />
-    <Compile Include="AppCode\DAL\DALPriceComponant.vb" />
-    <Compile Include="AppCode\DAL\DALScheme.vb" />
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="Business Inteligence\Setup\frmCreateBIFilter.Designer.vb">
-      <DependentUpon>frmCreateBIFilter.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmCreateBIFilter.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmBIReport.Designer.vb">
-      <DependentUpon>frmBIReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmBIReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmCreateBIReport.Designer.vb">
-      <DependentUpon>frmCreateBIReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmCreateBIReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmCreateDashBoard.Designer.vb">
-      <DependentUpon>frmCreateDashBoard.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmCreateDashBoard.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmDashboard.Designer.vb">
-      <DependentUpon>frmDashboard.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Setup\frmDashboard.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Classes\SystemIdleTimer.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -1420,12 +1376,6 @@
       <DependentUpon>rptPTPBill.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Reports\rptPTPBill.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Milk Procurement\Reports\RptRouteWiseTrendBar.Designer.vb">
-      <DependentUpon>RptRouteWiseTrendBar.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Milk Procurement\Reports\RptRouteWiseTrendBar.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Reports\rptMCCRouteTimeTable.Designer.vb">
@@ -3105,85 +3055,7 @@
     <Compile Include="Sales and Distribution\Transaction\frmViewLoadOutDetail.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Business Inteligence\Asset\frmBIMonthWiseAsset.Designer.vb">
-      <DependentUpon>frmBIMonthWiseAsset.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Asset\frmBIMonthWiseAsset.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBITopExpence.Designer.vb">
-      <DependentUpon>frmBITopExpence.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBITopExpence.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBIVendorAgeing.Designer.vb">
-      <DependentUpon>frmBIVendorAgeing.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBIVendorAgeing.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Purchase\frmBIMonthWisePurchase.Designer.vb">
-      <DependentUpon>frmBIMonthWisePurchase.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Purchase\frmBIMonthWisePurchase.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Purchase\frmBITopItemCategoryPurchase.Designer.vb">
-      <DependentUpon>frmBITopItemCategoryPurchase.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Purchase\frmBITopItemCategoryPurchase.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Purchase\frmBITopVendor.Designer.vb">
-      <DependentUpon>frmBITopVendor.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Purchase\frmBITopVendor.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBICustomerAgeing.Designer.vb">
-      <DependentUpon>frmBICustomerAgeing.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBICustomerAgeing.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Sales\frmBIDashBoard.Designer.vb">
-      <DependentUpon>frmBIDashBoard.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Sales\frmBIDashBoard.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Sales\frmBIMonthWiseSale.Designer.vb">
-      <DependentUpon>frmBIMonthWiseSale.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Sales\frmBIMonthWiseSale.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Sales\frmBITopCustomer.Designer.vb">
-      <DependentUpon>frmBITopCustomer.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Sales\frmBITopCustomer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Sales\frmBITopItemCategory.Designer.vb">
-      <DependentUpon>frmBITopItemCategory.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Sales\frmBITopItemCategory.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="clsfrmNotificationScreen.vb" />
-    <Compile Include="Business Inteligence\Financials\frmBankBookChart.Designer.vb">
-      <DependentUpon>frmBankBookChart.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBankBookChart.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBankBookClosing.Designer.vb">
-      <DependentUpon>frmBankBookClosing.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Financials\frmBankBookClosing.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Sales%28KDIL%29\CSA Sale\Master\frmCSAAccountSet.Designer.vb">
       <DependentUpon>frmCSAAccountSet.vb</DependentUpon>
     </Compile>
@@ -4106,18 +3978,6 @@
       <DependentUpon>MDI.vb</DependentUpon>
     </Compile>
     <Compile Include="MDI.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Production\frmGraphicalBatchOrder.Designer.vb">
-      <DependentUpon>frmGraphicalBatchOrder.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Production\frmGraphicalBatchOrder.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Business Inteligence\Production\frmGraphicalCategorywiseProduction.Designer.vb">
-      <DependentUpon>frmGraphicalCategorywiseProduction.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Business Inteligence\Production\frmGraphicalCategorywiseProduction.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase Order\Tranasction\frmPendingReqForApproval.Designer.vb">
@@ -5151,12 +5011,6 @@
     <Compile Include="Utilities\frmVersion.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utilities\PB.Designer.vb">
-      <DependentUpon>PB.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\PB.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Utilities\Reports\frmUserPerformanceDetail.Designer.vb">
       <DependentUpon>frmUserPerformanceDetail.vb</DependentUpon>
     </Compile>
@@ -5182,9 +5036,6 @@
     <EmbeddedResource Include="Administrative Services\RptSecurityMatrix.resx">
       <DependentUpon>RptSecurityMatrix.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Administrative Services\frmAppIntegrator.resx">
-      <DependentUpon>frmAppIntegrator.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmApprovalAlertSumm.resx">
       <DependentUpon>frmApprovalAlertSumm.vb</DependentUpon>
     </EmbeddedResource>
@@ -5203,26 +5054,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\rptUserScreenRightsReport.resx">
       <DependentUpon>rptUserScreenRightsReport.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Setup\frmCreateBIFilter.resx">
-      <DependentUpon>frmCreateBIFilter.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Setup\frmBIReport.resx">
-      <DependentUpon>frmBIReport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Setup\frmCreateBIReport.resx">
-      <DependentUpon>frmCreateBIReport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Setup\frmCreateDashBoard.resx">
-      <DependentUpon>frmCreateDashBoard.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Setup\frmDashboard.resx">
-      <DependentUpon>frmDashboard.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Master\frmDefaultUserZone1.resx">
       <DependentUpon>frmDefaultUserZone1.vb</DependentUpon>
@@ -5656,10 +5487,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Reports\rptPTPBill.resx">
       <DependentUpon>rptPTPBill.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Milk Procurement\Reports\RptRouteWiseTrendBar.resx">
-      <DependentUpon>RptRouteWiseTrendBar.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Reports\rptMCCRouteTimeTable.resx">
       <DependentUpon>rptMCCRouteTimeTable.vb</DependentUpon>
@@ -6608,58 +6435,6 @@
       <DependentUpon>frmViewLoadOutDetail.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Asset\frmBIMonthWiseAsset.resx">
-      <DependentUpon>frmBIMonthWiseAsset.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Financials\frmBITopExpence.resx">
-      <DependentUpon>frmBITopExpence.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Financials\frmBIVendorAgeing.resx">
-      <DependentUpon>frmBIVendorAgeing.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Purchase\frmBIMonthWisePurchase.resx">
-      <DependentUpon>frmBIMonthWisePurchase.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Purchase\frmBITopItemCategoryPurchase.resx">
-      <DependentUpon>frmBITopItemCategoryPurchase.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Purchase\frmBITopVendor.resx">
-      <DependentUpon>frmBITopVendor.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Financials\frmBICustomerAgeing.resx">
-      <DependentUpon>frmBICustomerAgeing.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Sales\frmBIDashBoard.resx">
-      <DependentUpon>frmBIDashBoard.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Sales\frmBIMonthWiseSale.resx">
-      <DependentUpon>frmBIMonthWiseSale.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Sales\frmBITopCustomer.resx">
-      <DependentUpon>frmBITopCustomer.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Sales\frmBITopItemCategory.resx">
-      <DependentUpon>frmBITopItemCategory.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Financials\frmBankBookChart.resx">
-      <DependentUpon>frmBankBookChart.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Financials\frmBankBookClosing.resx">
-      <DependentUpon>frmBankBookClosing.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Sales%28KDIL%29\CSA Sale\Master\frmCSAAccountSet.resx">
       <DependentUpon>frmCSAAccountSet.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -7247,14 +7022,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MDI.resx">
       <DependentUpon>MDI.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Production\frmGraphicalBatchOrder.resx">
-      <DependentUpon>frmGraphicalBatchOrder.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Business Inteligence\Production\frmGraphicalCategorywiseProduction.resx">
-      <DependentUpon>frmGraphicalCategorywiseProduction.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Tranasction\frmPendingReqForApproval.resx">
@@ -7931,10 +7698,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\frmVersion.resx">
       <DependentUpon>frmVersion.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utilities\PB.resx">
-      <DependentUpon>PB.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\Reports\frmUserPerformanceDetail.resx">
       <DependentUpon>frmUserPerformanceDetail.vb</DependentUpon>

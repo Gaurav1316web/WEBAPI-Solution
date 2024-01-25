@@ -13,17 +13,17 @@ Public Class SaleConsignee
     Dim Slot3TD As DateTime = Nothing
 
 
-    Private Sub txtMonth_ValueChanged(sender As Object, e As EventArgs) Handles txtMonth.ValueChanged
-        Dim selectedMonth As Integer = txtMonth.Value.Month
-        Dim selectedYear As Integer = txtMonth.Value.Year
+    Private Sub txtMonth_ValueChanged(sender As Object, e As EventArgs)
+        'Dim selectedMonth As Integer = txtMonth.Value.Month
+        'Dim selectedYear As Integer = txtMonth.Value.Year
 
-        Dim currentDate As New DateTime(selectedYear, selectedMonth, 1)
-        Slot1FD = clsCommon.GetPrintDate(currentDate, "dd/MMM/yyyy")
-        Slot1TD = clsCommon.GetPrintDate(currentDate.AddDays(9), "dd/MMM/yyyy")
-        Slot2FD = clsCommon.GetPrintDate(currentDate.AddDays(10), "dd/MMM/yyyy")
-        Slot2TD = clsCommon.GetPrintDate(currentDate.AddDays(19), "dd/MMM/yyyy")
-        Slot3FD = clsCommon.GetPrintDate(currentDate.AddDays(20), "dd/MMM/yyyy")
-        Slot3TD = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+        'Dim currentDate As New DateTime(selectedYear, selectedMonth, 1)
+        'Slot1FD = clsCommon.GetPrintDate(currentDate, "dd/MMM/yyyy")
+        'Slot1TD = clsCommon.GetPrintDate(currentDate.AddDays(9), "dd/MMM/yyyy")
+        'Slot2FD = clsCommon.GetPrintDate(currentDate.AddDays(10), "dd/MMM/yyyy")
+        'Slot2TD = clsCommon.GetPrintDate(currentDate.AddDays(19), "dd/MMM/yyyy")
+        'Slot3FD = clsCommon.GetPrintDate(currentDate.AddDays(20), "dd/MMM/yyyy")
+        'Slot3TD = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
     End Sub
     'Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
     'Me.Close()
@@ -31,7 +31,8 @@ Public Class SaleConsignee
 
 
     Private Sub BtnReset_Click_1(sender As Object, e As EventArgs) Handles BtnReset.Click
-        txtMonth.Value = clsCommon.GETSERVERDATE()
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtToDate.Value = clsCommon.GETSERVERDATE()
         txtLocation.Value = Nothing
         lblLocation.Text = ""
     End Sub
@@ -42,11 +43,12 @@ Public Class SaleConsignee
         Try
             Dim arrItem As New List(Of String)
             Dim item As String = Nothing
-            Dim SaleConsignee As String = "select '" + clsCommon.GetPrintDate((Slot1FD), "dd/MM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate((Slot3TD), "dd/MM/yyyy") + "' as ToDate,
+            Dim SaleConsignee As String = "select convert(date,'" + txtFromDate.Value + "',103) as FromDate,convert(date,'" + txtToDate.Value + "',103) as ToDate,
                                     TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) AS LOCDESC,MAX(TSPL_LOCATION_MASTER.Add1) AS LOCADD1,MAX(TSPL_LOCATION_MASTER.Add2) AS LOCADD2,
                                     MAX(TSPL_LOCATION_MASTER.Add3) AS LOCADD3,MAX(TSPL_LOCATION_MASTER.Add4) AS LOCADD4,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location,
                                     MAX(TSPL_CUSTOMER_MASTER.ADD1) AS ADD1,MAX(TSPL_CUSTOMER_MASTER.ADD2) AS ADD2,MAX(TSPL_CUSTOMER_MASTER.ADD3) AS ADD3,
                                     MAX(TSPL_CUSTOMER_MASTER.City_Code) AS City_Code,MAX(TSPL_CITY_MASTER.City_Name) AS CITY_NAME,MAX(TSPL_CUSTOMER_MASTER.State) AS State,MAX(TSPL_CUSTOMER_MASTER.Country) AS Country,MAX(TSPL_CUSTOMER_MASTER.PIN_Code) AS PIN_Code,MAX(TSPL_CUSTOMER_MASTER.Email) AS EMAIL,
+                                    FORMAT(Document_Date, 'MMM') AS MonthName,year(TSPL_SD_SALE_INVOICE_HEAD.Document_Date)as Years,
                                     sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty)/1000 as QtyMT  from TSPL_SD_SALE_INVOICE_HEAD
                                     left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
                                     LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
@@ -57,11 +59,11 @@ Public Class SaleConsignee
                                     LEFT JOIN TSPL_COUNTRY_MASTER ON TSPL_COUNTRY_MASTER.COUNTRY_CODE=TSPL_CUSTOMER_MASTER.Country
                                     LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
                                     where 
-                                    convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(Slot1FD) + "'
-                                    and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(Slot3TD) + "' AND 
+                                    convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103)
+                                    and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + txtToDate.Value + "',103) AND 
                                     TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location='" + clsCommon.myCstr(txtLocation.Value) + "'
                                     group by TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location "
+                                    TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location,FORMAT(Document_Date, 'MMM') ,year(TSPL_SD_SALE_INVOICE_HEAD.Document_Date) "
 
 
 
