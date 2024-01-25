@@ -206,7 +206,7 @@ Public Class frmTransactionHistory
             '' =========Final Binding Main Qry=======
 
             Mainqry = "select (" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
-            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "' and " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & " in (" & strVersionNoSelect & ")   "
+            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "' and " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & " in (" & strVersionNoSelect & ")  order by " & DetailTable + clsCommon.HistTablePostFix & "." & "SNo , " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ""
             If clsCommon.CompairString(HeadTable, "TSPL_ITEM_MASTER") = CompairStringResult.Equal Then
                 Mainqry += "  ,Conversion_Factor "
             End If
@@ -423,7 +423,7 @@ Public Class frmTransactionHistory
             End If
 
             Mainqry = " select CAST(0 as bit) as Sel, (" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
-            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "'   "
+            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "'  order by " & DetailTable + clsCommon.HistTablePostFix & "." & "SNo , " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ""
             If clsCommon.CompairString(HeadTable, "TSPL_ITEM_MASTER") = CompairStringResult.Equal Then
                 Mainqry += "  ,Conversion_Factor "
             End If
