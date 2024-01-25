@@ -28,10 +28,12 @@ Partial Class SaleConsignee
         Me.lblLocation = New common.Controls.MyLabel()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtLocation = New common.UserControls.txtFinder()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtMonth = New common.Controls.MyDateTimePicker()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.RadLabel1 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -39,9 +41,12 @@ Partial Class SaleConsignee
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtMonth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -77,11 +82,13 @@ Partial Class SaleConsignee
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtToDate)
+        Me.RadPageViewPage1.Controls.Add(Me.txtFromDate)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.lblLocation)
         Me.RadPageViewPage1.Controls.Add(Me.Label3)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
-        Me.RadPageViewPage1.Controls.Add(Me.Label1)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMonth)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
@@ -103,7 +110,7 @@ Partial Class SaleConsignee
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(49, 83)
+        Me.Label3.Location = New System.Drawing.Point(43, 83)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(51, 13)
         Me.Label3.TabIndex = 405
@@ -136,45 +143,6 @@ Partial Class SaleConsignee
         Me.txtLocation.TabIndex = 404
         Me.txtLocation.Value = ""
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(49, 40)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(42, 13)
-        Me.Label1.TabIndex = 403
-        Me.Label1.Text = "Month"
-        '
-        'txtMonth
-        '
-        Me.txtMonth.CalculationExpression = Nothing
-        Me.txtMonth.CustomFormat = "MMM - yyyy"
-        Me.txtMonth.FieldCode = Nothing
-        Me.txtMonth.FieldDesc = Nothing
-        Me.txtMonth.FieldMaxLength = 0
-        Me.txtMonth.FieldName = Nothing
-        Me.txtMonth.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMonth.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtMonth.isCalculatedField = False
-        Me.txtMonth.IsSourceFromTable = False
-        Me.txtMonth.IsSourceFromValueList = False
-        Me.txtMonth.IsUnique = False
-        Me.txtMonth.Location = New System.Drawing.Point(106, 40)
-        Me.txtMonth.MendatroryField = True
-        Me.txtMonth.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtMonth.MyLinkLable1 = Nothing
-        Me.txtMonth.MyLinkLable2 = Nothing
-        Me.txtMonth.Name = "txtMonth"
-        Me.txtMonth.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtMonth.ReferenceFieldDesc = Nothing
-        Me.txtMonth.ReferenceFieldName = Nothing
-        Me.txtMonth.ReferenceTableName = Nothing
-        Me.txtMonth.Size = New System.Drawing.Size(290, 18)
-        Me.txtMonth.TabIndex = 402
-        Me.txtMonth.TabStop = False
-        Me.txtMonth.Text = "Sep - 2023"
-        Me.txtMonth.Value = New Date(2023, 9, 1, 0, 0, 0, 0)
-        '
         'BtnReset
         '
         Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -194,6 +162,82 @@ Partial Class SaleConsignee
         Me.btnPrint.Size = New System.Drawing.Size(57, 17)
         Me.btnPrint.TabIndex = 46
         Me.btnPrint.Text = "Print"
+        '
+        'txtToDate
+        '
+        Me.txtToDate.CalculationExpression = Nothing
+        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
+        Me.txtToDate.Location = New System.Drawing.Point(253, 37)
+        Me.txtToDate.MendatroryField = False
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.MyLinkLable1 = Nothing
+        Me.txtToDate.MyLinkLable2 = Nothing
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
+        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtToDate.TabIndex = 408
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "13-06-2011"
+        Me.txtToDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'txtFromDate
+        '
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(106, 35)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Nothing
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtFromDate.TabIndex = 407
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "13-06-2011"
+        Me.txtFromDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Location = New System.Drawing.Point(200, 38)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(45, 18)
+        Me.RadLabel2.TabIndex = 410
+        Me.RadLabel2.Text = "To Date"
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.FieldName = Nothing
+        Me.RadLabel1.Location = New System.Drawing.Point(46, 36)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
+        Me.RadLabel1.TabIndex = 409
+        Me.RadLabel1.Text = "From Date"
         '
         'SaleConsignee
         '
@@ -215,9 +259,12 @@ Partial Class SaleConsignee
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtMonth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -226,11 +273,13 @@ Partial Class SaleConsignee
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
-    Friend WithEvents txtMonth As common.Controls.MyDateTimePicker
-    Friend WithEvents Label1 As Label
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents Label3 As Label
     Friend WithEvents txtLocation As common.UserControls.txtFinder
     Friend WithEvents BtnReset As RadButton
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents RadLabel2 As common.Controls.MyLabel
+    Friend WithEvents RadLabel1 As common.Controls.MyLabel
 End Class
