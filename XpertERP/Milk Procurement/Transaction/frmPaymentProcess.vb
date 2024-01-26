@@ -2559,7 +2559,13 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 where  Document_Type='D' and ((TSPL_VENDOR_INVOICE_HEAD.isDeduction='1' 
 and (ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,'')<>'' or ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'')) or  len(coalesce(TSPL_VENDOR_INVOICE_HEAD.Against_VCGL,''))>0)  
-and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0"
+and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 "
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                qry += " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
+            Else
+                qry += " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 "
+            End If
 
             Dim whrCls As String = ""
             If clsCommon.myLen(strVendorCode) <= 0 Then
