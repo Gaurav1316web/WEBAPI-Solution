@@ -6154,6 +6154,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
                 arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
                 clsCommon.MyExportToExcelGrid("Payment Process Details", gv, arr, "Payment Process")
+                'clsCommon.MyExportToExcelGrid(Nothing, gv, arr, Nothing)
+                'clsCommon.MyExportToExcelGrid("", gv, arr, "")
                 gv.Columns(colSelect).IsVisible = True
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
@@ -6296,7 +6298,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 Dim arr As List(Of String) = New List(Of String)
                 arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
                 arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
-                clsCommon.MyExportToExcelGrid("Compulsory Details", gvCompulsory, arr, "Compulsory")
+                'clsCommon.MyExportToExcelGrid("Compulsory Details", gvCompulsory, arr, "Compulsory")
+                clsCommon.MyExportToExcelGrid(Nothing, gvCompulsory, arr, Nothing)
                 gvCompulsory.Columns(colSelect).IsVisible = True
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to export", Me.Text)
