@@ -426,6 +426,7 @@ Public Class frmShipmentDairy
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         txtFdate.Value = clsCommon.GETSERVERDATE
         txtToDate.Value = clsCommon.GETSERVERDATE
+        txtSupplyDate.Value = txtToDate.Value
         chkVendorGrossReceipt.Visible = False
         txtVendorNo.MendatroryField = True
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -6746,6 +6747,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             obj.Inv_Date = clsCommon.GetPrintDate(dtpInvoice.Value, "dd/MMM/yyyy")
             obj.Challan_Date = clsCommon.GetPrintDate(dtpChallan.Value, "dd/MMM/yyyy")
             obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
+            obj.Supply_Date = clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy")
             obj.Inv_No = txtInvNo.Text
             obj.Bill_To_Location = txtBillToLocation.Value
             If ShowShipToPartyInDairyDispatch = 1 Then
@@ -7121,7 +7123,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 objTr.Distributor_Commission_Amt = clsCommon.myCdbl(grow.Cells(ColDCAmt).Value)
                 objTr.Security_Amt = clsCommon.myCdbl(grow.Cells(ColSCAmt).Value)
                 objTr.Security_Rate = clsCommon.myCdbl(grow.Cells(ColSCRate).Value)
-                objTr.Security_Amt = clsCommon.myCdbl(grow.Cells(colSCAmt).Value)
+                objTr.Security_Amt = clsCommon.myCdbl(grow.Cells(ColSCAmt).Value)
                 DCTotalAmt += objTr.Distributor_Commission_Amt
                 SCTotalAmt += objTr.Security_Amt
 
@@ -7337,6 +7339,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 txtDocNo.Value = obj.Document_Code
                 'txtpodate.Text = obj.Podate
                 txtDate.Value = obj.Document_Date
+                If obj.Supply_Date IsNot Nothing Then
+                    txtSupplyDate.Value = obj.Supply_Date
+                End If
                 txtVendorNo.Value = obj.Customer_Code
                 txtPONo.Text = obj.Cust_PO_No
                 txtForm38.Text = obj.Form_38_No
@@ -8521,7 +8526,7 @@ order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code"
             strwherecls = Xtra.CustomerPermission()
             Dim strDONo As String = Nothing
             Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,(select isnull((Select distinct '['+TSPL_SD_SALE_INVOICE_HEAD.Document_Code+']  ' from TSPL_SD_SHIPMENT_HEAD a left outer join TSPL_SD_SALE_INVOICE_HEAD on a.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where  a.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code  for xml path('')),'') )as InvoiceNo, 
-TSPL_SD_SHIPMENT_HEAD.GatePass_No as GatePassCode,TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code as DeliveryCode, 
+TSPL_SD_SHIPMENT_HEAD.GatePass_No as GatePassCode,TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code as DeliveryCode, 
 CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date, 
 TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code], 
 Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount, 
@@ -13111,7 +13116,7 @@ from TSPL_BOOKING_MATSER
 left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DETAIL.Item_Code 
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_BOOKING_DETAIL.Cust_Code 
-where TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbShift.SelectedValue) + "'  and TSPL_BOOKING_MATSER.Document_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_BOOKING_MATSER.Document_Date<'" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "' 
+where TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbShift.SelectedValue) + "'  and TSPL_BOOKING_MATSER.Document_Date>='" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and TSPL_BOOKING_MATSER.Document_Date<'" + clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) + "' 
    and TSPL_BOOKING_MATSER.Posted=1
 and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MATSER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'
  "

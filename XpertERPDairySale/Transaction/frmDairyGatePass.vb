@@ -81,6 +81,7 @@ Public Class frmDairyGatePass
         isNewEntry = True
         LoadBlankGrid()
         txtDate.Value = clsCommon.GETSERVERDATE()
+        txtSupplyDate.Value = txtDate.Value
         txtGatepassDate.Value = clsCommon.GETSERVERDATE()
         'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
         isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
@@ -300,7 +301,7 @@ Public Class frmDairyGatePass
                        "from TSPL_DEMAND_BOOKING_MASTER left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_no=TSPL_DEMAND_BOOKING_DETAIL.DOCUMENT_no " &
                        "left outer join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                        "left outer join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
-                       "where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And isnull(GPCode,'') = '' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "' And " &
+                       "where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & " ' And isnull(GPCode,'') = '' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "' And " &
                        "TSPL_DEMAND_BOOKING_MASTER.Location_Code='" & txtLocCode.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code='" + txtVehicle.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code <> '' " & strItem & " "
             If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                 strQuery += "  and TSPL_DEMAND_BOOKING_MASTER.route_no='" + fndRouteNo.Value + "'"
@@ -651,6 +652,9 @@ Public Class frmDairyGatePass
                 txtGatepassDate.Value = obj.GatePassDate
                 txtLocCode.Value = obj.Location_Code
                 txtLocDesc.Text = obj.Location_Desc
+                If obj.Supply_Date IsNot Nothing Then
+                    txtSupplyDate.Value = obj.Supply_Date
+                End If
                 '===============Added by preeti Gupta Against ticket no[BHA/17/08/18-000444]
                 fndRouteNo.Value = obj.Route_No
                 txtRouteName.Text = obj.Route_Desc
@@ -807,6 +811,7 @@ Public Class frmDairyGatePass
                 obj.Comments = txtComments.Text
                 obj.Location_Code = txtLocCode.Value
                 obj.Location_Desc = txtLocDesc.Text
+                obj.Supply_Date = txtSupplyDate.Value
                 '===============Added by preeti Gupta Agianst Ticket no[]
                 obj.Route_No = fndRouteNo.Value
                 obj.TotalCrate = clsCommon.myCdbl(txtCrateQty.Text)
@@ -884,6 +889,7 @@ Public Class frmDairyGatePass
         txtTollAmount.Text = 0
         txtCode.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE
+        txtSupplyDate.Value = txtDate.Value
         txtGatepassDate.Value = clsCommon.GETSERVERDATE()
         txtVehicle.Value = ""
         lblVehicleDesc.Text = ""
@@ -1206,7 +1212,7 @@ Public Class frmDairyGatePass
     Private Function GetAttachQry(ByVal StrCode As String) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
         Dim Qry As String = " Select Case When CFinPouch > 0 Then ( ( Final.Crate_Qty * Final.Conversion_Factor )/ CFinPouch ) Else 0 End AS 'NoOfPouch', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) Else 0 End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr', CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then cast( ( cast(qty as int)% Column_Crate ) as int ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch', CAST( CASE WHEN qty > 0 THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt END AS decimal(18,2) ) AS CrateQtydd, CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2 FROM 
-                   ( Select "
+                   ( Select  max(Supply_Date)as Supply_Date,"
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt ,MAX(gpUnit) AS gpUnit, "
@@ -1215,7 +1221,7 @@ Public Class frmDairyGatePass
         End If
 
         Qry += " Max(Distributor) Distributor, Max(CFinPouch) CFinPouch, Max(CFinLTR) CFinLTR, Max(CFinBOX) CFinBOX, Max(CFinKG) CFinKG, Max(Conversion_Factor) Conversion_Factor, Max(AgainstTransferNo) AgainstTransferNo, Max(Comp_Code) Comp_Code, Sum( Qty * case when Unit_Code = 'Crate' then 1 else 0 end ) Crate_Qty, Sum( Qty * case when Unit_Code = 'Pouch' then 1 else 0 end ) Pouch_Qty, Sum(Box_Crate_Qty) Box_Crate_Qty, Max(Insurance_No) Insurance_No, Max(Insurance_Comp_Name) Insurance_Comp_Name, Max(comp_name) comp_name, Max(unit_code) unit_code, Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Sum(Column_Crate) Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Sum(Amount) Amount, Sum(Margin) Margin, sum(SecurityAmt) as SecurityAmt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax, Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo FROM
-                   ( select"
+                   ( select FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , gpUnit.Conversion_Factor AS gpUnit, "
         Else

@@ -59,6 +59,7 @@ Public Class clsPSShipmentHead
     Public GR_Date As Date?
     Public RoadPermit_Date As Date?
     Public Sale_Invoice_Date As DateTime? = Nothing
+    Public Supply_Date As DateTime? = Nothing
     Public Removal_Date As DateTime? = Nothing
     Public ManualVehicle As String = Nothing
     Public Total_Comm_Amt As Double = 0
@@ -705,6 +706,11 @@ Public Class clsPSShipmentHead
             If obj.Challan_Date IsNot Nothing Then
                 clsCommon.AddColumnsForChange(coll, "Challan_Date", clsCommon.GetPrintDate(obj.Challan_Date, "dd/MMM/yyyy"))
             End If
+            If obj.Supply_Date IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "Supply_Date", clsCommon.GetPrintDate(obj.Supply_Date, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "Supply_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
+            End If
             If obj.Inv_Date IsNot Nothing Then
                 clsCommon.AddColumnsForChange(coll, "Inv_Date", clsCommon.GetPrintDate(obj.Inv_Date, "dd/MMM/yyyy"))
             End If
@@ -1097,7 +1103,7 @@ Public Class clsPSShipmentHead
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity " &
-        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt "
+        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt "
 
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
@@ -1213,6 +1219,9 @@ Public Class clsPSShipmentHead
             End If
             If dt.Rows(0)("Removal_Date") IsNot DBNull.Value Then
                 obj.Removal_Date = clsCommon.myCstr(dt.Rows(0)("Removal_Date"))
+            End If
+            If dt.Rows(0)("Supply_Date") IsNot DBNull.Value Then
+                obj.Supply_Date = clsCommon.myCstr(dt.Rows(0)("Supply_Date"))
             End If
 
             obj.Transport_Id = clsCommon.myCstr(dt.Rows(0)("Transport_Id"))
