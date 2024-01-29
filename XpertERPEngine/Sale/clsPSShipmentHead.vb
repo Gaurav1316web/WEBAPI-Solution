@@ -3229,6 +3229,9 @@ Public Class clsPSShipmentHead
                 qry = "delete from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + strInvoiceNo + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+                qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + strCode + "'"
+                isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                 qry = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

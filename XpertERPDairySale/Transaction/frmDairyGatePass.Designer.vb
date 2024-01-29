@@ -22,13 +22,15 @@ Partial Class frmDairyGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtSupplyDate = New common.Controls.MyDateTimePicker()
+        Me.lblSupplyDate = New common.Controls.MyLabel()
         Me.txtDistributorName = New common.Controls.MyTextBox()
         Me.lblDistributorName = New common.Controls.MyLabel()
         Me.txtDriverMobNo = New common.Controls.MyTextBox()
@@ -104,14 +106,14 @@ Partial Class frmDairyGatePass
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.txtSupplyDate = New common.Controls.MyDateTimePicker()
-        Me.lblSupplyDate = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDriverMobNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -178,8 +180,6 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -221,7 +221,7 @@ Partial Class frmDairyGatePass
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1031, 197)
@@ -288,6 +288,45 @@ Partial Class frmDairyGatePass
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1031, 199)
         Me.Panel1.TabIndex = 0
+        '
+        'txtSupplyDate
+        '
+        Me.txtSupplyDate.CalculationExpression = Nothing
+        Me.txtSupplyDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtSupplyDate.FieldCode = Nothing
+        Me.txtSupplyDate.FieldDesc = Nothing
+        Me.txtSupplyDate.FieldMaxLength = 0
+        Me.txtSupplyDate.FieldName = Nothing
+        Me.txtSupplyDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtSupplyDate.isCalculatedField = False
+        Me.txtSupplyDate.IsSourceFromTable = False
+        Me.txtSupplyDate.IsSourceFromValueList = False
+        Me.txtSupplyDate.IsUnique = False
+        Me.txtSupplyDate.Location = New System.Drawing.Point(576, 6)
+        Me.txtSupplyDate.MendatroryField = False
+        Me.txtSupplyDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtSupplyDate.MyLinkLable1 = Me.lblSupplyDate
+        Me.txtSupplyDate.MyLinkLable2 = Nothing
+        Me.txtSupplyDate.Name = "txtSupplyDate"
+        Me.txtSupplyDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtSupplyDate.ReferenceFieldDesc = Nothing
+        Me.txtSupplyDate.ReferenceFieldName = Nothing
+        Me.txtSupplyDate.ReferenceTableName = Nothing
+        Me.txtSupplyDate.Size = New System.Drawing.Size(93, 20)
+        Me.txtSupplyDate.TabIndex = 1042
+        Me.txtSupplyDate.TabStop = False
+        Me.txtSupplyDate.Text = "10/06/2011"
+        Me.txtSupplyDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'lblSupplyDate
+        '
+        Me.lblSupplyDate.FieldName = Nothing
+        Me.lblSupplyDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSupplyDate.Location = New System.Drawing.Point(505, 8)
+        Me.lblSupplyDate.Name = "lblSupplyDate"
+        Me.lblSupplyDate.Size = New System.Drawing.Size(68, 16)
+        Me.lblSupplyDate.TabIndex = 1043
+        Me.lblSupplyDate.Text = "Supply Date"
         '
         'txtDistributorName
         '
@@ -405,7 +444,7 @@ Partial Class frmDairyGatePass
         Me.txtGatepassDate.IsSourceFromTable = False
         Me.txtGatepassDate.IsSourceFromValueList = False
         Me.txtGatepassDate.IsUnique = False
-        Me.txtGatepassDate.Location = New System.Drawing.Point(582, 7)
+        Me.txtGatepassDate.Location = New System.Drawing.Point(853, 174)
         Me.txtGatepassDate.MendatroryField = False
         Me.txtGatepassDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtGatepassDate.MyLinkLable1 = Me.MyLabel12
@@ -420,16 +459,18 @@ Partial Class frmDairyGatePass
         Me.txtGatepassDate.TabStop = False
         Me.txtGatepassDate.Text = "10/06/2011  11:51 AM"
         Me.txtGatepassDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        Me.txtGatepassDate.Visible = False
         '
         'MyLabel12
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(501, 9)
+        Me.MyLabel12.Location = New System.Drawing.Point(772, 176)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(82, 16)
         Me.MyLabel12.TabIndex = 1035
         Me.MyLabel12.Text = "Gatepass Date"
+        Me.MyLabel12.Visible = False
         '
         'txtLoadingSlip
         '
@@ -1190,12 +1231,12 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype.IsSourceFromTable = False
         Me.cmbitemtype.IsSourceFromValueList = False
         Me.cmbitemtype.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Full"
-        RadListDataItem3.Text = "Empty"
-        Me.cmbitemtype.Items.Add(RadListDataItem1)
-        Me.cmbitemtype.Items.Add(RadListDataItem2)
-        Me.cmbitemtype.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "Full"
+        RadListDataItem6.Text = "Empty"
+        Me.cmbitemtype.Items.Add(RadListDataItem4)
+        Me.cmbitemtype.Items.Add(RadListDataItem5)
+        Me.cmbitemtype.Items.Add(RadListDataItem6)
         Me.cmbitemtype.Location = New System.Drawing.Point(896, 49)
         Me.cmbitemtype.MendatroryField = False
         Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
@@ -1416,45 +1457,6 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1031, 20)
         Me.RadMenu1.TabIndex = 0
         '
-        'txtSupplyDate
-        '
-        Me.txtSupplyDate.CalculationExpression = Nothing
-        Me.txtSupplyDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtSupplyDate.FieldCode = Nothing
-        Me.txtSupplyDate.FieldDesc = Nothing
-        Me.txtSupplyDate.FieldMaxLength = 0
-        Me.txtSupplyDate.FieldName = Nothing
-        Me.txtSupplyDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtSupplyDate.isCalculatedField = False
-        Me.txtSupplyDate.IsSourceFromTable = False
-        Me.txtSupplyDate.IsSourceFromValueList = False
-        Me.txtSupplyDate.IsUnique = False
-        Me.txtSupplyDate.Location = New System.Drawing.Point(785, 7)
-        Me.txtSupplyDate.MendatroryField = False
-        Me.txtSupplyDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtSupplyDate.MyLinkLable1 = Me.lblSupplyDate
-        Me.txtSupplyDate.MyLinkLable2 = Nothing
-        Me.txtSupplyDate.Name = "txtSupplyDate"
-        Me.txtSupplyDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtSupplyDate.ReferenceFieldDesc = Nothing
-        Me.txtSupplyDate.ReferenceFieldName = Nothing
-        Me.txtSupplyDate.ReferenceTableName = Nothing
-        Me.txtSupplyDate.Size = New System.Drawing.Size(93, 20)
-        Me.txtSupplyDate.TabIndex = 1042
-        Me.txtSupplyDate.TabStop = False
-        Me.txtSupplyDate.Text = "10/06/2011"
-        Me.txtSupplyDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
-        '
-        'lblSupplyDate
-        '
-        Me.lblSupplyDate.FieldName = Nothing
-        Me.lblSupplyDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSupplyDate.Location = New System.Drawing.Point(714, 9)
-        Me.lblSupplyDate.Name = "lblSupplyDate"
-        Me.lblSupplyDate.Size = New System.Drawing.Size(68, 16)
-        Me.lblSupplyDate.TabIndex = 1043
-        Me.lblSupplyDate.Text = "Supply Date"
-        '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1476,6 +1478,8 @@ Partial Class frmDairyGatePass
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDriverMobNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1544,8 +1548,6 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

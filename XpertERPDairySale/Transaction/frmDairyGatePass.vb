@@ -515,6 +515,7 @@ Public Class frmDairyGatePass
 
                         End If
                         txtDate.Enabled = False
+                        'txtSupplyDate.Enabled = False
                     End If
                 Next
                 ' **************************************************************************************************
@@ -574,6 +575,7 @@ Public Class frmDairyGatePass
 
                     End If
                     txtDate.Enabled = False
+                    'txtSupplyDate.Enabled = False
 
                 Next
                 txtCrateQty.Text = totalCrate
@@ -1141,6 +1143,7 @@ Public Class frmDairyGatePass
         Addnew()
         cmbitemtype.Enabled = True
         txtDate.Enabled = True
+        txtSupplyDate.Enabled = True
         btnGo.Enabled = True
         RadGroupBox3.Enabled = True
         VehicleDesc = Nothing
@@ -1508,6 +1511,7 @@ Public Class frmDairyGatePass
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCstr(dr("Quantity"))
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = clsCommon.myCstr(dr("HSN_Code"))
                     txtDate.Enabled = False
+                    'txtSupplyDate.Enabled = False
                 Next
             End If
         Catch ex As Exception
@@ -1669,6 +1673,7 @@ Public Class frmDairyGatePass
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCstr(dr("Quantity"))
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = clsCommon.myCstr(dr("HSN_Code"))
                     txtDate.Enabled = False
+                    ' txtSupplyDate.Enabled = False
 
                 Next
 

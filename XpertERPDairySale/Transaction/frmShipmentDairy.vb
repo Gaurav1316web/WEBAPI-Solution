@@ -5772,6 +5772,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         gvAC.Rows.AddNew()
         gvAC.Rows.AddNew()
         txtDate.Enabled = True
+        txtSupplyDate.Enabled = True
         txtVendorNo.Enabled = True
         btnHistory.Enabled = False
         Dim ShowPrintChallan As Boolean = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.ShowPrintChallanInDairyDispatch, clsFixedParameterCode.ShowPrintChallanInDairyDispatch, Nothing) = "1", True, False))
@@ -7346,6 +7347,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 txtPONo.Text = obj.Cust_PO_No
                 txtForm38.Text = obj.Form_38_No
                 txtDate.Enabled = False
+                txtSupplyDate.Enabled = False
                 txtVendorNo.Enabled = False
                 chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
                 txtRoadPermitNo.Text = obj.Road_Permit_No
@@ -8526,7 +8528,7 @@ order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code"
             strwherecls = Xtra.CustomerPermission()
             Dim strDONo As String = Nothing
             Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,(select isnull((Select distinct '['+TSPL_SD_SALE_INVOICE_HEAD.Document_Code+']  ' from TSPL_SD_SHIPMENT_HEAD a left outer join TSPL_SD_SALE_INVOICE_HEAD on a.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where  a.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code  for xml path('')),'') )as InvoiceNo, 
-TSPL_SD_SHIPMENT_HEAD.GatePass_No as GatePassCode,TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code as DeliveryCode, 
+TSPL_SD_SHIPMENT_HEAD.GatePass_No as GatePassCode,TSPL_SD_SHIPMENT_HEAD.Route_No,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as ShiftType,TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code as DeliveryCode, 
 CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date, 
 TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code], 
 Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount, 
@@ -9039,6 +9041,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
             txtVehicleCapacity.Value = clsCommon.myCdbl(dt.Rows(0)("Capacity"))
             txtDate.Enabled = False
+            txtSupplyDate.Enabled = False
             txtVendorNo.Enabled = False
             chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
             SetMultiCurrencyVisibility()
@@ -10757,6 +10760,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     'lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
                     txtVehicleCapacity.Value = clsCommon.myCdbl(dt.Rows(0)("Capacity"))
                     txtDate.Enabled = False
+                    txtSupplyDate.Enabled = False
                     txtVendorNo.Enabled = False
                     chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
                     SetMultiCurrencyVisibility()
@@ -12097,6 +12101,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                         lblVendorName.Text = objOrderHead.Customer_Name
                         chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(objOrderHead.Customer_Code)
                         txtDate.Enabled = False
+                        txtSupplyDate.Enabled = False
                         txtVendorNo.Enabled = False
                         chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
                     End If
