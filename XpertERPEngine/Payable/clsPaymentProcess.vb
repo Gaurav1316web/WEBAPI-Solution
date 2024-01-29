@@ -1725,13 +1725,24 @@ SELECT TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) ,0 as Sequence
 FROM (
 select TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code
 ,sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount from TSPL_PAYMENT_PROCESS_COMPULSORY
-left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No
-                    left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION 
+left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No"
+
+     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                sQuery += " left outer join ( select Code, 0 as Sequence_No,Description,0 as Is_Transfer_To_Saving    from TSPL_DCS_ADDITION_DEDUCTION 
+                    union 
+                    select  Code ,Sequence_No, Description,Is_Transfer_To_Saving    from TSPL_DEDUCTION_MASTER
+                    )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
+                    where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ") and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
+            Else
+                sQuery += " left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION 
                     union 
                     select  Code ,Sequence_No, Description  from TSPL_DEDUCTION_MASTER
                     )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
-where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ")
-group by TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code ,TSPL_DEDUCTION_MASTER.Sequence_No
+                    where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ") "
+            End If
+
+
+            sQuery += "    group by TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code ,TSPL_DEDUCTION_MASTER.Sequence_No
 )TT left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
                      left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION
                      on  DEDUCTION.Code=MAPPING.MappingCode
