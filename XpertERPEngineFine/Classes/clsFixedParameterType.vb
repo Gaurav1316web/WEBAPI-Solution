@@ -2895,7 +2895,6 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, "0", "0-All;No. of Rows To Export")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.WeighingRoundSetting, "NA", "NA;+1(Round Up Decimal Places);-1(Round Down Decimal Places)")
-        a
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.AverageDaysForFATSNF, "10", "No of Days to Get Average")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkRateRoundOffType, clsFixedParameterCode.MilkRateRoundOffType, "0", "0: MidpointRounding.ToEven 39.825=39.82; 1:MidpointRounding.AwayFromZero 39.825=39.83")
