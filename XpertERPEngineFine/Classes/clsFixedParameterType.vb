@@ -1343,6 +1343,7 @@ Public Class clsFixedParameterCode
     Public Const AllowZeroFATSNF As String = "Allow Zero FAT SNF"
     Public Const MilkRateRoundOffType As String = "Milk Rate Round Off Type"
     Public Const WeighingRoundSetting As String = "Weighing Round Setting"
+    Public Const AverageDaysForFATSNF As String = "Average Days For FAT SNF"
     Public Const MarqueText As String = "Marque Text"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
     Public Const ShowSampleNoOnBMC As String = "Fill Route Tanker No"
@@ -1397,6 +1398,9 @@ Public Class clsFixedParameterCode
     Public Const TolleranceFAT As String = "Tollerance FAT"
     Public Const TolleranceSNF As String = "Tollerance SNF"
     Public Const IncludeOwnBMC As String = "Include Own BMC"
+
+    Public Const TransactionForCurrentDateOnly As String = "Transaction For Current Date Only"
+
     Public Const DashboardDays As String = "Dashboard Days"
     Public Const UOM As String = "UOM"
     Public Const Shift As String = "Shift"
@@ -2891,6 +2895,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, "0", "0-All;No. of Rows To Export")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.WeighingRoundSetting, "NA", "NA;+1(Round Up Decimal Places);-1(Round Down Decimal Places)")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.AverageDaysForFATSNF, "10", "No of Days to Get Average")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkRateRoundOffType, clsFixedParameterCode.MilkRateRoundOffType, "0", "0: MidpointRounding.ToEven 39.825=39.82; 1:MidpointRounding.AwayFromZero 39.825=39.83")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, "0", "0-OFF;1-ON")
@@ -2945,6 +2951,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.IncludeOwnBMC, "1", "1:On,0:Off; Include Own BMC in BMC List")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TransactionForCurrentDateOnly, "1", "1:On;0:Off Disable Date selection by user")
 
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comAnchal_ucdfErp, "", "Version of Aanchal Pro APP [0 Skip]")
