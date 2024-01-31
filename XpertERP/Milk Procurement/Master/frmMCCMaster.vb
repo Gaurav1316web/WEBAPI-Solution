@@ -32,6 +32,8 @@ Public Class FrmMCCMaster
     Public colEmpName As String = "colEmpName"
     Public AllowBankSectionEnableOnMCCMaster As Boolean = False
     Public SettApplyGaze As Boolean = False
+    Dim AreaWiseBilling As Boolean = False
+
 #End Region
 #Region "User Defined Functions and Subroutines"
     Public Sub New(ByVal user As String, ByVal company As String)
@@ -75,6 +77,9 @@ Public Class FrmMCCMaster
             UcCustomFields1.LoadCustomControls()
         End If
         RadButton1.Visible = True
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+
+
     End Sub
 
     Sub loadBlankGvEmployee()
@@ -202,6 +207,7 @@ Public Class FrmMCCMaster
             txtTehsil.Text = ""
             txtCityName.Text = ""
             fndCity.Value = ""
+            fndArea.Value = ""
             TxtUnitCode.Value = ""
             txtUnit.Text = ""
             fndState.Value = ""
@@ -1436,6 +1442,7 @@ Public Class FrmMCCMaster
             obj.MCC_Code_VLC_Uploader = clsCommon.myCstr(txtMccCodeVlcUploader.Text)
             obj.EMP_CODE = clsCommon.myCstr(fndEmployee.Value)
             obj.Plant_Code = clsCommon.myCstr(fndLocation.Value)
+            obj.Area_Location_Code = clsCommon.myCstr(fndArea.Value)
             '------------------------25/06/2014 Monika--------------------------
             obj.bankcode = clsCommon.myCstr(txtBankCode.Value)
             obj.BankName = clsCommon.myCstr(txtBankName.Text)
@@ -1861,6 +1868,7 @@ Public Class FrmMCCMaster
                 fndEmployee.Value = obj.EMP_CODE
                 txtEmployeeName.Text = obj.EMP_Name
                 fndLocation.Value = obj.Plant_Code
+                fndArea.Value = obj.Area_Location_Code
                 If clsCommon.myLen(obj.Plant_Code) > 0 Then
                     lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code = '" + obj.Plant_Code + "'"))
                 End If
@@ -5536,5 +5544,18 @@ Public Class FrmMCCMaster
         clsMccMaster.ToEnglishInput()
     End Sub
 
-
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER
+     "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+            'If fndLocation.Value <> "" Then
+            '    lblLocation.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndArea.Value & "'")
+            'Else
+            '    lblLocation.Text = ""
+            'End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
+    End Sub
 End Class

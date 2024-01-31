@@ -36,6 +36,9 @@ Partial Class FrmPaymentProcess
         Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.fndArea = New common.UserControls.txtFinder()
+        Me.lblLocation = New common.Controls.MyLabel()
         Me.MyCheckBox1 = New common.Controls.MyCheckBox()
         Me.mfndMcc = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -61,7 +64,6 @@ Partial Class FrmPaymentProcess
         Me.btnUnselectAll = New Telerik.WinControls.UI.RadButton()
         Me.btnSelectAll = New Telerik.WinControls.UI.RadButton()
         Me.txtLocName = New common.Controls.MyTextBox()
-        Me.lblLocation = New common.Controls.MyLabel()
         Me.fndLoc = New common.UserControls.txtFinder()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.dtpDate = New common.Controls.MyDateTimePicker()
@@ -120,6 +122,7 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyCheckBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,7 +146,6 @@ Partial Class FrmPaymentProcess
         CType(Me.btnUnselectAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelectAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -229,6 +231,8 @@ Partial Class FrmPaymentProcess
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.Label1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.fndArea)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyCheckBox1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.mfndMcc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtFiscalYear)
@@ -263,6 +267,51 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Size = New System.Drawing.Size(924, 425)
         Me.SplitContainer2.SplitterDistance = 160
         Me.SplitContainer2.TabIndex = 265
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(644, 113)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(30, 13)
+        Me.Label1.TabIndex = 297
+        Me.Label1.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(677, 110)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Me.lblLocation
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(136, 19)
+        Me.fndArea.TabIndex = 296
+        Me.fndArea.Value = ""
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(5, 28)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(49, 16)
+        Me.lblLocation.TabIndex = 277
+        Me.lblLocation.Text = "Location"
         '
         'MyCheckBox1
         '
@@ -622,16 +671,6 @@ Partial Class FrmPaymentProcess
         Me.txtLocName.ReferenceTableName = Nothing
         Me.txtLocName.Size = New System.Drawing.Size(146, 20)
         Me.txtLocName.TabIndex = 276
-        '
-        'lblLocation
-        '
-        Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(5, 28)
-        Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(49, 16)
-        Me.lblLocation.TabIndex = 277
-        Me.lblLocation.Text = "Location"
         '
         'fndLoc
         '
@@ -1344,6 +1383,7 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyCheckBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1368,7 +1408,6 @@ Partial Class FrmPaymentProcess
         CType(Me.btnUnselectAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelectAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1520,5 +1559,7 @@ Partial Class FrmPaymentProcess
     Friend WithEvents gvCompulsory As common.UserControls.MyRadGridView
     Friend WithEvents btnPrintBillMobUser As RadButton
     Friend WithEvents MyCheckBox1 As common.Controls.MyCheckBox
+    Friend WithEvents fndArea As common.UserControls.txtFinder
+    Friend WithEvents Label1 As Label
 End Class
 

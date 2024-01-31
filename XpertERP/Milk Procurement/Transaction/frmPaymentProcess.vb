@@ -128,6 +128,7 @@ Public Class FrmPaymentProcess
     Dim isLoad As Boolean = True
     Dim isNewEntry As Boolean = False
     Dim frm As FrmPaymentDetail = New FrmPaymentDetail()
+    'Dim chkArea As Boolean = False
 
 
 
@@ -157,6 +158,7 @@ Public Class FrmPaymentProcess
     Private isConsiderAdvancePayment As Boolean = False
     Private PayableAmountZeroForMCCSale As Boolean = False
     Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = False
+    Dim AreaWiseBilling As Boolean = False
     Dim IsRoundOffPaiseAmount As Boolean
     Dim settingShowFATSNF As Boolean = False
     Dim SettShowMCCFinder As Boolean = False
@@ -164,6 +166,8 @@ Public Class FrmPaymentProcess
     Dim MultipleFinderFillAuto As Boolean = False
     Dim SettVSPHoldPaymentNotCompanyBank As Boolean = False
     Dim SetCowFatPer As Decimal = 0
+    'Dim AreaWiseBilling As Boolean = False
+
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -178,6 +182,8 @@ Public Class FrmPaymentProcess
         RadPageView1.Pages("RadPageViewPage7").Item.Visibility = IIf(isConsiderAdvancePayment, Telerik.WinControls.ElementVisibility.Visible, Telerik.WinControls.ElementVisibility.Collapsed)
         chkSkipPreviousDocumentOfAdvancePayment.Visible = isConsiderAdvancePayment
         RadPageView1.SelectedPage = RadPageViewPage1
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+
         Reset()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D To Delete ")
@@ -185,11 +191,15 @@ Public Class FrmPaymentProcess
         ButtonToolTip.SetToolTip(btnReset, "Press Alt+N For New")
         'ButtonToolTip.SetToolTip(btnProcess, "Press Alt+P to Post the Transaction")
         isPickPendingMilkSRNinNextPaymentCycle = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, Nothing)) = 1
-
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         txtMCC.Visible = SettShowMCCFinder
         lblMCC.Visible = SettShowMCCFinder
         lblMCC2.Visible = SettShowMCCFinder
+        'If chkArea.Visible = True AndAlso chkArea.Checked Then
+        '    fndArea.Enabled = True
+        'End If
+        fndArea.Visible = True
+
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         mfndMcc.Visible = False
         If MultipleFinderFillAuto Then
@@ -1684,6 +1694,7 @@ left outer join TSPL_MP_MASTER mp on mp.MP_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD
 where ((TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0) or (TSPL_VENDOR_INVOICE_HEAD.Balance_Amt=0 and TSPL_VENDOR_INVOICE_HEAD.Posting_Date='" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "' ) ) and TSPL_VENDOR_INVOICE_HEAD.document_type='I' and TSPL_VENDOR_INVOICE_HEAD.Invoice_Type='AP' and TSPL_VENDOR_INVOICE_HEAD.REFDocType='MI-PI' and ISNULL(TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No,'')<>''   
 and not exists(select 1 from TSPL_PAYMENT_PROCESS_INVOICE  where TSPL_PAYMENT_PROCESS_INVOICE.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_INVOICE.Doc_No not in ('" + fndDocNo.Value + "')) 
 ) xxx where  1=1 "
+
             If clsCommon.myLen(fndLoc.Value) > 0 AndAlso MultipleFinderFillAuto = False Then
                 qry += " And MCC_Code in  (  select location_code from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & fndLoc.Value & "')"
             End If
@@ -3421,6 +3432,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         'btnDelete.Visible = False
         txtMCC.Text = ""
         lblMCC.Text = ""
+        fndArea.Value = ""
         txtPaymentCycleNo.Text = ""
         txtFiscalYear.Text = ""
         LoadBlankGridInvoice()
@@ -3812,6 +3824,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             obj.From_Date = clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy")
             obj.To_Date = clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy")
             obj.Loc_Seg_Code = clsCommon.myCstr(fndLoc.Value)
+            obj.Area_Location_Code = clsCommon.myCstr(fndArea.Value)
+
             obj.MCC_Code_Selected = txtMCC.Text
             ''richa agarwal 07-jan-2016
             If btnSave.Text = "Update" Then
@@ -4278,7 +4292,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 dtpDate.Value = obj.Doc_Date
                 txtNEFTUploaderREFNo.Text = obj.DocRefNoForUploader
                 txtNEFTUploaderREFNo.Tag = obj.PaymentDesc
-
+                fndArea.Value = obj.Area_Location_Code
                 txtMCC.Text = obj.MCC_Code_Selected
                 lblMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select MCC_Name from tspl_MCC_Master where mcc_code='" + obj.MCC_Code_Selected + "' "))
 
@@ -5120,6 +5134,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             GC.Collect()
             GC.WaitForPendingFinalizers()
             SaveData(True)
+            'AutoFillAllVSP()
             If clsCommon.MyMessageBoxShow("Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                 clsPaymentProcessHead.ProcessData(fndDocNo.Value, IIf(clsCommon.myLen(txtNEFTUploaderREFNo.Tag) > 0, txtNEFTUploaderREFNo.Tag, frm.desc))
                 clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
@@ -8570,22 +8585,37 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
             If mfndMcc.arrValueMember IsNot Nothing AndAlso mfndMcc.arrValueMember.Count <= 0 Then
                 Return
             End If
+            If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count <= 0 Then
+                Return
+            End If
 
             Dim qry As String = "select xx.VSP_CODE as Code,TSPL_VENDOR_MASTER.Vendor_Name as Name,xx.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name from (" + Environment.NewLine +
             " select VSP_CODE,max(VLC_CODE)as VLC_CODE from (" + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE from TSPL_MILK_SRN_Head left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_SRN_Head.MCC_CODE where TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") "
+            " select VSP_CODE,VLC_CODE from TSPL_MILK_SRN_Head  left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_MILK_SRN_Head.MCC_CODE
+              left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_SRN_Head.MCC_CODE where TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") AND tspl_mcc_master.Area_Location_Code='" & clsCommon.myCstr(fndArea.Value) & "' "
             If Not isPickPendingMilkSRNinNextPaymentCycle Then
                 qry += " and DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' "
             End If
             qry += " and DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
+            'qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+            '--varsha added--
+            '       qry += " union all " + Environment.NewLine +
+            '           "select  VSP_CODE,VLC_CODE as VLC_CODE 
+            '               from tspl_mcc_master 
+            'left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.VLC_CODE=tspl_mcc_master.MCC_Code
+            'left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in(" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ")"
+            '       qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
 
+            '--varsha end ---
 
             qry += " union all " + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE as VLC_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE where TSPL_MILK_REJECT_HEAD.Posted=1 and TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") "
+            " select VSP_CODE,VLC_CODE as VLC_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE  left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_MILK_REJECT_HEAD.mcc_code
+              where TSPL_MILK_REJECT_HEAD.Posted=1 and TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") AND tspl_mcc_master.Area_Location_Code='" & clsCommon.myCstr(fndArea.Value) & "'  "
             If Not isPickPendingMilkSRNinNextPaymentCycle Then
                 qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
             End If
             qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
+            qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
 
             qry += " )xxx group by VSP_CODE 
              )xx 
@@ -8662,4 +8692,18 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
         End Try
     End Sub
 
+    'Private Sub chkArea_CheckedChanged(sender As Object, e As EventArgs) Handles chkArea.CheckedChanged
+    '    If chkArea.Checked Then
+    '        fndArea.Visible = True
+    '    End If
+    'End Sub
+
+    Private Sub fndArea__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER"
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
+    End Sub
 End Class
