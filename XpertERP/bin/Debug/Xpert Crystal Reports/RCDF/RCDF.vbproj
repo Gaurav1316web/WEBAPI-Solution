@@ -449,6 +449,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMilkTransferIn.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMPIDReport.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCre.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreCHU.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreGNG.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreJPR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptPaymentProcessDebCreRJS.rpt" />

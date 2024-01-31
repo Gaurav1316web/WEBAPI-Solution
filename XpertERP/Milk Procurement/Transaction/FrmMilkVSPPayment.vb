@@ -28,6 +28,7 @@ Public Class FrmMilkVSPPayment
     Dim NonCompanyVSPDeduction As Decimal = 0
     Dim AreaWiseBilling As Boolean = False
 
+
 #End Region
 
     Public Sub New(ByVal FormId As String)
@@ -4089,9 +4090,13 @@ Public Class FrmMilkVSPPayment
 
             qry = "select Mcc_Code as Code,MCC_Name,Plant_Code,tabPlantName.Location_Desc as Plant
                     from tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
-            If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count > 0 Then
+            If AreaWiseBilling Then
                 qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+
             End If
+            'If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count > 0 Then
+            '    qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+            'End If
             'txtMCCMultiple.arrValueMember = clsCommon.ShowMultipleSelectForm("MULVSPPMF", qry, "Code", "", txtMCCMultiple.arrValueMember, txtMCCMultiple.arrDispalyMember)
 
 
