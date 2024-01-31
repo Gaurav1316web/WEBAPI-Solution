@@ -6526,6 +6526,7 @@ Public Class clsCreateAllTable
             coll.Add("Driver_Name", "varchar(100) NULL")
             coll.Add("Driver_ContactNo", "varchar(15) NULL")
             coll.Add("DistributorName", "varchar(50) NULL")
+            coll.Add("Supply_Date", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
             coll = New Dictionary(Of String, String)()
@@ -9380,6 +9381,8 @@ Public Class clsCreateAllTable
             coll.Add("Pick_Batch_No", "int not null default 0")
             coll.Add("Trans_Id", "varchar(10) not null default 'PRODUCTION'") 'or for QC
             coll.Add("AliasName", "varchar(150) null")
+            coll.Add("Clause_Ref", "varchar(100) null")
+            coll.Add("IS_Ref", "varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_QC_LOG_SHEET_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -9417,6 +9420,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_lower_range3", "float not null default 0")
             coll.Add("Deduction_upper_range3", "float not null default 0")
             coll.Add("Deduction_Ratio3", "float not null default 0")
+            coll.Add("Description", "varchar(500) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER_QC", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -9448,6 +9452,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_lower_range3", "float not null default 0")
             coll.Add("Deduction_upper_range3", "float not null default 0")
             coll.Add("Deduction_Ratio3", "float not null default 0")
+            coll.Add("Description", "varchar(500) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PARAMETER_RANGE_MASTER_QC_HISTORY", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -25947,7 +25952,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Is_TDS_Provision", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_REMITTANCE", coll, "unique (Document_No)", True, False)
 
-
+            Try
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_REMITTANCE set Is_TDS_Provision='N' where Is_TDS_Provision is null;")
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_REMITTANCE ADD CONSTRAINT DF_Is_TDS_Provision_N DEFAULT 'N' FOR Is_TDS_Provision;")
+            Catch ex As Exception
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Vendor_Code", "varchar(12) NULL")
@@ -29092,6 +29101,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Order_Qty", "decimal(18,2) null")
             coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
+            coll.Add("Supply_Date", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")

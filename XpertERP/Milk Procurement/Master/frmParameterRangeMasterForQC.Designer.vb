@@ -37,8 +37,10 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtParameterMapping = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.txtDescription = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.txtParameterMapping = New common.UserControls.txtMultiSelectFinder()
         Me.txtDeductionRatio3 = New common.MyNumBox()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.txtDeductionURange3 = New common.MyNumBox()
@@ -91,6 +93,8 @@ Partial Class frmParameterRangeMasterForQC
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDeductionRatio3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -150,8 +154,8 @@ Partial Class frmParameterRangeMasterForQC
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(807, 508)
-        Me.SplitContainer1.SplitterDistance = 471
+        Me.SplitContainer1.Size = New System.Drawing.Size(807, 560)
+        Me.SplitContainer1.SplitterDistance = 523
         Me.SplitContainer1.TabIndex = 1
         '
         'SplitContainer2
@@ -172,7 +176,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
         Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(6)
-        Me.SplitContainer2.Size = New System.Drawing.Size(801, 465)
+        Me.SplitContainer2.Size = New System.Drawing.Size(801, 517)
         Me.SplitContainer2.SplitterDistance = 28
         Me.SplitContainer2.TabIndex = 19
         '
@@ -208,8 +212,8 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(6, 6)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(789, 421)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.Size = New System.Drawing.Size(789, 473)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -219,7 +223,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(768, 373)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(768, 425)
         Me.RadPageViewPage1.Text = "Detail"
         '
         'RadGroupBox1
@@ -231,7 +235,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(3, 18, 3, 3)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(768, 373)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(768, 425)
         Me.RadGroupBox1.TabIndex = 18
         Me.RadGroupBox1.Text = "Parameter Range Detail"
         '
@@ -248,7 +252,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(762, 352)
+        Me.gv.Size = New System.Drawing.Size(762, 404)
         Me.gv.TabIndex = 0
         '
         'RadPageViewPage2
@@ -257,7 +261,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(768, 373)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(768, 425)
         Me.RadPageViewPage2.Text = "Attachment"
         '
         'UcAttachment1
@@ -265,11 +269,13 @@ Partial Class frmParameterRangeMasterForQC
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(768, 373)
+        Me.UcAttachment1.Size = New System.Drawing.Size(768, 425)
         Me.UcAttachment1.TabIndex = 2
         '
         'RadPageViewPage3
         '
+        Me.RadPageViewPage3.Controls.Add(Me.MyLabel16)
+        Me.RadPageViewPage3.Controls.Add(Me.txtDescription)
         Me.RadPageViewPage3.Controls.Add(Me.txtParameterMapping)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage3.Controls.Add(Me.txtDeductionRatio3)
@@ -305,14 +311,60 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(768, 373)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(768, 425)
         Me.RadPageViewPage3.Text = "Update Deduction"
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(3, 100)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(63, 16)
+        Me.MyLabel16.TabIndex = 1411
+        Me.MyLabel16.Text = "Description"
+        '
+        'txtDescription
+        '
+        Me.txtDescription.AutoSize = False
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
+        Me.txtDescription.Location = New System.Drawing.Point(118, 78)
+        Me.txtDescription.MaxLength = 500
+        Me.txtDescription.MendatroryField = False
+        Me.txtDescription.Multiline = True
+        Me.txtDescription.MyLinkLable1 = Me.MyLabel15
+        Me.txtDescription.MyLinkLable2 = Nothing
+        Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
+        Me.txtDescription.Size = New System.Drawing.Size(248, 65)
+        Me.txtDescription.TabIndex = 1410
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(3, 392)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(106, 16)
+        Me.MyLabel15.TabIndex = 359
+        Me.MyLabel15.Text = "Parameter Mapping"
         '
         'txtParameterMapping
         '
         Me.txtParameterMapping.arrDispalyMember = Nothing
         Me.txtParameterMapping.arrValueMember = Nothing
-        Me.txtParameterMapping.Location = New System.Drawing.Point(119, 326)
+        Me.txtParameterMapping.Location = New System.Drawing.Point(119, 392)
         Me.txtParameterMapping.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtParameterMapping.MyLinkLable1 = Me.MyLabel15
         Me.txtParameterMapping.MyLinkLable2 = Nothing
@@ -320,16 +372,6 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtParameterMapping.Name = "txtParameterMapping"
         Me.txtParameterMapping.Size = New System.Drawing.Size(246, 19)
         Me.txtParameterMapping.TabIndex = 429
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(3, 326)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(106, 16)
-        Me.MyLabel15.TabIndex = 359
-        Me.MyLabel15.Text = "Parameter Mapping"
         '
         'txtDeductionRatio3
         '
@@ -344,7 +386,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionRatio3.IsSourceFromTable = False
         Me.txtDeductionRatio3.IsSourceFromValueList = False
         Me.txtDeductionRatio3.IsUnique = False
-        Me.txtDeductionRatio3.Location = New System.Drawing.Point(118, 304)
+        Me.txtDeductionRatio3.Location = New System.Drawing.Point(118, 370)
         Me.txtDeductionRatio3.MaxLength = 8
         Me.txtDeductionRatio3.MendatroryField = False
         Me.txtDeductionRatio3.MyLinkLable1 = Me.MyLabel14
@@ -363,7 +405,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(2, 304)
+        Me.MyLabel14.Location = New System.Drawing.Point(2, 370)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(96, 16)
         Me.MyLabel14.TabIndex = 352
@@ -382,7 +424,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionURange3.IsSourceFromTable = False
         Me.txtDeductionURange3.IsSourceFromValueList = False
         Me.txtDeductionURange3.IsUnique = False
-        Me.txtDeductionURange3.Location = New System.Drawing.Point(118, 282)
+        Me.txtDeductionURange3.Location = New System.Drawing.Point(118, 348)
         Me.txtDeductionURange3.MaxLength = 8
         Me.txtDeductionURange3.MendatroryField = False
         Me.txtDeductionURange3.MyLinkLable1 = Me.MyLabel12
@@ -401,7 +443,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(2, 282)
+        Me.MyLabel12.Location = New System.Drawing.Point(2, 348)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(111, 16)
         Me.MyLabel12.TabIndex = 350
@@ -420,7 +462,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionLRange3.IsSourceFromTable = False
         Me.txtDeductionLRange3.IsSourceFromValueList = False
         Me.txtDeductionLRange3.IsUnique = False
-        Me.txtDeductionLRange3.Location = New System.Drawing.Point(118, 260)
+        Me.txtDeductionLRange3.Location = New System.Drawing.Point(118, 326)
         Me.txtDeductionLRange3.MaxLength = 8
         Me.txtDeductionLRange3.MendatroryField = False
         Me.txtDeductionLRange3.MyLinkLable1 = Me.MyLabel10
@@ -439,7 +481,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(2, 260)
+        Me.MyLabel10.Location = New System.Drawing.Point(2, 326)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(109, 16)
         Me.MyLabel10.TabIndex = 348
@@ -458,7 +500,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionRatio2.IsSourceFromTable = False
         Me.txtDeductionRatio2.IsSourceFromValueList = False
         Me.txtDeductionRatio2.IsUnique = False
-        Me.txtDeductionRatio2.Location = New System.Drawing.Point(118, 238)
+        Me.txtDeductionRatio2.Location = New System.Drawing.Point(118, 304)
         Me.txtDeductionRatio2.MaxLength = 8
         Me.txtDeductionRatio2.MendatroryField = False
         Me.txtDeductionRatio2.MyLinkLable1 = Me.MyLabel13
@@ -477,7 +519,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(2, 238)
+        Me.MyLabel13.Location = New System.Drawing.Point(2, 304)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(96, 16)
         Me.MyLabel13.TabIndex = 351
@@ -496,7 +538,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionURange2.IsSourceFromTable = False
         Me.txtDeductionURange2.IsSourceFromValueList = False
         Me.txtDeductionURange2.IsUnique = False
-        Me.txtDeductionURange2.Location = New System.Drawing.Point(118, 217)
+        Me.txtDeductionURange2.Location = New System.Drawing.Point(118, 283)
         Me.txtDeductionURange2.MaxLength = 8
         Me.txtDeductionURange2.MendatroryField = False
         Me.txtDeductionURange2.MyLinkLable1 = Me.MyLabel11
@@ -515,7 +557,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(2, 217)
+        Me.MyLabel11.Location = New System.Drawing.Point(2, 283)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(111, 16)
         Me.MyLabel11.TabIndex = 349
@@ -534,7 +576,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionLRange2.IsSourceFromTable = False
         Me.txtDeductionLRange2.IsSourceFromValueList = False
         Me.txtDeductionLRange2.IsUnique = False
-        Me.txtDeductionLRange2.Location = New System.Drawing.Point(118, 195)
+        Me.txtDeductionLRange2.Location = New System.Drawing.Point(118, 261)
         Me.txtDeductionLRange2.MaxLength = 8
         Me.txtDeductionLRange2.MendatroryField = False
         Me.txtDeductionLRange2.MyLinkLable1 = Me.MyLabel9
@@ -553,7 +595,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(2, 195)
+        Me.MyLabel9.Location = New System.Drawing.Point(2, 261)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(109, 16)
         Me.MyLabel9.TabIndex = 347
@@ -563,7 +605,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(3, 105)
+        Me.MyLabel5.Location = New System.Drawing.Point(3, 171)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(98, 16)
         Me.MyLabel5.TabIndex = 345
@@ -581,7 +623,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtQcStatus.IsSourceFromTable = False
         Me.txtQcStatus.IsSourceFromValueList = False
         Me.txtQcStatus.IsUnique = False
-        Me.txtQcStatus.Location = New System.Drawing.Point(118, 78)
+        Me.txtQcStatus.Location = New System.Drawing.Point(118, 144)
         Me.txtQcStatus.MaxLength = 200
         Me.txtQcStatus.MendatroryField = False
         Me.txtQcStatus.MyLinkLable1 = Me.MyLabel6
@@ -597,7 +639,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(2, 80)
+        Me.MyLabel6.Location = New System.Drawing.Point(2, 146)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(56, 16)
         Me.MyLabel6.TabIndex = 341
@@ -605,7 +647,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         'btnUpdateDeduction
         '
-        Me.btnUpdateDeduction.Location = New System.Drawing.Point(371, 349)
+        Me.btnUpdateDeduction.Location = New System.Drawing.Point(371, 389)
         Me.btnUpdateDeduction.Name = "btnUpdateDeduction"
         Me.btnUpdateDeduction.Size = New System.Drawing.Size(125, 21)
         Me.btnUpdateDeduction.TabIndex = 7
@@ -712,7 +754,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionRatio.IsSourceFromTable = False
         Me.txtDeductionRatio.IsSourceFromValueList = False
         Me.txtDeductionRatio.IsUnique = False
-        Me.txtDeductionRatio.Location = New System.Drawing.Point(118, 171)
+        Me.txtDeductionRatio.Location = New System.Drawing.Point(118, 237)
         Me.txtDeductionRatio.MaxLength = 8
         Me.txtDeductionRatio.MendatroryField = False
         Me.txtDeductionRatio.MyLinkLable1 = Me.MyLabel7
@@ -731,7 +773,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(2, 173)
+        Me.MyLabel7.Location = New System.Drawing.Point(2, 239)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(89, 16)
         Me.MyLabel7.TabIndex = 333
@@ -750,7 +792,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionURange.IsSourceFromTable = False
         Me.txtDeductionURange.IsSourceFromValueList = False
         Me.txtDeductionURange.IsUnique = False
-        Me.txtDeductionURange.Location = New System.Drawing.Point(118, 149)
+        Me.txtDeductionURange.Location = New System.Drawing.Point(118, 215)
         Me.txtDeductionURange.MaxLength = 8
         Me.txtDeductionURange.MendatroryField = False
         Me.txtDeductionURange.MyLinkLable1 = Me.MyLabel3
@@ -769,7 +811,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(2, 151)
+        Me.MyLabel3.Location = New System.Drawing.Point(2, 217)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(111, 16)
         Me.MyLabel3.TabIndex = 332
@@ -788,7 +830,7 @@ Partial Class frmParameterRangeMasterForQC
         Me.txtDeductionLRange.IsSourceFromTable = False
         Me.txtDeductionLRange.IsSourceFromValueList = False
         Me.txtDeductionLRange.IsUnique = False
-        Me.txtDeductionLRange.Location = New System.Drawing.Point(118, 128)
+        Me.txtDeductionLRange.Location = New System.Drawing.Point(118, 194)
         Me.txtDeductionLRange.MaxLength = 8
         Me.txtDeductionLRange.MendatroryField = False
         Me.txtDeductionLRange.MyLinkLable1 = Me.MyLabel2
@@ -807,7 +849,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(2, 130)
+        Me.MyLabel2.Location = New System.Drawing.Point(2, 196)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(109, 16)
         Me.MyLabel2.TabIndex = 327
@@ -853,7 +895,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.GroupBox1.Controls.Add(Me.rbtnDedMethodFixed)
         Me.GroupBox1.Controls.Add(Me.rbtnDedMethodRatio)
-        Me.GroupBox1.Location = New System.Drawing.Point(119, 96)
+        Me.GroupBox1.Location = New System.Drawing.Point(119, 162)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(247, 31)
         Me.GroupBox1.TabIndex = 346
@@ -922,7 +964,7 @@ Partial Class frmParameterRangeMasterForQC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(807, 508)
+        Me.ClientSize = New System.Drawing.Size(807, 560)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmParameterRangeMasterForQC"
         '
@@ -948,6 +990,8 @@ Partial Class frmParameterRangeMasterForQC
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDeductionRatio3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1040,5 +1084,7 @@ Partial Class frmParameterRangeMasterForQC
     Friend WithEvents txtDeductionLRange2 As common.MyNumBox
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents txtParameterMapping As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents txtDescription As common.Controls.MyTextBox
 End Class
 

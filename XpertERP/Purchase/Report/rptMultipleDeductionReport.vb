@@ -443,48 +443,37 @@ END AS 'ReduceAmt','" & objCommonVar.CurrentUser & "' as User_Name
  from (
   SELECT  FINAL2.company_name,FINAL2.[Vendor Code],FINAL2.[Vendor Name],FINAL2.[VLC Uploader Code],FINAL2.MCC_Name,FINAL2.[Document Date],FINAL2.[Document No],FINAL2.Type,FINAL2.Addition,FINAL2.Deduction,FINAL2.[Deduction Code],FINAL2.Regn_No,FINAL2.[Deduction Desc],FINAL2.ACC_WEIGHT,FINAL2.Phone,final2.Remarks,SUM(TSPL_MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT,sum(TSPL_MILK_SRN_DETAIL.Qty) as [SRN Qty],final2.FromDate, final2.ToDate  FROM (
  select FINAL1.company_name,FINAL1.[Vendor Code],FINAL1.[Vendor Name],FINAL1.[VLC Uploader Code],FINAL1.Regn_No,FINAL1.MCC_Name,FINAL1.[Document Date],FINAL1.[Document No],FINAL1.Type,FINAL1.Addition,FINAL1.Deduction,FINAL1.[Deduction Code],FINAL1.Phone,final1.Remarks,FINAL1.[Deduction Desc],FINAL1.FromDate, final1.ToDate, SUM(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) AS ACC_WEIGHT FROM (
- Select  max(Final.company_name) as company_name,final.Vendor_Code as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],max(final.[VLC Uploader Code]) as [VLC Uploader Code],max(final.MCC_Name) as MCC_Name,max(final.Regn_No) as Regn_No,max(final.Phone1) as Phone,max(final.Remarks) as Remarks, max(final.Type) as Type,final.Document_No as [Document No],final.Document_Date as [Document Date],sum(final.Addition) as Addition,sum(final.Deduction) as Deduction,final.DeductionCode as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],'" + fromDate.Value + "' As FromDate,'" + ToDate.Value + "' As ToDate,'" + objCommonVar.CurrentUser + "' as User_Name From ( select TSPL_COMPANY_MASTER.Comp_Name as company_name,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.Amount end  as Deduction, TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code],TSPL_MCC_MASTER.MCC_Name,TSPL_COMPANY_MASTER.Regn_No,TSPL_COMPANY_MASTER.Phone1,TSPL_MULTIPLE_DEDUCTION_DETAIL.Remarks from TSPL_MULTIPLE_DEDUCTION_HEAD 
+ Select  max(Final.company_name) as company_name,final.Vendor_Code as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],max(final.[VLC Uploader Code]) as [VLC Uploader Code],max(final.MCC_Name) as MCC_Name,max(final.Regn_No) as Regn_No,max(final.Phone1) as Phone,max(final.Remarks) as Remarks, max(final.Type) as Type,final.Document_No as [Document No],final.Document_Date as [Document Date],sum(final.Addition) as Addition,sum(final.Deduction) as Deduction,final.DeductionCode as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],'" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' As ToDate,'" + objCommonVar.CurrentUser + "' as User_Name From ( select TSPL_COMPANY_MASTER.Comp_Name as company_name,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.Amount end  as Deduction, TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code],TSPL_MCC_MASTER.MCC_Name,TSPL_COMPANY_MASTER.Regn_No,TSPL_COMPANY_MASTER.Phone1,TSPL_MULTIPLE_DEDUCTION_DETAIL.Remarks from TSPL_MULTIPLE_DEDUCTION_HEAD 
  left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MULTIPLE_DEDUCTION_HEAD.Comp_Code
 LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
 left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC  from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
  left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) " + strQry3 + strQry1 + "  )Final 
+where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) " + strQry3 + strQry1 + "  )Final 
 group by final.company_name,final.Document_No,final.Document_Date , final.Vendor_Code ,final.DeductionCode  
 ) FINAL1
 LEFT OUTER JOIN TSPL_MILK_RECEIPT_DETAIL ON TSPL_MILK_RECEIPT_DETAIL.VSP_CODE=FINAL1.[Vendor Code]
-WHERE convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) <= convert(date,('" + ToDate.Value + "'),103)
+WHERE convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103)
 GROUP BY 
 final1.company_name,FINAL1.[Vendor Code],FINAL1.[Vendor Name],FINAL1.[VLC Uploader Code],final1.MCC_Name
 ,FINAL1.[Document Date],FINAL1.[Document No],FINAL1.Type,FINAL1.Addition,FINAL1.Deduction,FINAL1.[Deduction Code],FINAL1.Regn_No,FINAL1.[Deduction Desc],FINAL1.Phone,final1.remarks,FINAL1.FromDate,FINAL1.ToDate
 ) FINAL2 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.VSP_CODE=FINAL2.[Vendor Code]
 left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-WHERE convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + ToDate.Value + "'),103)
+WHERE convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103)
 GROUP BY 
 FINAL2.company_name,FINAL2.[Vendor Code],FINAL2.[Vendor Name],FINAL2.[VLC Uploader Code],FINAL2.MCC_Name,FINAL2.[Document Date],FINAL2.[Document No],FINAL2.Type,FINAL2.Addition,FINAL2.Deduction,FINAL2.[Deduction Code],FINAL2.Regn_No,FINAL2.[Deduction Desc],FINAL2.ACC_WEIGHT,FINAL2.Phone,final2.remarks,FINAL2.FromDate,FINAL2.ToDate)final3
 
 left join TSPL_PAYMENT_PROCESS_DEDUCTION on TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE=final3.[Vendor Code]
-WHERE TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_Date >=convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_Date,103) <= convert(date,('" + ToDate.Value + "'),103) and final3.Type = 'D'" + strQry4 + " )
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) and final3.Type = 'D'" + strQry4 + " )
 	or final3.Type='a'
-group by FINAL3.company_name,FINAL3.[Vendor Code],FINAL3.[Vendor Name],FINAL3.[VLC Uploader Code],FINAL3.MCC_Name,FINAL3.[Document Date],FINAL3.[Document No],FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.remarks,final3.SRN_AMOUNT,final3.FromDate, final3.ToDate order by  [VLC Uploader Code]
-
-
-
-"
-
-
-
-            ' strQry += ")tmp group by tmp.VLC_CODE_VLC_Uploader"
-
-
-
+group by FINAL3.company_name,FINAL3.[Vendor Code],FINAL3.[Vendor Name],FINAL3.[VLC Uploader Code],FINAL3.MCC_Name,FINAL3.[Document Date],FINAL3.[Document No],FINAL3.Type,FINAL3.Addition,FINAL3.Deduction,FINAL3.[Deduction Code],FINAL3.Regn_No,FINAL3.[Deduction Desc],final3.[SRN Qty],FINAL3.Phone,final3.remarks,final3.SRN_AMOUNT,final3.FromDate, final3.ToDate order by  [VLC Uploader Code]"
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt1.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewJPR", "MD Print")
                 Else
-
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewGNG", "MD Print")
                 End If
                 frmCRV = Nothing

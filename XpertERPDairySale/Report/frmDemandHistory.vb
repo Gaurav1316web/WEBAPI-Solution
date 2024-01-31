@@ -489,7 +489,7 @@ Public Class frmDemandHistory
     Private Sub txtBooth__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBooth._MYValidating
         Try
             Dim StrQry As String = "select Cust_Code as Code,Customer_Name as [Customer Name],Route_No as [Route No],Cust_Group_Code as [Customer Group] from TSPL_CUSTOMER_MASTER "
-            Dim WhrCls As String = " Status='N' and Cust_Group_Code='BOOTH'"
+            Dim WhrCls As String = " Status='N' and  CUSTOMER_FORM_TYPE = 'ALL'"
             txtBooth.Value = clsCommon.ShowSelectForm("BoothDetails", StrQry, "Code", WhrCls, txtBooth.Value, "Code", isButtonClicked)
             txtBoothDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name  from TSPL_CUSTOMER_MASTER  where Cust_Code ='" + txtBooth.Value + "'"))
         Catch ex As Exception

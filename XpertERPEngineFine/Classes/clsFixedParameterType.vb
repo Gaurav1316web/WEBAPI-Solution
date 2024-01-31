@@ -34,6 +34,7 @@ Public Class clsFixedParameterType
     Public Const HideShiftCollection As String = "Hide Shift Collection"
     Public Const MilkCollectionPickBulkRoute As String = "Milk Collection Pick Bulk Route"
     Public Const DailyQtyReport As String = "Daily Qty Report"
+    Public Const ShowOwnBMCDCS As String = "Show Own BMC DCS"
     Public Const OwnBMCCreateDRCRNote As String = "Own BMC Create DR CR Note"
     Public Const OwnBMCApplicationFATRatio As String = "Own BMC Application FAT Ratio"
     Public Const OwnBMCApplicationSNFRatio As String = "Own BMC Application SNF Ratio"
@@ -1312,6 +1313,7 @@ Public Class clsFixedParameterType
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "VSP Milk Not Sold"
 
+
 End Class
 Public Class clsFixedParameterCode
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
@@ -1342,6 +1344,7 @@ Public Class clsFixedParameterCode
     Public Const AllowZeroFATSNF As String = "Allow Zero FAT SNF"
     Public Const MilkRateRoundOffType As String = "Milk Rate Round Off Type"
     Public Const WeighingRoundSetting As String = "Weighing Round Setting"
+    Public Const AverageDaysForFATSNF As String = "Average Days For FAT SNF"
     Public Const MarqueText As String = "Marque Text"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
     Public Const ShowSampleNoOnBMC As String = "Fill Route Tanker No"
@@ -1396,6 +1399,9 @@ Public Class clsFixedParameterCode
     Public Const TolleranceFAT As String = "Tollerance FAT"
     Public Const TolleranceSNF As String = "Tollerance SNF"
     Public Const IncludeOwnBMC As String = "Include Own BMC"
+
+    Public Const TransactionForCurrentDateOnly As String = "Transaction For Current Date Only"
+
     Public Const DashboardDays As String = "Dashboard Days"
     Public Const UOM As String = "UOM"
     Public Const Shift As String = "Shift"
@@ -1997,6 +2003,7 @@ Public Class clsFixedParameterCode
     Public Const ShowBinMapping As String = "ShowBinMapping"
     Public Const ShowPrintChallanInDairyDispatch As String = "ShowPrintChallanInDairyDispatch"
     Public Const FATKGSNFKGRoundOff As String = "FAT KG & SNF KG Round Off"
+    Public Const ShowOwnBMCDCS As String = "Show Own BMC DCS"
     Public Const ShowCrateJaaliBoxIntransfer As String = "Show Crate Jaali & Box In transfer"
     Public Const DefaultCorrectionFactorForBulkSale As String = "DefaultCorrectionFactorForBulkSale"
     Public Const MCCdefaultCorrectionFactorBS As String = "MCCdefaultCorrectionFactorBS"
@@ -2881,6 +2888,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, "2", "SNF Decaimal Places")
         InsertDefaultValueFixedParameter(clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, "0", "0-Show Both Shift;1-Hide Evening Shift;2-Hide Morning Shift")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, "0", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowOwnBMCDCS, clsFixedParameterCode.ShowOwnBMCDCS, "0", "0-OFF;1-ON")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.DailyQtyReport, clsFixedParameterCode.FATKGSNFKGRoundOff, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OwnBMCApplicationFATRatio, clsFixedParameterCode.OwnBMCApplicationFATRatio, "100", "Applicable Ratio")
@@ -2889,6 +2897,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, "0", "0-All;No. of Rows To Export")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.WeighingRoundSetting, "NA", "NA;+1(Round Up Decimal Places);-1(Round Down Decimal Places)")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.AverageDaysForFATSNF, "10", "No of Days to Get Average")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkRateRoundOffType, clsFixedParameterCode.MilkRateRoundOffType, "0", "0: MidpointRounding.ToEven 39.825=39.82; 1:MidpointRounding.AwayFromZero 39.825=39.83")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, "0", "0-OFF;1-ON")
@@ -2943,6 +2953,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.IncludeOwnBMC, "1", "1:On,0:Off; Include Own BMC in BMC List")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TransactionForCurrentDateOnly, "1", "1:On;0:Off Disable Date selection by user")
 
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comAnchal_ucdfErp, "", "Version of Aanchal Pro APP [0 Skip]")
@@ -4538,6 +4550,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, clsFixedParameterType.DailyQtyReport, clsFixedParameterCode.FATKGSNFKGRoundOff, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmHeadLoadMaster, clsFixedParameterType.ShowOwnBMCDCS, clsFixedParameterCode.ShowOwnBMCDCS, EnumControlType.CheckBox)
 
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationFATRatio, clsFixedParameterCode.OwnBMCApplicationFATRatio, EnumControlType.NumericBox)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationSNFRatio, clsFixedParameterCode.OwnBMCApplicationSNFRatio, EnumControlType.NumericBox)

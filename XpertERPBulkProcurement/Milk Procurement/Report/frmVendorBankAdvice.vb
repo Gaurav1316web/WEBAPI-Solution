@@ -235,11 +235,11 @@ Public Class frmVendorBankAdvice
                 If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
                     BaseQry += " Round(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as Payable_Amount "
                 Else
-                    BaseQry += " TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount "
+                    BaseQry += " TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount  "
 
                 End If
 
-                BaseQry += "from TSPL_PAYMENT_PROCESS_COMPULSORY 
+                BaseQry += " from TSPL_PAYMENT_PROCESS_COMPULSORY 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No
                             left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No
                             left outer join TSPL_MP_MASTER mp on mp.MP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code 
@@ -263,7 +263,7 @@ Public Class frmVendorBankAdvice
                     BaseQry += " TSPL_Vendor_MASTER.Bank_Code as GRPColumn,"
                 End If
 
-                BaseQry += "SPL_COMPANY_MASTER.Comp_Name
+                BaseQry += "TSPL_COMPANY_MASTER.Comp_Name
 ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address
 ,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME
 ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No," + IIf(AreaWiseBilling = True, "", " TSPL_Location_MASTER.Location_Code,TSPL_Location_MASTER.Location_Desc, ") + " TSPL_Fiscal_Year_Master.Fiscal_Name
@@ -275,12 +275,12 @@ Public Class frmVendorBankAdvice
                     If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
                         BaseQry += " Round(isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0),0) as Payable_Amount "
                     Else
-                        BaseQry += " isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0) as Payable_Amount "
+                        BaseQry += " isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0) as Payable_Amount  "
 
                     End If
 
                 End If
-                BaseQry += "from TSPL_PAYMENT_PROCESS_DETAIL 
+                BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
 left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENTs_PROCESS_DETAIL.VSP_CODE
@@ -315,14 +315,14 @@ TSPL_COMPANY_MASTER.Comp_Name
                         BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)),0) as Payable_Amount "
                     Else
                         If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
-                            BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)),0) as Payable_Amount "
+                            BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)),0) as Payable_Amount  "
                         Else
-                            BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
-
+                            ' BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
+                            BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))  as Payable_Amount  "
                         End If
 
                     End If
-                    BaseQry += "from TSPL_PAYMENT_PROCESS_DETAIL 
+                    BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
 left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
@@ -354,11 +354,11 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommo
                     If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
                         BaseQry += " Round(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0),0) as Payable_Amount "
                     Else
-                        BaseQry += " TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0) "
+                        BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as Payable_Amount "
                     End If
 
                 End If
-                BaseQry += "from TSPL_PAYMENT_PROCESS_DETAIL 
+                BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
 left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
@@ -531,7 +531,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
-            ' Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+            'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
 
 
         ElseIf rbtnBankWiseSummary.IsChecked Then
@@ -583,17 +583,20 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
+            Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
             'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
         ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnSavingBankWiseSummary.IsChecked Then
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
+            Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
             'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
             Gv1.Columns("Bank_Desc").IsVisible = True
             Gv1.Columns("Bank_Desc").HeaderText = "Bank Description"
             Gv1.Columns("GRPColumn").IsVisible = False
         End If
         Dim summaryRowItemB As New GridViewSummaryRowItem()
-        Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
+        'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
+        Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItemB.Add(MilkTypeB)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
 
@@ -1149,7 +1152,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                     End If
 
                 End If
-                BaseQry += "from TSPL_PAYMENT_PROCESS_DETAIL 
+                BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
             left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
@@ -1184,12 +1187,12 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                         If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
                             BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)),0) as Payable_Amount "
                         Else
-                            BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
-
+                            'BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
+                            BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as Payable_Amount "
                         End If
 
                     End If
-                    BaseQry += "from TSPL_PAYMENT_PROCESS_DETAIL 
+                    BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
             left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
@@ -1219,11 +1222,11 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                     If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
                         BaseQry += " Round(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0),0) as Payable_Amount "
                     Else
-                        BaseQry += " TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0) "
+                        BaseQry += " isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0) as Payable_Amount "
                     End If
 
                 End If
-                BaseQry += "from TSPL_PAYMENT_PROCESS_DETAIL 
+                BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
             left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE

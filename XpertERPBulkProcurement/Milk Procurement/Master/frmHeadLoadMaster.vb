@@ -19,11 +19,14 @@ Public Class frmHeadLoadMaster
     Dim HeadLoadBasis As String = Nothing
     Dim isLoadData As Boolean = False
     Dim isCopyData As Boolean = False
+    Dim OwnBMCDCS As Boolean = False
 
 #End Region
 
     Private Sub frmHeadLoadMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        OwnBMCDCS = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowOwnBMCDCS, clsFixedParameterCode.ShowOwnBMCDCS, Nothing)) > 0)
+
         Addnew()
         btnPost.Visible = True
         btnPost.Enabled = False
@@ -405,10 +408,13 @@ Public Class frmHeadLoadMaster
          left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
             End If
         Else
-
             str = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_Code As [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],
     TSPL_MCC_MASTER.MCC_Code_VLC_Uploader As [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code As [BMC Code] , TSPL_MCC_MASTER.MCC_NAME As [BMC Name]  From TSPL_VLC_MASTER_HEAD
-     Left  Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_VLC_MASTER_HEAD.isOwnBMC = 0"
+     Left  Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where 2=2 "
+
+            If Not OwnBMCDCS Then
+                str += " and TSPL_VLC_MASTER_HEAD.isOwnBMC = 0 "
+            End If
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(str)
 
