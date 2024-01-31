@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmMCCMaster
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class FrmMCCMaster
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -178,10 +178,15 @@ Partial Class FrmMCCMaster
         Dim RadListDataItem145 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel95 = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
+        Me.lblCity = New common.Controls.MyLabel()
         Me.chkDefault = New common.Controls.MyCheckBox()
         Me.chkSuspense = New common.Controls.MyCheckBox()
         Me.txtMCCNameHindi = New common.Controls.MyTextBox()
@@ -196,7 +201,6 @@ Partial Class FrmMCCMaster
         Me.MyLabel93 = New common.Controls.MyLabel()
         Me.txtShortDescription = New common.Controls.MyTextBox()
         Me.txtMCCCopy = New common.UserControls.txtFinder()
-        Me.lblCity = New common.Controls.MyLabel()
         Me.MyLabel79 = New common.Controls.MyLabel()
         Me.ItemTypePanel = New System.Windows.Forms.Panel()
         Me.rbtn_Bmcu = New Telerik.WinControls.UI.RadRadioButton()
@@ -563,6 +567,8 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyNumBox1 = New common.MyNumBox()
+        Me.MyLabel96 = New common.Controls.MyLabel()
         Me.txtDeductionRate = New common.MyNumBox()
         Me.MyLabel85 = New common.Controls.MyLabel()
         Me.txtNonCompanyVSPDeduction = New common.MyNumBox()
@@ -632,8 +638,8 @@ Partial Class FrmMCCMaster
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadSplitContainer1.SuspendLayout
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit
@@ -641,6 +647,8 @@ Partial Class FrmMCCMaster
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageView1.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
+        CType(Me.MyLabel95, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkDefault, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkSuspense, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtMCCNameHindi, System.ComponentModel.ISupportInitialize).BeginInit
@@ -654,7 +662,6 @@ Partial Class FrmMCCMaster
         CType(Me.txtSegmentDesc, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel93, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtShortDescription, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel79, System.ComponentModel.ISupportInitialize).BeginInit
         Me.ItemTypePanel.SuspendLayout
         CType(Me.rbtn_Bmcu, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1010,6 +1017,8 @@ Partial Class FrmMCCMaster
         Me.pvpCustomFields.SuspendLayout
         Me.RadPageViewPage5.SuspendLayout
         Me.RadPageViewPage7.SuspendLayout
+        CType(Me.MyNumBox1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel96, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtDeductionRate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel85, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtNonCompanyVSPDeduction, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1065,6 +1074,25 @@ Partial Class FrmMCCMaster
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
+        '
+        'RadButton2
+        '
+        Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton2.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.RadButton2.Location = New System.Drawing.Point(3, 8)
+        Me.RadButton2.Name = "RadButton2"
+        Me.RadButton2.Size = New System.Drawing.Size(121, 21)
+        Me.RadButton2.TabIndex = 148
+        Me.RadButton2.Text = "Add New Attachment"
+        '
+        'ToolTip1
+        '
+        Me.ToolTip1.AutomaticDelay = 0
+        Me.ToolTip1.IsBalloon = True
+        Me.ToolTip1.OwnerDraw = True
+        Me.ToolTip1.ShowAlways = True
+        Me.ToolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info
+        Me.ToolTip1.ToolTipTitle = "Please Attantion"
         '
         'RadSplitContainer1
         '
@@ -1123,6 +1151,8 @@ Partial Class FrmMCCMaster
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel95)
+        Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.chkDefault)
         Me.RadPageViewPage1.Controls.Add(Me.chkSuspense)
         Me.RadPageViewPage1.Controls.Add(Me.txtMCCNameHindi)
@@ -1190,7 +1220,6 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel42)
         Me.RadPageViewPage1.Controls.Add(Me.txtTelephone)
         Me.RadPageViewPage1.Controls.Add(Me.TxtFatSNFSaveDecimal)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel41)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
         Me.RadPageViewPage1.Controls.Add(Me.lblTelephone)
         Me.RadPageViewPage1.Controls.Add(Me.txtPinCode)
@@ -1230,11 +1259,58 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage1.Controls.Add(Me.ddlMCCType)
         Me.RadPageViewPage1.Controls.Add(Me.fndMCCCode)
         Me.RadPageViewPage1.Controls.Add(Me.llMCCType)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel41)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1198, 517)
         Me.RadPageViewPage1.Text = "General"
+        '
+        'MyLabel95
+        '
+        Me.MyLabel95.FieldName = Nothing
+        Me.MyLabel95.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel95.Location = New System.Drawing.Point(5, 360)
+        Me.MyLabel95.Name = "MyLabel95"
+        Me.MyLabel95.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel95.TabIndex = 1075
+        Me.MyLabel95.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(98, 361)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Me.lblCity
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(160, 19)
+        Me.fndArea.TabIndex = 1074
+        Me.fndArea.Value = ""
+        '
+        'lblCity
+        '
+        Me.lblCity.FieldName = Nothing
+        Me.lblCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCity.Location = New System.Drawing.Point(3, 150)
+        Me.lblCity.Name = "lblCity"
+        Me.lblCity.Size = New System.Drawing.Size(26, 16)
+        Me.lblCity.TabIndex = 26
+        Me.lblCity.Text = "City"
         '
         'chkDefault
         '
@@ -1452,16 +1528,6 @@ Partial Class FrmMCCMaster
         Me.txtMCCCopy.Size = New System.Drawing.Size(172, 19)
         Me.txtMCCCopy.TabIndex = 1442
         Me.txtMCCCopy.Value = ""
-        '
-        'lblCity
-        '
-        Me.lblCity.FieldName = Nothing
-        Me.lblCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCity.Location = New System.Drawing.Point(3, 150)
-        Me.lblCity.Name = "lblCity"
-        Me.lblCity.Size = New System.Drawing.Size(26, 16)
-        Me.lblCity.TabIndex = 26
-        Me.lblCity.Text = "City"
         '
         'MyLabel79
         '
@@ -3441,6 +3507,7 @@ Partial Class FrmMCCMaster
         Me.MyLabel41.Size = New System.Drawing.Size(183, 16)
         Me.MyLabel41.TabIndex = 98
         Me.MyLabel41.Text = "FAT/SNF Decimal Value(For Save)"
+        Me.MyLabel41.Visible = False
         '
         'MyLabel9
         '
@@ -8421,6 +8488,7 @@ Partial Class FrmMCCMaster
         '
         'UcAttachment1
         '
+        Me.UcAttachment1.btnaddNewAttachment = Me.RadButton2
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
@@ -8429,6 +8497,8 @@ Partial Class FrmMCCMaster
         '
         'RadPageViewPage7
         '
+        Me.RadPageViewPage7.Controls.Add(Me.MyNumBox1)
+        Me.RadPageViewPage7.Controls.Add(Me.MyLabel96)
         Me.RadPageViewPage7.Controls.Add(Me.txtDeductionRate)
         Me.RadPageViewPage7.Controls.Add(Me.MyLabel85)
         Me.RadPageViewPage7.Controls.Add(Me.txtNonCompanyVSPDeduction)
@@ -8445,6 +8515,44 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(1198, 517)
         Me.RadPageViewPage7.Text = "VSP Commission & Deduction"
+        '
+        'MyNumBox1
+        '
+        Me.MyNumBox1.BackColor = System.Drawing.Color.White
+        Me.MyNumBox1.CalculationExpression = Nothing
+        Me.MyNumBox1.DecimalPlaces = 0
+        Me.MyNumBox1.FieldCode = Nothing
+        Me.MyNumBox1.FieldDesc = Nothing
+        Me.MyNumBox1.FieldMaxLength = 0
+        Me.MyNumBox1.FieldName = Nothing
+        Me.MyNumBox1.isCalculatedField = False
+        Me.MyNumBox1.IsSourceFromTable = False
+        Me.MyNumBox1.IsSourceFromValueList = False
+        Me.MyNumBox1.IsUnique = False
+        Me.MyNumBox1.Location = New System.Drawing.Point(197, 200)
+        Me.MyNumBox1.MendatroryField = False
+        Me.MyNumBox1.MyLinkLable1 = Me.MyLabel41
+        Me.MyNumBox1.MyLinkLable2 = Nothing
+        Me.MyNumBox1.Name = "MyNumBox1"
+        Me.MyNumBox1.ReferenceFieldDesc = Nothing
+        Me.MyNumBox1.ReferenceFieldName = Nothing
+        Me.MyNumBox1.ReferenceTableName = Nothing
+        Me.MyNumBox1.Size = New System.Drawing.Size(60, 20)
+        Me.MyNumBox1.TabIndex = 108
+        Me.MyNumBox1.Text = "0"
+        Me.MyNumBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.MyNumBox1.Value = 0R
+        '
+        'MyLabel96
+        '
+        Me.MyLabel96.FieldName = Nothing
+        Me.MyLabel96.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel96.Location = New System.Drawing.Point(8, 202)
+        Me.MyLabel96.Name = "MyLabel96"
+        Me.MyLabel96.Size = New System.Drawing.Size(183, 16)
+        Me.MyLabel96.TabIndex = 107
+        Me.MyLabel96.Text = "FAT/SNF Decimal Value(For Save)"
+        Me.MyLabel96.Visible = False
         '
         'txtDeductionRate
         '
@@ -9504,15 +9612,6 @@ Partial Class FrmMCCMaster
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "&Save"
         '
-        'ToolTip1
-        '
-        Me.ToolTip1.AutomaticDelay = 0
-        Me.ToolTip1.IsBalloon = True
-        Me.ToolTip1.OwnerDraw = True
-        Me.ToolTip1.ShowAlways = True
-        Me.ToolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info
-        Me.ToolTip1.ToolTipTitle = "Please Attantion"
-        '
         'ErrorProvider1
         '
         Me.ErrorProvider1.ContainerControl = Me
@@ -9531,6 +9630,7 @@ Partial Class FrmMCCMaster
         Me.RootElement.ApplyShapeToControl = True
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.Text = "MCC Master"
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadSplitContainer1.ResumeLayout(False)
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit
@@ -9540,6 +9640,8 @@ Partial Class FrmMCCMaster
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
+        CType(Me.MyLabel95, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkDefault, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkSuspense, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtMCCNameHindi, System.ComponentModel.ISupportInitialize).EndInit
@@ -9554,7 +9656,6 @@ Partial Class FrmMCCMaster
         CType(Me.txtSegmentDesc, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel93, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtShortDescription, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblCity, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel79, System.ComponentModel.ISupportInitialize).EndInit
         Me.ItemTypePanel.ResumeLayout(False)
         Me.ItemTypePanel.PerformLayout
@@ -9934,6 +10035,8 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage5.ResumeLayout(False)
         Me.RadPageViewPage7.ResumeLayout(False)
         Me.RadPageViewPage7.PerformLayout
+        CType(Me.MyNumBox1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel96, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtDeductionRate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel85, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtNonCompanyVSPDeduction, System.ComponentModel.ISupportInitialize).EndInit
@@ -9990,10 +10093,10 @@ Partial Class FrmMCCMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me,System.ComponentModel.ISupportInitialize).EndInit
-        Me.ResumeLayout(false)
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit
+        Me.ResumeLayout(False)
 
-End Sub
+    End Sub
     Friend WithEvents RadSplitContainer1 As Telerik.WinControls.UI.RadSplitContainer
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents mnuFile As Telerik.WinControls.UI.RadMenuItem
@@ -10203,8 +10306,6 @@ End Sub
     Friend WithEvents txtBankBranchName As common.Controls.MyTextBox
     Friend WithEvents TxtFatSnfCalcDecimal As common.MyNumBox
     Friend WithEvents MyLabel42 As common.Controls.MyLabel
-    Friend WithEvents TxtFatSNFSaveDecimal As common.MyNumBox
-    Friend WithEvents MyLabel41 As common.Controls.MyLabel
     Friend WithEvents MyLabel43 As common.Controls.MyLabel
     Friend WithEvents TxtMcc_In_Charge As common.Controls.MyTextBox
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
@@ -10450,5 +10551,12 @@ End Sub
     Friend WithEvents chkDefault As common.Controls.MyCheckBox
     Friend WithEvents MyLabel94 As common.Controls.MyLabel
     Friend WithEvents txtTubCapacity As common.MyNumBox
+    Friend WithEvents MyLabel95 As common.Controls.MyLabel
+    Friend WithEvents MyLabel96 As common.Controls.MyLabel
+    Friend WithEvents fndArea As common.UserControls.txtFinder
+    Friend WithEvents TxtFatSNFSaveDecimal As common.MyNumBox
+    Friend WithEvents MyLabel41 As common.Controls.MyLabel
+    Friend WithEvents MyNumBox1 As common.MyNumBox
+    Friend WithEvents RadButton2 As RadButton
 End Class
 

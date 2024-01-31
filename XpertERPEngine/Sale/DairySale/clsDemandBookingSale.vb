@@ -521,7 +521,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                     End If
 
                     If Not (intCurrInvNo = intNextInvNo) Then
-                        obj.Total_Amt = DocuAmount
+                        'obj.Total_Amt = DocuAmount
                         obj.TotalCrate = TotalCrate
                         TCSAmount = 0
                         If IsTCSApplicable Then
@@ -536,6 +536,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                         End If
 
                         obj.TCSAmount = TCSAmount
+                        obj.Total_Amt = DocuAmount + TCSAmount
                         obj.SaveData(obj, True, trans, "")
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_DETAIL set DocumentAmount =" & DocuAmount & ", Total_Qty =" & totalQty & " where Document_No ='" & obj.Document_No & "' and Scheme_Item='N'", trans)
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set Created_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Modified_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Created_By ='" & clsCommon.myCstr(dr1("Created_By")) & "' where Document_No ='" & obj.Document_No & "'", trans)

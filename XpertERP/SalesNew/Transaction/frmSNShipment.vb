@@ -9452,7 +9452,11 @@ a:          End If
             Dim frmDCSPrint As New frmCrystalReportViewer()
             Dim qry As String = "select XX.*,(XX.Qty * XX.Packing_in_Kg) as Total_Weight, (XX.Qty * XX.Item_Cost) as Basic_Amt
                             from( 
-                            select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Form_38_No,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_DCS_FOR_SALE.Name as DCS_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,(select TSPL_ITEM_UOM_DETAIL.Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode) and UOM_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM) ) as Packing_in_Kg,TSPL_SD_SHIPMENT_DETAIL.Item_Cost,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge
+                            select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Form_38_No,
+                            TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_DCS_FOR_SALE.Name as DCS_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,
+                            TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,(select TSPL_ITEM_UOM_DETAIL.Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode) and 
+                            UOM_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM) ) as Packing_in_Kg,TSPL_SD_SHIPMENT_DETAIL.Item_Cost,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge,
+                            TSPL_TRANSPORT_MASTER.Transporter_Name,TSPL_SD_SHIPMENT_HEAD.Transport_Id
                             from TSPL_SD_SHIPMENT_HEAD
                             left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
                             left join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code AND
@@ -9461,6 +9465,7 @@ a:          End If
                             left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
                             left join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code
                             left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
+                            left outer join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_SD_SHIPMENT_HEAD.Transport_Id
                             where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) + "' 
                             )XX"
 

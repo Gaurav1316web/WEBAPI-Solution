@@ -23,6 +23,8 @@ Partial Class FrmMilkVSPPayment
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndArea = New common.UserControls.txtFinder()
+        Me.Area = New common.Controls.MyLabel()
         Me.txtFiscalYear = New common.Controls.MyTextBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.txtPaymentCycleNo = New common.Controls.MyTextBox()
@@ -53,6 +55,7 @@ Partial Class FrmMilkVSPPayment
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
+        CType(Me.Area, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPaymentCycleNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,6 +88,8 @@ Partial Class FrmMilkVSPPayment
         'RadGroupBox3
         '
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.fndArea)
+        Me.RadGroupBox3.Controls.Add(Me.Area)
         Me.RadGroupBox3.Controls.Add(Me.txtFiscalYear)
         Me.RadGroupBox3.Controls.Add(Me.MyLabel6)
         Me.RadGroupBox3.Controls.Add(Me.txtPaymentCycleNo)
@@ -110,6 +115,42 @@ Partial Class FrmMilkVSPPayment
         Me.RadGroupBox3.Size = New System.Drawing.Size(962, 279)
         Me.RadGroupBox3.TabIndex = 1
         Me.RadGroupBox3.Text = "VSP Payment"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(507, 31)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(160, 19)
+        Me.fndArea.TabIndex = 1075
+        Me.fndArea.Value = ""
+        '
+        'Area
+        '
+        Me.Area.FieldName = Nothing
+        Me.Area.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Area.Location = New System.Drawing.Point(457, 32)
+        Me.Area.Name = "Area"
+        Me.Area.Size = New System.Drawing.Size(30, 16)
+        Me.Area.TabIndex = 626
+        Me.Area.Text = "Area"
         '
         'txtFiscalYear
         '
@@ -535,6 +576,7 @@ Partial Class FrmMilkVSPPayment
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
+        CType(Me.Area, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPaymentCycleNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -594,5 +636,7 @@ Partial Class FrmMilkVSPPayment
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents txtPaymentCycleNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents Area As common.Controls.MyLabel
+    Friend WithEvents fndArea As common.UserControls.txtFinder
 End Class
 

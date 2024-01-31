@@ -745,6 +745,7 @@ Public Class clsFixedParameterType
     Public Const CowFATPer As String = "Cow FAT Per"
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
+    Public Const AreaWiseBilling As String = "Area Wise Billing"
     Public Const MilkSamplShowOddEvenTwoGrid As String = "Show Odd and Even Two Grid"
     Public Const OpenODDEvenForm As String = "Open Odd-Even Form"
     Public Const Open4AnalyzerForm As String = "Open 4 Milk Analyzer Form"
@@ -1343,6 +1344,7 @@ Public Class clsFixedParameterCode
     Public Const AllowZeroFATSNF As String = "Allow Zero FAT SNF"
     Public Const MilkRateRoundOffType As String = "Milk Rate Round Off Type"
     Public Const WeighingRoundSetting As String = "Weighing Round Setting"
+    Public Const AverageDaysForFATSNF As String = "Average Days For FAT SNF"
     Public Const MarqueText As String = "Marque Text"
     Public Const MaxRowsExcelDBTNEFTUploader As String = "Max Rows Excel DBT NEFT Uploader"
     Public Const ShowSampleNoOnBMC As String = "Fill Route Tanker No"
@@ -1397,6 +1399,9 @@ Public Class clsFixedParameterCode
     Public Const TolleranceFAT As String = "Tollerance FAT"
     Public Const TolleranceSNF As String = "Tollerance SNF"
     Public Const IncludeOwnBMC As String = "Include Own BMC"
+
+    Public Const TransactionForCurrentDateOnly As String = "Transaction For Current Date Only"
+
     Public Const DashboardDays As String = "Dashboard Days"
     Public Const UOM As String = "UOM"
     Public Const Shift As String = "Shift"
@@ -1670,6 +1675,7 @@ Public Class clsFixedParameterCode
     Public Const CowFATPer As String = "Cow FAT Per"
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
+    Public Const AreaWiseBilling As String = "Area Wise Billing"
     Public Const GateEntryTankerFromTankerMaster As String = "Gate Entry tanker From Master"
     Public Const QualityThenWeighmentinBulkProcurement As String = "First QC then Weighment"
     Public Const isIntimationRequired As String = "Show Intimation Screen"
@@ -2891,6 +2897,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, "0", "0-All;No. of Rows To Export")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.WeighingRoundSetting, "NA", "NA;+1(Round Up Decimal Places);-1(Round Down Decimal Places)")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.AverageDaysForFATSNF, "10", "No of Days to Get Average")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkRateRoundOffType, clsFixedParameterCode.MilkRateRoundOffType, "0", "0: MidpointRounding.ToEven 39.825=39.82; 1:MidpointRounding.AwayFromZero 39.825=39.83")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, "0", "0-OFF;1-ON")
@@ -2945,6 +2953,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.IncludeOwnBMC, "1", "1:On,0:Off; Include Own BMC in BMC List")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TransactionForCurrentDateOnly, "1", "1:On;0:Off Disable Date selection by user")
 
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comAnchal_ucdfErp, "", "Version of Aanchal Pro APP [0 Skip]")
@@ -3758,6 +3768,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, "5", "Default Cow FAT Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, "0", "Mix FAT Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, "1", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkSamplShowOddEvenTwoGrid, clsFixedParameterCode.MilkSamplShowOddEvenTwoGrid, "0", "0:Off, 1:On; Show Tow Grid Odd Even")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OpenODDEvenForm, clsFixedParameterCode.OpenODDEvenForm, "1", "0:Off, 1:On; Open Odd Even Form")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Open4AnalyzerForm, clsFixedParameterCode.Open4AnalyzerForm, "0", "0:Off, 1:On; Open 4 Analyzer Form")
@@ -5311,6 +5322,10 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+
         ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FAAcquisitionEntry, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, EnumControlType.CheckBox)
 
