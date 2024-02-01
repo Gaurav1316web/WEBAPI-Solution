@@ -40,6 +40,7 @@ Public Class clsDairyGatePassEntry
     Public Driver_Name As String = Nothing
     Public Driver_ContactNo As String = Nothing
     Public DistributorName As String = Nothing
+    Public Supply_Date As Date? = Nothing
 
 #End Region
 
@@ -126,6 +127,9 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
             clsCommon.AddColumnsForChange(coll, "Driver_ContactNo", obj.Driver_ContactNo)
             clsCommon.AddColumnsForChange(coll, "DistributorName", obj.DistributorName, True)
+            If obj.Supply_Date IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "Supply_Date", clsCommon.GetPrintDate(obj.Supply_Date, "dd/MMM/yyyy"), True)
+            End If
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "GPCode", obj.GPCode)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -257,6 +261,9 @@ Public Class clsDairyGatePassEntry
             obj.Driver_Name = clsCommon.myCstr(dt.Rows(0)("Driver_Name"))
             obj.Driver_ContactNo = clsCommon.myCstr(dt.Rows(0)("Driver_ContactNo"))
             obj.DistributorName = clsCommon.myCstr(dt.Rows(0)("DistributorName"))
+            If dt.Rows(0)("Supply_Date") IsNot DBNull.Value Then
+                obj.Supply_Date = clsCommon.myCstr(dt.Rows(0)("Supply_Date"))
+            End If
         End If
         Return obj
     End Function

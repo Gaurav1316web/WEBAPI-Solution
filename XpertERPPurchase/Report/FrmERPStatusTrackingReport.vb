@@ -48,6 +48,12 @@ Public Class FrmERPStatusTrackingReport
         End If
         chkDBT.Checked = False
         chkDBT.Visible = False
+        rdbERPStatusMilkUnion.Visible = True
+        rdbMilkProcurement.Visible = True
+        txtDate.Visible = False
+        RadLabel3.Visible = False
+        txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+
     End Sub
     Public Sub fillGridReport()
         Try
@@ -104,43 +110,77 @@ Public Class FrmERPStatusTrackingReport
                 ON TSPL_LOCATION_MASTER.LOCATION_CODE =Production.LOCATION_CODE
                 where TSPL_LOCATION_MASTER.IsMainPlant='0'"
             Else
-                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-                If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-                    gv1.DataSource = Nothing
-                    Exit Sub
-                End If
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_ERP_STATUS].Location_Name,[TSPL_ERP_STATUS].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_ERP_STATUS] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_ERP_STATUS].Location_Name")
-                query = ""
-                For ii As Integer = 0 To dt.Rows.Count - 1
-                    If ii > 0 Then
-                        query += " UNION ALL "
+                If rdbMilkProcurement.Checked Then
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                    If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                        gv1.DataSource = Nothing
+                        Exit Sub
                     End If
-                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
-                    'query += ",(select FORMAT(max(Indent_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_INDENT_HEAD where Post=1) as [Indent Date]"
-                    query += ",(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date]"
-                    query += ",(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date]"
-                    query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date]"
-                    query += ",(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date]"
-                    query += ",(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date]"
-                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date]"
-                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal Then
-                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale where Posted=1) as [Last Dispatch Date]"
-                    Else
-                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date]"
 
+                    Dim frmDate As String = clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")
+
+                    Dim dtr As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                    query = ""
+                    For ii As Integer = 0 To dtr.Rows.Count - 1
+                        If ii > 0 Then
+                            query += " UNION ALL "
+                        End If
+                        query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dtr.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
+                        query += ", ( (select ISNULL(SUM(Qty),0) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS on [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS.Status = 1 and convert(date, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS.Document_Date, 103) = convert(date ,'" + frmDate + "' , 103))  + (select ISNULL(SUM(Milk_Weight),0) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL
+left outer join [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD on [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD.Status = 1 and convert(date, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date, 103) = convert(date ,'" + frmDate + "' , 103) ) + (select ISNULL(SUM(Milk_Weight),0) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+left outer join [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
+where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status = 1 and convert(date, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date, 103) = convert(date ,'" + frmDate + "' , 103))  
+) as [Milk Collection in Ltr]"
+                        query += ",(select isnull(SUM(TotalLtr_ItemWise),0)  from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL
+ left outer join [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER on [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Document_No
+ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Posted = 1 and convert(date,  [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_Date , 103) = convert(date ,'" + frmDate + "' , 103)) as [Demand in Ltr]"
+                        query += ",(select COUNT(PurchaseOrder_No) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1 and convert(date, PurchaseOrder_Date , 103)=convert(date ,'" + frmDate + "' , 103)) as [Purchase Order]"
+
+                    Next
+                Else
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                    If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                        gv1.DataSource = Nothing
+                        Exit Sub
                     End If
-                    query += ",(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date]"
-                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date]"
-                    query += ",(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]"
-                    If chkDBT.Checked Then
-                        query += ",(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD) as [Last DBT Entry]
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_ERP_STATUS].Location_Name,[TSPL_ERP_STATUS].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_ERP_STATUS] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_ERP_STATUS].Location_Name")
+                    query = ""
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        If ii > 0 Then
+                            query += " UNION ALL "
+                        End If
+                        query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
+                        'query += ",(select FORMAT(max(Indent_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_INDENT_HEAD where Post=1) as [Indent Date]"
+                        query += ",(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date]"
+                        query += ",(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date]"
+                        query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date]"
+                        query += ",(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date]"
+                        query += ",(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date]"
+                        If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BRN") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "JHL") = CompairStringResult.Equal Then
+                            query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale where Posted=1) as [Last Dispatch Date]"
+                        Else
+                            query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date]"
+
+                        End If
+                        query += ",(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date]"
+                        query += ",(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]"
+                        If chkDBT.Checked Then
+                            query += ",(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD) as [Last DBT Entry]
                     ,(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT) as [Last DBT Advice]
                     ,(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_MCC) as [Last BMC Truck Sheet]
                     ,(SELECT FORMAT(max(Document_Date),'dd/MMM/yyyy') FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS) as [Last DCS Truck Sheet Date]
                     ,(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD) as [Last Milk Bill Generation Date]"
-                    End If
-                Next
+                        End If
+                    Next
+                End If
+
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
@@ -150,8 +190,74 @@ Public Class FrmERPStatusTrackingReport
                 SetGridFormat(gv1)
                 ReStoreGridLayout()
                 If objCommonVar.RCDFCFP = False Then
-                    GridFormate()
+                    If rdbMilkProcurement.Checked = False Then
+                        GridFormate()
+                    End If
 
+                End If
+            Else
+                common.clsCommon.MyMessageBoxShow("No Data Found")
+                gv1.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Public Sub GetAllRecord(ByVal isPrint As Boolean)
+        Try
+            Dim query As String
+            gv1.DataSource = Nothing
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
+                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                gv1.DataSource = Nothing
+                Exit Sub
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_ERP_STATUS].Location_Name,[TSPL_ERP_STATUS].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_ERP_STATUS] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_ERP_STATUS].Location_Name")
+            query = ""
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                If ii > 0 Then
+                    query += " UNION ALL "
+                End If
+                query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
+                'query += ",(select FORMAT(max(Indent_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_INDENT_HEAD where Post=1) as [Indent Date]"
+                query += ",(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD ) as [Last Purchase order Date]"
+                query += ",(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD ) as [Last Stock Received (SRN) Date]"
+                query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' ) as [Last Stock Issue Date]"
+                query += ",(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER ) as [Last Stock Adjustment Date]"
+                query += ",(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY ) as [Last Production Entry Date]"
+                query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER ) as [Last Demand Date]"
+                If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BRN") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "JHL") = CompairStringResult.Equal Then
+                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale ) as [Last Dispatch Date]"
+                Else
+                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD ) as [Last Dispatch Date]"
+                End If
+                query += ",(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PI_head ) as [Last Stock Voucher Date]"
+                query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD ) as [Last Sales Voucher Date]"
+                query += ",(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RECEIPT_HEADER ) as [Last Receipt Date]"
+                If chkDBT.Checked Then
+                    query += ",(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD) as [Last DBT Entry]
+                    ,(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT) as [Last DBT Advice]
+                    ,(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_MCC) as [Last BMC Truck Sheet]
+                    ,(SELECT FORMAT(max(Document_Date),'dd/MMM/yyyy') FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS) as [Last DCS Truck Sheet Date]
+                    ,(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD) as [Last Milk Bill Generation Date]"
+                End If
+            Next
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
+            If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
+                If isPrint Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt2, "rptERPStatusTrackingReportUnionrpt", "ERP Status Tracking Report")
+                    frmCRV = Nothing
+                Else
+                    gv1.Visible = True
+                    gv1.DataSource = dt2
+                    gv1.ReadOnly = True
+                    SetGridFormat(gv1)
+                    ReStoreGridLayout()
+                    If objCommonVar.RCDFCFP = False Then
+                        GridFormate()
+                    End If
                 End If
             Else
                 common.clsCommon.MyMessageBoxShow("No Data Found")
@@ -212,6 +318,13 @@ Public Class FrmERPStatusTrackingReport
         Gv1.ShowFilteringRow = True
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem("Milk Collection in Ltr", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("Demand in Ltr", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("Purchase Order", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
@@ -226,6 +339,8 @@ Public Class FrmERPStatusTrackingReport
     Sub reset()
         RadPageView1.SelectedPage = RadPageViewPage1
         gv1.Visible = False
+        txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+
     End Sub
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         Me.Close()
@@ -356,4 +471,184 @@ Public Class FrmERPStatusTrackingReport
             End If
         End If
     End Sub
+    Private Sub rdbMilkProcurement_CheckedChanged(sender As Object, e As EventArgs) Handles rdbMilkProcurement.CheckedChanged
+        If rdbMilkProcurement.Checked Then
+            txtDate.Visible = True
+            RadLabel3.Visible = True
+            Label1.Text = "Milk Procurement"
+        Else
+            txtDate.Visible = False
+            RadLabel3.Visible = False
+            Label1.Text = "ERP Status At Milk Unions"
+        End If
+    End Sub
+
+    Private Sub RMIALL_Click(sender As Object, e As EventArgs) Handles RMIALL.Click
+        Try
+            GetAllRecord(False)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            GetAllRecord(True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    '    Sub Print()
+    '        Try
+    '            Dim StrQuery As String = " select 1 AS SNo,'ALWAR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [ALW].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all  " & Environment.NewLine & " select 2 AS SNo,'BANSWARA' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_Dispatch_BulkSale where Posted=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [BNS].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all  " & Environment.NewLine & " select 3 AS SNo,'BARAN' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [BRN].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all  " & Environment.NewLine & " select 4 AS SNo,'BARMER' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [BAR].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all  " & Environment.NewLine & " select 5 AS SNo,'BHARATPUR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [BHR].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " select 6 AS SNo,'BIKANER' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [BKN].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all  " & Environment.NewLine & " select 7 AS SNo,'CHITTORGARH' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [CHT].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date] 
+    '" & Environment.NewLine & " union all  " & Environment.NewLine & " select 8 AS SNo,'CHURU' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [CHU].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "   select 9 AS SNo,'GANGANAGAR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [GNG].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all  " & Environment.NewLine & "  select 10 AS SNo,'JAIPUR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [JPR].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date] 
+    '" & Environment.NewLine & " union all  " & Environment.NewLine & " select 11 AS SNo,'JAISALMER' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [JSL].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "   select 12 AS SNo,'JALORE' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [JAL].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 13 AS SNo,'JHALAWAR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [JHL].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 14 AS SNo,'JODHPUR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [JDH].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 15 AS SNo,'KOTA' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [KTA].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 16 AS SNo,'NAGORE' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [NAG].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date] 
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 17 AS SNo,'PALI' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [PLI].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date] 
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 18 AS SNo,'RAJSAMAND' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_Dispatch_BulkSale where Posted=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [RJS].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 19 AS SNo,'SAWAI MADHOPUR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [SWM].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 20 AS SNo,'SIKAR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [SKR].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "  select 21 AS SNo,'TONK' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [TNK].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]
+    '" & Environment.NewLine & " union all " & Environment.NewLine & "   select 22 AS SNo,'UDAIPUR' AS [Union Name],(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date],(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date],(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date],
+    '(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date],(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date],
+    '(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date],(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date],(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [UDP].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date] "
+    '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
+    '            Dim frmCRV As New frmCrystalReportViewer()
+    '            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptERPStatusTrackingReportUnionrpt", "ERP Status Tracking Report")
+    '            frmCRV = Nothing
+    '        Catch ex As Exception
+    '            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '        End Try
+    '    End Sub
+
+    Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
+        Try
+            Dim arrItem As New List(Of String)
+            Dim item As String = Nothing
+            Dim ERPStatusreport As String = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
+                ,TSPL_LOCATION_MASTER.location_code as [Location Code] ,TSPL_LOCATION_MASTER.Location_Desc AS [Location Name]
+                ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location]
+                ,convert(varchar, GRN.GRN_Date,103) AS [Last Gate In Date]
+                ,convert(varchar, WEIGHTMENT.Weighment_Date,103) as [Last Weighment Date]
+                ,convert(varchar,QC.Document_Date,103) as [Last QC Date]
+                ,convert(varchar,SRN.SRN_Date,103) as [Last SRN Date]
+                ,convert(varchar, PInvoice.PI_Date,103) as [Last Purchase Invoice Date]
+                ,convert(varchar, RECEIPT.Receipt_Date,103) as [Last Advance Receipt Date]
+                ,convert(varchar, SHIPMENT.Document_Date,103) as [Last Dispatch Date]
+                ,convert(varchar, SInvoice.Document_Date,103) as [Last Sale Bill Date]
+                ,convert(varchar, Production.PROD_DATE,103) as [Last Production Entry Date]
+                FROM TSPL_LOCATION_MASTER LEFT OUTER JOIN
+                (SELECT  max(TSPL_GRN_HEAD.GRN_Date) AS GRN_Date,TSPL_GRN_HEAD.Bill_To_Location FROM TSPL_GRN_HEAD
+                GROUP BY TSPL_GRN_HEAD.Bill_To_Location) GRN
+                ON TSPL_LOCATION_MASTER.LOCATION_CODE =GRN.Bill_To_Location
+                LEFT OUTER JOIN
+                (SELECT  max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date) AS Weighment_Date,TSPL_PO_WEIGHTMENT_HEAD.Location_code FROM TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Type='IN'
+                GROUP BY TSPL_PO_WEIGHTMENT_HEAD.Location_code) WEIGHTMENT
+                ON TSPL_LOCATION_MASTER.LOCATION_CODE =WEIGHTMENT.Location_code
+                LEFT OUTER JOIN
+                (SELECT  max(TSPL_QC_CHECK_HEAD.Document_Date) AS Document_Date,TSPL_QC_CHECK_HEAD.Bill_To_Location FROM TSPL_QC_CHECK_HEAD
+                GROUP BY TSPL_QC_CHECK_HEAD.Bill_To_Location) QC
+                ON TSPL_LOCATION_MASTER.LOCATION_CODE =QC.Bill_To_Location
+                LEFT OUTER JOIN
+                (SELECT  max(TSPL_SRN_HEAD.SRN_Date) AS SRN_Date,TSPL_SRN_HEAD.Bill_To_Location FROM TSPL_SRN_HEAD
+                GROUP BY TSPL_SRN_HEAD.Bill_To_Location) SRN
+                ON TSPL_LOCATION_MASTER.LOCATION_CODE =SRN.Bill_To_Location
+                LEFT OUTER JOIN
+                (SELECT  max(TSPL_PI_HEAD.PI_Date) AS PI_Date,TSPL_PI_HEAD.Bill_To_Location FROM TSPL_PI_HEAD
+                GROUP BY TSPL_PI_HEAD.Bill_To_Location) PInvoice
+                ON TSPL_LOCATION_MASTER.LOCATION_CODE =PInvoice.Bill_To_Location
+                 LEFT OUTER JOIN
+                (SELECT  max(TSPL_RECEIPT_HEADER.Receipt_Date) AS Receipt_Date,TSPL_RECEIPT_HEADER.Location_GL_Code FROM TSPL_RECEIPT_HEADER
+                GROUP BY TSPL_RECEIPT_HEADER.Location_GL_Code) RECEIPT
+                ON TSPL_LOCATION_MASTER.Loc_Segment_Code =RECEIPT.Location_GL_Code
+                LEFT OUTER JOIN
+                (SELECT  max(TSPL_SD_SHIPMENT_HEAD.Document_Date) AS Document_Date,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM TSPL_SD_SHIPMENT_HEAD
+                GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SHIPMENT
+                ON TSPL_LOCATION_MASTER.LOCATION_CODE =SHIPMENT.Bill_To_Location
+                LEFT OUTER JOIN
+                (SELECT  max(tspl_sd_sale_invoice_head.Document_Date) AS Document_Date,tspl_sd_sale_invoice_head.Bill_To_Location FROM tspl_sd_sale_invoice_head
+                GROUP BY tspl_sd_sale_invoice_head.Bill_To_Location) SInvoice
+                ON TSPL_LOCATION_MASTER.LOCATION_CODE =SInvoice.Bill_To_Location
+                LEFT OUTER JOIN
+                (select max(TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE) as PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY
+                group by TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE)Production
+                ON TSPL_LOCATION_MASTER.LOCATION_CODE =Production.LOCATION_CODE
+                where TSPL_LOCATION_MASTER.IsMainPlant='0'"
+
+
+            Dim dtERPStatusreport As DataTable = clsDBFuncationality.GetDataTable(ERPStatusreport)
+
+            If dtERPStatusreport IsNot Nothing And dtERPStatusreport.Rows.Count > 0 Then
+                'Dim frmCRV As New frmCrystalReportViewer()
+                'frmCRV.funreport(CrystalReportFolder.PRODUCTION, dtSaleConsignee, "rptRMUnloadingReport", "")
+                'frmCRV = Nothing
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.SalesReport, dtERPStatusreport, "rptERPStatusTrackingReport", "")
+                'PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found")
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+
 End Class

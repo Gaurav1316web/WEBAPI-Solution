@@ -488,9 +488,13 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     'objTr.SNo = ii + 1
                     objTr.Distributor_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(colCustCode).Value)
                     objTr.Route_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(ColRouteCode).Value)
-                    objTr.Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value)
+                objTr.Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value)
+                If chkSecurity.Checked Then
                     objTr.Security_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colSecRate).Value)
-                    Arr.Add(objTr)
+                Else
+                    objTr.Security_Rate = 0
+                End If
+                Arr.Add(objTr)
 
                 'End If
             End If

@@ -24,16 +24,16 @@ Partial Class frmEmployee_Master
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.General = New Telerik.WinControls.UI.RadPageViewPage()
         Me.cboemployeebasistype = New common.Controls.MyComboBox()
@@ -537,7 +537,7 @@ Partial Class frmEmployee_Master
         Me.RadPageView1.Controls.Add(Me.pageOthers)
         Me.RadPageView1.Location = New System.Drawing.Point(5, 35)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageOthers
+        Me.RadPageView1.SelectedPage = Me.General
         Me.RadPageView1.Size = New System.Drawing.Size(866, 460)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -644,10 +644,10 @@ Partial Class frmEmployee_Master
         Me.cboemployeebasistype.IsSourceFromTable = False
         Me.cboemployeebasistype.IsSourceFromValueList = False
         Me.cboemployeebasistype.IsUnique = False
-        RadListDataItem1.Text = "Single"
-        RadListDataItem2.Text = "married"
-        Me.cboemployeebasistype.Items.Add(RadListDataItem1)
-        Me.cboemployeebasistype.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "Single"
+        RadListDataItem6.Text = "married"
+        Me.cboemployeebasistype.Items.Add(RadListDataItem5)
+        Me.cboemployeebasistype.Items.Add(RadListDataItem6)
         Me.cboemployeebasistype.Location = New System.Drawing.Point(435, 355)
         Me.cboemployeebasistype.MendatroryField = True
         Me.cboemployeebasistype.MyLinkLable1 = Me.MyLabel4
@@ -1350,10 +1350,10 @@ Partial Class frmEmployee_Master
         Me.CboMaritalStatus.IsSourceFromTable = False
         Me.CboMaritalStatus.IsSourceFromValueList = False
         Me.CboMaritalStatus.IsUnique = False
-        RadListDataItem3.Text = "Single"
-        RadListDataItem4.Text = "married"
-        Me.CboMaritalStatus.Items.Add(RadListDataItem3)
-        Me.CboMaritalStatus.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Single"
+        RadListDataItem2.Text = "married"
+        Me.CboMaritalStatus.Items.Add(RadListDataItem1)
+        Me.CboMaritalStatus.Items.Add(RadListDataItem2)
         Me.CboMaritalStatus.Location = New System.Drawing.Point(104, 82)
         Me.CboMaritalStatus.MendatroryField = True
         Me.CboMaritalStatus.MyLinkLable1 = Me.MyLabel4
@@ -1782,7 +1782,7 @@ Partial Class frmEmployee_Master
         Me.txtBranch.IsSourceFromValueList = False
         Me.txtBranch.IsUnique = False
         Me.txtBranch.Location = New System.Drawing.Point(104, 311)
-        Me.txtBranch.MendatroryField = False
+        Me.txtBranch.MendatroryField = True
         Me.txtBranch.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBranch.MyLinkLable1 = Me.MyLabel9
         Me.txtBranch.MyLinkLable2 = Nothing
@@ -1818,7 +1818,7 @@ Partial Class frmEmployee_Master
         Me.txtAttendance.IsSourceFromValueList = False
         Me.txtAttendance.IsUnique = False
         Me.txtAttendance.Location = New System.Drawing.Point(104, 332)
-        Me.txtAttendance.MendatroryField = False
+        Me.txtAttendance.MendatroryField = True
         Me.txtAttendance.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtAttendance.MyLinkLable1 = Me.MyLabel10
         Me.txtAttendance.MyLinkLable2 = Nothing
@@ -3399,7 +3399,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpDoc.MasterTemplate.EnableGrouping = False
         Me.gvEmpDoc.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpDoc.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpDoc.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvEmpDoc.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvEmpDoc.Name = "gvEmpDoc"
         Me.gvEmpDoc.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvEmpDoc.ShowHeaderCellButtons = True
@@ -3436,7 +3436,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpEx.MasterTemplate.EnableGrouping = False
         Me.gvEmpEx.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpEx.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpEx.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvEmpEx.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvEmpEx.Name = "gvEmpEx"
         Me.gvEmpEx.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvEmpEx.ShowHeaderCellButtons = True
@@ -3473,7 +3473,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpQuli.MasterTemplate.EnableGrouping = False
         Me.gvEmpQuli.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpQuli.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpQuli.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvEmpQuli.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvEmpQuli.Name = "gvEmpQuli"
         Me.gvEmpQuli.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvEmpQuli.ShowHeaderCellButtons = True
@@ -3510,7 +3510,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpLanguage.MasterTemplate.EnableGrouping = False
         Me.gvEmpLanguage.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpLanguage.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpLanguage.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvEmpLanguage.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvEmpLanguage.Name = "gvEmpLanguage"
         Me.gvEmpLanguage.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvEmpLanguage.ShowHeaderCellButtons = True
@@ -3547,7 +3547,7 @@ Partial Class frmEmployee_Master
         Me.gvEmpFamily.MasterTemplate.EnableGrouping = False
         Me.gvEmpFamily.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmpFamily.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvEmpFamily.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvEmpFamily.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvEmpFamily.Name = "gvEmpFamily"
         Me.gvEmpFamily.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvEmpFamily.ShowHeaderCellButtons = True
@@ -3760,7 +3760,7 @@ Partial Class frmEmployee_Master
         Me.gvAssets.MasterTemplate.EnableGrouping = False
         Me.gvAssets.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAssets.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAssets.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAssets.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvAssets.Name = "gvAssets"
         Me.gvAssets.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAssets.ShowHeaderCellButtons = True

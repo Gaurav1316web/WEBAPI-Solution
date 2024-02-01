@@ -601,10 +601,10 @@ Public Class frmRptTrialBalanceVC
 
                 SetGridFormation(IIf(clsCommon.myLen(strCustVendorColumn) > 0, True, False))
             Else
-                common.clsCommon.MyMessageBoxShow("Company Details Not found")
+                common.clsCommon.MyMessageBoxShow(Me, "Company Details Not found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1073,7 +1073,7 @@ Public Class frmRptTrialBalanceVC
                 PageSetupReport_ID = GetReportID()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1200,7 +1200,7 @@ Public Class frmRptTrialBalanceVC
             End If
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1216,7 +1216,7 @@ Public Class frmRptTrialBalanceVC
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1226,7 +1226,7 @@ Public Class frmRptTrialBalanceVC
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         clsGridLayout.DeleteData(GetReportID(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Function GetReportID() As String
@@ -1272,7 +1272,7 @@ Public Class frmRptTrialBalanceVC
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -1348,7 +1348,7 @@ Public Class frmRptTrialBalanceVC
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

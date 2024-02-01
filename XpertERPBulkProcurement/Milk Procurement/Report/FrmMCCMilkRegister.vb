@@ -2599,9 +2599,9 @@ Public Class FrmMCCMilkRegister
             RadButton1.Enabled = True
         End If
         chkDateShift.Checked = False
-        txtMCC.arrValueMember = Nothing
-        txtRoute.arrValueMember = Nothing
-        txtVLC.arrValueMember = Nothing
+        'txtMCC.arrValueMember = Nothing
+        'txtRoute.arrValueMember = Nothing
+        'txtVLC.arrValueMember = Nothing
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)

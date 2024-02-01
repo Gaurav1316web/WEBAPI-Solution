@@ -619,15 +619,15 @@ Public Class MDI
                 Throw New Exception("More Than one Customize DLL exists here.Please remove excess customize dll.")
             End If
 
-            If System.IO.File.Exists(Application.StartupPath + "\XpertErpMPD.dll") Then
-                frmAppIntegrator.CallStartupFunction("XpertErpMPD.dll")
-            ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpViney.dll") Then
-                frmAppIntegrator.CallStartupFunction("XpertErpViney.dll")
-            ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpJakson.dll") Then
-                frmAppIntegrator.CallStartupFunction("XpertErpJakson.dll")
-            ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpPatanjali.dll") Then
-                frmAppIntegrator.CallStartupFunction("XpertErpPatanjali.dll")
-            End If
+            'If System.IO.File.Exists(Application.StartupPath + "\XpertErpMPD.dll") Then
+            '    frmAppIntegrator.CallStartupFunction("XpertErpMPD.dll")
+            'ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpViney.dll") Then
+            '    frmAppIntegrator.CallStartupFunction("XpertErpViney.dll")
+            'ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpJakson.dll") Then
+            '    frmAppIntegrator.CallStartupFunction("XpertErpJakson.dll")
+            'ElseIf System.IO.File.Exists(Application.StartupPath + "\XpertErpPatanjali.dll") Then
+            '    frmAppIntegrator.CallStartupFunction("XpertErpPatanjali.dll")
+            'End If
             ''To Run Customize Function
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_Version_Info")
             clsDBFuncationality.ExecuteNonQuery("insert into TSPL_Version_Info(Last_Version) Values('" + CurrEXEVersion + "')")
@@ -3198,18 +3198,18 @@ Public Class MDI
                     Case clsUserMgtCode.frmBankBookLocationDetail
                         frm = New FrmBankBookLocationDetail(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmBankBookChart
-                        frm = New FrmBankBookChart()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmBankBookClosing
-                        frm = New FrmBankBookClosing()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmCustomerAgingSummary
-                        frm = New FrmBICustomerAgeing()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmVendorAgingSummary
-                        frm = New FrmBIVendorAgeing()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.frmBankBookChart
+                    '    frm = New FrmBankBookChart()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.frmBankBookClosing
+                    '    frm = New FrmBankBookClosing()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmCustomerAgingSummary
+                    '    frm = New FrmBICustomerAgeing()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.frmVendorAgingSummary
+                    '    frm = New FrmBIVendorAgeing()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmFormCollection
                         frm = New FrmFormCollection()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -3623,9 +3623,9 @@ Public Class MDI
                     Case clsUserMgtCode.FisaclYearEndProcess
                         frm = New FrmFiscalYearEndProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmAppIntegrator
-                        frm = New frmAppIntegrator
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.frmAppIntegrator
+                    '    frm = New frmAppIntegrator
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     '------------------ Purchase Masters---------------------------------------
                     Case clsUserMgtCode.vendormaster
                         frm = New frmVendorMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
@@ -7218,12 +7218,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmBatchOrderReportPepsi
                         frm = New frmBatchOrderReport(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmGraphicalBatchOrder
-                        frm = New frmGraphicalBatchOrder
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmGraphicalCategorywiseProduction
-                        frm = New frmGraphicalCategorywiseProduction
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.frmGraphicalBatchOrder
+                    '    frm = New frmGraphicalBatchOrder
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.frmGraphicalCategorywiseProduction
+                    '    frm = New frmGraphicalCategorywiseProduction
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmListofRequisition
                         frm = New frmListofRequisition
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7232,48 +7232,48 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     ''BI Forms
-                    Case clsUserMgtCode.BICreateReport
-                        frm = New frmCreateBIReport
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BICreateFilter
-                        frm = New frmCreateBIFilter
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BICreateDashBoard
-                        frm = New FrmCreateDashBoard
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BIMonthWiseSale
-                        frm = New FrmBIMonthWiseSale
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BITopCustomer
-                        frm = New frmBITopCustomer
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BITopItemCategory
-                        frm = New frmBITopItemCategory
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BICreateReport
+                    '    frm = New frmCreateBIReport
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BICreateFilter
+                    '    frm = New frmCreateBIFilter
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BICreateDashBoard
+                    '    frm = New FrmCreateDashBoard
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BIMonthWiseSale
+                    '    frm = New FrmBIMonthWiseSale
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BITopCustomer
+                    '    frm = New frmBITopCustomer
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BITopItemCategory
+                    '    frm = New frmBITopItemCategory
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProductionVarianceSTD
                         frm = New frmProductionVariance(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProductionVariancePepsi
                         frm = New frmProductionVariance(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BIMonthWisePurchase
-                        frm = New FrmBIMonthWisePurchase
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BITopVendor
-                        frm = New frmBITopVendor
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BITopItemCategoryPurchase
-                        frm = New frmBITopItemCategoryPurchase
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BIMonthWiseAssset
-                        frm = New frmBIMonthWiseAsset
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BITopExpence
-                        frm = New frmBITopExpence
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.BIDashBoadr
-                        frm = New frmBIDashBoard
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BIMonthWisePurchase
+                    '    frm = New FrmBIMonthWisePurchase
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BITopVendor
+                    '    frm = New frmBITopVendor
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BITopItemCategoryPurchase
+                    '    frm = New frmBITopItemCategoryPurchase
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BIMonthWiseAssset
+                    '    frm = New frmBIMonthWiseAsset
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BITopExpence
+                    '    frm = New frmBITopExpence
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.BIDashBoadr
+                    '    frm = New frmBIDashBoard
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     ''''''''''''''''''''''''''''''''''''''''''''End of Reports''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                     ''''''''''''''''''''''''''''''''''''''''''''Project Management''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -9674,21 +9674,21 @@ Public Class MDI
                         frm = New frmShareAllotment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-                    Case Else
-                        Dim dtt As DataTable = clsDBFuncationality.GetDataTable("select 'BI-RPT' as Code from TSPL_CREATE_BI_REPORT where Code='" + strProgramCode + "' union select 'BI-DBR' as Code from TSPL_CREATE_DASHBOARD where code='" + strProgramCode + "' ")
-                        If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
-                            If clsCommon.CompairString(clsCommon.myCstr(dtt.Rows(0)("Code")), "BI-RPT") = CompairStringResult.Equal Then
-                                frm = New FrmBIReport
-                                frm.obj = clsCreateBIReport.GetData(strProgramCode, True, NavigatorType.Current)
-                                formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                            ElseIf clsCommon.CompairString(clsCommon.myCstr(dtt.Rows(0)("Code")), "BI-DBR") = CompairStringResult.Equal Then
-                                frm = New frmDashboard
-                                frm.objDB = clsCreateDashboard.GetData(strProgramCode, NavigatorType.Current)
-                                formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                            End If
+                        'Case Else
+                        '    Dim dtt As DataTable = clsDBFuncationality.GetDataTable("select 'BI-RPT' as Code from TSPL_CREATE_BI_REPORT where Code='" + strProgramCode + "' union select 'BI-DBR' as Code from TSPL_CREATE_DASHBOARD where code='" + strProgramCode + "' ")
+                        '    If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                        '        If clsCommon.CompairString(clsCommon.myCstr(dtt.Rows(0)("Code")), "BI-RPT") = CompairStringResult.Equal Then
+                        '            frm = New FrmBIReport
+                        '            frm.obj = clsCreateBIReport.GetData(strProgramCode, True, NavigatorType.Current)
+                        '            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        '        ElseIf clsCommon.CompairString(clsCommon.myCstr(dtt.Rows(0)("Code")), "BI-DBR") = CompairStringResult.Equal Then
+                        '            frm = New frmDashboard
+                        '            frm.objDB = clsCreateDashboard.GetData(strProgramCode, NavigatorType.Current)
+                        '            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        '        End If
 
 
-                        End If
+                        'End If
                 End Select
 
 

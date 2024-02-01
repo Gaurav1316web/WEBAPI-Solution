@@ -102,7 +102,7 @@ Public Class frmBulkPurchaseUploader
                 End If
             End If
         ElseIf rdbAgainstBulkSale.IsChecked Then
-            If transportSql.importExcel(Gv1, "Customer code", "Location Code", "Gate_entry_Date", "Sale_TankerNo.", "Item Code", "GROSS WEIGHT", "TARE WEIGHT", "Sale_MILK QTY.", "SILO No", "Sale_Fat %", "Sale_SNF %", "Sale_Rate", "Sale_Amount", "FAT Qty.", "SNF Qty", "Fat Per Kg", "Snf Per Kg", "Fat Value", "SNF Value", "Rate/100Kg.", "Invoice", "Sale Price Code", "FAT%", "SNF%", "FAT", "SNF", "Sale_CLR") Then
+            If transportSql.importExcel(Gv1, "Customer code", "Location Code", "Gate_entry_Date", "Sale_TankerNo.", "Item Code", "UOM", "GROSS WEIGHT", "TARE WEIGHT", "Sale_MILK QTY.", "SILO No", "Sale_Fat %", "Sale_SNF %", "Sale_Rate", "Sale_Amount", "FAT Qty.", "SNF Qty", "Fat Per Kg", "Snf Per Kg", "Fat Value", "SNF Value", "FAT Rate", "SNF Rate", "Sale Price Code") Then
                 If Gv1.Columns.Count > 0 Then
                     TextCol = New GridViewTextBoxColumn()
                     TextCol.Name = colSlno
@@ -222,7 +222,7 @@ Public Class frmBulkPurchaseUploader
             qry = "select '' As [Party Code / Vendor Code],	'' As [Gate_Entry_DATE],	'' As [Location code],	'' As [TankerNo.],	'' As [Item code],	'' As [GROSS WEIGHT],	'' As [DIP Value],	'' As [TARE WEIGHT],	'' As [Net_MILK QTY.],	'' As [PM00001(FAT %)],	'' As [PM00002(SNF %)],	'' As [PM00003(CLR)],	'' As [PM14-151(RM VALUE)],	'' As [PM14-1510(Acidity (B.B))],	'' As [PM14-1511(Temprature ° C)],	'' As [PM14-1512(Alcohol)],	'' As [PM14-1513(ACI 8.5% SNF)],	'' As [PM14-1515(Taste)],	'' As [PM14-1516(Chenna %)],	'' As [PM14-1517(B.R. Reading)],	'' As [PM14-1518(Detergent)],	'' As [PM14-1519(Acidity (A.B))],	'' As [PM14-152(FFA%)],	'' As [PM14-1520(Adultration)],	'' As [PM14-1521(Flavour)],	'' As [PM14-153(PROTEIN)],	'' As [PM14-154(NA+ PPM)],	'' As [PM14-155(K PPM)],	'' As [PM14-156(MILK ASH %)],	'' As [PM14-157(SUGAR)],	'' As [PM14-158(MALTOSE)],	'' As [PM14-159(GLUCOSE)],	'' As [Silo No],	'' As [SRN Price Chart Code],	'' As [FAT Ratio],	'' As [SNF Ratio],	'' As [FAT Weightage],	'' As [SNF Weightage],	'' As [Purchase_Rate],	'' As [Purchase_Amount],	'' As [FAT Qty.],	'' As [SNF Qty],	'' As [Fat Value],	'' As [SNF Value],	'' As [Vendor Invoice No] , '0' as IsJobWork,'' as [JobWork Location]"
             transportSql.ExporttoExcel(qry, Me)
         ElseIf rdbAgainstBulkSale.IsChecked Then
-            qry = "select '' As [Customer code], '' As [Location Code], '' As [Gate_entry_Date], '' As [Sale_TankerNo.], '' As [Item Code], '' As [GROSS WEIGHT], '' As [TARE WEIGHT], '' As [Sale_MILK QTY.], '' As [SILO No], '' As [Sale_Fat %], '' As [Sale_SNF %], '' As [Sale_Rate], '' As [Sale_Amount], '' As [FAT Qty.], '' As [SNF Qty], '' As [Fat Per Kg], '' As [Snf Per Kg], '' As [Fat Value], '' As [SNF Value], '' As [Rate/100Kg.], '' As [Invoice], '' As [Sale Price Code], '' As [FAT%], '' As [SNF%], '' As [FAT], '' As [SNF], '' As [Sale_CLR]"
+            qry = "select '' As [Customer code], '' As [Location Code], '' As [Gate_entry_Date], '' As [Sale_TankerNo.], '' As [Item Code],'' as UOM, '' As [GROSS WEIGHT], '' As [TARE WEIGHT], '' As [Sale_MILK QTY.], '' As [SILO No], '' As [Sale_Fat %], '' As [Sale_SNF %], '' As [Sale_Rate], '' As [Sale_Amount], '' As [FAT Qty.], '' As [SNF Qty], '' As [Fat Per Kg], '' As [Snf Per Kg], '' As [Fat Value], '' As [SNF Value],'' AS [FAT Rate],'' AS [SNF Rate],  '' As [Sale Price Code]"
             transportSql.ExporttoExcel(qry, Me)
         Else
             qry = "select '' As [Customer code],'' as [Location Code],'' as [Document_Date],'' as [TankerNo.],'' as [Item Code],'' as [Dispatch Price Code],'' as [MILK QTY.],'' as [Sale_Fat %],'' as [Sale_SNF %],'' as [Sale_Rate],'' as [Dispatch_Sale_Amount],'' as [Dispatch FAT Qty.],'' as [Dispatch SNF Qty],'' as [Dispatch Fat Per Kg],'' as [Dispatch Snf Per Kg],'' as [Dispatch Fat Value],'' as [Dispatch SNF Value],'' as [Dispatch Rate/100Kg.],'' as [Dispatch FAT%],'' as [Dispatch SNF%],'' as [Dispatch FAT],'' as [Dispatch SNF],'' as [Vendor_Code],'' as [Vendor Bill No],'' as [SRN Price Code],'' as [SRN FAT Qty.],'' as [SRN SNF Qty],'' as [SRN Fat Per Kg],'' as [SRN Snf Per Kg],'' as [SRN Fat Value],'' as [SRN SNF Value],'' as [SRN Sale Amount],'' as [SRN Rate/100Kg.],'' as [SRN FAT%],'' as [SRN SNF%],'' as [SRN FAT],'' as [SRN SNF],'' as [SRN Standard Rate]"
@@ -1090,6 +1090,56 @@ Public Class frmBulkPurchaseUploader
                     ValidateStatus = ValidateStatus & "Invalid Silo No or Not For Location " & clsCommon.myCstr(Gv1.Rows(i).Cells("Location Code").Value) & Environment.NewLine
                 End If
 
+                strCellValue = clsCommon.myCstr(Gv1.Rows(i).Cells("Sale Price Code").Value)
+                If clsCommon.myLen(strCellValue) <= 0 Then
+                    ValidateStatus = ValidateStatus & "Sale Price Code Must not be Blank" & Environment.NewLine
+                End If
+
+                ''richa agarwal 12 Sep, 2016
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where code= '" & clsFixedParameterCode.showPostrequiredforBulkSale & "' and Type ='" & clsFixedParameterType.showPostrequiredforBulkSale & "'")), "1") = CompairStringResult.Equal Then
+                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BulkSalePrice_MASTER where Price_Code='" & strCellValue & "'  and TSPL_BulkSalePrice_MASTER.Posted='1'")) <= 0 Then
+                        ValidateStatus = ValidateStatus & "Sale Price Code not found in master" & Environment.NewLine
+                    End If
+                Else
+                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BulkSalePrice_MASTER where Price_Code='" & strCellValue & "'")) <= 0 Then
+                        ValidateStatus = ValidateStatus & "Sale Price Code not found in master" & Environment.NewLine
+                    End If
+                End If
+
+                Dim objP As ClsBulkSalePriceChart = ClsBulkSalePriceChart.GetData(clsCommon.myCstr(Gv1.Rows(i).Cells("Sale Price Code").Value), NavigatorType.Current)
+
+                Dim FatW As Double = objP.Fat_Weightage
+                Dim SNFW As Double = objP.Snf_Weightage
+                Dim FATRATE As Double = objP.FatRate
+                Dim SNFRATE As Double = objP.SNFRate
+                Dim Rate As Double = objP.Standard_Rate
+                Gv1.Rows(i).Cells("FAT Rate").Value = Math.Round(FATRATE, 2)
+                Gv1.Rows(i).Cells("SNF Rate").Value = Math.Round(SNFRATE, 2)
+                Gv1.Rows(i).Cells("Sale_Rate").Value = Math.Round(Rate, 2)
+
+                Dim FATPer As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_Fat %").Value)
+                Dim SNFPer As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_SNF %").Value)
+                If FATPer > 0 Then
+                    Gv1.Rows(i).Cells("FAT Qty.").Value = Math.Round(netWeight * FATPer / 100, 2)
+                    Gv1.Rows(i).Cells("Sale_Fat %").Value = Math.Round(FATPer, 2)
+                End If
+                If SNFPer > 0 Then
+                    Gv1.Rows(i).Cells("SNF Qty").Value = Math.Round(netWeight * SNFPer / 100, 2)
+                    Gv1.Rows(i).Cells("Sale_SNF %").Value = Math.Round(SNFPer, 2)
+                End If
+                Dim FATQty As Double = Gv1.Rows(i).Cells("FAT Qty.").Value
+                Dim SNFQty As Double = Gv1.Rows(i).Cells("SNF Qty").Value
+
+                Dim ConversionFactor As Double = clsDBFuncationality.getSingleValue("select  Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code = '" & Gv1.Rows(i).Cells("Item Code").Value & "' and UOM_Code = '" & Gv1.Rows(i).Cells("UOM").Value & "'")
+
+                Gv1.Rows(i).Cells("Fat Per Kg").Value = Math.Round(netWeight * ConversionFactor * FATPer / 100, 2)
+                Gv1.Rows(i).Cells("Snf Per Kg").Value = Math.Round(netWeight * ConversionFactor * SNFPer / 100, 2)
+
+                Gv1.Rows(i).Cells("Sale_Amount").Value = Math.Round((Gv1.Rows(i).Cells("FAT Rate").Value * Gv1.Rows(i).Cells("Fat Per Kg").Value) + (Gv1.Rows(i).Cells("SNF Rate").Value * Gv1.Rows(i).Cells("Snf Per Kg").Value), 2)
+
+                Gv1.Rows(i).Cells("Fat Value").Value = Math.Round(FATRATE * Gv1.Rows(i).Cells("Fat Per Kg").Value, 2)
+                Gv1.Rows(i).Cells("SNF Value").Value = Math.Round(SNFRATE * Gv1.Rows(i).Cells("Snf Per Kg").Value, 2)
+
                 strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_Fat %").Value)
                 If strCellValue <= 0 Then
                     ValidateStatus = ValidateStatus & "Sale_Fat % Value Must not be Negative or Zero" & Environment.NewLine
@@ -1138,7 +1188,7 @@ Public Class frmBulkPurchaseUploader
                 Dim paramCode As String = ""
 
 
-                strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("Fat Value").Value)
+                strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("FAT Value").Value)
                 If strCellValue <= 0 Then
                     ValidateStatus = ValidateStatus & "Fat Value Must not be Negative or Zero" & Environment.NewLine
                 End If
@@ -1148,53 +1198,6 @@ Public Class frmBulkPurchaseUploader
                     ValidateStatus = ValidateStatus & "SNF Value Must not be Negative or Zero" & Environment.NewLine
                 End If
 
-                strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("Rate/100Kg.").Value)
-                If strCellValue <= 0 Then
-                    ValidateStatus = ValidateStatus & "Rate/100Kg. Value Must not be Negative or Zero" & Environment.NewLine
-                End If
-
-                strCellValue = clsCommon.myCstr(Gv1.Rows(i).Cells("Sale Price Code").Value)
-                If clsCommon.myLen(strCellValue) <= 0 Then
-                    ValidateStatus = ValidateStatus & "Sale Price Code Must not be Blank" & Environment.NewLine
-                End If
-
-                ''richa agarwal 12 Sep, 2016
-                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where code= '" & clsFixedParameterCode.showPostrequiredforBulkSale & "' and Type ='" & clsFixedParameterType.showPostrequiredforBulkSale & "'")), "1") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BulkSalePrice_MASTER where Price_Code='" & strCellValue & "'  and TSPL_BulkSalePrice_MASTER.Posted='1'")) <= 0 Then
-                        ValidateStatus = ValidateStatus & "Sale Price Code not found in master" & Environment.NewLine
-                    End If
-                Else
-                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BulkSalePrice_MASTER where Price_Code='" & strCellValue & "'")) <= 0 Then
-                        ValidateStatus = ValidateStatus & "Sale Price Code not found in master" & Environment.NewLine
-                    End If
-                End If
-
-
-                strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("FAT%").Value)
-                If strCellValue <= 0 Then
-                    ValidateStatus = ValidateStatus & "FAT% Value Must not be Negative or Zero" & Environment.NewLine
-                End If
-
-                strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("SNF%").Value)
-                If strCellValue <= 0 Then
-                    ValidateStatus = ValidateStatus & "SNF% Value Must not be Negative or Zero" & Environment.NewLine
-                End If
-
-                strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("FAT").Value)
-                If strCellValue <= 0 Then
-                    ValidateStatus = ValidateStatus & "FAT Value Must not be Negative or Zero" & Environment.NewLine
-                End If
-
-                strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("SNF").Value)
-                If strCellValue <= 0 Then
-                    ValidateStatus = ValidateStatus & "SNF Value Must not be Negative or Zero" & Environment.NewLine
-                End If
-
-
-                strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_CLR").Value)
-                If strCellValue <= 0 Then
-                    ValidateStatus = ValidateStatus & "Sale_CLR Value Must not be Negative or Zero" & Environment.NewLine
-                End If
 
                 If clsCommon.myLen(ValidateStatus) <= 0 Then
                     Gv1.Rows(i).Cells(colIsValidated).Value = True
@@ -2314,6 +2317,7 @@ Public Class frmBulkPurchaseUploader
                     Dim strTankerNo As String = String.Empty
                     Dim strItemCode As String = String.Empty
                     Dim strSilo As String = String.Empty
+                    Dim UOM As String = String.Empty
                     Dim DblGrossWeight As Double = 0
                     Dim DblTareWeight As Double = 0
                     Dim DblNetWeight As Double = 0
@@ -2351,7 +2355,6 @@ Public Class frmBulkPurchaseUploader
 
                             strCustomerCode = clsCommon.myCstr(Gv1.Rows(i).Cells("Customer code").Value)
                             strLocationCode = clsCommon.myCstr(Gv1.Rows(i).Cells("Location Code").Value)
-                            ' strGate_entry_Date = 'clsCommon.myCDate(Gv1.Rows(i).Cells("Gate_entry_Date").Value)
                             strGate_entry_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells("Gate_entry_Date").Value, "dd/MMM/yyyy")
                             strTankerNo = clsCommon.myCstr(Gv1.Rows(i).Cells("Sale_TankerNo.").Value)
                             strItemCode = clsCommon.myCstr(Gv1.Rows(i).Cells("Item Code").Value)
@@ -2363,24 +2366,16 @@ Public Class frmBulkPurchaseUploader
                             DblSnfPer = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_SNF %").Value)
                             DblFatPer = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_Fat %").Value)
                             dblSaleAmount = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_Amount").Value)
-                            DblClr = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_CLR").Value)
 
                             strPriceCode = clsCommon.myCstr(Gv1.Rows(i).Cells("Sale Price Code").Value)
-
+                            UOM = clsCommon.myCstr(Gv1.Rows(i).Cells("UOM").Value)
                             dblFatKg = clsCommon.myCdbl(Gv1.Rows(i).Cells("FAT Qty.").Value)
                             DblSNFKG = clsCommon.myCdbl(Gv1.Rows(i).Cells("SNF Qty").Value)
                             DblStandardrate = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_Rate").Value)
-                            DblFatRate = clsCommon.myCdbl(Gv1.Rows(i).Cells("Fat Per Kg").Value)
-                            DblSNFRate = clsCommon.myCdbl(Gv1.Rows(i).Cells("Snf Per Kg").Value)
+                            DblFatRate = clsCommon.myCdbl(Gv1.Rows(i).Cells("FAT Rate").Value)
+                            DblSNFRate = clsCommon.myCdbl(Gv1.Rows(i).Cells("SNF Rate").Value)
                             DblFatAmount = clsCommon.myCdbl(Gv1.Rows(i).Cells("Fat Value").Value)
                             DblSNFAmount = clsCommon.myCdbl(Gv1.Rows(i).Cells("SNF Value").Value)
-                            DblNetMilkRate = clsCommon.myCdbl(Gv1.Rows(i).Cells("Rate/100Kg.").Value)
-
-
-                            DblFATweightage = clsCommon.myCdbl(Gv1.Rows(i).Cells("FAT%").Value)
-                            DblSNFWeightage = clsCommon.myCdbl(Gv1.Rows(i).Cells("SNF%").Value)
-                            DblFATRatio = clsCommon.myCdbl(Gv1.Rows(i).Cells("FAT").Value)
-                            DblSNFRatio = clsCommon.myCdbl(Gv1.Rows(i).Cells("SNF").Value)
 
 
                             objGateEntry = New clsGateEntrySale()
@@ -2453,7 +2448,7 @@ Public Class frmBulkPurchaseUploader
                             objQCEntry.Silo_No = strSilo
                             objQCEntry.Correction_Factor = 0.14
                             objQCEntry.Item_Code = strItemCode
-                            objQCEntry.Unit_code = "KG"
+                            objQCEntry.Unit_code = UOM
                             objQCEntry.Qty = 0
                             objQCEntry.Fat = DblFatPer
                             objQCEntry.CLR = DblClr
@@ -2461,6 +2456,29 @@ Public Class frmBulkPurchaseUploader
                             objQCEntry.Remarks = ""
                             objQCEntry.Customer_Code = strCustomerCode
 
+
+                            Dim objQCParam As New clsQcParamBulkSale()
+                            objQCEntry.arrQcParamDetail = New List(Of clsQcParamBulkSale)
+                            ' objQCParam.QC_No = clsCommon.myCstr(objQCEntry.QC_No)
+                            objQCParam.Param_Field_Code = "colFAT"
+                            objQCParam.Param_Field_Desc = "FAT"
+                            objQCParam.Param_Field_Value = DblFatPer
+                            objQCParam.Fat = DblFatPer
+                            objQCParam.Param_Type = "FAT"
+                            objQCParam.Item_code = strItemCode
+                            objQCParam.Unit_code = UOM
+                            objQCEntry.arrQcParamDetail.Add(objQCParam)
+
+                            objQCParam = New clsQcParamBulkSale()
+                            objQCParam.Item_code = strItemCode
+                            objQCParam.Unit_code = UOM
+                            objQCParam.SNF = DblSnfPer
+                            objQCParam.Param_Field_Code = "colSNF"
+                            objQCParam.Param_Field_Desc = "SNF"
+                            objQCParam.Param_Field_Value = DblSnfPer
+                            objQCParam.Param_Type = "SNF"
+
+                            objQCEntry.arrQcParamDetail.Add(objQCParam)
 
                             '' save and post data of Quality Check entry class
                             objCommonVar.CurrentUserCode = clsERPFuncationality.getRandomUserCode("TSPL_Quality_Check_BulkSale", "Created_By", clsCommon.myCstr(Gv1.Rows(i).Cells("Location code").Value), "Location_Code", trans)
@@ -2493,7 +2511,7 @@ Public Class frmBulkPurchaseUploader
                             objDispatchMasterEntry.arrDispatchDetailBulkSale = New List(Of clsDispatchDetailBulkSale)
 
                             objDispatchDetailEntry.Item_Code = strItemCode
-                            objDispatchDetailEntry.Unit_code = "KG"
+                            objDispatchDetailEntry.Unit_code = uom
                             objDispatchDetailEntry.Qty = DblNetWeight
 
                             objDispatchDetailEntry.FatPer = DblFatPer
@@ -2561,14 +2579,14 @@ Public Class frmBulkPurchaseUploader
                     Next
 
                     ''to create invoice against multiple dispatched or single acc. to sale price code,customer code, location Code
-                    CreateAutoInvoiceAgainstMultipleDispatch(trans)
+                    'CreateAutoInvoiceAgainstMultipleDispatch(trans)
                     objCommonVar.CurrentUserCode = CurrentUserCode
 
-                    clsDBFuncationality.ExecuteNonQuery("update TSPL_INVOICE_MASTER_BULKSALE set Created_Date=document_date ,Modified_Date=document_date,Posting_Date=document_date where IsUploader=1 ", trans)
+                    ' clsDBFuncationality.ExecuteNonQuery("update TSPL_INVOICE_MASTER_BULKSALE set Created_Date=document_date ,Modified_Date=document_date,Posting_Date=document_date where IsUploader=1 ", trans)
                     clsCommon.ProgressBarPercentHide()
                     trans.Commit()
                     'trans.Rollback()
-                    clsCommon.MyMessageBoxShow("Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
                     Throw New Exception("No Validated Rows found to save")
                 End If
@@ -3119,7 +3137,7 @@ Public Class frmBulkPurchaseUploader
                 If rdbAgainstBulkSale.IsChecked Then
                     For Each grow As GridViewRowInfo In Gv1.Rows
                         If clsCommon.myCBool(grow.Cells(colIsValidated).Value) Then
-                            dt1.Rows.Add("" + clsCommon.myCstr(grow.Cells("Sale Price Code").Value) + "", "" + clsCommon.myCstr(grow.Cells("Customer code").Value) + "", "" + clsCommon.myCstr(grow.Cells("Location Code").Value) + "", "" + clsCommon.myCstr(grow.Cells(colDispatchCode).Value) + "", "" + clsCommon.myCstr(grow.Cells("Gate_entry_Date").Value) + "", "" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "", "KG", "" + clsCommon.myCstr(grow.Cells("Sale_TankerNo.").Value) + "", "" + clsCommon.myCstr(grow.Cells("Sale_MILK QTY.").Value) + "", " " + clsCommon.myCstr(grow.Cells("Sale_Fat %").Value) + "", "" + clsCommon.myCstr(grow.Cells("Sale_SNF %").Value) + "", "" + clsCommon.myCstr(grow.Cells("Rate/100Kg.").Value) + "", "" + clsCommon.myCstr(grow.Cells("Sale_Amount").Value) + "", "" + clsCommon.myCstr(grow.Cells("FAT Qty.").Value) + "", "" + clsCommon.myCstr(grow.Cells("SNF Qty").Value) + "")
+                            dt1.Rows.Add("" + clsCommon.myCstr(grow.Cells("Sale Price Code").Value) + "", "" + clsCommon.myCstr(grow.Cells("Customer code").Value) + "", "" + clsCommon.myCstr(grow.Cells("Location Code").Value) + "", "" + clsCommon.myCstr(grow.Cells(colDispatchCode).Value) + "", "" + clsCommon.myCstr(grow.Cells("Gate_entry_Date").Value) + "", "" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "", "" + clsCommon.myCstr(grow.Cells("UOM").Value) + "", "" + clsCommon.myCstr(grow.Cells("Sale_TankerNo.").Value) + "", "" + clsCommon.myCstr(grow.Cells("Sale_MILK QTY.").Value) + "", " " + clsCommon.myCstr(grow.Cells("Sale_Fat %").Value) + "", "" + clsCommon.myCstr(grow.Cells("Sale_SNF %").Value) + "", "" + clsCommon.myCstr(grow.Cells("Sale_Amount").Value) + "", "" + clsCommon.myCstr(grow.Cells("FAT Qty.").Value) + "", "" + clsCommon.myCstr(grow.Cells("SNF Qty").Value) + "")
                         End If
                     Next
                 ElseIf rdbAgainstBulkSaleTrade.IsChecked Then

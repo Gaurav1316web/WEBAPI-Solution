@@ -44,6 +44,31 @@ Public Class clsDemandBookingSale
         Try
             Dim ShiftType As String = ""
             If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
+                Dim lstCust As List(Of String) = New List(Of String)
+                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                    For Each item As clsDemandBookingSaleDetail In obj.Arr
+                        If lstCust.Contains(item.Cust_Code) Then
+                            Continue For
+                        End If
+                        lstCust.Add(item.Cust_Code)
+                        Dim StrQry As String = "select top 1 TSPL_BOOKING_MATSER.Document_No from TSPL_BOOKING_MATSER
+left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
+where 2=2 "
+                        If clsCommon.CompairString(obj.ShiftType, "Morning") = CompairStringResult.Equal Then
+                            StrQry += " and TSPL_BOOKING_MATSER.GatePass_Type ='AM'"
+                        ElseIf clsCommon.CompairString(obj.ShiftType, "Evening") = CompairStringResult.Equal Then
+                            StrQry += " and TSPL_BOOKING_MATSER.GatePass_Type ='PM'"
+                        End If
+                        StrQry += " and Convert(date,TSPL_BOOKING_MATSER.Document_Date,103)='" + clsCommon.GetPrintDate(obj.Document_Date) + "' and TSPL_BOOKING_DETAIL.Cust_Code='" + item.Cust_Code + "'"
+                        Dim BMDOC As String = clsDBFuncationality.getSingleValue(StrQry, trans)
+                        If clsCommon.myLen(BMDOC) > 0 Then
+                            If Not isNewEntry Then
+                                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, BMDOC, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
+                            End If
+                        End If
+                    Next
+                End If
+
                 Dim dtshift As DataTable = clsDBFuncationality.GetDataTable("select distinct ShiftType from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & obj.Document_No & "' and (IsGatePassGenerated='N' and IsTruckSheetGenerated ='N')", trans)
                 If dtshift IsNot Nothing AndAlso dtshift.Rows.Count = 1 Then
                     For Each dr As DataRow In dtshift.Rows
@@ -521,7 +546,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                     End If
 
                     If Not (intCurrInvNo = intNextInvNo) Then
-                        obj.Total_Amt = DocuAmount
+                        'obj.Total_Amt = DocuAmount
                         obj.TotalCrate = TotalCrate
                         TCSAmount = 0
                         If IsTCSApplicable Then
@@ -536,9 +561,10 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                         End If
 
                         obj.TCSAmount = TCSAmount
+                        obj.Total_Amt = DocuAmount + TCSAmount
                         obj.SaveData(obj, True, trans, "")
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_DETAIL set DocumentAmount =" & DocuAmount & ", Total_Qty =" & totalQty & " where Document_No ='" & obj.Document_No & "' and Scheme_Item='N'", trans)
-                        clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set Created_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Modified_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Created_By ='" & clsCommon.myCstr(dr1("Created_By")) & "' where Document_No ='" & obj.Document_No & "'", trans)
+                        clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set Created_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Created_By ='" & clsCommon.myCstr(dr1("Created_By")) & "' where Document_No ='" & obj.Document_No & "'", trans)
                     End If
                     intCounter += 1
                 Next

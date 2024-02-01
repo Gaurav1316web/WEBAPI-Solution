@@ -15,6 +15,7 @@ Public Class clsPaymentProcessHead
     Public Modified_Date As String = ""
     Public Comp_Code As String = ""
     Public DocRefNoForUploader As String = ""
+    Public Area_Location_Code As String = ""
 
     Public ArrPPDetail As List(Of clsPaymentProcessDetail) = Nothing
     Public arrClsPaymentProcessInvoices As List(Of clsPaymentProcessInvoices) = Nothing
@@ -116,6 +117,7 @@ Public Class clsPaymentProcessHead
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, obj.Loc_Seg_Code, clsCommon.myCDate(obj.Doc_Date), trans)
 
             Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Area_Location_Code", clsCommon.myCstr(obj.Area_Location_Code))
             clsCommon.AddColumnsForChange(coll, "FarmType", "PP")
             clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(obj.Doc_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
@@ -609,6 +611,7 @@ Public Class clsPaymentProcessHead
                             objTr.Apply = "1"
                             objTr.Payment_Type = "PY"
                             objTr.Document_No = clsCommon.myCstr(dtExtra.Rows(0)("Head_Load_Doc_No"))
+
                             objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Head_Load_Amount)
                             objTr.Applied_Amount = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Head_Load_Amount)
                             objTr.Pending_Balance = 0
@@ -1179,6 +1182,8 @@ Public Class clsPaymentProcessHead
         Try
             Dim whrCls As String = String.Empty
             Dim qst As String = " select *   From TSPL_PAYMENT_PROCESS_HEAD   where 1=1 " & whrCls
+            'Dim qst As String = "select Area_Location_Code,*   From TSPL_PAYMENT_PROCESS_HEAD  left outer join tspl_mcc_master on tspl_mcc_master.Mcc_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+            'where 1=1 " & whrCls
             Select Case navtype
                 Case NavigatorType.Current
                     qst += " and TSPL_PAYMENT_PROCESS_HEAD.Doc_No in ('" + strCode + "')"
@@ -1195,6 +1200,7 @@ Public Class clsPaymentProcessHead
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 obj = New clsPaymentProcessHead
                 obj.FarmType = "PP"
+                obj.Area_Location_Code = clsCommon.myCstr(dt.Rows(0)("Area_Location_Code"))
                 obj.Doc_No = clsCommon.myCstr(dt.Rows(0)("Doc_No"))
                 obj.DocRefNoForUploader = clsCommon.myCstr(dt.Rows(0)("DocRefNoForUploader"))
                 obj.Doc_Date = clsCommon.myCDate(dt.Rows(0)("Doc_Date"))
@@ -1725,13 +1731,24 @@ SELECT TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) ,0 as Sequence
 FROM (
 select TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code
 ,sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount from TSPL_PAYMENT_PROCESS_COMPULSORY
-left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No
-                    left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION 
+left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No"
+
+     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                sQuery += " left outer join ( select Code, 0 as Sequence_No,Description,0 as Is_Transfer_To_Saving    from TSPL_DCS_ADDITION_DEDUCTION 
+                    union 
+                    select  Code ,Sequence_No, Description,Is_Transfer_To_Saving    from TSPL_DEDUCTION_MASTER
+                    )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
+                    where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ") and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
+            Else
+                sQuery += " left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION 
                     union 
                     select  Code ,Sequence_No, Description  from TSPL_DEDUCTION_MASTER
                     )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
-where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ")
-group by TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code ,TSPL_DEDUCTION_MASTER.Sequence_No
+                    where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ") "
+            End If
+
+
+            sQuery += "    group by TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code ,TSPL_DEDUCTION_MASTER.Sequence_No
 )TT left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
                      left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION
                      on  DEDUCTION.Code=MAPPING.MappingCode
@@ -1827,10 +1844,41 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc
             sQuery += " from ( " + BaseQty + " ) XXXX group by CowBuffalo_Type"
             dtMilkType = clsDBFuncationality.GetDataTable(sQuery)
 
+            Dim dtAdvice As DataTable = Nothing
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                Dim ssql = "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(payamt) as Amount ,max(Payable_Amount) as Payable_Amount
+,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
+from (
+select  '' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code as GRPColumn,TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],
+TSPL_COMPANY_MASTER.Comp_Name
+,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address
+,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME
+,TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Location_MASTER.Location_Code,TSPL_Location_MASTER.Location_Desc,  TSPL_Fiscal_Year_Master.Fiscal_Name
+,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,TSPL_Vendor_MASTER.Bank_Code as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No, Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount,isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0) as payamt from TSPL_PAYMENT_PROCESS_DETAIL 
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='UDP'
+left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
+left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current 
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+ left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Loc_Segment_Code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code and  TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC' 
+left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)  and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code=TSPL_Location_MASTER.Location_Code  
+where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "'),103) and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<=convert(date,('" + CycleToDate + "'),103)    and TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount>0 
+ )xxx group by Bank_Code,Branch_Name 
+ 
+ )xxxx order by GRPColumn "
+                dtAdvice = clsDBFuncationality.GetDataTable(ssql)
+            End If
+
+
+
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 ' If Flag Then
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreCHU", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType, "SubPPBA.rpt", dtAdvice)
+                    'frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreCHU", "", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType, "SubPaymentProcessBankAdvice.rpt", dtAdvice)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreGNG", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreJPR", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
@@ -2080,7 +2128,14 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
 ,cast(case when round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1 )=0 then 0 else (cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer)/round(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER *TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty/100,2,1)) end as decimal(18,2)) as SNF_Rate
 ,cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as SNF_Amount
 , " + IIf(objCommonVar.CurrentCompanyCode = "RCDF", "TSPL_MILK_REJECT_DETAIL.Reject_Type", "case when isnull (TSPL_MILK_REJECT_DETAIL.Reject_Type,'') = '' then  'SWEET' else upper (TSPL_MILK_REJECT_DETAIL.Reject_Type) end") + " as QBD,TBL_BILL_DETAILS.BILLSRL  
-,TabSaving.Item_Desc as SavingDesc, Round(ISNULL(TabSaving.[Amount],0), 0) as [SavingAmount],convert(varchar,PaymentProcess.Created_Date,103) as Created_Date"
+,TabSaving.Item_Desc as SavingDesc,"
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) + TSPL_TRANSFER_TO_SAVING_DETAIL.Amount as [SavingAmount],TSPL_TRANSFER_TO_SAVING_DETAIL.Amount "
+        Else
+            BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) as [SavingAmount]"
+        End If
+        BaseQry += ",convert(varchar,PaymentProcess.Created_Date,103) as Created_Date"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             BaseQry += ",Tab_TSPL_PRICE_CHART_PLANNING_TSDDCF.Rate_Per as Planing_Rate_Per,Tab_TSPL_PRICE_CHART_PLANNING_TSDDCF.Fixed_Rate as Planing_Fixed_Rate,tspl_vendor_master.Email"
         End If
@@ -2090,6 +2145,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
         BaseQry += " left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE " + Environment.NewLine + "  left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE =TSPL_MILK_RECEIPT_HEAD.DOC_CODE and   TSPL_MILK_SRN_HEAD.vlc_doc_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_DOC_CODE " + Environment.NewLine + " Left Outer Join TSPL_VENDOR_MASTER On"
         BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  " + Environment.NewLine + " Left Outer Join TSPL_MCC_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD .MCC_CODE = TSPL_MCC_MASTER.MCC_Code  " + Environment.NewLine + " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code " + Environment.NewLine + " left outer join TSPL_VLC_MASTER_HEAD on"
         BaseQry += " TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  " + Environment.NewLine
+        BaseQry += " left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code " + Environment.NewLine
         BaseQry += " left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code=TSPL_MILK_SRN_DETAIL.Price_Code " + Environment.NewLine
         BaseQry += " left join TSPL_CITY_MASTER  as MCC_City on MCC_City.city_code=TSPL_MCC_MASTER.City_code " + Environment.NewLine
         BaseQry += " left join TSPL_STATE_MASTER as MCC_State on MCC_State.STATE_CODE =TSPL_MCC_MASTER.State_Code " + Environment.NewLine
@@ -2307,8 +2363,15 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYM
 left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
 left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
 left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code 
-where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")   
-union all
+where  "
+        
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                sQuery += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
+            Else
+                sQuery += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") "
+            End If
+
+        sQuery += "   union all
 select TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE as Vendor_CODE,VSP_NAME as Vendor_NAME,'TDS' as Ded_Code,'TDS' as Ded_Desc,TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount as Amount,0 as ManAddDed
 from TSPL_PAYMENT_PROCESS_DETAIL 
 where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") and TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount>0 
@@ -2438,6 +2501,7 @@ End Class
 
 Public Class clsPaymentProcessDetail
 #Region "Variables"
+    Public Area_Location_Code As String = ""
     Public PP_Detail_No As String = ""
     Public Doc_No As String = ""
     Public Is_select As Boolean = False
@@ -2622,6 +2686,7 @@ Public Class clsPaymentProcessDetail
 
                     clsCommon.AddColumnsForChange(coll, "PrevCycleDebitNoteMP", clsCommon.myCdbl(arr.Item(i).PrevCycleDebitNoteMP))
                     clsCommon.AddColumnsForChange(coll, "NextCycleDebitNoteMP", clsCommon.myCdbl(arr.Item(i).NextCycleDebitNoteMP))
+
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_DETAIL", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -2887,6 +2952,7 @@ Public Class clsPaymentProcessInvoices
     Public CalSNFPer As Double
     Public CalSNFKg As Double
     Public MCC_Code As String = ""
+    Public Area_Location_Code As String = ""
 
 #End Region
 
@@ -2900,6 +2966,7 @@ Public Class clsPaymentProcessInvoices
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Doc_No", DocNo)
                     clsCommon.AddColumnsForChange(coll, "SLNO", arr.Item(i).SLNO)
+                    'clsCommon.AddColumnsForChange(coll, "Area_Location_Code", arr.Item(i).Area_Location_Code)
                     clsCommon.AddColumnsForChange(coll, "Milk_Purchase_Invoice_No", arr.Item(i).Milk_Purchase_Invoice_No)
                     clsCommon.AddColumnsForChange(coll, "Milk_Purchase_Invoice_Date", arr.Item(i).Milk_Purchase_Invoice_Date)
                     clsCommon.AddColumnsForChange(coll, "AP_Invoice_No", arr.Item(i).AP_Invoice_No)
@@ -2944,6 +3011,7 @@ Public Class clsPaymentProcessInvoices
                     clsCommon.AddColumnsForChange(coll, "MP_Incentive", clsCommon.myCstr(arr.Item(i).MP_Incentive))
                     clsCommon.AddColumnsForChange(coll, "MP_IncentiveEMP", clsCommon.myCstr(arr.Item(i).MP_IncentiveEMP))
                     clsCommon.AddColumnsForChange(coll, "MP_Net_Amount", clsCommon.myCstr(arr.Item(i).MP_Net_Amount))
+
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_INVOICE", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -3447,6 +3515,7 @@ Public Class clsPaymentProcessDeduction
     Public Ded_Desc As String = ""
     Public Amount As Double = 0
     Public Reduce_Deduc_Amt As Double = 0
+    Public Area_Location_Code As String = ""
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessDeduction), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -3466,6 +3535,7 @@ Public Class clsPaymentProcessDeduction
                     clsCommon.AddColumnsForChange(coll, "Vendor_NAME", arr.Item(i).Vendor_NAME)
                     clsCommon.AddColumnsForChange(coll, "Ded_Code", arr.Item(i).Ded_Code)
                     clsCommon.AddColumnsForChange(coll, "Ded_Desc", arr.Item(i).Ded_Desc)
+                    'clsCommon.AddColumnsForChange(coll, "Area_Location_Code", clsCommon.myCstr(arr.Item(i).Area_Location_Code))
                     clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(arr.Item(i).Amount))
                     clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCdbl(arr.Item(i).Reduce_Deduc_Amt))
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_DEDUCTION", OMInsertOrUpdate.Insert, "", tran)
@@ -3479,10 +3549,30 @@ Public Class clsPaymentProcessDeduction
 
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT Area_Location_Code FROM TSPL_PAYMENT_PROCESS_HEAD")
+            Dim AreaLocationCode As String = ""
+
+            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                ' Assuming you want the first value in the DataTable
+                AreaLocationCode = clsCommon.myCstr(dt1.Rows(0)("Area_Location_Code"))
+            End If
+            'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("Select  Area_Location_Code from tspl_mcc_master")
+            'Dim lst As New List(Of String)
+            'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+
+            '    For Each dr As DataRow In dt1.Rows
+            '        lst.Add(clsCommon.myCstr(dr("Area_Location_Code")))
+            '    Next
+            'End If
+            'Dim AreaLocationCode As String = clsCommon.GetMulcallString(lst)
+
             Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.* 
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_DEDUCTION.SLNO as int)"
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_no=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_no
+
+where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'and  TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" & AreaLocationCode & "' 
+order by cast(TSPL_PAYMENT_PROCESS_DEDUCTION.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3506,6 +3596,7 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "' order by cast(TSPL_
                     obj.Ded_Code = clsCommon.myCstr(dtbl.Rows(i)("Ded_Code"))
                     obj.Ded_Desc = clsCommon.myCstr(dtbl.Rows(i)("Ded_Desc"))
                     obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
+                    'obj.Area_Location_Code = clsCommon.myCstr(dtbl.Rows(i)("Area_Location_Code"))
                     obj.Reduce_Deduc_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Reduce_Deduc_Amt"))
                     arr.Add(obj)
                 Next
@@ -3538,6 +3629,7 @@ Public Class clsPaymentProcessCreditNote
     Public Vendor_NAME As String = ""
     Public TDS_Amount As Decimal = 0
     Public Amount As Decimal = 0
+    Public Area_Location_Code As String = ""
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessCreditNote), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -3555,6 +3647,8 @@ Public Class clsPaymentProcessCreditNote
                     clsCommon.AddColumnsForChange(coll, "Vendor_NAME", arr.Item(i).Vendor_NAME)
                     clsCommon.AddColumnsForChange(coll, "TDS_Amount", arr.Item(i).TDS_Amount)
                     clsCommon.AddColumnsForChange(coll, "Amount", arr.Item(i).Amount)
+                    'clsCommon.AddColumnsForChange(coll, "Area_Location_Code", clsCommon.myCstr(arr.Item(i).Area_Location_Code))
+
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_CREDIT_NOTE", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -3565,10 +3659,31 @@ Public Class clsPaymentProcessCreditNote
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Try
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT Area_Location_Code FROM TSPL_PAYMENT_PROCESS_HEAD")
+            Dim AreaLocationCode1 As String = ""
+
+            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                ' Assuming you want the first value in the DataTable
+                AreaLocationCode1 = clsCommon.myCstr(dt1.Rows(0)("Area_Location_Code"))
+            End If
+
+
+            'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("Select  Area_Location_Code from tspl_mcc_master")
+            'Dim lst As New List(Of String)
+            'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+
+            '    For Each dr As DataRow In dt1.Rows
+            '        lst.Add(clsCommon.myCstr(dr("Area_Location_Code")))
+            '    Next
+            'End If
+            'Dim AreaLocationCode1 As String = clsCommon.GetMulcallString(lst)
             Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.* 
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
-where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected=TSPL_VLC_MASTER_HEAD.MCC
+
+where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' and  TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" & AreaLocationCode1 & "'  
+order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3591,6 +3706,7 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
                     obj.Vendor_NAME = clsCommon.myCstr(dtbl.Rows(i)("Vendor_NAME"))
                     obj.TDS_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("TDS_Amount"))
                     obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
+                    ' obj.Area_Location_Code = clsCommon.myCstr(dtbl.Rows(i)("Area_Location_Code"))
                     arr.Add(obj)
                 Next
             End If
