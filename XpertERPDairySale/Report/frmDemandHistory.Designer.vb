@@ -22,10 +22,9 @@ Partial Class frmDemandHistory
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -167,12 +166,10 @@ Partial Class frmDemandHistory
         Me.cmbShift.IsSourceFromTable = False
         Me.cmbShift.IsSourceFromValueList = False
         Me.cmbShift.IsUnique = False
-        RadListDataItem4.Text = "Morning"
-        RadListDataItem5.Text = "Evening"
-        RadListDataItem6.Text = "Both"
-        Me.cmbShift.Items.Add(RadListDataItem4)
-        Me.cmbShift.Items.Add(RadListDataItem5)
-        Me.cmbShift.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Morning"
+        RadListDataItem2.Text = "Evening"
+        Me.cmbShift.Items.Add(RadListDataItem1)
+        Me.cmbShift.Items.Add(RadListDataItem2)
         Me.cmbShift.Location = New System.Drawing.Point(298, 8)
         Me.cmbShift.MendatroryField = False
         Me.cmbShift.MyLinkLable1 = Nothing
@@ -304,7 +301,7 @@ Partial Class frmDemandHistory
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(800, 320)

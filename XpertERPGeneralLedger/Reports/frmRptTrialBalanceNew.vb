@@ -797,10 +797,10 @@ Public Class frmRptTrialBalanceNew
                 SetGridFormation(arrLocation)
                 ReStoreGridLayout()
             Else
-                common.clsCommon.MyMessageBoxShow("Company Details Not found")
+                common.clsCommon.MyMessageBoxShow(Me, "Company Details Not found", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1687,7 +1687,7 @@ Public Class frmRptTrialBalanceNew
             Dim frm As New FrmChangePrntOrdr_ACGroup()
             frm.ShowDialog()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1814,7 +1814,7 @@ Public Class frmRptTrialBalanceNew
             Next
             Fnd.arrDispalyMember = arrList
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -1829,7 +1829,7 @@ Public Class frmRptTrialBalanceNew
             SetDiplayMember(txtLocationSegmant, "Description", "TSPL_LOCATION_MASTER", "Loc_Segment_Code")
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1926,7 +1926,7 @@ Public Class frmRptTrialBalanceNew
             End If
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2053,7 +2053,7 @@ Public Class frmRptTrialBalanceNew
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub QExpCSV_Click(sender As Object, e As EventArgs) Handles QExpCSV.Click
@@ -2064,7 +2064,7 @@ Public Class frmRptTrialBalanceNew
             End If
             ExportCSV(Gv1, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2084,7 +2084,7 @@ Public Class frmRptTrialBalanceNew
             clsCommon.ProgressBarShow()
             IO.File.WriteAllLines(filePath, transportSql.ExportCSV(sender, AddHeader))
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Data Exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
             Process.Start(filePath)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -2159,7 +2159,7 @@ Public Class frmRptTrialBalanceNew
                 clsCommon.MyExportToPDF("Trial Balance", gv1, arrHeader, "Trial Balance", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2197,7 +2197,7 @@ Public Class frmRptTrialBalanceNew
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
