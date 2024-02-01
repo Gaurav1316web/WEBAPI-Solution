@@ -41,7 +41,6 @@ Partial Class FrmERPStatusTrackingReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -161,7 +160,7 @@ Partial Class FrmERPStatusTrackingReport
         'btnExport
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF, Me.RadMenuItem3})
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
         Me.btnExport.Location = New System.Drawing.Point(165, 15)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(79, 19)
@@ -257,11 +256,6 @@ Partial Class FrmERPStatusTrackingReport
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         '
-        'RadMenuItem3
-        '
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "Print"
-        '
         'FrmERPStatusTrackingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -321,6 +315,5 @@ Partial Class FrmERPStatusTrackingReport
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents Label1 As Label
     Friend WithEvents chkDBT As RadCheckBox
-    Friend WithEvents RadMenuItem3 As RadMenuItem
 End Class
 
