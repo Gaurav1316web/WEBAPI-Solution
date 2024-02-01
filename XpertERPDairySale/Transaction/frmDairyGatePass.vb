@@ -50,6 +50,7 @@ Public Class frmDairyGatePass
     Dim VehicleDesc As String = Nothing
     Dim OneTimeCheck As Boolean = False
     Dim EnableDispatch As Boolean = False
+    Dim EnableLocation As Boolean = False
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -87,6 +88,7 @@ Public Class frmDairyGatePass
         'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
         isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
         IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
+        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
         CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
         Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
@@ -1448,15 +1450,18 @@ Public Class frmDairyGatePass
             txtVehicle.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
             lblVehicleDesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
         End If
-        'If clsCommon.myLen(fndRouteNo.Value) > 0 Then
-        '    dt = Nothing
-        '    strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
-        '    dt = clsDBFuncationality.GetDataTable(strQuery)
-        '    If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        '        txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
-        '        txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
-        '    End If
-        'End If
+        If EnableLocation Then
+            If clsCommon.myLen(fndRouteNo.Value) > 0 Then
+                dt = Nothing
+                strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
+                dt = clsDBFuncationality.GetDataTable(strQuery)
+                If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+                    txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+                End If
+            End If
+        End If
+
     End Sub
 
     Sub setRouteVehicleDetail()
