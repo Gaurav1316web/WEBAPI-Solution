@@ -811,27 +811,9 @@ Public Class BulkProcurementUploader
                     'Dim jj As Integer = 0
                     'jj = intStartParam
                     Dim intTDLastColumn As Integer = 0
-                    'intTDLastColumn = intStartParam + paramcount
 
-                    'Dim objParam As New Mcc_Dispatch_Chalan_Parameter
-                    'obj.arrParmValue = New List(Of Mcc_Dispatch_Chalan_Parameter)
-                    'For ii As Integer = jj To intTDLastColumn - 1
-                    '    'If clsCommon.myLen(clsCommon.myCstr(grow.Cells(ii).Value).Trim) > 0 Then
-                    '    Dim objImportTemp As clsImportTemp = TryCast(gv1.Columns(ii).Tag, clsImportTemp)
-
-                    '    objParam = New Mcc_Dispatch_Chalan_Parameter
-                    '    objParam.Param_Field_Code = objImportTemp.Code
-                    '    objParam.Param_Field_Desc = objImportTemp.Description
-                    '    objParam.Param_Field_Value = clsCommon.myCstr(grow.Cells(ii).Value)
-                    '    objParam.Param_Type = objImportTemp.Type
-                    '    obj.arrParmValue.Add(objParam)
-                    '    'End If
-                    'Next
-
-                    'clsMccDispatch.SaveData(obj, trans, 0, False, "Test")
                     Dim ChallanNo As String = clsCommon.myCstr(grow.Cells("Challan No").Value)
 
-                    ' If (clsMccDispatch.PostData(MyBase.Form_ID, ChallanNo, trans)) Then
                     ' Gate Entry start here
                     Dim strJobLoc = clsCommon.myCstr(grow.Cells("JobWork Location").Value)
                     obj = New clsGateEntry()
@@ -930,27 +912,25 @@ Public Class BulkProcurementUploader
                     Dim lineNo As Integer = 1
 
                     obj.Arr = New List(Of clsWeighmentChemberNoDetails)
-                    For Each row As GridViewRowInfo In gv1.Rows
-                        Dim objTr As New clsWeighmentChemberNoDetails()
-                        objTr.Line_No = lineNo
-                        objTr.snf_Per = clsCommon.myCdbl(row.Cells("SNFPer").Value)
-                        objTr.fat_per = clsCommon.myCdbl(row.Cells("FATPer").Value)
-                        objTr.Item_Code = clsCommon.myCstr(row.Cells("Item Code").Value)
-                        objTr.UOM = clsCommon.myCstr(row.Cells("UOM").Value)
-                        objTr.Sublocation_Code = clsCommon.myCstr(row.Cells("Silo Code").Value)
-                        objTr.Tare_Weight = clsCommon.myCdbl(row.Cells("Weighment Tare").Value)
-                        objTr.Net_Weight = clsCommon.myCdbl(row.Cells("Weighment Net").Value)
-                        objTr.Gross_Weight = clsCommon.myCdbl(row.Cells("Weighment Gross").Value)
-                        objTr.CH_FAT_Kg = clsCommon.myCdbl(row.Cells("FATKG").Value)
-                        objTr.CH_SNF_Kg = clsCommon.myCdbl(row.Cells("SNFKG").Value)
-                        objTr.CH_FAT_Rate = clsCommon.myCdbl(row.Cells("FAT Rate").Value)
-                        objTr.CH_SNF_Rate = clsCommon.myCdbl(row.Cells("SNF Rate").Value)
-                        objTr.CH_FAT_Value = objTr.CH_FAT_Kg * objTr.CH_FAT_Rate
-                        objTr.CH_Amount = clsCommon.myCdbl(row.Cells("Amount").Value)
-                        objTr.CH_SNF_Value = objTr.CH_SNF_Kg * objTr.CH_SNF_Rate
-                        obj.Arr.Add(objTr)
-                        lineNo = lineNo + 1
-                    Next
+                    Dim objTr As New clsWeighmentChemberNoDetails()
+                    objTr.Line_No = lineNo
+                    objTr.snf_Per = clsCommon.myCdbl(grow.Cells("SNFPer").Value)
+                    objTr.fat_per = clsCommon.myCdbl(grow.Cells("FATPer").Value)
+                    objTr.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
+                    objTr.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
+                    objTr.Sublocation_Code = clsCommon.myCstr(grow.Cells("Silo Code").Value)
+                    objTr.Tare_Weight = clsCommon.myCdbl(grow.Cells("Weighment Tare").Value)
+                    objTr.Net_Weight = clsCommon.myCdbl(grow.Cells("Weighment Net").Value)
+                    objTr.Gross_Weight = clsCommon.myCdbl(grow.Cells("Weighment Gross").Value)
+                    objTr.CH_FAT_Kg = clsCommon.myCdbl(grow.Cells("FATKG").Value)
+                    objTr.CH_SNF_Kg = clsCommon.myCdbl(grow.Cells("SNFKG").Value)
+                    objTr.CH_FAT_Rate = clsCommon.myCdbl(grow.Cells("FAT Rate").Value)
+                    objTr.CH_SNF_Rate = clsCommon.myCdbl(grow.Cells("SNF Rate").Value)
+                    objTr.CH_FAT_Value = objTr.CH_FAT_Kg * objTr.CH_FAT_Rate
+                    objTr.CH_Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
+                    objTr.CH_SNF_Value = objTr.CH_SNF_Kg * objTr.CH_SNF_Rate
+                    obj.Arr.Add(objTr)
+
 
                     clsWeighment.saveData(obj, trans)
                     objCommonVar.CurrentUserCode = CurrentUserCode
@@ -1006,38 +986,41 @@ Public Class BulkProcurementUploader
                     obj.comp_code = objCommonVar.CurrentCompanyCode
                     obj.is_Param_Accepted = 1
 
-
                     Dim intQCstartrColumn As Integer = 0
                     intTDLastColumn = intStartParam + paramcount
                     Dim QcNo = obj.QC_No
 
-
-
                     obj.arrQcParam = New List(Of clsQcParam)
                     Dim index As Integer = 1
-                    For Each row As GridViewRowInfo In gv1.Rows
-                        Dim objQCParam As New clsQcParam()
-                        Dim FatArray As New ArrayList()
 
-                        objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
-                            objQCParam.LINE_NO = index
-                            objQCParam.Param_Field_Code = "FAT"
-                            objQCParam.Param_Field_Desc = "FAT"
-                            objQCParam.Param_Field_Value = clsCommon.myCstr(row.Cells("FATPer").Value)
-                            objQCParam.Param_Type = "FAT"
-                        obj.arrQcParam.Add(objQCParam)
+                    Dim objQCParam As New clsQcParam()
 
-                        objQCParam = New clsQcParam()
-                        objQCParam.LINE_NO = index
-                            objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
-                            objQCParam.Param_Field_Code = "SNF"
-                            objQCParam.Param_Field_Desc = "SNF"
-                            objQCParam.Param_Field_Value = clsCommon.myCstr(row.Cells("SNFPer").Value)
-                            objQCParam.Param_Type = "SNF"
+                    objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
+                    objQCParam.LINE_NO = index
+                    objQCParam.Param_Field_Code = "FAT"
+                    objQCParam.Param_Field_Desc = "FAT"
+                    objQCParam.Param_Field_Value = clsCommon.myCstr(grow.Cells("FATPer").Value)
+                    objQCParam.Param_Type = "FAT"
+                    obj.arrQcParam.Add(objQCParam)
 
-                        obj.arrQcParam.Add(objQCParam)
-                        index = index + 1
-                    Next
+                    objQCParam = New clsQcParam()
+                    objQCParam.LINE_NO = index
+                    objQCParam.QC_No = clsCommon.myCstr(obj.QC_No)
+                    objQCParam.Param_Field_Code = "SNF"
+                    objQCParam.Param_Field_Desc = "SNF"
+                    objQCParam.Param_Field_Value = clsCommon.myCstr(grow.Cells("SNFPer").Value)
+                    objQCParam.Param_Type = "SNF"
+
+                    obj.arrQcParam.Add(objQCParam)
+
+                    obj.Arr = New List(Of clsQualityChemberNoDetails)
+                    Dim objQcChamber As New clsQualityChemberNoDetails()
+                    objQcChamber.Line_No = lineNo
+                    objQcChamber.snf_Per = clsCommon.myCdbl(grow.Cells("SNFPer").Value)
+                    objQcChamber.fat_per = clsCommon.myCdbl(grow.Cells("FATPer").Value)
+                    objQcChamber.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
+                    objQcChamber.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
+                    obj.Arr.Add(objQcChamber)
 
                     clsQualityCheck.saveData(obj, trans)
                     ' unloading start here 
@@ -1080,17 +1063,16 @@ Public Class BulkProcurementUploader
 
                     obj.Arr = New List(Of clsUnloadingChemberNoDetails)
                     Dim Line As Integer = 1
-                    For Each row As GridViewRowInfo In gv1.Rows
-                        Dim objTr As New clsUnloadingChemberNoDetails()
-                        objTr.Item_Code = clsCommon.myCstr(row.Cells("Item Code").Value)
-                        objTr.UOM = clsCommon.myCstr(row.Cells("UOM").Value)
-                        objTr.Line_No = Line
-                        objTr.fat_per = clsCommon.myCdbl(row.Cells("FATPer").Value)
-                        objTr.snf_Per = clsCommon.myCstr(row.Cells("SNFPer").Value)
-                        objTr.Sublocation_Code = clsCommon.myCstr(row.Cells("Silo Code").Value)
-                        obj.Arr.Add(objTr)
-                        Line = Line + 1
-                    Next
+
+                    Dim objUnloading As New clsUnloadingChemberNoDetails()
+                    objUnloading.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
+                    objUnloading.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
+                    objUnloading.Line_No = Line
+                    objUnloading.fat_per = clsCommon.myCdbl(grow.Cells("FATPer").Value)
+                    objUnloading.snf_Per = clsCommon.myCstr(grow.Cells("SNFPer").Value)
+                    objUnloading.Sublocation_Code = clsCommon.myCstr(grow.Cells("Silo Code").Value)
+                    obj.Arr.Add(objUnloading)
+
 
                     clsUnloading.saveData(obj, trans)
                     Dim Unloading = obj.Unloading_No
@@ -1172,14 +1154,7 @@ Public Class BulkProcurementUploader
                     obj.Created_By = objCommonVar.CurrentUserCode
                     obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
 
-                    'For Each row As GridViewRowInfo In gv1.Rows
-                    '    Dim objTr As New clsWeighmentChemberNoDetails()
-                    '    objTr.Sublocation_Code = clsCommon.myCstr(row.Cells("Silo Code").Value)
-                    '    objTr.Tare_Weight = clsCommon.myCdbl(grow.Cells("Weighment Tare").Value)
-                    '    objTr.Net_Weight = clsCommon.myCdbl(grow.Cells("Weighment Net").Value)
-                    '    objTr.Gross_Weight = clsCommon.myCdbl(grow.Cells("Weighment Gross").Value)
-                    '    obj.Arr.Add(objTr)
-                    'Next
+
                     clsMilkTransferIn.saveData(obj, trans)
                     clsMilkTransferIn.postData(obj.Receipt_Challan_No, trans)
 

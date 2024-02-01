@@ -1448,15 +1448,15 @@ Public Class frmDairyGatePass
             txtVehicle.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
             lblVehicleDesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
         End If
-        If clsCommon.myLen(fndRouteNo.Value) > 0 Then
-            dt = Nothing
-            strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
-            dt = clsDBFuncationality.GetDataTable(strQuery)
-            If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
-                txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
-            End If
-        End If
+        'If clsCommon.myLen(fndRouteNo.Value) > 0 Then
+        '    dt = Nothing
+        '    strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
+        '    dt = clsDBFuncationality.GetDataTable(strQuery)
+        '    If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '        txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+        '        txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+        '    End If
+        'End If
     End Sub
 
     Sub setRouteVehicleDetail()

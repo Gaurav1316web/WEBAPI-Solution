@@ -29,6 +29,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -42,6 +43,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RMIALL = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -53,6 +55,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -112,6 +115,7 @@ Partial Class FrmERPStatusTrackingReport
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnreset)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnclose)
@@ -158,10 +162,19 @@ Partial Class FrmERPStatusTrackingReport
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(252, 15)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(70, 19)
+        Me.btnPrint.TabIndex = 84
+        Me.btnPrint.Text = "Print"
+        '
         'btnExport
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF, Me.RadMenuItem3})
         Me.btnExport.Location = New System.Drawing.Point(165, 15)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(79, 19)
@@ -262,6 +275,11 @@ Partial Class FrmERPStatusTrackingReport
         Me.RMIALL.Name = "RMIALL"
         Me.RMIALL.Text = "ALL"
         '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "PrintCFP"
+        '
         'FrmERPStatusTrackingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -287,6 +305,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -322,5 +341,7 @@ Partial Class FrmERPStatusTrackingReport
     Friend WithEvents Label1 As Label
     Friend WithEvents chkDBT As RadCheckBox
     Friend WithEvents RMIALL As RadMenuItem
+    Friend WithEvents btnPrint As RadButton
+    Friend WithEvents RadMenuItem3 As RadMenuItem
 End Class
 

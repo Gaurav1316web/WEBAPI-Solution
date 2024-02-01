@@ -8326,6 +8326,7 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
     End Sub
 
     Private Sub btnDCPrint_Click(sender As Object, e As EventArgs) Handles btnDCPrint.Click
+
         Try
             If clsCommon.myLen(fndDocNo.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Select document", Me.Text)
