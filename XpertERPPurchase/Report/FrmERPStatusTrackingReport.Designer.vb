@@ -41,6 +41,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RMIALL = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -242,7 +243,7 @@ Partial Class FrmERPStatusTrackingReport
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem4})
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem4, Me.RMIALL})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Settings"
         '
@@ -255,6 +256,11 @@ Partial Class FrmERPStatusTrackingReport
         '
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
+        '
+        'RMIALL
+        '
+        Me.RMIALL.Name = "RMIALL"
+        Me.RMIALL.Text = "ALL"
         '
         'FrmERPStatusTrackingReport
         '
@@ -315,5 +321,6 @@ Partial Class FrmERPStatusTrackingReport
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents Label1 As Label
     Friend WithEvents chkDBT As RadCheckBox
+    Friend WithEvents RMIALL As RadMenuItem
 End Class
 

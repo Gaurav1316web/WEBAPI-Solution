@@ -1941,12 +1941,25 @@ Public Class clsMilkShiftUploaderQCParameterDetail
         If (clsCommon.myLen(strTR_No) <= 0) Then
             Throw New Exception("Row Not selected.")
         End If
+        Dim Tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            Dim strQry As String
-            strQry = "delete From TSPL_MILK_SHIFT_UPLOADER_DETAIL Where TR_No = '" + strTR_No + "'"
-            clsDBFuncationality.ExecuteNonQuery(strQry)
-        Catch ex As Exception
+            Dim strQry As String = "select Document_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TR_No = '" + strTR_No + "'"
+            Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry, Tran))
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Invalid TR No [" + strTR_No + "]")
+            End If
 
+            strQry = "delete From TSPL_MILK_SHIFT_UPLOADER_DETAIL Where TR_No = '" + strTR_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(strQry, Tran)
+
+            strQry = "update TSPL_MILK_SHIFT_UPLOADER_DETAIL set sno=xx.NewSNO from (
+select ROW_NUMBER() over (order by sno) as NewSNO,TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL where Document_No='A10000020000000167'  
+)xx inner join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=xx.TR_No"
+            clsDBFuncationality.ExecuteNonQuery(strQry, Tran)
+
+            Tran.Commit()
+        Catch ex As Exception
+            Tran.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True

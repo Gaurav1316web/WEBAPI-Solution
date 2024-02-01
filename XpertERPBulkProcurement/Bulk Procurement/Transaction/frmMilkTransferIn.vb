@@ -661,10 +661,11 @@ Public Class FrmMilkTransferIn
                             gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colSNFRate).Value = objTr.CH_SNF_Rate
                             gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colFATValue).Value = objTr.CH_FAT_Value
                             gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colSNFValue).Value = objTr.CH_SNF_Value
-                            gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colSNFValue).Value = objTr.CH_SNF_Value
-                            gvWeighment.Rows(0).Cells(colSNFPer).Value = objTr.snf_Per
-                            gvWeighment.Rows(0).Cells(colFATPer).Value = objTr.fat_per
-                            gvWeighment.Rows(0).Cells(colRcptAmt).Value = objTr.CH_Amount
+                            gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colSNFPer).Value = objTr.snf_Per
+                            gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colFATPer).Value = objTr.fat_per
+                            gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colSNFPerQC).Value = objTr.snf_Per
+                            gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colFATPerQC).Value = objTr.fat_per
+                            gvWeighment.Rows(gvWeighment.Rows.Count - 1).Cells(colRcptAmt).Value = objTr.CH_Amount
                             'If isCreateBulkProcPriceChartItemWise = 1 Then
                             '    subLocCode = clsDBFuncationality.getSingleValue("select TSPL_Milk_unloading_Chember_Details.Sublocation_Code   from TSPL_MILK_UNLOADING left join " &
                             '                "TSPL_Milk_unloading_Chember_Details on TSPL_MILK_UNLOADING.Unloading_No =TSPL_Milk_unloading_Chember_Details.Unloading_No " &
