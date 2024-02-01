@@ -110,7 +110,7 @@ Public Class frmRptDayWiseJournalBook
             'KUNAL > TICKET : BM00000009568 > DATE : 19-OCT-2016
             txtFromDate.Value = clsCommon.myCDate(New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -180,10 +180,10 @@ Public Class frmRptDayWiseJournalBook
                 Address = "(TSPL_COMPANY_MASTER.Add1 + case When ISNULL(TSPL_COMPANY_MASTER.Add2,'')='' Then '' else ', '+ TSPL_COMPANY_MASTER.Add2 End + Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else ', '+ TSPL_COMPANY_MASTER.Add3 end + case When ISNULL(TSPL_COMPANY_MASTER.City_Code,'') ='' then '' else ', '+ TSPL_COMPANY_MASTER.City_Code end+ Case When ISNULL(TSPL_COMPANY_MASTER.State,'')='' Then '' else ', '+ TSPL_COMPANY_MASTER.State end +  Case When ISNULL(TSPL_COMPANY_MASTER.Pincode,'')='' Then '' Else ', '+ TSPL_COMPANY_MASTER.Pincode end) "
             End If
             If chkVouchertSelect.IsChecked AndAlso cbgVoucher.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Atleast Single Voucher Or select All ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Atleast Single Voucher Or select All ", Me.Text)
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Atleast Single Location Or select All ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Atleast Single Location Or select All ", Me.Text)
                 Exit Sub
             End If
             Dim RunDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
@@ -382,7 +382,7 @@ Public Class frmRptDayWiseJournalBook
             ReStoreGridLayout()
             qry = String.Empty
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         Finally
             ' dt = Nothing
@@ -550,7 +550,7 @@ Public Class frmRptDayWiseJournalBook
                 clsCommon.MyExportToPDF("Journal Book", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -573,7 +573,7 @@ Public Class frmRptDayWiseJournalBook
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -582,7 +582,7 @@ Public Class frmRptDayWiseJournalBook
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()

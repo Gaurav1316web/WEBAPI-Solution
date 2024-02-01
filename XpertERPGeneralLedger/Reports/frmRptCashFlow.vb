@@ -474,7 +474,7 @@ Public Class frmRptCashFlow
 
             If dt.Rows.Count <= 0 Then
                 gv1.DataSource = Nothing
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
             gv1.DataSource = dt
@@ -482,7 +482,7 @@ Public Class frmRptCashFlow
 
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -859,7 +859,7 @@ Public Class frmRptCashFlow
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1059,7 +1059,7 @@ Public Class frmRptCashFlow
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1093,7 +1093,7 @@ Public Class frmRptCashFlow
                 'RefreshData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1150,7 +1150,7 @@ Public Class frmRptCashFlow
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

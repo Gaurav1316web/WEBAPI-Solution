@@ -327,7 +327,7 @@ Public Class JrnlVoucherReport
                     If cgvtrans.CheckedValue.Count > 0 Then
                         strQuery += " and Type in (" + clsCommon.GetMulcallString(cgvtrans.CheckedValue) + ")"
                     Else
-                        common.clsCommon.MyMessageBoxShow("Select atleast one Transection type")
+                        common.clsCommon.MyMessageBoxShow(Me, "Select atleast one Transection type", Me.Text)
                         Return Nothing
                         Exit Function
 
@@ -338,7 +338,7 @@ Public Class JrnlVoucherReport
                     If cbgLocSeg.CheckedValue.Count > 0 Then
                         strQuery += " AND Account_Seg_Code7 in ( " + clsCommon.GetMulcallString(cbgLocSeg.CheckedValue) + ")"
                     Else
-                        common.clsCommon.MyMessageBoxShow("Select atleast one Location Segment Code")
+                        common.clsCommon.MyMessageBoxShow(Me, "Select atleast one Location Segment Code", Me.Text)
                         Return Nothing
                         Exit Function
                     End If
@@ -348,7 +348,7 @@ Public Class JrnlVoucherReport
                     If cbgVoucher.CheckedValue.Count > 0 Then
                         strQuery += "  and (b.Voucher_No in (" + clsCommon.GetMulcallString(cbgVoucher.CheckedValue) + "))"
                     Else
-                        common.clsCommon.MyMessageBoxShow("Select atleast one Voucher")
+                        common.clsCommon.MyMessageBoxShow(Me, "Select atleast one Voucher", Me.Text)
                         Return Nothing
                         Exit Function
                     End If
@@ -393,7 +393,7 @@ Public Class JrnlVoucherReport
                         strQuery += " and TSPL_JOURNAL_MASTER.Source_Code in (" + clsCommon.GetMulcallString(cbgSource.CheckedValue) + ")"
 
                     Else
-                        common.clsCommon.MyMessageBoxShow("Select atleast one Source Code")
+                        common.clsCommon.MyMessageBoxShow(Me, "Select atleast one Source Code", Me.Text)
                         Return Nothing
                         Exit Function
 
@@ -405,7 +405,7 @@ Public Class JrnlVoucherReport
                     If cgvtrans.CheckedValue.Count > 0 Then
                         strQuery += " and TSPL_JOURNAL_MASTER.Type in (" + clsCommon.GetMulcallString(cgvtrans.CheckedValue) + ")"
                     Else
-                        common.clsCommon.MyMessageBoxShow("Select atleast one Transection Type")
+                        common.clsCommon.MyMessageBoxShow(Me, "Select atleast one Transection Type", Me.Text)
                         Return Nothing
                         Exit Function
                     End If
@@ -426,7 +426,7 @@ Public Class JrnlVoucherReport
             Next
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Journal Voucher Report", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Journal Voucher Report", MessageBoxButtons.OK)
         End Try
         Return dt
     End Function
@@ -690,7 +690,7 @@ Public Class JrnlVoucherReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -926,7 +926,7 @@ Public Class JrnlVoucherReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1018,7 +1018,7 @@ Public Class JrnlVoucherReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gridvoucher, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1089,7 +1089,7 @@ Public Class JrnlVoucherReport
                 clsCommon.MyExportToPDF("Journal Voucher", gridvoucher, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -1104,7 +1104,7 @@ Public Class JrnlVoucherReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gridvoucher.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1113,7 +1113,7 @@ Public Class JrnlVoucherReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()

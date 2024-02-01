@@ -66,7 +66,7 @@ Public Class FrmAssetTypeMaster
                 End If
                 If (ClsAssetType.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Asset_Type_Code, NavigatorType.Current)
                 End If
             End If

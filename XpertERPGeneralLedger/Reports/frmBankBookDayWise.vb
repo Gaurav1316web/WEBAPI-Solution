@@ -93,11 +93,11 @@ Public Class FrmBankBookDayWise
             Address = "(TSPL_COMPANY_MASTER.Add1 + case When TSPL_COMPANY_MASTER.Add2='' Then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Add2, 103) End + Case When TSPL_COMPANY_MASTER.Add3='' Then '' Else ', '+ COnvert( Varchar,TSPL_COMPANY_MASTER.Add3,103) end + case When TSPL_COMPANY_MASTER.City_Code ='' then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.City_Code, 103) end+ Case When TSPL_COMPANY_MASTER.State='' Then '' else ', '+Convert(Varchar, TSPL_COMPANY_MASTER.State) end +  Case When TSPL_COMPANY_MASTER.Pincode='' Then '' Else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Pincode, 103)  end) "
         End If
         If chkBanksSelect.IsChecked = True AndAlso cbgBanks.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast One Bank OR Select All")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Bank OR Select All", Me.Text)
             Exit Sub
         End If
         If chkLocSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location OR Select All")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location OR Select All", Me.Text)
             Exit Sub
         End If
         Dim rptHead As String = ""
@@ -171,7 +171,7 @@ Public Class FrmBankBookDayWise
                 End If
             Next
         Else
-            clsCommon.MyMessageBoxShow("To Date can not be greater than Start date")
+            clsCommon.MyMessageBoxShow(Me, "To Date can not be greater than Start date", Me.Text)
         End If
         Qry += " ) AAA "
         Qry += " UNION All "
@@ -209,7 +209,7 @@ Public Class FrmBankBookDayWise
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
             If dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkSummary.Checked Then
@@ -220,7 +220,7 @@ Public Class FrmBankBookDayWise
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

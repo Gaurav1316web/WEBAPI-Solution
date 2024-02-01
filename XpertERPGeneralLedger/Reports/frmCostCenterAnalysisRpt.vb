@@ -410,43 +410,43 @@ Public Class FrmCostCenterAnalysisRpt
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
         If chkVehicleSelect.IsChecked AndAlso cbgVehicle.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Vehicle Or Select All", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Vehicle Or Select All", Me.Text)
             Return False
             Exit Function
         End If
         If chkDeptSelect.IsChecked AndAlso dgvDept.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Department Or Select All", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Department Or Select All", Me.Text)
             Return False
             Exit Function
         End If
         If chkEmpSelect.IsChecked AndAlso dgvEmp.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Employee Or Select All", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Employee Or Select All", Me.Text)
             Return False
             Exit Function
         End If
         If chkMachineSelect.IsChecked AndAlso cbgMachine.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Machine Or Select All", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Machine Or Select All", Me.Text)
             Return False
             Exit Function
         End If
         If chkVisiSelect.IsChecked AndAlso cbgVisi.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Visi Or Select All", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Visi Or Select All", Me.Text)
             Return False
             Exit Function
         End If
         If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Employee Or Select All", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Employee Or Select All", Me.Text)
             Return False
             Exit Function
         End If
         If chkAccSelect.IsChecked AndAlso cbgAccounts.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Account Or Select All", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Account Or Select All", Me.Text)
             Return False
             Exit Function
         End If
 
         If chkVndrSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast one Vendor Or Select All", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast one Vendor Or Select All", Me.Text)
             Return False
             Exit Function
         End If
@@ -610,11 +610,11 @@ Public Class FrmCostCenterAnalysisRpt
                 RadPageView1.SelectedPage = RadPageViewPage2
                 Return True
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -750,7 +750,7 @@ Public Class FrmCostCenterAnalysisRpt
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -817,7 +817,7 @@ Public Class FrmCostCenterAnalysisRpt
         Try
             ExporttoMyExcel(qryExcel, Me)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -969,7 +969,7 @@ Public Class FrmCostCenterAnalysisRpt
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -1095,7 +1095,7 @@ Public Class FrmCostCenterAnalysisRpt
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1134,7 +1134,7 @@ Public Class FrmCostCenterAnalysisRpt
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1184,10 +1184,10 @@ Public Class FrmCostCenterAnalysisRpt
                     clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

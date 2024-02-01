@@ -80,7 +80,7 @@ Public Class FrmUnpostedJV
             qry += " and Voucher_Date >=Convert(Date,'" + dtpFrmDate.Value + "',103) and Voucher_Date <=Convert(Date,'" + dtpToDate.Value + "',103)"
             If chkSourceCodeSelect.IsChecked Then
                 If cbgSourceCode.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast One Source Code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast One Source Code", Me.Text)
                     Return
 
                 End If
@@ -89,7 +89,7 @@ Public Class FrmUnpostedJV
             qry += " )as xx) as Final_Query "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 ' dt = clsDBFuncationality.GetDataTable(qry)
                 If isPrint = True Then
