@@ -263,6 +263,7 @@ Public Class clsUserMgtCode
     Public Const SubModuleQCReport As String = "SMQCRPT"
     Public Const VisualRandomQC As String = "Vs-Rn-QC"
     Public Const frmQualityCheckForSRN As String = "QC_CHK_SRN"
+    Public Const frmOutgoingQC As String = "OUT-QC-CHK"
     Public Const frmQualityCheckApprovalForSRN As String = "QC_APRV_SRN"
     Public Const rptPendingQCReport As String = "PND_QC_RPT"
     Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"

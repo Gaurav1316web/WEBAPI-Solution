@@ -236,6 +236,7 @@ Public Class clsDocType
     Public Const MRN As String = "Material Receipt Note"
     Public Const SRN As String = "Store Receipt Note"
     Public Const GTOut As String = "Gate Out"
+    Public Const OutgoingProduction As String = "Outgoing Production"
     Public Const SRNReturn As String = "Store Receipt Note Return"
     Public Const NIRQC As String = "NIR QC"
     Public Const TransferReturn As String = "Transfer Return"
@@ -372,6 +373,7 @@ Public Class clsDocType
     Public Const AssetAccountChange As String = "Asset Account Change"
     Public Const QCVendorItemMapping As String = "QC Vendor-Item Mapping"
     Public Const QualityCheckForSRN As String = "Quality Check Entry"
+    Public Const frmOutgoingQCEntry As String = "  QC Production "
     Public Const AssetDepreciation As String = "Asset Depreciation"
     Public Const AssetRequisition As String = "Asset Requisition"
     Public Const ExpiryTransaction As String = "Expiry Transaction"
@@ -1352,6 +1354,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.FAAssembleAsset, "", False, True)
             InsertDefaultValue(clsDocType.AssetAccountChange, "", False, True)
             InsertDefaultValue(clsDocType.QCVendorItemMapping, "", False, False)
+            InsertDefaultValue(clsDocType.frmOutgoingQCEntry, clsDocTransactionType.ProductionQC, False, True)
             InsertDefaultValue(clsDocType.QualityCheckForSRN, clsDocTransactionType.IncomingQualityCheck, False, True)
             InsertDefaultValue(clsDocType.QualityCheckForSRN, clsDocTransactionType.InprocessQualityCheck, False, True)
             InsertDefaultValue(clsDocType.QualityCheckForSRN, clsDocTransactionType.OutgoingQualityCheck, False, True)
@@ -2152,6 +2155,7 @@ Public Class clsDocTransactionType
     Public Const IncomingQualityCheck As String = "Incoming QC"
     Public Const InprocessQualityCheck As String = "InProcess QC"
     Public Const OutgoingQualityCheck As String = "Outgoing QC"
+    Public Const ProductionQC As String = "Out ProductionQC"
 
     Public Const BOMOSPTYPE As String = "Job-Work"
     Public Const PPReturnProductionEntry As String = "PE"
