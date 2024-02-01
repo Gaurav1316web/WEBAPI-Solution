@@ -359,6 +359,11 @@ Partial Class FrmERPStatusTrackingReport
         Me.txtDate.Text = "17-12-2011"
         Me.txtDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = ""
+        '
         'FrmERPStatusTrackingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)

@@ -6884,6 +6884,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmQualityCheckForSRN
                         frm = New FrmQualityCheckForSRN(clsUserMgtCode.frmQualityCheckForSRN, "Incoming")
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog) 'frmQualityCheckApprovalForSRN
+                    Case clsUserMgtCode.frmOutgoingQC
+                        frm = New frmOutgoingQCEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmQualityCheckApprovalForSRN
                         frm = New FrmQualityCheckApprovalForSRN(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming")
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
