@@ -48,6 +48,12 @@ Public Class FrmERPStatusTrackingReport
         End If
         chkDBT.Checked = False
         chkDBT.Visible = False
+        rdbERPStatusMilkUnion.Visible = True
+        rdbMilkProcurement.Visible = True
+        txtDate.Visible = False
+        RadLabel3.Visible = False
+        txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+
     End Sub
     Public Sub fillGridReport()
         Try
@@ -104,43 +110,77 @@ Public Class FrmERPStatusTrackingReport
                 ON TSPL_LOCATION_MASTER.LOCATION_CODE =Production.LOCATION_CODE
                 where TSPL_LOCATION_MASTER.IsMainPlant='0'"
             Else
-                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-                If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-                    gv1.DataSource = Nothing
-                    Exit Sub
-                End If
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_ERP_STATUS].Location_Name,[TSPL_ERP_STATUS].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_ERP_STATUS] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_ERP_STATUS].Location_Name")
-                query = ""
-                For ii As Integer = 0 To dt.Rows.Count - 1
-                    If ii > 0 Then
-                        query += " UNION ALL "
+                If rdbMilkProcurement.Checked Then
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                    If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                        gv1.DataSource = Nothing
+                        Exit Sub
                     End If
-                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
-                    'query += ",(select FORMAT(max(Indent_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_INDENT_HEAD where Post=1) as [Indent Date]"
-                    query += ",(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date]"
-                    query += ",(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date]"
-                    query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date]"
-                    query += ",(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date]"
-                    query += ",(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date]"
-                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date]"
-                    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal Then
-                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale where Posted=1) as [Last Dispatch Date]"
-                    Else
-                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date]"
 
+                    Dim frmDate As String = clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")
+
+                    Dim dtr As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                    query = ""
+                    For ii As Integer = 0 To dtr.Rows.Count - 1
+                        If ii > 0 Then
+                            query += " UNION ALL "
+                        End If
+                        query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dtr.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
+                        query += ", ( (select ISNULL(SUM(Qty),0) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL
+left outer join [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS on [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS.Status = 1 and convert(date, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS.Document_Date, 103) = convert(date ,'" + frmDate + "' , 103))  + (select ISNULL(SUM(Milk_Weight),0) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL
+left outer join [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD on [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD.Status = 1 and convert(date, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date, 103) = convert(date ,'" + frmDate + "' , 103) ) + (select ISNULL(SUM(Milk_Weight),0) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+left outer join [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
+where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status = 1 and convert(date, [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date, 103) = convert(date ,'" + frmDate + "' , 103))  
+) as [Milk Collection in Ltr]"
+                        query += ",(select isnull(SUM(TotalLtr_ItemWise),0)  from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL
+ left outer join [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER on [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_No = [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_DETAIL.Document_No
+ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Posted = 1 and convert(date,  [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DEMAND_BOOKING_MASTER.Document_Date , 103) = convert(date ,'" + frmDate + "' , 103)) as [Demand in Ltr]"
+                        query += ",(select COUNT(PurchaseOrder_No) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1 and convert(date, PurchaseOrder_Date , 103)=convert(date ,'" + frmDate + "' , 103)) as [Purchase Order]"
+
+                    Next
+                Else
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                    If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                        gv1.DataSource = Nothing
+                        Exit Sub
                     End If
-                    query += ",(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date]"
-                    query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date]"
-                    query += ",(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]"
-                    If chkDBT.Checked Then
-                        query += ",(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD) as [Last DBT Entry]
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_ERP_STATUS].Location_Name,[TSPL_ERP_STATUS].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_ERP_STATUS] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_ERP_STATUS].Location_Name")
+                    query = ""
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        If ii > 0 Then
+                            query += " UNION ALL "
+                        End If
+                        query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
+                        'query += ",(select FORMAT(max(Indent_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_INDENT_HEAD where Post=1) as [Indent Date]"
+                        query += ",(select FORMAT(max(PurchaseOrder_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1) as [Last Purchase order Date]"
+                        query += ",(select FORMAT(max(SRN_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where Status=1) as [Last Stock Received (SRN) Date]"
+                        query += ",(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_IssueReturn_HEAD where Doc_Type='Issue' and status=1) as [Last Stock Issue Date]"
+                        query += ",(select FORMAT(max(Adjustment_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_ADJUSTMENT_HEADER where Posted='Y') as [Last Stock Adjustment Date]"
+                        query += ",(select FORMAT(max(PROD_DATE),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PP_PRODUCTION_ENTRY where POSTED=1) as [Last Production Entry Date]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_BOOKING_MATSER where Posted=1) as [Last Demand Date]"
+                        If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")), "BNS") = CompairStringResult.Equal Then
+                            query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_Dispatch_BulkSale where Posted=1) as [Last Dispatch Date]"
+                        Else
+                            query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SHIPMENT_HEAD where Status=1) as [Last Dispatch Date]"
+
+                        End If
+                        query += ",(select FORMAT(max(PI_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PI_head where Status=1) as [Last Stock Voucher Date]"
+                        query += ",(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where Status=1) as [Last Sales Voucher Date]"
+                        query += ",(select FORMAT(max(Receipt_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_RECEIPT_HEADER where Posted='Y') as [Last Receipt Date]"
+                        If chkDBT.Checked Then
+                            query += ",(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD) as [Last DBT Entry]
                     ,(select FORMAT(max(Document_Date),'MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT) as [Last DBT Advice]
                     ,(select FORMAT(max(Document_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_MCC) as [Last BMC Truck Sheet]
                     ,(SELECT FORMAT(max(Document_Date),'dd/MMM/yyyy') FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_COLLECTION_DCS) as [Last DCS Truck Sheet Date]
                     ,(select FORMAT(max(Doc_Date),'dd/MMM/yyyy') from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MILK_PURCHASE_INVOICE_HEAD) as [Last Milk Bill Generation Date]"
-                    End If
-                Next
+                        End If
+                    Next
+                End If
+
             End If
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
@@ -150,7 +190,9 @@ Public Class FrmERPStatusTrackingReport
                 SetGridFormat(gv1)
                 ReStoreGridLayout()
                 If objCommonVar.RCDFCFP = False Then
-                    GridFormate()
+                    If rdbMilkProcurement.Checked = False Then
+                        GridFormate()
+                    End If
 
                 End If
             Else
@@ -272,6 +314,13 @@ Public Class FrmERPStatusTrackingReport
         Gv1.ShowFilteringRow = True
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem("Milk Collection in Ltr", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("Demand in Ltr", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("Purchase Order", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
@@ -286,6 +335,8 @@ Public Class FrmERPStatusTrackingReport
     Sub reset()
         RadPageView1.SelectedPage = RadPageViewPage1
         gv1.Visible = False
+        txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+
     End Sub
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         Me.Close()
@@ -414,6 +465,17 @@ Public Class FrmERPStatusTrackingReport
             Else
                 Label1.Text = "ERP Status At Milk Unions"
             End If
+        End If
+    End Sub
+    Private Sub rdbMilkProcurement_CheckedChanged(sender As Object, e As EventArgs) Handles rdbMilkProcurement.CheckedChanged
+        If rdbMilkProcurement.Checked Then
+            txtDate.Visible = True
+            RadLabel3.Visible = True
+            Label1.Text = "Milk Procurement"
+        Else
+            txtDate.Visible = False
+            RadLabel3.Visible = False
+            Label1.Text = "ERP Status At Milk Unions"
         End If
     End Sub
 
