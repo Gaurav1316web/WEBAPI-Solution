@@ -5792,6 +5792,7 @@ Public Class clsCreateAllTable
             coll.Add("ES_Trans_Type_5", "varchar(30) null")
             coll.Add("FormCounter", "integer not null default 0")
             coll.Add("ExceptionNo", "varchar(10) null")
+            coll.Add("APP_No", "integer not null default 0") ''0-XpertERP,1-XpertAPI
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
