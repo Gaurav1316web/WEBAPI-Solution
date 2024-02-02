@@ -26,6 +26,7 @@ Partial Class rptBmcCollection
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkZone = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.dtpToDate = New Telerik.WinControls.UI.RadDateTimePicker()
@@ -99,12 +100,23 @@ Partial Class rptBmcCollection
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkZone)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkZone
+        '
+        Me.chkZone.AutoSize = True
+        Me.chkZone.Location = New System.Drawing.Point(394, 22)
+        Me.chkZone.Name = "chkZone"
+        Me.chkZone.Size = New System.Drawing.Size(52, 17)
+        Me.chkZone.TabIndex = 420
+        Me.chkZone.Text = "Zone"
+        Me.chkZone.UseVisualStyleBackColor = True
         '
         'RadGroupBox3
         '
@@ -277,6 +289,7 @@ Partial Class rptBmcCollection
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -314,4 +327,5 @@ Partial Class rptBmcCollection
     Friend WithEvents fromDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents chkZone As CheckBox
 End Class

@@ -19694,6 +19694,20 @@ Public Class clsCreateAllTable
             coll.Add("Total_Add_Charge_Insurance", "decimal(18,2) NULL")
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Retention", "decimal(18,2) NULL")
+            coll.Add("Comment1", "varchar(200) NULL")
+            coll.Add("Comment2", "varchar(200) NULL")
+            coll.Add("Comment3", "varchar(200) NULL")
+            coll.Add("Comment4", "varchar(200) NULL")
+            coll.Add("Comment5", "varchar(200) NULL")
+            coll.Add("Comment6", "varchar(200) NULL")
+            coll.Add("Comment7", "varchar(200) NULL")
+            coll.Add("Comment8", "varchar(200) NULL")
+            coll.Add("Comment9", "varchar(200) NULL")
+            coll.Add("Comment10", "varchar(200) NULL")
+            coll.Add("Comment11", "varchar(200) NULL")
+            coll.Add("Comment12", "varchar(200) NULL")
+            coll.Add("Comment13", "varchar(200) NULL")
+            coll.Add("Comment14", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, False, "", "PurchaseOrder_No", "PurchaseOrder_Date")
 
             Try
@@ -23250,6 +23264,7 @@ Public Class clsCreateAllTable
             coll.Add("Own_BMC_Loose_Sale_FAT", "Decimal(18,2) null")
             coll.Add("Own_BMC_Loose_Sale_SNF", "Decimal(18,2) null")
             coll.Add("Remarks", "Varchar(100) null")
+            coll.Add("No_Cluster_DCS", "int null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
