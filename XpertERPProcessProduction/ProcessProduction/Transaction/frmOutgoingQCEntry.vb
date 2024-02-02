@@ -507,7 +507,7 @@ Public Class frmOutgoingQCEntry
                 clsCommon.MyMessageBoxShow(Me, "Select  Item", Me.Text)
                 Return False
             End If
-            If rbtnApp.IsChecked = False OrElse rbtnRej.IsChecked = False Then
+            If rbtnApp.IsChecked = False AndAlso rbtnRej.IsChecked = False Then
                 clsCommon.MyMessageBoxShow(Me, "Please select Accepted Rejected first", Me.Text)
                 Return False
             End If

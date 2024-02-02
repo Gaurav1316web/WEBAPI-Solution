@@ -107,9 +107,9 @@ Public Class frmParameterRangeMasterForQC
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
             If check > 0 Then
-                qry = "select tspl_parameter_range_master_qc.code,tspl_parameter_range_master_qc.lower_range,tspl_parameter_range_master_qc.qc_status,tspl_parameter_range_master_qc.upper_range,tspl_parameter_master.description,tspl_parameter_master.nature,tspl_parameter_range_master_qc.effective_date,tspl_parameter_range_master_qc.status,tspl_parameter_range_master_qc.value1,tspl_parameter_range_master_qc.value2,tspl_parameter_range_master_qc.Deduction_Per,tspl_parameter_range_master_qc.Deduction_lower_range, tspl_parameter_range_master_qc.Deduction_upper_range, tspl_parameter_range_master_qc.Deduction_Ratio,tspl_parameter_range_master_qc.Deduction_lower_range2, tspl_parameter_range_master_qc.Deduction_upper_range2, tspl_parameter_range_master_qc.Deduction_Ratio2,tspl_parameter_range_master_qc.Deduction_lower_range3, tspl_parameter_range_master_qc.Deduction_upper_range3, tspl_parameter_range_master_qc.Deduction_Ratio3,tspl_parameter_range_master_qc.Show_in_Analyzer,tspl_parameter_range_master_qc.Text_in_Analyzer,Analyzer_Index from tspl_parameter_range_master_qc left outer join tspl_parameter_master on tspl_parameter_range_master_qc.code=tspl_parameter_master.code where tspl_parameter_range_master_qc.trans_id='" + trans_id + "'"
+                qry = "select tspl_parameter_range_master_qc.qc_param_code as code,tspl_parameter_range_master_qc.lower_range,tspl_parameter_range_master_qc.qc_status,tspl_parameter_range_master_qc.upper_range,TSPL_QC_LOG_SHEET_MASTER.description,TSPL_QC_LOG_SHEET_MASTER.nature,tspl_parameter_range_master_qc.effective_date,tspl_parameter_range_master_qc.status,tspl_parameter_range_master_qc.value1,tspl_parameter_range_master_qc.value2,tspl_parameter_range_master_qc.Deduction_Per,tspl_parameter_range_master_qc.Deduction_lower_range, tspl_parameter_range_master_qc.Deduction_upper_range, tspl_parameter_range_master_qc.Deduction_Ratio,tspl_parameter_range_master_qc.Deduction_lower_range2, tspl_parameter_range_master_qc.Deduction_upper_range2, tspl_parameter_range_master_qc.Deduction_Ratio2,tspl_parameter_range_master_qc.Deduction_lower_range3, tspl_parameter_range_master_qc.Deduction_upper_range3, tspl_parameter_range_master_qc.Deduction_Ratio3,tspl_parameter_range_master_qc.Show_in_Analyzer,tspl_parameter_range_master_qc.Text_in_Analyzer,Analyzer_Index, tspl_parameter_range_master_qc.Description as descrip from tspl_parameter_range_master_qc left outer join TSPL_QC_LOG_SHEET_MASTER on tspl_parameter_range_master_qc.qc_param_code=TSPL_QC_LOG_SHEET_MASTER.code where tspl_parameter_range_master_qc.trans_id='" + trans_id + "'"
                 If clsCommon.CompairString(clsUserMgtCode.frmQualityModuleParameterRangeMaster, FORMTYPE) = CompairStringResult.Equal Then
-                    qry = "select tspl_parameter_range_master_qc.qc_param_code as code,tspl_parameter_range_master_qc.lower_range,tspl_parameter_range_master_qc.qc_status,tspl_parameter_range_master_qc.upper_range,TSPL_QC_LOG_SHEET_MASTER.description,TSPL_QC_LOG_SHEET_MASTER.nature,tspl_parameter_range_master_qc.effective_date,tspl_parameter_range_master_qc.status,tspl_parameter_range_master_qc.value1,tspl_parameter_range_master_qc.value2,tspl_parameter_range_master_qc.Deduction_Per,tspl_parameter_range_master_qc.Deduction_lower_range, tspl_parameter_range_master_qc.Deduction_upper_range, tspl_parameter_range_master_qc.Deduction_Ratio,tspl_parameter_range_master_qc.Deduction_lower_range2, tspl_parameter_range_master_qc.Deduction_upper_range2, tspl_parameter_range_master_qc.Deduction_Ratio2,tspl_parameter_range_master_qc.Deduction_lower_range3, tspl_parameter_range_master_qc.Deduction_upper_range3, tspl_parameter_range_master_qc.Deduction_Ratio3,tspl_parameter_range_master_qc.Show_in_Analyzer,tspl_parameter_range_master_qc.Text_in_Analyzer,Analyzer_Index from tspl_parameter_range_master_qc left outer join TSPL_QC_LOG_SHEET_MASTER on tspl_parameter_range_master_qc.qc_param_code=TSPL_QC_LOG_SHEET_MASTER.code where tspl_parameter_range_master_qc.trans_id='" + trans_id + "'"
+                    qry = "select tspl_parameter_range_master_qc.qc_param_code as code,tspl_parameter_range_master_qc.lower_range,tspl_parameter_range_master_qc.qc_status,tspl_parameter_range_master_qc.upper_range,TSPL_QC_LOG_SHEET_MASTER.description,TSPL_QC_LOG_SHEET_MASTER.nature,tspl_parameter_range_master_qc.effective_date,tspl_parameter_range_master_qc.status,tspl_parameter_range_master_qc.value1,tspl_parameter_range_master_qc.value2,tspl_parameter_range_master_qc.Deduction_Per,tspl_parameter_range_master_qc.Deduction_lower_range, tspl_parameter_range_master_qc.Deduction_upper_range, tspl_parameter_range_master_qc.Deduction_Ratio,tspl_parameter_range_master_qc.Deduction_lower_range2, tspl_parameter_range_master_qc.Deduction_upper_range2, tspl_parameter_range_master_qc.Deduction_Ratio2,tspl_parameter_range_master_qc.Deduction_lower_range3, tspl_parameter_range_master_qc.Deduction_upper_range3, tspl_parameter_range_master_qc.Deduction_Ratio3,tspl_parameter_range_master_qc.Show_in_Analyzer,tspl_parameter_range_master_qc.Text_in_Analyzer,Analyzer_Index, tspl_parameter_range_master_qc.Description as descrip from tspl_parameter_range_master_qc left outer join TSPL_QC_LOG_SHEET_MASTER on tspl_parameter_range_master_qc.qc_param_code=TSPL_QC_LOG_SHEET_MASTER.code where tspl_parameter_range_master_qc.trans_id='" + trans_id + "'"
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 isLoadData = True
@@ -145,7 +145,7 @@ Public Class frmParameterRangeMasterForQC
                             gv.Rows(gv.Rows.Count - 1).Cells(colDedLower3).Value = clsCommon.myCdbl(dr("Deduction_lower_range3"))
                             gv.Rows(gv.Rows.Count - 1).Cells(colDedUpper3).Value = clsCommon.myCdbl(dr("Deduction_upper_range3"))
                             gv.Rows(gv.Rows.Count - 1).Cells(colDedRatio3).Value = clsCommon.myCdbl(dr("Deduction_Ratio3"))
-                            gv.Rows(gv.Rows.Count - 1).Cells(colDes).Value = clsCommon.myCstr(dr("Decription"))
+                            gv.Rows(gv.Rows.Count - 1).Cells(colDes).Value = clsCommon.myCstr(dr("descrip"))
                             Try
                                 gv.Rows(gv.Rows.Count - 1).Cells(colDate).Value = Convert.ToDateTime(dr("effective_date"))
                             Catch exx As Exception
@@ -1214,7 +1214,7 @@ Public Class frmParameterRangeMasterForQC
                 frm.Qc_Status = clsCommon.myCstr(gv.CurrentRow.Cells("qc_status").Value)
                 frm.Qc_Status_prev = clsCommon.myCstr(gv.CurrentRow.Cells("qc_status").Value)
                 frm.value1 = clsCommon.myCstr(gv.CurrentRow.Cells("Value1").Value)
-
+                frm.description = clsCommon.myCstr(gv.CurrentRow.Cells("descrip").Value)
                 If clsCommon.myLen(clsCommon.myCstr(gv.CurrentRow.Cells("effective_date").Value)) > 0 Then
                         frm.Eff_date = clsCommon.myCstr(gv.CurrentRow.Cells("effective_date").Value)
                     Else
@@ -1314,7 +1314,7 @@ Public Class frmParameterRangeMasterForQC
             ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_lower_range3
             ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_upper_range3,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Ratio3
             ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Method
-            ,TSPL_PARAMETER_RANGE_MASTER_QC.Description
+            ,TSPL_PARAMETER_RANGE_MASTER_QC.Description as Descp
              from TSPL_QC_LOG_SHEET_MASTER
             left join TSPL_PARAMETER_RANGE_MASTER_QC on TSPL_PARAMETER_RANGE_MASTER_QC.QC_Param_Code=TSPL_QC_LOG_SHEET_MASTER.code
             where 1=1"
@@ -1335,7 +1335,7 @@ Public Class frmParameterRangeMasterForQC
                 txtLowerRange.Text = clsCommon.myCDecimal(rows("Lower_Range"))
                 txtUpperRange.Text = clsCommon.myCDecimal(rows("Upper_Range"))
                 txtQcStatus.Text = clsCommon.myCstr(rows("Qc_Status"))
-                txtDescription.Text = clsCommon.myCstr(rows("decription"))
+                txtDescription.Text = clsCommon.myCstr(rows("Descp"))
                 rbtnDedMethodRatio.IsChecked = (clsCommon.myCDecimal(rows("Deduction_Method")) = 0)
                 rbtnDedMethodFixed.IsChecked = (clsCommon.myCDecimal(rows("Deduction_Method")) = 1)
 
