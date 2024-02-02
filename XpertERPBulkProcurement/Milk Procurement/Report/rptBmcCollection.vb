@@ -46,7 +46,7 @@ Public Class rptBmcCollection
 				group by TSPL_MCC_MASTER.MCC_NAME order by Zone  "
             Else
 
-                strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,max(TSPL_VLC_MASTER.vle_count) as Total_No_Of_Dcs,round (COUNT(1)/2,0) AS Entry_No_Of_Dcs,
+                strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,max(TSPL_VLC_MASTER.vle_count) as Total_No_Of_Dcs,
                      Convert (decimal(18,2), sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty)/1.03) as Qty_Ltr,sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty) as Qty_Kg
                         from TSPL_MILK_COLLECTION_BMCDCS
                        left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
