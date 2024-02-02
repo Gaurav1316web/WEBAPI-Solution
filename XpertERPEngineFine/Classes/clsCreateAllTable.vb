@@ -5792,6 +5792,7 @@ Public Class clsCreateAllTable
             coll.Add("ES_Trans_Type_5", "varchar(30) null")
             coll.Add("FormCounter", "integer not null default 0")
             coll.Add("ExceptionNo", "varchar(10) null")
+            coll.Add("APP_No", "integer not null default 0") ''0-XpertERP,1-XpertAPI
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -23263,6 +23264,7 @@ Public Class clsCreateAllTable
             coll.Add("Own_BMC_Loose_Sale_FAT", "Decimal(18,2) null")
             coll.Add("Own_BMC_Loose_Sale_SNF", "Decimal(18,2) null")
             coll.Add("Remarks", "Varchar(100) null")
+            coll.Add("No_Cluster_DCS", "int null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))

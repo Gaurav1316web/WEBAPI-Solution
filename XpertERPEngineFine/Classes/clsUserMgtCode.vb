@@ -2539,6 +2539,20 @@ Public Class clsUserMgtCode
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
+    Public Const ModuleXpertAPI As String = "API"
+    Public Const SubModuleXpertAPISetup As String = "MXAPIMaster"
+    Public Const SubModuleXpertAPITrans As String = "MAPITrans"
+    Public Const SubModuleXpertAPIReport As String = "MAPIReport"
+
+    Public Const XpertAPIWeighment As String = "API-CTF-WGT"
+    Public Const XpertAPILoadinSlip As String = "API-CTF-LIS"
+    Public Const XpertAPIMilkReceipt As String = "API-MLK-REC"
+    Public Const XpertAPIMilkSample As String = "API-MLK-SAM"
+    Public Const XpertAPIMilkReject As String = "API-MLK-REJ"
+    Public Const XpertAPIMilkEmptySample As String = "API-MLK-ETS"
+
+    Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
+
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean
         Dim qry As String = "select PROGRAM_NAME from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

@@ -2464,137 +2464,67 @@ Public Class MDI
             If clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyFinancialCostCenter, clsFixedParameterCode.ApplyFinancialCostCenter, Nothing)) = "1", True, False)) = True Then
                 arrExcluded.Add(clsUserMgtCode.CostFACenter)
             End If
-            'arrExcluded.Add(clsUserMgtCode.rptCustomerWiseSalesReport)
-            'arrExcluded.Add(clsUserMgtCode.rptBookingReport)
-            'arrExcluded.Add(clsUserMgtCode.FrmZoneWiseSKUReport)
-            '=======================================================End====================================================
 
             Dim qry As String = ""
 
-            '' Ticket NO TEC/16/03/18-000101 for Module screen wise rights
-            'If EnableScreenSelection = True Then
-            '    qry = "select distinct tt.* from (select Customise_SNo AS [SERNO],Program_Code,Name,Parent_Code,Counted from (" + Environment.NewLine '"select Program_Code,Name,Parent_Code from (" + Environment.NewLine
-            '    qry += " select Program_Code,case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo,null as Counted from TSPL_PROGRAM_MASTER " + Environment.NewLine
-            '    qry += " where 2=2 and  Parent_Code is null " + Environment.NewLine
-            '    qry += " union " + Environment.NewLine
-            '    qry += " select Program_Code,case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo,null as Counted from TSPL_PROGRAM_MASTER " + Environment.NewLine
-
-
-            '    qry += " where 2=2 and  Type In ('SM') and Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where 2=2 " + strGrpWhrClas + " )" + Environment.NewLine
-            '    qry += " union " + Environment.NewLine
-            '    qry += " select Program_Code,case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo,null as Counted from TSPL_PROGRAM_MASTER " + Environment.NewLine
-
-
-            '    qry += " where 2=2 and  Type In ('M') and Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where 2=2 " + strGrpWhrClas + "))" + Environment.NewLine
-            '    qry += " union " + Environment.NewLine
-            '    qry += " select Program_Code,case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo,null as Counted from TSPL_PROGRAM_MASTER " + Environment.NewLine
-            '    qry += " where Program_Code='" + clsUserMgtCode.ModuleFavourite + "' " + Environment.NewLine
-            '    qry += " union " + Environment.NewLine
-            '    If EnableScreenSelection = True Then
-
-            '        Dim strCodeColumn As String = ""
-
-            '        Dim qry1 As String = "select distinct P_Code from TSPL_MODULE_SCREEN_PERMISSION "
-            '        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
-            '        For ii As Integer = 0 To dt1.Rows.Count - 1
-            '            If ii <> 0 Then
-            '                strCodeColumn += "','"
-            '            End If
-            '            strCodeColumn += "" + clsCommon.myCstr(dt1.Rows(ii)("P_Code")).Trim() + ""
-            '        Next
-
-
-            '        qry += "  select * from "
-            '        qry += " (  select  Program_Code,case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo,case when TSPL_MODULE_SCREEN_PERMISSION.Screen_Name=TSPL_PROGRAM_MASTER.Program_Code then 1 else 0 end as Counted from TSPL_PROGRAM_MASTER"
-            '        qry += " left join TSPL_MODULE_SCREEN_PERMISSION on TSPL_MODULE_SCREEN_PERMISSION.Screen_Name=TSPL_PROGRAM_MASTER.Program_Code where Parent_Code in ('" & strCodeColumn & "') "
-            '        qry += " union select  Program_Code,case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo,null Counted from TSPL_PROGRAM_MASTER"
-            '        qry += " where Program_Code not in (select Screen_Name from TSPL_MODULE_SCREEN_PERMISSION) and Parent_Code not in ('" & strCodeColumn & "')  "
-            '        qry += "  )xx "
-
-            '    End If
-
-
-
-            '    qry += " union all " + Environment.NewLine
-            '    qry += " select TSPL_FAVOURITE_MENU.Program_Code,case when LEN(isnull(TSPL_PROGRAM_MASTER.Re_Name,''))>0 then TSPL_PROGRAM_MASTER.Re_Name else TSPL_PROGRAM_MASTER.Program_Name end as Name,'" + clsUserMgtCode.ModuleFavourite + "' as Parent_Code,TSPL_FAVOURITE_MENU.SNo,null as Counted from TSPL_FAVOURITE_MENU " + Environment.NewLine
-            '    qry += " left outer join  TSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code= TSPL_FAVOURITE_MENU.Program_Code  where 2=2 and TSPL_FAVOURITE_MENU.User_Code='" + objCommonVar.CurrentUserCode + "' " + strGrpWhrClas + Environment.NewLine
-            '    qry += " )xxx where 2=2 "
-            '    qry += " and Program_Code not in (" + clsCommon.GetMulcallString(arrExcluded) + ")"
-            '    qry += ") tt inner join (select Module_Name,Program_Code as [prg_Code] from tspl_Program_Master tpm inner join tspl_Module_Permission tmm on " _
-            '    & " tpm.Parent_Code=tmm.Module_Name union select 'MFavourite','MFavourite' " & IIf(isUtilityAdded, " union select Program_Code as [Module_Name],Program_Code as [prg_Code] from tspl_Program_Master where Parent_Code ='Mutility'", "") & ") " _
-            '    & " tpm on (tpm.module_Name=Parent_Code or tpm.prg_Code=Parent_Code or tpm.module_Name =Program_Code  or Parent_Code is NULL  or Parent_Code ='ExpertERP') " _
-            '    & " and Program_Code not in (select distinct Program_Code as [prg_Code] from tspl_Program_Master tpm Left join tspl_Module_Permission tmm on tpm.Program_Code=tmm.Module_Name where Type='M' and module_Name is null " & IIf(isUtilityAdded, " and Program_Code <>'Mutility'", "") & ") and (Counted is  null or Counted=1) order by SERNO" '" order by SNo"
-
-            'Else
 
             qry = "select distinct tt.* from (select Customise_SNo AS [SERNO],Program_Code,Name,Parent_Code from (" + Environment.NewLine '"select Program_Code,Name,Parent_Code from (" + Environment.NewLine
             qry += " select Program_Code,"
             If IsOriginalName = True Then
-                qry += "Program_Name as Name,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
+                qry += "Program_Name as Name, " + Environment.NewLine
             Else
-                qry += "Case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
-
+                qry += "Case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name," + Environment.NewLine
             End If
-            qry += " where 2=2 and  Parent_Code is null " + Environment.NewLine
+            qry += " Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER  where 2=2 and  Parent_Code is null " + Environment.NewLine
             qry += " union " + Environment.NewLine
             qry += " select Program_Code,"
             If IsOriginalName = True Then
-                qry += "Program_Name AS NAME,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
-
+                qry += "Program_Name AS NAME," + Environment.NewLine
             Else
-                qry += "case When LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
-
+                qry += "case When LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name," + Environment.NewLine
             End If
-
-
-            qry += " where 2=2 and  Type In ('SM') and Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where 2=2 " + strGrpWhrClas + " )" + Environment.NewLine
+            qry += " Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER  where 2=2 and  Type In ('SM') and Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where 2=2 " + strGrpWhrClas + " )" + Environment.NewLine
             qry += " union " + Environment.NewLine
             qry += " select Program_Code,"
             If IsOriginalName = True Then
-                qry += "  Program_Name as NAME,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
-
+                qry += "  Program_Name as NAME," + Environment.NewLine
             Else
-                qry += "case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
+                qry += "case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name," + Environment.NewLine
             End If
-
-            qry += " where 2=2 and  Type In ('M') and Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where 2=2 " + strGrpWhrClas + "))" + Environment.NewLine
+            qry += " Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER  where 2=2 and  APP_No=0 and Type In ('M') and Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where Program_Code in (select distinct Parent_Code from TSPL_PROGRAM_MASTER where 2=2 " + strGrpWhrClas + "))" + Environment.NewLine
             qry += " union " + Environment.NewLine
             qry += " select Program_Code,"
             If IsOriginalName = True Then
-                qry += " Program_Name as NAME,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
+                qry += " Program_Name as NAME," + Environment.NewLine
             Else
-                qry += "case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
-
+                qry += "case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name," + Environment.NewLine
             End If
-            qry += " where Program_Code='" + clsUserMgtCode.ModuleFavourite + "' " + Environment.NewLine
+            qry += "Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER  where Program_Code='" + clsUserMgtCode.ModuleFavourite + "' " + Environment.NewLine
             qry += " union " + Environment.NewLine
 
             qry += " select Program_Code,"
             If IsOriginalName = True Then
-                qry += " Program_Name as NAME,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER " + Environment.NewLine
+                qry += " Program_Name as NAME, " + Environment.NewLine
             Else
-                qry += "case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER "
+                qry += "case when LEN(isnull(Re_Name,''))>0 then Re_Name else Program_Name end as Name,"
             End If
-            qry += " where 2=2 " + strGrpWhrClas + Environment.NewLine
+            qry += " Parent_Code,Customise_SNo from TSPL_PROGRAM_MASTER  where 2=2 and APP_No=0 " + strGrpWhrClas + Environment.NewLine
 
             qry += " union all " + Environment.NewLine
             qry += " select TSPL_FAVOURITE_MENU.Program_Code,"
             If IsOriginalName = True Then
-                qry += "tspl_program_master.program_name AS NAME, '" + clsUserMgtCode.ModuleFavourite + "' as Parent_Code,TSPL_FAVOURITE_MENU.SNo from TSPL_FAVOURITE_MENU " + Environment.NewLine
+                qry += "tspl_program_master.program_name AS NAME, " + Environment.NewLine
             Else
-                qry += "case when LEN(isnull(TSPL_PROGRAM_MASTER.Re_Name,''))>0 then TSPL_PROGRAM_MASTER.Re_Name else TSPL_PROGRAM_MASTER.Program_Name end as Name,'" + clsUserMgtCode.ModuleFavourite + "' as Parent_Code,TSPL_FAVOURITE_MENU.SNo from TSPL_FAVOURITE_MENU " + Environment.NewLine
+                qry += "case when LEN(isnull(TSPL_PROGRAM_MASTER.Re_Name,''))>0 then TSPL_PROGRAM_MASTER.Re_Name else TSPL_PROGRAM_MASTER.Program_Name end as Name, " + Environment.NewLine
             End If
-            qry += " left outer join  TSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code= TSPL_FAVOURITE_MENU.Program_Code  where 2=2 and TSPL_FAVOURITE_MENU.User_Code='" + objCommonVar.CurrentUserCode + "' " + strGrpWhrClas + Environment.NewLine
+            qry += "'" + clsUserMgtCode.ModuleFavourite + "' as Parent_Code,TSPL_FAVOURITE_MENU.SNo from TSPL_FAVOURITE_MENU left outer join  TSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code= TSPL_FAVOURITE_MENU.Program_Code  where 2=2 and TSPL_FAVOURITE_MENU.User_Code='" + objCommonVar.CurrentUserCode + "' " + strGrpWhrClas + Environment.NewLine
             qry += " )xxx where 2=2 "
             qry += " and Program_Code not in (" + clsCommon.GetMulcallString(arrExcluded) + ") and Program_Code not in ( select Screen_Name from TSPL_MODULE_SCREEN_PERMISSION )"
             qry += ") tt inner join (select Module_Name,Program_Code as [prg_Code] from tspl_Program_Master tpm inner join tspl_Module_Permission tmm on " _
-            & " tpm.Parent_Code=tmm.Module_Name union select 'MFavourite','MFavourite' " & IIf(isUtilityAdded, " union select Program_Code as [Module_Name],Program_Code as [prg_Code] from tspl_Program_Master where Parent_Code ='Mutility'", "") & ") " _
+            & " tpm.Parent_Code=tmm.Module_Name  and tpm.APP_No=0 union select 'MFavourite','MFavourite' " & IIf(isUtilityAdded, " union select Program_Code as [Module_Name],Program_Code as [prg_Code] from tspl_Program_Master where Parent_Code ='Mutility'", "") & ") " _
             & " tpm on (tpm.module_Name=Parent_Code or tpm.prg_Code=Parent_Code or tpm.module_Name =Program_Code  or Parent_Code is NULL  or Parent_Code ='ExpertERP') " _
             & " and Program_Code not in (select distinct Program_Code as [prg_Code] from tspl_Program_Master tpm Left join tspl_Module_Permission tmm on tpm.Program_Code=tmm.Module_Name where Type='M' and module_Name is null " & IIf(isUtilityAdded, " and Program_Code <>'Mutility'", "") & ") order by SERNO" '" order by SNo"
-            'End If
 
-            '' End
-            '============================================
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
 
@@ -2612,11 +2542,6 @@ Public Class MDI
             RTV2.ExpandAnimation = ExpandAnimation.Opacity
             RTV2.AllowEdit = False
             RTV2.ShowRootLines = False
-            'RTV2.TreeViewElement.AllowAlternatingRowColor = True
-            'RTV2.TreeViewElement.AlternatingRowColor = Color.AliceBlue
-            'RTV2.TreeViewElement.AngleTransform = 270
-            'RTV2.TreeViewElement.RightToLeft = True
-            'RTV2.TreeViewElement.DrawBorder = True
             RTV2.ValueMember = "Program_Code"
             RTV2.DisplayMember = "Name"
             RTV2.ChildMember = "Program_Code"
