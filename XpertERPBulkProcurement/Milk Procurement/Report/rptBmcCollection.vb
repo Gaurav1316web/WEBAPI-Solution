@@ -25,10 +25,28 @@ Public Class rptBmcCollection
 
 
     Public Sub LoadData()
+
         Try
+
             Dim dt As New DataTable
             Dim strQry As String = ""
-            strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,COUNT(1) as Entry_No_Of_Dcs,max(TSPL_VLC_MASTER.vle_count) as Total_No_Of_Dcs,
+            If chkZone.Checked = True Then
+
+                strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_ZONE_MASTER.Description) as Zone,max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,max(TSPL_VLC_MASTER.vle_count) as Total_No_Of_Dcs,round (COUNT(1)/2,0) AS Entry_No_Of_Dcs,
+                     Convert (decimal(18,2), sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty)/1.03) as Qty_Ltr,sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty) as Qty_Kg					 
+                        from TSPL_MILK_COLLECTION_BMCDCS
+                       left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+                        left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code     	left join (select count(1) as vle_count,mcc from TSPL_VLC_MASTER_HEAD
+			group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code
+			left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code	
+			left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
+			and TSPL_VENDOR_MASTER.Form_Type='VSP'
+			 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.Zone_Code
+                where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+				group by TSPL_MCC_MASTER.MCC_NAME order by Zone  "
+            Else
+
+                strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,max(TSPL_VLC_MASTER.vle_count) as Total_No_Of_Dcs,round (COUNT(1)/2,0) AS Entry_No_Of_Dcs,
                      Convert (decimal(18,2), sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty)/1.03) as Qty_Ltr,sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty) as Qty_Kg
                         from TSPL_MILK_COLLECTION_BMCDCS
                        left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
@@ -38,6 +56,7 @@ Public Class rptBmcCollection
 			group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code
                 where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
 				group by TSPL_MCC_MASTER.MCC_NAME"
+            End If
 
             dt = clsDBFuncationality.GetDataTable(strQry)
             Gv1.DataSource = Nothing
@@ -111,8 +130,17 @@ Public Class rptBmcCollection
             Gv1.Columns("Qty_Ltr").HeaderText = "Qty Ltr"
             Gv1.Columns("Qty_Kg").HeaderText = "Qty Kg"
         Next
-
-        'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Zone as Zone format ""{0}: {1}"" Group By Zone"))
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem("Total_No_Of_Dcs", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("Entry_No_Of_Dcs", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("Qty_Ltr", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("Qty_Kg", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -123,4 +151,9 @@ Public Class rptBmcCollection
         fromDate.Value = DateTime.Now()
         dtpToDate.Value = DateTime.Now()
     End Sub
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        Reset()
+    End Sub
+
 End Class
