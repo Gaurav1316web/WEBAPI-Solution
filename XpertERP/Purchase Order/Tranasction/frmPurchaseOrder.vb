@@ -565,12 +565,40 @@ Public Class frmPurchaseOrder
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then
                 txtComment.Text = clsCommon.myCstr(dt.Rows(i)("Comments"))
+                txtCmt1.Text = clsCommon.myCstr(dt.Rows(i)("Comment1"))
+                txtCmt2.Text = clsCommon.myCstr(dt.Rows(i)("Comment2"))
+                txtCmt3.Text = clsCommon.myCstr(dt.Rows(i)("Comment3"))
+                txtCmt4.Text = clsCommon.myCstr(dt.Rows(i)("Comment4"))
+                txtCmt5.Text = clsCommon.myCstr(dt.Rows(i)("Comment5"))
+                txtCmt6.Text = clsCommon.myCstr(dt.Rows(i)("Comment6"))
+                txtCmt7.Text = clsCommon.myCstr(dt.Rows(i)("Comment7"))
+                txtCmt8.Text = clsCommon.myCstr(dt.Rows(i)("Comment8"))
+                txtCmt9.Text = clsCommon.myCstr(dt.Rows(i)("Comment9"))
+                txtCmt10.Text = clsCommon.myCstr(dt.Rows(i)("Comment10"))
+                txtCmt11.Text = clsCommon.myCstr(dt.Rows(i)("Comment11"))
+                txtCmt12.Text = clsCommon.myCstr(dt.Rows(i)("Comment12"))
+                txtCmt13.Text = clsCommon.myCstr(dt.Rows(i)("Comment13"))
+                'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14"))
                 txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject"))
                 txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject"))
             End If
         Else
             txtFreight.Text = ""
             txtComment.Text = ""
+            txtCmt1.Text = ""
+            txtCmt2.Text = ""
+            txtCmt3.Text = ""
+            txtCmt4.Text = ""
+            txtCmt5.Text = ""
+            txtCmt6.Text = ""
+            txtCmt7.Text = ""
+            txtCmt8.Text = ""
+            txtCmt9.Text = ""
+            txtCmt10.Text = ""
+            txtCmt11.Text = ""
+            txtCmt12.Text = ""
+            txtCmt13.Text = ""
+            'txtCmt14.Text = ""
             'RTComment.Text = ""
             txtSubject.Text = ""
             txtContentSubject.Text = ""
@@ -844,6 +872,20 @@ Public Class frmPurchaseOrder
         txtDesc.MaxLength = 200
         txtRemarks.MaxLength = 200
         txtComment.MaxLength = 5000
+        txtCmt1.MaxLength = 5000
+        txtCmt2.MaxLength = 5000
+        txtCmt3.MaxLength = 5000
+        txtCmt4.MaxLength = 5000
+        txtCmt5.MaxLength = 5000
+        txtCmt6.MaxLength = 5000
+        txtCmt7.MaxLength = 5000
+        txtCmt8.MaxLength = 5000
+        txtCmt9.MaxLength = 5000
+        txtCmt10.MaxLength = 5000
+        txtCmt11.MaxLength = 5000
+        txtCmt12.MaxLength = 5000
+        txtCmt13.MaxLength = 5000
+        'txtCmt14.MaxLength = 5000
         'RTComment.MaxLength = 5000
         '' as per amit sir ticket no: BM00000005661
         cboModeOfTransport.MaxLength = 12
@@ -900,6 +942,20 @@ Public Class frmPurchaseOrder
         Else
             txtFreight.Text = ""
             txtComment.Text = ""
+            txtCmt1.Text = ""
+            txtCmt2.Text = ""
+            txtCmt3.Text = ""
+            txtCmt4.Text = ""
+            txtCmt5.Text = ""
+            txtCmt6.Text = ""
+            txtCmt7.Text = ""
+            txtCmt8.Text = ""
+            txtCmt9.Text = ""
+            txtCmt10.Text = ""
+            txtCmt11.Text = ""
+            txtCmt12.Text = ""
+            txtCmt13.Text = ""
+            'txtCmt14.Text = ""
             'RTComment.Text = ""
             txtSubject.Text = ""
             txtContentSubject.Text = ""
@@ -5251,6 +5307,20 @@ Public Class frmPurchaseOrder
                 obj.Ship_To_Location = txtShipToLocation.Value
                 obj.Sublocation_Code = txtSubLocation.Value
                 obj.Comments = txtComment.Text
+                obj.Comment1 = txtCmt1.Text
+                obj.Comment2 = txtCmt2.Text
+                obj.Comment3 = txtCmt3.Text
+                obj.Comment4 = txtCmt4.Text
+                obj.Comment5 = txtCmt5.Text
+                obj.Comment6 = txtCmt6.Text
+                obj.Comment7 = txtCmt7.Text
+                obj.Comment8 = txtCmt8.Text
+                obj.Comment9 = txtCmt9.Text
+                obj.Comment10 = txtCmt10.Text
+                obj.Comment11 = txtCmt11.Text
+                obj.Comment12 = txtCmt12.Text
+                obj.Comment13 = txtCmt13.Text
+                'obj.Comment14 = txtCmt14.Text
                 'obj.Comments = RTComment.Rtf
                 obj.On_Hold = chkOnHold.Checked
                 obj.Mode_Of_Transport = cboModeOfTransport.Text
@@ -6066,6 +6136,20 @@ Public Class frmPurchaseOrder
                 txtTaxGroup.Value = obj.Tax_Group
                 txtRGPNo.Value = obj.Against_RGP_NO
                 txtComment.Text = obj.Comments
+                txtCmt1.Text = obj.Comment1
+                txtCmt2.Text = obj.Comment2
+                txtCmt3.Text = obj.Comment3
+                txtCmt4.Text = obj.Comment4
+                txtCmt5.Text = obj.Comment5
+                txtCmt6.Text = obj.Comment6
+                txtCmt7.Text = obj.Comment7
+                txtCmt8.Text = obj.Comment8
+                txtCmt9.Text = obj.Comment9
+                txtCmt10.Text = obj.Comment10
+                txtCmt11.Text = obj.Comment11
+                txtCmt12.Text = obj.Comment12
+                txtCmt13.Text = obj.Comment13
+                'txtComment.Text = obj.Comment14
                 'RTComment.Rtf = obj.Comments
                 txtShipToLocation.Value = obj.Ship_To_Location
                 txtBillToLocation.Value = obj.Bill_To_Location
@@ -10673,5 +10757,7 @@ Public Class frmPurchaseOrder
             isCellValueChangedOpenSchedule = False
         End Try
     End Sub
+
+
 End Class
 
