@@ -195,6 +195,13 @@
     <Compile Include="ProcessProduction\Master\frmProcessProductionLogSheet.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ProcessProduction\Transaction\ClsOutgoingQcEntry.vb" />
+    <Compile Include="ProcessProduction\Transaction\frmOutgoingQCEntry.Designer.vb">
+      <DependentUpon>frmOutgoingQCEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessProduction\Transaction\frmOutgoingQCEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PRODUCTION\Masters\frmAccountSetting.Designer.vb">
       <DependentUpon>frmAccountSetting.vb</DependentUpon>
     </Compile>
@@ -708,6 +715,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessProduction\Master\frmProcessProductionLogSheet.resx">
       <DependentUpon>frmProcessProductionLogSheet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessProduction\Transaction\frmOutgoingQCEntry.resx">
+      <DependentUpon>frmOutgoingQCEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PRODUCTION\Masters\frmAccountSetting.resx">
       <DependentUpon>frmAccountSetting.vb</DependentUpon>

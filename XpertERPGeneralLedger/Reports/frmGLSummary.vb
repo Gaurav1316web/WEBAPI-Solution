@@ -10,7 +10,7 @@ Public Class FrmGLSummary
             TransType = clsDBFuncationality.getSingleValue("Select Source_Code from TSPL_JOURNAL_MASTER WHERE Voucher_No='" + strVoucherNo + "'")
             LoadData(TransType, strVoucherNo)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -137,7 +137,7 @@ Public Class FrmGLSummary
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = dt
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -146,7 +146,7 @@ Public Class FrmGLSummary
             If gv1.Rows.Count > 0 Then
                 clsCommon.MyExportToExcelGrid("GL Summary", gv1, Nothing, "glSummary")
             Else
-                clsCommon.MyMessageBoxShow("No data found to export.")
+                clsCommon.MyMessageBoxShow(Me, "No data found to export.", Me.Text)
             End If
         Catch ex As Exception
 

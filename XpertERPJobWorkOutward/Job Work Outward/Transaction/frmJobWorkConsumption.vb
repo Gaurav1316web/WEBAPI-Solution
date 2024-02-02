@@ -911,7 +911,7 @@ Public Class frmJobWorkConsumption
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code", Me.Text)
             Exit Sub
         End If
 

@@ -402,7 +402,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
-                        GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
+                        If chkSecurity.Checked Then
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
+                        End If
                         sl += 1
                         GV1.Rows.AddNew()
                     Next
@@ -488,9 +490,13 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     'objTr.SNo = ii + 1
                     objTr.Distributor_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(colCustCode).Value)
                     objTr.Route_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(ColRouteCode).Value)
-                    objTr.Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value)
+                objTr.Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value)
+                If chkSecurity.Checked Then
                     objTr.Security_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colSecRate).Value)
-                    Arr.Add(objTr)
+                Else
+                    objTr.Security_Rate = 0
+                End If
+                Arr.Add(objTr)
 
                 'End If
             End If
