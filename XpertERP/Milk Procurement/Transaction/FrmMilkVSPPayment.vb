@@ -26,6 +26,9 @@ Public Class FrmMilkVSPPayment
     Dim ApplyUnpaidBank As Boolean = False
     Dim CompanyVSPDeduction As Decimal = 0
     Dim NonCompanyVSPDeduction As Decimal = 0
+    Dim AreaWiseBilling As Boolean = False
+
+
 #End Region
 
     Public Sub New(ByVal FormId As String)
@@ -67,6 +70,7 @@ Public Class FrmMilkVSPPayment
         SettMultipleMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleMCCFinder, clsFixedParameterCode.MultipleMCCFinder, Nothing)) = 1)
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         ApplyUnpaidBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyUnpaidBank, clsFixedParameterCode.ApplyUnpaidBank, Nothing)) = 1)
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
         If SettMultipleMCCFinder Then
             SplitContainer1.Panel1Collapsed = True
@@ -3676,7 +3680,9 @@ Public Class FrmMilkVSPPayment
         txtVSP.arrValueMember = Nothing
         txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtMCC.Value, txtToDate.Value)
         txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtMCC.Value, txtToDate.Value)
+
     End Sub
+
 
     Private Sub txtMainGroup__My_Click(sender As Object, e As EventArgs) Handles txtVSP._My_Click
         Try
@@ -4079,8 +4085,20 @@ Public Class FrmMilkVSPPayment
                 arrLoc = obj.arrLocCodes
             End If
 
-            qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name], Plant_Code as PlantCode,tabPlantName.Location_Desc as Plant from tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
-            & " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
+            'qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name], Plant_Code as PlantCode,tabPlantName.Location_Desc as Plant from tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
+            '& " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
+
+            qry = "select Mcc_Code as Code,MCC_Name,Plant_Code,tabPlantName.Location_Desc as Plant
+                    from tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
+            If AreaWiseBilling Then
+                qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+
+            End If
+            'If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count > 0 Then
+            '    qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+            'End If
+            'txtMCCMultiple.arrValueMember = clsCommon.ShowMultipleSelectForm("MULVSPPMF", qry, "Code", "", txtMCCMultiple.arrValueMember, txtMCCMultiple.arrDispalyMember)
+
 
             txtMCCMultiple.arrValueMember = clsCommon.ShowMultipleSelectForm("MULVSPPMF", qry, "Code", "", txtMCCMultiple.arrValueMember, Nothing)
             If txtMCCMultiple.arrValueMember IsNot Nothing AndAlso txtMCCMultiple.arrValueMember.Count > 0 Then
@@ -4492,5 +4510,26 @@ Public Class FrmMilkVSPPayment
         MyBase.ShowJE(MyBase.Form_ID, fndDocNo.Value)
     End Sub
 
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        '        Try
+        '            Dim sQuery As String = "select TSPL_VLC_MASTER_HEAD.VSP_Code [Code],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name from TSPL_VLC_MASTER_HEAD 
+        'left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code "
+        '            fndArea.Value = clsCommon.ShowSelectForm("Location@Area@Master", sQuery, "Code", "", fndArea.Value, "Code", isButtonClicked)
+        '        Catch ex As Exception
+        '            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        '        End Try
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER
+     "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+            'If fndLocation.Value <> "" Then
+            '    lblLocation.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndArea.Value & "'")
+            'Else
+            '    lblLocation.Text = ""
+            'End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
+    End Sub
 
 End Class

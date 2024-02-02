@@ -30,6 +30,9 @@ Partial Class frmVendorBankAdvice
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Area = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
+        Me.ChkIFSCCode = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.rbtnSaving = New common.Controls.MyRadioButton()
@@ -66,7 +69,6 @@ Partial Class frmVendorBankAdvice
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.ChkIFSCCode = New System.Windows.Forms.CheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -74,6 +76,7 @@ Partial Class frmVendorBankAdvice
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.Area, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,6 +172,8 @@ Partial Class frmVendorBankAdvice
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.Area)
+        Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.ChkIFSCCode)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.txtbankgroupname)
@@ -189,6 +194,52 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(794, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'Area
+        '
+        Me.Area.FieldName = Nothing
+        Me.Area.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Area.Location = New System.Drawing.Point(448, 4)
+        Me.Area.Name = "Area"
+        Me.Area.Size = New System.Drawing.Size(30, 16)
+        Me.Area.TabIndex = 1077
+        Me.Area.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(491, 3)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(160, 19)
+        Me.fndArea.TabIndex = 1076
+        Me.fndArea.Value = ""
+        '
+        'ChkIFSCCode
+        '
+        Me.ChkIFSCCode.AutoSize = True
+        Me.ChkIFSCCode.Location = New System.Drawing.Point(424, 107)
+        Me.ChkIFSCCode.Name = "ChkIFSCCode"
+        Me.ChkIFSCCode.Size = New System.Drawing.Size(78, 17)
+        Me.ChkIFSCCode.TabIndex = 448
+        Me.ChkIFSCCode.Text = "IFSC Code"
+        Me.ChkIFSCCode.UseVisualStyleBackColor = True
         '
         'RadGroupBox2
         '
@@ -657,16 +708,6 @@ Partial Class frmVendorBankAdvice
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'ChkIFSCCode
-        '
-        Me.ChkIFSCCode.AutoSize = True
-        Me.ChkIFSCCode.Location = New System.Drawing.Point(424, 107)
-        Me.ChkIFSCCode.Name = "ChkIFSCCode"
-        Me.ChkIFSCCode.Size = New System.Drawing.Size(78, 17)
-        Me.ChkIFSCCode.TabIndex = 448
-        Me.ChkIFSCCode.Text = "IFSC Code"
-        Me.ChkIFSCCode.UseVisualStyleBackColor = True
-        '
         'frmVendorBankAdvice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -688,6 +729,7 @@ Partial Class frmVendorBankAdvice
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.Area, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -771,5 +813,7 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents ChkIFSCCode As CheckBox
+    Friend WithEvents fndArea As common.UserControls.txtFinder
+    Friend WithEvents Area As common.Controls.MyLabel
 End Class
 

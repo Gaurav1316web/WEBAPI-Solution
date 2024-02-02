@@ -978,6 +978,7 @@ Public Class frmMilkShiftUploaderUCDF
                     If clsCommon.MyMessageBoxShow(Me, "Delete the current row data." + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         clsMilkShiftUploaderQCParameterDetail.DeleteRowData(clsCommon.myCstr(gv1.CurrentRow.Cells("TR_No").Value))
                         clsCommon.MyMessageBoxShow(Me, "Data deleted successfully", Me.Text)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
                     Else
                         e.Cancel = True
                     End If

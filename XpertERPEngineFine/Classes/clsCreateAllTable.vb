@@ -1052,6 +1052,7 @@ Public Class clsCreateAllTable
             coll.Add("Deafault_MP_Terms_Code", "Varchar(30) null")
             coll.Add("MCC_Farmer_Billing", "Integer Not NULL Default 0")
             coll.Add("Is_BMP", "Integer Not NULL Default 0")
+
             coll.Add("EMP_CODE", "VARCHAR(12) NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
             coll.Add("is_Reuired_Gate_Entry", "Integer Not NULL Default 0")
             '===========================================================================
@@ -1087,6 +1088,8 @@ Public Class clsCreateAllTable
             coll.Add("Default_Sample_Machine_4", "varchar(20) NULL")
             coll.Add("Default_Sample_Comport_3", "varchar(10) NULL")
             coll.Add("Default_Sample_Comport_4", "varchar(10) NULL")
+            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
+
             coll.Add("Plant_Code", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Is_MCC", "Integer Not NULL Default 1")
             coll.Add("Commission_Rate", "decimal(18,2) null")
@@ -2159,6 +2162,7 @@ Public Class clsCreateAllTable
             coll.Add("Product_Type", "Varchar(2) null")
             coll.Add("Is_Purchaseable", "Varchar(1) null")
             coll.Add("Is_AllowQC_ON_Purchase", "Varchar(1) null")
+            coll.Add("Is_AllowQC_ON_Production", "Varchar(1) null")
             coll.Add("Item_Image", "Varbinary(Max) null")
             coll.Add("CSA_TYPE", "VARCHAR(30) NOT NULL DEFAULT 'None'")
             coll.Add("Is_CrateType", "integer not NULL default 0")
@@ -10669,6 +10673,8 @@ Public Class clsCreateAllTable
             coll.Add("Is_Skip_Previous_Advacee_Payment", "Integer not null default 0")
             coll.Add("FarmType", "varchar(10) NOT  NULL default 'PP'")
             coll.Add("MCC_Code_Selected", "varchar(30) NULL references TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_HEAD", coll, Nothing, True, False, "", "Doc_No", "Doc_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -10725,6 +10731,7 @@ Public Class clsCreateAllTable
             coll.Add("SRN_RO_Amount", "decimal(18,2) NULL")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
             coll.Add("TDS_Amount", "decimal(18,2) NULL")
+            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_INVOICE", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -10815,6 +10822,8 @@ Public Class clsCreateAllTable
             coll.Add("Amount", "float not null default 0 ")
             coll.Add("Reduce_Deduc_Amt", "float not null default 0 ")
             coll.Add("IsFromPrevPPCycle", "int null ")
+            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DEDUCTION", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -10826,6 +10835,8 @@ Public Class clsCreateAllTable
             coll.Add("Vendor_NAME", "varchar(200) ")
             coll.Add("TDS_Amount", "decimal(18,2) NULL")
             coll.Add("Amount", "float not null default 0 ")
+            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_CREDIT_NOTE", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -45508,6 +45519,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("MP_Total_Deduction", "DECIMAL(18,2)  NULL ")
             coll.Add("Asset_Lost_Amount", "DECIMAL(18,2)  NULL ")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
+
             coll.Add("TDS_Amount", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
@@ -47139,6 +47152,47 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Balance_Amt", "decimal(18, 2)  null ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MCC_Sale_Return_Head_Farmer", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) not null primary key")
+            coll.Add("Document_Date", "Date  not null")
+            coll.Add("Item_Code", "Varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Description", "varchar(200) null")
+            coll.Add("Location_Code", "Varchar(12) NULL References TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Comments", "varchar(200)  null")
+            coll.Add("Remarks", "varchar(200) null")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Qc_Status", "varchar(10) NULL")
+            coll.Add("Created_By", "varchar(12)  null")
+            coll.Add("Created_Date", "Datetime null")
+            coll.Add("Modified_By", "varchar(12)  null")
+            coll.Add("Modified_Date", "Datetime  null")
+            coll.Add("Posted_By", "varchar(12)  NULL")
+            coll.Add("Posted_Date", "Datetime  NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PROD_QC_CHECK_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
+            coll.Add("Document_Code", "varchar(30) not null References TSPL_PROD_QC_CHECK_HEAD(Document_Code)")
+            coll.Add("PROD_ENTRY_CODE", "Varchar(30) NOT NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY", coll, Nothing, False, False, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
+            coll.Add("Document_Code", "varchar(30) not null References TSPL_PROD_QC_CHECK_HEAD(Document_Code)")
+            coll.Add("Item_Code", "Varchar(50) NOT NULL  References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Unit_Code", "varchar(12) not NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
+            coll.Add("QC_Param_Code", "varchar(30) not null REFERENCES TSPL_QC_LOG_SHEET_MASTER(Code)")
+            coll.Add("Param_L_Range", "float null")
+            coll.Add("Param_U_Range", "float null")
+            coll.Add("Param_Status", "varchar(3) null")
+            coll.Add("Param_Value", "varchar(max) null")
+            coll.Add("Param_QC_Status", "varchar(10) null")
+            coll.Add("Measured", "varchar(300) null")
+            coll.Add("Remarks", "varchar(200) null")
+            coll.Add("InputData", "float null")
+            coll.Add("Description", "varchar(500) null")
+            coll.Add("Description_Status", "varchar(15) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_PARA_DETAIL", coll, Nothing, False, False, "TSPL_PROD_QC_CHECK_HEAD", "Document_Code", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_MCC_Sale_Return_Head_Farmer(DOCUMENT_CODE)")

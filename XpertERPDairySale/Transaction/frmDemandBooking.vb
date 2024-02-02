@@ -576,6 +576,8 @@ Public Class frmDemandBooking
             chkMorningPosted.Checked = False
             chkEveningPosted.Checked = False
             RadGroupBox1.Enabled = True
+            txtDate.Enabled = True
+
             If EnableLocation Then
                 txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
             Else
@@ -991,6 +993,7 @@ Public Class frmDemandBooking
                 btnPost.Enabled = True
                 btnDelete.Enabled = True
                 isInsideLoadData = True
+                txtDate.Enabled = False
                 isNewEntry = False
                 btn_TSCancel.Enabled = True
                 btn_Gatepass.Enabled = True
@@ -1400,6 +1403,9 @@ Public Class frmDemandBooking
             Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' and ShiftType = '" & shiftType & "'"))
             If clsCommon.myLen(DocNo) > 0 Then
                 LoadData(DocNo, NavigatorType.Current)
+            Else
+                txtDate.Enabled = False
+
             End If
             SetRouteColumns()
             RefreshFormName()

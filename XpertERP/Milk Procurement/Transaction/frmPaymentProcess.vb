@@ -128,6 +128,7 @@ Public Class FrmPaymentProcess
     Dim isLoad As Boolean = True
     Dim isNewEntry As Boolean = False
     Dim frm As FrmPaymentDetail = New FrmPaymentDetail()
+    'Dim chkArea As Boolean = False
 
 
 
@@ -157,6 +158,7 @@ Public Class FrmPaymentProcess
     Private isConsiderAdvancePayment As Boolean = False
     Private PayableAmountZeroForMCCSale As Boolean = False
     Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = False
+    Dim AreaWiseBilling As Boolean = False
     Dim IsRoundOffPaiseAmount As Boolean
     Dim settingShowFATSNF As Boolean = False
     Dim SettShowMCCFinder As Boolean = False
@@ -164,6 +166,8 @@ Public Class FrmPaymentProcess
     Dim MultipleFinderFillAuto As Boolean = False
     Dim SettVSPHoldPaymentNotCompanyBank As Boolean = False
     Dim SetCowFatPer As Decimal = 0
+    'Dim AreaWiseBilling As Boolean = False
+
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -178,6 +182,8 @@ Public Class FrmPaymentProcess
         RadPageView1.Pages("RadPageViewPage7").Item.Visibility = IIf(isConsiderAdvancePayment, Telerik.WinControls.ElementVisibility.Visible, Telerik.WinControls.ElementVisibility.Collapsed)
         chkSkipPreviousDocumentOfAdvancePayment.Visible = isConsiderAdvancePayment
         RadPageView1.SelectedPage = RadPageViewPage1
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+
         Reset()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D To Delete ")
@@ -185,11 +191,15 @@ Public Class FrmPaymentProcess
         ButtonToolTip.SetToolTip(btnReset, "Press Alt+N For New")
         'ButtonToolTip.SetToolTip(btnProcess, "Press Alt+P to Post the Transaction")
         isPickPendingMilkSRNinNextPaymentCycle = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, Nothing)) = 1
-
         SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         txtMCC.Visible = SettShowMCCFinder
         lblMCC.Visible = SettShowMCCFinder
         lblMCC2.Visible = SettShowMCCFinder
+        'If chkArea.Visible = True AndAlso chkArea.Checked Then
+        '    fndArea.Enabled = True
+        'End If
+        fndArea.Visible = True
+
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         mfndMcc.Visible = False
         If MultipleFinderFillAuto Then
@@ -1706,6 +1716,7 @@ left outer join TSPL_MP_MASTER mp on mp.MP_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD
 where ((TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0) or (TSPL_VENDOR_INVOICE_HEAD.Balance_Amt=0 and TSPL_VENDOR_INVOICE_HEAD.Posting_Date='" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "' ) ) and TSPL_VENDOR_INVOICE_HEAD.document_type='I' and TSPL_VENDOR_INVOICE_HEAD.Invoice_Type='AP' and TSPL_VENDOR_INVOICE_HEAD.REFDocType='MI-PI' and ISNULL(TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No,'')<>''   
 and not exists(select 1 from TSPL_PAYMENT_PROCESS_INVOICE  where TSPL_PAYMENT_PROCESS_INVOICE.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_INVOICE.Doc_No not in ('" + fndDocNo.Value + "')) 
 ) xxx where  1=1 "
+
             If clsCommon.myLen(fndLoc.Value) > 0 AndAlso MultipleFinderFillAuto = False Then
                 qry += " And MCC_Code in  (  select location_code from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & fndLoc.Value & "')"
             End If
@@ -3449,6 +3460,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         'btnDelete.Visible = False
         txtMCC.Text = ""
         lblMCC.Text = ""
+        fndArea.Value = ""
         txtPaymentCycleNo.Text = ""
         txtFiscalYear.Text = ""
         LoadBlankGridInvoice()
@@ -3841,6 +3853,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             obj.From_Date = clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy")
             obj.To_Date = clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy")
             obj.Loc_Seg_Code = clsCommon.myCstr(fndLoc.Value)
+            obj.Area_Location_Code = clsCommon.myCstr(fndArea.Value)
+
             obj.MCC_Code_Selected = txtMCC.Text
             ''richa agarwal 07-jan-2016
             If btnSave.Text = "Update" Then
@@ -4307,7 +4321,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 dtpDate.Value = obj.Doc_Date
                 txtNEFTUploaderREFNo.Text = obj.DocRefNoForUploader
                 txtNEFTUploaderREFNo.Tag = obj.PaymentDesc
-
+                fndArea.Value = obj.Area_Location_Code
                 txtMCC.Text = obj.MCC_Code_Selected
                 lblMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select MCC_Name from tspl_MCC_Master where mcc_code='" + obj.MCC_Code_Selected + "' "))
 
@@ -4334,334 +4348,334 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 Dim i As Integer = 0
 
                 If obj.dtClsPaymentProcessInvoices IsNot Nothing AndAlso obj.dtClsPaymentProcessInvoices.Rows.Count > 0 Then
-                        gvInvoice.DataSource = Nothing
-                        gvInvoice.AutoGenerateColumns = False
-                        gvInvoice.DataSource = obj.dtClsPaymentProcessInvoices
-                        'gvInvoice.Columns(colSlno).FieldName = "Item_Code"
-                        gvInvoice.Columns(colSelect).FieldName = "Sel"
-                        gvInvoice.Columns(colSlno).FieldName = "SLNO"
-                        gvInvoice.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
-                        gvInvoice.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
-                        gvInvoice.Columns(colPurchaseInvoiceNo).FieldName = "Milk_Purchase_Invoice_No"
-                        gvInvoice.Columns(colPurchaseInvoiceDate).FieldName = "Milk_Purchase_Invoice_Date"
-                        gvInvoice.Columns(colVLCCode).FieldName = "VLC_CODE"
-                        gvInvoice.Columns(colVLCName).FieldName = "VLC_Name"
-                        gvInvoice.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvInvoice.Columns(colMCCCode).FieldName = "MCC_Code"
-                        gvInvoice.Columns(colVendorCode).FieldName = "VSP_CODE"
-                        gvInvoice.Columns(colVendorDesc).FieldName = "VSP_NAME"
-                        gvInvoice.Columns(colPayeeJointName).FieldName = "Payee_Joint_Name"
-                        gvInvoice.Columns(colPayeeJointBankCode).FieldName = "Payee_Joint_Bank_Code"
-                        gvInvoice.Columns(colPayeeJointBankDesc).FieldName = "Payee_Joint_Bank_Name"
-                        gvInvoice.Columns(colPayeeJointBranchCode).FieldName = "Payee_Joint_Branch_Code"
-                        gvInvoice.Columns(colPayeeJointBranchDesc).FieldName = "Payee_Joint_Branch_Name"
-                        gvInvoice.Columns(colPayeeJointIFSC).FieldName = "Payee_Joint_IFSC_Code"
-                        gvInvoice.Columns(colPayeeJointAcNo).FieldName = "Payee_Joint_Ac_No"
-                        gvInvoice.Columns(colMilkQty).FieldName = "Milk_Qty"
-                        gvInvoice.Columns(colInvAmt).FieldName = "Inv_Amount"
-                        gvInvoice.Columns(colEmpAmt).FieldName = "Inv_EMP_Amount"
-                        gvInvoice.Columns(colInvAndEmpAmt).FieldName = "Inv_Amt_EMP_Amount"
-                        gvInvoice.Columns(colIncenAmt).FieldName = "Inv_Incentive_Amount"
-                        gvInvoice.Columns(colIncenEmpAmt).FieldName = "Inv_Incentive_EMP_Amount"
-                        gvInvoice.Columns(colTDSAmt).FieldName = "TDS_Amount"
-                        gvInvoice.Columns(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).FieldName = "Gross_Amount"
-                        gvInvoice.Columns(colVSPOwnSystemAmt).FieldName = "Vsp_Own_System_Amount"
-                        'gvInvoice.Columns(colVSPOwnSystemAmt).Tag = "Vsp_Own_System_Doc_No" ''BSP Pending
-                        gvInvoice.Columns(colHeadLoadAmt).FieldName = "Head_Load_Amount"
-                        gvInvoice.Columns(colHeadLoadAmt).Tag = "Head_Load_Doc_No"
-                        gvInvoice.Columns(colInvDeduc).FieldName = "Deduction_Amount"
-                        'gvInvoice.Columns(colInvDeduc).Tag = "Deduction_Doc_No"  ''BSP Pending
-                        gvInvoice.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
-                        gvInvoice.Columns(colBankCode).FieldName = "Bank_Code"
-                        gvInvoice.Columns(colBankDesc).FieldName = "Bank_Desc"
-                        gvInvoice.Columns(colPayMode).FieldName = "Payment_Mode"
-                        gvInvoice.Columns(colChequeNo).FieldName = "Cheque_No"
-                        gvInvoice.Columns(colServiceChargeAmt).FieldName = "Service_Charge_Amt"
-                        gvInvoice.Columns(colActualVSPCode).FieldName = "ActualVSPCode"
-                        gvInvoice.Columns(colActualVSPName).FieldName = "ActualVSPName"
-                        gvInvoice.Columns(colHandlingCharges).FieldName = "Handling_Charges_Amount"
-                        gvInvoice.Columns(colSRNROAmt).FieldName = "SRN_RO_Amount"
-                        gvInvoice.Columns(colSRNNetAmount).FieldName = "SRN_Net_Amount"
-                        gvInvoice.Columns(colMPAmount).FieldName = "MP_Amount"
-                        gvInvoice.Columns(colMPEMPAmount).FieldName = "MP_EMP"
-                        gvInvoice.Columns(colMPIncentiveAmount).FieldName = "MP_Incentive"
-                        gvInvoice.Columns(colMPEMPIncentiveAmount).FieldName = "MP_IncentiveEMP"
-                        gvInvoice.Columns(colMPNetAmount).FieldName = "MP_Net_Amount"
-                        gvInvoice.Columns(colFATKG).FieldName = "FATKg"
-                        gvInvoice.Columns(colFATPer).FieldName = "FATPer"
-                        gvInvoice.Columns(colSNFKG).FieldName = "SNFKg"
-                        gvInvoice.Columns(colSNFPer).FieldName = "SNFPer"
-                    End If
+                    gvInvoice.DataSource = Nothing
+                    gvInvoice.AutoGenerateColumns = False
+                    gvInvoice.DataSource = obj.dtClsPaymentProcessInvoices
+                    'gvInvoice.Columns(colSlno).FieldName = "Item_Code"
+                    gvInvoice.Columns(colSelect).FieldName = "Sel"
+                    gvInvoice.Columns(colSlno).FieldName = "SLNO"
+                    gvInvoice.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
+                    gvInvoice.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
+                    gvInvoice.Columns(colPurchaseInvoiceNo).FieldName = "Milk_Purchase_Invoice_No"
+                    gvInvoice.Columns(colPurchaseInvoiceDate).FieldName = "Milk_Purchase_Invoice_Date"
+                    gvInvoice.Columns(colVLCCode).FieldName = "VLC_CODE"
+                    gvInvoice.Columns(colVLCName).FieldName = "VLC_Name"
+                    gvInvoice.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvInvoice.Columns(colMCCCode).FieldName = "MCC_Code"
+                    gvInvoice.Columns(colVendorCode).FieldName = "VSP_CODE"
+                    gvInvoice.Columns(colVendorDesc).FieldName = "VSP_NAME"
+                    gvInvoice.Columns(colPayeeJointName).FieldName = "Payee_Joint_Name"
+                    gvInvoice.Columns(colPayeeJointBankCode).FieldName = "Payee_Joint_Bank_Code"
+                    gvInvoice.Columns(colPayeeJointBankDesc).FieldName = "Payee_Joint_Bank_Name"
+                    gvInvoice.Columns(colPayeeJointBranchCode).FieldName = "Payee_Joint_Branch_Code"
+                    gvInvoice.Columns(colPayeeJointBranchDesc).FieldName = "Payee_Joint_Branch_Name"
+                    gvInvoice.Columns(colPayeeJointIFSC).FieldName = "Payee_Joint_IFSC_Code"
+                    gvInvoice.Columns(colPayeeJointAcNo).FieldName = "Payee_Joint_Ac_No"
+                    gvInvoice.Columns(colMilkQty).FieldName = "Milk_Qty"
+                    gvInvoice.Columns(colInvAmt).FieldName = "Inv_Amount"
+                    gvInvoice.Columns(colEmpAmt).FieldName = "Inv_EMP_Amount"
+                    gvInvoice.Columns(colInvAndEmpAmt).FieldName = "Inv_Amt_EMP_Amount"
+                    gvInvoice.Columns(colIncenAmt).FieldName = "Inv_Incentive_Amount"
+                    gvInvoice.Columns(colIncenEmpAmt).FieldName = "Inv_Incentive_EMP_Amount"
+                    gvInvoice.Columns(colTDSAmt).FieldName = "TDS_Amount"
+                    gvInvoice.Columns(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).FieldName = "Gross_Amount"
+                    gvInvoice.Columns(colVSPOwnSystemAmt).FieldName = "Vsp_Own_System_Amount"
+                    'gvInvoice.Columns(colVSPOwnSystemAmt).Tag = "Vsp_Own_System_Doc_No" ''BSP Pending
+                    gvInvoice.Columns(colHeadLoadAmt).FieldName = "Head_Load_Amount"
+                    gvInvoice.Columns(colHeadLoadAmt).Tag = "Head_Load_Doc_No"
+                    gvInvoice.Columns(colInvDeduc).FieldName = "Deduction_Amount"
+                    'gvInvoice.Columns(colInvDeduc).Tag = "Deduction_Doc_No"  ''BSP Pending
+                    gvInvoice.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
+                    gvInvoice.Columns(colBankCode).FieldName = "Bank_Code"
+                    gvInvoice.Columns(colBankDesc).FieldName = "Bank_Desc"
+                    gvInvoice.Columns(colPayMode).FieldName = "Payment_Mode"
+                    gvInvoice.Columns(colChequeNo).FieldName = "Cheque_No"
+                    gvInvoice.Columns(colServiceChargeAmt).FieldName = "Service_Charge_Amt"
+                    gvInvoice.Columns(colActualVSPCode).FieldName = "ActualVSPCode"
+                    gvInvoice.Columns(colActualVSPName).FieldName = "ActualVSPName"
+                    gvInvoice.Columns(colHandlingCharges).FieldName = "Handling_Charges_Amount"
+                    gvInvoice.Columns(colSRNROAmt).FieldName = "SRN_RO_Amount"
+                    gvInvoice.Columns(colSRNNetAmount).FieldName = "SRN_Net_Amount"
+                    gvInvoice.Columns(colMPAmount).FieldName = "MP_Amount"
+                    gvInvoice.Columns(colMPEMPAmount).FieldName = "MP_EMP"
+                    gvInvoice.Columns(colMPIncentiveAmount).FieldName = "MP_Incentive"
+                    gvInvoice.Columns(colMPEMPIncentiveAmount).FieldName = "MP_IncentiveEMP"
+                    gvInvoice.Columns(colMPNetAmount).FieldName = "MP_Net_Amount"
+                    gvInvoice.Columns(colFATKG).FieldName = "FATKg"
+                    gvInvoice.Columns(colFATPer).FieldName = "FATPer"
+                    gvInvoice.Columns(colSNFKG).FieldName = "SNFKg"
+                    gvInvoice.Columns(colSNFPer).FieldName = "SNFPer"
+                End If
 
-                    If obj.dtClsPaymentProcessMccSale IsNot Nothing AndAlso obj.dtClsPaymentProcessMccSale.Rows.Count > 0 Then
-                        gvMccSale.DataSource = Nothing
-                        gvMccSale.AutoGenerateColumns = False
-                        gvMccSale.DataSource = obj.dtClsPaymentProcessMccSale
+                If obj.dtClsPaymentProcessMccSale IsNot Nothing AndAlso obj.dtClsPaymentProcessMccSale.Rows.Count > 0 Then
+                    gvMccSale.DataSource = Nothing
+                    gvMccSale.AutoGenerateColumns = False
+                    gvMccSale.DataSource = obj.dtClsPaymentProcessMccSale
 
-                        gvMccSale.Columns(colSlno).FieldName = "SLNO"
-                        gvMccSale.Columns(colSelect).FieldName = "Sel"
-                        gvMccSale.Columns(colShipmentNo).FieldName = "Shipment_Doc_No"
-                        gvMccSale.Columns(colShipmentDate).FieldName = "Shipment_Doc_Date"
-                        gvMccSale.Columns(colSaleInvNo).FieldName = "Sale_Doc_No"
-                        gvMccSale.Columns(colSaleInvDate).FieldName = "Sale_Doc_Date"
-                        gvMccSale.Columns(colARInvoiceNo).FieldName = "AR_Invoice_No"
-                        gvMccSale.Columns(colARInvoiceDate).FieldName = "AR_Invoice_Date"
-                        gvMccSale.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvMccSale.Columns(colCustomerCode).FieldName = "Customer_CODE"
-                        gvMccSale.Columns(colCustomerName).FieldName = "Customer_NAME"
-                        gvMccSale.Columns(colItemAmt).FieldName = "Amount"
-                        gvMccSale.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
-                        gvMccSale.Columns(colOrgBalanceAmt).FieldName = "Original_Balance_Amount"
-                        gvMccSale.Columns(colInstallmentAmt).FieldName = "Instalment_Amt"
-                    End If
+                    gvMccSale.Columns(colSlno).FieldName = "SLNO"
+                    gvMccSale.Columns(colSelect).FieldName = "Sel"
+                    gvMccSale.Columns(colShipmentNo).FieldName = "Shipment_Doc_No"
+                    gvMccSale.Columns(colShipmentDate).FieldName = "Shipment_Doc_Date"
+                    gvMccSale.Columns(colSaleInvNo).FieldName = "Sale_Doc_No"
+                    gvMccSale.Columns(colSaleInvDate).FieldName = "Sale_Doc_Date"
+                    gvMccSale.Columns(colARInvoiceNo).FieldName = "AR_Invoice_No"
+                    gvMccSale.Columns(colARInvoiceDate).FieldName = "AR_Invoice_Date"
+                    gvMccSale.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvMccSale.Columns(colCustomerCode).FieldName = "Customer_CODE"
+                    gvMccSale.Columns(colCustomerName).FieldName = "Customer_NAME"
+                    gvMccSale.Columns(colItemAmt).FieldName = "Amount"
+                    gvMccSale.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
+                    gvMccSale.Columns(colOrgBalanceAmt).FieldName = "Original_Balance_Amount"
+                    gvMccSale.Columns(colInstallmentAmt).FieldName = "Instalment_Amt"
+                End If
 
-                    If obj.dtClsPaymentProcessItemIssue IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssue.Rows.Count > 0 Then
-                        gvItemIssue.DataSource = Nothing
-                        gvItemIssue.AutoGenerateColumns = False
-                        gvItemIssue.DataSource = obj.dtClsPaymentProcessItemIssue
+                If obj.dtClsPaymentProcessItemIssue IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssue.Rows.Count > 0 Then
+                    gvItemIssue.DataSource = Nothing
+                    gvItemIssue.AutoGenerateColumns = False
+                    gvItemIssue.DataSource = obj.dtClsPaymentProcessItemIssue
 
-                        gvItemIssue.Columns(colSlno).FieldName = "SLNO"
-                        gvItemIssue.Columns(colSelect).FieldName = "Sel"
-                        gvItemIssue.Columns(colVspItemIssueNo).FieldName = "Item_Issue_Doc_No"
-                        gvItemIssue.Columns(colVspItemIssueDate).FieldName = "Item_Issue_Doc_Date"
-                        gvItemIssue.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
-                        gvItemIssue.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
-                        gvItemIssue.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvItemIssue.Columns(colVendorCode).FieldName = "Vendor_CODE"
-                        gvItemIssue.Columns(colVendorDesc).FieldName = "Vendor_NAME"
-                        gvItemIssue.Columns(colItemAmt).FieldName = "Amount"
-                        gvItemIssue.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
-                    End If
+                    gvItemIssue.Columns(colSlno).FieldName = "SLNO"
+                    gvItemIssue.Columns(colSelect).FieldName = "Sel"
+                    gvItemIssue.Columns(colVspItemIssueNo).FieldName = "Item_Issue_Doc_No"
+                    gvItemIssue.Columns(colVspItemIssueDate).FieldName = "Item_Issue_Doc_Date"
+                    gvItemIssue.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
+                    gvItemIssue.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
+                    gvItemIssue.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvItemIssue.Columns(colVendorCode).FieldName = "Vendor_CODE"
+                    gvItemIssue.Columns(colVendorDesc).FieldName = "Vendor_NAME"
+                    gvItemIssue.Columns(colItemAmt).FieldName = "Amount"
+                    gvItemIssue.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
+                End If
 
-                    If obj.dtClsPaymentProcessItemIssueReturn IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssueReturn.Rows.Count > 0 Then
-                        gvItemIssueReturn.DataSource = Nothing
-                        gvItemIssueReturn.AutoGenerateColumns = False
-                        gvItemIssueReturn.DataSource = obj.dtClsPaymentProcessItemIssueReturn
+                If obj.dtClsPaymentProcessItemIssueReturn IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssueReturn.Rows.Count > 0 Then
+                    gvItemIssueReturn.DataSource = Nothing
+                    gvItemIssueReturn.AutoGenerateColumns = False
+                    gvItemIssueReturn.DataSource = obj.dtClsPaymentProcessItemIssueReturn
 
-                        gvItemIssueReturn.Columns(colSlno).FieldName = "SLNO"
-                        gvItemIssueReturn.Columns(colSelect).FieldName = "Sel"
-                        gvItemIssueReturn.Columns(colVspItemIssueReturnNo).FieldName = "Item_Issue_Return_No"
-                        gvItemIssueReturn.Columns(colVspItemIssueNo).FieldName = "Item_Issue_Doc_No"
-                        gvItemIssueReturn.Columns(colVspItemIssueDate).FieldName = "Item_Issue_Return_Date"
-                        gvItemIssueReturn.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
-                        gvItemIssueReturn.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
-                        gvItemIssueReturn.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvItemIssueReturn.Columns(colVendorCode).FieldName = "Vendor_CODE"
-                        gvItemIssueReturn.Columns(colVendorDesc).FieldName = "Vendor_NAME"
-                        gvItemIssueReturn.Columns(colItemAmt).FieldName = "Amount"
-                    End If
-                    If obj.dtClsPaymentProcessDeductions IsNot Nothing AndAlso obj.dtClsPaymentProcessDeductions.Rows.Count > 0 Then
-                        gvDeduction.DataSource = Nothing
-                        gvDeduction.AutoGenerateColumns = False
-                        gvDeduction.DataSource = obj.dtClsPaymentProcessDeductions
-
-
-                        gvDeduction.Columns(colSlno).FieldName = "SLNO"
-                        gvDeduction.Columns(colSelect).FieldName = "Sel"
-                        gvDeduction.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
-                        gvDeduction.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
-                        gvDeduction.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvDeduction.Columns(colVendorCode).FieldName = "Vendor_CODE"
-                        gvDeduction.Columns(colVendorDesc).FieldName = "Vendor_NAME"
-                        gvDeduction.Columns(colDeductionCode).FieldName = "Ded_Code"
-                        gvDeduction.Columns(colDeductionDesc).FieldName = "Ded_Desc"
-                        gvDeduction.Columns(colItemAmt).FieldName = "Amount"
-                        gvDeduction.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
-
-                    End If
-                    If obj.dtClsPaymentProcessCreditNote IsNot Nothing AndAlso obj.dtClsPaymentProcessCreditNote.Rows.Count > 0 Then
-                        gvCreditNote.DataSource = Nothing
-                        gvCreditNote.AutoGenerateColumns = False
-                        gvCreditNote.DataSource = obj.dtClsPaymentProcessCreditNote
-
-                        gvCreditNote.Columns(colSlno).FieldName = "SLNO"
-                        gvCreditNote.Columns(colSelect).FieldName = "Sel"
-                        gvCreditNote.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
-                        gvCreditNote.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
-                        gvCreditNote.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvCreditNote.Columns(colVendorCode).FieldName = "Vendor_CODE"
-                        gvCreditNote.Columns(colVendorDesc).FieldName = "Vendor_NAME"
-                        gvCreditNote.Columns(colTDSAmt).FieldName = "TDS_Amount"
-                        gvCreditNote.Columns(colItemAmt).FieldName = "Amount"
-
-                    End If
-                    If obj.dtclsPaymentProcessSaving IsNot Nothing AndAlso obj.dtclsPaymentProcessSaving.Rows.Count > 0 Then
-                        gvSaving.DataSource = Nothing
-                        gvSaving.AutoGenerateColumns = False
-                        gvSaving.DataSource = obj.dtclsPaymentProcessSaving
-
-                        gvSaving.Columns(colSlno).FieldName = "SLNO"
-                        gvSaving.Columns(colSelect).FieldName = "Sel"
-                        gvSaving.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
-                        gvSaving.Columns(colAPInvoiceDate).FieldName = "Posting_Date"
-                        gvSaving.Columns(colAPInvoiceType).FieldName = "Document_Type"
-                        gvSaving.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvSaving.Columns(colVendorCode).FieldName = "Vendor_Code"
-                        gvSaving.Columns(colVendorDesc).FieldName = "Vendor_Name"
-                        gvSaving.Columns(colItemAmt).FieldName = "Document_Total"
-
-                    End If
-                    If obj.dtclsPaymentProcessCompulsory IsNot Nothing AndAlso obj.dtclsPaymentProcessCompulsory.Rows.Count > 0 Then
-                        gvCompulsory.DataSource = Nothing
-                        gvCompulsory.AutoGenerateColumns = False
-                        gvCompulsory.DataSource = obj.dtclsPaymentProcessCompulsory
-
-                        gvCompulsory.Columns(colSlno).FieldName = "SLNO"
-                        gvCompulsory.Columns(colSelect).FieldName = "Sel"
-                        gvCompulsory.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
-                        gvCompulsory.Columns(colAPInvoiceDate).FieldName = "Posting_Date"
-                        gvCompulsory.Columns(colAPInvoiceType).FieldName = "Document_Type"
-                        gvCompulsory.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvCompulsory.Columns(colVendorCode).FieldName = "Vendor_Code"
-                        gvCompulsory.Columns(colVendorDesc).FieldName = "Vendor_Name"
-                        gvCompulsory.Columns(colItemAmt).FieldName = "Document_Total"
-
-                    End If
-                    If obj.dtClsPaymentProcessMccSaleReturn IsNot Nothing AndAlso obj.dtClsPaymentProcessMccSaleReturn.Rows.Count > 0 Then
-                        GvMccSaleReturn.DataSource = Nothing
-                        GvMccSaleReturn.AutoGenerateColumns = False
-                        GvMccSaleReturn.DataSource = obj.dtClsPaymentProcessMccSaleReturn
-
-                        GvMccSaleReturn.Columns(colSlno).FieldName = "SLNO"
-                        GvMccSaleReturn.Columns(colSelect).FieldName = "Sel"
-                        GvMccSaleReturn.Columns(colReturnDocNo).FieldName = "Return_Doc_No"
-                        GvMccSaleReturn.Columns(colReturnDocType).FieldName = "Return_Doc_Type"
-                        GvMccSaleReturn.Columns(colReturnDocDate).FieldName = "Return_Doc_Date"
-                        GvMccSaleReturn.Columns(colShipmentNo).FieldName = "Shipment_Doc_No"
-                        GvMccSaleReturn.Columns(colShipmentDate).FieldName = "Shipment_Doc_Date"
-                        GvMccSaleReturn.Columns(colSaleInvNo).FieldName = "Sale_Doc_No"
-                        GvMccSaleReturn.Columns(colSaleInvDate).FieldName = "Sale_Doc_Date"
-                        GvMccSaleReturn.Columns(colARInvoiceNo).FieldName = "AR_Invoice_No"
-                        GvMccSaleReturn.Columns(colARInvoiceDate).FieldName = "AR_Invoice_Date"
-                        GvMccSaleReturn.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        GvMccSaleReturn.Columns(colCustomerCode).FieldName = "Customer_CODE"
-                        GvMccSaleReturn.Columns(colCustomerName).FieldName = "Customer_NAME"
-                        GvMccSaleReturn.Columns(colItemAmt).FieldName = "Amount"
-                    End If
-                    If obj.dtPPAdvancePayment IsNot Nothing AndAlso obj.dtPPAdvancePayment.Rows.Count > 0 Then
-                        gvAdvancePayment.DataSource = Nothing
-                        gvAdvancePayment.AutoGenerateColumns = False
-                        gvAdvancePayment.DataSource = obj.dtPPAdvancePayment
-                        gvAdvancePayment.Columns(colAPSNo).FieldName = "SNo"
-                        gvAdvancePayment.Columns(colAPSelect).FieldName = "Sel"
-                        gvAdvancePayment.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvAdvancePayment.Columns(colAPVendorCode).FieldName = "Vendor_Code"
-                        gvAdvancePayment.Columns(colAPVendorName).FieldName = "Vendor_Name"
-                        gvAdvancePayment.Columns(colAPPaymentCode).FieldName = "Payment_No"
-                        gvAdvancePayment.Columns(colAPPaymentDate).FieldName = "Payment_Date"
-                        gvAdvancePayment.Columns(colAPPaymentAmt).FieldName = "Payment_Amount"
-                        gvAdvancePayment.Columns(colAPInstallmentAmt).FieldName = "Installment_Amount"
-                        gvAdvancePayment.Columns(colAPPaymentAmtBalance).FieldName = "Payment_Balance"
-                        gvAdvancePayment.Columns(colAPNoOfInstallment).FieldName = "No_Of_EMI"
-                    End If
-                    If obj.dtPPAssetLost IsNot Nothing AndAlso obj.dtPPAssetLost.Rows.Count > 0 Then
-                        gvAssetLost.DataSource = Nothing
-                        gvAssetLost.AutoGenerateColumns = False
-                        gvAssetLost.DataSource = obj.dtPPAssetLost
-
-                        gvAssetLost.Columns(colALSNo).FieldName = "SNo"
-                        gvAssetLost.Columns(colALSelect).FieldName = "Sel"
-                        gvAssetLost.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
-                        gvAssetLost.Columns(colALVendorCode).FieldName = "Vendor_Code"
-                        gvAssetLost.Columns(colALVendorName).FieldName = "Vendor_Name"
-                        gvAssetLost.Columns(colALPaymentCode).FieldName = "Payment_No"
-                        gvAssetLost.Columns(colALPaymentDate).FieldName = "Payment_Date"
-                        gvAssetLost.Columns(colALPaymentAmt).FieldName = "Payment_Amount"
-
-                    End If
-
-                    LoadBlankGridGV()
-                    If obj.dtPPDetail IsNot Nothing AndAlso obj.dtPPDetail.Rows.Count > 0 Then
-                        gv.DataSource = Nothing
-                        gv.AutoGenerateColumns = False
-                        gv.DataSource = obj.dtPPDetail
-                        gv.Columns(colSelect).FieldName = "Is_select"
-                        gv.Columns(colSlno).FieldName = "SNo"
-                        gv.Columns(colIsPaymentProcessHold).FieldName = "is_Hold_Payment_Process"
-                        gv.Columns(colPurchaseInvoiceNo).FieldName = "Milk_Purchase_Invoice_No"
-                        gv.Columns(colPurchaseInvoiceDate).FieldName = "Milk_Purchase_Invoice_Date"
-                        gv.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
-                        gv.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
-                        gv.Columns(colVLCUploaderCode).FieldName = "VLC_CODE_Uploader"
-                        gv.Columns(colVLCName).FieldName = "VLC_Name"
-                        gv.Columns(colMCCCode).FieldName = "MCC_Code"
-                        gv.Columns(colVendorCode).FieldName = "VSP_CODE"
-                        gv.Columns(colVendorDesc).FieldName = "VSP_NAME"
-                        gv.Columns(colActualVSPCode).FieldName = "Main_VSP_CODE"
-                        gv.Columns(colActualVSPName).FieldName = "Main_VSP_NAME"
-                        gv.Columns(colPayeeJointName).FieldName = "Payee_Joint_Name"
-                        gv.Columns(colPayeeJointBankCode).FieldName = "Payee_Joint_Bank_Code"
-                        gv.Columns(colPayeeJointBankDesc).FieldName = "Payee_Joint_Bank_Name"
-                        gv.Columns(colPayeeJointBranchCode).FieldName = "Payee_Joint_Branch_Code"
-                        gv.Columns(colPayeeJointBranchDesc).FieldName = "Payee_Joint_Branch_Name"
-                        gv.Columns(colPayeeJointAcNo).FieldName = "Payee_Joint_Account_No"
-                        gv.Columns(colPayeeJointIFSC).FieldName = "Payee_Joint_IFSC_Code"
-                        gv.Columns(colBankCode).FieldName = "Bank_Code"
-                        gv.Columns(colBankDesc).FieldName = "Bank_Desc"
-                        gv.Columns(colPayMode).FieldName = "Payment_Mode"
-                        gv.Columns(colChequeNo).FieldName = "Cheque_No"
-                        gv.Columns(colChequeDate).FieldName = "Cheque_Dated"
-                        gv.Columns(colMilkQty).FieldName = "Milk_Qty"
-                        gv.Columns(colVSPAmount).FieldName = "VSP_Amount"
-                        gv.Columns(colHandlingCharges).FieldName = "Handling_Charges_Amount"
-                        gv.Columns(colSRNROAmt).FieldName = "SRN_RO_Amount"
-                        gv.Columns(colSRNNetAmount).FieldName = "SRN_Net_Amount"
-                        gv.Columns(colMPAmount).FieldName = "MP_Amount"
-                        gv.Columns(colMPEMPAmount).FieldName = "MP_EMP"
-                        gv.Columns(colMPIncentiveAmount).FieldName = "MP_Incentive"
-                        gv.Columns(colMPEMPIncentiveAmount).FieldName = "MP_IncentiveEMP"
-                        gv.Columns(colMPNetAmount).FieldName = "MP_Net_Amount"
-                        gv.Columns(colMPVSPDiffAmount).FieldName = "MP_VSP_Diff_Amount"
-                        gv.Columns(colIncenAmt).FieldName = "Incentive_Amount"
-                        gv.Columns(colEmpAmt).FieldName = "EMP_Amount"
-                        gv.Columns(colIncenEmpAmt).FieldName = "Incentive_EMP_Amount"
-                        gv.Columns(colTotalEmp).FieldName = "Total_EMP_Amount"
-                        gv.Columns(colInvAmt).FieldName = "Milk_Amount"
-                        gv.Columns(colInvAndEmpAmt).FieldName = "Incentive_EMP_Amount"
-                        gv.Columns(colInvAndEmpAmt).FieldName = "Total"
-                        gv.Columns(colTDSAmt).FieldName = "TDS_Amount"
-                        gv.Columns(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).FieldName = "Total_Invoice_Amount"
-                        gv.Columns(colVSPOwnSystemAmt).FieldName = "Vsp_Own_System_Amount"
-                        gv.Columns(colHeadLoadAmt).FieldName = "Head_Load_Amount"
-                        gv.Columns(colInvDeduc).FieldName = "Invoice_Deduction_Amount"
-                        gv.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
-                        gv.Columns(colMccSaleTotalAmount).FieldName = "MCC_Sale_Amount"
-                        gv.Columns(colMccSaleReturnTotalAmount).FieldName = "MCC_Sale_Return_Amount"
-                        gv.Columns(colItemIssueTotalAmount).FieldName = "Item_Issue_Amount"
-                        gv.Columns(colItemIssueReturnTotalAmount).FieldName = "Item_Issue_Return_Amount"
-                        gv.Columns(colDeductionTotalAmount).FieldName = "Deduction_Amount"
-                        gv.Columns(colAssetLostAmount).FieldName = "Asset_Lost_Amount"
-                        gv.Columns(colTotalCreditNoteAmount).FieldName = "Credit_Note_Amount"
-                        gv.Columns(colTotalCompulsoryAmount).FieldName = "Compulsory_Amount"
-                        gv.Columns(colPaybleAmt).FieldName = "Payable_Amount"
-                        gv.Columns(colServiceChargeAmt).FieldName = "Service_Charge_Amt"
-                        gv.Columns(colAdvanceAmount).FieldName = "Advance_Payment_Amount"
-                        gv.Columns(colAdvanceKnockOffAmount).FieldName = "Advance_Payment_Amount_Knock_Off"
-                        gv.Columns(colFATPer).FieldName = "FATPer"
-                        gv.Columns(colFATKG).FieldName = "FATKg"
-                        gv.Columns(colSNFPer).FieldName = "SNFPer"
-                        gv.Columns(colSNFKG).FieldName = "SNFKg"
-
-                        Dim arr As New ArrayList()
-                        Dim arrMcc As New ArrayList()
-                        For i = 0 To gv.Rows.Count - 1
-                            If Not arr.Contains(clsCommon.myCstr(gv.Rows(i).Cells(colVendorCode).Value)) Then
-                                arr.Add(clsCommon.myCstr(gv.Rows(i).Cells(colVendorCode).Value))
-                            End If
-                            If Not arrMcc.Contains(clsCommon.myCstr(gv.Rows(i).Cells(colMCCCode).Value)) Then
-                                arrMcc.Add(clsCommon.myCstr(gv.Rows(i).Cells(colMCCCode).Value))
-                            End If
-                        Next
-                        txtVSP.arrValueMember = arr
-                        mfndMcc.arrValueMember = arrMcc
-                        AddSummary()
-                        ReStoreGridLayout()
-                    End If
+                    gvItemIssueReturn.Columns(colSlno).FieldName = "SLNO"
+                    gvItemIssueReturn.Columns(colSelect).FieldName = "Sel"
+                    gvItemIssueReturn.Columns(colVspItemIssueReturnNo).FieldName = "Item_Issue_Return_No"
+                    gvItemIssueReturn.Columns(colVspItemIssueNo).FieldName = "Item_Issue_Doc_No"
+                    gvItemIssueReturn.Columns(colVspItemIssueDate).FieldName = "Item_Issue_Return_Date"
+                    gvItemIssueReturn.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
+                    gvItemIssueReturn.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
+                    gvItemIssueReturn.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvItemIssueReturn.Columns(colVendorCode).FieldName = "Vendor_CODE"
+                    gvItemIssueReturn.Columns(colVendorDesc).FieldName = "Vendor_NAME"
+                    gvItemIssueReturn.Columns(colItemAmt).FieldName = "Amount"
+                End If
+                If obj.dtClsPaymentProcessDeductions IsNot Nothing AndAlso obj.dtClsPaymentProcessDeductions.Rows.Count > 0 Then
+                    gvDeduction.DataSource = Nothing
+                    gvDeduction.AutoGenerateColumns = False
+                    gvDeduction.DataSource = obj.dtClsPaymentProcessDeductions
 
 
+                    gvDeduction.Columns(colSlno).FieldName = "SLNO"
+                    gvDeduction.Columns(colSelect).FieldName = "Sel"
+                    gvDeduction.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
+                    gvDeduction.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
+                    gvDeduction.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvDeduction.Columns(colVendorCode).FieldName = "Vendor_CODE"
+                    gvDeduction.Columns(colVendorDesc).FieldName = "Vendor_NAME"
+                    gvDeduction.Columns(colDeductionCode).FieldName = "Ded_Code"
+                    gvDeduction.Columns(colDeductionDesc).FieldName = "Ded_Desc"
+                    gvDeduction.Columns(colItemAmt).FieldName = "Amount"
+                    gvDeduction.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
+
+                End If
+                If obj.dtClsPaymentProcessCreditNote IsNot Nothing AndAlso obj.dtClsPaymentProcessCreditNote.Rows.Count > 0 Then
+                    gvCreditNote.DataSource = Nothing
+                    gvCreditNote.AutoGenerateColumns = False
+                    gvCreditNote.DataSource = obj.dtClsPaymentProcessCreditNote
+
+                    gvCreditNote.Columns(colSlno).FieldName = "SLNO"
+                    gvCreditNote.Columns(colSelect).FieldName = "Sel"
+                    gvCreditNote.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
+                    gvCreditNote.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
+                    gvCreditNote.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvCreditNote.Columns(colVendorCode).FieldName = "Vendor_CODE"
+                    gvCreditNote.Columns(colVendorDesc).FieldName = "Vendor_NAME"
+                    gvCreditNote.Columns(colTDSAmt).FieldName = "TDS_Amount"
+                    gvCreditNote.Columns(colItemAmt).FieldName = "Amount"
+
+                End If
+                If obj.dtclsPaymentProcessSaving IsNot Nothing AndAlso obj.dtclsPaymentProcessSaving.Rows.Count > 0 Then
+                    gvSaving.DataSource = Nothing
+                    gvSaving.AutoGenerateColumns = False
+                    gvSaving.DataSource = obj.dtclsPaymentProcessSaving
+
+                    gvSaving.Columns(colSlno).FieldName = "SLNO"
+                    gvSaving.Columns(colSelect).FieldName = "Sel"
+                    gvSaving.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
+                    gvSaving.Columns(colAPInvoiceDate).FieldName = "Posting_Date"
+                    gvSaving.Columns(colAPInvoiceType).FieldName = "Document_Type"
+                    gvSaving.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvSaving.Columns(colVendorCode).FieldName = "Vendor_Code"
+                    gvSaving.Columns(colVendorDesc).FieldName = "Vendor_Name"
+                    gvSaving.Columns(colItemAmt).FieldName = "Document_Total"
+
+                End If
+                If obj.dtclsPaymentProcessCompulsory IsNot Nothing AndAlso obj.dtclsPaymentProcessCompulsory.Rows.Count > 0 Then
+                    gvCompulsory.DataSource = Nothing
+                    gvCompulsory.AutoGenerateColumns = False
+                    gvCompulsory.DataSource = obj.dtclsPaymentProcessCompulsory
+
+                    gvCompulsory.Columns(colSlno).FieldName = "SLNO"
+                    gvCompulsory.Columns(colSelect).FieldName = "Sel"
+                    gvCompulsory.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
+                    gvCompulsory.Columns(colAPInvoiceDate).FieldName = "Posting_Date"
+                    gvCompulsory.Columns(colAPInvoiceType).FieldName = "Document_Type"
+                    gvCompulsory.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvCompulsory.Columns(colVendorCode).FieldName = "Vendor_Code"
+                    gvCompulsory.Columns(colVendorDesc).FieldName = "Vendor_Name"
+                    gvCompulsory.Columns(colItemAmt).FieldName = "Document_Total"
+
+                End If
+                If obj.dtClsPaymentProcessMccSaleReturn IsNot Nothing AndAlso obj.dtClsPaymentProcessMccSaleReturn.Rows.Count > 0 Then
+                    GvMccSaleReturn.DataSource = Nothing
+                    GvMccSaleReturn.AutoGenerateColumns = False
+                    GvMccSaleReturn.DataSource = obj.dtClsPaymentProcessMccSaleReturn
+
+                    GvMccSaleReturn.Columns(colSlno).FieldName = "SLNO"
+                    GvMccSaleReturn.Columns(colSelect).FieldName = "Sel"
+                    GvMccSaleReturn.Columns(colReturnDocNo).FieldName = "Return_Doc_No"
+                    GvMccSaleReturn.Columns(colReturnDocType).FieldName = "Return_Doc_Type"
+                    GvMccSaleReturn.Columns(colReturnDocDate).FieldName = "Return_Doc_Date"
+                    GvMccSaleReturn.Columns(colShipmentNo).FieldName = "Shipment_Doc_No"
+                    GvMccSaleReturn.Columns(colShipmentDate).FieldName = "Shipment_Doc_Date"
+                    GvMccSaleReturn.Columns(colSaleInvNo).FieldName = "Sale_Doc_No"
+                    GvMccSaleReturn.Columns(colSaleInvDate).FieldName = "Sale_Doc_Date"
+                    GvMccSaleReturn.Columns(colARInvoiceNo).FieldName = "AR_Invoice_No"
+                    GvMccSaleReturn.Columns(colARInvoiceDate).FieldName = "AR_Invoice_Date"
+                    GvMccSaleReturn.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    GvMccSaleReturn.Columns(colCustomerCode).FieldName = "Customer_CODE"
+                    GvMccSaleReturn.Columns(colCustomerName).FieldName = "Customer_NAME"
+                    GvMccSaleReturn.Columns(colItemAmt).FieldName = "Amount"
+                End If
+                If obj.dtPPAdvancePayment IsNot Nothing AndAlso obj.dtPPAdvancePayment.Rows.Count > 0 Then
+                    gvAdvancePayment.DataSource = Nothing
+                    gvAdvancePayment.AutoGenerateColumns = False
+                    gvAdvancePayment.DataSource = obj.dtPPAdvancePayment
+                    gvAdvancePayment.Columns(colAPSNo).FieldName = "SNo"
+                    gvAdvancePayment.Columns(colAPSelect).FieldName = "Sel"
+                    gvAdvancePayment.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvAdvancePayment.Columns(colAPVendorCode).FieldName = "Vendor_Code"
+                    gvAdvancePayment.Columns(colAPVendorName).FieldName = "Vendor_Name"
+                    gvAdvancePayment.Columns(colAPPaymentCode).FieldName = "Payment_No"
+                    gvAdvancePayment.Columns(colAPPaymentDate).FieldName = "Payment_Date"
+                    gvAdvancePayment.Columns(colAPPaymentAmt).FieldName = "Payment_Amount"
+                    gvAdvancePayment.Columns(colAPInstallmentAmt).FieldName = "Installment_Amount"
+                    gvAdvancePayment.Columns(colAPPaymentAmtBalance).FieldName = "Payment_Balance"
+                    gvAdvancePayment.Columns(colAPNoOfInstallment).FieldName = "No_Of_EMI"
+                End If
+                If obj.dtPPAssetLost IsNot Nothing AndAlso obj.dtPPAssetLost.Rows.Count > 0 Then
+                    gvAssetLost.DataSource = Nothing
+                    gvAssetLost.AutoGenerateColumns = False
+                    gvAssetLost.DataSource = obj.dtPPAssetLost
+
+                    gvAssetLost.Columns(colALSNo).FieldName = "SNo"
+                    gvAssetLost.Columns(colALSelect).FieldName = "Sel"
+                    gvAssetLost.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+                    gvAssetLost.Columns(colALVendorCode).FieldName = "Vendor_Code"
+                    gvAssetLost.Columns(colALVendorName).FieldName = "Vendor_Name"
+                    gvAssetLost.Columns(colALPaymentCode).FieldName = "Payment_No"
+                    gvAssetLost.Columns(colALPaymentDate).FieldName = "Payment_Date"
+                    gvAssetLost.Columns(colALPaymentAmt).FieldName = "Payment_Amount"
+
+                End If
+
+                LoadBlankGridGV()
+                If obj.dtPPDetail IsNot Nothing AndAlso obj.dtPPDetail.Rows.Count > 0 Then
+                    gv.DataSource = Nothing
+                    gv.AutoGenerateColumns = False
+                    gv.DataSource = obj.dtPPDetail
+                    gv.Columns(colSelect).FieldName = "Is_select"
+                    gv.Columns(colSlno).FieldName = "SNo"
+                    gv.Columns(colIsPaymentProcessHold).FieldName = "is_Hold_Payment_Process"
+                    gv.Columns(colPurchaseInvoiceNo).FieldName = "Milk_Purchase_Invoice_No"
+                    gv.Columns(colPurchaseInvoiceDate).FieldName = "Milk_Purchase_Invoice_Date"
+                    gv.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
+                    gv.Columns(colAPInvoiceDate).FieldName = "AP_Invoice_Date"
+                    gv.Columns(colVLCUploaderCode).FieldName = "VLC_CODE_Uploader"
+                    gv.Columns(colVLCName).FieldName = "VLC_Name"
+                    gv.Columns(colMCCCode).FieldName = "MCC_Code"
+                    gv.Columns(colVendorCode).FieldName = "VSP_CODE"
+                    gv.Columns(colVendorDesc).FieldName = "VSP_NAME"
+                    gv.Columns(colActualVSPCode).FieldName = "Main_VSP_CODE"
+                    gv.Columns(colActualVSPName).FieldName = "Main_VSP_NAME"
+                    gv.Columns(colPayeeJointName).FieldName = "Payee_Joint_Name"
+                    gv.Columns(colPayeeJointBankCode).FieldName = "Payee_Joint_Bank_Code"
+                    gv.Columns(colPayeeJointBankDesc).FieldName = "Payee_Joint_Bank_Name"
+                    gv.Columns(colPayeeJointBranchCode).FieldName = "Payee_Joint_Branch_Code"
+                    gv.Columns(colPayeeJointBranchDesc).FieldName = "Payee_Joint_Branch_Name"
+                    gv.Columns(colPayeeJointAcNo).FieldName = "Payee_Joint_Account_No"
+                    gv.Columns(colPayeeJointIFSC).FieldName = "Payee_Joint_IFSC_Code"
+                    gv.Columns(colBankCode).FieldName = "Bank_Code"
+                    gv.Columns(colBankDesc).FieldName = "Bank_Desc"
+                    gv.Columns(colPayMode).FieldName = "Payment_Mode"
+                    gv.Columns(colChequeNo).FieldName = "Cheque_No"
+                    gv.Columns(colChequeDate).FieldName = "Cheque_Dated"
+                    gv.Columns(colMilkQty).FieldName = "Milk_Qty"
+                    gv.Columns(colVSPAmount).FieldName = "VSP_Amount"
+                    gv.Columns(colHandlingCharges).FieldName = "Handling_Charges_Amount"
+                    gv.Columns(colSRNROAmt).FieldName = "SRN_RO_Amount"
+                    gv.Columns(colSRNNetAmount).FieldName = "SRN_Net_Amount"
+                    gv.Columns(colMPAmount).FieldName = "MP_Amount"
+                    gv.Columns(colMPEMPAmount).FieldName = "MP_EMP"
+                    gv.Columns(colMPIncentiveAmount).FieldName = "MP_Incentive"
+                    gv.Columns(colMPEMPIncentiveAmount).FieldName = "MP_IncentiveEMP"
+                    gv.Columns(colMPNetAmount).FieldName = "MP_Net_Amount"
+                    gv.Columns(colMPVSPDiffAmount).FieldName = "MP_VSP_Diff_Amount"
+                    gv.Columns(colIncenAmt).FieldName = "Incentive_Amount"
+                    gv.Columns(colEmpAmt).FieldName = "EMP_Amount"
+                    gv.Columns(colIncenEmpAmt).FieldName = "Incentive_EMP_Amount"
+                    gv.Columns(colTotalEmp).FieldName = "Total_EMP_Amount"
+                    gv.Columns(colInvAmt).FieldName = "Milk_Amount"
+                    gv.Columns(colInvAndEmpAmt).FieldName = "Incentive_EMP_Amount"
+                    gv.Columns(colInvAndEmpAmt).FieldName = "Total"
+                    gv.Columns(colTDSAmt).FieldName = "TDS_Amount"
+                    gv.Columns(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).FieldName = "Total_Invoice_Amount"
+                    gv.Columns(colVSPOwnSystemAmt).FieldName = "Vsp_Own_System_Amount"
+                    gv.Columns(colHeadLoadAmt).FieldName = "Head_Load_Amount"
+                    gv.Columns(colInvDeduc).FieldName = "Invoice_Deduction_Amount"
+                    gv.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
+                    gv.Columns(colMccSaleTotalAmount).FieldName = "MCC_Sale_Amount"
+                    gv.Columns(colMccSaleReturnTotalAmount).FieldName = "MCC_Sale_Return_Amount"
+                    gv.Columns(colItemIssueTotalAmount).FieldName = "Item_Issue_Amount"
+                    gv.Columns(colItemIssueReturnTotalAmount).FieldName = "Item_Issue_Return_Amount"
+                    gv.Columns(colDeductionTotalAmount).FieldName = "Deduction_Amount"
+                    gv.Columns(colAssetLostAmount).FieldName = "Asset_Lost_Amount"
+                    gv.Columns(colTotalCreditNoteAmount).FieldName = "Credit_Note_Amount"
+                    gv.Columns(colTotalCompulsoryAmount).FieldName = "Compulsory_Amount"
+                    gv.Columns(colPaybleAmt).FieldName = "Payable_Amount"
+                    gv.Columns(colServiceChargeAmt).FieldName = "Service_Charge_Amt"
+                    gv.Columns(colAdvanceAmount).FieldName = "Advance_Payment_Amount"
+                    gv.Columns(colAdvanceKnockOffAmount).FieldName = "Advance_Payment_Amount_Knock_Off"
+                    gv.Columns(colFATPer).FieldName = "FATPer"
+                    gv.Columns(colFATKG).FieldName = "FATKg"
+                    gv.Columns(colSNFPer).FieldName = "SNFPer"
+                    gv.Columns(colSNFKG).FieldName = "SNFKg"
+
+                    Dim arr As New ArrayList()
+                    Dim arrMcc As New ArrayList()
+                    For i = 0 To gv.Rows.Count - 1
+                        If Not arr.Contains(clsCommon.myCstr(gv.Rows(i).Cells(colVendorCode).Value)) Then
+                            arr.Add(clsCommon.myCstr(gv.Rows(i).Cells(colVendorCode).Value))
+                        End If
+                        If Not arrMcc.Contains(clsCommon.myCstr(gv.Rows(i).Cells(colMCCCode).Value)) Then
+                            arrMcc.Add(clsCommon.myCstr(gv.Rows(i).Cells(colMCCCode).Value))
+                        End If
+                    Next
+                    txtVSP.arrValueMember = arr
+                    mfndMcc.arrValueMember = arrMcc
+                    AddSummary()
+                    ReStoreGridLayout()
+                End If
 
 
-                    If clsCommon.myLen(txtMCC.Text) > 0 Then
+
+
+                If clsCommon.myLen(txtMCC.Text) > 0 Then
                     txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtMCC.Text, dtpToDate.Value)
                     txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtMCC.Text, dtpToDate.Value)
                 Else
@@ -4807,6 +4821,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             GC.Collect()
             GC.WaitForPendingFinalizers()
             SaveData(True)
+            'AutoFillAllVSP()
             If clsCommon.MyMessageBoxShow("Continue to Process the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                 clsPaymentProcessHead.ProcessData(fndDocNo.Value, IIf(clsCommon.myLen(txtNEFTUploaderREFNo.Tag) > 0, txtNEFTUploaderREFNo.Tag, frm.desc))
                 clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
@@ -8259,22 +8274,37 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
             If mfndMcc.arrValueMember IsNot Nothing AndAlso mfndMcc.arrValueMember.Count <= 0 Then
                 Return
             End If
+            If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count <= 0 Then
+                Return
+            End If
 
             Dim qry As String = "select xx.VSP_CODE as Code,TSPL_VENDOR_MASTER.Vendor_Name as Name,xx.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name from (" + Environment.NewLine +
             " select VSP_CODE,max(VLC_CODE)as VLC_CODE from (" + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE from TSPL_MILK_SRN_Head left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_SRN_Head.MCC_CODE where TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") "
+            " select VSP_CODE,VLC_CODE from TSPL_MILK_SRN_Head  left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_MILK_SRN_Head.MCC_CODE
+              left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_SRN_Head.MCC_CODE where TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") AND tspl_mcc_master.Area_Location_Code='" & clsCommon.myCstr(fndArea.Value) & "' "
             If Not isPickPendingMilkSRNinNextPaymentCycle Then
                 qry += " and DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' "
             End If
             qry += " and DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
+            'qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+            '--varsha added--
+            '       qry += " union all " + Environment.NewLine +
+            '           "select  VSP_CODE,VLC_CODE as VLC_CODE 
+            '               from tspl_mcc_master 
+            'left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.VLC_CODE=tspl_mcc_master.MCC_Code
+            'left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in(" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ")"
+            '       qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
 
+            '--varsha end ---
 
             qry += " union all " + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE as VLC_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE where TSPL_MILK_REJECT_HEAD.Posted=1 and TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") "
+            " select VSP_CODE,VLC_CODE as VLC_CODE from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MILK_REJECT_HEAD.MCC_CODE  left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_MILK_REJECT_HEAD.mcc_code
+              where TSPL_MILK_REJECT_HEAD.Posted=1 and TSPL_LOCATION_MASTER.Location_code in (" & clsCommon.GetMulcallString(mfndMcc.arrValueMember) & ") AND tspl_mcc_master.Area_Location_Code='" & clsCommon.myCstr(fndArea.Value) & "'  "
             If Not isPickPendingMilkSRNinNextPaymentCycle Then
                 qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
             End If
             qry += " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine
+            qry += " And tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
 
             qry += " )xxx group by VSP_CODE 
              )xx 
@@ -8296,6 +8326,7 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
     End Sub
 
     Private Sub btnDCPrint_Click(sender As Object, e As EventArgs) Handles btnDCPrint.Click
+
         Try
             If clsCommon.myLen(fndDocNo.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Select document", Me.Text)
@@ -8360,5 +8391,19 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
         chkSkipPrevDeduction.Checked = chkAll.Checked
         chkSkipPreviousDocumentOfAdvancePayment.Checked = chkAll.Checked
         chkSkipPreviousDocumentOfAssetLost.Checked = chkAll.Checked
+    End Sub
+    'Private Sub chkArea_CheckedChanged(sender As Object, e As EventArgs) Handles chkArea.CheckedChanged
+    '    If chkArea.Checked Then
+    '        fndArea.Visible = True
+    '    End If
+    'End Sub
+
+    Private Sub fndArea__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER"
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
     End Sub
 End Class

@@ -197,7 +197,7 @@ Public Class clsMccMaster
     Public Failed_Sample_SNF As Decimal
     Public Loc_Segment_Code As String = Nothing
     Public Plant_Code As String = Nothing
-
+    Public Area_Location_Code As String = Nothing
     Public Commission_Rate As Decimal
     Public Commission_Minimum_Shift_In_Payment_Cycle As Integer
     Public Commission_Minimum_Qty_In_Shift As Integer
@@ -452,6 +452,7 @@ Public Class clsMccMaster
             End Select
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qst)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                obj.Area_Location_Code = clsCommon.myCstr(dt.Rows(0)("Area_Location_Code"))
                 obj.Plant_Code = clsCommon.myCstr(dt.Rows(0)("Plant_Code"))
                 obj.AllowAutoMilkIn = clsCommon.myCdbl(dt.Rows(0)("AllowAutoMilkIn"))
                 obj.IsDefault = (clsCommon.myCdbl(dt.Rows(0)("IsDefault")) = 1)
@@ -711,6 +712,7 @@ Public Class clsMccMaster
             End If
 
             Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Area_Location_Code", obj.Area_Location_Code)
             clsCommon.AddColumnsForChange(coll, "Plant_Code", obj.Plant_Code, True)
             clsCommon.AddColumnsForChange(coll, "AutoIn_Location", obj.AutoIn_Location)
             clsCommon.AddColumnsForChange(coll, "SILOIn_Location", obj.SILOIn_Location)

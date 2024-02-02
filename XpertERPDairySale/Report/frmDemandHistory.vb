@@ -12,9 +12,11 @@ Public Class frmDemandHistory
     Const colCustName As String = "colCustName"
     Const colShiftName As String = "colShiftName"
     Const colItemCode As String = "colItemCode"
+    Const colAmt As String = "colAmt"
     Const colHistBy As String = "colHistBy"
     Const colHistOn As String = "colHistOn"
     Const ReportID As String = "DemandHistoryGrid"
+
 #End Region
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmPurchaseHistory)
@@ -160,7 +162,13 @@ Public Class frmDemandHistory
                 gv1.MasterTemplate.Columns.Add(repoIName)
             Next
         End If
-
+        Dim repoAmt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoAmt.FormatString = ""
+        repoAmt.HeaderText = "Amount"
+        repoAmt.Name = colAmt
+        repoAmt.Width = 50
+        repoAmt.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoAmt)
         Dim repoHistBy As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoHistBy.FormatString = ""
         repoHistBy.HeaderText = "History By"
@@ -230,9 +238,9 @@ Public Class frmDemandHistory
                     End If
                 Next
                 view.ColumnGroups.Add(New GridViewColumnGroup(""))
-                view.ColumnGroups(12).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(12).Rows(0).ColumnNames.Add(gv1.Columns(colHistBy).Name)
-                view.ColumnGroups(12).Rows(0).ColumnNames.Add(gv1.Columns(colHistOn).Name)
+                view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colHistBy).Name)
+                view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colHistOn).Name)
 
                 gv1.ViewDefinition = view
 
@@ -241,161 +249,56 @@ Public Class frmDemandHistory
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
-    '    Private Sub fillGridReport(ByVal frmdate As Date, ByVal Shift As String, ByVal BoothCode As String)
-    '        Try
-    '            Dim StrQry As String = "select 
-    'TSPL_BOOKING_DETAIL_Hist_Data.Hist_Version as [History Version],
-    'TSPL_BOOKING_DETAIL_Hist_Data.Against_DemandBooking_No as [Demand No],
-    'TSPL_BOOKING_DETAIL_Hist_Data.Document_No as [Document No],
-    'TSPL_BOOKING_DETAIL_Hist_Data.route_no as [Route No],
-    'TSPL_BOOKING_DETAIL_Hist_Data.Amount_with_Tax as [Amount],
-    'TSPL_BOOKING_DETAIL_Hist_Data.Booking_Qty as [Qty],
-    'TSPL_BOOKING_DETAIL_Hist_Data.Hist_By as [History By],
-    'TSPL_BOOKING_DETAIL_Hist_Data.Hist_on as [History ON]
-    'from TSPL_BOOKING_MATSER_Hist_Data
-    'left join TSPL_BOOKING_DETAIL_Hist_Data on TSPL_BOOKING_MATSER_Hist_Data.Document_No=TSPL_BOOKING_DETAIL_Hist_Data.Document_No
-    'left join TSPL_ITEM_MASTER on TSPL_BOOKING_DETAIL_Hist_Data.Item_Code=TSPL_ITEM_MASTER.Item_Code where 2=2"
-    '            Dim whrcls As String = " and Convert(date,TSPL_BOOKING_DETAIL_Hist_Data.Hist_On,103) >=Convert(date,'" + clsCommon.GetPrintDate(frmdate) + "',103)
-    'and Convert(date,TSPL_BOOKING_DETAIL_Hist_Data.Hist_On,103) <=Convert(date,'" + clsCommon.GetPrintDate(frmdate) + "',103)
-    'and TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code='" + txtBooth.Value + "' "
-    '            If clsCommon.CompairString(Shift, "Morning") = CompairStringResult.Equal Then
-    '                whrcls += " And TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type='AM'"
-    '            ElseIf clsCommon.CompairString(Shift, "Evening") = CompairStringResult.Equal Then
-    '                whrcls += " And TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type='PM'"
-    '            End If
 
-    '            StrQry += whrcls
-
-    '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry)
-    '            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-    '                gv1.Visible = True
-    '                LoadBlankGrid()
-    '                gv1.BestFitColumns()
-    '                gv1.DataSource = dt
-    '                gv1.BestFitColumns()
-    '                gv1.ReadOnly = True
-    '                'gv1.Visible = False
-    '            Else
-    '                common.clsCommon.MyMessageBoxShow("No Data Found for this Booth  ")
-    '                gv1.DataSource = Nothing
-    '            End If
-    '        Catch ex As Exception
-    '            Throw New Exception(ex.Message)
-    '        End Try
-    '    End Sub
 
     Private Sub LoadGridData(ByVal frmdate As Date, ByVal Shift As String, ByVal BoothCode As String)
         Try
-            Dim StrQry As String = "select * from (SELECT distinct 0 as [History Version] , TSPL_DEMAND_BOOKING_DETAIL.Document_No as [Demand No] ,TSPL_BOOKING_MATSER.Document_No  as [Document No], TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],
-            tspl_item_master.Short_Description as [Item Name] , TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as [Amount] , TSPL_DEMAND_BOOKING_DETAIL.Qty as [Qty],TSPL_DEMAND_BOOKING_DETAIL.Unit_Code as [Unit Code],
-            TSPL_BOOKING_MATSER.Created_By as [History By], TSPL_BOOKING_MATSER.Created_Date as [History ON], TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  AS [Cust Code] ,TSPL_CUSTOMER_MASTER.Customer_Name,
-            TSPL_DEMAND_BOOKING_MASTER.ShiftType as ShiftType , tspl_item_master.Item_Code , tspl_item_master.Item_Desc
-            FROM TSPL_DEMAND_BOOKING_DETAIL
-            left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code
-            left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-            left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Against_DemandBooking_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
-			left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No = TSPL_BOOKING_MATSER.Document_No
-            where Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) =Convert(date,'" + clsCommon.GetPrintDate(frmdate) + "',103) 
-            and  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + txtBooth.Value + "'"
+            Dim lstobj As List(Of clsDemandHistoryMaster)
+            Dim shiftType As String = ""
             If clsCommon.CompairString(Shift, "Morning") = CompairStringResult.Equal Then
-                StrQry += " and TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning'"
+                shiftType = "AM"
             ElseIf clsCommon.CompairString(Shift, "Evening") = CompairStringResult.Equal Then
-                StrQry += "and TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening'"
+                shiftType = "PM"
             End If
-            StrQry += " ) abc where [Cust Code] = '" + txtBooth.Value + "'"
-            StrQry += " union all
-            Select distinct CONVERT(varchar, TSPL_BOOKING_DETAIL_Hist_Data.Hist_Version) as [History Version],TSPL_BOOKING_DETAIL_Hist_Data.Against_DemandBooking_No as [Demand No],TSPL_BOOKING_DETAIL_Hist_Data.Document_No as [Document No],
-            TSPL_BOOKING_DETAIL_Hist_Data.route_no as [Route No],TSPL_ITEM_MASTER.Short_Description as [Item Name],TSPL_BOOKING_DETAIL_Hist_Data.Amount_with_Tax as [Amount],TSPL_BOOKING_DETAIL_Hist_Data.Booking_Qty as [Qty],
-            TSPL_BOOKING_DETAIL_Hist_Data.Unit_code as [Unit Code],TSPL_BOOKING_DETAIL_Hist_Data.Hist_By as [History By],TSPL_BOOKING_DETAIL_Hist_Data.Hist_on as [History ON],TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code  AS [Cust Code],
-            TSPL_CUSTOMER_MASTER.Customer_Name,
-            case when TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type = 'AM' then 'Morning' else 'Evening' end  as ShiftType, tspl_item_master.Item_Code , tspl_item_master.Item_Desc  from TSPL_BOOKING_MATSER_Hist_Data
-            left join TSPL_BOOKING_DETAIL_Hist_Data on TSPL_BOOKING_MATSER_Hist_Data.Document_No=TSPL_BOOKING_DETAIL_Hist_Data.Document_No
-            left join TSPL_ITEM_MASTER on TSPL_BOOKING_DETAIL_Hist_Data.Item_Code=TSPL_ITEM_MASTER.Item_Code
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code
-            left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Against_DemandBooking_No = TSPL_BOOKING_MATSER_Hist_Data.Document_No
-			left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No = TSPL_BOOKING_MATSER.Document_No
-            where 2=2 and Convert(date,TSPL_BOOKING_DETAIL_Hist_Data.Hist_On,103) =Convert(date,'" + clsCommon.GetPrintDate(frmdate) + "',103)
-            and TSPL_BOOKING_DETAIL_Hist_Data.Cust_Code='" + txtBooth.Value + "'"
-
-            If clsCommon.CompairString(Shift, "Morning") = CompairStringResult.Equal Then
-                StrQry += " And TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type='AM'"
-            ElseIf clsCommon.CompairString(Shift, "Evening") = CompairStringResult.Equal Then
-                StrQry += " And TSPL_BOOKING_MATSER_Hist_Data.GatePass_Type='PM' "
-            End If
-            StrQry += " order by	[History Version], [Document No],Item_Code"
-
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry)
-            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            lstobj = clsDemandHistoryMaster.GetData(frmdate, shiftType, BoothCode, Nothing)
+            If (lstobj IsNot Nothing AndAlso lstobj.Count > 0) Then
                 gv1.Visible = True
                 LoadBlankGrid()
                 Dim dblrows As Integer = 0
+                Dim dblAmt As Decimal = 0
+                For Each obj As clsDemandHistoryMaster In lstobj
 
-                For Each dr As DataRow In dt.Rows
-                    ' For dblrows As Integer = 0 To gv1.Rows.Count
-                    Dim index As Integer = dt.Rows.IndexOf(dr)
-                    Dim DocumentNo As String
-                    Dim HistoryVersion As Integer
-                    Dim DemandNo As String
-                    If index = 0 Then
-                        DocumentNo = clsCommon.myCstr(dt.Rows(index)("Document No"))
-                        gv1.Rows(dblrows).Cells(colSLNo).Value = dblrows + 1
-                        gv1.Rows(dblrows).Cells(colHistVer).Value = (dr("History Version"))
-                        gv1.Rows(dblrows).Cells(colDemandNo).Value = clsCommon.myCstr(dr("Demand No"))
-                        gv1.Rows(dblrows).Cells(colDocumentNo).Value = clsCommon.myCstr(dr("Document No"))
-                        gv1.Rows(dblrows).Cells(colRouteNo).Value = clsCommon.myCstr(dr("Route No"))
-                        gv1.Rows(dblrows).Cells(colCustCode).Value = clsCommon.myCstr(dr("Cust Code"))
-                        gv1.Rows(dblrows).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_Name"))
-                        gv1.Rows(dblrows).Cells(colShiftName).Value = clsCommon.myCstr(dr("ShiftType"))
-                        gv1.Rows(dblrows).Cells(colHistBy).Value = clsCommon.myCstr(dr("History By"))
-                        gv1.Rows(dblrows).Cells(colHistOn).Value = clsCommon.myCDate(dr("History ON"))
-                    Else
-                        DemandNo = clsCommon.myCstr(dt.Rows(index - 1)("Demand No"))
-                        HistoryVersion = clsCommon.myCdbl(dt.Rows(index - 1)("History Version"))
-                        DocumentNo = clsCommon.myCstr(dt.Rows(index - 1)("Document No"))
-                        If clsCommon.CompairString(dr("Document No"), DocumentNo) = CompairStringResult.Equal AndAlso clsCommon.CompairString(dr("Demand No"), DemandNo) = CompairStringResult.Equal AndAlso clsCommon.CompairString(dr("History Version"), HistoryVersion) = CompairStringResult.Equal Then
-                            gv1.Rows(dblrows).Cells(colSLNo).Value = dblrows + 1
-                            gv1.Rows(dblrows).Cells(colHistVer).Value = (dt.Rows(index - 1)("History Version"))
-                            gv1.Rows(dblrows).Cells(colDemandNo).Value = clsCommon.myCstr(dt.Rows(index - 1)("Demand No"))
-                            gv1.Rows(dblrows).Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(index - 1)("Document No"))
-                            gv1.Rows(dblrows).Cells(colRouteNo).Value = clsCommon.myCstr(dt.Rows(index - 1)("Route No"))
-                            gv1.Rows(dblrows).Cells(colCustCode).Value = clsCommon.myCstr(dt.Rows(index - 1)("Cust Code"))
-                            gv1.Rows(dblrows).Cells(colCustName).Value = clsCommon.myCstr(dt.Rows(index - 1)("Customer_Name"))
-                            gv1.Rows(dblrows).Cells(colShiftName).Value = clsCommon.myCstr(dt.Rows(index - 1)("ShiftType"))
-                            gv1.Rows(dblrows).Cells(colHistBy).Value = clsCommon.myCstr(dt.Rows(index - 1)("History By"))
-                            gv1.Rows(dblrows).Cells(colHistOn).Value = clsCommon.myCDate(dt.Rows(index - 1)("History ON"))
-                        Else
-                            dblrows = dblrows + 1
-                            gv1.Rows.AddNew()
-                            gv1.Rows(dblrows).Cells(colSLNo).Value = dblrows + 1
-                            gv1.Rows(dblrows).Cells(colHistVer).Value = (dr("History Version"))
-                            gv1.Rows(dblrows).Cells(colDemandNo).Value = clsCommon.myCstr(dr("Demand No"))
-                            gv1.Rows(dblrows).Cells(colDocumentNo).Value = clsCommon.myCstr(dr("Document No"))
-                            gv1.Rows(dblrows).Cells(colRouteNo).Value = clsCommon.myCstr(dr("Route No"))
-                            gv1.Rows(dblrows).Cells(colCustCode).Value = clsCommon.myCstr(dr("Cust Code"))
-                            gv1.Rows(dblrows).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_Name"))
-                            gv1.Rows(dblrows).Cells(colShiftName).Value = clsCommon.myCstr(dr("ShiftType"))
-                            gv1.Rows(dblrows).Cells(colHistBy).Value = clsCommon.myCstr(dr("History By"))
-                            gv1.Rows(dblrows).Cells(colHistOn).Value = clsCommon.myCDate(dr("History ON"))
+                    gv1.Rows(dblrows).Cells(colSLNo).Value = dblrows + 1
+                    gv1.Rows(dblrows).Cells(colHistVer).Value = obj.History_Version
+                    gv1.Rows(dblrows).Cells(colDemandNo).Value = obj.Demand_No
+                    gv1.Rows(dblrows).Cells(colDocumentNo).Value = obj.Document_No
+                    gv1.Rows(dblrows).Cells(colRouteNo).Value = obj.Route_No
+                    gv1.Rows(dblrows).Cells(colCustCode).Value = obj.Cust_Code
+                    gv1.Rows(dblrows).Cells(colCustName).Value = obj.Cust_Name
+                    gv1.Rows(dblrows).Cells(colShiftName).Value = obj.ShiftType
+                    gv1.Rows(dblrows).Cells(colHistBy).Value = obj.History_By
+                    gv1.Rows(dblrows).Cells(colHistOn).Value = obj.History_ON
 
-                        End If
+                    If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                        For Each objTr As clsDemandHistoryDetail In obj.Arr
+                            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
+                                Dim k As Integer = 1
+                                For columns = 8 To gv1.Columns.Count - 4
+                                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                                    k = k + 1
+                                    If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_Code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
+                                        gv1.Rows(dblrows).Cells(columns).Value = clsCommon.myCDecimal(objTr.Qty)
+                                    End If
+                                    dblAmt = objTr.Amount
+                                Next
 
-                    End If
-
-
-
-                    Dim k As Integer = 1
-                        For columns = 8 To gv1.Columns.Count - 4
-                            Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
-                            k = k + 1
-                            If clsCommon.CompairString(dr("Item_Code"), clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(dr("Unit Code"), clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
-                                gv1.Rows(dblrows).Cells(columns).Value = clsCommon.myCDecimal(dr("Qty"))
                             End If
-
                         Next
+                    End If
+                    gv1.Rows(dblrows).Cells(colAmt).Value = dblAmt
+                    dblrows += 1
+                    gv1.Rows.AddNew()
 
-                    ' gv1.Rows.AddNew()
-                    'Next
                 Next
 
                 gv1.BestFitColumns()

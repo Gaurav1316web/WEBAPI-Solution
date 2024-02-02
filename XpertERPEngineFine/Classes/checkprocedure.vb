@@ -2284,6 +2284,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBookingReport, "Booking Report", "1.36.03.15", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBookingQtyAmtReport, "Demand Booking Report", "1.36.03.17", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSalesLedgerReport, "Sales Ledger Report", "1.36.03.18", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptAvgSaleDetailReport, "Average Sale Detail Report", "1.36.03.19", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
@@ -2467,7 +2468,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.VisualRandomQC, "Visual Random QC", "1.23.02.01", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.NIRQC, "NIR QC", "1.23.02.02", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.frmQualityCheckForSRN, "Incoming Quality Check Entry", "1.23.02.03", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
-        InsertDefaultValue(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming Quality Approval Entry", "1.23.02.04", clsUserMgtCode.SubModuleQCTransaction, 27)
+        InsertDefaultValue(clsUserMgtCode.frmOutgoingQC, "Outgoing Quality Check Entry", "1.23.02.04", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
+        InsertDefaultValue(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming Quality Approval Entry", "1.23.02.05", clsUserMgtCode.SubModuleQCTransaction, 27)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
