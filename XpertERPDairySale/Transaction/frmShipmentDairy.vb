@@ -5773,6 +5773,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         gvAC.Rows.AddNew()
         txtDate.Enabled = True
         txtSupplyDate.Enabled = True
+        txtSupplyDate.Value = txtDate.Value
         txtVendorNo.Enabled = True
         btnHistory.Enabled = False
         Dim ShowPrintChallan As Boolean = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.ShowPrintChallanInDairyDispatch, clsFixedParameterCode.ShowPrintChallanInDairyDispatch, Nothing) = "1", True, False))

@@ -49,6 +49,8 @@ Public Class frmDairyGatePass
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     Dim VehicleDesc As String = Nothing
     Dim OneTimeCheck As Boolean = False
+    Dim EnableDispatch As Boolean = False
+    Dim EnableLocation As Boolean = False
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -86,6 +88,7 @@ Public Class frmDairyGatePass
         'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
         isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
         IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
+        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
         CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
         Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
@@ -290,7 +293,7 @@ Public Class frmDairyGatePass
         Gv1.AllowAddNewRow = False
     End Sub
 
-    Private Function LoadQuery(ByVal strItemCode As String) As String
+    Private Function LoadQuery(ByVal strItemCode As String, ByVal EnableDispatch As Boolean) As String
         Dim strItem As String = String.Empty
         If CreateGatePassFromDemand = True Then
             If clsCommon.myLen(strItemCode) > 0 Then
@@ -367,6 +370,11 @@ Public Class frmDairyGatePass
                     strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM'"
                 Else
                     strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM'"
+                End If
+                If EnableDispatch Then
+                    strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
+                Else
+                    strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=1"
                 End If
                 strQueryCANCRate = "select sum(crate) as crate ,sum(ShippedCAN) as ShippedCAN from TSPL_SD_SHIPMENT_HEAD " &
                                 "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
@@ -478,7 +486,7 @@ Public Class frmDairyGatePass
             LoadBlankGrid()
             Dim totalCrate As Integer = 0
             Dim totalCan As Integer = 0
-            Dim qry As String = LoadQuery("")
+            Dim qry As String = LoadQuery("", EnableDispatch)
             If arrShipmentFromMultiple IsNot Nothing AndAlso arrShipmentFromMultiple.Count > 0 Then
                 qry += " and TSPL_SD_SHIPMENT_HEAD.Document_Code in (" + clsCommon.GetMulcallString(arrShipmentFromMultiple) + ") "
             End If
@@ -1048,6 +1056,14 @@ Public Class frmDairyGatePass
                     multipleDelteVisible(True)
                 End If
             End If
+        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.G Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "SIRC"
+            frm.strCode = "SIReversAndCreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                EnableDispatch = True
+            End If
         End If
     End Sub
     Sub multipleDelteVisible(ByVal val As Boolean)
@@ -1434,15 +1450,18 @@ Public Class frmDairyGatePass
             txtVehicle.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
             lblVehicleDesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
         End If
-        'If clsCommon.myLen(fndRouteNo.Value) > 0 Then
-        '    dt = Nothing
-        '    strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
-        '    dt = clsDBFuncationality.GetDataTable(strQuery)
-        '    If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        '        txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
-        '        txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
-        '    End If
-        'End If
+        If EnableLocation Then
+            If clsCommon.myLen(fndRouteNo.Value) > 0 Then
+                dt = Nothing
+                strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
+                dt = clsDBFuncationality.GetDataTable(strQuery)
+                If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+                    txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+                End If
+            End If
+        End If
+
     End Sub
 
     Sub setRouteVehicleDetail()
@@ -1473,7 +1492,7 @@ Public Class frmDairyGatePass
     End Sub
 
     Private Sub txtmultiBooking__My_Click(sender As Object, e As EventArgs) Handles txtmultiBooking._My_Click
-        Dim qry As String = LoadQuery("")
+        Dim qry As String = LoadQuery("", EnableDispatch)
         Dim strAllDoc As String = " select distinct PPPP.[Document No] as code, convert (varchar, PPPP .[Document Date], 103) as [Document Date] from  ( " & qry & "    ) As PPPP   "
         txtmultiBooking.arrValueMember = clsCommon.ShowMultipleSelectForm("TransType@@@@MulSel", strAllDoc, "Code", "code", txtmultiBooking.arrValueMember, txtmultiBooking.arrDispalyMember)
         funFillGrid2()
@@ -1501,7 +1520,7 @@ Public Class frmDairyGatePass
         Try
 
             LoadBlankGrid()
-            Dim qry As String = LoadQuery("")
+            Dim qry As String = LoadQuery("", EnableDispatch)
             strQuery = "select [Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code  from ( select xxx.* from(  " & qry & " )xxx  where xxx.[Document No] in (" + clsCommon.GetMulcallString(txtmultiBooking.arrValueMember) + ")  )  final group by [Item Code],Unit "
 
             dt = New DataTable()

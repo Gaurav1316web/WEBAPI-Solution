@@ -180,7 +180,7 @@ Public Class clsPPLogSheetMaster
                 obj.Pick_BO = clsCommon.myCdbl(dt.Rows(0)("Pick_Batch_No"))
                 obj.Department_COde = clsCommon.myCstr(dt.Rows(0)("Department_Code"))
                 obj.Department_Name = clsCommon.myCstr(dt.Rows(0)("department_name"))
-                obj.ClauseRef = clsCommon.myCstr(dt.Rows(0)("Clause"))
+                obj.ClauseRef = clsCommon.myCstr(dt.Rows(0)("Clause_Ref"))
                 obj.ISRef = clsCommon.myCstr(dt.Rows(0)("IS_Ref"))
                 qry = "select * from TSPL_QC_LOG_SHEET_USER_MASTER where code='" + obj.code + "'"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)

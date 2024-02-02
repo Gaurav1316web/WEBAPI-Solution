@@ -712,7 +712,7 @@ Public Class clsMccMaster
             End If
 
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Area_Location_Code", obj.Area_Location_Code)
+            clsCommon.AddColumnsForChange(coll, "Area_Location_Code", obj.Area_Location_Code, True)
             clsCommon.AddColumnsForChange(coll, "Plant_Code", obj.Plant_Code, True)
             clsCommon.AddColumnsForChange(coll, "AutoIn_Location", obj.AutoIn_Location)
             clsCommon.AddColumnsForChange(coll, "SILOIn_Location", obj.SILOIn_Location)

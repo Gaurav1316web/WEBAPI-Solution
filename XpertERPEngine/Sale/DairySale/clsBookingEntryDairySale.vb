@@ -40,6 +40,8 @@ Public Class clsBookingEntryDairySale
     Public AdvanceAmount As Double = 0
     Public Created_Date As DateTime?
     Public Created_By As String = String.Empty
+    Public Modified_Date As DateTime?
+    Public Modified_By As String = String.Empty
     Public Credit_Limit As Double = 0
     Public Advance_Security As Double = 0
     Public Revese_Adv_Security As Double = 0
@@ -147,7 +149,7 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "AgainstGatePass", obj.AgainstGatePass)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 
             clsCommon.AddColumnsForChange(coll, "Is_Taxable", obj.Is_Taxable)
             clsCommon.AddColumnsForChange(coll, "TRANSACTION_TYPE", obj.TRANSACTION_TYPE)

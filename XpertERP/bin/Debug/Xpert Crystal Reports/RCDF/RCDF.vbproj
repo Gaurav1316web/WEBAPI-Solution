@@ -1268,6 +1268,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptDepositCrateDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDispatchBulkSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDSBoking.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptERPStatusTrackingReportUnionrpt.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptFormA2MT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptFreshSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptInvoiceBulkSale.rpt" />
