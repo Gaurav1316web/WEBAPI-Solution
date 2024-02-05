@@ -60,17 +60,17 @@ Partial Class frmCustomerIncetiveEntry
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.gvCustomer = New Telerik.WinControls.UI.RadGridView()
+        Me.gvCustomer = New common.UserControls.MyRadGridView()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvCustomerIncentive = New Telerik.WinControls.UI.RadGridView()
+        Me.gvCustomerIncentive = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvCustomerStructure = New Telerik.WinControls.UI.RadGridView()
+        Me.gvCustomerStructure = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvCustomerItem = New Telerik.WinControls.UI.RadGridView()
+        Me.gvCustomerItem = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvInvoice = New Telerik.WinControls.UI.RadGridView()
+        Me.gvInvoice = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -1051,7 +1051,7 @@ Partial Class frmCustomerIncetiveEntry
     Friend WithEvents txtLocation As common.UserControls.txtFinder
     Friend WithEvents lblTankerNo As common.Controls.MyLabel
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gvCustomer As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvCustomer As common.UserControls.MyRadGridView
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock
@@ -1065,18 +1065,18 @@ Partial Class frmCustomerIncetiveEntry
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage4 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage5 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvInvoice As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvInvoice As common.UserControls.MyRadGridView
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadGroupBox4 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadButton2 As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvCustomerItem As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvCustomerItem As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvCustomerStructure As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvCustomerStructure As common.UserControls.MyRadGridView
     Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadPageViewPage3 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvCustomerIncentive As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvCustomerIncentive As common.UserControls.MyRadGridView
     Friend WithEvents chkApplyDateRange As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents Panel4 As System.Windows.Forms.Panel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel

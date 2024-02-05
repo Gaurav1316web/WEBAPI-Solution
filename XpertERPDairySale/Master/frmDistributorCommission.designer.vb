@@ -41,7 +41,7 @@ Partial Class frmDistributorCommission
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.lblDate = New common.Controls.MyLabel()
-        Me.GV1 = New Telerik.WinControls.UI.RadGridView()
+        Me.GV1 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()

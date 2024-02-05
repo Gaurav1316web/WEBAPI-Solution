@@ -33,7 +33,7 @@ Partial Class frmLeakageReplacementUploader
         Me.rdbAgainstLeakageReplacement = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSaveAndPost = New Telerik.WinControls.UI.RadButton()
         Me.btnExportInvalid = New Telerik.WinControls.UI.RadButton()
@@ -411,7 +411,7 @@ Partial Class frmLeakageReplacementUploader
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents Gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSaveAndPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnExportInvalid As Telerik.WinControls.UI.RadButton

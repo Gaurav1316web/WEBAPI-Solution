@@ -47,7 +47,7 @@ Partial Class frmIncetiveEntryBySRN
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gb_PrintVSPWiseIncentive = New Telerik.WinControls.UI.RadGroupBox()
@@ -564,7 +564,7 @@ Partial Class frmIncetiveEntryBySRN
     Friend WithEvents txtMCC As common.UserControls.txtFinder
     Friend WithEvents lblTankerNo As common.Controls.MyLabel
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock

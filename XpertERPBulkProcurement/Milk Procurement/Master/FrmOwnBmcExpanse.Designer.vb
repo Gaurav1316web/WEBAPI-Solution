@@ -25,7 +25,7 @@ Partial Class FrmOwnBmcExpanse
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.gvTs = New Telerik.WinControls.UI.RadGridView()
+        Me.gvTs = New common.UserControls.MyRadGridView()
         Me.txtRate = New common.MyNumBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()

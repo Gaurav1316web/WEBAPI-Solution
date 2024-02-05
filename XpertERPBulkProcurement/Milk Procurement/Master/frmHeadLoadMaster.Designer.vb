@@ -26,7 +26,7 @@ Partial Class frmHeadLoadMaster
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnReverseUnpost = New Telerik.WinControls.UI.RadButton()
@@ -588,7 +588,7 @@ Partial Class frmHeadLoadMaster
     End Sub
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton

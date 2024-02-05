@@ -43,7 +43,7 @@ Partial Class frmSecondaryTranporterDispatch
         Me.lblIDeductionCode = New common.Controls.MyLabel()
         Me.lblDeductionName = New common.Controls.MyLabel()
         Me.RadLabel28 = New common.Controls.MyLabel()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.lblLocationSegmentCode = New common.Controls.MyLabel()
         Me.lblLocationSegmentName = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
@@ -425,7 +425,7 @@ Partial Class frmSecondaryTranporterDispatch
     Friend WithEvents lblIDeductionCode As common.Controls.MyLabel
     Friend WithEvents lblDeductionName As common.Controls.MyLabel
     Friend WithEvents RadLabel28 As common.Controls.MyLabel
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadTextBoxControl1 As Telerik.WinControls.UI.RadTextBoxControl
     Friend WithEvents RadButton2 As Telerik.WinControls.UI.RadButton
     Friend WithEvents lblToDate As common.Controls.MyLabel

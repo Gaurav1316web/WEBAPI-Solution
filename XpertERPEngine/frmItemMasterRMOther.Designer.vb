@@ -199,9 +199,9 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvUOM = New Telerik.WinControls.UI.RadGridView()
+        Me.gvUOM = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvCategory = New Telerik.WinControls.UI.RadGridView()
+        Me.gvCategory = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.lblCategoryStructureCode = New common.Controls.MyLabel()
         Me.txtCategoryStructureCode = New common.UserControls.txtFinder()
@@ -240,10 +240,10 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gv_param = New Telerik.WinControls.UI.RadGridView()
+        Me.gv_param = New common.UserControls.MyRadGridView()
         Me.MyLabel22 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gvPurQCPar = New Telerik.WinControls.UI.RadGridView()
+        Me.gvPurQCPar = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -267,7 +267,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtDescription = New common.Controls.MyTextBox()
         Me.MyLabel25 = New common.Controls.MyLabel()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvSchedule = New Telerik.WinControls.UI.RadGridView()
+        Me.gvSchedule = New common.UserControls.MyRadGridView()
         Me.MyLabel38 = New common.Controls.MyLabel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
@@ -4552,7 +4552,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents txtCategory As common.UserControls.txtFinder
     Friend WithEvents txtSubCategory As common.UserControls.txtFinder
     Friend WithEvents cboItemType As common.Controls.MyComboBox
-    Friend WithEvents gvUOM As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvUOM As common.UserControls.MyRadGridView
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
@@ -4583,7 +4583,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents txtAlternativeItem As common.UserControls.txtFinder
     Friend WithEvents lblAlteernativeItem As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage4 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvCategory As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvCategory As common.UserControls.MyRadGridView
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents lblCategoryStructureCode As common.Controls.MyLabel
     Friend WithEvents txtCategoryStructureCode As common.UserControls.txtFinder
@@ -4627,7 +4627,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents fndProductType As common.Controls.MyComboBox
     Friend WithEvents RadPageViewPage5 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents gv_param As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv_param As common.UserControls.MyRadGridView
     Friend WithEvents btnparam_export As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnparam_import As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadPageViewPage6 As Telerik.WinControls.UI.RadPageViewPage
@@ -4728,7 +4728,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents chkAdvanceRequired As common.Controls.MyCheckBox
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents gvPurQCPar As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvPurQCPar As common.UserControls.MyRadGridView
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadGroupBoxInsurance As Telerik.WinControls.UI.RadGroupBox
