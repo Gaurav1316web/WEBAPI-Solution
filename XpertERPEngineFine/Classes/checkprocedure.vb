@@ -2468,7 +2468,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.VisualRandomQC, "Visual Random QC", "1.23.02.01", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.NIRQC, "NIR QC", "1.23.02.02", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.frmQualityCheckForSRN, "Incoming Quality Check Entry", "1.23.02.03", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
-        InsertDefaultValue(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming Quality Approval Entry", "1.23.02.04", clsUserMgtCode.SubModuleQCTransaction, 27)
+        InsertDefaultValue(clsUserMgtCode.frmOutgoingQC, "Outgoing Quality Check Entry", "1.23.02.04", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
+        InsertDefaultValue(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming Quality Approval Entry", "1.23.02.05", clsUserMgtCode.SubModuleQCTransaction, 27)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
@@ -2756,24 +2757,28 @@ Public Class ProgramCodeNew
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleShareReport, "Report", "1.46.03", clsUserMgtCode.ModuleShare, "SM", 30)
 
-        'Try
-        '    clsDBFuncationality.ExecuteNonQuery("insert into TSPL_MODULE_PERMISSION values ('1','" + clsUserMgtCode.ModuleReco + "')")
-        'Catch ex As Exception
 
-        'End Try
-        Try
-            'Dim qry As String = " select distinct OtherAssemblyFilePathAndName  from TSPL_PROGRAM_MASTER  where isnull(IsLoadFromOtherAssembly ,0)=1"
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '    For i As Integer = 0 To dt.Rows.Count - 1
-            '        Dim AsmName As String = clsCommon.myCstr(dt.Rows(i)("OtherAssemblyFilePathAndName"))
-            '        clsCreateAllTables.InvokeMethodSlow(AsmName, "clsAllStoreProcedureCustom", "CreateAllStoreProcedure", Nothing)
-            '    Next
-            'End If
-        Catch ex As Exception
-        End Try
-        '========================================================================================================================
-        'Dashboard
+
+
+
+
+
+
+        InsertDefaultValue(clsUserMgtCode.ModuleXpertAPI, "Xpert API", "1.47", clsUserMgtCode.ExpertERP, "M", 23, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+
+        InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPISetup, "Setup", "1.47.01", clsUserMgtCode.ModuleXpertAPI, "SM", 26, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+
+        InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPITrans, "Transaction", "1.47.02", clsUserMgtCode.ModuleXpertAPI, "SM", 26, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIWeighment, "Weighment", "1.47.02.01", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPILoadinSlip, "Loadin slip", "1.47.02.02", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkReceipt, "Milk Receipt", "1.47.02.03", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkSample, "Milk Sample", "1.47.02.04", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkReject, "Milk Reject", "1.47.02.05", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkEmptySample, "Empty Sample", "1.47.02.06", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+
+        InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.47.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.47.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        ' 
         Try
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.BankCashBook, "Bank Cash Book")
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.VehicleUtili, "Vehicle Utilization")
@@ -2820,6 +2825,9 @@ Public Class ProgramCodeNew
         Return InsertDefaultValue(strProgramCode, strProgramName, strSNo, strParent_Code, strType, ImageNumber, IsRunFromOtherAsm, AddAs, AsmPath, FormName, Is_SMS_Applied, Is_EMAIL_Applied, Is_Notification_Applied, AmdPassword, trans, strES_Trans_Type_1, strES_Trans_Type_2, strES_Trans_Type_3, strES_Trans_Type_4, strES_Trans_Type_5, False, "")
     End Function
     Public Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strSNo As String, ByVal strParent_Code As String, ByVal strType As String, ByVal ImageNumber As Integer, IsRunFromOtherAsm As Integer, AddAs As String, AsmPath As String, FormName As String, ByVal Is_SMS_Applied As Boolean, ByVal Is_EMAIL_Applied As Boolean, ByVal Is_Notification_Applied As Boolean, ByVal AmdPassword As String, ByVal trans As SqlTransaction, ByVal strES_Trans_Type_1 As String, ByVal strES_Trans_Type_2 As String, ByVal strES_Trans_Type_3 As String, ByVal strES_Trans_Type_4 As String, ByVal strES_Trans_Type_5 As String, ByVal AddAsNewMenu As Boolean, ByVal ProgramCodeOriginal As String) As Boolean
+        Return InsertDefaultValue(strProgramCode, strProgramName, strSNo, strParent_Code, strType, ImageNumber, IsRunFromOtherAsm, AddAs, AsmPath, FormName, Is_SMS_Applied, Is_EMAIL_Applied, Is_Notification_Applied, AmdPassword, trans, strES_Trans_Type_1, strES_Trans_Type_2, strES_Trans_Type_3, strES_Trans_Type_4, strES_Trans_Type_5, AddAsNewMenu, ProgramCodeOriginal, 0)
+    End Function
+    Public Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strSNo As String, ByVal strParent_Code As String, ByVal strType As String, ByVal ImageNumber As Integer, IsRunFromOtherAsm As Integer, AddAs As String, AsmPath As String, FormName As String, ByVal Is_SMS_Applied As Boolean, ByVal Is_EMAIL_Applied As Boolean, ByVal Is_Notification_Applied As Boolean, ByVal AmdPassword As String, ByVal trans As SqlTransaction, ByVal strES_Trans_Type_1 As String, ByVal strES_Trans_Type_2 As String, ByVal strES_Trans_Type_3 As String, ByVal strES_Trans_Type_4 As String, ByVal strES_Trans_Type_5 As String, ByVal AddAsNewMenu As Boolean, ByVal ProgramCodeOriginal As String, ByVal intAPP_No As Integer) As Boolean
         Dim qry As String = "select PROGRAM_NAME from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -2849,6 +2857,7 @@ Public Class ProgramCodeNew
         clsCommon.AddColumnsForChange(coll, "ES_Trans_Type_3", strES_Trans_Type_3)
         clsCommon.AddColumnsForChange(coll, "ES_Trans_Type_4", strES_Trans_Type_4)
         clsCommon.AddColumnsForChange(coll, "ES_Trans_Type_5", strES_Trans_Type_5)
+        clsCommon.AddColumnsForChange(coll, "APP_No", intAPP_No)
         'clsCommon.AddColumnsForChange(coll, "Customise_SNo", strSNo)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 OrElse AddAsNewMenu Then
             clsCommon.AddColumnsForChange(coll, "Program_Code", strProgramCode)

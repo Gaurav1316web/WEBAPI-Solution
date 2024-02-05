@@ -3663,7 +3663,10 @@ Public Class FrmMilkVSPPayment
 
         qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name] from tspl_mcc_master inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
         & " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
+        If AreaWiseBilling Then
+            qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
 
+        End If
         txtMCC.Value = clsCommon.ShowSelectForm("VSPPMCCFn", qry, "Code", "", txtMCC.Value, "", isButtonClicked)
         qry = "select Non_Company_VSP_Deduction,Company_VSP_Deduction,MCC_Name from tspl_mcc_master where mcc_Code='" + txtMCC.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -4091,7 +4094,9 @@ Public Class FrmMilkVSPPayment
             qry = "select Mcc_Code as Code,MCC_Name,Plant_Code,tabPlantName.Location_Desc as Plant
                     from tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
             If AreaWiseBilling Then
-                qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+                qry += " and tspl_mcc_master.
+
+='" + clsCommon.myCstr(fndArea.Value) + "' "
 
             End If
             'If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count > 0 Then
@@ -4100,10 +4105,11 @@ Public Class FrmMilkVSPPayment
             'txtMCCMultiple.arrValueMember = clsCommon.ShowMultipleSelectForm("MULVSPPMF", qry, "Code", "", txtMCCMultiple.arrValueMember, txtMCCMultiple.arrDispalyMember)
 
 
-            txtMCCMultiple.arrValueMember = clsCommon.ShowMultipleSelectForm("MULVSPPMF", qry, "Code", "", txtMCCMultiple.arrValueMember, Nothing)
+            txtMCCMultiple.arrValueMember = clsCommon.ShowMultipleSelectForm("MULVSPPMF", qry, "Code", "", txtMCCMultiple.arrValueMember, txtMCCMultiple.arrDispalyMember)
             If txtMCCMultiple.arrValueMember IsNot Nothing AndAlso txtMCCMultiple.arrValueMember.Count > 0 Then
                 qry = "select TSPL_PAYMENT_CYCLE_MASTER.PC_CODE  from tspl_Mcc_master inner join TSPL_PAYMENT_CYCLE_MASTER  on tspl_Mcc_master.payment_cycle=TSPL_PAYMENT_CYCLE_MASTER.PC_CODE  where Mcc_code in (" + clsCommon.GetMulcallString(txtMCCMultiple.arrValueMember) + ") group by TSPL_PAYMENT_CYCLE_MASTER.PC_CODE"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 1 Then
                     txtMCCMultiple.arrValueMember = Nothing
                     Throw New Exception("Payment Cycle should be same for all MCC")
