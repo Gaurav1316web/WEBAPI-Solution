@@ -35,7 +35,7 @@ Partial Class ProductionReport
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
@@ -384,7 +384,7 @@ Partial Class ProductionReport
     Friend WithEvents BtnReset As RadButton
     Friend WithEvents btnclose As RadButton
     Friend WithEvents btnGo As RadButton
-    Friend WithEvents Gv1 As RadGridView
+    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents lblBillToLocation As common.Controls.MyLabel
     Friend WithEvents txtBillToLocation As common.UserControls.txtFinder

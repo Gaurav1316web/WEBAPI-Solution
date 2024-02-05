@@ -33,7 +33,7 @@ Partial Class frmGazeReading
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.txtCapacity = New common.MyNumBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.gv = New Telerik.WinControls.UI.RadGridView()
+        Me.gv = New common.UserControls.MyRadGridView()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
@@ -350,7 +350,7 @@ Partial Class frmGazeReading
     Friend WithEvents txtDesc As common.Controls.MyTextBox
     Friend WithEvents lblvendorname As common.Controls.MyLabel
     Friend WithEvents txtCapacity As common.MyNumBox
-    Friend WithEvents gv As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv As common.UserControls.MyRadGridView
     Friend WithEvents btnImport As RadButton
     Friend WithEvents btnExport As RadButton
     Friend WithEvents RadPageView1 As RadPageView

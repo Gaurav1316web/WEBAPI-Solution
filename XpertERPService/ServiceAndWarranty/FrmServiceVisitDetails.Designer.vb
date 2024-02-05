@@ -63,9 +63,9 @@ Partial Class FrmServiceVisitDetails
         Me.MyLabel19 = New Common.Controls.MyLabel()
         Me.CmbStatus = New Common.Controls.MyComboBox()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvMainItem = New Telerik.WinControls.UI.RadGridView()
+        Me.gvMainItem = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvChildItem = New Telerik.WinControls.UI.RadGridView()
+        Me.gvChildItem = New common.UserControls.MyRadGridView()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -738,10 +738,10 @@ Partial Class FrmServiceVisitDetails
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage3 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage4 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvChildItem As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvChildItem As common.UserControls.MyRadGridView
     Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gvMainItem As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvMainItem As common.UserControls.MyRadGridView
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
 End Class

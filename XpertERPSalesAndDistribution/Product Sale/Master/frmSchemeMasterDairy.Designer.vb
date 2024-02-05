@@ -101,7 +101,7 @@ Partial Class FrmSchemeMasterDairy
         Me.GrpQuantiiveType = New System.Windows.Forms.GroupBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.cboQuantitiveType = New common.Controls.MyComboBox()
-        Me.gvItem = New Telerik.WinControls.UI.RadGridView()
+        Me.gvItem = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblCriteria = New common.Controls.MyLabel()
@@ -109,7 +109,7 @@ Partial Class FrmSchemeMasterDairy
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.ddlCriteria = New common.Controls.MyComboBox()
         Me.RadLabel13 = New common.Controls.MyLabel()
-        Me.gvCustomer = New Telerik.WinControls.UI.RadGridView()
+        Me.gvCustomer = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New XpertERPSalesAndDistribution.ucCustomFields()
         Me.pgAttachmentSchMst = New Telerik.WinControls.UI.RadPageViewPage()
@@ -2247,7 +2247,7 @@ Partial Class FrmSchemeMasterDairy
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents ddlType As common.Controls.MyComboBox
     Friend WithEvents RadLabel4 As common.Controls.MyLabel
-    Friend WithEvents grdScheme As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents grdScheme As common.UserControls.MyRadGridView
     Friend WithEvents chkInactive As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents lblMainItemDesc As common.Controls.MyLabel
     Friend WithEvents lblUnitCodeDesc As common.Controls.MyLabel
@@ -2257,10 +2257,10 @@ Partial Class FrmSchemeMasterDairy
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents ddlCriteria As common.Controls.MyComboBox
     Friend WithEvents RadLabel13 As common.Controls.MyLabel
-    Friend WithEvents gvCustomer As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvCustomer As common.UserControls.MyRadGridView
     Friend WithEvents btnSelect As Telerik.WinControls.UI.RadButton
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
-    Friend WithEvents gvItem As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvItem As common.UserControls.MyRadGridView
     Friend WithEvents lblCriteria As common.Controls.MyLabel
     Friend WithEvents txtCriteria As common.UserControls.txtFinder
     Friend WithEvents txtPercentage As common.MyNumBox

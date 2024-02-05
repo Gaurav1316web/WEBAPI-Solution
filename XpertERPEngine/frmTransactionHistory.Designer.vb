@@ -178,9 +178,9 @@ Partial Class frmTransactionHistory
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnShowData As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnUnSelect As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents gvDetail As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvDetail As common.UserControls.MyRadGridView
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Panel2 As System.Windows.Forms.Panel

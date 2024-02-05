@@ -28,7 +28,7 @@ Partial Class frmBulkPurchaseUploader
         Me.rdbAgainstBulkSaleTrade = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbAgainstBulkSale = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbAgainstBulkprocurement = New Telerik.WinControls.UI.RadRadioButton()
-        Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSaveAndPost = New Telerik.WinControls.UI.RadButton()
         Me.btnExportInvalid = New Telerik.WinControls.UI.RadButton()
@@ -277,7 +277,7 @@ Partial Class frmBulkPurchaseUploader
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents Gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSaveAndPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnExportInvalid As Telerik.WinControls.UI.RadButton

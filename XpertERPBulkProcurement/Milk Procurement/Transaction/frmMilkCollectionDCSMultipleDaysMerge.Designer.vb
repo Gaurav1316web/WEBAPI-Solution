@@ -26,7 +26,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.txtTotEnteredFATPer = New common.MyNumBox()
@@ -61,7 +61,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.gv2 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv2 = New common.UserControls.MyRadGridView()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -868,7 +868,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
 
     End Sub
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton

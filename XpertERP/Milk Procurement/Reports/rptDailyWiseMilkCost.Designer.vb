@@ -65,7 +65,7 @@ Partial Class RptDailyWiseMilkCost
         Me.txtmonth = New Telerik.WinControls.UI.RadDropDownList()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv = New Telerik.WinControls.UI.RadGridView()
+        Me.gv = New common.UserControls.MyRadGridView()
         Me.radbtnBulkExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -495,7 +495,7 @@ Partial Class RptDailyWiseMilkCost
     Friend WithEvents btnpdf As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents txtmonth As Telerik.WinControls.UI.RadDropDownList
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents gv As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv As common.UserControls.MyRadGridView
     Friend WithEvents txtYear As Telerik.WinControls.UI.RadDropDownList
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents chk_fatsnf As Telerik.WinControls.UI.RadCheckBox

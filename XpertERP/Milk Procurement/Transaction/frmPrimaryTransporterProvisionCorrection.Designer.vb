@@ -41,7 +41,7 @@ Partial Class frmPrimaryTransporterProvisionCorrection
         Me.txtMCCFromDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel41 = New common.Controls.MyLabel()
         Me.BulkDelete = New Telerik.WinControls.UI.RadButton()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.Panel2.SuspendLayout()
@@ -367,7 +367,7 @@ Partial Class frmPrimaryTransporterProvisionCorrection
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem

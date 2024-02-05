@@ -68,12 +68,12 @@ Partial Class FrmVendorReg
         Me.txtcode = New common.UserControls.txtNavigator()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gvtesting = New Telerik.WinControls.UI.RadGridView()
+        Me.gvtesting = New common.UserControls.MyRadGridView()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadLabel15 = New Telerik.WinControls.UI.RadLabel()
         Me.chk_captive = New Telerik.WinControls.UI.RadCheckBox()
         Me.txt_captivedetails = New Telerik.WinControls.UI.RadTextBox()
-        Me.gvmanufacturing = New Telerik.WinControls.UI.RadGridView()
+        Me.gvmanufacturing = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadLabel14 = New Telerik.WinControls.UI.RadLabel()
         Me.RadLabel13 = New Telerik.WinControls.UI.RadLabel()
@@ -2676,10 +2676,10 @@ Partial Class FrmVendorReg
     Friend WithEvents RadLabel15 As Telerik.WinControls.UI.RadLabel
     Friend WithEvents chk_captive As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents txt_captivedetails As Telerik.WinControls.UI.RadTextBox
-    Friend WithEvents gvmanufacturing As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvmanufacturing As common.UserControls.MyRadGridView
     Friend WithEvents RadGridView1 As Telerik.WinControls.UI.MasterGridViewTemplate
     Friend WithEvents RadGroupBox4 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents gvtesting As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvtesting As common.UserControls.MyRadGridView
     Friend WithEvents RadPageViewPage6 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadGroupBox5 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
