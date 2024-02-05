@@ -284,6 +284,12 @@
     <Compile Include="Report\rptAbsentBooth.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptAvgSaleDetailReport.Designer.vb">
+      <DependentUpon>rptAvgSaleDetailReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptAvgSaleDetailReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptBankDetailsWithVendorMargin.Designer.vb">
       <DependentUpon>rptBankDetailsWithVendorMargin.vb</DependentUpon>
     </Compile>
@@ -814,6 +820,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptAbsentBooth.resx">
       <DependentUpon>rptAbsentBooth.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptAvgSaleDetailReport.resx">
+      <DependentUpon>rptAvgSaleDetailReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptBankDetailsWithVendorMargin.resx">
       <DependentUpon>rptBankDetailsWithVendorMargin.vb</DependentUpon>
