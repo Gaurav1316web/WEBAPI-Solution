@@ -26,7 +26,7 @@ Partial Class FrmCostCentreFinancial
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCostCentreFinancial))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.LblLevel = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -504,6 +504,6 @@ Partial Class FrmCostCentreFinancial
     Friend WithEvents TxtHirerachyLevel As common.UserControls.txtFinder
     Friend WithEvents LblHirerachy As common.Controls.MyLabel
     Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class
 

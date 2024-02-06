@@ -82,7 +82,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv = New Telerik.WinControls.UI.RadGridView()
+        Me.gv = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
@@ -1642,7 +1642,7 @@ Partial Class frmPriceChartPlanMasterRCDF
     Friend WithEvents rdlblinventorycontrol As common.Controls.MyLabel
     Friend WithEvents txtFatRatio As common.MyNumBox
     Friend WithEvents txtSNFRatio As common.MyNumBox
-    Friend WithEvents gv As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv As common.UserControls.MyRadGridView
     Friend WithEvents RadButton2 As Telerik.WinControls.UI.RadButton
     Friend WithEvents MyLabel19 As common.Controls.MyLabel
     Friend WithEvents RadGroupBox7 As Telerik.WinControls.UI.RadGroupBox

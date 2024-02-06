@@ -42,7 +42,7 @@ Partial Class FrmCostCentreConsumptionRpt
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvData = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvDetail = New Telerik.WinControls.UI.RadGridView()
+        Me.gvDetail = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcelExport = New Telerik.WinControls.UI.RadMenuItem()
@@ -464,7 +464,7 @@ Partial Class FrmCostCentreConsumptionRpt
     Friend WithEvents txtplantUnit As common.UserControls.txtMultiSelectFinder
     Friend WithEvents btnExcelExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadPageViewPage3 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvDetail As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvDetail As common.UserControls.MyRadGridView
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents btnPDFExport As Telerik.WinControls.UI.RadMenuItem
 End Class

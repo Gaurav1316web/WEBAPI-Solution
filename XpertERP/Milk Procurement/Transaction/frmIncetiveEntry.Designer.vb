@@ -51,11 +51,11 @@ Partial Class frmIncetiveEntry
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvInvoice = New Telerik.WinControls.UI.RadGridView()
+        Me.gvInvoice = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -697,7 +697,7 @@ Partial Class frmIncetiveEntry
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents lblPaymentType As common.Controls.MyLabel
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock
@@ -713,7 +713,7 @@ Partial Class frmIncetiveEntry
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage4 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage5 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvInvoice As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvInvoice As common.UserControls.MyRadGridView
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadGroupBox4 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadButton2 As Telerik.WinControls.UI.RadButton

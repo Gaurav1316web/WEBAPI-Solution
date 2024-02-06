@@ -50,25 +50,25 @@ Partial Class VisualReportSaleNew
         Me.cvZone = New Telerik.WinControls.UI.RadChartView()
         Me.cvZonePie = New Telerik.WinControls.UI.RadChartView()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
-        Me.gvZone = New Telerik.WinControls.UI.RadGridView()
+        Me.gvZone = New common.UserControls.MyRadGridView()
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
         Me.scItemGroup = New System.Windows.Forms.SplitContainer()
         Me.cvItemGroup = New Telerik.WinControls.UI.RadChartView()
         Me.cvItemGroupPie = New Telerik.WinControls.UI.RadChartView()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
-        Me.gvItemGroup = New Telerik.WinControls.UI.RadGridView()
+        Me.gvItemGroup = New common.UserControls.MyRadGridView()
         Me.SplitPanel3 = New Telerik.WinControls.UI.SplitPanel()
         Me.scCustomerGroup = New System.Windows.Forms.SplitContainer()
         Me.cvCustomerGroup = New Telerik.WinControls.UI.RadChartView()
         Me.cvCustomerGroupPie = New Telerik.WinControls.UI.RadChartView()
         Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
-        Me.gvCustomerGroup = New Telerik.WinControls.UI.RadGridView()
+        Me.gvCustomerGroup = New common.UserControls.MyRadGridView()
         Me.SplitPanel4 = New Telerik.WinControls.UI.SplitPanel()
         Me.scItemType = New System.Windows.Forms.SplitContainer()
         Me.cvItemType = New Telerik.WinControls.UI.RadChartView()
         Me.cvItemTypePie = New Telerik.WinControls.UI.RadChartView()
         Me.RadButton5 = New Telerik.WinControls.UI.RadButton()
-        Me.gvItemType = New Telerik.WinControls.UI.RadGridView()
+        Me.gvItemType = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.chkItemGrpWise = New common.Controls.MyCheckBox()
         Me.chkCustomerGrpWise = New common.Controls.MyCheckBox()
@@ -829,7 +829,7 @@ Partial Class VisualReportSaleNew
     Friend WithEvents chkItemTypeWise As common.Controls.MyCheckBox
     Friend WithEvents chkZoneWise As common.Controls.MyCheckBox
     Friend WithEvents btnReset As RadButton
-    Friend WithEvents gvZone As RadGridView
+    Friend WithEvents gvZone As common.UserControls.MyRadGridView
     Friend WithEvents scZone As SplitContainer
     Friend WithEvents cvZonePie As RadChartView
     Friend WithEvents RadButton2 As RadButton
@@ -837,16 +837,16 @@ Partial Class VisualReportSaleNew
     Friend WithEvents cvItemGroup As RadChartView
     Friend WithEvents cvItemGroupPie As RadChartView
     Friend WithEvents RadButton3 As RadButton
-    Friend WithEvents gvItemGroup As RadGridView
+    Friend WithEvents gvItemGroup As common.UserControls.MyRadGridView
     Friend WithEvents scCustomerGroup As SplitContainer
     Friend WithEvents cvCustomerGroup As RadChartView
     Friend WithEvents cvCustomerGroupPie As RadChartView
     Friend WithEvents RadButton4 As RadButton
-    Friend WithEvents gvCustomerGroup As RadGridView
+    Friend WithEvents gvCustomerGroup As common.UserControls.MyRadGridView
     Friend WithEvents scItemType As SplitContainer
     Friend WithEvents cvItemType As RadChartView
     Friend WithEvents cvItemTypePie As RadChartView
     Friend WithEvents RadButton5 As RadButton
-    Friend WithEvents gvItemType As RadGridView
+    Friend WithEvents gvItemType As common.UserControls.MyRadGridView
 End Class
 

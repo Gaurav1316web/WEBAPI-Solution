@@ -38,7 +38,7 @@ Partial Class frmApproveFailedSample
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -382,6 +382,6 @@ Partial Class frmApproveFailedSample
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents lblPaymentType As common.Controls.MyLabel
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class
 

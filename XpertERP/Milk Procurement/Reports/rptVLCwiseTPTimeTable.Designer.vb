@@ -39,7 +39,7 @@ Partial Class RptVLCwiseTPTimeTable
         Me.txtMccCode = New common.UserControls.txtMultiSelectFinder()
         Me.lblMCCCode = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.dgvreport = New Telerik.WinControls.UI.RadGridView()
+        Me.dgvreport = New common.UserControls.MyRadGridView()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -313,6 +313,6 @@ Partial Class RptVLCwiseTPTimeTable
     Friend WithEvents txtMccCode As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblMCCCode As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents dgvreport As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents dgvreport As common.UserControls.MyRadGridView
 End Class
 

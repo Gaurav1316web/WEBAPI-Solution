@@ -25,7 +25,7 @@ Partial Class FrmPOSCommissionMapping
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvGroup = New Telerik.WinControls.UI.RadGridView()
+        Me.gvGroup = New common.UserControls.MyRadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.lblBasicPrice = New common.Controls.MyLabel()
         Me.lblTotalPOSGroups = New common.Controls.MyLabel()
@@ -228,7 +228,7 @@ Partial Class FrmPOSCommissionMapping
     Friend WithEvents rdmenufile As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gvGroup As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvGroup As common.UserControls.MyRadGridView
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents lblBasicPrice As common.Controls.MyLabel
     Friend WithEvents lblTotalPOSGroups As common.Controls.MyLabel

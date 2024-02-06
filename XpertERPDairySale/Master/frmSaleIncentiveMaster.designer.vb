@@ -720,7 +720,7 @@ Partial Class frmSaleIncentiveMaster
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtDesc As common.Controls.MyTextBox
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
-    Friend WithEvents grdScheme As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents grdScheme As common.UserControls.MyRadGridView
     Friend WithEvents lblToDate As common.Controls.MyLabel
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblFromDate As common.Controls.MyLabel
