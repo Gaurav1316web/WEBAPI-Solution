@@ -76,6 +76,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -282,6 +286,12 @@
       <DependentUpon>rptAbsentBooth.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptAbsentBooth.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptAvgSaleDetailReport.Designer.vb">
+      <DependentUpon>rptAvgSaleDetailReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptAvgSaleDetailReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptBankDetailsWithVendorMargin.Designer.vb">
@@ -814,6 +824,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptAbsentBooth.resx">
       <DependentUpon>rptAbsentBooth.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptAvgSaleDetailReport.resx">
+      <DependentUpon>rptAvgSaleDetailReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptBankDetailsWithVendorMargin.resx">
       <DependentUpon>rptBankDetailsWithVendorMargin.vb</DependentUpon>

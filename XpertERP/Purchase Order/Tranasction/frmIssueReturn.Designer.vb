@@ -48,7 +48,7 @@ Partial Class frmIssueReturn
         Me.fndcapexsubcode = New common.UserControls.txtFinder()
         Me.lbl_capexsubcode = New common.Controls.MyLabel()
         Me.MyLabel30 = New common.Controls.MyLabel()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.chkReProcess = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkAgnstPI = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -104,7 +104,7 @@ Partial Class frmIssueReturn
         Me.txtTaxGroup = New common.UserControls.txtFinder()
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadLabel10 = New common.Controls.MyLabel()
-        Me.gv2 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv2 = New common.UserControls.MyRadGridView()
         Me.RadLabel11 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New ERP.ucCustomFields()
@@ -1908,7 +1908,7 @@ Partial Class frmIssueReturn
     Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents chkOnHold As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
@@ -1927,7 +1927,7 @@ Partial Class frmIssueReturn
     Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage3 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents txtTaxGroup As common.UserControls.txtFinder
-    Friend WithEvents gv2 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv2 As common.UserControls.MyRadGridView
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents lblIssueTo As common.Controls.MyLabel

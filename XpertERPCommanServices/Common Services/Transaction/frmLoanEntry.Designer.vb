@@ -61,7 +61,7 @@ Partial Class frmLoanEntry
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtInterestRate = New common.MyNumBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv = New Telerik.WinControls.UI.RadGridView()
+        Me.gv = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
@@ -927,7 +927,7 @@ Partial Class frmLoanEntry
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents gv As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv As common.UserControls.MyRadGridView
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents RadButton2 As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton

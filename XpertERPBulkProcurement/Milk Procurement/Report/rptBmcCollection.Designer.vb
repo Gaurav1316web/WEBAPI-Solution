@@ -22,10 +22,11 @@ Partial Class rptBmcCollection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Checkallmcc = New System.Windows.Forms.CheckBox()
         Me.chkZone = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -82,8 +83,8 @@ Partial Class rptBmcCollection
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
-        Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 409
+        Me.SplitContainer1.Size = New System.Drawing.Size(821, 434)
+        Me.SplitContainer1.SplitterDistance = 394
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -94,19 +95,30 @@ Partial Class rptBmcCollection
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 409)
+        Me.RadPageView1.Size = New System.Drawing.Size(821, 394)
         Me.RadPageView1.TabIndex = 12
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.Checkallmcc)
         Me.RadPageViewPage1.Controls.Add(Me.chkZone)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 361)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(800, 346)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'Checkallmcc
+        '
+        Me.Checkallmcc.AutoSize = True
+        Me.Checkallmcc.Location = New System.Drawing.Point(469, 22)
+        Me.Checkallmcc.Name = "Checkallmcc"
+        Me.Checkallmcc.Size = New System.Drawing.Size(62, 17)
+        Me.Checkallmcc.TabIndex = 421
+        Me.Checkallmcc.Text = "All Bmc"
+        Me.Checkallmcc.UseVisualStyleBackColor = True
         '
         'chkZone
         '
@@ -202,7 +214,7 @@ Partial Class rptBmcCollection
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -213,7 +225,7 @@ Partial Class rptBmcCollection
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(705, 8)
+        Me.btnClose.Location = New System.Drawing.Point(726, 8)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(84, 22)
         Me.btnClose.TabIndex = 161
@@ -275,7 +287,7 @@ Partial Class rptBmcCollection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(821, 434)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "rptBmcCollection"
         '
@@ -328,4 +340,5 @@ Partial Class rptBmcCollection
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents chkZone As CheckBox
+    Friend WithEvents Checkallmcc As CheckBox
 End Class

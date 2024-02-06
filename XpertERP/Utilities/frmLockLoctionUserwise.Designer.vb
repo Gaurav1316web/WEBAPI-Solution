@@ -38,7 +38,7 @@ Partial Class frmLockLoctionUserwise
         Me.lblLocationCode = New common.Controls.MyLabel()
         Me.lblILocName = New common.Controls.MyLabel()
         Me.RadLabel28 = New common.Controls.MyLabel()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel2.SuspendLayout()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnOK, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -295,7 +295,7 @@ Partial Class frmLockLoctionUserwise
     Friend WithEvents lblLocationCode As common.Controls.MyLabel
     Friend WithEvents lblILocName As common.Controls.MyLabel
     Friend WithEvents RadLabel28 As common.Controls.MyLabel
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadTextBoxControl1 As Telerik.WinControls.UI.RadTextBoxControl
     Friend WithEvents RadButton2 As Telerik.WinControls.UI.RadButton
     Friend WithEvents lblModule As common.Controls.MyLabel
