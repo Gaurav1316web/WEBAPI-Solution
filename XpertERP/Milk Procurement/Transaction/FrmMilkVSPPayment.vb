@@ -3663,10 +3663,10 @@ Public Class FrmMilkVSPPayment
 
         qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name] from tspl_mcc_master inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
         & " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
-        If AreaWiseBilling Then
-            qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+        'If AreaWiseBilling Then
+        '    qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
 
-        End If
+        'End If
         txtMCC.Value = clsCommon.ShowSelectForm("VSPPMCCFn", qry, "Code", "", txtMCC.Value, "", isButtonClicked)
         qry = "select Non_Company_VSP_Deduction,Company_VSP_Deduction,MCC_Name from tspl_mcc_master where mcc_Code='" + txtMCC.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -4092,11 +4092,9 @@ Public Class FrmMilkVSPPayment
             '& " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
 
             qry = "select Mcc_Code as Code,MCC_Name,Plant_Code,tabPlantName.Location_Desc as Plant
-                    from tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
+            From tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
             If AreaWiseBilling Then
-                qry += " and tspl_mcc_master.
-
-='" + clsCommon.myCstr(fndArea.Value) + "' "
+                qry += " and tspl_mcc_master.Area_Location_Code='" + clsCommon.myCstr(fndArea.Value) + "' "
 
             End If
             'If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count > 0 Then

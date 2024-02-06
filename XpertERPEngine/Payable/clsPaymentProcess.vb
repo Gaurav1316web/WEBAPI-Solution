@@ -117,7 +117,7 @@ Public Class clsPaymentProcessHead
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, obj.Loc_Seg_Code, clsCommon.myCDate(obj.Doc_Date), trans)
 
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Area_Location_Code", clsCommon.myCstr(obj.Area_Location_Code))
+            clsCommon.AddColumnsForChange(coll, "Area_Location_Code", obj.Area_Location_Code, True)
             clsCommon.AddColumnsForChange(coll, "FarmType", "PP")
             clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(obj.Doc_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
