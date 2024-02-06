@@ -22,10 +22,10 @@ Partial Class frmDairyGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -221,7 +221,7 @@ Partial Class frmDairyGatePass
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1031, 197)
@@ -1231,12 +1231,12 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype.IsSourceFromTable = False
         Me.cmbitemtype.IsSourceFromValueList = False
         Me.cmbitemtype.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "Full"
-        RadListDataItem6.Text = "Empty"
-        Me.cmbitemtype.Items.Add(RadListDataItem4)
-        Me.cmbitemtype.Items.Add(RadListDataItem5)
-        Me.cmbitemtype.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Full"
+        RadListDataItem3.Text = "Empty"
+        Me.cmbitemtype.Items.Add(RadListDataItem1)
+        Me.cmbitemtype.Items.Add(RadListDataItem2)
+        Me.cmbitemtype.Items.Add(RadListDataItem3)
         Me.cmbitemtype.Location = New System.Drawing.Point(896, 49)
         Me.cmbitemtype.MendatroryField = False
         Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
@@ -1327,7 +1327,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnPrint2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint2.Location = New System.Drawing.Point(216, 9)
+        Me.btnPrint2.Location = New System.Drawing.Point(291, 9)
         Me.btnPrint2.Name = "btnPrint2"
         Me.btnPrint2.Size = New System.Drawing.Size(68, 24)
         Me.btnPrint2.TabIndex = 2
@@ -1337,7 +1337,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnGPCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGPCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGPCancel.Location = New System.Drawing.Point(505, 9)
+        Me.btnGPCancel.Location = New System.Drawing.Point(513, 9)
         Me.btnGPCancel.Name = "btnGPCancel"
         Me.btnGPCancel.Size = New System.Drawing.Size(69, 24)
         Me.btnGPCancel.TabIndex = 1034
@@ -1359,7 +1359,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(434, 9)
+        Me.btnReverse.Location = New System.Drawing.Point(588, 9)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(69, 24)
         Me.btnReverse.TabIndex = 7
@@ -1370,7 +1370,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(146, 9)
+        Me.btnDelete.Location = New System.Drawing.Point(221, 9)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(68, 24)
         Me.btnDelete.TabIndex = 6
@@ -1381,7 +1381,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(75, 9)
+        Me.btnPrint.Location = New System.Drawing.Point(150, 9)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(68, 24)
         Me.btnPrint.TabIndex = 1
@@ -1391,7 +1391,7 @@ Partial Class frmDairyGatePass
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(352, 9)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(360, 9)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(80, 23)
         Me.RadSplitButton1.TabIndex = 3
@@ -1412,18 +1412,17 @@ Partial Class frmDairyGatePass
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(607, 8)
+        Me.btnPost.Location = New System.Drawing.Point(79, 9)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(68, 24)
         Me.btnPost.TabIndex = 4
         Me.btnPost.Text = "Post"
-        Me.btnPost.Visible = False
         '
         'btnSelect
         '
         Me.btnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSelect.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSelect.Location = New System.Drawing.Point(286, 9)
+        Me.btnSelect.Location = New System.Drawing.Point(443, 9)
         Me.btnSelect.Name = "btnSelect"
         Me.btnSelect.Size = New System.Drawing.Size(64, 24)
         Me.btnSelect.TabIndex = 2
