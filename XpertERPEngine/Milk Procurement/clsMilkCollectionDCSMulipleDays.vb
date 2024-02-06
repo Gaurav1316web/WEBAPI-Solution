@@ -15,6 +15,8 @@ Public Class clsMilkCollectionDCSMulipleDays
     Public Entered_Qty As Decimal
     Public Entered_FATKg As Decimal
     Public Entered_SNFKg As Decimal
+    Public CLR As Decimal
+    Public FAT As Decimal
     Public Description As String
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
@@ -56,6 +58,8 @@ Public Class clsMilkCollectionDCSMulipleDays
             clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
             clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
             clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+            clsCommon.AddColumnsForChange(coll, "CLR", obj.CLR)
+            clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "FAT_SNF_Type", obj.FAT_SNF_Type)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -120,6 +124,8 @@ where 2=2"
             obj.Entered_Qty = clsCommon.myCDecimal(dt.Rows(0)("Entered_Qty"))
             obj.Entered_FATKg = clsCommon.myCDecimal(dt.Rows(0)("Entered_FATKg"))
             obj.Entered_SNFKg = clsCommon.myCDecimal(dt.Rows(0)("Entered_SNFKg"))
+            obj.CLR = clsCommon.myCDecimal(dt.Rows(0)("CLR"))
+            obj.FAT = clsCommon.myCDecimal(dt.Rows(0)("FAT"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.FAT_SNF_Type = clsCommon.myCDecimal(dt.Rows(0)("FAT_SNF_Type"))
