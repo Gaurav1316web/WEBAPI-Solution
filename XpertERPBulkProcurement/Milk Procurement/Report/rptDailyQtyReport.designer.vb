@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -37,6 +37,13 @@ Partial Class rptDailyQtyReport
         Me.rbtnDockSummary = New System.Windows.Forms.RadioButton()
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBmcSummary = New System.Windows.Forms.RadioButton()
+        Me.rdbTankerWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnTranpoterGainLoss = New System.Windows.Forms.RadioButton()
+        Me.rbtnDock = New System.Windows.Forms.RadioButton()
+        Me.rdbDetails = New System.Windows.Forms.RadioButton()
+        Me.rdbSummary = New System.Windows.Forms.RadioButton()
         Me.TxtTankerNo = New common.UserControls.txtFinder()
         Me.txtToleranceSNF = New common.MyNumBox()
         Me.txtToleranceFat = New common.MyNumBox()
@@ -46,12 +53,6 @@ Partial Class rptDailyQtyReport
         Me.txtMCC_Code = New common.UserControls.txtFinder()
         Me.MyLabel39 = New common.Controls.MyLabel()
         Me.cboItemType = New common.Controls.MyComboBox()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbTankerWise = New System.Windows.Forms.RadioButton()
-        Me.rbtnTranpoterGainLoss = New System.Windows.Forms.RadioButton()
-        Me.rbtnDock = New System.Windows.Forms.RadioButton()
-        Me.rdbDetails = New System.Windows.Forms.RadioButton()
-        Me.rdbSummary = New System.Windows.Forms.RadioButton()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.cboShift = New common.Controls.MyComboBox()
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
@@ -72,7 +73,8 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnBmcSummary = New System.Windows.Forms.RadioButton()
+        Me.rdbCollectionWise = New System.Windows.Forms.RadioButton()
+        Me.rdbMultiple = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -85,6 +87,8 @@ Partial Class rptDailyQtyReport
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtToleranceSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToleranceFat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblToleranceSNF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,8 +96,6 @@ Partial Class rptDailyQtyReport
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -182,6 +184,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.TxtTankerNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtToleranceSNF)
         Me.RadPageViewPage1.Controls.Add(Me.txtToleranceFat)
@@ -191,7 +194,6 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage1.Controls.Add(Me.txtMCC_Code)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel39)
         Me.RadPageViewPage1.Controls.Add(Me.cboItemType)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.cboShift)
         Me.RadPageViewPage1.Controls.Add(Me.ToDate)
@@ -221,7 +223,7 @@ Partial Class rptDailyQtyReport
         Me.ddlShift.IsSourceFromTable = False
         Me.ddlShift.IsSourceFromValueList = False
         Me.ddlShift.IsUnique = False
-        Me.ddlShift.Location = New System.Drawing.Point(408, 131)
+        Me.ddlShift.Location = New System.Drawing.Point(408, 160)
         Me.ddlShift.MendatroryField = False
         Me.ddlShift.MyLinkLable1 = Nothing
         Me.ddlShift.MyLinkLable2 = Nothing
@@ -236,7 +238,7 @@ Partial Class rptDailyQtyReport
         'MyLabel6
         '
         Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(369, 131)
+        Me.MyLabel6.Location = New System.Drawing.Point(369, 160)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel6.TabIndex = 447
@@ -250,7 +252,7 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox2.Controls.Add(Me.rbtnDockSummary)
         Me.RadGroupBox2.Controls.Add(Me.rbtnBMCDock)
         Me.RadGroupBox2.HeaderText = "Print"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(369, 83)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(369, 104)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(350, 42)
@@ -297,6 +299,86 @@ Partial Class rptDailyQtyReport
         Me.MyLabel5.TabIndex = 445
         Me.MyLabel5.Text = "Tanker No"
         Me.MyLabel5.Visible = False
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rdbMultiple)
+        Me.RadGroupBox1.Controls.Add(Me.rdbCollectionWise)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnBmcSummary)
+        Me.RadGroupBox1.Controls.Add(Me.rdbTankerWise)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnTranpoterGainLoss)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnDock)
+        Me.RadGroupBox1.Controls.Add(Me.rdbDetails)
+        Me.RadGroupBox1.Controls.Add(Me.rdbSummary)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(369, 9)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(454, 63)
+        Me.RadGroupBox1.TabIndex = 406
+        '
+        'rbtnBmcSummary
+        '
+        Me.rbtnBmcSummary.AutoSize = True
+        Me.rbtnBmcSummary.Location = New System.Drawing.Point(350, 14)
+        Me.rbtnBmcSummary.Name = "rbtnBmcSummary"
+        Me.rbtnBmcSummary.Size = New System.Drawing.Size(97, 17)
+        Me.rbtnBmcSummary.TabIndex = 449
+        Me.rbtnBmcSummary.Text = "BMC Summary"
+        Me.rbtnBmcSummary.UseVisualStyleBackColor = True
+        '
+        'rdbTankerWise
+        '
+        Me.rdbTankerWise.AutoSize = True
+        Me.rdbTankerWise.Location = New System.Drawing.Point(463, 14)
+        Me.rdbTankerWise.Name = "rdbTankerWise"
+        Me.rdbTankerWise.Size = New System.Drawing.Size(87, 17)
+        Me.rdbTankerWise.TabIndex = 7
+        Me.rdbTankerWise.Text = "Tanker Wise"
+        Me.rdbTankerWise.UseVisualStyleBackColor = True
+        '
+        'rbtnTranpoterGainLoss
+        '
+        Me.rbtnTranpoterGainLoss.AutoSize = True
+        Me.rbtnTranpoterGainLoss.Location = New System.Drawing.Point(216, 14)
+        Me.rbtnTranpoterGainLoss.Name = "rbtnTranpoterGainLoss"
+        Me.rbtnTranpoterGainLoss.Size = New System.Drawing.Size(128, 17)
+        Me.rbtnTranpoterGainLoss.TabIndex = 6
+        Me.rbtnTranpoterGainLoss.Text = "Tranpoter Gain/Loss"
+        Me.rbtnTranpoterGainLoss.UseVisualStyleBackColor = True
+        '
+        'rbtnDock
+        '
+        Me.rbtnDock.AutoSize = True
+        Me.rbtnDock.Location = New System.Drawing.Point(159, 13)
+        Me.rbtnDock.Name = "rbtnDock"
+        Me.rbtnDock.Size = New System.Drawing.Size(51, 17)
+        Me.rbtnDock.TabIndex = 5
+        Me.rbtnDock.Text = "Dock"
+        Me.rbtnDock.UseVisualStyleBackColor = True
+        '
+        'rdbDetails
+        '
+        Me.rdbDetails.AutoSize = True
+        Me.rdbDetails.Checked = True
+        Me.rdbDetails.Location = New System.Drawing.Point(89, 13)
+        Me.rdbDetails.Name = "rdbDetails"
+        Me.rdbDetails.Size = New System.Drawing.Size(60, 17)
+        Me.rdbDetails.TabIndex = 4
+        Me.rdbDetails.TabStop = True
+        Me.rdbDetails.Text = "Details"
+        Me.rdbDetails.UseVisualStyleBackColor = True
+        '
+        'rdbSummary
+        '
+        Me.rdbSummary.AutoSize = True
+        Me.rdbSummary.Location = New System.Drawing.Point(8, 13)
+        Me.rdbSummary.Name = "rdbSummary"
+        Me.rdbSummary.Size = New System.Drawing.Size(71, 17)
+        Me.rdbSummary.TabIndex = 3
+        Me.rdbSummary.Text = "Summary"
+        Me.rdbSummary.UseVisualStyleBackColor = True
         '
         'TxtTankerNo
         '
@@ -468,74 +550,6 @@ Partial Class rptDailyQtyReport
         Me.cboItemType.ReferenceTableName = Nothing
         Me.cboItemType.Size = New System.Drawing.Size(130, 20)
         Me.cboItemType.TabIndex = 408
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rbtnBmcSummary)
-        Me.RadGroupBox1.Controls.Add(Me.rdbTankerWise)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnTranpoterGainLoss)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnDock)
-        Me.RadGroupBox1.Controls.Add(Me.rdbDetails)
-        Me.RadGroupBox1.Controls.Add(Me.rdbSummary)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(369, 9)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(450, 42)
-        Me.RadGroupBox1.TabIndex = 406
-        '
-        'rdbTankerWise
-        '
-        Me.rdbTankerWise.AutoSize = True
-        Me.rdbTankerWise.Location = New System.Drawing.Point(463, 14)
-        Me.rdbTankerWise.Name = "rdbTankerWise"
-        Me.rdbTankerWise.Size = New System.Drawing.Size(87, 17)
-        Me.rdbTankerWise.TabIndex = 7
-        Me.rdbTankerWise.Text = "Tanker Wise"
-        Me.rdbTankerWise.UseVisualStyleBackColor = True
-        '
-        'rbtnTranpoterGainLoss
-        '
-        Me.rbtnTranpoterGainLoss.AutoSize = True
-        Me.rbtnTranpoterGainLoss.Location = New System.Drawing.Point(216, 14)
-        Me.rbtnTranpoterGainLoss.Name = "rbtnTranpoterGainLoss"
-        Me.rbtnTranpoterGainLoss.Size = New System.Drawing.Size(128, 17)
-        Me.rbtnTranpoterGainLoss.TabIndex = 6
-        Me.rbtnTranpoterGainLoss.Text = "Tranpoter Gain/Loss"
-        Me.rbtnTranpoterGainLoss.UseVisualStyleBackColor = True
-        '
-        'rbtnDock
-        '
-        Me.rbtnDock.AutoSize = True
-        Me.rbtnDock.Location = New System.Drawing.Point(159, 13)
-        Me.rbtnDock.Name = "rbtnDock"
-        Me.rbtnDock.Size = New System.Drawing.Size(51, 17)
-        Me.rbtnDock.TabIndex = 5
-        Me.rbtnDock.Text = "Dock"
-        Me.rbtnDock.UseVisualStyleBackColor = True
-        '
-        'rdbDetails
-        '
-        Me.rdbDetails.AutoSize = True
-        Me.rdbDetails.Checked = True
-        Me.rdbDetails.Location = New System.Drawing.Point(89, 13)
-        Me.rdbDetails.Name = "rdbDetails"
-        Me.rdbDetails.Size = New System.Drawing.Size(60, 17)
-        Me.rdbDetails.TabIndex = 4
-        Me.rdbDetails.TabStop = True
-        Me.rdbDetails.Text = "Details"
-        Me.rdbDetails.UseVisualStyleBackColor = True
-        '
-        'rdbSummary
-        '
-        Me.rdbSummary.AutoSize = True
-        Me.rdbSummary.Location = New System.Drawing.Point(8, 13)
-        Me.rdbSummary.Name = "rdbSummary"
-        Me.rdbSummary.Size = New System.Drawing.Size(71, 17)
-        Me.rdbSummary.TabIndex = 3
-        Me.rdbSummary.Text = "Summary"
-        Me.rdbSummary.UseVisualStyleBackColor = True
         '
         'RadLabel2
         '
@@ -709,7 +723,7 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -776,15 +790,25 @@ Partial Class rptDailyQtyReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rbtnBmcSummary
+        'rdbCollectionWise
         '
-        Me.rbtnBmcSummary.AutoSize = True
-        Me.rbtnBmcSummary.Location = New System.Drawing.Point(350, 14)
-        Me.rbtnBmcSummary.Name = "rbtnBmcSummary"
-        Me.rbtnBmcSummary.Size = New System.Drawing.Size(97, 17)
-        Me.rbtnBmcSummary.TabIndex = 449
-        Me.rbtnBmcSummary.Text = "BMC Summary"
-        Me.rbtnBmcSummary.UseVisualStyleBackColor = True
+        Me.rdbCollectionWise.AutoSize = True
+        Me.rdbCollectionWise.Location = New System.Drawing.Point(159, 37)
+        Me.rdbCollectionWise.Name = "rdbCollectionWise"
+        Me.rdbCollectionWise.Size = New System.Drawing.Size(104, 17)
+        Me.rdbCollectionWise.TabIndex = 453
+        Me.rdbCollectionWise.Text = "Collection Data"
+        Me.rdbCollectionWise.UseVisualStyleBackColor = True
+        '
+        'rdbMultiple
+        '
+        Me.rdbMultiple.AutoSize = True
+        Me.rdbMultiple.Location = New System.Drawing.Point(8, 36)
+        Me.rdbMultiple.Name = "rdbMultiple"
+        Me.rdbMultiple.Size = New System.Drawing.Size(123, 17)
+        Me.rdbMultiple.TabIndex = 454
+        Me.rdbMultiple.Text = "Multiple Collection"
+        Me.rdbMultiple.UseVisualStyleBackColor = True
         '
         'rptDailyQtyReport
         '
@@ -813,6 +837,9 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me.txtToleranceSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToleranceFat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblToleranceSNF, System.ComponentModel.ISupportInitialize).EndInit()
@@ -820,9 +847,6 @@ Partial Class rptDailyQtyReport
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -898,5 +922,7 @@ Partial Class rptDailyQtyReport
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents rbtnSummary As RadioButton
     Friend WithEvents rbtnBmcSummary As RadioButton
+    Friend WithEvents rdbMultiple As RadioButton
+    Friend WithEvents rdbCollectionWise As RadioButton
 End Class
 

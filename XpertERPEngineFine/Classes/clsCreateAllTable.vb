@@ -23369,6 +23369,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Posted_Date", "datetime null")
             coll.Add("Posted_By", "varchar(12)  NULL")
+            coll.Add("CLR", "Decimal(18,2) null")
+            coll.Add("FAT", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             coll = New Dictionary(Of String, String)
