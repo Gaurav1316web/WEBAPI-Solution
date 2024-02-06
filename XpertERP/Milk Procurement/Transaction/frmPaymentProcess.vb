@@ -167,7 +167,7 @@ Public Class FrmPaymentProcess
     Dim SettVSPHoldPaymentNotCompanyBank As Boolean = False
     Dim SetCowFatPer As Decimal = 0
     'Dim AreaWiseBilling As Boolean = False
-
+    Dim Is_gv_Rows_Clear As Boolean = False
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -1046,7 +1046,9 @@ Public Class FrmPaymentProcess
     End Function
 
     Sub LoadBlankGridGV()
-        'gv.Rows.Clear()
+        If Is_gv_Rows_Clear Then
+            gv.Rows.Clear()
+        End If
         gv.Columns.Clear()
         gv.DataSource = Nothing
         colChkBox = New GridViewCheckBoxColumn()
@@ -2581,10 +2583,18 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
 
         LoadBlankGridDeduction()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by Document_No) as SNo,Document_No,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(Vendor_Code) as Vendor_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(Vendor_Name) as Vendor_Name,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(DeductionCode) as DeductionCode,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(Deduction_Desc) as Deduction_Desc,Max(Total_Amount) as Total_Amount,max(Sequence_No) as Sequence_No from (  
+            Dim qry As String = " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by"
+            If PayableAmountZeroForMCCSale Then
+                qry += " max(Vendor_Code),max(Posting_Date),max(Sequence_No) "
+            Else
+                qry += "Document_No"
+            End If
+
+
+            qry +=") as SNo,Document_No,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(Vendor_Code) as Vendor_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(Vendor_Name) as Vendor_Name,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(DeductionCode) as DeductionCode,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(Deduction_Desc) as Deduction_Desc,Max(Total_Amount) as Total_Amount,max(Sequence_No) as Sequence_No,max(Posting_Date) as Posting_Date from (  
 select TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
 TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode , case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc,
-TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount ,(case when TSPL_VENDOR_INVOICE_HEAD.RefDocType='VSP-NGT' then -2 else (case when  TSPL_DEDUCTION_MASTER.Sequence_No is null then -1 else TSPL_DEDUCTION_MASTER.Sequence_No end) end)  as Sequence_No  
+TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount ,(case when TSPL_VENDOR_INVOICE_HEAD.RefDocType='VSP-NGT' then -2 else (case when  TSPL_DEDUCTION_MASTER.Sequence_No is null then -1 else TSPL_DEDUCTION_MASTER.Sequence_No end) end)  as Sequence_No ,TSPL_VENDOR_INVOICE_HEAD.Posting_Date 
 from TSPL_VENDOR_INVOICE_DETAIL 
 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No 
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
@@ -2620,7 +2630,7 @@ and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 "
             qry = qry & whrCls & "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " & strMCCcode & " ) and " & IIf(chkSkipPrevDeduction.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
             qry += " )xxx group by Document_No "
             If PayableAmountZeroForMCCSale Then
-                qry += " order by Vendor_Code,Sequence_No "
+                qry += " order by Vendor_Code,Posting_Date,Sequence_No "
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -4586,6 +4596,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
 
                 LoadBlankGridGV()
                 If obj.dtPPDetail IsNot Nothing AndAlso obj.dtPPDetail.Rows.Count > 0 Then
+                    Is_gv_Rows_Clear = False
                     gv.DataSource = Nothing
                     gv.AutoGenerateColumns = False
                     gv.DataSource = obj.dtPPDetail
@@ -5076,6 +5087,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
 
         isEmpOnAmtOnly = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select isnull(TSPL_MCC_MASTER.empOnAmountOnly,0) as empOnAmountOnly  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code in (select Location_Code  from TSPL_LOCATION_MASTER where  " + strMCCcode + " and Location_Category='MCC' and Rejected_Type='N') ")) = 0, False, True)
         If gvInvoice.Rows.Count > 0 Then
+            Is_gv_Rows_Clear = True
             For i As Integer = 0 To gvInvoice.Rows.Count - 1
                 gv.Rows.AddNew()
                 k = k + 1
