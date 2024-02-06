@@ -2756,6 +2756,18 @@ Public Class ProgramCodeNew
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleShareReport, "Report", "1.46.03", clsUserMgtCode.ModuleShare, "SM", 30)
 
+        '----------------------------------MIS---------------------------------------'
+
+        InsertDefaultValue(clsUserMgtCode.ModuleMIS, "MIS", "1.47", clsUserMgtCode.ExpertERP, "M", 23)
+
+        '' setup
+        '=========================================================
+
+        InsertDefaultValue(clsUserMgtCode.SubModuleMISSetUp, "Setup", "1.47.01", clsUserMgtCode.ModuleMIS, "SM", 24)
+        InsertDefaultValue(clsUserMgtCode.MISitemMaster, "MIS Item Master", "1.47.01.01", clsUserMgtCode.SubModuleMISSetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.MISitemGroups, "MIS Item Group", "1.47.01.02", clsUserMgtCode.SubModuleMISSetUp, 27)
+
+
         'Try
         '    clsDBFuncationality.ExecuteNonQuery("insert into TSPL_MODULE_PERMISSION values ('1','" + clsUserMgtCode.ModuleReco + "')")
         'Catch ex As Exception
@@ -4236,6 +4248,8 @@ Public Class clsProgramIdFormNameMapping
         'UpdateFormName(clsUserMgtCode.RptAClassMilkRate, "RptAClassMilkRate", "ERP.EXE")
         '=================
         'UpdateFormName(clsUserMgtCode.ApproveFailedSample, "Approve Failed Sample", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.MISitemGroups, "frmMISItemGroup", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.MISitemMaster, "frmMISItemMaster", "ERP.EXE")
     End Sub
 
     Public Shared Sub UpdateFormName(ProgramId As String, FormName As String, AssamblyName As String)

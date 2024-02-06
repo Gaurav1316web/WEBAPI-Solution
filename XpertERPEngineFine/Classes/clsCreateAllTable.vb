@@ -53886,6 +53886,28 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Remarks", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_STD_ADD_REMOVE", coll, "", True, True, "TSPL_RCDF_STD", "Doc_Code", "")
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "varchar(30) Not NULL Primary Key")
+            coll.Add("Name", "varchar(50) Not null")
+            coll.Add("Created_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modify_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modify_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MIS_ITEM_GROUP_MASTER", coll, "", True)
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Item_Code", "varchar(30) Not NULL Primary Key")
+            coll.Add("Item_Name", "varchar(50) Not NULL")
+            coll.Add("Group_Code", "varchar(50) NULL")
+            coll.Add("Item_UOM", "varchar(12) NULL")
+            coll.Add("Created_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modify_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modify_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MIS_ITEM_MASTER", coll, "", True)
+
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             Throw New Exception(ex.Message)
