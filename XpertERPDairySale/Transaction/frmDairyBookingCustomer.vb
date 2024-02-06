@@ -6466,6 +6466,7 @@ from
             obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
             obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
             obj.Is_Create_Auto_Invoice = 1
+            obj.Supply_Date = txtDate.Value
             If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
                 obj.Shift_Type = ""
             Else

@@ -41,7 +41,7 @@ Partial Class frmMilkCollectionMCC
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.gvTotal = New Telerik.WinControls.UI.RadGridView()
+        Me.gvTotal = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnTankerData = New Telerik.WinControls.UI.RadSplitButton()
@@ -90,10 +90,10 @@ Partial Class frmMilkCollectionMCC
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.gvParam = New Telerik.WinControls.UI.RadGridView()
+        Me.gvParam = New common.UserControls.MyRadGridView()
         Me.Panel2.SuspendLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1280,7 +1280,7 @@ Partial Class frmMilkCollectionMCC
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton

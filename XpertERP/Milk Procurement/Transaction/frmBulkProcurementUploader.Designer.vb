@@ -35,7 +35,7 @@ Partial Class frmBulkProcurementUploader
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel2.SuspendLayout()
         CType(Me.btReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -217,7 +217,7 @@ Partial Class frmBulkProcurementUploader
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem

@@ -204,7 +204,7 @@ Partial Class frmShipmentProductSale
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gv_dispatchchecklist = New Telerik.WinControls.UI.RadGridView()
+        Me.gv_dispatchchecklist = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.txtTCSTaxRate = New common.MyNumBox()
         Me.MyLabel39 = New common.Controls.MyLabel()
@@ -5112,7 +5112,7 @@ Partial Class frmShipmentProductSale
     Friend WithEvents MyLabel36 As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage5 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadGroupBox6 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents gv_dispatchchecklist As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv_dispatchchecklist As common.UserControls.MyRadGridView
     Friend WithEvents chkIsTaxable As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents txtEWayBillNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel42 As common.Controls.MyLabel

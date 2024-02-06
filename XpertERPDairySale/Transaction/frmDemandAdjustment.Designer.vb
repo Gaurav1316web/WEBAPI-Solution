@@ -43,7 +43,7 @@ Partial Class frmDemandAdjustment
         Me.lblRouteDesc = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.lblDate = New common.Controls.MyLabel()
-        Me.GV1 = New Telerik.WinControls.UI.RadGridView()
+        Me.GV1 = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()

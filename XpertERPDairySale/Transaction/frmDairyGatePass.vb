@@ -3,7 +3,8 @@ Imports common
 Imports System.Data.SqlClient
 Imports System
 Imports System.Text.RegularExpressions
-
+Imports Newtonsoft.Json.Linq
+Imports System.IO
 Public Class frmDairyGatePass
     Inherits FrmMainTranScreen
     'Sanjay Ticket No-MIL/08/07/19-000104 Add Salesman
@@ -50,8 +51,8 @@ Public Class frmDairyGatePass
     Dim VehicleDesc As String = Nothing
     Dim OneTimeCheck As Boolean = False
     Dim EnableDispatch As Boolean = False
+    Dim EnableLocation As Boolean = False
 #End Region
-
     Private Sub SetUserMgmtNew()
         Me.Form_ID = clsUserMgtCode.frmDairyGatePass
         MyBase.SetUserMgmt(clsUserMgtCode.frmDairyGatePass)
@@ -64,20 +65,17 @@ Public Class frmDairyGatePass
         btnPrint.Visible = MyBase.isPrintFlag
         btnClKM.Visible = MyBase.isModifyFlag
     End Sub
-
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        CreateTable()
+        'CreateTable()
         'Dim coll As Dictionary(Of String, String)
         'coll = New Dictionary(Of String, String)()
         'coll.Add("Closing_Date", "Datetime null")
         'coll.Add("ShiftType", "varchar(20) NULL")
         'clsCommonFunctionality.CreateOrAlterTable("TSPL_DAIRYSALE_GATEPASS_MASTER", coll)
-
         'coll = New Dictionary(Of String, String)()
         'coll.Add("Production_Remarks", "varchar(200) NULL")
         'coll.Add("GPCode", "varchar(30) NULL")
         'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
-
         SetUserMgmtNew()
         isNewEntry = True
         LoadBlankGrid()
@@ -87,6 +85,7 @@ Public Class frmDairyGatePass
         'CheckCreateCapacity = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, Nothing)))
         isCreateProvisionOfTransporterInDairyDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)))
         IsLoadingSlipMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, Nothing)) = 1, True, False)
+        EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
         CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
         Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
@@ -99,7 +98,7 @@ Public Class frmDairyGatePass
             btnPost.Visible = True
             btnPost.Enabled = False
         Else
-            btnPost.Visible = False
+            ' btnPost.Visible = False
         End If
         AlternateVechileforGatePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAlternateVechileforFreshSale, clsFixedParameterCode.ShowAlternateVechileforFreshSale, Nothing))
         'funFillGrid()
@@ -139,60 +138,55 @@ Public Class frmDairyGatePass
         If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
             txtDate.Value = docdate
         End If
-
         '  LoadData(txtCode.Value, NavigatorType.Current)
-
     End Sub
-
-    Private Sub CreateTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("GPCode", "Varchar(30) not null  PRIMARY KEY")
-        coll.Add("GPDate", "datetime not NULL")
-        coll.Add("Vehicle_Id", "varchar(12) NOT NULL")
-        coll.Add("Vehicle_Number", "varchar(50) NOT NULL")
-        coll.Add("Item_Type", "varchar(10) NULL")
-        coll.Add("Comp_Code", "VARCHAR(8)")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Transporter", "varchar(100) NULL")
-        coll.Add("Remarks", "varchar(200) NULL")
-        coll.Add("Comments", "varchar(200) NULL")
-        coll.Add("Post", "char(1)  Not NUll Default 'N'")
-        coll.Add("Location_Code", "varchar(12)  NULL")
-        coll.Add("Location_Desc", "varchar(50)  NULL")
-        coll.Add("Route_No", "varchar(12)  NULL")
-        coll.Add("TotalCAN", "float  null")
-        coll.Add("TotalCrate", "float  null")
-        coll.Add("Opening_Km", "Decimal(18,2) null")
-        coll.Add("Closing_Km", "Decimal(18,2) null")
-        coll.Add("Distance_In_Route", "Decimal(18,2) null")
-        coll.Add("Price_KM_In_Vehicle", "Decimal(18,2) null")
-        coll.Add("Toll_Amount", "Decimal(18,2) null")
-        coll.Add("Salesman", "varchar(100) NULL")
-        coll.Add("Closing_Date", "Datetime null")
-        coll.Add("IsTransfer", "int not null default 0")
-        coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
-        coll.Add("ShiftType", "varchar(20) NULL")
-        coll.Add("Loading_Slip", "varchar(20) NULL")
-        coll.Add("GatePass_Date", "datetime NULL")
-        coll.Add("Status", "char(1)  NUll")
-        coll.Add("Driver_Name", "varchar(100) NULL")
-        coll.Add("Driver_ContactNo", "varchar(15) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
-        AlterShipmentTable()
-        CreateBalancingTable()
-    End Sub
-
+    'Private Sub CreateTable()
+    '    Dim coll As Dictionary(Of String, String)
+    '    coll = New Dictionary(Of String, String)()
+    '    coll.Add("GPCode", "Varchar(30) not null  PRIMARY KEY")
+    '    coll.Add("GPDate", "datetime not NULL")
+    '    coll.Add("Vehicle_Id", "varchar(12) NOT NULL")
+    '    coll.Add("Vehicle_Number", "varchar(50) NOT NULL")
+    '    coll.Add("Item_Type", "varchar(10) NULL")
+    '    coll.Add("Comp_Code", "VARCHAR(8)")
+    '    coll.Add("Created_By", "varchar(12) NOT NULL")
+    '    coll.Add("Created_Date", "Datetime NOT NULL")
+    '    coll.Add("Modified_By", "varchar(12) NOT NULL")
+    '    coll.Add("Modified_Date", "Datetime NOT NULL")
+    '    coll.Add("Transporter", "varchar(100) NULL")
+    '    coll.Add("Remarks", "varchar(200) NULL")
+    '    coll.Add("Comments", "varchar(200) NULL")
+    '    coll.Add("Post", "char(1)  Not NUll Default 'N'")
+    '    coll.Add("Location_Code", "varchar(12)  NULL")
+    '    coll.Add("Location_Desc", "varchar(50)  NULL")
+    '    coll.Add("Route_No", "varchar(12)  NULL")
+    '    coll.Add("TotalCAN", "float  null")
+    '    coll.Add("TotalCrate", "float  null")
+    '    coll.Add("Opening_Km", "Decimal(18,2) null")
+    '    coll.Add("Closing_Km", "Decimal(18,2) null")
+    '    coll.Add("Distance_In_Route", "Decimal(18,2) null")
+    '    coll.Add("Price_KM_In_Vehicle", "Decimal(18,2) null")
+    '    coll.Add("Toll_Amount", "Decimal(18,2) null")
+    '    coll.Add("Salesman", "varchar(100) NULL")
+    '    coll.Add("Closing_Date", "Datetime null")
+    '    coll.Add("IsTransfer", "int not null default 0")
+    '    coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
+    '    coll.Add("ShiftType", "varchar(20) NULL")
+    '    coll.Add("Loading_Slip", "varchar(20) NULL")
+    '    coll.Add("GatePass_Date", "datetime NULL")
+    '    coll.Add("Status", "char(1)  NUll")
+    '    coll.Add("Driver_Name", "varchar(100) NULL")
+    '    coll.Add("Driver_ContactNo", "varchar(15) NULL")
+    '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
+    '    AlterShipmentTable()
+    '    CreateBalancingTable()
+    'End Sub
     Private Sub AlterShipmentTable()
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)()
         coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
     End Sub
-
     Private Sub CreateBalancingTable()
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)()
@@ -204,15 +198,12 @@ Public Class frmDairyGatePass
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
         '=====================
     End Sub
-
     Private Sub LoadBlankGrid()
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
-
         Gv1.AllowDeleteRow = True
         Gv1.AllowAddNewRow = False
-
         Dim repoPK_ID As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoPK_ID = New GridViewDecimalColumn()
         repoPK_ID.FormatString = ""
@@ -223,7 +214,6 @@ Public Class frmDairyGatePass
         repoPK_ID.IsVisible = False
         repoPK_ID.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         Gv1.MasterTemplate.Columns.Add(repoPK_ID)
-
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
         repoLineNo.FormatString = ""
@@ -233,7 +223,6 @@ Public Class frmDairyGatePass
         repoLineNo.ReadOnly = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         Gv1.MasterTemplate.Columns.Add(repoLineNo)
-
         Dim ItemCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         ItemCode.FormatString = ""
         ItemCode.HeaderText = "Item Code"
@@ -241,7 +230,6 @@ Public Class frmDairyGatePass
         ItemCode.Width = 100
         ItemCode.ReadOnly = True
         Gv1.MasterTemplate.Columns.Add(ItemCode)
-
         Dim ItemDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         ItemDesc.FormatString = ""
         ItemDesc.HeaderText = "Item Desc"
@@ -249,7 +237,6 @@ Public Class frmDairyGatePass
         ItemDesc.Width = 100
         ItemDesc.ReadOnly = True
         Gv1.MasterTemplate.Columns.Add(ItemDesc)
-
         Dim Unit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         Unit.FormatString = ""
         Unit.HeaderText = "Unit"
@@ -257,7 +244,6 @@ Public Class frmDairyGatePass
         Unit.Width = 100
         Unit.ReadOnly = True
         Gv1.MasterTemplate.Columns.Add(Unit)
-
         Dim HSN As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         HSN.FormatString = ""
         HSN.HeaderText = "HSN Code"
@@ -265,7 +251,6 @@ Public Class frmDairyGatePass
         HSN.Width = 100
         HSN.ReadOnly = True
         Gv1.MasterTemplate.Columns.Add(HSN)
-
         Dim repoQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoQty = New GridViewDecimalColumn()
         repoQty.FormatString = ""
@@ -280,8 +265,6 @@ Public Class frmDairyGatePass
         End If
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         Gv1.MasterTemplate.Columns.Add(repoQty)
-
-
         Gv1.ShowGroupPanel = False
         Gv1.AllowColumnReorder = False
         Gv1.AllowRowReorder = False
@@ -290,7 +273,6 @@ Public Class frmDairyGatePass
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
         Gv1.AllowAddNewRow = False
     End Sub
-
     Private Function LoadQuery(ByVal strItemCode As String, ByVal EnableDispatch As Boolean) As String
         Dim strItem As String = String.Empty
         If CreateGatePassFromDemand = True Then
@@ -325,7 +307,6 @@ Public Class frmDairyGatePass
                 dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(StrChkAvQuery)
                 If dt.Rows.Count > 0 Then
-
                     strQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                         "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
                         "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
@@ -333,12 +314,9 @@ Public Class frmDairyGatePass
                         "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                         "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                         "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "' and TSPL_SD_SHIPMENT_HEAD.AlternateVehicle='" + txtVehicle.Value + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
-
                     If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
                     End If
-
-
                 Else
                     strQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                        "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
@@ -359,8 +337,6 @@ Public Class frmDairyGatePass
                       "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                       "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                       "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
-
-
                 If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                     strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
                 End If
@@ -392,19 +368,15 @@ Public Class frmDairyGatePass
                 'End If
             End If
         End If
-
         Return strQuery
     End Function
-
     '===================Added by preeti gupta against ticket no[BHA/17/08/18-000444] ========================
     Private Function LoadDoubleClickQuery(ByVal strItemCode As String) As String
         Dim strItem As String = String.Empty
         If clsCommon.myLen(strItemCode) > 0 Then
             strItem = " and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" & strItemCode & "'"
         End If
-
         If AlternateVechileforGatePass.Equals(1) Then
-
             Dim StrChkAvQuery As String = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type],TSPL_SD_SHIPMENT_HEAD.Document_Code as DocNo,Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                 "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
                 "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
@@ -412,14 +384,12 @@ Public Class frmDairyGatePass
                 "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                 "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   GPCode ='" + txtCode.Value + "' and " &
                 "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and TSPL_SD_SHIPMENT_HEAD.AlternateVehicle='" + txtVehicle.Value + "'   and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
-
             If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                 StrChkAvQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
             End If
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(StrChkAvQuery)
             If dt.Rows.Count > 0 Then
-
                 strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type], TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                     "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
                     "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
@@ -427,12 +397,9 @@ Public Class frmDairyGatePass
                     "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                     "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   GPCode ='" + txtCode.Value + "' and " &
                     "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "' and TSPL_SD_SHIPMENT_HEAD.AlternateVehicle='" + txtVehicle.Value + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
-
                 If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                     strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
                 End If
-
-
             Else
                 strQuery = "select '" & clsUserMgtCode.frmSaleDispatchDairy & "' as [Trans Type], TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                    "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " &
@@ -441,7 +408,6 @@ Public Class frmDairyGatePass
                    "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                    "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And    GPCode ='" + txtCode.Value + "' and " &
                    "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "' and TSPL_SD_SHIPMENT_HEAD.Vehicle_Code='" + txtVehicle.Value + "' and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & " "
-
                 If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                     strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
                 End If
@@ -455,22 +421,18 @@ Public Class frmDairyGatePass
                     " left outer Join (Select PK_ID,	Max(GPCode)GPCode,	Item_Code,	Unit_Code,	Sum(IsNull(GP_Qty,0))GPUsedQty from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID,Item_Code,Unit_Code)UsedGPDetail On UsedGPDetail.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID " &
                     "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' " & 'and TSPL_SD_SHIPMENT_DETAIL.PK_ID='" + clsCommon.myCstr(Gv1.CurrentRow.Cells(colPKID).Value) + "'" &'GPCode ='" + txtCode.Value + "' and " &
                     " and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and TSPL_SD_SHIPMENT_HEAD.Vehicle_Code='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " '" & strItem & "  "
-
             If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                 strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
             End If
         End If
-
         Return strQuery
     End Function
     '=================================================================
-
     Private Function GetQuery(ByVal strItemCode As String, ByVal strGPCode As String) As String
         Dim strItem As String = String.Empty
         If clsCommon.myLen(strItemCode) > 0 Then
             strItem = " and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" & strItemCode & "'"
         End If
-
         strQuery = "select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode as [Document No],GPDate as [Document Date],'' as Customer_Code,'' as Customer_Name, " &
             "TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_code as Unit,Qty,TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code  " &
             "from TSPL_DAIRYSALE_GATEPASS_MASTER left outer join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode  " &
@@ -478,7 +440,6 @@ Public Class frmDairyGatePass
             "where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strGPCode & "' "
         Return strQuery
     End Function
-
     Private Sub funFillGrid()
         Try
             LoadBlankGrid()
@@ -488,7 +449,6 @@ Public Class frmDairyGatePass
             If arrShipmentFromMultiple IsNot Nothing AndAlso arrShipmentFromMultiple.Count > 0 Then
                 qry += " and TSPL_SD_SHIPMENT_HEAD.Document_Code in (" + clsCommon.GetMulcallString(arrShipmentFromMultiple) + ") "
             End If
-
             strQuery = "Select xxfinal.PK_ID,xxfinal.[Item Code],max(xxfinal.[Item Desc]) as [Item Desc],xxfinal.Unit,xxfinal.Quantity,Case When Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)>0 Then IsNull(((xxfinal.Quantity)-Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)),0) Else xxfinal.Quantity End As BalanceQty,max(xxfinal.HSN_Code) as HSN_Code,max(xxfinal.Customer_Name) as Customer_Name from (select PK_ID,[Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code, max(Customer_Name) as Customer_Name from ( " & qry & " ) final  group by [Item Code],Unit,PK_ID )xxfinal
                         left Outer Join TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL ON TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.PK_ID=xxfinal.PK_ID and TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.Item_Code=xxfinal.[Item Code]
                         Group By xxfinal.PK_ID,xxfinal.[Item Code],xxfinal.Unit,xxfinal.Quantity Having (Case When Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)>0 Then IsNull(((xxfinal.Quantity)-Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)),0) Else xxfinal.Quantity End )>0 Order By PK_ID"
@@ -518,7 +478,6 @@ Public Class frmDairyGatePass
                         End If
                         If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Can") = CompairStringResult.Equal Then
                             totalCan += clsCommon.myCdbl(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value)
-
                         End If
                         txtDate.Enabled = False
                         'txtSupplyDate.Enabled = False
@@ -546,7 +505,6 @@ Public Class frmDairyGatePass
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
-
     Private Sub funLoadGrid(ByVal strGPCOde As String)
         Try
             LoadBlankGrid()
@@ -554,17 +512,14 @@ Public Class frmDairyGatePass
             Dim totalCrate As Integer = 0
             Dim totalCan As Integer = 0
             'strQuery = "select [Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code from ( " & qry & " ) final group by [Item Code],Unit "
-
             'strQuery = "select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID,[Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code from ( " & qry & " ) final
             '            Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode=final.[Document No] and TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code=final.[Item Code]
             '            group by [Item Code],Unit,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID "
-
             strQuery = " select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code,max([Item_Desc]) as [Item Desc],TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Unit_Code as Unit,CONVERT(INT, MAX(GP_Qty)) Quantity ,max(TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code)HSN_Code   from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL
                         left outer join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode  
 						left outer join TSPL_ITEM_MASTER on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code   
 						where TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode= '" & strGPCOde & "'  
 						group by TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Unit_Code,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID "
-
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQuery)
             Dim intLineNo As Integer = 0
@@ -585,11 +540,9 @@ Public Class frmDairyGatePass
                     End If
                     If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Can") = CompairStringResult.Equal Then
                         totalCan += clsCommon.myCdbl(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value)
-
                     End If
                     txtDate.Enabled = False
                     'txtSupplyDate.Enabled = False
-
                 Next
                 txtCrateQty.Text = totalCrate
                 txtCanQty.Text = totalCan
@@ -598,7 +551,6 @@ Public Class frmDairyGatePass
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
-
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             btnPost.Visible = True
@@ -607,7 +559,6 @@ Public Class frmDairyGatePass
             isInsideLoadData = True
             Addnew()
             LoadBlankGrid()
-
             Dim obj As New clsDairyGatePassEntry()
             obj = clsDairyGatePassEntry.GetData(strCode, NavTyep, "FS")
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GPCode) > 0) Then
@@ -631,9 +582,8 @@ Public Class frmDairyGatePass
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
-                    btnPost.Visible = False
+                    'btnPost.Visible = False
                 End If
-
                 If obj.Post = "Y" Then
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
@@ -653,7 +603,6 @@ Public Class frmDairyGatePass
                         btnSave.Enabled = True
                     End If
                 End If
-
                 txtCode.Value = obj.GPCode
                 txtVehicle.Value = obj.Vehicle_Id
                 lblVehicleDesc.Text = obj.Vehicle_Number
@@ -678,7 +627,6 @@ Public Class frmDairyGatePass
                 'txtmultiBooking.arrValueMember = Nothing
                 txtmultiBooking.Enabled = False
                 'btnSave.Enabled = False
-
                 '=========================================================
                 txtOpKM.Value = obj.Opening_Km
                 txtClKM.Value = obj.Closing_Km
@@ -688,13 +636,11 @@ Public Class frmDairyGatePass
                     chkAgainstTransfer.Checked = True
                     FndTransferNo.Value = obj.AgainstTransferNo
                 End If
-
                 If clsCommon.myCdbl(obj.Closing_Km) > 0 Then
                     btnClKM.Enabled = False
                 Else
                     btnClKM.Enabled = True
                 End If
-
                 If clsCommon.CompairString(obj.ShiftType, "Morning") = CompairStringResult.Equal Then
                     rbtnMorning.IsChecked = True
                 ElseIf clsCommon.CompairString(obj.ShiftType, "Evening") = CompairStringResult.Equal Then
@@ -710,10 +656,8 @@ Public Class frmDairyGatePass
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
-
         End Try
     End Sub
-
     Function AllowToSave() As Boolean
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
             txtDate.Select()
@@ -738,7 +682,6 @@ Public Class frmDairyGatePass
                 txtOpKM.Focus()
                 Throw New Exception("Please enter opening KM")
             End If
-
         End If
         If IsLoadingSlipMandatory Then
             If clsCommon.myLen(txtLoadingSlip.Text) <= 0 Then
@@ -755,7 +698,6 @@ Public Class frmDairyGatePass
         End If
         Return funvalidatevehicle()
     End Function
-
     Private Function funvalidatevehicle() As Boolean
         Dim count As Decimal = 0
         Dim segno As String = ""
@@ -768,17 +710,11 @@ Public Class frmDairyGatePass
         Else
             Dim strmessage As String = "This vehicle code doesn't exist" + Environment.NewLine
             strmessage += "Do you want to continue "
-
-
-
             If common.clsCommon.MyMessageBoxShow(strmessage, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-
                 If clsCommon.myLen(lblVehicleDesc.Text) <= 0 Then
                     lblVehicleDesc.Focus()
                     Throw New Exception("Please Enter Vehicle No")
                 End If
-
-
                 txtVehicle.Value = clsCommon.incval(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Max(Segment_code) from TSPL_GL_SEGMENT_CODE where Segment_name = 'Vehicles'")))
                 'strvehiclenum = txtVehicle.Text
                 sql = "select seg_no from tspl_gl_segment where seg_name='Vehicles'"
@@ -787,14 +723,12 @@ Public Class frmDairyGatePass
                 Try
                     connectSql.RunSpTransaction(trans, "sp_tspl_gl_segmentcode_insert", New SqlParameter("@segno", segno), New SqlParameter("@segmentname", "Vehicles"), New SqlParameter("@segmentcode", txtVehicle.Value), New SqlParameter("@desc", strvehiclenum), New SqlParameter("@acccode", "NULL"), New SqlParameter("@createdby", objCommonVar.CurrentUserCode), New SqlParameter("@createddate", connectSql.serverDate(trans)), New SqlParameter("@modifiedby", objCommonVar.CurrentUserCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", objCommonVar.CurrentCompanyCode))
                     connectSql.RunSpTransaction(trans, "SP_TSPL_VEHICLE_MASTER_INSERT", New SqlParameter("@Vehicle_Id", txtVehicle.Value), New SqlParameter("@Model", ""), New SqlParameter("@Number", strvehiclenum), New SqlParameter("@Description", strvehiclenum), New SqlParameter("@Type", "H"), New SqlParameter("@Start_Date", Date.Now.ToString("dd/MM/yyyy")), New SqlParameter("@End_Date", Date.Now.ToString("dd/MM/yyyy")), New SqlParameter("@Vehicle_Reg_No", ""), New SqlParameter("@Vehicle_Chesis_No", ""), New SqlParameter("@Capacity", "0"), New SqlParameter("@Insurance", ""), New SqlParameter("@Pollution_Check", ""), New SqlParameter("@Fitness", Date.Now.ToString("dd/MM/yyyy")), New SqlParameter("@Trans_Type", ""), New SqlParameter("@Road_Tax", ""), New SqlParameter("@Transport_Id", ""), New SqlParameter("@Created_By", objCommonVar.CurrentUserCode), New SqlParameter("@Created_Date", connectSql.serverDate(trans)), New SqlParameter("@Modified_By", objCommonVar.CurrentUserCode), New SqlParameter("@Modified_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", objCommonVar.CurrentCompanyCode))
-
                     trans.Commit()
                 Catch ex As Exception
                     txtVehicle.Value = ""
                     trans.Rollback()
                     Throw New Exception(ex.Message)
                 End Try
-
                 'lblVehicleDesc.Text = txtVehicle.Text + "-Hired"
                 txtVehicle.Text = txtVehicle.Value
                 Return True
@@ -805,7 +739,6 @@ Public Class frmDairyGatePass
             End If
         End If
     End Function
-
     Sub SaveData()
         Try
             If (AllowToSave()) Then
@@ -898,7 +831,6 @@ Public Class frmDairyGatePass
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub Addnew()
         txtLoadingSlip.Text = ""
         txtTollAmount.Text = 0
@@ -944,7 +876,6 @@ Public Class frmDairyGatePass
         txtDriverName.Text = Nothing
         txtDriverMobNo.Text = Nothing
     End Sub
-
     Private Sub cmbitemtype_SelectedIndexChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
         'If isInsideLoadData = False Then
         '    txtVehicle.Value = ""
@@ -958,7 +889,6 @@ Public Class frmDairyGatePass
         '    funFillGrid()
         'End If
     End Sub
-
     Private Sub txtDate_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         'If isInsideLoadData = False Then
         '    If clsCommon.CompairString(cmbitemtype.Text, "Select") = CompairStringResult.Equal Then
@@ -968,25 +898,17 @@ Public Class frmDairyGatePass
         '    End If
         'End If
     End Sub
-
     Private Sub Gv1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
-
     Private Sub TextBox3_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
-
     Private Sub TextBox2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
-
     Private Sub txtLocCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtLocCode._MYValidating
         strQuery = "select distinct Bill_To_Location as Code,Location_Desc as Description from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code"
         txtLocCode.Value = clsCommon.ShowSelectForm("LocationSegGP", strQuery, "Code", "screen_type='DS'", txtLocCode.Value, "Code", isButtonClicked)
         txtLocDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocCode.Value & "'")
     End Sub
-
     Private Sub btnGo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnGo.Click
         If isInsideLoadData = False Then
             'If clsCommon.myLen(txtVehicle.Value) <= 0 AndAlso clsCommon.myLen(fndRouteNo.Value) <= 0 Then
@@ -1000,7 +922,6 @@ Public Class frmDairyGatePass
                     Exit Sub
                 End If
             End If
-
             LoadBlankGrid()
             isNewEntry = True
             isInsideLoadData = False
@@ -1010,15 +931,11 @@ Public Class frmDairyGatePass
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Please select Transfer No", Me.Text)
                 End If
-
             Else
                 funFillGrid()
             End If
-
-
         End If
     End Sub
-
     Private Sub frmDairyGatePass_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         'Add Tool tip Task No- TEC/18/05/18-000237
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnNew.Enabled Then
@@ -1069,11 +986,9 @@ Public Class frmDairyGatePass
         TxtMultiDairyGPassReverse.Visible = val
         btnMultiGPReverse.Visible = val
     End Sub
-
     Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-
     Private Sub txtVehicle__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtVehicle._MYValidating
         'done by priti BHA/25/07/18-000192 to remove transtype condition and added screen type condition.
         strQuery = ReturnVehicle()
@@ -1084,7 +999,6 @@ Public Class frmDairyGatePass
             txtTransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'"))
         End If
     End Sub
-
     Private Function ReturnVehicle() As String
         Dim Query As String = Nothing
         If CreateGatePassFromDemand = True Then
@@ -1103,7 +1017,6 @@ Public Class frmDairyGatePass
         End If
         Return Query
     End Function
-
     Private Sub txtCode__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
         Try
             Dim qry As String = "select count(*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" + txtCode.Value + "' "
@@ -1118,7 +1031,6 @@ Public Class frmDairyGatePass
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
         ' Dim qry As String = " SELECT  GPCode,convert(varchar(10),GPDate,103)  as GPDate,Vehicle_Id,Vehicle_Number FROM  TSPL_DAIRYSALE_GATEPASS_MASTER"
         ' Ticket No : ERO/23/05/19-000614 By prabhakar
@@ -1126,9 +1038,7 @@ Public Class frmDairyGatePass
         'Ticket No-ERO/27/08/19-001004 ,Add Opening_Km,Closing_Km
         Dim qry As String = " SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)  as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_Route_Master.Route_Desc, case when TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' then 'Approved' else 'Pending' end as Status,Opening_Km,Closing_Km ,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as [Against Transfer No], Case When TSPL_DAIRYSALE_GATEPASS_MASTER.Status='Y' Then 'Cancel' Else Null End As [GP Status] FROM  TSPL_DAIRYSALE_GATEPASS_MASTER " &
                             " left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No "
-
         LoadData(clsCommon.ShowSelectForm("GatepassEntry", qry, "GPCode", "", txtCode.Value, "GPCode", isButtonClicked), NavigatorType.Current)
-
         If clsCommon.myLen(txtCode.Value) > 0 Then
             txtCode.MyReadOnly = False
             btnGo.Enabled = False
@@ -1140,7 +1050,6 @@ Public Class frmDairyGatePass
         End If
         'funLoadGrid(txtCode.Value)
     End Sub
-
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If clsCommon.CompairString(btnSave.Text, "Update") = CompairStringResult.Equal AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
@@ -1159,7 +1068,6 @@ Public Class frmDairyGatePass
             SaveData()
         End If
     End Sub
-
     Private Sub btnNew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnNew.Click
         Addnew()
         cmbitemtype.Enabled = True
@@ -1169,14 +1077,12 @@ Public Class frmDairyGatePass
         RadGroupBox3.Enabled = True
         VehicleDesc = Nothing
     End Sub
-
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
                 Exit Sub
             End If
-
             Dim isPost As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode = '" + txtCode.Value + "' and Post = 'Y'"))
             If isPost = True Then
                 common.clsCommon.MyMessageBoxShow(Me, "Record Already posted.", Me.Text)
@@ -1184,23 +1090,26 @@ Public Class frmDairyGatePass
             End If
             If myMessages.postConfirm() Then
                 If (clsDairyGatePassEntry.PostData(MyBase.Form_ID, txtCode.Value)) Then
+                    UploadDoc(txtCode.Value)
+                    Dim strQry As String = "select distinct Document_Code from TSPL_SD_SHIPMENT_DETAIL where PK_ID in(select PK_ID from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" + txtCode.Value + "')"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        For Each dr As DataRow In dt.Rows
+                            UploadInvoice(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + clsCommon.myCstr(dr("Document_Code")) + "'")))
+                        Next
+                    End If
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
+
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                 End If
-
                 'clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set post='Y' where gpcode='" & txtCode.Value & "'")
-
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
-
     End Sub
-
     Private Sub btnSelect_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSelect.Click
         Dim I As Integer = 0
         If (Gv1.Rows.Count > 0) AndAlso clsCommon.CompairString(btnSelect.Text, "Select All") = CompairStringResult.Equal Then
@@ -1215,11 +1124,8 @@ Public Class frmDairyGatePass
             btnSelect.Text = "Select All"
         End If
     End Sub
-
     Private Sub Gv1_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles Gv1.CurrentRowChanged
-
     End Sub
-
     Private Sub gv1_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles Gv1.CellDoubleClick
         Try
             Dim strItem = Gv1.Rows(e.RowIndex).Cells(1).Value
@@ -1231,19 +1137,16 @@ Public Class frmDairyGatePass
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
     Private Function GetAttachQry(ByVal StrCode As String) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
         Dim Qry As String = " Select Case When CFinPouch > 0 Then ( ( Final.Crate_Qty * Final.Conversion_Factor )/ CFinPouch ) Else 0 End AS 'NoOfPouch', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) Else 0 End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr', CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then cast( ( cast(qty as int)% Column_Crate ) as int ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch', CAST( CASE WHEN qty > 0 THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt END AS decimal(18,2) ) AS CrateQtydd, CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2 FROM 
                    ( Select  max(Supply_Date)as Supply_Date,"
-
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt ,MAX(gpUnit) AS gpUnit, "
         Else
             Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt, "
         End If
-
         Qry += " Max(Distributor) Distributor, Max(CFinPouch) CFinPouch, Max(CFinLTR) CFinLTR, Max(CFinBOX) CFinBOX, Max(CFinKG) CFinKG, Max(Conversion_Factor) Conversion_Factor, Max(AgainstTransferNo) AgainstTransferNo, Max(Comp_Code) Comp_Code, Sum( Qty * case when Unit_Code = 'Crate' then 1 else 0 end ) Crate_Qty, Sum( Qty * case when Unit_Code = 'Pouch' then 1 else 0 end ) Pouch_Qty, Sum(Box_Crate_Qty) Box_Crate_Qty, Max(Insurance_No) Insurance_No, Max(Insurance_Comp_Name) Insurance_Comp_Name, Max(comp_name) comp_name, Max(unit_code) unit_code, Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Sum(Column_Crate) Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Sum(Amount) Amount, Sum(Margin) Margin, sum(SecurityAmt) as SecurityAmt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax, Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo FROM
                    ( select FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
@@ -1251,7 +1154,6 @@ Public Class frmDairyGatePass
         Else
             Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , "
         End If
-
         Qry += " TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor', ItemConversionInPouch.Conversion_Factor As 'CFinPouch', ItemConversionInLTR.Conversion_Factor AS 'CFinLTR', ItemConversionInKG.Conversion_Factor AS 'CFinKG', ItemConversionInBox.Conversion_Factor AS 'CFinBOX', CurrentUnit.Conversion_Factor, isnull( TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo, '' ) as AgainstTransferNo, TSPL_COMPANY_MASTER.Comp_Code, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Box' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CrateUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Crate' and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Pouch' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CurrentUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) else 0 end as Box_Crate_Qty, TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Insurance_Comp_Name, TSPL_COMPANY_MASTER.comp_name, TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code, TSPL_DAIRYSALE_GATEPASS_DETAIL.qty, TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address, tspl_location_master.add1 + case when len(tspl_location_master.add2)> 0 then ', ' + tspl_location_master.add2 else '' end + case when LEN( isnull(tspl_location_master.Add3, '') )> 0 then ', ' + isnull(tspl_location_master.Add3, '') else ' ' end as Loc_add, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate, TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan, tspl_route_master.Route_Desc, TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode, convert( varchar, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103 ) as GPDate, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 'hh:mm tt' ) as GPTime, TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc, TSPL_DAIRYSALE_GATEPASS_MASTER.location_code, tspl_location_master.Location_desc, TSPL_DAIRYSALE_GATEPASS_MASTER.transporter, TSPL_DAIRYSALE_GATEPASS_MASTER.remarks, TSPL_DAIRYSALE_GATEPASS_MASTER.comments, TSPL_DAIRYSALE_GATEPASS_MASTER.post, TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code, tspl_item_master.item_desc, tspl_item_master.short_description, tspl_item_master.sku_seq, TSPL_TRANSPORT_MASTER.Transporter_Name as TranporterNameFromMaster, TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.Salesman, tspl_vehicle_master.Column_Crate, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No AS Area_Code, TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType, tspl_company_master.GSTReg_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip, ( Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode='" + StrCode + "') AS 'DispatchDate',xyz.Amount,xyz.Margin, xyz.SecurityAmt, xyz.Dist_Commission_Ratewithtax,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from TSPL_DAIRYSALE_GATEPASS_DETAIL " &
                    " left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
                    " left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id " &
@@ -1269,15 +1171,12 @@ Public Class frmDairyGatePass
                      left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Box') as ItemConversionInBox on ItemConversionInBox.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
                      left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code "
         '--" left join tspl_item_uom_detail gpUnit on gpUnit.item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and CrateUnit.uom_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code "
-
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id  left join tspl_item_uom_detail gpUnit on gpUnit.item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and CrateUnit.uom_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code "
         Else
             Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id  "
         End If
-
         Qry += " left outer join 
-     
                      ((select Case When Sum(Isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0))>0 Then  Sum(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) Else 0 End As Amount,Sum(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0)/TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GP_Qty) AS Margin,sum( IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))as SecurityAmt,TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,max(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate) as Dist_Commission_Ratewithtax from TSPL_SD_SHIPMENT_DETAIL   
                        Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
 					   Left Outer Join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL On TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
@@ -1304,11 +1203,8 @@ Public Class frmDairyGatePass
                     " [CATEGORY OT],[CATEGORY FA],[P TYPE],[L TYPE],[JW],[SCRAP])  ) Pivt   Pivot  ( max(Category_Value_Desc) for Item_Category_CodeDesc in ([CATEGORY RMDESC], [BRANDDESC],[SUB BRANDDESC],[DESCRPDESC],[PACKDESC],[PACK SIZEDESC]," &
                     " [CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC],[JWDESC],[SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code )  as tbl_Brand on tbl_Brand.Item_Code=Final.Item_Code   left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =Final.Comp_Code " &
                      " order by Final.sku_seq"
-
         Return Qry
-
     End Function
-
     Public Sub funPrint2(ByVal Code As String)
         Try
             If CreateGatePassFromDemand = True Then
@@ -1321,7 +1217,6 @@ Public Class frmDairyGatePass
                     'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
-
                     frmCRV = Nothing
                 End If
             End If
@@ -1329,7 +1224,6 @@ Public Class frmDairyGatePass
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Public Sub funPrint(ByVal Code As String)
         Try
             If CreateGatePassFromDemand = True Then
@@ -1347,15 +1241,13 @@ Public Class frmDairyGatePass
                         'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     End If
                     frmCRV = Nothing
-                    End If
                 End If
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     '  Public Function GetQueryGatePass() As String
-
     '      Dim Qry As String = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin
     '      ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc
     '      ,Main_Final.Distributor,'" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc
@@ -1388,7 +1280,6 @@ Public Class frmDairyGatePass
     '       LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =Main_Final.location_code"
     '      Return Qry
     '  End Function
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
         If clsCommon.myLen(txtCode.Value) <= 0 Then
@@ -1396,6 +1287,98 @@ Public Class frmDairyGatePass
         Else
             funPrint(txtCode.Value)
         End If
+    End Sub
+    Public Sub UploadDoc(ByVal Code As String)
+        Dim pdfpath As String = ""
+        Try
+            atchqry = GetAttachQry(Code)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                Else
+                    pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    'pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", "", "", Nothing, "", Nothing, "", Nothing)
+                End If
+                frmCRV = Nothing
+            End If
+            If clsCommon.myLen(pdfpath) > 0 Then
+                Dim Str As String = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath))
+                Dim jObj As JObject = JObject.Parse(Str)
+                Dim ArrJ As JArray = Nothing
+                If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
+                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                    If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
+                        Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+                        If FileNo > 0 Then
+                            Str = " UPDATE TSPL_DAIRYSALE_GATEPASS_MASTER set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where GPCode='" + Code + "'"
+                            clsDBFuncationality.ExecuteNonQuery(Str)
+                        End If
+                    Else
+                        Throw New Exception(ArrJ(0).SelectToken("Message"))
+                    End If
+                Else
+                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                    Throw New Exception(ArrJ(0).SelectToken("Message"))
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Public Sub UploadInvoice(ByVal SaleInvoiceNo As String)
+        Dim pdfpath As String = ""
+        Try
+            Dim Qry As String = Nothing
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+            If clsCommon.myLen(SaleInvoiceNo) <= 0 Then
+                myMessages.blankValue("Invoice not found to Print")
+            Else
+                Dim dtDocdate As Date?
+                dtDocdate = Nothing
+                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + SaleInvoiceNo + "'"
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
+                If dt1.Rows.Count > 0 Then
+                    dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
+                End If
+                Dim InvoiceNo As String = "'" + SaleInvoiceNo + "'"
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt.Rows.Count > 0 Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
+                        pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    Else
+                        pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    End If
+                    frmCRV = Nothing
+                End If
+                If clsCommon.myLen(pdfpath) > 0 Then
+                    Dim Str As String = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath))
+                    Dim jObj As JObject = JObject.Parse(Str)
+                    Dim ArrJ As JArray = Nothing
+                    If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
+                        ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                        If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
+                            Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+                            If FileNo > 0 Then
+                                Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" + SaleInvoiceNo + "'"))
+                                Str = " UPDATE TSPL_SD_SHIPMENT_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where Document_Code='" + DocNo + "'"
+                                clsDBFuncationality.ExecuteNonQuery(Str)
+                            End If
+                        Else
+                            Throw New Exception(ArrJ(0).SelectToken("Message"))
+                        End If
+                    Else
+                        ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                        Throw New Exception(ArrJ(0).SelectToken("Message"))
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
         '=====update by preeti gupta Against ticket no[ERO/05/09/19-001019,ERO/05/09/19-001020,TEC/20/05/19-000509]
@@ -1405,7 +1388,6 @@ Public Class frmDairyGatePass
             funPrint2(txtCode.Value)
         End If
     End Sub
-
     Private Sub fndRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndRouteNo._MYValidating
         If CreateGatePassFromDemand = True Then
             strQuery = " Select distinct Route_No As Code,route_desc from (" &
@@ -1424,7 +1406,6 @@ Public Class frmDairyGatePass
     " ) final"
             End If
         End If
-
         fndRouteNo.Value = clsCommon.ShowSelectForm("DSRoute", strQuery, "code", "", fndRouteNo.Value, "", isButtonClicked)
         If clsCommon.myLen(fndRouteNo.Value) > 0 Then
             txtRouteName.Text = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & fndRouteNo.Value & "'")
@@ -1448,17 +1429,18 @@ Public Class frmDairyGatePass
             txtVehicle.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
             lblVehicleDesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
         End If
-        'If clsCommon.myLen(fndRouteNo.Value) > 0 Then
-        '    dt = Nothing
-        '    strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
-        '    dt = clsDBFuncationality.GetDataTable(strQuery)
-        '    If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        '        txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
-        '        txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
-        '    End If
-        'End If
+        If EnableLocation Then
+            If clsCommon.myLen(fndRouteNo.Value) > 0 Then
+                dt = Nothing
+                strQuery = "select Location_Code from TSPL_ROUTE_MASTER where Route_No ='" + clsCommon.myCstr(fndRouteNo.Value) + "'"
+                dt = clsDBFuncationality.GetDataTable(strQuery)
+                If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    txtLocCode.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+                    txtLocDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocCode.Value + "'"))
+                End If
+            End If
+        End If
     End Sub
-
     Sub setRouteVehicleDetail()
         Try
             Dim qry As String = ""
@@ -1466,8 +1448,6 @@ Public Class frmDairyGatePass
                 "TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No left outer join TSPL_VEHICLE_MASTER on " &
                 "TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id "
             qry += " where TSPL_ROUTE_MASTER.Route_No ='" & fndRouteNo.Value & "'"
-
-
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 txtVehicle.Value = clsCommon.myCstr(dt1.Rows(0)("vehicle_code"))
@@ -1475,17 +1455,14 @@ Public Class frmDairyGatePass
                 fndRouteNo.Value = clsCommon.myCstr(dt1.Rows(0)("Route_No"))
                 txtRouteName.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
                 txtTransporter.Text = clsCommon.myCstr(dt1.Rows(0)("Transport_Id"))
-
                 If clsCommon.myLen(clsCommon.myCstr(txtVehicle.Value)) <= 0 Then
                     Throw New Exception("Please Map Vehicle with Route " & txtRouteName.Text & "")
                 End If
-
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
     Private Sub txtmultiBooking__My_Click(sender As Object, e As EventArgs) Handles txtmultiBooking._My_Click
         Dim qry As String = LoadQuery("", EnableDispatch)
         Dim strAllDoc As String = " select distinct PPPP.[Document No] as code, convert (varchar, PPPP .[Document Date], 103) as [Document Date] from  ( " & qry & "    ) As PPPP   "
@@ -1493,7 +1470,6 @@ Public Class frmDairyGatePass
         funFillGrid2()
         TotalQty()
     End Sub
-
     Private Sub TotalQty()
         Dim TotalCrate As Integer = 0
         Dim TotalCan As Integer = 0
@@ -1503,7 +1479,6 @@ Public Class frmDairyGatePass
                 'ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.Rows(i).Cells(colUnit).Value), "Can") = CompairStringResult.Equal Then
                 '    TotalCan = TotalCan + clsCommon.myCdbl(Gv1.Rows(i).Cells(colQty).Value)
             End If
-
         Next
         If clsCommon.myCdbl(TotalCrate) > 0 Then
             txtCrateQty.Text = TotalCrate
@@ -1513,11 +1488,9 @@ Public Class frmDairyGatePass
     End Sub
     Private Sub funFillGrid2()
         Try
-
             LoadBlankGrid()
             Dim qry As String = LoadQuery("", EnableDispatch)
             strQuery = "select [Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code  from ( select xxx.* from(  " & qry & " )xxx  where xxx.[Document No] in (" + clsCommon.GetMulcallString(txtmultiBooking.arrValueMember) + ")  )  final group by [Item Code],Unit "
-
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQuery)
             Dim intLineNo As Integer = 0
@@ -1539,7 +1512,6 @@ Public Class frmDairyGatePass
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
-
     Private Sub btnClKM_Click(sender As Object, e As EventArgs) Handles btnClKM.Click
         Try
             If chkAgainstTransfer.Checked = True Then
@@ -1553,7 +1525,6 @@ Public Class frmDairyGatePass
                     Throw New Exception("Please create Transfer In Against Transfer Out No " & FndTransferNo.Value & "")
                 End If
             End If
-
             Dim dclDistanceInRoute As String = Nothing
             Dim dclPriceKM As String = Nothing
             Dim dclTollAmt As String = Nothing
@@ -1565,7 +1536,6 @@ Public Class frmDairyGatePass
                 dclDistanceInRoute = clsCommon.myCdbl(dt.Rows(0)("Distance"))
                 dclPriceKM = clsCommon.myCdbl(dt.Rows(0)("Price_KM"))
                 dclTollAmt = clsCommon.myCdbl(dt.Rows(0)("Toll_Amount"))
-
             End If
             If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TollTaxMaster, clsFixedParameterCode.TollTaxMaster, Nothing)) = 0, False, True) = False Then
                 dclTollAmt = txtTollAmount.Text
@@ -1579,7 +1549,6 @@ Public Class frmDairyGatePass
             End If
         End Try
     End Sub
-
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Try
             If (myMessages.deleteConfirm()) Then
@@ -1592,7 +1561,6 @@ Public Class frmDairyGatePass
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
             If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
@@ -1605,8 +1573,6 @@ Public Class frmDairyGatePass
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
     Private Sub chkAgainstTransfer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkAgainstTransfer.ToggleStateChanged
         Try
             If chkAgainstTransfer.Checked = True Then
@@ -1621,7 +1587,6 @@ Public Class frmDairyGatePass
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub FndTransferNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles FndTransferNo._MYValidating
         Dim sQuery As String = String.Empty
         Dim whrcls As String = ""
@@ -1631,17 +1596,13 @@ Public Class frmDairyGatePass
                        & " from TSPL_TRANSFER_ORDER_HEAD left join tspl_Location_Master frm on frm.location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location left join " _
                        & " tspl_Location_Master fto on fto.GIT_Location=TSPL_TRANSFER_ORDER_HEAD.to_Location left join TSPL_TRANSFER_RETURN on transfer_No=TSPL_TRANSFER_ORDER_HEAD.Document_NO"
             whrcls = "  TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='O' and TSPL_TRANSFER_ORDER_HEAD.Status =1 and  TSPL_TRANSFER_ORDER_HEAD.Document_No not  in (select coalesce(TransferOutNo,'') from TSPL_TRANSFER_ORDER_HEAD where Document_No not in (select Transfer_No from TSPL_TRANSFER_RETURN) union all select AgainstTransferNo from TSPL_DAIRYSALE_GATEPASS_MASTER  where isnull(AgainstTransferNo ,'')<>'' ) and TSPL_TRANSFER_RETURN.transfer_No is Null and TSPL_TRANSFER_ORDER_HEAD.internalTransfer=0  and convert(date, TSPL_TRANSFER_ORDER_HEAD.Document_Date ,103)<=convert(date,'" & txtDate.Value & "',103)"
-
             '    sQuery = " Select TSPL_TRANSFER_ORDER_HEAD.Document_NO as DocNo,CONVERT(varchar, TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) as DocDate,From_Location as  [From Location Code],frm.Location_Desc as [From Location],fto.Location_Code as [To Location Code],fto.Location_Desc as [To Location],DOC_Total_Amt as [Amount]  from TSPL_TRANSFER_ORDER_HEAD " & Environment.NewLine & _
             '" left join tspl_Location_Master frm on frm.location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location left join  tspl_Location_Master fto on fto.GIT_Location=TSPL_TRANSFER_ORDER_HEAD.to_Location "
-
             '    whrcls = " Document_No in (Select TransferOutNo from TSPL_TRANSFER_ORDER_HEAD where isnull (TransferOutNo ,'') in (select TSPL_TRANSFER_ORDER_HEAD.Document_NO as DocNo from TSPL_TRANSFER_ORDER_HEAD  left join TSPL_TRANSFER_RETURN on transfer_No=TSPL_TRANSFER_ORDER_HEAD.Document_NO where " & Environment.NewLine & _
             '" TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='O' and TSPL_TRANSFER_ORDER_HEAD.Status =1 and  TSPL_TRANSFER_ORDER_HEAD.Document_No not  in (select coalesce(TransferOutNo,'') from TSPL_TRANSFER_ORDER_HEAD where Document_No not in (select Transfer_No from TSPL_TRANSFER_RETURN) and TSPL_TRANSFER_ORDER_HEAD.Transfer_Type ='O' " & Environment.NewLine & _
             '" union all select AgainstTransferNo from TSPL_DAIRYSALE_GATEPASS_MASTER  where isnull(AgainstTransferNo ,'')<>'') and TSPL_TRANSFER_RETURN.transfer_No is Null " & Environment.NewLine & _
             '" --and TSPL_TRANSFER_ORDER_HEAD.Document_No in ('TTO-001/20-21/000294','TNT-001/20-21/00023') " & Environment.NewLine & _
             '" )) "
-
-
             FndTransferNo.Value = clsCommon.ShowSelectForm("SRNRetSRNFndOI", sQuery, "DocNo", whrcls, FndTransferNo.Value, "TSPL_TRANSFER_ORDER_HEAD.Document_Date", isButtonClicked, "TSPL_TRANSFER_ORDER_HEAD.Document_Date")
             If clsCommon.myLen(FndTransferNo.Value) > 0 Then
                 txtLocCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select FROM_LOCATION from TSPL_TRANSFER_ORDER_HEAD WHERE DOCUMENT_NO='" & FndTransferNo.Value & "'"))
@@ -1655,21 +1616,15 @@ Public Class frmDairyGatePass
         Else
             clsCommon.MyMessageBoxShow(Me, "Please check Against Transfer checkbox first", Me.Text)
         End If
-
     End Sub
-
     Private Sub funFillGrid_Transfer()
         Try
-
             LoadBlankGrid()
             Dim qry As String = "select TSPL_TRANSFER_ORDER_DETAIL.Item_Code as [Item Code],TSPL_TRANSFER_ORDER_DETAIL.Item_Desc as [Item Desc],TSPL_TRANSFER_ORDER_DETAIL.Unit_code as Unit ,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Qty,TSPL_ITEM_MASTER.HSN_Code,TSPL_TRANSFER_ORDER_HEAD.From_Location ,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code   from TSPL_TRANSFER_ORDER_HEAD " & Environment.NewLine &
 " left outer join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " & Environment.NewLine &
 " left outer join TSPL_ITEM_MASTER on TSPL_TRANSFER_ORDER_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code " & Environment.NewLine &
              " where 1=1 and TSPL_TRANSFER_ORDER_HEAD.Document_No='" + FndTransferNo.Value + "' "
-
-
             strQuery = "select [Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code,max(From_Location) as LOC ,max(Vehicle_Code) as Vehicle_Code  from ( " & qry & " ) final group by [Item Code],Unit "
-
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQuery)
             Dim intLineNo As Integer = 0
@@ -1695,9 +1650,7 @@ Public Class frmDairyGatePass
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = clsCommon.myCstr(dr("HSN_Code"))
                     txtDate.Enabled = False
                     ' txtSupplyDate.Enabled = False
-
                 Next
-
                 Dim TotalCrate As Integer = 0
                 Dim TotalCan As Integer = 0
                 For i As Integer = 0 To Gv1.Rows.Count - 1
@@ -1706,7 +1659,6 @@ Public Class frmDairyGatePass
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.Rows(i).Cells(colUnit).Value), "Can") = CompairStringResult.Equal Then
                         TotalCan = TotalCan + clsCommon.myCdbl(Gv1.Rows(i).Cells(colQty).Value)
                     End If
-
                 Next
                 If clsCommon.myCdbl(TotalCrate) > 0 Then
                     txtCrateQty.Text = TotalCrate
@@ -1730,21 +1682,16 @@ Public Class frmDairyGatePass
                 '    Next
                 'End If
                 'txtmultiBooking.arrValueMember = list
-
-
-
                 ' **************************************************************************************************
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
-
     Private Sub TxtMultiDairyGPassReverse__My_Click(sender As Object, e As EventArgs) Handles TxtMultiDairyGPassReverse._My_Click
         Dim qry As String = "select GPCode,GPDate,Location_Code,Vehicle_Id,Route_No,TSPL_PROVISION_ENTRY_KNOCKOFF.Provision_No,TSPL_PROVISION_ENTRY_KNOCKOFF.AP_Invoice_No  from TSPL_DAIRYSALE_GATEPASS_MASTER left outer join TSPL_PROVISION_ENTRY_KNOCKOFF on TSPL_PROVISION_ENTRY_KNOCKOFF .Invoice_No =TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode where Post='Y'"
         TxtMultiDairyGPassReverse.arrValueMember = clsCommon.ShowMultipleSelectForm("Dairy@GPassRev", qry, "GPCode", "GPCode", TxtMultiDairyGPassReverse.arrValueMember, TxtMultiDairyGPassReverse.arrDispalyMember)
     End Sub
-
     Private Sub BtnMultiGPReverse_Click(sender As Object, e As EventArgs) Handles btnMultiGPReverse.Click
         Try
             If TxtMultiDairyGPassReverse.arrValueMember Is Nothing OrElse TxtMultiDairyGPassReverse.arrValueMember.Count <= 0 Then
@@ -1768,20 +1715,17 @@ Public Class frmDairyGatePass
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub lblVehicleDesc_Leave(sender As Object, e As EventArgs) Handles lblVehicleDesc.Leave
         If clsCommon.myLen(lblVehicleDesc.Text) > 0 Then
             VehicleDesc = lblVehicleDesc.Text
         End If
     End Sub
-
     Private Sub btnGPCancel_Click(sender As Object, e As EventArgs) Handles btnGPCancel.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
                 Exit Sub
             End If
-
             Dim isCancel As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode = '" + txtCode.Value + "' and Status = 'Y'"))
             If isCancel = True Then
                 common.clsCommon.MyMessageBoxShow(Me, "Record Already canceled.", Me.Text)
@@ -1794,17 +1738,12 @@ Public Class frmDairyGatePass
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                 End If
-
                 'clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set post='Y' where gpcode='" & txtCode.Value & "'")
-
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
     End Sub
-
     Private Sub Gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles Gv1.CellValueChanged
         Try
             If Not isInsideLoadData Then
@@ -1830,18 +1769,14 @@ Public Class frmDairyGatePass
                 End If
                 isInsideLoadData = False
             End If
-
         Catch ex As Exception
         Finally
             TotalQty()
         End Try
     End Sub
-
     Private Sub lblVehicleDesc_TextChanged(sender As Object, e As EventArgs) Handles lblVehicleDesc.TextChanged
         If clsCommon.myCstr(VehicleDesc) Is Nothing AndAlso clsCommon.myLen(VehicleDesc) <= 0 Then
             VehicleDesc = lblVehicleDesc.Text
         End If
     End Sub
-
-
 End Class

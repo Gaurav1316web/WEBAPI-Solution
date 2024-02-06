@@ -376,6 +376,11 @@ Public Class frmDistributorRouteTagging
                 LoadData(strCode, NavigatorType.Current)
                 txtCode.Value = Nothing
             End If
+            btnsave.Enabled = True
+            btnpost.Enabled = True
+            btndelete.Enabled = True
+            isNewEntry = True
+            UsLock1.Status = ERPTransactionStatus.Pending
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

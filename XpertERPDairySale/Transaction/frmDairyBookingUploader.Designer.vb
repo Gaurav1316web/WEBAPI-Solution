@@ -44,11 +44,11 @@ Partial Class frmDairyBookingUploader
         Me.rdbAgainstCashIndent = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.gvTS = New Telerik.WinControls.UI.RadGridView()
-        Me.gvTSItem = New Telerik.WinControls.UI.RadGridView()
+        Me.gvTS = New common.UserControls.MyRadGridView()
+        Me.gvTSItem = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.btnExcept = New Telerik.WinControls.UI.RadButton()
         Me.lblExcept = New common.Controls.MyLabel()
@@ -60,8 +60,8 @@ Partial Class frmDairyBookingUploader
         Me.btnBrowse = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
-        Me.gvGP = New Telerik.WinControls.UI.RadGridView()
-        Me.gvGPItem = New Telerik.WinControls.UI.RadGridView()
+        Me.gvGP = New common.UserControls.MyRadGridView()
+        Me.gvGPItem = New common.UserControls.MyRadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -943,7 +943,7 @@ Partial Class frmDairyBookingUploader
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents Gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSaveAndPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnExportInvalid As Telerik.WinControls.UI.RadButton

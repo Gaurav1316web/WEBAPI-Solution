@@ -56,7 +56,7 @@ Public Class FrmChildParameterRangeMasterForQC1
             txtlRange.Text = Lrange
             txtUrange.Text = Urange
             txtvalue.Text = value1
-            txtDescription.Text = desc
+            'txtDescription.Text = desc
             txtDeductionPer.Text = Deduction_Per
             txtDescription.Text = description
             'txtDeductionLRange.Text = Deduction_lower_range
@@ -295,6 +295,7 @@ Public Class FrmChildParameterRangeMasterForQC1
         Lrange_Prev = clsCommon.myCdbl(txtlRange.Text)
         Urange_Prev = clsCommon.myCdbl(txtUrange.Text)
         Qc_Status_prev = clsCommon.myCstr(cboQcStatus.SelectedValue)
+        description = clsCommon.myCdbl(txtDescription.Text)
     End Sub
     Private Sub FndParameterCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles FndParameterCode._MYValidating
 

@@ -1457,18 +1457,19 @@ Public Class FrmPaymentNew
                 '" WHERE TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ='" + txtVendorCode.Value + "' AND Convert(Date,Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(InvoiceDate, "dd/MMM/yyyy") + "' And ((ISNULL(RefDocNo,'')= '' or ISNULL((select VI.Document_Type from TSPL_VENDOR_INVOICE_HEAD VI where VI.Document_No =TSPL_VENDOR_INVOICE_HEAD .RefDocNo ),'') in ('I','')) AND ISNULL(Against_PurchaseReturn_No,'')= '')  and not ( ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No,'')<>'' and TSPL_VENDOR_INVOICE_HEAD.Document_Type='D') " &
                 '" and not ( ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_Salary_Generation_Code,'')<>'' and TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') "
                 Qry = "Select * from ( select Case When TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' Then 'Debit Note' Else case  When TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' Then 'Credit Note' Else 'Invoice' End End As [DocType],  " &
-           " TSPL_VENDOR_INVOICE_HEAD.Document_No, Case When ISNULL(Against_POInvoice_No,'')<>'' Then Against_POInvoice_No When ISNULL(Against_PurchaseReturn_No,'')<> '' Then Against_PurchaseReturn_No Else Document_No End as PurchaseInvoice," &
+           " TSPL_VENDOR_INVOICE_HEAD.Document_No, Case When ISNULL(Against_POInvoice_No,'')<>'' Then Against_POInvoice_No When ISNULL(Against_PurchaseReturn_No,'')<> '' Then Against_PurchaseReturn_No Else TSPL_VENDOR_INVOICE_HEAD.Document_No End as PurchaseInvoice," &
            " Case When ISNULL(Against_POInvoice_No,'')<>'' Then (Select convert(varchar,PI_Date,103)  from TSPL_PI_HEAD where PI_No =Against_POInvoice_No)  When ISNULL(Against_PurchaseReturn_No,'')<> '' Then (Select convert(varchar,PR_Date,103) from TSPL_PR_HEAD where PR_No  =Against_PurchaseReturn_No ) Else TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date End as DocumentDate, " &
            " TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date as [DocDate] ,  " &
            " TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No as [VendorInvoiceNo], " &
            " TSPL_VENDOR_INVOICE_HEAD.Document_Total " + strTaxRecovarableQuery + " as [OriginalAmt]  ," &
-           " TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount as [TDSAmt], " &
+           " case when isnull(TSPL_REMITTANCE.Is_TDS_Provision,'N')='N' then TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount else 0 end as [TDSAmt], " &
            " TSPL_VENDOR_INVOICE_HEAD.Document_Total as [NetAmount], " &
            " TSPL_VENDOR_INVOICE_HEAD.Document_Total as [PendingAmt],TSPL_VENDOR_INVOICE_HEAD.ConvRate " &
            " ,isnull(( select top 1 TSPL_REVALUATION_HEAD.Currency_Rate from TSPL_REVALUATION_DETAIL left outer join TSPL_REVALUATION_HEAD on TSPL_REVALUATION_HEAD.Document_No=TSPL_REVALUATION_DETAIL.Document_No  where TSPL_REVALUATION_DETAIL.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_REVALUATION_HEAD.Status=1 and TSPL_REVALUATION_HEAD.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpPayment.Value), "dd/MMM/yyyy hh:mm tt") + "' order by TSPL_REVALUATION_HEAD.Document_Date desc),0) as ConvRateRevaluation " &
            " from TSPL_VENDOR_INVOICE_HEAD " &
-           " Left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  " &
-          " WHERE TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ='" + txtVendorCode.Value + "' AND Convert(Date,Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(InvoiceDate, "dd/MMM/yyyy") + "' And ((ISNULL(RefDocNo,'')= '' or ISNULL((select VI.Document_Type from TSPL_VENDOR_INVOICE_HEAD VI where VI.Document_No =TSPL_VENDOR_INVOICE_HEAD .RefDocNo ),'') in ('I','')) AND ISNULL(Against_PurchaseReturn_No,'')= '')  and not ( ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No,'')<>'' and TSPL_VENDOR_INVOICE_HEAD.Document_Type='D') " &
+           " Left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  
+left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+            WHERE TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ='" + txtVendorCode.Value + "' AND Convert(Date,Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(InvoiceDate, "dd/MMM/yyyy") + "' And ((ISNULL(RefDocNo,'')= '' or ISNULL((select VI.Document_Type from TSPL_VENDOR_INVOICE_HEAD VI where VI.Document_No =TSPL_VENDOR_INVOICE_HEAD .RefDocNo ),'') in ('I','')) AND ISNULL(Against_PurchaseReturn_No,'')= '')  and not ( ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No,'')<>'' and TSPL_VENDOR_INVOICE_HEAD.Document_Type='D') " &
           " and not ( ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_Salary_Generation_Code,'')<>'' and TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') "
                 If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocationsSegment) > 0 Then
                     Qry += "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in (" + objCommonVar.strCurrUserLocationsSegment + ")"
@@ -1554,7 +1555,7 @@ Public Class FrmPaymentNew
                     gvDetails.CurrentRow.Cells(colDocumentDate).Value = clsCommon.myCstr(dr("DocumentDate"))
                     gvDetails.CurrentRow.Cells(colVendorInvNo).Value = clsCommon.myCstr(dr("VendorInvoiceNo"))
                     gvDetails.CurrentRow.Cells(colOriginalAmt).Value = clsCommon.myCdbl(dr("OriginalAmt"))
-                    'gvDetails.CurrentRow.Cells(colTDSAmt).Value = clsCommon.myCstr(dr("TDSAmt"))
+                    gvDetails.CurrentRow.Cells(colTDSAmt).Value = clsCommon.myCstr(dr("TDSAmt"))
                     gvDetails.CurrentRow.Cells(colNetAmt).Value = clsCommon.myCdbl(dr("NetAmount"))
                     gvDetails.CurrentRow.Cells(colPendingAmt).Value = clsCommon.myCdbl(dr("PendingAmt"))
                     gvDetails.CurrentRow.Cells(colTemp).Value = clsCommon.myCdbl(dr("PendingAmt"))

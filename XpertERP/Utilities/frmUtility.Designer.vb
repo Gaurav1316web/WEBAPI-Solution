@@ -41,7 +41,7 @@ Partial Class FrmUtility
         Me.btnProgramTableMapping = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdateInventoryAndItemLocation = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.gvShipment = New Telerik.WinControls.UI.RadGridView()
+        Me.gvShipment = New common.UserControls.MyRadGridView()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtShipment = New common.UserControls.txtFinder()
         Me.btnDeleteShipment = New Telerik.WinControls.UI.RadButton()
@@ -10501,7 +10501,7 @@ Partial Class FrmUtility
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtShipment As common.UserControls.txtFinder
     Friend WithEvents btnDeleteShipment As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gvShipment As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gvShipment As common.UserControls.MyRadGridView
     Friend WithEvents btnUpdateSaleInvoiceBalanceAmt As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnDuplicateVoucherNo As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnupdateTransfer As Telerik.WinControls.UI.RadButton

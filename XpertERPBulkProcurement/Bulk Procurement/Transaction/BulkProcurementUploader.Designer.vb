@@ -24,7 +24,7 @@ Partial Class BulkProcurementUploader
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnValidate = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btReset = New Telerik.WinControls.UI.RadButton()
@@ -183,6 +183,6 @@ Partial Class BulkProcurementUploader
     Friend WithEvents btnSave As RadButton
     Friend WithEvents btReset As RadButton
     Friend WithEvents btnClose As RadButton
-    Friend WithEvents gv1 As RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnValidate As RadButton
 End Class

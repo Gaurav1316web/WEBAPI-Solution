@@ -92,8 +92,8 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.txtQty = New common.MyNumBox()
         Me.txtFAT = New common.MyNumBox()
         Me.MyLabel27 = New common.Controls.MyLabel()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
-        Me.gvP = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.gvP = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel2.SuspendLayout()
         CType(Me.btnRouteprint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1305,7 +1305,7 @@ Partial Class frmMilkShiftUploaderUCDF
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadLabel4 As common.Controls.MyLabel

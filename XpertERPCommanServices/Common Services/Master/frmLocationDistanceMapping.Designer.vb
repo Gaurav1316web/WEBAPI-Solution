@@ -24,7 +24,7 @@ Partial Class frmLocationDistanceMapping
     Private Sub InitializeComponent()
         Me.fndCustomer = New common.UserControls.txtFinder()
         Me.lblvendor = New common.Controls.MyLabel()
-        Me.dgvitem = New Telerik.WinControls.UI.RadGridView()
+        Me.dgvitem = New common.UserControls.MyRadGridView()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
         Me.txtdesc = New common.Controls.MyLabel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -298,7 +298,7 @@ Partial Class frmLocationDistanceMapping
 
     End Sub
     Friend WithEvents fndCustomer As common.UserControls.txtFinder
-    Friend WithEvents dgvitem As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents dgvitem As common.UserControls.MyRadGridView
     Friend WithEvents Import As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents txtdesc As common.Controls.MyLabel
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer

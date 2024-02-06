@@ -41,7 +41,7 @@ Partial Class frmCustomerAdvanceAgainstBooking
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnRefresh = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -538,7 +538,7 @@ Partial Class frmCustomerAdvanceAgainstBooking
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents Gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSaveAndPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSelectSheet As Telerik.WinControls.UI.RadButton
