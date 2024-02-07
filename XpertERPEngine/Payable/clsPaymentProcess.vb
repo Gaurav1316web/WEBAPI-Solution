@@ -3549,13 +3549,13 @@ Public Class clsPaymentProcessDeduction
 
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT Area_Location_Code FROM TSPL_PAYMENT_PROCESS_HEAD")
-            Dim AreaLocationCode As String = ""
+            'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT Area_Location_Code FROM TSPL_PAYMENT_PROCESS_HEAD")
+            'Dim AreaLocationCode As String = ""
 
-            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                ' Assuming you want the first value in the DataTable
-                AreaLocationCode = clsCommon.myCstr(dt1.Rows(0)("Area_Location_Code"))
-            End If
+            'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+            '    ' Assuming you want the first value in the DataTable
+            '    AreaLocationCode = clsCommon.myCstr(dt1.Rows(0)("Area_Location_Code"))
+            'End If
             'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("Select  Area_Location_Code from tspl_mcc_master")
             'Dim lst As New List(Of String)
             'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
@@ -3571,8 +3571,7 @@ from TSPL_PAYMENT_PROCESS_DEDUCTION
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_no=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_no
 
-where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'and  TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" & AreaLocationCode & "' 
-order by cast(TSPL_PAYMENT_PROCESS_DEDUCTION.SLNO as int)"
+where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_PAYMENT_PROCESS_DEDUCTION.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3659,13 +3658,7 @@ Public Class clsPaymentProcessCreditNote
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Try
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT Area_Location_Code FROM TSPL_PAYMENT_PROCESS_HEAD")
-            Dim AreaLocationCode1 As String = ""
 
-            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                ' Assuming you want the first value in the DataTable
-                AreaLocationCode1 = clsCommon.myCstr(dt1.Rows(0)("Area_Location_Code"))
-            End If
 
 
             'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("Select  Area_Location_Code from tspl_mcc_master")
@@ -3682,8 +3675,7 @@ from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected=TSPL_VLC_MASTER_HEAD.MCC
 
-where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' and  TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" & AreaLocationCode1 & "'  
-order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
+where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
