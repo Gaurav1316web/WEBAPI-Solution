@@ -36,6 +36,7 @@ Public Class BulkProcurementUploader
     Public Const colDispatchDate As String = "colDispatchDate"
     Public Const colDispatchTo As String = "colDispatchTo"
     Public Const colMccOrPlantCOde As String = "colMccOrPlantCOde"
+    Public Const colRouteNo As String = "colRouteNo"
     Public Const colSiloCode As String = "colSiloCode"
     Public Const colChallanNo As String = "colChallanNo"
     Public Const colMccName As String = "colMccName"
@@ -142,6 +143,12 @@ Public Class BulkProcurementUploader
         repoTextBox.FormatString = ""
         repoTextBox.HeaderText = "MCC Code"
         repoTextBox.Name = colMccOrPlantCOde
+        repoTextBox.Width = 150
+        gv1.MasterTemplate.Columns.Add(repoTextBox)
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Route No"
+        repoTextBox.Name = colRouteNo
         repoTextBox.Width = 150
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
@@ -522,6 +529,13 @@ Public Class BulkProcurementUploader
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from tspl_location_master where Location_code='" & strCellValue & "'")) <= 0 Then
                     ValidateStatus = ValidateStatus & "MCC OR Plant Code not found in master" & Environment.NewLine
                 End If
+                strCellValue = clsCommon.myCstr(gv1.Rows(i).Cells("Route No").Value)
+                If clsCommon.myLen(strCellValue) <= 0 Then
+                    ValidateStatus = ValidateStatus & "Route No Must not be Blank" & Environment.NewLine
+                End If
+                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BULK_ROUTE_MASTER where ROUTE_NO = '" & strCellValue & "'")) <= 0 Then
+                    ValidateStatus = ValidateStatus & "Route No not found in master" & Environment.NewLine
+                End If
 
                 strCellValue = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker No.").Value)
                 If clsCommon.myLen(strCellValue) <= 0 Then
@@ -836,6 +850,7 @@ Public Class BulkProcurementUploader
                     obj.Location_Desc = clsLocation.GetName(obj.location_Code, trans)
                     obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No.").Value)
                     obj.Challan_No = ChallanNo
+                    obj.ROUTE_NO = clsCommon.myCstr(grow.Cells("ROUTE No").Value)
                     obj.Challan_Date = clsCommon.GetPrintDate(grow.Cells("Dispatch Date").Value, "dd/MMM/yyyy")
                     obj.Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
                     obj.Item_Desc = clsItemMaster.GetItemName(obj.Item_Code, trans)
@@ -1344,6 +1359,7 @@ Public Class BulkProcurementUploader
         Dim arr As New List(Of String)
         arr.Add("Challan No")
         arr.Add("MCC Code")
+        arr.Add("Route No")
         arr.Add("Dispatch Date")
         arr.Add("Dispatch To")
         arr.Add("Silo Code")
@@ -1416,7 +1432,7 @@ Public Class BulkProcurementUploader
 
     Private Sub btnExportFormat_Click(sender As Object, e As EventArgs) Handles btnExportFormat.Click
         Dim qry As String = String.Empty
-        qry = "select '' As [Challan No],	'' As [MCC Code],	'' As [Dispatch Date],	'' As [Dispatch To],	'' As [Silo Code],'' As [Tanker No.],
+        qry = "select '' As [Challan No],	'' As [MCC Code],'' as [Route No] ,	'' As [Dispatch Date],	'' As [Dispatch To],	'' As [Silo Code],'' As [Tanker No.],
                '' As [Item code],'' As [UOM],'' As [Tanker Remarks],'' As [Price Chart],'0' as IsJobWork,'' as [JobWork Location], 
                '' as [Weighment Gross],'' as [Weighment Tare],'' as [Weighment Net],'' as [FATPer], '' as [SNFPer],'' as [FATKG],'' as [FAT Rate],
                '' as [SNFKG],'' as [SNF Rate],'' as [Amount],'' as [Remarks]"
