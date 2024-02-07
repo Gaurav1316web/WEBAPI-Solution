@@ -1265,6 +1265,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptCSADeliverySale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBooking.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingRouteWise.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptDemandRoutBoothWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDepositCrateDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDispatchBulkSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDSBoking.rpt" />

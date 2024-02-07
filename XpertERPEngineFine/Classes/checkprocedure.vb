@@ -2757,24 +2757,21 @@ Public Class ProgramCodeNew
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleShareReport, "Report", "1.46.03", clsUserMgtCode.ModuleShare, "SM", 30)
 
+        '----------------------------------MIS---------------------------------------'
+
+        InsertDefaultValue(clsUserMgtCode.ModuleMIS, "MIS", "1.47", clsUserMgtCode.ExpertERP, "M", 23)
+
+        '' setup
+        '=========================================================
+
+        InsertDefaultValue(clsUserMgtCode.SubModuleMISSetUp, "Setup", "1.47.01", clsUserMgtCode.ModuleMIS, "SM", 24)
+        InsertDefaultValue(clsUserMgtCode.MISitemMaster, "MIS Item Master", "1.47.01.01", clsUserMgtCode.SubModuleMISSetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.MISitemGroups, "MIS Item Group", "1.47.01.02", clsUserMgtCode.SubModuleMISSetUp, 27)
 
 
-
-
-
-
-
-        InsertDefaultValue(clsUserMgtCode.ModuleXpertAPI, "Xpert API", "1.47", clsUserMgtCode.ExpertERP, "M", 23, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-
-        InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPISetup, "Setup", "1.47.01", clsUserMgtCode.ModuleXpertAPI, "SM", 26, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-
-        InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPITrans, "Transaction", "1.47.02", clsUserMgtCode.ModuleXpertAPI, "SM", 26, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-        InsertDefaultValue(clsUserMgtCode.XpertAPIWeighment, "Weighment", "1.47.02.01", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-        InsertDefaultValue(clsUserMgtCode.XpertAPILoadinSlip, "Loadin slip", "1.47.02.02", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkReceipt, "Milk Receipt", "1.47.02.03", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkSample, "Milk Sample", "1.47.02.04", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkReject, "Milk Reject", "1.47.02.05", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-        InsertDefaultValue(clsUserMgtCode.XpertAPIMilkEmptySample, "Empty Sample", "1.47.02.06", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        'Try
+        '    clsDBFuncationality.ExecuteNonQuery("insert into TSPL_MODULE_PERMISSION values ('1','" + clsUserMgtCode.ModuleReco + "')")
+        'Catch ex As Exception
 
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.47.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.47.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
@@ -4245,6 +4242,8 @@ Public Class clsProgramIdFormNameMapping
         'UpdateFormName(clsUserMgtCode.RptAClassMilkRate, "RptAClassMilkRate", "ERP.EXE")
         '=================
         'UpdateFormName(clsUserMgtCode.ApproveFailedSample, "Approve Failed Sample", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.MISitemGroups, "frmMISItemGroup", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.MISitemMaster, "frmMISItemMaster", "ERP.EXE")
     End Sub
 
     Public Shared Sub UpdateFormName(ProgramId As String, FormName As String, AssamblyName As String)

@@ -20,6 +20,7 @@ Imports XpertERPRiceProduction
 Imports XpertERPService
 Imports XpertERPTDS
 Imports XpertERPPurchase
+Imports XpertERPMIS
 
 Public Class MDI
 #Region "Varaibles"
@@ -369,7 +370,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.67") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.68") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -9601,6 +9602,22 @@ Public Class MDI
                     Case clsUserMgtCode.frmShareAllotment
                         frm = New frmShareAllotment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
+                        ''---------------MIS------------------
+                    Case clsUserMgtCode.MISitemGroups
+                        frm = New frmMISItemGroup
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.MISitemMaster
+                        frm = New frmMISItemMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
+                        ''-------------------- MIS Master---------------
+
+                        'Case clsUserMgtCode.MISitemGroups
+                        '    frm = New frmMISI(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                        '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                         'Case Else
                         '    Dim dtt As DataTable = clsDBFuncationality.GetDataTable("select 'BI-RPT' as Code from TSPL_CREATE_BI_REPORT where Code='" + strProgramCode + "' union select 'BI-DBR' as Code from TSPL_CREATE_DASHBOARD where code='" + strProgramCode + "' ")
