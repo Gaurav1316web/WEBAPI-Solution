@@ -38,7 +38,7 @@ Partial Class QualitySummaryReport
         Me.MyDateTimePicker2 = New common.Controls.MyDateTimePicker()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gvv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.Gvv1 = New common.UserControls.MyRadGridView()
         Me.btnnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
@@ -483,5 +483,5 @@ Partial Class QualitySummaryReport
     Friend WithEvents MyDateTimePicker2 As common.Controls.MyDateTimePicker
     Friend WithEvents Label1 As Label
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents Gvv1 As RadGridView
+    Friend WithEvents Gvv1 As common.UserControls.MyRadGridView
 End Class

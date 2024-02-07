@@ -49,7 +49,7 @@ Partial Class frmSaleAnalysisReport
         Me.rbtnWeekly = New System.Windows.Forms.RadioButton()
         Me.rbtnDaily = New System.Windows.Forms.RadioButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()

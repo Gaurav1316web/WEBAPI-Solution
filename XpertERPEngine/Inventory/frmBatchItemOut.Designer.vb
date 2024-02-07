@@ -36,7 +36,7 @@ Partial Class frmBatchItemOut
         Me.lblItemCode = New common.Controls.MyLabel
         Me.lblItemName = New common.Controls.MyLabel
         Me.RadLabel28 = New common.Controls.MyLabel
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView
+        Me.gv1 = New common.UserControls.MyRadGridView
         Me.lblMRP = New common.Controls.MyLabel
         Me.MyLabel5 = New common.Controls.MyLabel
         Me.txtUOM = New common.Controls.MyLabel
@@ -323,7 +323,7 @@ Partial Class frmBatchItemOut
     Friend WithEvents lblItemCode As common.Controls.MyLabel
     Friend WithEvents lblItemName As common.Controls.MyLabel
     Friend WithEvents RadLabel28 As common.Controls.MyLabel
-    Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadTextBoxControl1 As Telerik.WinControls.UI.RadTextBoxControl
     Friend WithEvents RadButton2 As Telerik.WinControls.UI.RadButton
     Friend WithEvents lblMRP As common.Controls.MyLabel

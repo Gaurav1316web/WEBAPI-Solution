@@ -309,7 +309,9 @@ select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as For
                     Throw New Exception("Please select Document No")
                 End If
 
-                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 , tspl_company_master.Comp_Name , tspl_company_master.Add1 , tspl_company_master.Add2, tspl_company_master.Add3,
+                Dim qry As String = "select (select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 1) as 'P&IIncharge'
+                ,(select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 2) as 'AccountHead',
+              (select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN  LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 3) as 'ManagingDirector', tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 , tspl_company_master.Comp_Name , tspl_company_master.Add1 , tspl_company_master.Add2, tspl_company_master.Add3,
 tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,REPLACE( RIGHT( Phone1,10),'_','') as Phone1 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
 DATENAME(MONTH, CONVERT(date, '" & ToDate & "', 103)) + ' ' + DATENAME(YEAR, CONVERT(date, '" & ToDate & "', 103)) as Month,
 '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name

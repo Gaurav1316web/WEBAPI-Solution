@@ -6529,6 +6529,7 @@ Public Class clsCreateAllTable
             coll.Add("Driver_ContactNo", "varchar(15) NULL")
             coll.Add("DistributorName", "varchar(50) NULL")
             coll.Add("Supply_Date", "Date NULL")
+            coll.Add("FILE_INFO", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
             coll = New Dictionary(Of String, String)()
@@ -23369,6 +23370,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Posted_Date", "datetime null")
             coll.Add("Posted_By", "varchar(12)  NULL")
+            coll.Add("CLR", "Decimal(18,2) null")
+            coll.Add("FAT", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             coll = New Dictionary(Of String, String)
@@ -29119,6 +29122,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
             coll.Add("Supply_Date", "Date NULL")
+            coll.Add("FILE_INFO", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
@@ -53945,6 +53949,28 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("SNF_KG", "decimal(18,3) null")
             coll.Add("Remarks", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_STD_ADD_REMOVE", coll, "", True, True, "TSPL_RCDF_STD", "Doc_Code", "")
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "varchar(30) Not NULL Primary Key")
+            coll.Add("Name", "varchar(50) Not null")
+            coll.Add("Created_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modify_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modify_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MIS_ITEM_GROUP_MASTER", coll, "", True)
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Item_Code", "varchar(30) Not NULL Primary Key")
+            coll.Add("Item_Name", "varchar(50) Not NULL")
+            coll.Add("Group_Code", "varchar(50) NULL")
+            coll.Add("Item_UOM", "varchar(12) NULL")
+            coll.Add("Created_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modify_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modify_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MIS_ITEM_MASTER", coll, "", True)
 
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()

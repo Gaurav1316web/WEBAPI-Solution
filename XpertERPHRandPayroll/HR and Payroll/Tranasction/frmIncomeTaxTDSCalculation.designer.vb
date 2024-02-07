@@ -554,7 +554,7 @@ Partial Class frmIncomeTaxTDSCalculation
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtDesc As common.Controls.MyTextBox
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
-    Friend WithEvents grdScheme As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents grdScheme As common.UserControls.MyRadGridView
     Friend WithEvents SplitContainer6 As System.Windows.Forms.SplitContainer
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents lblPending As common.usLock

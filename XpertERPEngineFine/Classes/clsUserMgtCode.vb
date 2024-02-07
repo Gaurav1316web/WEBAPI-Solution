@@ -2553,6 +2553,13 @@ Public Class clsUserMgtCode
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
 
+    ''=================== MIS start here============
+
+    Public Const ModuleMIS As String = "MMIS"
+    Public Const SubModuleMISSetUp As String = "SMMIS"
+    Public Const MISitemGroups As String = "MISITEM-GRP"
+    Public Const MISitemMaster As String = "MISITEM-MST"
+
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean
         Dim qry As String = "select PROGRAM_NAME from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

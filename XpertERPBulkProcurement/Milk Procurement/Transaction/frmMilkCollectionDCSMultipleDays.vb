@@ -725,6 +725,8 @@ Public Class frmMilkCollectionDCSMultipleDays
                 obj.Entered_Qty = clsCommon.myCDecimal(txtTotEnteredQty.Text)
                 obj.Entered_FATKg = clsCommon.myCDecimal(txtTotEnteredFAT.Text)
                 obj.Entered_SNFKg = clsCommon.myCDecimal(txtTotEnteredSNF.Text)
+                obj.CLR = clsCommon.myCDecimal(txtTotEnteredSNFPer.Text)
+                obj.FAT = clsCommon.myCDecimal(txtTotEnteredFATPer.Text)
 
                 obj.FAT_SNF_Type = cboFATSNFType.SelectedValue
                 obj.Arr = GetTRData(False)
