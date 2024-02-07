@@ -4346,78 +4346,8 @@ group by XYZ.Cust_Code
 
     Private Sub btnPrintRoutBoothwise_Click(sender As Object, e As EventArgs) Handles btnPrintRoutBoothwise.Click
         Try
-            'Dim whrcls As String = Nothing
-            'If clsCommon.myLen(txtPTSDateFrom.Value) > 0 Then
-            '    whrcls = " where Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value, "dd/MMM/yyyy") + "' "
-            'End If
-
-            'If clsCommon.myLen(ddlPTSShift.Text) > 0 Then
-            '    whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" + ddlPTSShift.Text + "'"
-            'End If
-
-            'If clsCommon.myLen(txtCustMultFnd.arrValueMember) > 0 Then
-            '    whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.Cust_Code IN (" + clsCommon.GetMulcallString(txtCustMultFnd.arrValueMember) + ")"
-            'End If
-
-            'If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
-            '    whrcls += " And TSPL_ROUTE_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
-            'End If
-
-            'Dim MilkProductBoth As String = Nothing
-            'If rbtnMilk.Checked Then
-            '    MilkProductBoth = "'Product'"
-            '    whrcls += " And TSPL_ITEM_MASTER.Structure_Code NOT IN (" + MilkProductBoth + ")"
-            'ElseIf rbtnProduct.Checked Then
-            '    MilkProductBoth = "'Milk'"
-            '    whrcls += " And TSPL_ITEM_MASTER.Structure_Code NOT IN (" + MilkProductBoth + ")"
-            '    ' Else
-            '    'MilkProductBoth = "'Milk','Product'"
-            '    'whrcls += " And TSPL_ITEM_MASTER.Structure_Code NOT IN (" + MilkProductBoth + ")"
-            'End If
-
             Dim MilkProductBoth As String = Nothing
-
             Dim Qry As String = Nothing
-            'Qry = "select '" + txtPTSDateFrom.Value + "' As [FromDate],'" + txtPTSDateFrom.Value + "' As [ToDate],TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
-            '        TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,
-            '        Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate,
-            '        Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
-            '        TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,
-            '        TSPL_ROUTE_MASTER.Route_Desc,
-            '        TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
-            '        Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName,
-            '        TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,
-            '        TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate
-            '        from TSPL_DEMAND_BOOKING_MASTER
-            '        Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-            '        Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-            '        Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
-            '        Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
-            '        Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
-            '        Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code" + whrcls
-            '           Qry = " select
-            'TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.ShiftType,TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_ITEM_MASTER.Short_Description, TSPL_DEMAND_BOOKING_DETAIL.Qty, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,  TSPL_DEMAND_BOOKING_MASTER.Route_No, TSPL_ROUTE_MASTER.Route_Desc, Isnull( TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.' ) as CompanyName, TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, TSPL_VEHICLE_MASTER.DriverName, TSPL_DEMAND_BOOKING_DETAIL.Item_Rate, ITEMDETAIL.CFForLTR, TSPL_ITEM_UOM_DETAIL.Conversion_Factor, Convert( decimal(18, 2), ( TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor )/ ITEMDETAIL.CFForLTR ) As QTYLtr
-            ' from 
-            ' TSPL_DEMAND_BOOKING_MASTER 
-            ' Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
-            ' Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
-            ' Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
-            ' And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
-            ' Left Join (
-            '   select 
-            '     Conversion_factor AS CFForLTR, 
-            '     TSPL_ITEM_UOM_DETAIL.Item_code 
-            '   from 
-            '     TSPL_ITEM_UOM_DETAIL 
-            '   where 
-            '     UOM_code = 'LTR'
-            ' ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=ITEMDETAIL.Item_code  
-            ' Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code =TSPL_VEHICLE_MASTER.Vehicle_Id 
-            ' Left Join TSPL_ROUTE_MASTER on  TSPL_DEMAND_BOOKING_MASTER.Route_No =TSPL_ROUTE_MASTER.Route_No
-            ' Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
-            ' Left Join TSPL_COMPANY_MASTER on  TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code " + whrcls
-
-
             Qry = "select xx.*
      ,case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull((select sum(ItemNetAmount) as netamt  from TSPL_DEMAND_BOOKING_MASTER left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
 	 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
@@ -4665,9 +4595,6 @@ where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "'  and ( 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandRoutBoothWise", "Demand Rout Booth Wise")
-            'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
-
-            'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
             frmCRV = Nothing
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text)
@@ -4676,22 +4603,12 @@ where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "'  and ( 
 
     Private Sub txtfndBooth__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtfndBooth._MYValidating
         Try
-            ' Assuming Route_No is a string field
-            '            Dim qry As String = "select TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Route_No,* from TSPL_DEMAND_BOOKING_MASTER 
-            'left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.document_no=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-            'left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-            'left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MASTER.Route_No
-            'left  join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code"
-            Dim qry As String = "SELECT TSPL_DEMAND_BOOKING_dETAIL.Cust_Code as Code, TSPL_CUSTOMER_MASTER.Customer_Name as [Name] FROM TSPL_DEMAND_BOOKING_dETAIL 
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_dETAIL.Cust_Code
-            LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_dETAIL.Document_No
-             left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No"
-
-            ' Dim qry As String = "SELECT Cust_Code as Code, Customer_Name as [Name] FROM TSPL_CUSTOMER_MASTER"
-            Dim strWhrcls As String = "TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ") 
-   GROUP BY TSPL_DEMAND_BOOKING_dETAIL.Cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name"
-            'qry += "GROUP BY TSPL_DEMAND_BOOKING_dETAIL.Cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name"
-            txtfndBooth.Value = clsCommon.ShowSelectForm("@Customers", qry, "Code", strWhrcls, txtfndBooth.Value, "Code", isButtonClicked)
+            Dim QRY As String = "select TSPL_DEMAND_BOOKING_dETAIL.Cust_Code as Code,TSPL_CUSTOMER_MASTER.Customer_Name as [Name] from TSPL_DEMAND_BOOKING_MASTER 
+                                 left outer join TSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_no
+                                 LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_dETAIL.Cust_Code"
+            Dim strWhrcls As String = "TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ") and 	 convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) = convert(date,'" & txtPTSDateFrom.Value & "',103) and TSPL_DEMAND_BOOKING_MASTER.ShiftType = '" & ddlPTSShift.Text & "' and  TSPL_DEMAND_BOOKING_DETAIL.qty > 0 
+                                       GROUP BY TSPL_DEMAND_BOOKING_dETAIL.Cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name"
+            txtfndBooth.Value = clsCommon.ShowSelectForm("@Customers", QRY, "Code", strWhrcls, txtfndBooth.Value, "Code", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
