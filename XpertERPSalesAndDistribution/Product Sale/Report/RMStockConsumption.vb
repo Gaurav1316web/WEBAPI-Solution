@@ -44,7 +44,7 @@ Public Class RMStockConsumption
                                        left outer join TSPL_SPP_PRODUCTION_ENTRY_DETAIL on TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE
                                        left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
                                        left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-                                       where CONSM_ITEM_CODE like 'RM%' and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE= '" + clsCommon.myCstr(txtLocation.Value) + "' "
+                                       where CONSM_ITEM_CODE NOT like 'PM%' and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE= '" + clsCommon.myCstr(txtLocation.Value) + "' "
             Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(ItemCode)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1

@@ -379,6 +379,9 @@
     <Reference Include="XpertERPJobWorkOutward">
       <HintPath>..\XpertERPJobWorkOutward\bin\Debug\XpertERPJobWorkOutward.dll</HintPath>
     </Reference>
+    <Reference Include="XpertERPMIS">
+      <HintPath>..\XpertMIS\bin\Debug\XpertERPMIS.dll</HintPath>
+    </Reference>
     <Reference Include="XpertERPParavetServices">
       <HintPath>..\XpertERPParavetServices\bin\Debug\XpertERPParavetServices.dll</HintPath>
     </Reference>

@@ -782,13 +782,14 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
         Try
-            Dim qry As String = "select MCC_Code as Code,MCC_NAME as Name,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code"
+            'Dim qry As String = "select MCC_Code as Code,MCC_NAME as Name,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code"
 
-            ' Dim qry As String = "select TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code as Code,MCC_NAME as Name,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER 
-            'Left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code  where location_code in (" + clsCommon.myCstr(txtMCC.Value) + "))"
+            Dim qry As String = "select TSPL_MCC_MASTER.MCC_Code as Code,MCC_NAME as Name,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER 
+            Left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code "
             If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count > 0 Then
                 qry += " and TSPL_MCC_MASTER.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
             End If
+            Dim strWhrcls As String = "location_code ='" + clsCommon.myCstr(txtMCC.Value) + "'"
             txtMCC.Value = clsCommon.ShowSelectForm("vendorBadvice", qry, "Code", "", txtMCC.Value, "Code", isButtonClicked)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
