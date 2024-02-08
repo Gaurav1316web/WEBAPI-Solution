@@ -10825,8 +10825,6 @@ Public Class clsCreateAllTable
             coll.Add("Amount", "float not null default 0 ")
             coll.Add("Reduce_Deduc_Amt", "float not null default 0 ")
             coll.Add("IsFromPrevPPCycle", "int null ")
-            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
-
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DEDUCTION", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -10838,8 +10836,6 @@ Public Class clsCreateAllTable
             coll.Add("Vendor_NAME", "varchar(200) ")
             coll.Add("TDS_Amount", "decimal(18,2) NULL")
             coll.Add("Amount", "float not null default 0 ")
-            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
-
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_CREDIT_NOTE", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -13242,6 +13238,7 @@ Public Class clsCreateAllTable
             coll.Add("JA_disabilityType", "varchar(20) NULL")
             coll.Add("JA_categoryDescEng", "varchar(20) NULL")
             coll.Add("JA_caste", "nvarchar(50) NULL")
+            coll.Add("JA_AADHAR_REF_NO", "varchar(20) NULL")
             clsDBFuncationality.ExecuteNonQuery("delete  from  TSPL_MP_MASTER_Hist_Data where MP_Code+convert(varchar, Hist_Version) in (select MP_Code+convert(varchar, Hist_Version) from(select LEN([MP_Code_VLC_Uploader]) as Lenth,MP_Code,Hist_Version from TSPL_MP_MASTER_Hist_Data)xx where Lenth > 7)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER", coll, Nothing, True)
 
@@ -47170,6 +47167,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Remarks", "varchar(200) null")
             coll.Add("Status", "integer not null default 0")
             coll.Add("Qc_Status", "varchar(10) NULL")
+            coll.Add("QC_Start_Date", "Datetime  null")
+            coll.Add("QC_END_Date", "Datetime  null")
             coll.Add("Created_By", "varchar(12)  null")
             coll.Add("Created_Date", "Datetime null")
             coll.Add("Modified_By", "varchar(12)  null")
