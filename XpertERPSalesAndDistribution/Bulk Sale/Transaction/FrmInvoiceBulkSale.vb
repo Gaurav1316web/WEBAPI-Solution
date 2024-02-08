@@ -149,6 +149,7 @@ Public Class FrmInvoiceBulkSale
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         AllowFatPerInanynumberofMultipesonBulkQC = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowFatPerInanynumberofMultipesonBulkQC, clsFixedParameterCode.AllowFatPerInanynumberofMultipesonBulkQC, Nothing)) = 1, True, False))
         Reset()
+        rdbAgainstDispatchTrade.Visible = False
         UcAttachment1.Form_ID = MyBase.Form_ID
         'SetMaxlength()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
@@ -2283,7 +2284,7 @@ Public Class FrmInvoiceBulkSale
                 qry += "Select * from ("
             End If
             qry += "Select " &
-                " TSPL_Dispatch_BulkSale.document_no,TSPL_Dispatch_BulkSale.document_date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_location_master.gstno,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_ITEM_MASTER.HSN_Code,TSPL_ITEM_MASTER.Item_Desc,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Rate when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Rate when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Rate " &
+                " TSPL_Dispatch_BulkSale.document_no,TSPL_Company_MASTER.Phone1,TSPL_Company_MASTER.Phone2,TSPL_Company_MASTER.Email,TSPL_Dispatch_BulkSale.document_date,TSPL_Dispatch_Detail_BulkSale.SNFRate,TSPL_Dispatch_Detail_BulkSale.FatRate,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_location_master.gstno,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_ITEM_MASTER.HSN_Code,TSPL_ITEM_MASTER.Item_Desc,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Rate when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Rate when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Rate " &
                 " when dtax4.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX4_Rate  when dtax5.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX5_Rate end as TCS_Rate " &
                 " ,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Amt when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Amt when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Amt when dtax4.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX4_Amt  when dtax5.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX5_Amt end  as TCS_Amount" &
                 " ,TSPL_INVOICE_DETAIL_BULKSALE.unit_code, case when ISNULL(tspl_company_master.Phone1,'')='(+__)__________' then '' " &
@@ -2379,7 +2380,7 @@ Public Class FrmInvoiceBulkSale
             'KwalitySalesReportViewer.funreport(dt, "rptInvoiceBulkSale", "Milk Sales Invoice")
             'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", "rptCompanyAddress.rpt")
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "Bulkdispath", "Milk Sales Dispatch", "Bulk dispath")
+            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoice", "Milk Sales Dispatch", "Bulk dispath")
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", txtDate.Value, "rptCompanyAddress.rpt")
             frmCRV = Nothing
             qry = Nothing
