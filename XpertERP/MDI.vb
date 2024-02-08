@@ -5980,6 +5980,9 @@ Public Class MDI
                     Case clsUserMgtCode.mbtnMRN
                         frm = New frmMRN()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBulkSaleAcknowledgementUploader
+                        frm = New frmBulkSaleAcknowledgementUploader()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
