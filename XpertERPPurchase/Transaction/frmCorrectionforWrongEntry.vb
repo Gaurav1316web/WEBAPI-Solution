@@ -998,4 +998,7 @@ Public Class frmCorrectionforWrongEntry
         Me.Close()
     End Sub
 
+    Private Sub btnUpdatee_Click(sender As Object, e As EventArgs) Handles btnUpdatee.Click
+
+    End Sub
 End Class

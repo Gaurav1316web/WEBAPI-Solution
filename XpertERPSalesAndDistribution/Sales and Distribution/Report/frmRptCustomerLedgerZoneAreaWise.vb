@@ -219,32 +219,32 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
         Dim strsecurity As String = String.Empty
         Try
             If chkCustomerSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer")
+                common.clsCommon.MyMessageBoxShow("Please select at least one Customer", Me.Text)
                 Return
             End If
             If chkCompanySelect.IsChecked AndAlso cbgCompany.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one company")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one company", Me.Text)
                 Return
             End If
             If chkCustGrpSelect.IsChecked AndAlso cbgCustGrp.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Group", Me.Text)
                 Return
             End If
             '' Anubhooti 30-Sep-2014 BM00000003557
             If ChkISParentCust.Checked = True Then
                 If ChkParentCustSelect.IsChecked AndAlso cbgParentCust.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one parent customer")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one parent customer", Me.Text)
                     Return
                 End If
             End If
 
             ''
             If ChkCustTypeSelect.IsChecked AndAlso cbgcusttype.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Type", Me.Text)
                 Return
             End If
             If ChkCustCatSelect.IsChecked AndAlso cbgcustcat.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Category")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Category", Me.Text)
                 Return
             End If
 
@@ -971,7 +971,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             strFromDate = Nothing
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2108,30 +2108,30 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
         Dim compname As String = ""
         Try
             If chkCustomerSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer", Me.Text)
                 Return
             End If
             If chkCompanySelect.IsChecked AndAlso cbgCompany.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one company")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one company", Me.Text)
                 Return
             End If
             If chkCustGrpSelect.IsChecked AndAlso cbgCustGrp.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Group", Me.Text)
                 Return
             End If
             If ChkISParentCust.Checked = True Then
                 If ChkParentCustSelect.IsChecked AndAlso cbgParentCust.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one parent customer")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one parent customer", Me.Text)
                     Return
                 End If
             End If
 
             If ChkCustTypeSelect.IsChecked AndAlso cbgcusttype.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Type", Me.Text)
                 Return
             End If
             If ChkCustCatSelect.IsChecked AndAlso cbgcustcat.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Category")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Category", Me.Text)
                 Return
             End If
 
@@ -2617,7 +2617,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
 
                 If dtMain.Rows.Count <= 0 Then
                     btnPrint.Enabled = False
-                    clsCommon.MyMessageBoxShow("Data not found")
+                    clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                     gvDetails.DataSource = Nothing
                     gvDetails.Rows.Clear()
                     gvDetails.Columns.Clear()
@@ -2751,7 +2751,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             GridSummaryRow()
             gvDetails.MasterTemplate.SortDescriptors.Clear()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2789,7 +2789,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 ''richa agarwal regarding memory leakage
                 obj.GridLayout.Close()
@@ -2807,7 +2807,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
 
                 ''richa agarwal regarding memory leakage
@@ -2825,7 +2825,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
 
                 ''richa agarwal regarding memory leakage
@@ -2843,7 +2843,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
 
                 ''richa agarwal regarding memory leakage
@@ -2861,7 +2861,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
 
                 ''richa agarwal regarding memory leakage
@@ -2904,7 +2904,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 ReStoreGridZone()
                 GridSummaryRow()
             End If
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -3259,7 +3259,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvZone_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvZone.CellDoubleClick
@@ -3302,7 +3302,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvArea_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvArea.CellDoubleClick
@@ -3344,7 +3344,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gvCustomer_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvCustomer.CellDoubleClick
@@ -3381,7 +3381,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3628,7 +3628,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             chkExcludeOpening.Checked = False
             chkDateWise.Checked = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3687,7 +3687,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3744,7 +3744,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             clsCommon.ProgressBarShow()
             IO.File.WriteAllLines(filePath, transportSql.ExportCSV(sender, AddHeader))
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow("Data Exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data Exported successfully", Me.Text)
             Process.Start(filePath)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3783,7 +3783,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 chkDateWise.Checked = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3930,7 +3930,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3942,7 +3942,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             End If
             ExportCSV(gvDetails, True)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4056,7 +4056,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

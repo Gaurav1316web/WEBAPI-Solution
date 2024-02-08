@@ -1477,6 +1477,7 @@ Public Class FrmItemMasterRMOther
                 obj.Scrap_Item_Code = fndScrapItem.Value
                 obj.Is_Milk_Pouch = chkMilkPouch.Checked
                 obj.Is_QC_SNF_Based = IIf(chkQCSNFBssed.Checked = True, 1, 0)
+                obj.Is_AllowQC_ON_Production = IIf(chkqcprod.Checked = True, 1, 0)
                 obj.Is_Advance_Required = chkAdvanceRequired.Checked
 
                 If clsCommon.myLen(fndGLAcc.Value) > 0 Then
@@ -2568,6 +2569,7 @@ Public Class FrmItemMasterRMOther
                 chkMilkPouch.Checked = obj.Is_Milk_Pouch
                 chkAdvanceRequired.Checked = obj.Is_Advance_Required
                 chkQCSNFBssed.Checked = IIf(clsCommon.myCstr(obj.Is_QC_SNF_Based) = "1", True, False)
+                chkqcprod.Checked = IIf((obj.Is_AllowQC_ON_Production) = 1, True, False)
                 chkInsurance.Checked = IIf(clsCommon.myCstr(obj.Is_Insurance) = "1", True, False)
                 If chkInsurance.Checked = True Then
                     txtInsurance.Text = clsCommon.myCstr(obj.InsuranceNo)
