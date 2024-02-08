@@ -47164,6 +47164,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Remarks", "varchar(200) null")
             coll.Add("Status", "integer not null default 0")
             coll.Add("Qc_Status", "varchar(10) NULL")
+            coll.Add("QC_Start_Date", "Datetime  null")
+            coll.Add("QC_END_Date", "Datetime  null")
             coll.Add("Created_By", "varchar(12)  null")
             coll.Add("Created_Date", "Datetime null")
             coll.Add("Modified_By", "varchar(12)  null")
