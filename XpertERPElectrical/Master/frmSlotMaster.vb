@@ -101,12 +101,12 @@ Public Class frmSlotMaster
 
                 arr.Add(obj)
                 If obj.SaveData(arr, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -124,7 +124,7 @@ Public Class frmSlotMaster
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -146,7 +146,7 @@ Public Class frmSlotMaster
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -170,7 +170,7 @@ Public Class frmSlotMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsSlotMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                     AddNew()
                 End If
             End If
@@ -248,7 +248,7 @@ Public Class frmSlotMaster
                 Next
                 obj.SaveData(arr, isNewEntry)
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

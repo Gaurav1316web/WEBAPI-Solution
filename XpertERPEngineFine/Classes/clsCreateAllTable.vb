@@ -10824,8 +10824,6 @@ Public Class clsCreateAllTable
             coll.Add("Amount", "float not null default 0 ")
             coll.Add("Reduce_Deduc_Amt", "float not null default 0 ")
             coll.Add("IsFromPrevPPCycle", "int null ")
-            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
-
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DEDUCTION", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -10837,8 +10835,6 @@ Public Class clsCreateAllTable
             coll.Add("Vendor_NAME", "varchar(200) ")
             coll.Add("TDS_Amount", "decimal(18,2) NULL")
             coll.Add("Amount", "float not null default 0 ")
-            coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
-
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_CREDIT_NOTE", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
