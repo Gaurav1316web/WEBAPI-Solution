@@ -5,6 +5,7 @@ Public Class clsDCSAdditionDeduction
 #Region "Variables"
     Public Code As String = Nothing
     Public Description As String = Nothing
+    Public Description_Hindi As String = Nothing
     Public Start_Date As DateTime
     Public End_Date As Date? = Nothing
     Public Inactive As Boolean = False
@@ -49,6 +50,7 @@ Public Class clsDCSAdditionDeduction
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Description_Hindi", obj.Description_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
             If obj.End_Date Is Nothing Then
                 clsCommon.AddColumnsForChange(coll, "End_Date", Nothing, True)
@@ -169,6 +171,7 @@ Public Class clsDCSAdditionDeduction
             obj = New clsDCSAdditionDeduction()
             obj.Code = clsCommon.myCstr(dt.Rows(0)("Code"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
+            obj.Description_Hindi = clsCommon.myCstr(dt.Rows(0)("Description_Hindi"))
             obj.Start_Date = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
             If dt.Rows(0)("End_Date") IsNot DBNull.Value Then
                 obj.End_Date = clsCommon.myCDate(dt.Rows(0)("End_Date"))
