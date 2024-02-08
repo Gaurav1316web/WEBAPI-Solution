@@ -3658,23 +3658,9 @@ Public Class clsPaymentProcessCreditNote
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Try
-
-
-
-            'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("Select  Area_Location_Code from tspl_mcc_master")
-            'Dim lst As New List(Of String)
-            'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-
-            '    For Each dr As DataRow In dt1.Rows
-            '        lst.Add(clsCommon.myCstr(dr("Area_Location_Code")))
-            '    Next
-            'End If
-            'Dim AreaLocationCode1 As String = clsCommon.GetMulcallString(lst)
             Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.* 
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
-left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected=TSPL_VLC_MASTER_HEAD.MCC
-
 where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
