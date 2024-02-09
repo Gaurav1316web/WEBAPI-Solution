@@ -182,7 +182,7 @@ Public Class clsMilkCollectionDCS
         Dim objMilkPro As clsMilkProcurementUploaderHead = Nothing
         Dim objMilkProRej As clsMilkProcurementUploaderHead = Nothing
         For Each objDCSTr As clsMilkCollectionDCSDetail In objDCS.Arr
-            Dim qry As String = "select max(MCC_Code) as MCC_Code,max(Route_Code) as Route_Code,max(Tanker_No) as Tanker_No,max(Late) as Late,sum(Qty) as Qty,sum(FATKG) as FATKG,sum(SNFKG) as SNFKG from (select TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Late,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG from TSPL_MILK_COLLECTION_MCC_DETAIL 
+            Dim qry As String = "select max(MCC_Code) as MCC_Code,max(Route_Code) as Route_Code,max(Tanker_No) as Tanker_No,max(Late) as Late,sum(Qty) as Qty,sum(FATKG) as FATKG,sum(SNFKG) as SNFKG,max(Against_DCS_Multiple_Days_Merge) as Against_DCS_Multiple_Days_Merge,max(Against_DCS_Multiple_Days) as Against_DCS_Multiple_Days from (select TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Late,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG,TSPL_MILK_COLLECTION_MCC.Against_DCS_Multiple_Days_Merge,TSPL_MILK_COLLECTION_MCC.Against_DCS_Multiple_Days from TSPL_MILK_COLLECTION_MCC_DETAIL 
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
             where 2=2   "
             If objDCS.ArrMCC IsNot Nothing AndAlso objDCS.ArrMCC.Count > 0 Then
@@ -200,7 +200,13 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
             qry += ")x"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                qry = "select MCC_SHIFT_CODE  from TSPL_OPEN_MCC_SHIFT where MCC_CODE='" + clsCommon.myCstr(dt.Rows(0)("MCC_Code")) + "' and SHIFT='" + objDCSTr.Shift + "' and convert(date, MCC_SHIFT_DATE,103)=convert(date, '" + clsCommon.GetPrintDate(IIf(clsCommon.CompairString(objDCSTr.Shift, "M") = CompairStringResult.Equal, objDCS.Document_Date, objDCS.Document_Date.AddDays(-1)), "dd/MMM/yyyy") + "',103)"
+                Dim isAgainstMultipleDays As Boolean = False
+                If clsCommon.myLen(dt.Rows(0)("Against_DCS_Multiple_Days")) > 0 OrElse clsCommon.myLen(dt.Rows(0)("Against_DCS_Multiple_Days_Merge")) > 0 Then
+                    isAgainstMultipleDays = True
+                End If
+                qry = "select MCC_SHIFT_CODE  from TSPL_OPEN_MCC_SHIFT where MCC_CODE='" + clsCommon.myCstr(dt.Rows(0)("MCC_Code")) + "' 
+and SHIFT='" + objDCSTr.Shift + "' 
+and convert(date, MCC_SHIFT_DATE,103)=convert(date, '" + clsCommon.GetPrintDate(IIf((clsCommon.CompairString(objDCSTr.Shift, "M") = CompairStringResult.Equal OrElse isAgainstMultipleDays), objDCS.Document_Date, objDCS.Document_Date.AddDays(-1)), "dd/MMM/yyyy") + "',103)"
                 Dim dtShit As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtShit Is Nothing OrElse dtShit.Rows.Count <= 0 Then
                     Dim objtr As New clsMilkShiftUploaderDetail
@@ -235,7 +241,11 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
                     ElseIf clsCommon.CompairString(objDCSTr.Shift, "E") = CompairStringResult.Equal Then
                         If objE Is Nothing Then
                             objE = New clsMilkShiftUploaderHead()
-                            objE.Shift_Date = objDCS.Document_Date.AddDays(-1)
+                            If isAgainstMultipleDays Then
+                                objE.Shift_Date = objDCS.Document_Date
+                            Else
+                                objE.Shift_Date = objDCS.Document_Date.AddDays(-1)
+                            End If
                             objE.Shift = objDCSTr.Shift
                             objE.MCC_Code = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
                             objE.Raj_Bulk_Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
@@ -254,7 +264,11 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
                     If clsCommon.CompairString(objDCSTr.Shift, "M") = CompairStringResult.Equal Then
                         objTrMilkPro.Shift_Date = objDCS.Document_Date
                     Else
-                        objTrMilkPro.Shift_Date = objDCS.Document_Date.AddDays(-1)
+                        If isAgainstMultipleDays Then
+                            objTrMilkPro.Shift_Date = objDCS.Document_Date
+                        Else
+                            objTrMilkPro.Shift_Date = objDCS.Document_Date.AddDays(-1)
+                        End If
                     End If
                     objTrMilkPro.Shift = objDCSTr.Shift
                     objTrMilkPro.VLC_Code = objDCSTr.VLC_Code
