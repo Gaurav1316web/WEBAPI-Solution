@@ -137,7 +137,8 @@ Public Class frmDCSAdditionDeduction
             If (AllowToSave()) Then
                 Dim obj As New clsDCSAdditionDeduction()
                 obj.Code = txtCode.Value
-                obj.Description = txtDescription.Text
+                obj.Description = txtDescName.Text
+                obj.Description_Hindi = txtDescNameHindi.Text
                 obj.Start_Date = dtStartDate.Value
                 If dtpEndDate.Checked Then
                     obj.End_Date = dtpEndDate.Value
@@ -221,7 +222,8 @@ Public Class frmDCSAdditionDeduction
                 btnPost.Enabled = True
                 isNewEntry = False
                 txtCode.Value = obj.Code
-                txtDescription.Text = obj.Description
+                txtDescName.Text = obj.Description
+                txtDescNameHindi.Text = obj.Description_Hindi
                 dtStartDate.Value = obj.Start_Date
                 If obj.End_Date IsNot Nothing Then
                     dtpEndDate.Checked = True
@@ -346,9 +348,9 @@ Public Class frmDCSAdditionDeduction
         End Try
     End Sub
     Function AllowToSave() As Boolean
-        If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue(txtDescription.MyLinkLable1.Text)
-            txtDescription.Focus()
+        If clsCommon.myLen(txtDescName.Text) <= 0 Then
+            myMessages.blankValue(txtDescName.MyLinkLable1.Text)
+            txtDescName.Focus()
             Return False
         End If
         If clsCommon.myLen(cboApplyType.SelectedValue) <= 0 Then
@@ -453,7 +455,8 @@ Public Class frmDCSAdditionDeduction
         cboApplyType.SelectedValue = ""
         txtSNo.Text = ""
         txtCode.Value = Nothing
-        txtDescription.Text = Nothing
+        txtDescName.Text = Nothing
+        txtDescNameHindi.Text = Nothing
         txtGLAccount.Value = ""
         lblGLAcctName.Text = ""
         txtApplyValue.Text = ""
@@ -637,6 +640,5 @@ Public Class frmDCSAdditionDeduction
         End If
 
     End Sub
-
 
 End Class

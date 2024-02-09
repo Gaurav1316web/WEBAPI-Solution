@@ -50,6 +50,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPEngineFine", "..\Xp
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPBulkProcurement", "..\XpertERPBulkProcurement\XpertERPBulkProcurement.vbproj", "{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPMIS", "..\XpertMIS\XpertERPMIS.vbproj", "{33D01BD2-2A5F-4AD5-B447-2DBC51C93D5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -152,6 +154,10 @@ Global
 		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D01BD2-2A5F-4AD5-B447-2DBC51C93D5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D01BD2-2A5F-4AD5-B447-2DBC51C93D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D01BD2-2A5F-4AD5-B447-2DBC51C93D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D01BD2-2A5F-4AD5-B447-2DBC51C93D5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

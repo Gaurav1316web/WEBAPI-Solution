@@ -7100,7 +7100,7 @@ Public Class FrmUtility
              " SNF_Amt=round(round((Net_Cost*1/(3*case when SNF_KG=0 then 1 else SNF_KG end)),2)* SNF_KG ,2) where Trans_Type='IC-Ad' and InOut='I' and (Fat_KG>0 or SNF_KG>0)"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7119,7 +7119,7 @@ Public Class FrmUtility
             qry = "update  TSPL_INVENTORY_MOVEMENT_NEW set fat_amt=fat_rate*fat_kg,SNF_Amt=SNF_Rate*SNF_KG where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('MCC-MSRN')"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7134,7 +7134,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7152,7 +7152,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7166,7 +7166,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7197,7 +7197,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7214,7 +7214,7 @@ Public Class FrmUtility
 
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7231,7 +7231,7 @@ Public Class FrmUtility
 
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7294,7 +7294,7 @@ Public Class FrmUtility
             Next
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7347,7 +7347,7 @@ Public Class FrmUtility
             'Next
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7423,7 +7423,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7470,7 +7470,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7504,7 +7504,7 @@ Public Class FrmUtility
                     If updateConsumption Then
                         clsProcessProductionStandardization.UpdateConsumption(drPrd.Item("Prod_Code"), trans)
                         trans.Commit()
-                        clsCommon.MyMessageBoxShow("Consumption updated successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Consumption updated successfully", Me.Text)
                         Exit Try
                     End If
                     qry = " select Trans_Type,Trans_Id,Location_Code,Item_Code,Qty,Stock_Qty,UOM,Source_Doc_No,convert(date,Punching_Date,103) as Source_Doc_Date,Net_Cost,Avg_Cost,Fat_Per,SNF_Per,Fat_KG,SNF_KG,Fat_Rate,SNF_Rate,Fat_Amt,SNF_Amt " & _
@@ -7632,7 +7632,7 @@ Public Class FrmUtility
                     If updateConsumption Then
                         clsProductionEntry.UpdateConsumption(drPrd.Item("Prod_Code"), trans)
                         trans.Commit()
-                        clsCommon.MyMessageBoxShow("Consumption updated successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Consumption updated successfully", Me.Text)
                         Exit Try
                     End If
                     '' update issue
@@ -7850,7 +7850,7 @@ Public Class FrmUtility
 
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7889,7 +7889,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -8203,11 +8203,11 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Invoice Created Successfully")
+            clsCommon.MyMessageBoxShow(Me, "Invoice Created Successfully", Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -8400,7 +8400,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8429,7 +8429,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -8450,7 +8450,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AR Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AR Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -8479,14 +8479,14 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8509,7 +8509,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Invoices.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Invoices.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
 
@@ -8537,9 +8537,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                     'If clsUtility.ReCreateSaleReturn(strInvoiceNo, strVoucherNo, strAR_Inv_No) Then
                     '    counter += 1
@@ -8550,7 +8550,7 @@ Public Class FrmUtility
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8598,7 +8598,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8615,7 +8615,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Invoices.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Invoices.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
 
@@ -8632,20 +8632,20 @@ Public Class FrmUtility
                             qry = "delete from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" + strInvoiceNo + "' and  ( Scheme_Item='Y'  and FOC_Item=0 and Sampling=0) "
                             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            qry = "update TSPL_SD_SALE_INVOICE_HEAD set Discount_Base=(select sum(Amount) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" + strInvoiceNo + "' )," & _
-                            "Discount_Amt=(select sum(Amount) from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" + strInvoiceNo + "' and scheme_item='Y')," & _
-                            "Amount_Less_Discount=(select sum(Amount) from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" + strInvoiceNo + "' and scheme_item='N'), " & _
-                            "Total_Amt=(select sum(Amount) from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" + strInvoiceNo + "' and scheme_item='N') " & _
+                            qry = "update TSPL_SD_SALE_INVOICE_HEAD set Discount_Base=(select sum(Amount) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" + strInvoiceNo + "' )," &
+                            "Discount_Amt=(select sum(Amount) from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" + strInvoiceNo + "' and scheme_item='Y')," &
+                            "Amount_Less_Discount=(select sum(Amount) from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" + strInvoiceNo + "' and scheme_item='N'), " &
+                            "Total_Amt=(select sum(Amount) from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" + strInvoiceNo + "' and scheme_item='N') " &
                             "where document_code='" + strInvoiceNo + "'"
                             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                             qry = "delete from TSPL_SD_SHIPMENT_detail where DOCUMENT_CODE='" + strShipmentNo + "' and  ( Scheme_Item='Y'  and FOC_Item=0 and Sampling=0) "
                             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            qry = "update TSPL_SD_SHIPMENT_HEAD set Discount_Base=(select sum(Amount) from TSPL_SD_SHIPMENT_detail where Document_Code='" + strShipmentNo + "' )," & _
-                              "Discount_Amt=(select sum(Amount) from TSPL_SD_SHIPMENT_detail where DOCUMENT_CODE='" + strShipmentNo + "' and scheme_item='Y')," & _
-                              "Amount_Less_Discount=(select sum(Amount) from TSPL_SD_SHIPMENT_detail where DOCUMENT_CODE='" + strShipmentNo + "' and scheme_item='N'), " & _
-                              "Total_Amt=(select sum(Amount) from TSPL_SD_SHIPMENT_detail where DOCUMENT_CODE='" + strShipmentNo + "' and scheme_item='N') " & _
+                            qry = "update TSPL_SD_SHIPMENT_HEAD set Discount_Base=(select sum(Amount) from TSPL_SD_SHIPMENT_detail where Document_Code='" + strShipmentNo + "' )," &
+                              "Discount_Amt=(select sum(Amount) from TSPL_SD_SHIPMENT_detail where DOCUMENT_CODE='" + strShipmentNo + "' and scheme_item='Y')," &
+                              "Amount_Less_Discount=(select sum(Amount) from TSPL_SD_SHIPMENT_detail where DOCUMENT_CODE='" + strShipmentNo + "' and scheme_item='N'), " &
+                              "Total_Amt=(select sum(Amount) from TSPL_SD_SHIPMENT_detail where DOCUMENT_CODE='" + strShipmentNo + "' and scheme_item='N') " &
                               "where document_code='" + strShipmentNo + "'"
                             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -8665,9 +8665,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                     'If clsUtility.ReCreateSaleReturn(strInvoiceNo, strVoucherNo, strAR_Inv_No) Then
                     '    counter += 1
@@ -8678,7 +8678,7 @@ Public Class FrmUtility
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''TEC/24/07/19-000957 by balwinder on 30/07/2019.
@@ -8703,10 +8703,10 @@ Public Class FrmUtility
             End If
 
             trans.Commit()
-            clsCommon.MyMessageBoxShow("Successfully Applied Purchase Account Setting", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Applied Purchase Account Setting", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -8747,7 +8747,7 @@ Public Class FrmUtility
             CboMachine.Enabled = True
             BtnStart.Text = "Start"
             objSerial.ClosePort()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9398,7 +9398,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub RadButton49_Click(sender As Object, e As EventArgs) Handles RadButton49.Click
-        If clsCommon.MyMessageBoxShow("Update Punching and posting date" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+        If clsCommon.MyMessageBoxShow(Me, "Update Punching and posting date" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
             clsCommon.ProgressBarPercentShow()
             Try
                 Dim qry As String = " select * from (" + Environment.NewLine +
@@ -9414,11 +9414,11 @@ Public Class FrmUtility
                     clsInventoryMovement.UpdateSeconds(" Posting_Date ", clsCommon.myCstr(dt.Rows(ii)("TableName")), clsCommon.myCstr(dt.Rows(ii)("Item_Code")), clsCommon.myCstr(dt.Rows(ii)("Location_Code")), dtTimeNow, Nothing)
                 Next
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Task Done", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Done", Me.Text)
 
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -9453,7 +9453,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9466,7 +9466,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " PR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " PR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -9508,14 +9508,14 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9535,7 +9535,7 @@ Public Class FrmUtility
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9633,11 +9633,11 @@ Public Class FrmUtility
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 Next
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Updated Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Updated Successfully.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9707,7 +9707,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_CREATE_SRN_Milk")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETE_SRN_Milk")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9722,7 +9722,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9735,7 +9735,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + "Milk SRN", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + "Milk SRN", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strSRNNo As String = clsCommon.myCstr(dt.Rows(ii)("srn_no"))
@@ -9760,14 +9760,14 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9824,7 +9824,7 @@ Public Class FrmUtility
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_BSSale_Return_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -9833,7 +9833,7 @@ Public Class FrmUtility
         Dim qry As String = "select * from Temp_BSSale_Return where DocumentNo not in (select DocumentNo from Temp_BSSale_Return_Done)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim strErro As String = ""
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -25884,7 +25884,7 @@ where Prog_Code='MCC-DISP'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25915,15 +25915,15 @@ where Prog_Code='MCC-DISP'"
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25958,12 +25958,12 @@ where posted=1 and not exists(select 1 from TSPL_MILK_Shift_End_Route_DETAIL whe
                 End Try
             Next
             If clsCommon.myLen(StrAllException) > 0 Then
-                clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, StrAllException, Me.Text)
             Else
-                clsCommon.MyMessageBoxShow("Successfully Created", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Created", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25993,7 +25993,7 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table TEMP_CREATED_ASSET_SCRAP_DONE(DocumentNo varchar(30) not null)")
     End Sub
@@ -26051,12 +26051,12 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

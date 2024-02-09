@@ -141,6 +141,16 @@ Public Class clsLocation
     Public Uploader_No As String = Nothing
     Public No_Of_Shift As Integer = Nothing
 
+    Public QC_IS As String = Nothing
+    Public CMA_CML As String = Nothing
+    Public ValidUpto As String = Nothing
+    Public GradeType As String = Nothing
+    Public QC_StartDate As Date? = Nothing
+    Public ManagerName As String = Nothing
+    Public ManagerDestination As String = Nothing
+    Public Remarks As String = Nothing
+
+
     '----------------Code For Get Finder--------------------------------------------------------------------'
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
@@ -455,7 +465,16 @@ Public Class clsLocation
             clsCommon.AddColumnsForChange(coll, "GSTDegit", obj.GSTDegit)
             clsCommon.AddColumnsForChange(coll, "Registered", obj.Is_Registered)
             '============================================
-
+            '========Added by Mohd Suhail [for QC],9 Feb,2024======
+            clsCommon.AddColumnsForChange(coll, "QC_IS", obj.QC_IS)
+            clsCommon.AddColumnsForChange(coll, "CMA_CML", obj.CMA_CML)
+            clsCommon.AddColumnsForChange(coll, "ValidUpto", obj.ValidUpto)
+            clsCommon.AddColumnsForChange(coll, "GradeType", obj.GradeType)
+            clsCommon.AddColumnsForChange(coll, "QCStartDate", obj.QC_StartDate)
+            clsCommon.AddColumnsForChange(coll, "Manager_Name", obj.ManagerName)
+            clsCommon.AddColumnsForChange(coll, "Manager_Destination", obj.ManagerDestination)
+            clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
+            '============================================
             'Ticket- BHA/27/07/18-000198
             clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)
             'BHA/27/07/18-000198

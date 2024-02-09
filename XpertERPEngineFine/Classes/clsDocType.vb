@@ -723,6 +723,8 @@ Public Class clsDocType
     Public Const PanchayatSamitiMaster As String = "Panchayat Samiti Master"
     Public Const VidhanSabhaMaster As String = "Vidhan Sabha Master"
     Public Const UserRequestMaster As String = "User Request Master"
+    Public Const MISItemMaster As String = "MIS Item Master"
+    Public Const MISItemGroupMaster As String = "MIS Item Group Master"
     Public Shared Function SetDefaultValues() As Boolean
         Try
 

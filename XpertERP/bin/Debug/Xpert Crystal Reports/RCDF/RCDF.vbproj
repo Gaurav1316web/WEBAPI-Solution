@@ -1239,6 +1239,7 @@
     <None Include="Crystal Reports\Inventory Report\transferpreprintedLOoldfrt.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingTruckSheet.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crpJobworkEstimate.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleReturn.rpt" />
@@ -1265,6 +1266,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptCSADeliverySale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBooking.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingRouteWise.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptDemandRoutBoothWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDepositCrateDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDispatchBulkSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDSBoking.rpt" />

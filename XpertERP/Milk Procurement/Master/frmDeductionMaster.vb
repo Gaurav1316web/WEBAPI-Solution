@@ -30,6 +30,7 @@ Public Class FrmDeductionMaster
         ChkSecurity.Checked = False
         fndCode.Value = ""
         txtName.Text = ""
+        txtNameHindi.Text = ""
         fndDedGrp.Value = ""
         lblDedGrpName.Text = ""
         FndGLAcct.Value = ""
@@ -141,6 +142,7 @@ Public Class FrmDeductionMaster
             Dim obj As New ClsDeductionMaster()
             obj.Code = fndCode.Value
             obj.Description = txtName.Text
+            obj.Description_Hindi = txtNameHindi.Text
             obj.Ded_Grp_Code = fndDedGrp.Value
             obj.GL_Account_Code = FndGLAcct.Value
             If ChkSecurity.Checked Then
@@ -204,6 +206,7 @@ Public Class FrmDeductionMaster
             If obj IsNot Nothing Then
                 fndCode.Value = obj.Code
                 txtName.Text = obj.Description
+                txtNameHindi.Text = obj.Description_Hindi
                 fndDedGrp.Value = obj.Ded_Grp_Code
                 FndGLAcct.Value = obj.GL_Account_Code
                 If obj.Security = 1 Then

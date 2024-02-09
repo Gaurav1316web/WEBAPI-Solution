@@ -2771,6 +2771,7 @@ Public Class clsSRNHead
 
     Public Shared Function GenerateSRNDeduction(ByVal strSRNNo As String, ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
         'TSPL_SRN_HEAD.Against_QC_Code
+        Dim qry1 As String = Nothing
         Dim qry As String = "select TSPL_QC_CHECK_HEAD.Document_Code as Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt,TSPL_TENDER_HEADER.Tender_Type 
 from TSPL_SRN_DETAIL
 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
@@ -2802,17 +2803,28 @@ where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "'
                 Dim dclSRNQty As Decimal = clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty"))
 
                 If clsCommon.myCDecimal(dtSRN.Rows(0)("Tender_Type")) = 2 OrElse clsCommon.myCDecimal(dtSRN.Rows(0)("Tender_Type")) = 3 Then
-                    qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty  from (
+                    qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty,max(schedule_no) as  schedule_no  from (
 select TSPL_TENDER_SCHEDULE_PO.DocumentCode,TSPL_TENDER_SCHEDULE_PO.PK_Id
 ,DATEADD(day,isnull(TSPL_TENDER_SCHEDULE_PO.Extension_Days,0),TSPL_TENDER_SCHEDULE_PO.To_Date) as To_Date
-,TSPL_TENDER_SCHEDULE_PO.Item_Code,TSPL_TENDER_SCHEDULE_PO.Schedule_Qty as Qty,1 AS RI ,1 as Chk 
+,TSPL_TENDER_SCHEDULE_PO.Item_Code,TSPL_TENDER_SCHEDULE_PO.Schedule_Qty as Qty,1 AS RI ,1 as Chk ,TSPL_TENDER_SCHEDULE_PO.schedule_no
 from TSPL_PURCHASE_ORDER_HEAD 
 inner join TSPL_TENDER_SCHEDULE_PO on TSPL_TENDER_SCHEDULE_PO.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No  
 where  TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" + clsCommon.myCstr(dtSRN.Rows(0)("PO_ID")) + "' and TSPL_TENDER_SCHEDULE_PO.Item_Code='" + strICode + "'
 union all
-select Against_PO as DocumentCode,Against_Tender_Schedule_PK_Id_PO as PK_Id,null as To_Date,Item_Code ,Qty,-1 as RI,0 as chk from TSPL_SRN_TENDER
+select Against_PO as DocumentCode,Against_Tender_Schedule_PK_Id_PO as PK_Id,null as To_Date,Item_Code ,Qty,-1 as RI,0 as chk, 0 as schedule_no from TSPL_SRN_TENDER
 )xx group by DocumentCode,PK_Id,Item_Code having sum(Qty*RI)>0 and sum(Chk)>0 order by PK_Id"
+
+                    qry1 = "select DocumentCode,Vendor_Code,Item_Code,max(Schedule_No) as NoOfSchedule  from (
+select TSPL_TENDER_SCHEDULE_PO.DocumentCode,TSPL_PURCHASE_ORDER_HEAD.Vendor_Code
+,TSPL_TENDER_SCHEDULE_PO.Item_Code,TSPL_TENDER_SCHEDULE_PO.Schedule_No as Schedule_No
+from TSPL_PURCHASE_ORDER_HEAD 
+inner join TSPL_TENDER_SCHEDULE_PO on TSPL_TENDER_SCHEDULE_PO.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No  
+where  TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" + clsCommon.myCstr(dtSRN.Rows(0)("PO_ID")) + "' and TSPL_TENDER_SCHEDULE_PO.Item_Code='" + strICode + "'
+)xx 
+group by DocumentCode,Vendor_Code,Item_Code"
+
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1, trans)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For kk As Integer = 0 To dt.Rows.Count - 1
                             Dim coll As New Hashtable()
@@ -2821,12 +2833,19 @@ select Against_PO as DocumentCode,Against_Tender_Schedule_PK_Id_PO as PK_Id,null
                             clsCommon.AddColumnsForChange(coll, "SRN_No", strSRNNo)
                             clsCommon.AddColumnsForChange(coll, "Item_Code", strICode)
                             Dim dclApplyQty As Decimal = 0
-                            If dclSRNQty <= clsCommon.myCDecimal(dt.Rows(kk)("Qty")) Then
+                            Dim Schedule_No As Integer = clsCommon.myCDecimal(dt.Rows(kk)("Schedule_No"))
+                            Dim NOOFSCHEDULE As Integer = clsCommon.myCDecimal(dt1.Rows(0)("NoOfSchedule"))
+                            If Schedule_No >= 1 And NOOFSCHEDULE > Schedule_No Then
+                                If dclSRNQty <= clsCommon.myCDecimal(dt.Rows(kk)("Qty")) Then
+                                    dclApplyQty = dclSRNQty
+                                    dclSRNQty = 0
+                                Else
+                                    dclApplyQty = clsCommon.myCDecimal(dt.Rows(kk)("Qty"))
+                                    dclSRNQty = dclSRNQty - dclApplyQty
+                                End If
+                            Else
                                 dclApplyQty = dclSRNQty
                                 dclSRNQty = 0
-                            Else
-                                dclApplyQty = clsCommon.myCDecimal(dt.Rows(kk)("Qty"))
-                                dclSRNQty = dclSRNQty - dclApplyQty
                             End If
                             clsCommon.AddColumnsForChange(coll, "Qty", dclApplyQty)
                             If clsCommon.GetDateWithStartTime(GRNDate) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(kk)("To_Date"))) Then
@@ -2857,18 +2876,28 @@ select Against_PO as DocumentCode,Against_Tender_Schedule_PK_Id_PO as PK_Id,null
                     End If
 
                 Else
-                    qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty  from (
+                    qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty,MAX(Schedule_No) AS Schedule_No  from (
 select TSPL_TENDER_SCHEDULE.DocumentCode,TSPL_TENDER_SCHEDULE.PK_Id
 ,DATEADD(day,isnull(TSPL_TENDER_SCHEDULE.Extension_Days,0),TSPL_TENDER_SCHEDULE.To_Date) as To_Date
-,TSPL_TENDER_DETAIL.Item_Code,TSPL_TENDER_SCHEDULE.Schedule_Qty as Qty,1 AS RI ,1 as Chk 
+,TSPL_TENDER_DETAIL.Item_Code,TSPL_TENDER_SCHEDULE.Schedule_Qty as Qty,1 AS RI ,1 as Chk ,TSPL_TENDER_SCHEDULE.Schedule_No as Schedule_No
 from TSPL_PURCHASE_ORDER_HEAD 
 inner join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo and TSPL_TENDER_DETAIL.Vendor_Code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code and TSPL_TENDER_DETAIL.Location=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location
 inner join TSPL_TENDER_SCHEDULE on TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode and TSPL_TENDER_DETAIL.Line_No=TSPL_TENDER_SCHEDULE.PSNo
 where  TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" + clsCommon.myCstr(dtSRN.Rows(0)("PO_ID")) + "' and TSPL_TENDER_DETAIL.Vendor_Code='" + clsCommon.myCstr(dtSRN.Rows(0)("Vendor_Code")) + "' and TSPL_TENDER_DETAIL.Item_Code='" + strICode + "'
 union all
-select Against_TenderNo as DocumentCode,Against_Tender_Schedule_PK_Id as PK_Id,null as To_Date,Item_Code ,Qty,-1 as RI,0 as chk from TSPL_SRN_TENDER
+select Against_TenderNo as DocumentCode,Against_Tender_Schedule_PK_Id as PK_Id,null as To_Date,Item_Code ,Qty,-1 as RI,0 as chk,0 as line_no from TSPL_SRN_TENDER
 )xx group by DocumentCode,PK_Id,Item_Code having sum(Qty*RI)>0 and sum(Chk)>0 order by PK_Id"
+                    qry1 = "select DocumentCode,Vendor_Code,Item_Code,MAX(NoOfSchedule) AS NoOfSchedule  from (
+select TSPL_TENDER_SCHEDULE.DocumentCode,TSPL_TENDER_SCHEDULE.PK_Id
+,DATEADD(day,isnull(TSPL_TENDER_SCHEDULE.Extension_Days,0),TSPL_TENDER_SCHEDULE.To_Date) as To_Date
+,TSPL_TENDER_DETAIL.Item_Code,TSPL_TENDER_SCHEDULE.Schedule_Qty as Qty,1 AS RI ,1 as Chk ,TSPL_TENDER_SCHEDULE.Schedule_No as NoOfSchedule ,TSPL_PURCHASE_ORDER_HEAD.Vendor_Code
+from TSPL_PURCHASE_ORDER_HEAD 
+inner join TSPL_TENDER_DETAIL on TSPL_TENDER_DETAIL.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo and TSPL_TENDER_DETAIL.Vendor_Code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code and TSPL_TENDER_DETAIL.Location=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location
+inner join TSPL_TENDER_SCHEDULE on TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode and TSPL_TENDER_DETAIL.Line_No=TSPL_TENDER_SCHEDULE.PSNo
+where  TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" + clsCommon.myCstr(dtSRN.Rows(0)("PO_ID")) + "' and TSPL_TENDER_DETAIL.Vendor_Code='" + clsCommon.myCstr(dtSRN.Rows(0)("Vendor_Code")) + "' and TSPL_TENDER_DETAIL.Item_Code='" + strICode + "'
+)xx group by DocumentCode,Vendor_Code,Item_Code  "
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1, trans)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For kk As Integer = 0 To dt.Rows.Count - 1
                             Dim coll As New Hashtable()
@@ -2877,12 +2906,19 @@ select Against_TenderNo as DocumentCode,Against_Tender_Schedule_PK_Id as PK_Id,n
                             clsCommon.AddColumnsForChange(coll, "SRN_No", strSRNNo)
                             clsCommon.AddColumnsForChange(coll, "Item_Code", strICode)
                             Dim dclApplyQty As Decimal = 0
-                            If dclSRNQty <= clsCommon.myCDecimal(dt.Rows(kk)("Qty")) Then
+                            Dim Schedule_No As Integer = clsCommon.myCDecimal(dt.Rows(kk)("Schedule_No"))
+                            Dim NOOFSCHEDULE As Integer = clsCommon.myCDecimal(dt1.Rows(0)("NoOfSchedule"))
+                            If Schedule_No >= 1 And NOOFSCHEDULE > Schedule_No Then
+                                If dclSRNQty <= clsCommon.myCDecimal(dt.Rows(kk)("Qty")) Then
+                                    dclApplyQty = dclSRNQty
+                                    dclSRNQty = 0
+                                Else
+                                    dclApplyQty = clsCommon.myCDecimal(dt.Rows(kk)("Qty"))
+                                    dclSRNQty = dclSRNQty - dclApplyQty
+                                End If
+                            Else
                                 dclApplyQty = dclSRNQty
                                 dclSRNQty = 0
-                            Else
-                                dclApplyQty = clsCommon.myCDecimal(dt.Rows(kk)("Qty"))
-                                dclSRNQty = dclSRNQty - dclApplyQty
                             End If
                             clsCommon.AddColumnsForChange(coll, "Qty", dclApplyQty)
                             If clsCommon.GetDateWithStartTime(GRNDate) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(kk)("To_Date"))) Then

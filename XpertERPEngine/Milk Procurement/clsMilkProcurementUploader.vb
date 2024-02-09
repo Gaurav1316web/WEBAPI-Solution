@@ -831,7 +831,13 @@ inner join (" + strMilkSample + ") MilkSample on MilkSample.DOC_CODE=TSPL_MILK_S
                             objMilkReceiptDetail.SHIFT = objtr.Shift
                             objMilkReceiptDetail.COMM_PORT = ""
                             objMilkReceiptDetail.MCC_CODE = obj.MCC_Code
-                            objMilkReceiptDetail.IS_ENTERED_MANUAL = "Y"
+
+                            If objtr.Manual_Weight = 1 Then
+                                objMilkReceiptDetail.IS_ENTERED_MANUAL = "Y"
+                            Else
+                                objMilkReceiptDetail.IS_ENTERED_MANUAL = "N"
+                            End If
+
                             objMilkReceiptDetail.UOM_Code = Unit_CodeApply
                             objMilkReceiptDetail.Conversion_Factor = conv_facApply
                             objMilkReceiptDetail.Against_Uploader_TR_No = objtr.TR_No
@@ -884,7 +890,12 @@ inner join (" + strMilkSample + ") MilkSample on MilkSample.DOC_CODE=TSPL_MILK_S
 
                             objMilkSampleDetail.UOM_Code = objMilkReceiptDetail.UOM_Code
                             objMilkSampleDetail.AMOUNT = Math.Round(clsCommon.myCdbl(objMilkSampleDetail.RATE * objMilkSampleDetail.MILK_Qty), 2, MidpointRounding.AwayFromZero)
-                            objMilkSampleDetail.Is_Entered_Manualy = "Manual"
+                            If objtr.Manual_Sample = 1 Then
+                                objMilkSampleDetail.Is_Entered_Manualy = "Manual"
+                            Else
+                                objMilkSampleDetail.Is_Entered_Manualy = "Auto"
+                            End If
+
                             Dim arrSampleLIST As New List(Of clsMilkSampleMCCDetail)
                             arrSampleLIST.Add(objMilkSampleDetail)
                             clsMilkSampleMCCDetail.SaveData(MilkSampleNo, arrSampleLIST, trans, True, MilkReceiptNo)
@@ -1170,7 +1181,6 @@ Public Class clsMilkProcurementUploaderDetail
     Public Reject_Defaulter As String
     Public Against_Milk_Collection_DCS_Detail As Integer
     Public Dock_Collection_Milk_Type_Auto As Boolean = True
-
     Public Manual_Weight As Integer
     Public Manual_Sample As Integer
     Public Empty_Sample As Integer
@@ -1229,8 +1239,8 @@ Public Class clsMilkProcurementUploaderDetail
                 End If
                 clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", obj.Dock_Collection_Milk_Type)
 
-                clsCommon.AddColumnsForChange(coll, "Manual_Weight", obj.Manual_Weight, True)
-                clsCommon.AddColumnsForChange(coll, "Manual_Sample", obj.Manual_Sample, True)
+                clsCommon.AddColumnsForChange(coll, "Manual_Weight", obj.Manual_Weight)
+                clsCommon.AddColumnsForChange(coll, "Manual_Sample", obj.Manual_Sample)
                 clsCommon.AddColumnsForChange(coll, "Empty_Sample", obj.Empty_Sample, True)
                 clsCommon.AddColumnsForChange(coll, "Page_No", obj.Page_No, True)
 

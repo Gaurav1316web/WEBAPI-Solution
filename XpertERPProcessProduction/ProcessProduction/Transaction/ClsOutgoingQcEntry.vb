@@ -13,11 +13,15 @@ Public Class ClsOutgoingQcEntry
     Public Item_code As String = Nothing
     Public comments As String = Nothing
     Public Remarks As String = Nothing
-    Public QC_Type As String = Nothing
+    Public QC_Status As String = Nothing
     Public Status As String = Nothing
     Public Arr_Pd As List(Of ClsTSPL_PROD_QC_CHECK_DETAIL) = Nothing
     Public Arr_Prod As List(Of clsProductionEntry) = Nothing
     Public Template_Status As String = Nothing
+    Public Posting_Date As Date
+    Public QC_Start_date As Date
+    Public QC_end_date As Date
+
 #End Region
     Public Shared Function SaveData(ByVal obj As ClsOutgoingQcEntry, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -50,6 +54,8 @@ Public Class ClsOutgoingQcEntry
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Location_code", obj.bill_to_location)
             clsCommon.AddColumnsForChange(coll, "QC_Status", obj.Template_Status)
+            clsCommon.AddColumnsForChange(coll, "QC_Start_Date", obj.QC_Start_date)
+            clsCommon.AddColumnsForChange(coll, "QC_END_Date", obj.QC_end_date)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -82,7 +88,7 @@ Public Class ClsOutgoingQcEntry
         Try
             Dim obj As New ClsOutgoingQcEntry()
             obj.Arr_Pd = New List(Of ClsTSPL_PROD_QC_CHECK_DETAIL)
-            Dim qry As String = "select document_Code,document_date,TSPL_PROD_QC_CHECK_HEAD.item_code,item_desc,QC_Status,TSPL_PROD_QC_CHECK_HEAD.Location_code,location_desc,comments,remarks,status from TSPL_PROD_QC_CHECK_HEAD
+            Dim qry As String = "select document_Code,document_date,TSPL_PROD_QC_CHECK_HEAD.item_code,item_desc,QC_Status,TSPL_PROD_QC_CHECK_HEAD.Location_code,location_desc,comments,TSPL_PROD_QC_CHECK_HEAD.remarks,status,TSPL_PROD_QC_CHECK_HEAD.QC_Start_Date,TSPL_PROD_QC_CHECK_HEAD.QC_END_Date from TSPL_PROD_QC_CHECK_HEAD
                                     left outer join tspl_item_master on tspl_item_master.item_code=TSPL_PROD_QC_CHECK_HEAD.item_code
                                     left outer join tspl_location_master on tspl_location_master.location_code=TSPL_PROD_QC_CHECK_HEAD.location_code "
             Select Case NavType
@@ -109,7 +115,15 @@ Public Class ClsOutgoingQcEntry
                 obj.Item_desc = clsCommon.myCstr(dt.Rows(0)("item_desc"))
                 obj.Template_Status = clsCommon.myCstr(dt.Rows(0)("QC_Status"))
                 obj.Status = clsCommon.myCstr(dt.Rows(0)("Status"))
-                qry = "select  Row_Number() Over (Order By (SELECT 1) Asc) as [S No], TSPL_QC_LOG_SHEET_MASTER.Description as QCNAme, TSPL_QC_CHECK_PARA_DETAIL.Param_L_Range,TSPL_QC_CHECK_PARA_DETAIL.Param_U_Range,TSPL_QC_CHECK_PARA_DETAIL.Description,TSPL_QC_CHECK_PARA_DETAIL.Remarks,TSPL_QC_CHECK_PARA_DETAIL.Description_Status,TSPL_QC_CHECK_PARA_DETAIL.InputData from TSPL_QC_CHECK_PARA_DETAIL
+                If Not IsDBNull(dt.Rows(0)("QC_Start_Date")) Then
+                    obj.QC_Start_date = clsCommon.myCDate(dt.Rows(0)("QC_Start_Date"))
+                End If
+                If Not IsDBNull(dt.Rows(0)("QC_end_date")) Then
+                    obj.QC_end_date = clsCommon.myCDate(dt.Rows(0)("QC_end_date"))
+                End If
+                'obj.QC_Start_date = clsCommon.myCDate(dt.Rows(0)("QC_Start_Date"))
+                'bj.QC_end_date = clsCommon.myCDate(dt.Rows(0)("QC_END_Date"))
+                qry = "select  Row_Number() Over (Order By (SELECT 1) Asc) as [S No], TSPL_QC_LOG_SHEET_MASTER.Description as QCNAme, TSPL_QC_LOG_SHEET_MASTER.Code,TSPL_QC_CHECK_PARA_DETAIL.Item_Code,TSPL_QC_CHECK_PARA_DETAIL.Param_L_Range,TSPL_QC_CHECK_PARA_DETAIL.Param_U_Range,TSPL_QC_CHECK_PARA_DETAIL.Description,TSPL_QC_CHECK_PARA_DETAIL.Remarks,TSPL_QC_CHECK_PARA_DETAIL.Description_Status,TSPL_QC_CHECK_PARA_DETAIL.InputData from TSPL_QC_CHECK_PARA_DETAIL
                      Left outer join TSPL_QC_LOG_SHEET_MASTER on TSPL_QC_LOG_SHEET_MASTER.Code=TSPL_QC_CHECK_PARA_DETAIL.QC_Param_Code "
                 qry += "   where TSPL_QC_CHECK_PARA_DETAIL.document_code ='" + obj.document_code + "'"
                 dt1 = New DataTable()
@@ -126,6 +140,8 @@ Public Class ClsOutgoingQcEntry
                     objpd.Remarks = clsCommon.myCstr(dr("Remarks"))
                     objpd.Description_Status = clsCommon.myCstr(dr("Description_Status"))
                     objpd.InputData = clsCommon.myCDecimal(dr("InputData"))
+                    objpd.QC_Param_Code = clsCommon.myCstr(dr("Code"))
+                    objpd.item_code = clsCommon.myCstr(dr("Item_Code"))
                     'objpd.comments = clsCommon.myCstr(dr("COMMENTS"))
                     'objpd.Description = clsCommon.myCstr(dr("DESCRIPTION"))
                     'objpd.Shift = clsCommon.myCstr(dr("Shift_Code"))
@@ -170,6 +186,67 @@ Public Class ClsOutgoingQcEntry
         End Try
         Return True
     End Function
+    Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        Dim isSaved As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim obj As New ClsOutgoingQcEntry()
+        Try
+            isSaved = False
+
+            If (clsCommon.myLen(strCode) <= 0) Then
+                Throw New Exception("Code not found to Delete")
+            End If
+
+            Dim isPosted As Integer = 0
+            isPosted = clsDBFuncationality.getSingleValue("SELECT Count(*) FROM TSPL_PROD_QC_CHECK_HEAD where Document_code = '" & strCode & "' and Status=1", trans)
+            If (isPosted = 1) Then
+                Throw New Exception("Already Posted on :" + obj.Posting_Date)
+            End If
+
+
+            Dim qry As String
+            qry = "delete from TSPL_QC_CHECK_PARA_DETAIL where Document_code ='" + strCode + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "DELETE FROM TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY WHERE Document_code='" + strCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+            qry = "DELETE FROM TSPL_PROD_QC_CHECK_HEAD WHERE Document_code='" + strCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+
+
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message.ToString())
+        End Try
+        Return isSaved
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As ClsOutgoingQcEntry = ClsOutgoingQcEntry.GetData(strCode, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.document_code) <= 0) Then
+                Throw New Exception("Document No not found to Post")
+            End If
+            If Not (obj.Status = ERPTransactionStatus.Approved) Then
+                Throw New Exception("Transaction status should be posted.")
+            End If
+            Dim qry As String
+            If obj.Status = 1 Then
+                qry = "update TSPL_PROD_QC_CHECK_HEAD set Status=0,Posted_Date=null,Posted_By=null where document_code='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
 
 Public Class ClsTSPL_PROD_QC_CHECK_DETAIL
@@ -207,7 +284,8 @@ Public Class ClsTSPL_PROD_QC_CHECK_DETAIL
     Public Shared Function SaveData(ByVal strCode As String, ByVal arr As List(Of ClsTSPL_PROD_QC_CHECK_DETAIL), ByVal trans As SqlTransaction) As Boolean
         Dim coll As New Hashtable()
         Try
-
+            Dim qry As String = "delete from TSPL_QC_CHECK_PARA_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
                 For Each objtr As ClsTSPL_PROD_QC_CHECK_DETAIL In arr
@@ -215,7 +293,6 @@ Public Class ClsTSPL_PROD_QC_CHECK_DETAIL
                     'clsCommon.AddColumnsForChange(coll, "PK_Id", objtr.PK_Id)
                     clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", objtr.item_code)
-                    clsCommon.AddColumnsForChange(coll, "Unit_code", objtr.Unit_code)
                     clsCommon.AddColumnsForChange(coll, "QC_Param_Code", objtr.QC_Param_Code)
                     clsCommon.AddColumnsForChange(coll, "Param_L_Range", objtr.Param_L_Range)
                     clsCommon.AddColumnsForChange(coll, "Param_U_Range", objtr.Param_U_Range)
@@ -242,6 +319,9 @@ Public Class clsProductionEntry
     Public Shared Function SaveData(ByVal strCode As String, ByVal arr As List(Of clsProductionEntry), ByVal trans As SqlTransaction) As Boolean
         Dim coll As New Hashtable()
         Try
+            Dim qry As String = "delete from TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
                 For Each objtr As clsProductionEntry In arr
                     coll = New Hashtable()

@@ -1743,6 +1743,7 @@ Public Class clsUserMgtCode
     Public Const FrmQualityCheckBulkSale As String = "QUA-CHK-BS"
     Public Const FrmDispatchBulkSale As String = "DISPATCH-BS"
     Public Const frmBulkSaleAcknowledgement As String = "BLK-SL-ACK"
+    Public Const frmBulkSaleAcknowledgementUploader As String = "BLkSL-AC-UP"
     Public Const FrmBulkSaleSettings As String = "SALE-SET-NEW"
     Public Const FrmInvoiceBulkSale As String = "INVOICE-BS"
     Public Const FrmCreateAutoInvoiceBS As String = "AUTO-IN-BS"
@@ -2553,6 +2554,13 @@ Public Class clsUserMgtCode
     Public Const XpertAPIMilkEmptySample As String = "API-MLK-ETS"
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
+
+    ''=================== MIS start here============
+
+    Public Const ModuleMIS As String = "MMIS"
+    Public Const SubModuleMISSetUp As String = "SMMIS"
+    Public Const MISitemGroups As String = "MISITEM-GRP"
+    Public Const MISitemMaster As String = "MISITEM-MST"
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean
         Dim qry As String = "select PROGRAM_NAME from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "' "
