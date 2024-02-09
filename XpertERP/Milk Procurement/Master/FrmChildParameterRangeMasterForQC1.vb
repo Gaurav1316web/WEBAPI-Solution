@@ -139,9 +139,9 @@ Public Class FrmChildParameterRangeMasterForQC1
             Dim qry As String = "select nature from " + table_name + " where code='" + code + "'"
             Dim nature As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
 
-            If nature = "A" AndAlso clsCommon.myLen(code) > 0 AndAlso (clsCommon.myLen(value1) <= 0 AndAlso clsCommon.myLen(value2) <= 0) Then
-                Throw New Exception("Fill Value Of Parameter Nature(Alphanumeric)")
-            End If
+            'If nature = "A" AndAlso clsCommon.myLen(code) > 0 AndAlso (clsCommon.myLen(value1) <= 0 AndAlso clsCommon.myLen(value2) <= 0) Then
+            '    Throw New Exception("Fill Value Of Parameter Nature(Alphanumeric)")
+            'End If
 
             If nature = "R" AndAlso clsCommon.myLen(code) > 0 AndAlso (clsCommon.myLen(lrange) = 0 Or clsCommon.myLen(urange) = 0) Then
                 Throw New Exception("Fill Lower/Upper Range Of Parameter Nature(Range)")
