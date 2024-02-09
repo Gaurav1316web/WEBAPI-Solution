@@ -2202,6 +2202,7 @@ Public Class clsCreateAllTable
             coll.Add("Flavour_Seq", "decimal (18,2) NULL")
             coll.Add("Pack_Seq", "decimal (18,2) NULL")
             coll.Add("Sku_Seq", "decimal (18,2) NULL")
+            coll.Add("DcsSeqNo", "decimal (18,2) NULL")
             coll.Add("Warranty_Applied_From", "Varchar(5) null")
             coll.Add("Cust_Account", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_ACCOUNT_SET (Cust_Account)")
             coll.Add("IsTaxable", " integer not null default 0")

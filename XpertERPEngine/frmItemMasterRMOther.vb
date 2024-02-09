@@ -453,6 +453,7 @@ Public Class FrmItemMasterRMOther
         '' Pankaj Jha, Added Seq No.
         '' 
         txtSeqNo.Text = ""
+        txtDCSSeqNo.Text = ""
         txtMarSeqNo.Text = ""
 
         chkApplyVisualQC.Checked = False
@@ -1079,6 +1080,14 @@ Public Class FrmItemMasterRMOther
         dr("Code") = "G"
         dr("Name") = "GHEE"
         dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "CF"
+        dr("Name") = "Cattle Feed"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "O"
+        dr("Name") = "Other"
+        dt.Rows.Add(dr)
 
         dr = dt.NewRow()
         dr("Code") = "T"
@@ -1403,6 +1412,7 @@ Public Class FrmItemMasterRMOther
                 obj.AlternativeItem = txtAlternativeItem.Value
                 obj.Item_Category_Struct_Code = txtCategoryStructureCode.Value
                 obj.Sku_Seq = clsCommon.myCdbl(txtSeqNo.Text)
+                obj.DcsSeqNo = clsCommon.myCdbl(txtDCSSeqNo.Text)
                 obj.Is_DisplayDemand = chkIsDisplayDemad.Checked
                 obj.Is_ExcludeAPP = chkExcludeInApp.Checked
                 obj.Marketing_Seq = clsCommon.myCdbl(txtMarSeqNo.Text)
@@ -2528,6 +2538,7 @@ Public Class FrmItemMasterRMOther
                 txt_tolerance.Value = obj.Tolerance
                 cmbUsedAs.SelectedValue = obj.Item_used_as
                 txtSeqNo.Text = obj.Sku_Seq
+                txtDCSSeqNo.Text = obj.DcsSeqNo
                 chkMorning.Checked = obj.Morning
                 chkChilledFreezen.Checked = obj.Chilled_Freezen
                 chkTaxable.Checked = obj.IsTaxable
@@ -6407,6 +6418,7 @@ ExitLOOP:
 
         End If
     End Sub
+
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog

@@ -2537,6 +2537,7 @@ Public Class clsUserMgtCode
     Public Const frmDemandAdjustment As String = "DEM-ADJ-TRN"
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
+    Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Public Const ModuleXpertAPI As String = "API"
