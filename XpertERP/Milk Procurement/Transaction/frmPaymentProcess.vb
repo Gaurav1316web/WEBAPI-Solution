@@ -8346,7 +8346,7 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
                 Exit Sub
             End If
 
-            clsPaymentProcessHead.PaymentProcessDrCrPrint("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, fndLoc.Value, clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "")
+            clsPaymentProcessHead.PaymentProcessDrCrPrint("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, fndLoc.Value, clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", txtMCC.Text)
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

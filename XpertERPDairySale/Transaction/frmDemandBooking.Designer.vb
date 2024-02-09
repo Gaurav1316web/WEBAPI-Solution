@@ -27,6 +27,7 @@ Partial Class frmDemandBooking
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.rgbDemandHead = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnQuickDemand = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.chkEveningPosted = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtDocNo = New common.UserControls.txtNavigator()
@@ -43,7 +44,6 @@ Partial Class frmDemandBooking
         Me.lblTotalCrate = New common.Controls.MyLabel()
         Me.lblLitre = New common.Controls.MyLabel()
         Me.lblTotalLitre = New common.Controls.MyLabel()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.rgbProduct = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblPTotCount = New common.Controls.MyLabel()
         Me.txtPCount = New common.Controls.MyLabel()
@@ -109,13 +109,14 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnQuickDemand = New Telerik.WinControls.UI.RadButton()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
         CType(Me.rgbDemandHead, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbDemandHead.SuspendLayout()
+        CType(Me.btnQuickDemand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,7 +133,6 @@ Partial Class frmDemandBooking
         CType(Me.lblTotalCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLitre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalLitre, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbProduct, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbProduct.SuspendLayout()
         CType(Me.lblPTotCount, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -192,7 +192,7 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnQuickDemand, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -279,6 +279,15 @@ Partial Class frmDemandBooking
         Me.rgbDemandHead.Size = New System.Drawing.Size(1115, 178)
         Me.rgbDemandHead.TabIndex = 1471
         Me.rgbDemandHead.Text = "Demand Head"
+        '
+        'btnQuickDemand
+        '
+        Me.btnQuickDemand.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnQuickDemand.Location = New System.Drawing.Point(855, 19)
+        Me.btnQuickDemand.Name = "btnQuickDemand"
+        Me.btnQuickDemand.Size = New System.Drawing.Size(126, 20)
+        Me.btnQuickDemand.TabIndex = 1471
+        Me.btnQuickDemand.Text = "Get Quick Demand"
         '
         'RadLabel1
         '
@@ -481,16 +490,6 @@ Partial Class frmDemandBooking
         Me.lblTotalLitre.Size = New System.Drawing.Size(156, 20)
         Me.lblTotalLitre.TabIndex = 142
         Me.lblTotalLitre.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(393, 19)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
-        Me.btnAddNew.TabIndex = 51
         '
         'rgbProduct
         '
@@ -1297,14 +1296,15 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
-        'btnQuickDemand
+        'btnAddNew
         '
-        Me.btnQuickDemand.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnQuickDemand.Location = New System.Drawing.Point(855, 19)
-        Me.btnQuickDemand.Name = "btnQuickDemand"
-        Me.btnQuickDemand.Size = New System.Drawing.Size(126, 20)
-        Me.btnQuickDemand.TabIndex = 1471
-        Me.btnQuickDemand.Text = "Get Quick Demand"
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(393, 19)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
+        Me.btnAddNew.TabIndex = 51
         '
         'frmDemandBooking
         '
@@ -1328,6 +1328,7 @@ Partial Class frmDemandBooking
         CType(Me.rgbDemandHead, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbDemandHead.ResumeLayout(False)
         Me.rgbDemandHead.PerformLayout()
+        CType(Me.btnQuickDemand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1345,7 +1346,6 @@ Partial Class frmDemandBooking
         CType(Me.lblTotalCrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLitre, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalLitre, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbProduct, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbProduct.ResumeLayout(False)
         Me.rgbProduct.PerformLayout()
@@ -1409,7 +1409,7 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnQuickDemand, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

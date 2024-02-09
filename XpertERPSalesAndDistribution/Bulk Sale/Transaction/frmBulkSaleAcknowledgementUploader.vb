@@ -54,7 +54,7 @@ Public Class frmBulkSaleAcknowledgementUploader
 
     End Sub
 
-    Private Sub btnAddNew_Click(sender As Object, e As EventArgs)
+    Private Sub btReset_Click(sender As Object, e As EventArgs) Handles btReset.Click
         Reset()
     End Sub
     Sub Reset()
@@ -67,6 +67,7 @@ Public Class frmBulkSaleAcknowledgementUploader
         gv1.Rows.AddNew()
         btnSave.Text = "Save"
         LoadBlankGrid()
+        Gv1.Rows.AddNew()
         btnValidate.Enabled = True
     End Sub
     Private Sub ReStoreGridLayout()
@@ -126,15 +127,15 @@ Public Class frmBulkSaleAcknowledgementUploader
         Next
     End Sub
 
-    Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-        CancelPressed()
-    End Sub
-
     Sub CheckAndValidate()
         Try
             Dim ValidateStatus As String = String.Empty
             If gv1.Rows.Count <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "There are no row is grid please select a sheet to import", Me.Text)
+            End If
+            If ValidatedCount = Gv1.Rows.Count Then
+                clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
+                Exit Sub
             End If
             ValidatedCount = 0
             Dim strCellValue
@@ -164,12 +165,13 @@ Public Class frmBulkSaleAcknowledgementUploader
                 If clsCommon.myLen(strCellValue) <= 0 Then
                     ValidateStatus = ValidateStatus & "Customer Must not be Blank" & Environment.NewLine
                 End If
-                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_CUSTOMER_MASTER where Customer = '" & strCellValue & "'")) <= 0 Then
+                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_CUSTOMER_MASTER where Cust_Code = '" & strCellValue & "'")) <= 0 Then
                     ValidateStatus = ValidateStatus & "Customer not found in master" & Environment.NewLine
                 End If
 
-                Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(i).Cells("Dispatch Qty").Value)
-                Dim ACKQty As Double = clsCommon.myCdbl(gv1.Rows(i).Cells("ACK Qty").Value)
+                Dim DispatchAmt As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("Dispatch Amount").Value)
+                Dim ACKAmt As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK Amount").Value)
+                Dim ACKQty As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK Qty").Value)
 
                 Dim jj As Integer = 0
                 jj = intStartParam
@@ -188,7 +190,7 @@ Public Class frmBulkSaleAcknowledgementUploader
                     gv1.Rows(i).Cells("ACK SNFPer").Value = clsCommon.myCdbl(gv1.Rows(i).Cells("ACK SNFPer").Value)
                 End If
                 gv1.Rows(i).Cells("ACK Amount").Value = Math.Round((gv1.Rows(i).Cells("ACK FAT Rate").Value * gv1.Rows(i).Cells("ACK FATKG").Value) + (gv1.Rows(i).Cells("ACK SNF Rate").Value * gv1.Rows(i).Cells("ACK SNFKG").Value), 2)
-                gv1.Rows(i).Cells("ACK SNF Rate").Value = DispatchQty - ACKQty
+                Gv1.Rows(i).Cells("ACK Diff Amount").Value = DispatchAmt - ACKAmt
 
                 If clsCommon.myLen(ValidateStatus) <= 0 Then
                     gv1.Rows(i).Cells(colIsValidated).Value = True
@@ -232,7 +234,7 @@ Public Class frmBulkSaleAcknowledgementUploader
                     clsCommon.ProgressBarPercentUpdate(j / ValidatedCount * 100, " Saving and posting Record(s) " & j & " of Total " & ValidatedCount)
                     Dim obj As New clsBulkSaleAcknowledgement()
                     obj.Document_Date = dt
-                    obj.Bulk_Dispatch_Document = clsCommon.myCdbl(grow.Cells("Dispatch No").Value)
+                    obj.Bulk_Dispatch_Document = clsCommon.myCstr(grow.Cells("Dispatch No").Value)
                     obj.Qty = clsCommon.myCdbl(grow.Cells("ACK Qty").Value)
                     obj.FAT = clsCommon.myCdbl(grow.Cells("ACK FatPer").Value)
                     obj.FAT_KG = clsCommon.myCdbl(grow.Cells("ACK FATKG").Value)
@@ -241,8 +243,10 @@ Public Class frmBulkSaleAcknowledgementUploader
                     obj.FAT_Rate = clsCommon.myCdbl(grow.Cells("ACK FAT Rate").Value)
                     obj.SNF_Rate = clsCommon.myCdbl(grow.Cells("ACK SNF Rate").Value)
                     obj.Amount = clsCommon.myCdbl(grow.Cells("ACK Amount").Value)
-                    obj.Remarks = clsCommon.myCdbl(grow.Cells("Remarks").Value)
+                    obj.Diff_Amount = clsCommon.myCdbl(grow.Cells("ACK Diff Amount").Value)
+                    obj.Remarks = clsCommon.myCstr(grow.Cells("Remarks").Value)
 
+                    clsBulkSaleAcknowledgement.SaveData(obj, True, trans)
                     trans.Commit()
 
 
@@ -256,11 +260,6 @@ Public Class frmBulkSaleAcknowledgementUploader
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
-
-
-    Private Sub btReset_Click(sender As Object, e As EventArgs) Handles btReset.Click
-        Reset()
-    End Sub
 
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
@@ -495,8 +494,8 @@ Public Class frmBulkSaleAcknowledgementUploader
     End Sub
 
     Private Sub btnSelectSheet_Click(sender As Object, e As EventArgs) Handles btnSelectSheet.Click
-        gv1.Columns.Clear()
-        gv1.DataSource = Nothing
+        Gv1.Columns.Clear()
+        Gv1.DataSource = Nothing
 
         Dim arr As New List(Of String)
         arr.Add("Customer")
@@ -524,45 +523,45 @@ Public Class frmBulkSaleAcknowledgementUploader
             arr.Add(key)
         Next
 
-        If transportSql.importExcel(gv1, arr.ToArray()) Then
-            If gv1.Columns.Count > 0 Then
+        If transportSql.importExcel(Gv1, arr.ToArray()) Then
+            If Gv1.Columns.Count > 0 Then
                 TextCol = New GridViewTextBoxColumn()
                 TextCol.Name = colSlNo
                 TextCol.HeaderText = "SNo"
                 TextCol.ReadOnly = True
-                gv1.MasterTemplate.Columns.Insert(0, TextCol)
+                Gv1.MasterTemplate.Columns.Insert(0, TextCol)
 
                 ChkBoxColumn = New GridViewCheckBoxColumn()
                 ChkBoxColumn.Name = colIsValidated
                 ChkBoxColumn.HeaderText = "Validated"
                 ChkBoxColumn.ReadOnly = True
-                gv1.MasterTemplate.Columns.Insert(1, ChkBoxColumn)
+                Gv1.MasterTemplate.Columns.Insert(1, ChkBoxColumn)
 
                 TextCol = New GridViewTextBoxColumn()
                 TextCol.Name = colErrorStatus
                 TextCol.HeaderText = "Error Status"
                 TextCol.ReadOnly = True
-                gv1.MasterTemplate.Columns.Insert(2, TextCol)
+                Gv1.MasterTemplate.Columns.Insert(2, TextCol)
 
-                For i As Integer = 0 To gv1.Rows.Count - 1
-                    gv1.Rows(i).Cells(colSlNo).Value = (i + 1)
-                    gv1.Rows(i).Cells(colIsValidated).Value = False
+                For i As Integer = 0 To Gv1.Rows.Count - 1
+                    Gv1.Rows(i).Cells(colSlNo).Value = (i + 1)
+                    Gv1.Rows(i).Cells(colIsValidated).Value = False
                     ValidatedCount = 0
-                    gv1.Rows(i).Cells(colErrorStatus).Value = ""
+                    Gv1.Rows(i).Cells(colErrorStatus).Value = ""
                 Next
-                For i As Integer = 0 To gv1.Columns.Count - 1
-                    gv1.Columns(i).ReadOnly = True
+                For i As Integer = 0 To Gv1.Columns.Count - 1
+                    Gv1.Columns(i).ReadOnly = True
                 Next
-                gv1.AllowAddNewRow = False
-                gv1.AllowDeleteRow = True
-                gv1.EnableFiltering = True
-                gv1.EnableSorting = False
-                gv1.EnableGrouping = False
-                gv1.AllowColumnChooser = False
-                gv1.AllowColumnReorder = True
-                gv1.BestFitColumns()
-                gv1.AutoSizeRows = False
-                gv1.TableElement.TableHeaderHeight = 30
+                Gv1.AllowAddNewRow = False
+                Gv1.AllowDeleteRow = True
+                Gv1.EnableFiltering = True
+                Gv1.EnableSorting = False
+                Gv1.EnableGrouping = False
+                Gv1.AllowColumnChooser = False
+                Gv1.AllowColumnReorder = True
+                Gv1.BestFitColumns()
+                Gv1.AutoSizeRows = False
+                Gv1.TableElement.TableHeaderHeight = 30
             End If
         End If
 
@@ -571,14 +570,15 @@ Public Class frmBulkSaleAcknowledgementUploader
     Private Sub btnExportFormat_Click(sender As Object, e As EventArgs) Handles btnExportFormat.Click
         Dim whrcls As String = ""
         If clsCommon.myLen(txtCustomer.Value) > 0 Then
-            whrcls = " and Customer_Code = '" & txtCustomer.Value & "'"
+            whrcls = " and  Customer_Code = '" & txtCustomer.Value & "'"
         End If
-        whrcls = " and convert(date,document_date , 103 ) >= '" & txtFromDate.Value & "' and  convert(date,document_date , 103 ) <= '" & txtToDate.Value & "'"
-        Dim qry As String = "select TSPL_Dispatch_BulkSale.Customer_Code as Customer,convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as 'Dispatch Date',TSPL_Dispatch_BulkSale.Document_No as 'Dispatch No' , TSPL_Dispatch_Detail_BulkSale.Qty as 'Dispatch Qty',TSPL_Dispatch_Detail_BulkSale.FatPer as 'Dispatch FatPer',
-            TSPL_Dispatch_Detail_BulkSale.SNFPer as 'Dispatch SNFPer' ,TSPL_Dispatch_Detail_BulkSale.Fat_KG AS 'Dispatch FATKG',TSPL_Dispatch_Detail_BulkSale.FatRate AS 'Dispatch FAT Rate', TSPL_Dispatch_Detail_BulkSale.SNF_KG AS 'Dispatch SNFKG',TSPL_Dispatch_Detail_BulkSale.SNFRate AS 'Dispatch SNF Rate',
-            TSPL_Dispatch_Detail_BulkSale.Amount AS 'Dispatch Amount' , '' as 'ACK Qty','' AS  'ACK FatPer','' AS 'ACK SNFPer' , '' AS 'ACK FATKG','' AS 'ACK FAT Rate','' AS 'ACK SNFKG', '' AS 'ACK SNF Rate' , '' AS 'ACK Amount' , '' AS 'ACK Diff Amount' ,'' AS Remarks from TSPL_Dispatch_Detail_BulkSale  
-            Left Outer Join TSPL_Dispatch_BulkSale On TSPL_Dispatch_BulkSale.Document_No=TSPL_Dispatch_Detail_BulkSale.Document_No  Where 1=1  "
-        transportSql.ExporttoExcel(qry, Me)
+        Dim ordByCls As String = " [Dispatch Date] , [Dispatch No]"
+        whrcls += " and convert(date,document_date , 103 ) >= convert(date,'" & txtFromDate.Value & "',103) and  convert(date,document_date , 103 ) <= convert(date,'" & txtToDate.Value & "',103)"
+        Dim qry As String = "select TSPL_Dispatch_BulkSale.Customer_Code as Customer,convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as 'Dispatch Date',TSPL_Dispatch_BulkSale.Document_No as 'Dispatch No' , TSPL_Dispatch_Detail_BulkSale.Qty as 'Dispatch Qty',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatPer) as 'Dispatch FatPer',
+            convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNFPer) as 'Dispatch SNFPer' ,convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.Fat_KG) AS 'Dispatch FATKG',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatRate) AS 'Dispatch FAT Rate', convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNF_KG) AS 'Dispatch SNFKG',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNFRate) AS 'Dispatch SNF Rate',
+            convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.Amount) AS 'Dispatch Amount' , '' as 'ACK Qty','' AS  'ACK FatPer','' AS 'ACK SNFPer' , '' AS 'ACK FATKG','' AS 'ACK FAT Rate','' AS 'ACK SNFKG', '' AS 'ACK SNF Rate' , '' AS 'ACK Amount' , '' AS 'ACK Diff Amount' ,'' AS Remarks from TSPL_Dispatch_Detail_BulkSale  
+            Left Outer Join TSPL_Dispatch_BulkSale On TSPL_Dispatch_BulkSale.Document_No=TSPL_Dispatch_Detail_BulkSale.Document_No  "
+        transportSql.ExporttoExcel(qry, whrcls, ordByCls, Me)
 
     End Sub
 
@@ -593,25 +593,54 @@ Public Class frmBulkSaleAcknowledgementUploader
         Try
             Dim whrcls As String = ""
             If clsCommon.myLen(txtCustomer.Value) > 0 Then
-                whrcls = " and Customer_Code = '" & txtCustomer.Value & "'"
-            End If
-            whrcls = " and convert(date,document_date , 103 ) >= '" & txtFromDate.Value & "' and  convert(date,document_date , 103 ) <= '" & txtToDate.Value & "'"
-            Dim qry As String = "select TSPL_Dispatch_BulkSale.Customer_Code as Customer,convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as 'Dispatch Date',TSPL_Dispatch_BulkSale.Document_No as 'Dispatch No' , TSPL_Dispatch_Detail_BulkSale.Qty as 'Dispatch Qty',TSPL_Dispatch_Detail_BulkSale.FatPer as 'Dispatch FatPer',
-            TSPL_Dispatch_Detail_BulkSale.SNFPer as 'Dispatch SNFPer' ,TSPL_Dispatch_Detail_BulkSale.Fat_KG AS 'Dispatch FATKG',TSPL_Dispatch_Detail_BulkSale.FatRate AS 'Dispatch FAT Rate', TSPL_Dispatch_Detail_BulkSale.SNF_KG AS 'Dispatch SNFKG',TSPL_Dispatch_Detail_BulkSale.SNFRate AS 'Dispatch SNF Rate',
-            TSPL_Dispatch_Detail_BulkSale.Amount AS 'Dispatch Amount' , '' as 'ACK Qty','' AS  'ACK FatPer','' AS 'ACK SNFPer' , '' AS 'ACK FATKG','' AS 'ACK FAT Rate','' AS 'ACK SNFKG', '' AS 'ACK SNF Rate' , '' AS 'ACK Amount' , '' AS 'ACK Diff Amount' ,'' AS Remarks from TSPL_Dispatch_Detail_BulkSale  
-            Left Outer Join TSPL_Dispatch_BulkSale On TSPL_Dispatch_BulkSale.Document_No=TSPL_Dispatch_Detail_BulkSale.Document_No  Where 1=1  "
+                whrcls = " And Customer_Code = '" & txtCustomer.Value & "' "
+        End If
+            whrcls = " and convert(date,document_date , 103 ) >= convert(date,'" & txtFromDate.Value & "',103) and  convert(date,document_date , 103 ) <= convert(date,'" & txtToDate.Value & "',103) "
+            Dim qry As String = "select ROW_NUMBER() over(order by (TSPL_Dispatch_BulkSale.Document_Date)) as 'SNO.', TSPL_Dispatch_BulkSale.Customer_Code as Customer,convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as 'Dispatch Date',TSPL_Dispatch_BulkSale.Document_No as 'Dispatch No' , TSPL_Dispatch_Detail_BulkSale.Qty as 'Dispatch Qty',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatPer) as 'Dispatch FatPer',
+            convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNFPer) as 'Dispatch SNFPer' ,convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.Fat_KG) AS 'Dispatch FATKG',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatRate) AS 'Dispatch FAT Rate', convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNF_KG) AS 'Dispatch SNFKG',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNFRate) AS 'Dispatch SNF Rate',
+            convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.Amount) AS 'Dispatch Amount' , '' as 'ACK Qty','' AS  'ACK FatPer','' AS 'ACK SNFPer' , '' AS 'ACK FATKG','' AS 'ACK FAT Rate','' AS 'ACK SNFKG', '' AS 'ACK SNF Rate' , '' AS 'ACK Amount' , '' AS 'ACK Diff Amount' ,'' AS Remarks from TSPL_Dispatch_Detail_BulkSale  
+            Left Outer Join TSPL_Dispatch_BulkSale On TSPL_Dispatch_BulkSale.Document_No=TSPL_Dispatch_Detail_BulkSale.Document_No  Where 1=1 " & whrcls & " order by TSPL_Dispatch_BulkSale.Document_Date,TSPL_Dispatch_BulkSale.Document_No "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.Rows.Clear()
             gv1.Columns.Clear()
             gv1.DataSource = Nothing
             If dt.Rows.Count > 0 Then
-                gv1.DataSource = dt
+                Gv1.DataSource = dt
+                ChkBoxColumn = New GridViewCheckBoxColumn()
+                ChkBoxColumn.Name = colIsValidated
+                ChkBoxColumn.HeaderText = "Validated"
+                ChkBoxColumn.ReadOnly = True
+                Gv1.MasterTemplate.Columns.Insert(1, ChkBoxColumn)
+
+                TextCol = New GridViewTextBoxColumn()
+                TextCol.Name = colErrorStatus
+                TextCol.HeaderText = "Error Status"
+                TextCol.ReadOnly = True
+                Gv1.MasterTemplate.Columns.Insert(2, TextCol)
+                setGridFormation()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to display", Me.Text)
             End If
+
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        CancelPressed()
+    End Sub
+    Private Sub setGridFormation()
+        Gv1.TableElement.TableHeaderHeight = 40
+        gv1.MasterTemplate.ShowRowHeaderColumn = True
+        Gv1.EnableFiltering = True
+        Gv1.ShowRowHeaderColumn = True
+        For ii As Integer = 3 To Gv1.Columns.Count - 1
+
+            Gv1.Columns(ii).Width = 150
+            Gv1.Columns(ii).FormatString = "{0:F2}"
+        Next
+        Gv1.Columns("SNO.").Width = 40
+        Gv1.Columns("Dispatch Date").Width = 100
+    End Sub
 End Class

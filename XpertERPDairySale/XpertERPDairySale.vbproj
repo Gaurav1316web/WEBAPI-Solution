@@ -588,6 +588,12 @@
     <Compile Include="Transaction\frmDairyGatePass.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmDCSDemandBooking.Designer.vb">
+      <DependentUpon>frmDCSDemandBooking.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmDCSDemandBooking.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmDeliveryNoteDairySale.Designer.vb">
       <DependentUpon>frmDeliveryNoteDairySale.vb</DependentUpon>
     </Compile>
@@ -971,6 +977,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDairyGatePass.resx">
       <DependentUpon>frmDairyGatePass.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmDCSDemandBooking.resx">
+      <DependentUpon>frmDCSDemandBooking.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDeliveryNoteDairySale.resx">
       <DependentUpon>frmDeliveryNoteDairySale.vb</DependentUpon>

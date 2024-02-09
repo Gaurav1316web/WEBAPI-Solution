@@ -684,6 +684,12 @@ Public Class frmMilkProcurementUploader
             If intCurrRow = gv1.Rows.Count - 1 Then
                 gv1.Rows.AddNew()
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
+                If gv1.CurrentRow.Cells(colManualWeight).Value Is Nothing Then
+                    gv1.CurrentRow.Cells(colManualWeight).Value = 1
+                End If
+                If gv1.CurrentRow.Cells(colManualSample).Value Is Nothing Then
+                    gv1.CurrentRow.Cells(colManualSample).Value = 1
+                End If
             End If
         End If
     End Sub
