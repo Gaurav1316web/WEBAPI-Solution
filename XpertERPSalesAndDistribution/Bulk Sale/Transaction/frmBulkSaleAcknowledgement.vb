@@ -129,6 +129,7 @@ Public Class frmBulkSaleAcknowledgement
                 obj.FAT_Rate = txtFATRate.Value
                 obj.SNF_Rate = txtSNFRate.Value
                 obj.Amount = txtAmount.Value
+                obj.Diff_Amount = txtDiffAmount.Value
                 obj.Remarks = txtRemarks.Text
                 If clsCommon.myLen(fndDocNo.Value) <= 0 Then
                     isNewEntry = True
@@ -217,6 +218,7 @@ Public Class frmBulkSaleAcknowledgement
                 txtSNFRate.Value = obj.SNF_Rate
                 txtAmount.Value = obj.Amount
                 txtRemarks.Text = obj.Remarks
+                txtDiffAmount.Value = obj.Diff_Amount
             Else
                 AddNew()
             End If

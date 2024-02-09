@@ -283,7 +283,7 @@ Public Class frmVendorBankAdvice
                 BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
-left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENTs_PROCESS_DETAIL.VSP_CODE
+left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
 left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
 left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank 
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
@@ -387,7 +387,7 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommo
             ElseIf rbtnBankWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
 ,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
-from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by Bank_Code,Branch_Name )xxxx order by GRPColumnM "
+from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by Bank_Code,Branch_Name )xxxx order by GRPColumn "
             ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnSavingBankWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select  max(GRPColumn) as GRPColumn,sum(Payable_Amount) as Payable_Amount , Bank_Desc
 from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by Bank_Desc )xxxx order by GRPColumn "

@@ -119,7 +119,7 @@ Public Class rptPaymentCycleWiseReport
                                         from TSPL_PAYMENT_PROCESS_HEAD where Doc_No in (" + strDocumentCode + ")"
 
                 Dim PaymentProcessDeatil As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, clsCommon.myCstr(PaymentProcessDeatil.Rows(0).Item("From_Date")), clsCommon.myCstr(PaymentProcessDeatil.Rows(0).Item("To_Date")), strLocaton, strDCS, strRoute, "", "")
+                clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, clsCommon.myCstr(PaymentProcessDeatil.Rows(0).Item("From_Date")), clsCommon.myCstr(PaymentProcessDeatil.Rows(0).Item("To_Date")), strLocaton, strDCS, strRoute, "", "", "")
 
             ElseIf chkShowData.Checked = True Then
                 Dim query As String = ""

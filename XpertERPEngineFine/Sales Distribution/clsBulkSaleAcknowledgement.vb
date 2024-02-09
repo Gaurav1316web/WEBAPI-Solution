@@ -13,6 +13,7 @@ Public Class clsBulkSaleAcknowledgement
     Public FAT_Rate As Decimal = 0
     Public SNF_Rate As Decimal = 0
     Public Amount As Decimal = 0
+    Public Diff_Amount As Decimal = 0
     Public Created_By As String = Nothing
     Public Created_Date As DateTime = Nothing
     Public Modify_By As String = Nothing
@@ -57,6 +58,7 @@ Public Class clsBulkSaleAcknowledgement
             clsCommon.AddColumnsForChange(coll, "FAT_Rate", obj.FAT_Rate)
             clsCommon.AddColumnsForChange(coll, "SNF_Rate", obj.SNF_Rate)
             clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+            clsCommon.AddColumnsForChange(coll, "Diff_Amount", obj.Diff_Amount)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
@@ -124,6 +126,7 @@ Public Class clsBulkSaleAcknowledgement
             obj.FAT_Rate = clsCommon.myCDecimal(dt.Rows(0)("FAT_Rate"))
             obj.SNF_Rate = clsCommon.myCDecimal(dt.Rows(0)("SNF_Rate"))
             obj.Amount = clsCommon.myCDecimal(dt.Rows(0)("Amount"))
+            obj.Diff_Amount = clsCommon.myCDecimal(dt.Rows(0)("Diff_Amount"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Status = clsCommon.myCdbl(dt.Rows(0)("Status"))
         End If

@@ -1743,6 +1743,7 @@ Public Class clsUserMgtCode
     Public Const FrmQualityCheckBulkSale As String = "QUA-CHK-BS"
     Public Const FrmDispatchBulkSale As String = "DISPATCH-BS"
     Public Const frmBulkSaleAcknowledgement As String = "BLK-SL-ACK"
+    Public Const frmBulkSaleAcknowledgementUploader As String = "BLkSL-AC-UP"
     Public Const FrmBulkSaleSettings As String = "SALE-SET-NEW"
     Public Const FrmInvoiceBulkSale As String = "INVOICE-BS"
     Public Const FrmCreateAutoInvoiceBS As String = "AUTO-IN-BS"

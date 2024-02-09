@@ -6,6 +6,7 @@ Public Class ClsDeductionMaster
 #Region "Variable"
     Public Code As String = Nothing
     Public Description As String = Nothing
+    Public Description_Hindi As String = Nothing
     Public Ded_Grp_Code As String = Nothing
     Public GL_Account_Code As String = Nothing
     Public Security As Integer = Nothing
@@ -47,6 +48,7 @@ Public Class ClsDeductionMaster
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Description_Hindi", obj.Description_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "Ded_Grp_Code", obj.Ded_Grp_Code)
             clsCommon.AddColumnsForChange(coll, "GL_Account_Code", obj.GL_Account_Code)
             clsCommon.AddColumnsForChange(coll, "Security", obj.Security)
@@ -235,6 +237,7 @@ Public Class ClsDeductionMaster
                 obj = New ClsDeductionMaster
                 obj.Code = clsCommon.myCstr(dt1.Rows(0)("Code"))
                 obj.Description = clsCommon.myCstr(dt1.Rows(0)("Description"))
+                obj.Description_Hindi = clsCommon.myCstr(dt1.Rows(0)("Description_Hindi"))
                 obj.Ded_Grp_Code = clsCommon.myCstr(dt1.Rows(0)("Ded_Grp_Code"))
                 obj.GL_Account_Code = clsCommon.myCstr(dt1.Rows(0)("GL_Account_Code"))
                 obj.Security = clsCommon.myCstr(dt1.Rows(0)("Security"))
