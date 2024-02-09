@@ -152,6 +152,7 @@ Public Class clsCreateAllTable
             coll.Add("FAT_Rate", "decimal(18,2) Not Null")
             coll.Add("SNF_Rate", "decimal(18,2) Not Null")
             coll.Add("Amount", "decimal(18,2) Not Null")
+            coll.Add("Diff_Amount", "decimal(18,2) Not Null Default 0")
             coll.Add("Created_By", "varchar(12) Not Null references TSPL_USER_MASTER(User_Code)")
             coll.Add("Created_Date", "datetime  Null")
             coll.Add("Modify_By", "varchar(12)  Not Null references TSPL_USER_MASTER(User_Code)")
