@@ -152,6 +152,7 @@ Public Class clsCreateAllTable
             coll.Add("FAT_Rate", "decimal(18,2) Not Null")
             coll.Add("SNF_Rate", "decimal(18,2) Not Null")
             coll.Add("Amount", "decimal(18,2) Not Null")
+            coll.Add("Diff_Amount", "decimal(18,2) Not Null Default 0")
             coll.Add("Created_By", "varchar(12) Not Null references TSPL_USER_MASTER(User_Code)")
             coll.Add("Created_Date", "datetime  Null")
             coll.Add("Modify_By", "varchar(12)  Not Null references TSPL_USER_MASTER(User_Code)")
@@ -10591,6 +10592,7 @@ Public Class clsCreateAllTable
             coll.Add("Own_BMC_Milk_Reject_Type", "varchar(30) NULL REFERENCES TSPL_MILK_REJECT_TYPE(Code)")
             coll.Add("Is_Negative_SRN", "integer not null default 0")
             coll.Add("Is_Transfer_To_Saving", "integer not null default 0")
+            coll.Add("Description_Hindi", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 
@@ -13237,6 +13239,7 @@ Public Class clsCreateAllTable
             coll.Add("JA_disabilityType", "varchar(20) NULL")
             coll.Add("JA_categoryDescEng", "varchar(20) NULL")
             coll.Add("JA_caste", "nvarchar(50) NULL")
+            coll.Add("JA_AADHAR_REF_NO", "varchar(20) NULL")
             clsDBFuncationality.ExecuteNonQuery("delete  from  TSPL_MP_MASTER_Hist_Data where MP_Code+convert(varchar, Hist_Version) in (select MP_Code+convert(varchar, Hist_Version) from(select LEN([MP_Code_VLC_Uploader]) as Lenth,MP_Code,Hist_Version from TSPL_MP_MASTER_Hist_Data)xx where Lenth > 7)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER", coll, Nothing, True)
 
@@ -24304,6 +24307,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Subtract", "integer NULL")
             coll.Add("Check_Saving_AC", "integer NULL")
             coll.Add("Conversion", "decimal(18,3) not NULL default 1")
+            coll.Add("Description_Hindi", "nvarchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)
