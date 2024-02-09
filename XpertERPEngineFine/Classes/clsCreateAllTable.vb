@@ -23226,6 +23226,27 @@ Public Class clsCreateAllTable
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
 
+            Try
+                qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ADD CONSTRAINT DFC_Manual_Weight_1 DEFAULT 1 FOR Manual_Weight"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL set Manual_Weight=1 where Manual_Weight is null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL Alter Column Manual_Weight Integer Not Null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Catch
+            End Try
+
+            Try
+                qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ADD CONSTRAINT DFC_Manual_Sample_1 DEFAULT 1 FOR Manual_Sample"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL set Manual_Sample=1 where Manual_Sample is null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL Alter Column Manual_Sample Integer Not Null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Catch
+            End Try
+
+
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "Varchar(30) not null Primary key")
             coll.Add("Document_Date", "datetime NOT NULL")
