@@ -13686,6 +13686,14 @@ Public Class clsCreateAllTable
             coll.Add("ACType", "Varchar(100) null")
             coll.Add("No_Of_Shift", "integer null")
             coll.Add("PAN_NO", "VARCHAR(20) null")
+            coll.Add("QC_IS", "Varchar(50) null")
+            coll.Add("CMA_CML", "Varchar(100) null")
+            coll.Add("GradeType", "Varchar(100) null")
+            coll.Add("ValidUpto", "Varchar(100) null")
+            coll.Add("QCStartDate", "Date NULL")
+            coll.Add("Manager_Name", "Varchar(50) null")
+            coll.Add("Manager_Destination", "Varchar(50) null")
+            coll.Add("Remarks", "Varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 
@@ -47188,7 +47196,6 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
             coll.Add("Document_Code", "varchar(30) not null References TSPL_PROD_QC_CHECK_HEAD(Document_Code)")
             coll.Add("Item_Code", "Varchar(50) NOT NULL  References TSPL_ITEM_MASTER(Item_Code)")
-            coll.Add("Unit_Code", "varchar(12) not NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
             coll.Add("QC_Param_Code", "varchar(30) not null REFERENCES TSPL_QC_LOG_SHEET_MASTER(Code)")
             coll.Add("Param_L_Range", "float null")
             coll.Add("Param_U_Range", "float null")

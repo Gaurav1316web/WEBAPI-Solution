@@ -27,6 +27,7 @@ Partial Class frmOutgoingQCEntry
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtAccept = New System.Windows.Forms.Label()
         Me.QCEnddate = New common.Controls.MyDateTimePicker()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
@@ -60,7 +61,6 @@ Partial Class frmOutgoingQCEntry
         Me.brnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.txtAccept = New System.Windows.Forms.Label()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -168,6 +168,21 @@ Partial Class frmOutgoingQCEntry
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1009, 380)
         Me.RadPageViewPage1.Text = "QC Production"
+        '
+        'txtAccept
+        '
+        Me.txtAccept.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtAccept.AutoSize = True
+        Me.txtAccept.BackColor = System.Drawing.Color.Yellow
+        Me.txtAccept.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAccept.Location = New System.Drawing.Point(856, 39)
+        Me.txtAccept.MaximumSize = New System.Drawing.Size(107, 20)
+        Me.txtAccept.MinimumSize = New System.Drawing.Size(107, 20)
+        Me.txtAccept.Name = "txtAccept"
+        Me.txtAccept.Size = New System.Drawing.Size(107, 20)
+        Me.txtAccept.TabIndex = 1478
+        Me.txtAccept.Text = "Pending"
+        Me.txtAccept.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'QCEnddate
         '
@@ -281,6 +296,7 @@ Partial Class frmOutgoingQCEntry
         Me.rbtnRej.MyLinkLable1 = Nothing
         Me.rbtnRej.MyLinkLable2 = Nothing
         Me.rbtnRej.Name = "rbtnRej"
+        Me.rbtnRej.ReadOnly = True
         Me.rbtnRej.Size = New System.Drawing.Size(63, 18)
         Me.rbtnRej.TabIndex = 1471
         Me.rbtnRej.Text = "Rejected"
@@ -291,6 +307,7 @@ Partial Class frmOutgoingQCEntry
         Me.rbtnApp.MyLinkLable1 = Nothing
         Me.rbtnApp.MyLinkLable2 = Nothing
         Me.rbtnApp.Name = "rbtnApp"
+        Me.rbtnApp.ReadOnly = True
         Me.rbtnApp.Size = New System.Drawing.Size(67, 18)
         Me.rbtnApp.TabIndex = 1472
         Me.rbtnApp.Text = "Accepted"
@@ -647,21 +664,6 @@ Partial Class frmOutgoingQCEntry
         Me.btnPost.Size = New System.Drawing.Size(71, 22)
         Me.btnPost.TabIndex = 435
         Me.btnPost.Text = "Post"
-        '
-        'txtAccept
-        '
-        Me.txtAccept.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtAccept.AutoSize = True
-        Me.txtAccept.BackColor = System.Drawing.Color.LightGreen
-        Me.txtAccept.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAccept.Location = New System.Drawing.Point(856, 39)
-        Me.txtAccept.MaximumSize = New System.Drawing.Size(107, 20)
-        Me.txtAccept.MinimumSize = New System.Drawing.Size(107, 20)
-        Me.txtAccept.Name = "txtAccept"
-        Me.txtAccept.Size = New System.Drawing.Size(107, 20)
-        Me.txtAccept.TabIndex = 1478
-        Me.txtAccept.Text = "Accepted"
-        Me.txtAccept.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'frmOutgoingQCEntry
         '
