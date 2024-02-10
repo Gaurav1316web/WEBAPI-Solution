@@ -159,6 +159,9 @@ Public Class clsMilkShiftUploaderHead
             Case NavigatorType.Current
                 qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No = '" + strPONo + "'"
         End Select
+        If clsCommon.myLen(strPONo) > 0 And NavType = 0 Then
+            qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No = '" + strPONo + "'"
+        End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsMilkShiftUploaderHead()
