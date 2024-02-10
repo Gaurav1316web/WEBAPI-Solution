@@ -1964,6 +1964,10 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         dr("Code") = "Retailer"
         dr("Name") = "Retailer"
         dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "SalesHead"
+        dr("Name") = "Sales Head"
+        dt.Rows.Add(dr)
 
         If ChkSuperUser = True Then
             dr = dt.NewRow()

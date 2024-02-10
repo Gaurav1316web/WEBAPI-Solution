@@ -13131,7 +13131,7 @@ and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MAT
                 Else
                     qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
                 End If
-                qry += " and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
+                qry += " and TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code is not null  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
 order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                 LoadDistributorGrid(qry)
                 MergeDistributorItems(True)
