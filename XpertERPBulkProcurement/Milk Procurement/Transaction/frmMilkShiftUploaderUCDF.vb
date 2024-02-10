@@ -213,7 +213,15 @@ Public Class frmMilkShiftUploaderUCDF
     End Function
 
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        SaveData()
+        Dim Qry As String = "Select * from TSPL_MILK_SHIFT_UPLOADER_HEAD Where TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code='" + txtMCC.Value + "' And 
+                                    TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift='" + clsCommon.myCstr(cboShift.SelectedValue) + "' And 
+                                    convert (Date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103)=Convert(Date,'" + txtDate.Value + "',103)"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt.Rows.Count > 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Document Already Created !", Me.Text)
+        Else
+            SaveData()
+        End If
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -604,7 +612,7 @@ Public Class frmMilkShiftUploaderUCDF
         End If
 
         'qry = "select * from ( select tspl_mcc_master.MCC_Code as [Code] ,tspl_mcc_master.MCC_Type as [Mcc Type] ,tspl_mcc_master.MCC_NAME as [Mcc Name] ,tspl_mcc_master.Chilling_Vendor as [Chilling Vendor] ,tspl_mcc_master.Add1 as [Address1] ,tspl_mcc_master.Add2 as [Address2] ,tspl_mcc_master.Tehsil as [Tehsil] ,tspl_mcc_master.City_code as [City Code] ,tspl_mcc_master.State_Code as [State Code] ,tspl_mcc_master.Country_code as [Country Code] ,tspl_mcc_master.Pin_code as [Pin Code],tspl_mcc_master.Pan_No as [Pan No] ,tspl_mcc_master.Telphone as [Telphone] ,tspl_mcc_master.Email as [Email] ,tspl_mcc_master.Fax as [Fax] ,tspl_mcc_master.MCC_Area as [Mcc Area] ,tspl_mcc_master.Area_Of_Store as [Area Of Store] ,tspl_mcc_master.Area_Of_Office as [Area Of Office] ,tspl_mcc_master.Open_Area_For_tanker as [Open Area For Tanker] ,tspl_mcc_master.Area_Of_LAB as [Area Of Lab] ,tspl_mcc_master.No_Of_SILO as [No Of Silo] ,tspl_mcc_master.Total_Storage_capacity as [Total Storage Capacity] ,tspl_mcc_master.Area_Of_Receiving_DOCK as [Area Of Receiving Dock] ,tspl_mcc_master.No_Of_Chiller as [No Of Chiller] ,tspl_mcc_master.Chiller_Brand_Name as [Chiller Brand Name] ,tspl_mcc_master.Chiller_Capacity as [Chiller Capacity] ,tspl_mcc_master.No_Of_MilkPump as [No Of Milkpump] ,tspl_mcc_master.MilkPump_Capacity as [Milkpump Capacity] ,tspl_mcc_master.DripSaver as [Drip Saver] ,tspl_mcc_master.CanWasher as [Can Washer] ,tspl_mcc_master.CanScrubber as [Can Scrubber] ,tspl_mcc_master.FSSAI_NO as [FSSAI No] ,tspl_mcc_master.ETP as [ETP] ,tspl_mcc_master.Earthing as [Earthing] ,tspl_mcc_master.Coil_Length as [Coil Length] ,tspl_mcc_master.Electricity_Connection as [Electricity Connection] ,tspl_mcc_master.Boiler as [Boiler] ,tspl_mcc_master.NoOfDG as [No. of DG] ,tspl_mcc_master.NoOfCompressor as [No. of Compressor] ,tspl_mcc_master.PayeeName as [Payee Name] ,tspl_mcc_master.BankName as [Bank Name] ,tspl_mcc_master.BankBranch as [Bank Branch] ,tspl_mcc_master.BankCityCode as [Bank City Code] ,tspl_mcc_master.BankStateCode as [Bank State Code] ,tspl_mcc_master.IFCICode as [IFCI Code] ,tspl_mcc_master.AccountNO as [Account No] ,tspl_mcc_master.Created_By as [Created By] ,tspl_mcc_master.Created_Date as [Created Date] ,tspl_mcc_master.Modified_By as [Modified By] ,tspl_mcc_master.Modified_Date as [Modified Date] ,tspl_mcc_master.Comp_Code as [Company Code],tspl_mcc_master.mcc_code_vlc_uploader as [MCC Code For VLC Uploder],tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER_PLANT.Location_Desc AS [Plant Name] from tspl_mcc_master inner join TSPL_BULK_ROUTE_MASTER_MCC on TSPL_BULK_ROUTE_MASTER_MCC.MCC_code=TSPL_MCC_MASTER.MCC_Code and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txRoute.Value + "' LEFT JOIN TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PLANT ON TSPL_LOCATION_MASTER_PLANT.Location_Code=tspl_mcc_master.Plant_Code  inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
-        '& " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
+        '& " and (tspl_location_master.lo   c_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
 
         qry = "select * from ( select tspl_mcc_master.MCC_Code as [Code] ,tspl_mcc_master.MCC_Type as [Mcc Type] ,tspl_mcc_master.MCC_NAME as [Mcc Name] ,tspl_mcc_master.Chilling_Vendor as [Chilling Vendor] ,tspl_mcc_master.Add1 as [Address1] ,tspl_mcc_master.Add2 as [Address2] ,tspl_mcc_master.Tehsil as [Tehsil] ,tspl_mcc_master.City_code as [City Code] ,tspl_mcc_master.State_Code as [State Code] ,tspl_mcc_master.Country_code as [Country Code] ,tspl_mcc_master.Pin_code as [Pin Code],tspl_mcc_master.Pan_No as [Pan No] ,tspl_mcc_master.Telphone as [Telphone] ,tspl_mcc_master.Email as [Email] ,tspl_mcc_master.Fax as [Fax] ,tspl_mcc_master.MCC_Area as [Mcc Area] ,tspl_mcc_master.Area_Of_Store as [Area Of Store] ,tspl_mcc_master.Area_Of_Office as [Area Of Office] ,tspl_mcc_master.Open_Area_For_tanker as [Open Area For Tanker] ,tspl_mcc_master.Area_Of_LAB as [Area Of Lab] ,tspl_mcc_master.No_Of_SILO as [No Of Silo] ,tspl_mcc_master.Total_Storage_capacity as [Total Storage Capacity] ,tspl_mcc_master.Area_Of_Receiving_DOCK as [Area Of Receiving Dock] ,tspl_mcc_master.No_Of_Chiller as [No Of Chiller] ,tspl_mcc_master.Chiller_Brand_Name as [Chiller Brand Name] ,tspl_mcc_master.Chiller_Capacity as [Chiller Capacity] ,tspl_mcc_master.No_Of_MilkPump as [No Of Milkpump] ,tspl_mcc_master.MilkPump_Capacity as [Milkpump Capacity] ,tspl_mcc_master.DripSaver as [Drip Saver] ,tspl_mcc_master.CanWasher as [Can Washer] ,tspl_mcc_master.CanScrubber as [Can Scrubber] ,tspl_mcc_master.FSSAI_NO as [FSSAI No] ,tspl_mcc_master.ETP as [ETP] ,tspl_mcc_master.Earthing as [Earthing] ,tspl_mcc_master.Coil_Length as [Coil Length] ,tspl_mcc_master.Electricity_Connection as [Electricity Connection] ,tspl_mcc_master.Boiler as [Boiler] ,tspl_mcc_master.NoOfDG as [No. of DG] ,tspl_mcc_master.NoOfCompressor as [No. of Compressor] ,tspl_mcc_master.PayeeName as [Payee Name] ,tspl_mcc_master.BankName as [Bank Name] ,tspl_mcc_master.BankBranch as [Bank Branch] ,tspl_mcc_master.BankCityCode as [Bank City Code] ,tspl_mcc_master.BankStateCode as [Bank State Code] ,tspl_mcc_master.IFCICode as [IFCI Code] ,tspl_mcc_master.AccountNO as [Account No] ,tspl_mcc_master.Created_By as [Created By] ,tspl_mcc_master.Created_Date as [Created Date] ,tspl_mcc_master.Modified_By as [Modified By] ,tspl_mcc_master.Modified_Date as [Modified Date] ,tspl_mcc_master.Comp_Code as [Company Code],tspl_mcc_master.mcc_code_vlc_uploader as [MCC Code For VLC Uploder],tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER_PLANT.Location_Desc AS [Plant Name] from tspl_mcc_master LEFT JOIN TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PLANT ON TSPL_LOCATION_MASTER_PLANT.Location_Code=tspl_mcc_master.Plant_Code  inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
         & " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
@@ -613,6 +621,49 @@ Public Class frmMilkShiftUploaderUCDF
         LblMccName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Mcc_Name from TSPL_Mcc_MASTER where MCC_Code='" + txtMCC.Value + "' "))
         txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtMCC.Value, txtDate.Value)
         txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtMCC.Value, txtDate.Value)
+        FetchData()
+    End Sub
+
+    Private Sub FetchData()
+        Dim qry As String = "Select * from TSPL_MILK_SHIFT_UPLOADER_HEAD Where TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code='" + txtMCC.Value + "' And 
+               TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift='" + clsCommon.myCstr(cboShift.SelectedValue) + "' And 
+               convert (Date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103)=Convert(Date,'" + txtDate.Value + "',103)"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt.Rows.Count = 1 Then
+            LoadData(clsCommon.myCstr(dt.Rows(0)("Document_No")), Nothing)
+        Else
+            btnSave.Enabled = True
+            btnPost.Enabled = True
+            btnDelete.Enabled = True
+            txtDocNo.Value = ""
+            isNewEntry = True
+            GroupBox76.Visible = False
+            txtMCCFromDate.Value = DateTime.Now
+            txtMCCToDate.Value = DateTime.Now
+            txtFromShift.SelectedValue = "M"
+            txtNoOfCan.Value = Nothing
+            TxtMultiSelectFinder8.arrValueMember = Nothing
+            UsLock1.Status = ERPTransactionStatus.Pending
+            gv1.DataSource = Nothing
+            gv1.Rows.Clear()
+            gv1.Columns.Clear()
+            gvP.DataSource = Nothing
+            gvP.Rows.Clear()
+            gv1.Columns.Clear()
+            cboLate.SelectedValue = 0
+            txtVLC.Value = ""
+            txtVLC.Tag = ""
+            lblVLC.Text = ""
+            cboRejectType.SelectedValue = ""
+            txtQty.Text = ""
+            txtFAT.Text = ""
+            txtSNF.Text = ""
+            lblTotEntry.Text = ""
+            SampleNo = -1
+            lblTotEntry.Text = ""
+            txtPaymentCycleNo.Text = ""
+            txtFiscalYear.Text = ""
+        End If
     End Sub
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs)
@@ -1010,7 +1061,7 @@ Public Class frmMilkShiftUploaderUCDF
     End Sub
 
     Private Sub btnprint_Click(sender As Object, e As EventArgs) Handles btnprint.Click
-        Print(txtDocNo.Value)
+        print(txtDocNo.Value)
     End Sub
     Public Sub print(ByVal StrDocNo As String)
         Dim strquery As String = Nothing
@@ -1097,5 +1148,6 @@ where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + StrDocNo + "' ) xxx group
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
 
 End Class

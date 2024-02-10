@@ -74,6 +74,10 @@ Partial Class frmLocationMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.Details = New Telerik.WinControls.UI.RadPageViewPage()
         Me.radgroupbox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtPhone2 = New common.Controls.MyTextBox()
+        Me.lblCountry = New common.Controls.MyLabel()
+        Me.txtPhone1 = New common.Controls.MyTextBox()
+        Me.txtTelephone = New common.Controls.MyTextBox()
         Me.cmbNoOfShift = New common.Controls.MyComboBox()
         Me.lblNoOfShift = New common.Controls.MyLabel()
         Me.MyLabel24 = New common.Controls.MyLabel()
@@ -167,7 +171,6 @@ Partial Class frmLocationMaster
         Me.lblEmail = New common.Controls.MyLabel()
         Me.txtEmail = New common.Controls.MyTextBox()
         Me.lblTelephone = New common.Controls.MyLabel()
-        Me.lblCountry = New common.Controls.MyLabel()
         Me.txtCountry = New common.Controls.MyTextBox()
         Me.txtZipPostalCode = New common.Controls.MyTextBox()
         Me.lblZipPostalCode = New common.Controls.MyLabel()
@@ -284,6 +287,23 @@ Partial Class frmLocationMaster
         Me.FndJobworkItem = New common.UserControls.txtFinder()
         Me.TxtJObworkVendor = New Telerik.WinControls.UI.RadTextBox()
         Me.PageBankDetails = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtRmk = New common.Controls.MyTextBox()
+        Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.txtMngrDes = New common.Controls.MyTextBox()
+        Me.MyLabel35 = New common.Controls.MyLabel()
+        Me.MyLabel36 = New common.Controls.MyLabel()
+        Me.txtMngrNm = New common.Controls.MyTextBox()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel32 = New common.Controls.MyLabel()
+        Me.txtGrdtype = New common.Controls.MyTextBox()
+        Me.MyLabel29 = New common.Controls.MyLabel()
+        Me.txtValidUpto = New common.Controls.MyTextBox()
+        Me.MyLabel30 = New common.Controls.MyLabel()
+        Me.txtCMACML = New common.Controls.MyTextBox()
+        Me.MyLabel31 = New common.Controls.MyLabel()
+        Me.MyLabel33 = New common.Controls.MyLabel()
+        Me.txtIS = New common.Controls.MyTextBox()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtACType = New common.Controls.MyTextBox()
         Me.MyLabel25 = New common.Controls.MyLabel()
@@ -305,9 +325,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.txtTelephone = New common.Controls.MyTextBox()
-        Me.txtPhone1 = New common.Controls.MyTextBox()
-        Me.txtPhone2 = New common.Controls.MyTextBox()
+        Me.QcDate = New common.Controls.MyDateTimePicker()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -322,6 +340,10 @@ Partial Class frmLocationMaster
         Me.Details.SuspendLayout()
         CType(Me.radgroupbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.radgroupbox.SuspendLayout()
+        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCountry, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTelephone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbNoOfShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNoOfShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -409,7 +431,6 @@ Partial Class frmLocationMaster
         CType(Me.lblEmail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtEmail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTelephone, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCountry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCountry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtZipPostalCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblZipPostalCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -556,6 +577,25 @@ Partial Class frmLocationMaster
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtJObworkVendor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PageBankDetails.SuspendLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
+        CType(Me.txtRmk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtMngrDes, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtMngrNm, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGrdtype, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtValidUpto, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCMACML, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtIS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.txtACType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -581,9 +621,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.SuspendLayout()
         Me.SplitContainer11.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTelephone, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.QcDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -888,6 +926,88 @@ Partial Class frmLocationMaster
         Me.radgroupbox.Size = New System.Drawing.Size(863, 542)
         Me.radgroupbox.TabIndex = 0
         Me.radgroupbox.Text = "Details"
+        '
+        'txtPhone2
+        '
+        Me.txtPhone2.CalculationExpression = Nothing
+        Me.txtPhone2.FieldCode = Nothing
+        Me.txtPhone2.FieldDesc = Nothing
+        Me.txtPhone2.FieldMaxLength = 0
+        Me.txtPhone2.FieldName = Nothing
+        Me.txtPhone2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPhone2.isCalculatedField = False
+        Me.txtPhone2.IsSourceFromTable = False
+        Me.txtPhone2.IsSourceFromValueList = False
+        Me.txtPhone2.IsUnique = False
+        Me.txtPhone2.Location = New System.Drawing.Point(524, 199)
+        Me.txtPhone2.MaxLength = 50
+        Me.txtPhone2.MendatroryField = False
+        Me.txtPhone2.MyLinkLable1 = Me.lblCountry
+        Me.txtPhone2.MyLinkLable2 = Nothing
+        Me.txtPhone2.Name = "txtPhone2"
+        Me.txtPhone2.ReferenceFieldDesc = Nothing
+        Me.txtPhone2.ReferenceFieldName = Nothing
+        Me.txtPhone2.ReferenceTableName = Nothing
+        Me.txtPhone2.Size = New System.Drawing.Size(140, 18)
+        Me.txtPhone2.TabIndex = 1398
+        '
+        'lblCountry
+        '
+        Me.lblCountry.FieldName = Nothing
+        Me.lblCountry.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.Location = New System.Drawing.Point(9, 183)
+        Me.lblCountry.Name = "lblCountry"
+        Me.lblCountry.Size = New System.Drawing.Size(46, 16)
+        Me.lblCountry.TabIndex = 12
+        Me.lblCountry.Text = "Country"
+        '
+        'txtPhone1
+        '
+        Me.txtPhone1.CalculationExpression = Nothing
+        Me.txtPhone1.FieldCode = Nothing
+        Me.txtPhone1.FieldDesc = Nothing
+        Me.txtPhone1.FieldMaxLength = 0
+        Me.txtPhone1.FieldName = Nothing
+        Me.txtPhone1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPhone1.isCalculatedField = False
+        Me.txtPhone1.IsSourceFromTable = False
+        Me.txtPhone1.IsSourceFromValueList = False
+        Me.txtPhone1.IsUnique = False
+        Me.txtPhone1.Location = New System.Drawing.Point(308, 200)
+        Me.txtPhone1.MaxLength = 50
+        Me.txtPhone1.MendatroryField = False
+        Me.txtPhone1.MyLinkLable1 = Me.lblCountry
+        Me.txtPhone1.MyLinkLable2 = Nothing
+        Me.txtPhone1.Name = "txtPhone1"
+        Me.txtPhone1.ReferenceFieldDesc = Nothing
+        Me.txtPhone1.ReferenceFieldName = Nothing
+        Me.txtPhone1.ReferenceTableName = Nothing
+        Me.txtPhone1.Size = New System.Drawing.Size(149, 18)
+        Me.txtPhone1.TabIndex = 12
+        '
+        'txtTelephone
+        '
+        Me.txtTelephone.CalculationExpression = Nothing
+        Me.txtTelephone.FieldCode = Nothing
+        Me.txtTelephone.FieldDesc = Nothing
+        Me.txtTelephone.FieldMaxLength = 0
+        Me.txtTelephone.FieldName = Nothing
+        Me.txtTelephone.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTelephone.isCalculatedField = False
+        Me.txtTelephone.IsSourceFromTable = False
+        Me.txtTelephone.IsSourceFromValueList = False
+        Me.txtTelephone.IsUnique = False
+        Me.txtTelephone.Location = New System.Drawing.Point(110, 199)
+        Me.txtTelephone.MaxLength = 50
+        Me.txtTelephone.MendatroryField = False
+        Me.txtTelephone.MyLinkLable1 = Me.lblCountry
+        Me.txtTelephone.MyLinkLable2 = Nothing
+        Me.txtTelephone.Name = "txtTelephone"
+        Me.txtTelephone.ReferenceFieldDesc = Nothing
+        Me.txtTelephone.ReferenceFieldName = Nothing
+        Me.txtTelephone.ReferenceTableName = Nothing
+        Me.txtTelephone.Size = New System.Drawing.Size(140, 18)
+        Me.txtTelephone.TabIndex = 12
         '
         'cmbNoOfShift
         '
@@ -2333,16 +2453,6 @@ Partial Class frmLocationMaster
         Me.lblTelephone.TabIndex = 13
         Me.lblTelephone.Text = "Telephone"
         '
-        'lblCountry
-        '
-        Me.lblCountry.FieldName = Nothing
-        Me.lblCountry.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCountry.Location = New System.Drawing.Point(9, 183)
-        Me.lblCountry.Name = "lblCountry"
-        Me.lblCountry.Size = New System.Drawing.Size(46, 16)
-        Me.lblCountry.TabIndex = 12
-        Me.lblCountry.Text = "Country"
-        '
         'txtCountry
         '
         Me.txtCountry.CalculationExpression = Nothing
@@ -3362,7 +3472,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage8
         '
         Me.RadPageViewPage8.Controls.Add(Me.SplitContainer4)
-        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(42.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
         Me.RadPageViewPage8.Size = New System.Drawing.Size(842, 494)
@@ -3481,7 +3590,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage9
         '
         Me.RadPageViewPage9.Controls.Add(Me.SplitContainer5)
-        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage9.Name = "RadPageViewPage9"
         Me.RadPageViewPage9.Size = New System.Drawing.Size(767, 525)
@@ -3622,7 +3730,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(42.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(842, 494)
@@ -3699,7 +3806,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage7
         '
         Me.RadPageViewPage7.Controls.Add(Me.SplitContainer3)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(767, 444)
@@ -3798,7 +3904,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage10
         '
         Me.RadPageViewPage10.Controls.Add(Me.SplitContainer6)
-        Me.RadPageViewPage10.ItemSize = New System.Drawing.SizeF(42.0!, 28.0!)
         Me.RadPageViewPage10.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage10.Name = "RadPageViewPage10"
         Me.RadPageViewPage10.Size = New System.Drawing.Size(842, 494)
@@ -3875,7 +3980,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage11
         '
         Me.RadPageViewPage11.Controls.Add(Me.SplitContainer7)
-        Me.RadPageViewPage11.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage11.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage11.Name = "RadPageViewPage11"
         Me.RadPageViewPage11.Size = New System.Drawing.Size(767, 444)
@@ -4196,7 +4300,6 @@ Partial Class frmLocationMaster
         'RadPageViewPage13
         '
         Me.RadPageViewPage13.Controls.Add(Me.SplitContainer8)
-        Me.RadPageViewPage13.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
         Me.RadPageViewPage13.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage13.Name = "RadPageViewPage13"
         Me.RadPageViewPage13.Size = New System.Drawing.Size(750, 158)
@@ -4324,12 +4427,300 @@ Partial Class frmLocationMaster
         '
         'PageBankDetails
         '
+        Me.PageBankDetails.Controls.Add(Me.RadGroupBox7)
+        Me.PageBankDetails.Controls.Add(Me.RadGroupBox6)
         Me.PageBankDetails.Controls.Add(Me.RadGroupBox5)
         Me.PageBankDetails.ItemSize = New System.Drawing.SizeF(77.0!, 28.0!)
         Me.PageBankDetails.Location = New System.Drawing.Point(10, 37)
         Me.PageBankDetails.Name = "PageBankDetails"
         Me.PageBankDetails.Size = New System.Drawing.Size(863, 542)
         Me.PageBankDetails.Text = "Bank Details"
+        '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.txtRmk)
+        Me.RadGroupBox7.Controls.Add(Me.MyLabel34)
+        Me.RadGroupBox7.Controls.Add(Me.txtMngrDes)
+        Me.RadGroupBox7.Controls.Add(Me.MyLabel35)
+        Me.RadGroupBox7.Controls.Add(Me.MyLabel36)
+        Me.RadGroupBox7.Controls.Add(Me.txtMngrNm)
+        Me.RadGroupBox7.HeaderText = "Location Manager Detail"
+        Me.RadGroupBox7.Location = New System.Drawing.Point(3, 327)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(782, 96)
+        Me.RadGroupBox7.TabIndex = 6
+        Me.RadGroupBox7.Text = "Location Manager Detail"
+        '
+        'txtRmk
+        '
+        Me.txtRmk.CalculationExpression = Nothing
+        Me.txtRmk.FieldCode = Nothing
+        Me.txtRmk.FieldDesc = Nothing
+        Me.txtRmk.FieldMaxLength = 0
+        Me.txtRmk.FieldName = Nothing
+        Me.txtRmk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRmk.isCalculatedField = False
+        Me.txtRmk.IsSourceFromTable = False
+        Me.txtRmk.IsSourceFromValueList = False
+        Me.txtRmk.IsUnique = False
+        Me.txtRmk.Location = New System.Drawing.Point(157, 64)
+        Me.txtRmk.MaxLength = 100
+        Me.txtRmk.MendatroryField = False
+        Me.txtRmk.MyLinkLable1 = Me.MyLabel34
+        Me.txtRmk.MyLinkLable2 = Nothing
+        Me.txtRmk.Name = "txtRmk"
+        Me.txtRmk.ReferenceFieldDesc = Nothing
+        Me.txtRmk.ReferenceFieldName = Nothing
+        Me.txtRmk.ReferenceTableName = Nothing
+        Me.txtRmk.Size = New System.Drawing.Size(365, 18)
+        Me.txtRmk.TabIndex = 16
+        '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel34.Location = New System.Drawing.Point(24, 64)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel34.TabIndex = 13
+        Me.MyLabel34.Text = "Remarks"
+        '
+        'txtMngrDes
+        '
+        Me.txtMngrDes.CalculationExpression = Nothing
+        Me.txtMngrDes.FieldCode = Nothing
+        Me.txtMngrDes.FieldDesc = Nothing
+        Me.txtMngrDes.FieldMaxLength = 0
+        Me.txtMngrDes.FieldName = Nothing
+        Me.txtMngrDes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMngrDes.isCalculatedField = False
+        Me.txtMngrDes.IsSourceFromTable = False
+        Me.txtMngrDes.IsSourceFromValueList = False
+        Me.txtMngrDes.IsUnique = False
+        Me.txtMngrDes.Location = New System.Drawing.Point(157, 42)
+        Me.txtMngrDes.MaxLength = 100
+        Me.txtMngrDes.MendatroryField = False
+        Me.txtMngrDes.MyLinkLable1 = Me.MyLabel35
+        Me.txtMngrDes.MyLinkLable2 = Nothing
+        Me.txtMngrDes.Name = "txtMngrDes"
+        Me.txtMngrDes.ReferenceFieldDesc = Nothing
+        Me.txtMngrDes.ReferenceFieldName = Nothing
+        Me.txtMngrDes.ReferenceTableName = Nothing
+        Me.txtMngrDes.Size = New System.Drawing.Size(365, 18)
+        Me.txtMngrDes.TabIndex = 15
+        '
+        'MyLabel35
+        '
+        Me.MyLabel35.FieldName = Nothing
+        Me.MyLabel35.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel35.Location = New System.Drawing.Point(23, 42)
+        Me.MyLabel35.Name = "MyLabel35"
+        Me.MyLabel35.Size = New System.Drawing.Size(132, 16)
+        Me.MyLabel35.TabIndex = 14
+        Me.MyLabel35.Text = "Loc.Manager Destination"
+        '
+        'MyLabel36
+        '
+        Me.MyLabel36.FieldName = Nothing
+        Me.MyLabel36.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel36.Location = New System.Drawing.Point(23, 21)
+        Me.MyLabel36.Name = "MyLabel36"
+        Me.MyLabel36.Size = New System.Drawing.Size(109, 16)
+        Me.MyLabel36.TabIndex = 8
+        Me.MyLabel36.Text = "Loc. Manager Name"
+        '
+        'txtMngrNm
+        '
+        Me.txtMngrNm.CalculationExpression = Nothing
+        Me.txtMngrNm.FieldCode = Nothing
+        Me.txtMngrNm.FieldDesc = Nothing
+        Me.txtMngrNm.FieldMaxLength = 0
+        Me.txtMngrNm.FieldName = Nothing
+        Me.txtMngrNm.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMngrNm.isCalculatedField = False
+        Me.txtMngrNm.IsSourceFromTable = False
+        Me.txtMngrNm.IsSourceFromValueList = False
+        Me.txtMngrNm.IsUnique = False
+        Me.txtMngrNm.Location = New System.Drawing.Point(157, 21)
+        Me.txtMngrNm.MaxLength = 100
+        Me.txtMngrNm.MendatroryField = False
+        Me.txtMngrNm.MyLinkLable1 = Me.MyLabel36
+        Me.txtMngrNm.MyLinkLable2 = Nothing
+        Me.txtMngrNm.Name = "txtMngrNm"
+        Me.txtMngrNm.ReferenceFieldDesc = Nothing
+        Me.txtMngrNm.ReferenceFieldName = Nothing
+        Me.txtMngrNm.ReferenceTableName = Nothing
+        Me.txtMngrNm.Size = New System.Drawing.Size(365, 18)
+        Me.txtMngrNm.TabIndex = 8
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.QcDate)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel32)
+        Me.RadGroupBox6.Controls.Add(Me.txtGrdtype)
+        Me.RadGroupBox6.Controls.Add(Me.txtValidUpto)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel30)
+        Me.RadGroupBox6.Controls.Add(Me.txtCMACML)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel31)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel29)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel33)
+        Me.RadGroupBox6.Controls.Add(Me.txtIS)
+        Me.RadGroupBox6.HeaderText = "Use in Outgoing QC Production"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(3, 184)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(782, 137)
+        Me.RadGroupBox6.TabIndex = 5
+        Me.RadGroupBox6.Text = "Use in Outgoing QC Production"
+        '
+        'MyLabel32
+        '
+        Me.MyLabel32.FieldName = Nothing
+        Me.MyLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel32.Location = New System.Drawing.Point(24, 108)
+        Me.MyLabel32.Name = "MyLabel32"
+        Me.MyLabel32.Size = New System.Drawing.Size(75, 16)
+        Me.MyLabel32.TabIndex = 18
+        Me.MyLabel32.Text = "QC Start date"
+        '
+        'txtGrdtype
+        '
+        Me.txtGrdtype.CalculationExpression = Nothing
+        Me.txtGrdtype.FieldCode = Nothing
+        Me.txtGrdtype.FieldDesc = Nothing
+        Me.txtGrdtype.FieldMaxLength = 0
+        Me.txtGrdtype.FieldName = Nothing
+        Me.txtGrdtype.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGrdtype.isCalculatedField = False
+        Me.txtGrdtype.IsSourceFromTable = False
+        Me.txtGrdtype.IsSourceFromValueList = False
+        Me.txtGrdtype.IsUnique = False
+        Me.txtGrdtype.Location = New System.Drawing.Point(157, 86)
+        Me.txtGrdtype.MaxLength = 100
+        Me.txtGrdtype.MendatroryField = False
+        Me.txtGrdtype.MyLinkLable1 = Me.MyLabel29
+        Me.txtGrdtype.MyLinkLable2 = Nothing
+        Me.txtGrdtype.Name = "txtGrdtype"
+        Me.txtGrdtype.ReferenceFieldDesc = Nothing
+        Me.txtGrdtype.ReferenceFieldName = Nothing
+        Me.txtGrdtype.ReferenceTableName = Nothing
+        Me.txtGrdtype.Size = New System.Drawing.Size(365, 18)
+        Me.txtGrdtype.TabIndex = 17
+        '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(24, 86)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(104, 16)
+        Me.MyLabel29.TabIndex = 12
+        Me.MyLabel29.Text = "Grade/Type/Variety"
+        '
+        'txtValidUpto
+        '
+        Me.txtValidUpto.CalculationExpression = Nothing
+        Me.txtValidUpto.FieldCode = Nothing
+        Me.txtValidUpto.FieldDesc = Nothing
+        Me.txtValidUpto.FieldMaxLength = 0
+        Me.txtValidUpto.FieldName = Nothing
+        Me.txtValidUpto.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtValidUpto.isCalculatedField = False
+        Me.txtValidUpto.IsSourceFromTable = False
+        Me.txtValidUpto.IsSourceFromValueList = False
+        Me.txtValidUpto.IsUnique = False
+        Me.txtValidUpto.Location = New System.Drawing.Point(157, 64)
+        Me.txtValidUpto.MaxLength = 100
+        Me.txtValidUpto.MendatroryField = False
+        Me.txtValidUpto.MyLinkLable1 = Me.MyLabel30
+        Me.txtValidUpto.MyLinkLable2 = Nothing
+        Me.txtValidUpto.Name = "txtValidUpto"
+        Me.txtValidUpto.ReferenceFieldDesc = Nothing
+        Me.txtValidUpto.ReferenceFieldName = Nothing
+        Me.txtValidUpto.ReferenceTableName = Nothing
+        Me.txtValidUpto.Size = New System.Drawing.Size(365, 18)
+        Me.txtValidUpto.TabIndex = 16
+        '
+        'MyLabel30
+        '
+        Me.MyLabel30.FieldName = Nothing
+        Me.MyLabel30.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel30.Location = New System.Drawing.Point(24, 64)
+        Me.MyLabel30.Name = "MyLabel30"
+        Me.MyLabel30.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel30.TabIndex = 13
+        Me.MyLabel30.Text = "Valid Upto"
+        '
+        'txtCMACML
+        '
+        Me.txtCMACML.CalculationExpression = Nothing
+        Me.txtCMACML.FieldCode = Nothing
+        Me.txtCMACML.FieldDesc = Nothing
+        Me.txtCMACML.FieldMaxLength = 0
+        Me.txtCMACML.FieldName = Nothing
+        Me.txtCMACML.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCMACML.isCalculatedField = False
+        Me.txtCMACML.IsSourceFromTable = False
+        Me.txtCMACML.IsSourceFromValueList = False
+        Me.txtCMACML.IsUnique = False
+        Me.txtCMACML.Location = New System.Drawing.Point(157, 42)
+        Me.txtCMACML.MaxLength = 100
+        Me.txtCMACML.MendatroryField = False
+        Me.txtCMACML.MyLinkLable1 = Me.MyLabel31
+        Me.txtCMACML.MyLinkLable2 = Nothing
+        Me.txtCMACML.Name = "txtCMACML"
+        Me.txtCMACML.ReferenceFieldDesc = Nothing
+        Me.txtCMACML.ReferenceFieldName = Nothing
+        Me.txtCMACML.ReferenceTableName = Nothing
+        Me.txtCMACML.Size = New System.Drawing.Size(365, 18)
+        Me.txtCMACML.TabIndex = 15
+        '
+        'MyLabel31
+        '
+        Me.MyLabel31.FieldName = Nothing
+        Me.MyLabel31.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel31.Location = New System.Drawing.Point(24, 42)
+        Me.MyLabel31.Name = "MyLabel31"
+        Me.MyLabel31.Size = New System.Drawing.Size(72, 16)
+        Me.MyLabel31.TabIndex = 14
+        Me.MyLabel31.Text = "CM/A - CM/L"
+        '
+        'MyLabel33
+        '
+        Me.MyLabel33.FieldName = Nothing
+        Me.MyLabel33.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel33.Location = New System.Drawing.Point(24, 21)
+        Me.MyLabel33.Name = "MyLabel33"
+        Me.MyLabel33.Size = New System.Drawing.Size(17, 16)
+        Me.MyLabel33.TabIndex = 8
+        Me.MyLabel33.Text = "IS"
+        '
+        'txtIS
+        '
+        Me.txtIS.CalculationExpression = Nothing
+        Me.txtIS.FieldCode = Nothing
+        Me.txtIS.FieldDesc = Nothing
+        Me.txtIS.FieldMaxLength = 0
+        Me.txtIS.FieldName = Nothing
+        Me.txtIS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIS.isCalculatedField = False
+        Me.txtIS.IsSourceFromTable = False
+        Me.txtIS.IsSourceFromValueList = False
+        Me.txtIS.IsUnique = False
+        Me.txtIS.Location = New System.Drawing.Point(157, 21)
+        Me.txtIS.MaxLength = 100
+        Me.txtIS.MendatroryField = False
+        Me.txtIS.MyLinkLable1 = Me.MyLabel33
+        Me.txtIS.MyLinkLable2 = Nothing
+        Me.txtIS.Name = "txtIS"
+        Me.txtIS.ReferenceFieldDesc = Nothing
+        Me.txtIS.ReferenceFieldName = Nothing
+        Me.txtIS.ReferenceTableName = Nothing
+        Me.txtIS.Size = New System.Drawing.Size(365, 18)
+        Me.txtIS.TabIndex = 8
         '
         'RadGroupBox5
         '
@@ -4699,77 +5090,32 @@ Partial Class frmLocationMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
-        'txtTelephone
+        'QcDate
         '
-        Me.txtTelephone.CalculationExpression = Nothing
-        Me.txtTelephone.FieldCode = Nothing
-        Me.txtTelephone.FieldDesc = Nothing
-        Me.txtTelephone.FieldMaxLength = 0
-        Me.txtTelephone.FieldName = Nothing
-        Me.txtTelephone.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTelephone.isCalculatedField = False
-        Me.txtTelephone.IsSourceFromTable = False
-        Me.txtTelephone.IsSourceFromValueList = False
-        Me.txtTelephone.IsUnique = False
-        Me.txtTelephone.Location = New System.Drawing.Point(110, 199)
-        Me.txtTelephone.MaxLength = 50
-        Me.txtTelephone.MendatroryField = False
-        Me.txtTelephone.MyLinkLable1 = Me.lblCountry
-        Me.txtTelephone.MyLinkLable2 = Nothing
-        Me.txtTelephone.Name = "txtTelephone"
-        Me.txtTelephone.ReferenceFieldDesc = Nothing
-        Me.txtTelephone.ReferenceFieldName = Nothing
-        Me.txtTelephone.ReferenceTableName = Nothing
-        Me.txtTelephone.Size = New System.Drawing.Size(140, 18)
-        Me.txtTelephone.TabIndex = 12
-        '
-        'txtPhone1
-        '
-        Me.txtPhone1.CalculationExpression = Nothing
-        Me.txtPhone1.FieldCode = Nothing
-        Me.txtPhone1.FieldDesc = Nothing
-        Me.txtPhone1.FieldMaxLength = 0
-        Me.txtPhone1.FieldName = Nothing
-        Me.txtPhone1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPhone1.isCalculatedField = False
-        Me.txtPhone1.IsSourceFromTable = False
-        Me.txtPhone1.IsSourceFromValueList = False
-        Me.txtPhone1.IsUnique = False
-        Me.txtPhone1.Location = New System.Drawing.Point(308, 200)
-        Me.txtPhone1.MaxLength = 50
-        Me.txtPhone1.MendatroryField = False
-        Me.txtPhone1.MyLinkLable1 = Me.lblCountry
-        Me.txtPhone1.MyLinkLable2 = Nothing
-        Me.txtPhone1.Name = "txtPhone1"
-        Me.txtPhone1.ReferenceFieldDesc = Nothing
-        Me.txtPhone1.ReferenceFieldName = Nothing
-        Me.txtPhone1.ReferenceTableName = Nothing
-        Me.txtPhone1.Size = New System.Drawing.Size(149, 18)
-        Me.txtPhone1.TabIndex = 12
-        '
-        'txtPhone2
-        '
-        Me.txtPhone2.CalculationExpression = Nothing
-        Me.txtPhone2.FieldCode = Nothing
-        Me.txtPhone2.FieldDesc = Nothing
-        Me.txtPhone2.FieldMaxLength = 0
-        Me.txtPhone2.FieldName = Nothing
-        Me.txtPhone2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPhone2.isCalculatedField = False
-        Me.txtPhone2.IsSourceFromTable = False
-        Me.txtPhone2.IsSourceFromValueList = False
-        Me.txtPhone2.IsUnique = False
-        Me.txtPhone2.Location = New System.Drawing.Point(524, 199)
-        Me.txtPhone2.MaxLength = 50
-        Me.txtPhone2.MendatroryField = False
-        Me.txtPhone2.MyLinkLable1 = Me.lblCountry
-        Me.txtPhone2.MyLinkLable2 = Nothing
-        Me.txtPhone2.Name = "txtPhone2"
-        Me.txtPhone2.ReferenceFieldDesc = Nothing
-        Me.txtPhone2.ReferenceFieldName = Nothing
-        Me.txtPhone2.ReferenceTableName = Nothing
-        Me.txtPhone2.Size = New System.Drawing.Size(140, 18)
-        Me.txtPhone2.TabIndex = 1398
+        Me.QcDate.CalculationExpression = Nothing
+        Me.QcDate.CustomFormat = "dd/MM/yyyy"
+        Me.QcDate.FieldCode = Nothing
+        Me.QcDate.FieldDesc = Nothing
+        Me.QcDate.FieldMaxLength = 0
+        Me.QcDate.FieldName = Nothing
+        Me.QcDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.QcDate.isCalculatedField = False
+        Me.QcDate.IsSourceFromTable = False
+        Me.QcDate.IsSourceFromValueList = False
+        Me.QcDate.IsUnique = False
+        Me.QcDate.Location = New System.Drawing.Point(157, 107)
+        Me.QcDate.MendatroryField = False
+        Me.QcDate.MyLinkLable1 = Me.MyLabel3
+        Me.QcDate.MyLinkLable2 = Nothing
+        Me.QcDate.Name = "QcDate"
+        Me.QcDate.ReferenceFieldDesc = Nothing
+        Me.QcDate.ReferenceFieldName = Nothing
+        Me.QcDate.ReferenceTableName = Nothing
+        Me.QcDate.Size = New System.Drawing.Size(82, 20)
+        Me.QcDate.TabIndex = 1475
+        Me.QcDate.TabStop = False
+        Me.QcDate.Text = "24/02/2015"
+        Me.QcDate.Value = New Date(2015, 2, 24, 17, 7, 15, 425)
         '
         'frmLocationMaster
         '
@@ -4801,6 +5147,10 @@ Partial Class frmLocationMaster
         CType(Me.radgroupbox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.radgroupbox.ResumeLayout(False)
         Me.radgroupbox.PerformLayout()
+        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCountry, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTelephone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbNoOfShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNoOfShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4891,7 +5241,6 @@ Partial Class frmLocationMaster
         CType(Me.lblEmail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtEmail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTelephone, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCountry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCountry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtZipPostalCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblZipPostalCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5047,6 +5396,27 @@ Partial Class frmLocationMaster
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtJObworkVendor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PageBankDetails.ResumeLayout(False)
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
+        CType(Me.txtRmk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtMngrDes, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtMngrNm, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGrdtype, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtValidUpto, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCMACML, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtIS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -5074,9 +5444,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.ResumeLayout(False)
         Me.SplitContainer11.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTelephone, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.QcDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5339,5 +5707,23 @@ Partial Class frmLocationMaster
     Friend WithEvents txtPhone2 As common.Controls.MyTextBox
     Friend WithEvents txtPhone1 As common.Controls.MyTextBox
     Friend WithEvents txtTelephone As common.Controls.MyTextBox
+    Friend WithEvents RadGroupBox7 As RadGroupBox
+    Friend WithEvents txtRmk As common.Controls.MyTextBox
+    Friend WithEvents MyLabel34 As common.Controls.MyLabel
+    Friend WithEvents txtMngrDes As common.Controls.MyTextBox
+    Friend WithEvents MyLabel35 As common.Controls.MyLabel
+    Friend WithEvents MyLabel36 As common.Controls.MyLabel
+    Friend WithEvents txtMngrNm As common.Controls.MyTextBox
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents MyLabel32 As common.Controls.MyLabel
+    Friend WithEvents txtGrdtype As common.Controls.MyTextBox
+    Friend WithEvents MyLabel29 As common.Controls.MyLabel
+    Friend WithEvents txtValidUpto As common.Controls.MyTextBox
+    Friend WithEvents MyLabel30 As common.Controls.MyLabel
+    Friend WithEvents txtCMACML As common.Controls.MyTextBox
+    Friend WithEvents MyLabel31 As common.Controls.MyLabel
+    Friend WithEvents MyLabel33 As common.Controls.MyLabel
+    Friend WithEvents txtIS As common.Controls.MyTextBox
+    Friend WithEvents QcDate As common.Controls.MyDateTimePicker
 End Class
 

@@ -203,20 +203,37 @@ where 2=2"
                 objMCC.Against_DCS_Multiple_Days_Merge = obj.Document_No
 
                 objMCC.Arr = New List(Of clsMilkCollectionMCCDetail)
+
                 For Each objDCSMD As clsMilkCollectionDCSMulipleDays In ArrDCSMD
                     For Each objDCSMDTr As clsMilkCollectionDCSMulipleDaysDetail In objDCSMD.Arr
                         If objtr.IDate = objDCSMDTr.Collection_Date Then
-                            Dim objMCCTr As New clsMilkCollectionMCCDetail
-                            objMCCTr.SNo = 1
-                            objMCCTr.MCC_Code = objDCSMD.MCC_Code
-                            objMCCTr.Milk_Type = "Good"
-                            objMCCTr.Qty = objDCSMDTr.Qty
-                            objMCCTr.FATKG = objDCSMDTr.FATKG
-                            objMCCTr.SNFKG = objDCSMDTr.SNFKG
-                            objMCCTr.FAT = objDCSMDTr.FAT
-                            objMCCTr.SNF = objDCSMDTr.SNF
-                            objMCCTr.Against_Multiple_Days_Merge_Day_Detail = objtr.PK_Id
-                            objMCC.Arr.Add(objMCCTr)
+                            Dim idx As Integer = -1
+                            For ll As Integer = 0 To objMCC.Arr.Count - 1
+                                If clsCommon.CompairString(objDCSMD.MCC_Code, objMCC.Arr(ll).MCC_Code) = CompairStringResult.Equal Then
+                                    idx = ll
+                                    Exit For
+                                End If
+                            Next
+                            If idx >= 0 Then
+                                objMCC.Arr(idx).Qty += objDCSMDTr.Qty
+                                objMCC.Arr(idx).FATKG += objDCSMDTr.FATKG
+                                objMCC.Arr(idx).SNFKG += objDCSMDTr.SNFKG
+
+                                objMCC.Arr(idx).FAT = clsCommon.myCDivide(objMCC.Arr(idx).FATKG * 100, objMCC.Arr(idx).Qty)
+                                objMCC.Arr(idx).SNF = clsCommon.myCDivide(objMCC.Arr(idx).SNFKG * 100, objMCC.Arr(idx).Qty)
+                            Else
+                                Dim objMCCTr As New clsMilkCollectionMCCDetail
+                                objMCCTr.SNo = objMCC.Arr.Count + 1
+                                objMCCTr.MCC_Code = objDCSMD.MCC_Code
+                                objMCCTr.Milk_Type = "Good"
+                                objMCCTr.Qty = objDCSMDTr.Qty
+                                objMCCTr.FATKG = objDCSMDTr.FATKG
+                                objMCCTr.SNFKG = objDCSMDTr.SNFKG
+                                objMCCTr.FAT = objDCSMDTr.FAT
+                                objMCCTr.SNF = objDCSMDTr.SNF
+                                objMCCTr.Against_Multiple_Days_Merge_Day_Detail = objtr.PK_Id
+                                objMCC.Arr.Add(objMCCTr)
+                            End If
                         End If
                     Next
                 Next
