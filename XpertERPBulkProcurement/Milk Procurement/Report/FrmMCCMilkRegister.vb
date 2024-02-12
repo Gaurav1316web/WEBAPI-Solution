@@ -3405,7 +3405,12 @@ Public Class FrmMCCMilkRegister
                         If BulkExport = 4 Then
                             FinalQuery = qry
                         Else
-                            FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
+                            If BulkExport <> 5 Then
+                                FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
+                            Else
+                                FinalQuery = "" & qry & ""
+                            End If
+
                         End If
                         If ChkDetailWise.Checked = True AndAlso chkDairyMilkReportPrint.Checked = True Then
                             Dim strCompanyName As String = clsDBFuncationality.getSingleValue("select TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.GSTINNo  from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' ")
@@ -4534,8 +4539,16 @@ Public Class FrmMCCMilkRegister
         End If
     End Sub
 
-    Private Sub chkRouteShiftWise_CheckedChanged(sender As Object, e As EventArgs)
+    Private Sub chkRouteShiftWise_CheckedChanged(sender As Object, e As EventArgs) Handles chkRouteShiftWise.CheckedChanged
         If chkRouteShiftWise.Checked Then
+            RadButton1.Enabled = True
+        Else
+            RadButton1.Enabled = False
+        End If
+    End Sub
+
+    Private Sub chkDairyMilkReportPrint_CheckedChanged(sender As Object, e As EventArgs) Handles chkDairyMilkReportPrint.CheckedChanged
+        If chkDairyMilkReportPrint.Checked Then
             RadButton1.Enabled = True
         Else
             RadButton1.Enabled = False
