@@ -152,6 +152,7 @@ Public Class clsCreateAllTable
             coll.Add("FAT_Rate", "decimal(18,2) Not Null")
             coll.Add("SNF_Rate", "decimal(18,2) Not Null")
             coll.Add("Amount", "decimal(18,2) Not Null")
+            coll.Add("Diff_Amount", "decimal(18,2) Not Null Default 0")
             coll.Add("Created_By", "varchar(12) Not Null references TSPL_USER_MASTER(User_Code)")
             coll.Add("Created_Date", "datetime  Null")
             coll.Add("Modify_By", "varchar(12)  Not Null references TSPL_USER_MASTER(User_Code)")
@@ -2202,6 +2203,7 @@ Public Class clsCreateAllTable
             coll.Add("Flavour_Seq", "decimal (18,2) NULL")
             coll.Add("Pack_Seq", "decimal (18,2) NULL")
             coll.Add("Sku_Seq", "decimal (18,2) NULL")
+            coll.Add("DcsSeqNo", "decimal (18,2) NULL")
             coll.Add("Warranty_Applied_From", "Varchar(5) null")
             coll.Add("Cust_Account", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_ACCOUNT_SET (Cust_Account)")
             coll.Add("IsTaxable", " integer not null default 0")
@@ -13684,6 +13686,14 @@ Public Class clsCreateAllTable
             coll.Add("ACType", "Varchar(100) null")
             coll.Add("No_Of_Shift", "integer null")
             coll.Add("PAN_NO", "VARCHAR(20) null")
+            coll.Add("QC_IS", "Varchar(50) null")
+            coll.Add("CMA_CML", "Varchar(100) null")
+            coll.Add("GradeType", "Varchar(100) null")
+            coll.Add("ValidUpto", "Varchar(100) null")
+            coll.Add("QCStartDate", "Date NULL")
+            coll.Add("Manager_Name", "Varchar(50) null")
+            coll.Add("Manager_Destination", "Varchar(50) null")
+            coll.Add("Remarks", "Varchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 
@@ -23227,6 +23237,27 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
+
+            Try
+                qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ADD CONSTRAINT DFC_Manual_Weight_1 DEFAULT 1 FOR Manual_Weight"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL set Manual_Weight=1 where Manual_Weight is null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL Alter Column Manual_Weight Integer Not Null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Catch
+            End Try
+
+            Try
+                qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ADD CONSTRAINT DFC_Manual_Sample_1 DEFAULT 1 FOR Manual_Sample"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL set Manual_Sample=1 where Manual_Sample is null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL Alter Column Manual_Sample Integer Not Null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Catch
+            End Try
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "Varchar(30) not null Primary key")
@@ -47187,7 +47218,6 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
             coll.Add("Document_Code", "varchar(30) not null References TSPL_PROD_QC_CHECK_HEAD(Document_Code)")
             coll.Add("Item_Code", "Varchar(50) NOT NULL  References TSPL_ITEM_MASTER(Item_Code)")
-            coll.Add("Unit_Code", "varchar(12) not NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
             coll.Add("QC_Param_Code", "varchar(30) not null REFERENCES TSPL_QC_LOG_SHEET_MASTER(Code)")
             coll.Add("Param_L_Range", "float null")
             coll.Add("Param_U_Range", "float null")

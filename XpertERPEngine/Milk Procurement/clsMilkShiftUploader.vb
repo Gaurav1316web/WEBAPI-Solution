@@ -159,6 +159,9 @@ Public Class clsMilkShiftUploaderHead
             Case NavigatorType.Current
                 qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No = '" + strPONo + "'"
         End Select
+        If clsCommon.myLen(strPONo) > 0 And NavType = 0 Then
+            qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No = '" + strPONo + "'"
+        End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsMilkShiftUploaderHead()
@@ -1200,7 +1203,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Private Shared Sub DeleteCollection(tDate As Date, strShiftCon As String, strMCCcode As String, DeleteBMCCollection As Boolean, tran As SqlTransaction)
+    Public Shared Sub DeleteCollection(tDate As Date, strShiftCon As String, strMCCcode As String, DeleteBMCCollection As Boolean, tran As SqlTransaction)
         Dim transDate As String = "'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'"
         Dim qry As String = ""
 
