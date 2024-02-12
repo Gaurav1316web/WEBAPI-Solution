@@ -249,6 +249,8 @@ Public Class frmSNSaleInvoice
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnprintjvl.Visible = MyBase.isPrintFlag
+
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else
@@ -260,6 +262,7 @@ Public Class frmSNSaleInvoice
         btnHistory.Enabled = False
         SetUserMgmtNew()
         SetMailRight()
+        btnprintjvl.Enabled = False
 
         AllowChangeInvoiceType = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Allow_Change_InvoiceType from TSPL_inv_parameters")) = 0, False, True)
         isPO_GRN_MRN_Editable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
@@ -3765,6 +3768,7 @@ Public Class frmSNSaleInvoice
             btnPost.Enabled = True
             btnDelete.Enabled = True
             isInsideLoadData = True
+
             isNewEntry = False
             btnSave.Text = "Update"
             BlankAllControls()
@@ -3782,11 +3786,16 @@ Public Class frmSNSaleInvoice
                     btnDelete.Enabled = False
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
+                    btnprintjvl.Enabled = True
+
                     If obj.Is_Delivered = 1 Then
                         btnDeliveredTo.Enabled = False
                     Else
                         btnDeliveredTo.Enabled = True
                     End If
+                Else
+                    btnprintjvl.Enabled = False
+
                 End If
                 chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(obj.Customer_Code)
                 UsLock1.Status = obj.Status
@@ -7449,5 +7458,73 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
 
     Private Sub txtTCSTaxRate_TextChanged(sender As Object, e As EventArgs) Handles txtTCSTaxRate.TextChanged
 
+    End Sub
+
+    Private Sub btnprintjvl_Click(sender As Object, e As EventArgs) Handles btnprintjvl.Click
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
+        Else
+            Print(txtDocNo.Value)
+        End If
+
+    End Sub
+    Public Sub print(ByVal StrDocNo As String)
+
+
+        If clsCommon.myLen(StrDocNo) <= 0 Then
+            Exit Sub
+        End If
+
+
+        Try
+            Dim ChkPost As Integer = 0
+            Dim qry As String = Nothing
+            Dim qry1 As String = Nothing
+            ChkPost = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select status from tspl_sd_sale_invoice_head where document_code ='" & StrDocNo & "'"))
+            If ChkPost > 0 Then
+                qry = "  SELECT  convert(varchar,(TSPL_JOURNAL_MASTER.Voucher_Date),103) as PJV_Date , (TSPL_VENDOR_MASTER.Vendor_Code) AS Vendor_Code, (TSPL_VENDOR_MASTER.Vendor_Name) AS Vendor_Name, (TSPL_SD_SALE_INVOICE_HEAD.Document_Code) AS  Invoice_No, (TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+) AS Against_PO, (TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No) AS PO_No, convert(varchar,(TSPL_SD_SALE_INVOICE_HEAD.Document_Date
+),103) AS  PO_Date,'Sale Invoice' as PJVGroup, convert(varchar,(TSPL_JOURNAL_MASTER.Voucher_Date),103) as Due_Date,case when (TSPL_SD_SALE_INVOICE_DETAIL.Status)=0 then 'Pending' else 'Approved'end as status,TSPL_LOCATION_MASTER.GSTNO AS Loc_GstInNo,TSPL_VENDOR_MASTER.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name, Bill_To_Location,TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_JOURNAL_MASTER.Voucher_No as PJV_NO,	TSPL_JOURNAL_MASTER.Voucher_Date AS PJV_DATE,	Source_Code,	Source_Desc,	Source_Doc_No,	Source_Doc_Date,	TSPL_JOURNAL_MASTER.Posting_Date,	Voucher_Desc,	Source_Narration,	TSPL_JOURNAL_MASTER.Remarks,	TSPL_JOURNAL_MASTER.Comments,	Auto_Reverse,	Reverse_Date,	Source_Type,	TSPL_JOURNAL_MASTER.CustVend_Code,	TSPL_JOURNAL_MASTER.CustVend_Name,	Transaction_Type,	Provisional_Post,	Authorized,	Total_Debit_Amt	,Total_Credit_Amt,	TSPL_JOURNAL_DETAILS.Detail_Line_No as Line,	TSPL_JOURNAL_DETAILS.Account_code,	TSPL_JOURNAL_DETAILS.Account_Desc,	
+                        CASE  
+                         WHEN TSPL_JOURNAL_DETAILS.Amount >=0 THEN TSPL_JOURNAL_DETAILS.Amount 
+                            ELSE 0 
+                       END AS DrAmt , 
+                          CASE  
+                     WHEN TSPL_JOURNAL_DETAILS.Amount <0 THEN TSPL_JOURNAL_DETAILS.Amount*-1 
+                     ELSE 0 
+                      END AS CrAmt,
+                            TSPL_JOURNAL_DETAILS.Description,	TSPL_JOURNAL_DETAILS.Reference,		SendToTally,	Segment_code,	MonthlyReverse,	TSPL_JOURNAL_DETAILS.Hirerachy_Code,	
+                             Ind_As,	AgainstVoucherNoReverseEntry,	TSPL_JOURNAL_MASTER.TapalNo,	TSPL_JOURNAL_MASTER.DateAndTime,
+                         ( TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, (TSPL_COMPANY_MASTER.Add1) AS Add1, (TSPL_COMPANY_MASTER.Add2) as Add2, (TSPL_COMPANY_MASTER.Add3) as Add3,   (TSPL_COMPANY_MASTER.State) as State, (TSPL_COMPANY_MASTER.CST_LST) as CST_LST,(TSPL_COMPANY_MASTER.Comp_Code) AS Comp_Code, (TSPL_VENDOR_MASTER.Vendor_Name) AS Expr2, (TSPL_VENDOR_MASTER.Add1) AS Expr3, (TSPL_VENDOR_MASTER.Add2) AS Expr4,  (TSPL_VENDOR_MASTER.Add3) AS Expr5,
+                                (TSPL_VENDOR_MASTER.City_Code_Desc) as City_Code_Desc 
+                    from TSPL_SD_SALE_INVOICE_HEAD 
+                              LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code  
+                               LEFT OUTER JOIN TSPL_JOURNAL_MASTER ON TSPL_JOURNAL_MASTER.Source_Doc_No =TSPL_Customer_Invoice_Head.Document_No
+                              LEFT OUTER JOIN  TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_DETAILS.Voucher_No = TSPL_JOURNAL_MASTER.Voucher_No
+                               left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SALE_INVOICE_HEAD.Comp_Code
+			                         LEFT OUTER JOIN  TSPL_VENDOR_MASTER ON TSPL_JOURNAL_MASTER.CustVend_Code = TSPL_VENDOR_MASTER.Vendor_Code
+									 left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                                  where TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE='" + StrDocNo + "'"
+                qry1 = "SELECT  TSPL_SD_SALE_INVOICE_DETAIL.Is_Mannual_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No, TSPL_SD_SALE_INVOICE_DETAIL.Status,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type,TSPL_SD_SALE_INVOICE_DETAIL.status, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.Qty, TSPL_SD_SALE_INVOICE_DETAIL.Free_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code, TSPL_SD_SALE_INVOICE_DETAIL.Balance_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Location, TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost,TSPL_SD_SALE_INVOICE_DETAIL.TAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX3,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX4,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX5,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX6,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX7,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX8,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX9,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX10,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate, TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Amount,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per, TSPL_SD_SALE_INVOICE_DETAIL.Disc_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Base_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Base_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Base_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Base_Amt, TSPL_SD_SALE_INVOICE_DETAIL.MRP,TSPL_SD_SALE_INVOICE_DETAIL.Batch_No,TSPL_SD_SALE_INVOICE_DETAIL.MFG_Date, TSPL_SD_SALE_INVOICE_DETAIL.Expiry_Date,TSPL_SD_SALE_INVOICE_DETAIL.Specification,TSPL_SD_SALE_INVOICE_DETAIL.Remarks, TSPL_SD_SALE_INVOICE_DETAIL.Assessable,TSPL_SD_SALE_INVOICE_DETAIL.AssessableAmt,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Applicable,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code, TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,TSPL_SD_SALE_INVOICE_DETAIL.Item_Tax,TSPL_SD_SALE_INVOICE_DETAIL.Total_MRP_Amt, TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Cust_Discount, TSPL_SD_SALE_INVOICE_DETAIL.Total_Cust_Discount,TSPL_SD_SALE_INVOICE_DETAIL.ActualRate,TSPL_SD_SALE_INVOICE_DETAIL.Cust_DiscountQty, TSPL_SD_SALE_INVOICE_DETAIL.Price_code,TSPL_SD_SALE_INVOICE_DETAIL.Abatement_Per,TSPL_SD_SALE_INVOICE_DETAIL.Abatement_Amt, TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,TSPL_SD_SALE_INVOICE_DETAIL.Item_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Price_Date, TSPL_SD_SALE_INVOICE_DETAIL.TotalItem_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,TSPL_SD_SALE_INVOICE_DETAIL.Purchase_Cost,TSPL_SD_SALE_INVOICE_DETAIL.OrgRate,  TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_INVOICE_DETAIL.Bin_No,TSPL_SD_SALE_INVOICE_DETAIL.vendor_code,TSPL_SD_SALE_INVOICE_DETAIL.vendor_desc,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleCode,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleDesc,TSPL_SD_SALE_INVOICE_DETAIL.Markup_On,TSPL_SD_SALE_INVOICE_DETAIL.Markup_Percent,TSPL_SD_SALE_INVOICE_DETAIL.Landing_Cost,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscAmt,TSPL_SD_SALE_INVOICE_DETAIL.CustDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.CasdDiscScheme_Code  FROM TSPL_SD_SALE_INVOICE_DETAIL  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+                                where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" + StrDocNo + "' ORDER BY TSPL_SD_SALE_INVOICE_DETAIL.Line_No asc"
+
+            Else
+
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
+            Dim frmCRV As New frmCrystalReportViewer()
+            'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptsaleinvoicedispatch", "Milk Sales Dispatch", "Bulk dispath")
+
+            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dt1, "rptsaleinvpoicePJV", "PJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
+
+            'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, "rptPJV-V", "PJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
+            frmCRV = Nothing
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
