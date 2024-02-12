@@ -4548,10 +4548,10 @@ Public Class FrmMCCMilkRegister
     End Sub
 
     Private Sub chkDairyMilkReportPrint_CheckedChanged(sender As Object, e As EventArgs) Handles chkDairyMilkReportPrint.CheckedChanged
-        If chkDairyMilkReportPrint.Checked Then
-            RadButton1.Enabled = True
-        Else
-            RadButton1.Enabled = False
-        End If
+        'If chkDairyMilkReportPrint.Checked Then
+        '    RadButton1.Enabled = True
+        'Else
+        '    RadButton1.Enabled = False
+        'End If
     End Sub
 End Class
