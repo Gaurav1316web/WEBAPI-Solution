@@ -1169,10 +1169,13 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         '
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(658, 232)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
@@ -1190,10 +1193,13 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         '
         Me.gvP.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvP.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvP.Name = "gvP"
         Me.gvP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvP.ShowGroupPanel = False
+        Me.gvP.ShowHeaderCellButtons = True
         Me.gvP.Size = New System.Drawing.Size(435, 232)
         Me.gvP.TabIndex = 3
         Me.gvP.TabStop = False
@@ -1352,7 +1358,6 @@ Partial Class frmMilkShiftUploaderUCDF
     Friend WithEvents BulkDelete As RadButton
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtPageNo As common.MyNumBox
-    Friend WithEvents gvP As RadGridView
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents btnImport As RadButton
     Friend WithEvents btnExport As RadButton
@@ -1367,5 +1372,6 @@ Partial Class frmMilkShiftUploaderUCDF
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents btnprint As RadButton
     Friend WithEvents btnRouteprint As RadButton
+    Friend WithEvents gvP As common.UserControls.MyRadGridView
 End Class
 
