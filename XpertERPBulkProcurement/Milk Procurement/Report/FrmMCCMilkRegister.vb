@@ -2703,7 +2703,7 @@ Public Class FrmMCCMilkRegister
                     qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, txtFromShift.Text, txtToShift.Text, clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
                     If ChkDetailWise.Checked Then
                         '============update by preeti gupta Against ticket no[BHA/15/05/19-000890]
-                        If BulkExport = 4 OrElse BulkExport = 5 Then
+                        If BulkExport = 3 OrElse BulkExport = 4 OrElse BulkExport = 5 Then
                             FinalQuery += "" & qry & " "
                         Else
                             FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
@@ -3405,7 +3405,7 @@ Public Class FrmMCCMilkRegister
                         If BulkExport = 4 Then
                             FinalQuery = qry
                         Else
-                            If BulkExport <> 5 Then
+                            If BulkExport <> 5 AndAlso BulkExport <> 3 Then
                                 FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
                             Else
                                 FinalQuery = "" & qry & ""
