@@ -3580,9 +3580,10 @@ Public Class frmPurchaseOrder
 
         For ii As Integer = 1 To 10
             Dim Strii As String = clsCommon.myCstr(ii)
+
             If rbtnTaxCalAutomatic.IsChecked Then
                 Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
-                If clsCommon.myLen(strTaxCode) > 0 AndAlso gv1.CurrentRow.Cells(colItemTaxable).Value Then
+                If clsCommon.myLen(strTaxCode) > 0 AndAlso (gv1.Rows(IntRowNo).Cells(colItemTaxable).Value OrElse clsCommon.CompairString(gv1.Rows(IntRowNo).Cells(colRowType).Value, clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) Then
                     '' For abatement PO
                     Dim dtTax As DataTable = clsPurchaseOrderHead.GetTaxDetail(strTaxCode)
                     Dim IsExciseType As Boolean = False
@@ -3681,6 +3682,7 @@ Public Class frmPurchaseOrder
 
         gv1.Rows(IntRowNo).Cells(colTotTaxAmt).Value = Math.Round(dblTotTaxAmt, 2)
         gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = Math.Round(dblAmtAfterTax, 2)
+
     End Sub
 
     Private Function GetCurrentRowTotalTaxAmt(ByVal IntRowNo As Integer) As Double
@@ -3732,12 +3734,18 @@ Public Class frmPurchaseOrder
     End Function
 
     Private Sub BlankTaxDetails(ByVal intRowNo As Integer)
+        BlankTaxDetails(intRowNo, True)
+    End Sub
+    Private Sub BlankTaxDetails(ByVal intRowNo As Integer, ByVal isBlankRate As Boolean)
         For ii As Integer = 1 To 10
             Dim strII As String = clsCommon.myCstr(ii)
             If intRowNo < 0 Then
                 gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strII)).Value = Nothing
                 gv1.CurrentRow.Cells(clsCommon.myCstr("COLTAXBASEAMT" + strII)).Value = Nothing
-                gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = Nothing
+                'gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = Nothing
+                If isBlankRate Then
+                    gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = Nothing
+                End If
                 gv1.CurrentRow.Cells(clsCommon.myCstr("colTaxAmt" + strII)).Value = Nothing
                 gv1.CurrentRow.Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = Nothing
                 gv1.CurrentRow.Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = Nothing
@@ -3746,7 +3754,10 @@ Public Class frmPurchaseOrder
             Else
                 gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value = Nothing
                 gv1.Rows(intRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + strII)).Value = Nothing
-                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = Nothing
+                'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = Nothing
+                If isBlankRate Then
+                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = Nothing
+                End If
                 gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxAmt" + strII)).Value = Nothing
                 gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = Nothing
                 gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = Nothing
@@ -4449,6 +4460,7 @@ Public Class frmPurchaseOrder
                             SetitemWiseTaxSetting(True, True)
                         End If
                     End If
+
                     UpdateCurrentRow(ii)
                 Next
                 UpdateAllTotals()
@@ -7379,11 +7391,17 @@ Public Class frmPurchaseOrder
         UpdateAllTotals()
     End Sub
 
+
     Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean)
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), IIf(clsCommon.myLen(gv1.CurrentRow.Cells(colICode)) > 0, gv1.CurrentRow.Cells(colICode).Value, ""), txtDate.Value)
+        Dim dt As DataTable = Nothing
+        If clsCommon.CompairString(gv1.CurrentRow.Cells(colRowType).Value, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+            dt = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), IIf(clsCommon.myLen(gv1.CurrentRow.Cells(colICode)) > 0, gv1.CurrentRow.Cells(colICode).Value, ""), txtDate.Value)
+        Else
+            dt = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "P", txtVendorNo.Value, IIf(clsCommon.myLen(clsCommon.myCstr(txtShipToLocation.Value)) <= 0, txtBillToLocation.Value, txtShipToLocation.Value))
+        End If
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If isForCurrentRow Then
-                BlankTaxDetails(gv1.CurrentRow.Index)
+                BlankTaxDetails(gv1.CurrentRow.Index, isChangeRate)
                 If clsCommon.myLen(gv1.CurrentRow.Cells(colICode)) > 0 Then
                     Dim ii As Integer = 1
                     For Each dr As DataRow In dt.Rows
