@@ -1203,7 +1203,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Private Shared Sub DeleteCollection(tDate As Date, strShiftCon As String, strMCCcode As String, DeleteBMCCollection As Boolean, tran As SqlTransaction)
+    Public Shared Sub DeleteCollection(tDate As Date, strShiftCon As String, strMCCcode As String, DeleteBMCCollection As Boolean, tran As SqlTransaction)
         Dim transDate As String = "'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'"
         Dim qry As String = ""
 
