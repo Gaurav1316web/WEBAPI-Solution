@@ -2490,6 +2490,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailMilkProcurementBulk As String = "ADIT_MPBULK"
     Public Const AuditTrailHumanResource As String = "ADIT_HUMREC"
     Public Const AuditTrailBulkSale As String = "ADIT_BLKSAL"
+    Public Const BulkSaleAcknowledgementUploaderReport As String = "BKSAL_UPRPT"
     Public Const AuditTrailCSASale As String = "ADIT_CSASAL"
     Public Const AuditTrailFreshSale As String = "ADIT_FRSALE"
     Public Const AuditTrailProductSale As String = "ADIT_PRDSAL"

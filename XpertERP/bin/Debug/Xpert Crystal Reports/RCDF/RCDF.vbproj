@@ -1331,6 +1331,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLeger.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLegerJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLegerRJS.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptRouteWisePrintReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptRouteWiseUnitMilkCollection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptShiftReportZeroAmountSample.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptTDSReport.rpt" />

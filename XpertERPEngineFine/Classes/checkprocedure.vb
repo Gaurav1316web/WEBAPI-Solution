@@ -1985,6 +1985,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptBulkSaleRegister, "Bulk Sale Register", "1.23.03.02", clsUserMgtCode.SubModuleBulkSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptBulkMultipleDispatch, "Bulk Dispatch Print Statement", "1.23.03.03", clsUserMgtCode.SubModuleBulkSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailBulkSale, "Bulk Sale Audit Trail Report", "1.23.03.04", clsUserMgtCode.SubModuleBulkSaleReport, 37)
+        InsertDefaultValue(clsUserMgtCode.BulkSaleAcknowledgementUploaderReport, "Bulk Sale Acknowledgement Uploader Report", "1.23.03.05", clsUserMgtCode.SubModuleBulkSaleReport, 37)
 
         ''========================================
 
