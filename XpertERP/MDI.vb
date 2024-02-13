@@ -9559,6 +9559,9 @@ Public Class MDI
                     Case clsUserMgtCode.AuditTrailBulkSale
                         frm = New rptAuditTrailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.BulkSaleAcknowledgementUploaderReport
+                        frm = New rptBulkSaleAcknowledgementUploaderReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.AuditTrailCSASale
                         frm = New rptAuditTrailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
