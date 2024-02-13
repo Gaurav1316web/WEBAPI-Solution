@@ -38,6 +38,8 @@ Partial Class frmRevenueVillageMaster
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.Textrevillnamehindi = New common.Controls.MyTextBox()
+        Me.revillnamehindi = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -52,6 +54,8 @@ Partial Class frmRevenueVillageMaster
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Textrevillnamehindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.revillnamehindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -81,6 +85,8 @@ Partial Class frmRevenueVillageMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.revillnamehindi)
+        Me.RadGroupBox1.Controls.Add(Me.Textrevillnamehindi)
         Me.RadGroupBox1.Controls.Add(Me.RadButton1)
         Me.RadGroupBox1.Controls.Add(Me.btnNew)
         Me.RadGroupBox1.Controls.Add(Me.txtName)
@@ -91,7 +97,7 @@ Partial Class frmRevenueVillageMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 22)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(519, 85)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(530, 97)
         Me.RadGroupBox1.TabIndex = 12
         Me.RadGroupBox1.Text = " "
         '
@@ -107,7 +113,7 @@ Partial Class frmRevenueVillageMaster
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(396, 22)
+        Me.btnNew.Location = New System.Drawing.Point(402, 18)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(14, 21)
         Me.btnNew.TabIndex = 0
@@ -124,7 +130,7 @@ Partial Class frmRevenueVillageMaster
         Me.txtName.IsSourceFromTable = False
         Me.txtName.IsSourceFromValueList = False
         Me.txtName.IsUnique = False
-        Me.txtName.Location = New System.Drawing.Point(144, 45)
+        Me.txtName.Location = New System.Drawing.Point(170, 45)
         Me.txtName.MaxLength = 100
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.RadLabel2
@@ -133,13 +139,13 @@ Partial Class frmRevenueVillageMaster
         Me.txtName.ReferenceFieldDesc = Nothing
         Me.txtName.ReferenceFieldName = Nothing
         Me.txtName.ReferenceTableName = Nothing
-        Me.txtName.Size = New System.Drawing.Size(359, 20)
+        Me.txtName.Size = New System.Drawing.Size(333, 20)
         Me.txtName.TabIndex = 2
         '
         'RadLabel2
         '
         Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(12, 46)
+        Me.RadLabel2.Location = New System.Drawing.Point(13, 47)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(119, 18)
         Me.RadLabel2.TabIndex = 1
@@ -148,7 +154,7 @@ Partial Class frmRevenueVillageMaster
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(144, 22)
+        Me.txtCode.Location = New System.Drawing.Point(170, 18)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -157,14 +163,14 @@ Partial Class frmRevenueVillageMaster
         Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(252, 21)
+        Me.txtCode.Size = New System.Drawing.Size(226, 21)
         Me.txtCode.TabIndex = 1
         Me.txtCode.Value = ""
         '
         'RadLabel1
         '
         Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(12, 23)
+        Me.RadLabel1.Location = New System.Drawing.Point(13, 21)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(115, 18)
         Me.RadLabel1.TabIndex = 0
@@ -229,6 +235,38 @@ Partial Class frmRevenueVillageMaster
         Me.btnClose.TabIndex = 2
         Me.btnClose.Text = "Close"
         '
+        'Textrevillnamehindi
+        '
+        Me.Textrevillnamehindi.CalculationExpression = Nothing
+        Me.Textrevillnamehindi.FieldCode = Nothing
+        Me.Textrevillnamehindi.FieldDesc = Nothing
+        Me.Textrevillnamehindi.FieldMaxLength = 0
+        Me.Textrevillnamehindi.FieldName = Nothing
+        Me.Textrevillnamehindi.isCalculatedField = False
+        Me.Textrevillnamehindi.IsSourceFromTable = False
+        Me.Textrevillnamehindi.IsSourceFromValueList = False
+        Me.Textrevillnamehindi.IsUnique = False
+        Me.Textrevillnamehindi.Location = New System.Drawing.Point(170, 71)
+        Me.Textrevillnamehindi.MaxLength = 100
+        Me.Textrevillnamehindi.MendatroryField = True
+        Me.Textrevillnamehindi.MyLinkLable1 = Me.RadLabel2
+        Me.Textrevillnamehindi.MyLinkLable2 = Nothing
+        Me.Textrevillnamehindi.Name = "Textrevillnamehindi"
+        Me.Textrevillnamehindi.ReferenceFieldDesc = Nothing
+        Me.Textrevillnamehindi.ReferenceFieldName = Nothing
+        Me.Textrevillnamehindi.ReferenceTableName = Nothing
+        Me.Textrevillnamehindi.Size = New System.Drawing.Size(333, 20)
+        Me.Textrevillnamehindi.TabIndex = 18
+        '
+        'revillnamehindi
+        '
+        Me.revillnamehindi.FieldName = Nothing
+        Me.revillnamehindi.Location = New System.Drawing.Point(13, 73)
+        Me.revillnamehindi.Name = "revillnamehindi"
+        Me.revillnamehindi.Size = New System.Drawing.Size(148, 18)
+        Me.revillnamehindi.TabIndex = 19
+        Me.revillnamehindi.Text = "Revenue Village Name Hindi"
+        '
         'frmRevenueVillageMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -258,6 +296,8 @@ Partial Class frmRevenueVillageMaster
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Textrevillnamehindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.revillnamehindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -277,5 +317,7 @@ Partial Class frmRevenueVillageMaster
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
+    Friend WithEvents revillnamehindi As common.Controls.MyLabel
+    Friend WithEvents Textrevillnamehindi As common.Controls.MyTextBox
 End Class
 

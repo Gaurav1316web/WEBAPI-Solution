@@ -13,6 +13,7 @@ Public Class frmRevenueVillageMaster
     Sub Reset()
         txtCode.Value = ""
         txtName.Text = ""
+        Textrevillnamehindi.Text = ""
 
         btnSave.Text = "Save"
         btnSave.Enabled = True
@@ -64,7 +65,8 @@ Public Class frmRevenueVillageMaster
             Dim obj As New clsRevenueVillageMaster()
 
             obj.code = clsCommon.myCstr(txtCode.Value)
-            obj.name = clsCommon.myCstr(txtName.Text).Replace("'", "`")
+            obj.name = clsCommon.myCstr(txtName.Text)
+            obj.Revenue_Village_Name_Hindi = clsCommon.myCstr(Textrevillnamehindi.Text)
 
             If clsRevenueVillageMaster.SaveData(obj, txtCode.Value) Then
                 clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -172,6 +174,7 @@ Public Class frmRevenueVillageMaster
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.code) > 0 Then
                 txtCode.Value = obj.code
                 txtName.Text = obj.name
+                Textrevillnamehindi.Text = obj.Revenue_Village_Name_Hindi
 
                 txtCode.MyReadOnly = True
                 btnSave.Text = "Update"

@@ -221,6 +221,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("REVENUE_VILLAGE_NAME_HINDI", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_REVENUE_VILLAGE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -230,6 +231,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("GRAMPANCHAYAT_NAME_HINDI", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_GRAMPANCHAYAT_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -239,6 +241,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("PANCHAYAT_SAMITI_NAME_HINDI", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PANCHAYAT_SAMITI_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -248,6 +251,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("VIDHAN_SABHA_NAME_HINDI", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_VIDHAN_SABHA_MASTER", coll)
 
             ' clsCommonFunctionality.CreateOrAlterTable("TSPL_COUNTRY_MASTER", coll, True)
@@ -23922,6 +23926,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Applicable_On", "int Null")
             coll.Add("Include_In_DBT", "int Null")
             coll.Add("Exclude_Head", "int Null")
+            coll.Add("Description_Hindi", "nvarchar(100) NULL ")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
