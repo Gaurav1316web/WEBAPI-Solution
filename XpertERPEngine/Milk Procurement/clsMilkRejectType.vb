@@ -6,6 +6,7 @@ Public Class clsMilkRejectType
 #Region "Variables"
     Public Code As String = Nothing
     Public Description As String = Nothing
+    Public Descriptionhindi As String = Nothing
     Public Applicable_On As Integer
     Public Applicable_Per As Decimal
     Public Item_Code As String = Nothing
@@ -31,6 +32,7 @@ Public Class clsMilkRejectType
             clsCommon.AddColumnsForChange(coll, "Applicable_On", obj.Applicable_On)
             clsCommon.AddColumnsForChange(coll, "Applicable_Per", obj.Applicable_Per)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Description_hindi", obj.Descriptionhindi, False, True)
             clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
             clsCommon.AddColumnsForChange(coll, "Type", obj.Type, True)
             clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
@@ -78,6 +80,7 @@ Public Class clsMilkRejectType
             obj = New clsMilkRejectType()
             obj.Code = clsCommon.myCstr(dt.Rows(0)("Code"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
+            obj.Descriptionhindi = clsCommon.myCstr(dt.Rows(0)("Description_hindi"))
             obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
             obj.Applicable_On = clsCommon.myCdbl(dt.Rows(0)("Applicable_On"))
             obj.Applicable_Per = clsCommon.myCdbl(dt.Rows(0)("Applicable_Per"))

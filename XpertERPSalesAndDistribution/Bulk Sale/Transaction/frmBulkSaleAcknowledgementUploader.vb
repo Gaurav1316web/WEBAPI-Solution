@@ -93,10 +93,10 @@ Public Class frmBulkSaleAcknowledgementUploader
 
     Private Function AllowToSave() As Boolean
         For ii As Integer = 0 To gv1.RowCount - 1
-            'If gv1.Rows(ii).Cells(colIsValidated).Value = False Then
-            '    Return False
-            '    Exit For
-            'End If
+            If Gv1.Rows(ii).Cells(colIsValidated).Value = False Then
+                Return False
+                Exit For
+            End If
         Next
 
         Return True
@@ -151,16 +151,23 @@ Public Class frmBulkSaleAcknowledgementUploader
                 If clsCommon.myLen(strCellValue) <= 0 Then
                     ValidateStatus = ValidateStatus & "Dispatch Date  Must not be Blank" & Environment.NewLine
                 End If
+
                 If IsDate(strCellValue) Then
                 Else
                     ValidateStatus = ValidateStatus & "Dispatch Date Must  be a Date Time Value" & Environment.NewLine
                 End If
 
+                strCellValue = clsCommon.myCstr(Gv1.Rows(i).Cells("Tanker No").Value)
+                If clsCommon.myLen(strCellValue) <= 0 Then
+                    ValidateStatus = ValidateStatus & "Tanker No  Must not be Blank" & Environment.NewLine
+                End If
                 strCellValue = clsCommon.myCstr(gv1.Rows(i).Cells("Dispatch No").Value)
                 If clsCommon.myLen(strCellValue) <= 0 Then
-                    ValidateStatus = ValidateStatus & "Please Select Tanker Dispatch No Either PLANT/MCC " & Environment.NewLine
+                    ValidateStatus = ValidateStatus & "Dispatch No  Must not be Blank" & Environment.NewLine
                 End If
-
+                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BULK_SALE_ACKNOWLEDGEMENT where Bulk_Dispatch_Document  = '" & strCellValue & "'")) > 0 Then
+                    ValidateStatus = ValidateStatus & "Dispatch No (" & strCellValue & ") is already used " & Environment.NewLine
+                End If
                 strCellValue = clsCommon.myCstr(gv1.Rows(i).Cells("Customer").Value)
                 If clsCommon.myLen(strCellValue) <= 0 Then
                     ValidateStatus = ValidateStatus & "Customer Must not be Blank" & Environment.NewLine
@@ -499,6 +506,7 @@ Public Class frmBulkSaleAcknowledgementUploader
 
         Dim arr As New List(Of String)
         arr.Add("Customer")
+        arr.Add("Tanker No")
         arr.Add("Dispatch Date")
         arr.Add("Dispatch No")
         arr.Add("Dispatch Qty")
@@ -574,7 +582,7 @@ Public Class frmBulkSaleAcknowledgementUploader
         End If
         Dim ordByCls As String = " [Dispatch Date] , [Dispatch No]"
         whrcls += " and convert(date,document_date , 103 ) >= convert(date,'" & txtFromDate.Value & "',103) and  convert(date,document_date , 103 ) <= convert(date,'" & txtToDate.Value & "',103)"
-        Dim qry As String = "select TSPL_Dispatch_BulkSale.Customer_Code as Customer,convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as 'Dispatch Date',TSPL_Dispatch_BulkSale.Document_No as 'Dispatch No' , TSPL_Dispatch_Detail_BulkSale.Qty as 'Dispatch Qty',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatPer) as 'Dispatch FatPer',
+        Dim qry As String = "select TSPL_Dispatch_BulkSale.Customer_Code as Customer,TSPL_Dispatch_BulkSale.Tanker_Code as [Tanker No] ,convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as 'Dispatch Date',TSPL_Dispatch_BulkSale.Document_No as 'Dispatch No' , TSPL_Dispatch_Detail_BulkSale.Qty as 'Dispatch Qty',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatPer) as 'Dispatch FatPer',
             convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNFPer) as 'Dispatch SNFPer' ,convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.Fat_KG) AS 'Dispatch FATKG',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatRate) AS 'Dispatch FAT Rate', convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNF_KG) AS 'Dispatch SNFKG',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNFRate) AS 'Dispatch SNF Rate',
             convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.Amount) AS 'Dispatch Amount' , '' as 'ACK Qty','' AS  'ACK FatPer','' AS 'ACK SNFPer' , '' AS 'ACK FATKG','' AS 'ACK FAT Rate','' AS 'ACK SNFKG', '' AS 'ACK SNF Rate' , '' AS 'ACK Amount' , '' AS 'ACK Diff Amount' ,'' AS Remarks from TSPL_Dispatch_Detail_BulkSale  
             Left Outer Join TSPL_Dispatch_BulkSale On TSPL_Dispatch_BulkSale.Document_No=TSPL_Dispatch_Detail_BulkSale.Document_No  "
@@ -596,7 +604,7 @@ Public Class frmBulkSaleAcknowledgementUploader
                 whrcls = " And Customer_Code = '" & txtCustomer.Value & "' "
         End If
             whrcls = " and convert(date,document_date , 103 ) >= convert(date,'" & txtFromDate.Value & "',103) and  convert(date,document_date , 103 ) <= convert(date,'" & txtToDate.Value & "',103) "
-            Dim qry As String = "select ROW_NUMBER() over(order by (TSPL_Dispatch_BulkSale.Document_Date)) as 'SNO.', TSPL_Dispatch_BulkSale.Customer_Code as Customer,convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as 'Dispatch Date',TSPL_Dispatch_BulkSale.Document_No as 'Dispatch No' , TSPL_Dispatch_Detail_BulkSale.Qty as 'Dispatch Qty',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatPer) as 'Dispatch FatPer',
+            Dim qry As String = "select ROW_NUMBER() over(order by (TSPL_Dispatch_BulkSale.Document_Date)) as 'SNO.', TSPL_Dispatch_BulkSale.Customer_Code as Customer,TSPL_Dispatch_BulkSale.Tanker_Code as [Tanker No] ,convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as 'Dispatch Date',TSPL_Dispatch_BulkSale.Document_No as 'Dispatch No' , TSPL_Dispatch_Detail_BulkSale.Qty as 'Dispatch Qty',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatPer) as 'Dispatch FatPer',
             convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNFPer) as 'Dispatch SNFPer' ,convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.Fat_KG) AS 'Dispatch FATKG',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.FatRate) AS 'Dispatch FAT Rate', convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNF_KG) AS 'Dispatch SNFKG',convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.SNFRate) AS 'Dispatch SNF Rate',
             convert(decimal(18,2),TSPL_Dispatch_Detail_BulkSale.Amount) AS 'Dispatch Amount' , '' as 'ACK Qty','' AS  'ACK FatPer','' AS 'ACK SNFPer' , '' AS 'ACK FATKG','' AS 'ACK FAT Rate','' AS 'ACK SNFKG', '' AS 'ACK SNF Rate' , '' AS 'ACK Amount' , '' AS 'ACK Diff Amount' ,'' AS Remarks from TSPL_Dispatch_Detail_BulkSale  
             Left Outer Join TSPL_Dispatch_BulkSale On TSPL_Dispatch_BulkSale.Document_No=TSPL_Dispatch_Detail_BulkSale.Document_No  Where 1=1 " & whrcls & " order by TSPL_Dispatch_BulkSale.Document_Date,TSPL_Dispatch_BulkSale.Document_No "

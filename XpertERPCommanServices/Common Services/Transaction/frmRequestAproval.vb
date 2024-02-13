@@ -43,10 +43,7 @@ Public Class frmRequestAproval
 
     Private Sub FrmPendingAproval_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C for Closing The Window")
-
-
         SetUserMgmtNew()
-
         btnPost.Enabled = False
         LoadBlankGrid()
         dtpFromDate.Value = clsCommon.GETSERVERDATE()

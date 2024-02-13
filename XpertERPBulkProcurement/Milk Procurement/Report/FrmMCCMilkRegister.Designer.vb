@@ -36,6 +36,7 @@ Partial Class FrmMCCMilkRegister
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkRouteWisePrint = New System.Windows.Forms.CheckBox()
         Me.chkRouteShiftWise = New System.Windows.Forms.CheckBox()
         Me.chkDairyMilkReportPrint = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
@@ -324,20 +325,31 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.chkRouteWisePrint)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteShiftWise)
         Me.RadGroupBox6.Controls.Add(Me.chkDairyMilkReportPrint)
         Me.RadGroupBox6.HeaderText = "Print"
-        Me.RadGroupBox6.Location = New System.Drawing.Point(494, 127)
+        Me.RadGroupBox6.Location = New System.Drawing.Point(494, 116)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 58)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 72)
         Me.RadGroupBox6.TabIndex = 405
         Me.RadGroupBox6.Text = "Print"
+        '
+        'chkRouteWisePrint
+        '
+        Me.chkRouteWisePrint.AutoSize = True
+        Me.chkRouteWisePrint.Location = New System.Drawing.Point(13, 51)
+        Me.chkRouteWisePrint.Name = "chkRouteWisePrint"
+        Me.chkRouteWisePrint.Size = New System.Drawing.Size(139, 17)
+        Me.chkRouteWisePrint.TabIndex = 395
+        Me.chkRouteWisePrint.Text = "Truck Sheet Check List"
+        Me.chkRouteWisePrint.UseVisualStyleBackColor = True
         '
         'chkRouteShiftWise
         '
         Me.chkRouteShiftWise.AutoSize = True
-        Me.chkRouteShiftWise.Location = New System.Drawing.Point(13, 38)
+        Me.chkRouteShiftWise.Location = New System.Drawing.Point(13, 33)
         Me.chkRouteShiftWise.Name = "chkRouteShiftWise"
         Me.chkRouteShiftWise.Size = New System.Drawing.Size(150, 17)
         Me.chkRouteShiftWise.TabIndex = 394
@@ -811,7 +823,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.btnLock.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnLock.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnLock.Location = New System.Drawing.Point(593, 2)
+        Me.btnLock.Location = New System.Drawing.Point(592, 2)
         Me.btnLock.Name = "btnLock"
         Me.btnLock.Size = New System.Drawing.Size(128, 22)
         Me.btnLock.TabIndex = 163
@@ -822,7 +834,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.btnPrintMccDetails.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintMccDetails.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintMccDetails.Location = New System.Drawing.Point(497, 2)
+        Me.btnPrintMccDetails.Location = New System.Drawing.Point(495, 2)
         Me.btnPrintMccDetails.Name = "btnPrintMccDetails"
         Me.btnPrintMccDetails.Size = New System.Drawing.Size(95, 22)
         Me.btnPrintMccDetails.TabIndex = 162
@@ -832,7 +844,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(399, 2)
+        Me.RadButton1.Location = New System.Drawing.Point(398, 2)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(95, 22)
         Me.RadButton1.TabIndex = 161
@@ -842,7 +854,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.radbtnBulkExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.radbtnBulkExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Excel, Me.PDF, Me.BulkExportCSV, Me.BulkExportXls})
-        Me.radbtnBulkExp.Location = New System.Drawing.Point(297, 2)
+        Me.radbtnBulkExp.Location = New System.Drawing.Point(296, 2)
         Me.radbtnBulkExp.Name = "radbtnBulkExp"
         Me.radbtnBulkExp.Size = New System.Drawing.Size(100, 22)
         Me.radbtnBulkExp.TabIndex = 160
@@ -1037,5 +1049,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents lblToDate As common.Controls.MyLabel
     Friend WithEvents lblfromDate As common.Controls.MyLabel
     Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents chkRouteWisePrint As CheckBox
 End Class
 
