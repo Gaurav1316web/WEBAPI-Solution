@@ -6,6 +6,7 @@ Public Class clsVidhanSabhaMaster
 #Region "Variables"
     Public code As String = Nothing
     Public name As String = Nothing
+    Public namehindi As String = Nothing
 #End Region
     '----------------Code For Get Finder--------------------------------------------------------------------'
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
@@ -33,6 +34,7 @@ Public Class clsVidhanSabhaMaster
             Dim qry As String = "SELECT Count(*) FROM TSPL_VIDHAN_SABHA_MASTER where VIDHAN_SABHA_CODE= '" & obj.code & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
             clsCommon.AddColumnsForChange(coll, "VIDHAN_SABHA_NAME", obj.name)
+            clsCommon.AddColumnsForChange(coll, "VIDHAN_SABHA_NAME_HINDI", obj.namehindi, False, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
 
@@ -74,6 +76,7 @@ Public Class clsVidhanSabhaMaster
                 obj = New clsVidhanSabhaMaster()
                 obj.code = clsCommon.myCstr(dt.Rows(0)("VIDHAN_SABHA_CODE"))
                 obj.name = clsCommon.myCstr(dt.Rows(0)("VIDHAN_SABHA_NAME"))
+                obj.namehindi = clsCommon.myCstr(dt.Rows(0)("VIDHAN_SABHA_NAME_HINDI"))
             End If
             Return obj
         Catch ex As Exception

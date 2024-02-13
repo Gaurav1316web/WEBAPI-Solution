@@ -1247,7 +1247,9 @@ Public Class frmLocationMaster
                 txtCMACML.Text = clsCommon.myCstr(row("CMA_CML"))
                 txtGrdtype.Text = clsCommon.myCstr(row("GradeType"))
                 txtValidUpto.Text = clsCommon.myCstr(row("ValidUpto"))
-                QCDate.Text = clsCommon.myCDate(row("QCStartDate"))
+                If row("QCStartDate") IsNot DBNull.Value Then
+                    QcDate.Text = clsCommon.myCDate(row("QCStartDate"))
+                End If
                 txtMngrNm.Text = clsCommon.myCstr(row("Manager_Name"))
                 txtMngrDes.Text = clsCommon.myCstr(row("Manager_Destination"))
                 txtRmk.Text = clsCommon.myCstr(row("Remarks"))

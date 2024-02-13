@@ -38,6 +38,8 @@ Partial Class frmGrampanchayatMaster
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.txtNameHindi = New common.Controls.MyTextBox()
+        Me.Grampanchayat_name_hindi = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -52,6 +54,8 @@ Partial Class frmGrampanchayatMaster
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Grampanchayat_name_hindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -81,6 +85,8 @@ Partial Class frmGrampanchayatMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.Grampanchayat_name_hindi)
+        Me.RadGroupBox1.Controls.Add(Me.txtNameHindi)
         Me.RadGroupBox1.Controls.Add(Me.RadButton1)
         Me.RadGroupBox1.Controls.Add(Me.btnNew)
         Me.RadGroupBox1.Controls.Add(Me.txtName)
@@ -91,7 +97,7 @@ Partial Class frmGrampanchayatMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 22)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(519, 85)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(530, 97)
         Me.RadGroupBox1.TabIndex = 12
         Me.RadGroupBox1.Text = " "
         '
@@ -107,7 +113,7 @@ Partial Class frmGrampanchayatMaster
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(391, 22)
+        Me.btnNew.Location = New System.Drawing.Point(397, 18)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(14, 21)
         Me.btnNew.TabIndex = 0
@@ -124,7 +130,7 @@ Partial Class frmGrampanchayatMaster
         Me.txtName.IsSourceFromTable = False
         Me.txtName.IsSourceFromValueList = False
         Me.txtName.IsUnique = False
-        Me.txtName.Location = New System.Drawing.Point(144, 45)
+        Me.txtName.Location = New System.Drawing.Point(166, 45)
         Me.txtName.MaxLength = 100
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.RadLabel2
@@ -133,13 +139,13 @@ Partial Class frmGrampanchayatMaster
         Me.txtName.ReferenceFieldDesc = Nothing
         Me.txtName.ReferenceFieldName = Nothing
         Me.txtName.ReferenceTableName = Nothing
-        Me.txtName.Size = New System.Drawing.Size(359, 20)
+        Me.txtName.Size = New System.Drawing.Size(337, 20)
         Me.txtName.TabIndex = 2
         '
         'RadLabel2
         '
         Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(12, 46)
+        Me.RadLabel2.Location = New System.Drawing.Point(12, 47)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(118, 18)
         Me.RadLabel2.TabIndex = 1
@@ -148,7 +154,7 @@ Partial Class frmGrampanchayatMaster
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(144, 22)
+        Me.txtCode.Location = New System.Drawing.Point(166, 18)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -157,14 +163,14 @@ Partial Class frmGrampanchayatMaster
         Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(247, 21)
+        Me.txtCode.Size = New System.Drawing.Size(225, 21)
         Me.txtCode.TabIndex = 1
         Me.txtCode.Value = ""
         '
         'RadLabel1
         '
         Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(12, 23)
+        Me.RadLabel1.Location = New System.Drawing.Point(12, 21)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(114, 18)
         Me.RadLabel1.TabIndex = 0
@@ -229,6 +235,38 @@ Partial Class frmGrampanchayatMaster
         Me.btnClose.TabIndex = 2
         Me.btnClose.Text = "Close"
         '
+        'txtNameHindi
+        '
+        Me.txtNameHindi.CalculationExpression = Nothing
+        Me.txtNameHindi.FieldCode = Nothing
+        Me.txtNameHindi.FieldDesc = Nothing
+        Me.txtNameHindi.FieldMaxLength = 0
+        Me.txtNameHindi.FieldName = Nothing
+        Me.txtNameHindi.isCalculatedField = False
+        Me.txtNameHindi.IsSourceFromTable = False
+        Me.txtNameHindi.IsSourceFromValueList = False
+        Me.txtNameHindi.IsUnique = False
+        Me.txtNameHindi.Location = New System.Drawing.Point(166, 71)
+        Me.txtNameHindi.MaxLength = 100
+        Me.txtNameHindi.MendatroryField = True
+        Me.txtNameHindi.MyLinkLable1 = Me.RadLabel2
+        Me.txtNameHindi.MyLinkLable2 = Nothing
+        Me.txtNameHindi.Name = "txtNameHindi"
+        Me.txtNameHindi.ReferenceFieldDesc = Nothing
+        Me.txtNameHindi.ReferenceFieldName = Nothing
+        Me.txtNameHindi.ReferenceTableName = Nothing
+        Me.txtNameHindi.Size = New System.Drawing.Size(337, 20)
+        Me.txtNameHindi.TabIndex = 18
+        '
+        'Grampanchayat_name_hindi
+        '
+        Me.Grampanchayat_name_hindi.FieldName = Nothing
+        Me.Grampanchayat_name_hindi.Location = New System.Drawing.Point(13, 73)
+        Me.Grampanchayat_name_hindi.Name = "Grampanchayat_name_hindi"
+        Me.Grampanchayat_name_hindi.Size = New System.Drawing.Size(147, 18)
+        Me.Grampanchayat_name_hindi.TabIndex = 19
+        Me.Grampanchayat_name_hindi.Text = "Grampanchayat Name Hindi"
+        '
         'frmGrampanchayatMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -258,6 +296,8 @@ Partial Class frmGrampanchayatMaster
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Grampanchayat_name_hindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -277,5 +317,7 @@ Partial Class frmGrampanchayatMaster
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
+    Friend WithEvents Grampanchayat_name_hindi As common.Controls.MyLabel
+    Friend WithEvents txtNameHindi As common.Controls.MyTextBox
 End Class
 

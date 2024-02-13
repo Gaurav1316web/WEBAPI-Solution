@@ -514,12 +514,6 @@
     <Compile Include="Administrative Services\RptApprovalReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Administrative Services\frmDocumentVersionReport.Designer.vb">
-      <DependentUpon>frmDocumentVersionReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Administrative Services\frmDocumentVersionReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Administrative Services\RptPendingDocumentList.Designer.vb">
       <DependentUpon>RptPendingDocumentList.vb</DependentUpon>
     </Compile>
@@ -5029,9 +5023,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Administrative Services\RptApprovalReport.resx">
       <DependentUpon>RptApprovalReport.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Administrative Services\frmDocumentVersionReport.resx">
-      <DependentUpon>frmDocumentVersionReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\RptPendingDocumentList.resx">
       <DependentUpon>RptPendingDocumentList.vb</DependentUpon>

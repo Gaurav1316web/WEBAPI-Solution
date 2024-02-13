@@ -29,6 +29,8 @@ Partial Class frmMilkRejectType
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtPrefix = New common.MyNumBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.chkExcludeHead = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIncludeInDBT = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtDescription = New common.Controls.MyTextBox()
@@ -49,18 +51,20 @@ Partial Class frmMilkRejectType
         Me.lblNoOfCans = New common.Controls.MyLabel()
         Me.lblDescription = New common.Controls.MyLabel()
         Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
-        Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblAdvanceCode = New common.Controls.MyLabel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
-        Me.txtPrefix = New common.MyNumBox()
-        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtDescriptionhindi = New common.Controls.MyTextBox()
+        Me.lblDescriptionhindi = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkExcludeHead, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIncludeInDBT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,8 +89,8 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDescriptionhindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDescriptionhindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -139,6 +143,8 @@ Partial Class frmMilkRejectType
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblDescriptionhindi)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDescriptionhindi)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtPrefix)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel4)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkExcludeHead)
@@ -170,9 +176,48 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.SplitterDistance = 321
         Me.SplitContainer1.TabIndex = 1
         '
+        'txtPrefix
+        '
+        Me.txtPrefix.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtPrefix.CalculationExpression = Nothing
+        Me.txtPrefix.DecimalPlaces = 2
+        Me.txtPrefix.FieldCode = Nothing
+        Me.txtPrefix.FieldDesc = Nothing
+        Me.txtPrefix.FieldMaxLength = 0
+        Me.txtPrefix.FieldName = Nothing
+        Me.txtPrefix.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtPrefix.isCalculatedField = False
+        Me.txtPrefix.IsSourceFromTable = False
+        Me.txtPrefix.IsSourceFromValueList = False
+        Me.txtPrefix.IsUnique = False
+        Me.txtPrefix.Location = New System.Drawing.Point(102, 261)
+        Me.txtPrefix.MaxLength = 5
+        Me.txtPrefix.MendatroryField = True
+        Me.txtPrefix.MyLinkLable1 = Me.MyLabel4
+        Me.txtPrefix.MyLinkLable2 = Nothing
+        Me.txtPrefix.Name = "txtPrefix"
+        Me.txtPrefix.ReferenceFieldDesc = Nothing
+        Me.txtPrefix.ReferenceFieldName = Nothing
+        Me.txtPrefix.ReferenceTableName = Nothing
+        Me.txtPrefix.Size = New System.Drawing.Size(280, 21)
+        Me.txtPrefix.TabIndex = 1033
+        Me.txtPrefix.Text = "0"
+        Me.txtPrefix.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtPrefix.Value = 0R
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel4.Location = New System.Drawing.Point(8, 266)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(35, 16)
+        Me.MyLabel4.TabIndex = 1034
+        Me.MyLabel4.Text = "Prefix"
+        '
         'chkExcludeHead
         '
-        Me.chkExcludeHead.Location = New System.Drawing.Point(226, 205)
+        Me.chkExcludeHead.Location = New System.Drawing.Point(230, 237)
         Me.chkExcludeHead.Name = "chkExcludeHead"
         Me.chkExcludeHead.Size = New System.Drawing.Size(134, 18)
         Me.chkExcludeHead.TabIndex = 1032
@@ -180,7 +225,7 @@ Partial Class frmMilkRejectType
         '
         'chkIncludeInDBT
         '
-        Me.chkIncludeInDBT.Location = New System.Drawing.Point(102, 205)
+        Me.chkIncludeInDBT.Location = New System.Drawing.Point(102, 237)
         Me.chkIncludeInDBT.Name = "chkIncludeInDBT"
         Me.chkIncludeInDBT.Size = New System.Drawing.Size(93, 18)
         Me.chkIncludeInDBT.TabIndex = 1031
@@ -197,7 +242,7 @@ Partial Class frmMilkRejectType
         Me.txtDescription.IsSourceFromTable = False
         Me.txtDescription.IsSourceFromValueList = False
         Me.txtDescription.IsUnique = False
-        Me.txtDescription.Location = New System.Drawing.Point(102, 39)
+        Me.txtDescription.Location = New System.Drawing.Point(102, 33)
         Me.txtDescription.MaxLength = 100
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Nothing
@@ -213,7 +258,7 @@ Partial Class frmMilkRejectType
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(8, 68)
+        Me.MyLabel3.Location = New System.Drawing.Point(8, 89)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(87, 16)
         Me.MyLabel3.TabIndex = 1030
@@ -225,15 +270,15 @@ Partial Class frmMilkRejectType
         Me.grpAdditionType.Controls.Add(Me.rbtnFATKGRate)
         Me.grpAdditionType.Controls.Add(Me.rbtnPer)
         Me.grpAdditionType.Controls.Add(Me.rbtnRate)
-        Me.grpAdditionType.Location = New System.Drawing.Point(102, 56)
+        Me.grpAdditionType.Location = New System.Drawing.Point(102, 85)
         Me.grpAdditionType.Name = "grpAdditionType"
-        Me.grpAdditionType.Size = New System.Drawing.Size(280, 31)
+        Me.grpAdditionType.Size = New System.Drawing.Size(280, 20)
         Me.grpAdditionType.TabIndex = 1029
         Me.grpAdditionType.TabStop = False
         '
         'rbtnSNFKGRate
         '
-        Me.rbtnSNFKGRate.Location = New System.Drawing.Point(194, 9)
+        Me.rbtnSNFKGRate.Location = New System.Drawing.Point(194, 2)
         Me.rbtnSNFKGRate.MyLinkLable1 = Nothing
         Me.rbtnSNFKGRate.MyLinkLable2 = Nothing
         Me.rbtnSNFKGRate.Name = "rbtnSNFKGRate"
@@ -244,7 +289,7 @@ Partial Class frmMilkRejectType
         '
         'rbtnFATKGRate
         '
-        Me.rbtnFATKGRate.Location = New System.Drawing.Point(108, 9)
+        Me.rbtnFATKGRate.Location = New System.Drawing.Point(112, 2)
         Me.rbtnFATKGRate.MyLinkLable1 = Nothing
         Me.rbtnFATKGRate.MyLinkLable2 = Nothing
         Me.rbtnFATKGRate.Name = "rbtnFATKGRate"
@@ -256,7 +301,7 @@ Partial Class frmMilkRejectType
         'rbtnPer
         '
         Me.rbtnPer.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnPer.Location = New System.Drawing.Point(6, 9)
+        Me.rbtnPer.Location = New System.Drawing.Point(6, 2)
         Me.rbtnPer.MyLinkLable1 = Nothing
         Me.rbtnPer.MyLinkLable2 = Nothing
         Me.rbtnPer.Name = "rbtnPer"
@@ -267,7 +312,7 @@ Partial Class frmMilkRejectType
         '
         'rbtnRate
         '
-        Me.rbtnRate.Location = New System.Drawing.Point(62, 9)
+        Me.rbtnRate.Location = New System.Drawing.Point(64, 2)
         Me.rbtnRate.MyLinkLable1 = Nothing
         Me.rbtnRate.MyLinkLable2 = Nothing
         Me.rbtnRate.Name = "rbtnRate"
@@ -290,7 +335,7 @@ Partial Class frmMilkRejectType
         Me.txtSNo.IsSourceFromTable = False
         Me.txtSNo.IsSourceFromValueList = False
         Me.txtSNo.IsUnique = False
-        Me.txtSNo.Location = New System.Drawing.Point(102, 157)
+        Me.txtSNo.Location = New System.Drawing.Point(102, 186)
         Me.txtSNo.MaxLength = 5
         Me.txtSNo.MendatroryField = True
         Me.txtSNo.MyLinkLable1 = Me.MyLabel1
@@ -309,7 +354,7 @@ Partial Class frmMilkRejectType
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(8, 159)
+        Me.MyLabel1.Location = New System.Drawing.Point(11, 193)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel1.TabIndex = 1028
@@ -319,7 +364,7 @@ Partial Class frmMilkRejectType
         '
         Me.Lbl_Type.FieldName = Nothing
         Me.Lbl_Type.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_Type.Location = New System.Drawing.Point(8, 181)
+        Me.Lbl_Type.Location = New System.Drawing.Point(11, 215)
         Me.Lbl_Type.Name = "Lbl_Type"
         Me.Lbl_Type.Size = New System.Drawing.Size(31, 16)
         Me.Lbl_Type.TabIndex = 1026
@@ -342,7 +387,7 @@ Partial Class frmMilkRejectType
         Me.cboType.IsSourceFromTable = False
         Me.cboType.IsSourceFromValueList = False
         Me.cboType.IsUnique = False
-        Me.cboType.Location = New System.Drawing.Point(102, 180)
+        Me.cboType.Location = New System.Drawing.Point(102, 213)
         Me.cboType.MendatroryField = True
         Me.cboType.MyLinkLable1 = Nothing
         Me.cboType.MyLinkLable2 = Nothing
@@ -365,7 +410,7 @@ Partial Class frmMilkRejectType
         Me.txtItem.IsSourceFromTable = False
         Me.txtItem.IsSourceFromValueList = False
         Me.txtItem.IsUnique = False
-        Me.txtItem.Location = New System.Drawing.Point(102, 117)
+        Me.txtItem.Location = New System.Drawing.Point(102, 138)
         Me.txtItem.MendatroryField = True
         Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItem.MyLinkLable1 = Nothing
@@ -386,7 +431,7 @@ Partial Class frmMilkRejectType
         Me.lblItem.BorderVisible = True
         Me.lblItem.FieldName = Nothing
         Me.lblItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItem.Location = New System.Drawing.Point(102, 137)
+        Me.lblItem.Location = New System.Drawing.Point(102, 162)
         Me.lblItem.Name = "lblItem"
         Me.lblItem.Size = New System.Drawing.Size(280, 18)
         Me.lblItem.TabIndex = 81
@@ -396,7 +441,7 @@ Partial Class frmMilkRejectType
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(8, 118)
+        Me.MyLabel2.Location = New System.Drawing.Point(11, 140)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel2.TabIndex = 79
@@ -416,7 +461,7 @@ Partial Class frmMilkRejectType
         Me.txtApplicablePer.IsSourceFromTable = False
         Me.txtApplicablePer.IsSourceFromValueList = False
         Me.txtApplicablePer.IsUnique = False
-        Me.txtApplicablePer.Location = New System.Drawing.Point(102, 94)
+        Me.txtApplicablePer.Location = New System.Drawing.Point(102, 111)
         Me.txtApplicablePer.MaxLength = 5
         Me.txtApplicablePer.MendatroryField = True
         Me.txtApplicablePer.MyLinkLable1 = Me.lblNoOfCans
@@ -435,7 +480,7 @@ Partial Class frmMilkRejectType
         '
         Me.lblNoOfCans.FieldName = Nothing
         Me.lblNoOfCans.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblNoOfCans.Location = New System.Drawing.Point(8, 96)
+        Me.lblNoOfCans.Location = New System.Drawing.Point(8, 115)
         Me.lblNoOfCans.Name = "lblNoOfCans"
         Me.lblNoOfCans.Size = New System.Drawing.Size(91, 16)
         Me.lblNoOfCans.TabIndex = 37
@@ -445,7 +490,7 @@ Partial Class frmMilkRejectType
         '
         Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblDescription.Location = New System.Drawing.Point(8, 40)
+        Me.lblDescription.Location = New System.Drawing.Point(8, 35)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(63, 18)
         Me.lblDescription.TabIndex = 6
@@ -455,32 +500,16 @@ Partial Class frmMilkRejectType
         '
         Me.rdbtnreset.Image = Global.ERP.My.Resources.Resources._new
         Me.rdbtnreset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.rdbtnreset.Location = New System.Drawing.Point(364, 16)
+        Me.rdbtnreset.Location = New System.Drawing.Point(364, 6)
         Me.rdbtnreset.Name = "rdbtnreset"
         Me.rdbtnreset.Size = New System.Drawing.Size(18, 21)
         Me.rdbtnreset.TabIndex = 1
-        '
-        'txtCode
-        '
-        Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(102, 16)
-        Me.txtCode.MendatroryField = False
-        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
-        Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
-        Me.txtCode.MyReadOnly = False
-        Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(262, 21)
-        Me.txtCode.TabIndex = 0
-        Me.txtCode.Value = ""
         '
         'lblAdvanceCode
         '
         Me.lblAdvanceCode.FieldName = Nothing
         Me.lblAdvanceCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblAdvanceCode.Location = New System.Drawing.Point(8, 17)
+        Me.lblAdvanceCode.Location = New System.Drawing.Point(11, 9)
         Me.lblAdvanceCode.Name = "lblAdvanceCode"
         Me.lblAdvanceCode.Size = New System.Drawing.Size(32, 18)
         Me.lblAdvanceCode.TabIndex = 2
@@ -522,44 +551,54 @@ Partial Class frmMilkRejectType
         Me.rdbtndelete.TabIndex = 1
         Me.rdbtndelete.Text = "Delete"
         '
-        'txtPrefix
+        'txtDescriptionhindi
         '
-        Me.txtPrefix.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtPrefix.CalculationExpression = Nothing
-        Me.txtPrefix.DecimalPlaces = 2
-        Me.txtPrefix.FieldCode = Nothing
-        Me.txtPrefix.FieldDesc = Nothing
-        Me.txtPrefix.FieldMaxLength = 0
-        Me.txtPrefix.FieldName = Nothing
-        Me.txtPrefix.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtPrefix.isCalculatedField = False
-        Me.txtPrefix.IsSourceFromTable = False
-        Me.txtPrefix.IsSourceFromValueList = False
-        Me.txtPrefix.IsUnique = False
-        Me.txtPrefix.Location = New System.Drawing.Point(102, 238)
-        Me.txtPrefix.MaxLength = 5
-        Me.txtPrefix.MendatroryField = True
-        Me.txtPrefix.MyLinkLable1 = Me.MyLabel4
-        Me.txtPrefix.MyLinkLable2 = Nothing
-        Me.txtPrefix.Name = "txtPrefix"
-        Me.txtPrefix.ReferenceFieldDesc = Nothing
-        Me.txtPrefix.ReferenceFieldName = Nothing
-        Me.txtPrefix.ReferenceTableName = Nothing
-        Me.txtPrefix.Size = New System.Drawing.Size(280, 21)
-        Me.txtPrefix.TabIndex = 1033
-        Me.txtPrefix.Text = "0"
-        Me.txtPrefix.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPrefix.Value = 0R
+        Me.txtDescriptionhindi.CalculationExpression = Nothing
+        Me.txtDescriptionhindi.FieldCode = Nothing
+        Me.txtDescriptionhindi.FieldDesc = Nothing
+        Me.txtDescriptionhindi.FieldMaxLength = 0
+        Me.txtDescriptionhindi.FieldName = Nothing
+        Me.txtDescriptionhindi.isCalculatedField = False
+        Me.txtDescriptionhindi.IsSourceFromTable = False
+        Me.txtDescriptionhindi.IsSourceFromValueList = False
+        Me.txtDescriptionhindi.IsUnique = False
+        Me.txtDescriptionhindi.Location = New System.Drawing.Point(102, 59)
+        Me.txtDescriptionhindi.MaxLength = 100
+        Me.txtDescriptionhindi.MendatroryField = False
+        Me.txtDescriptionhindi.MyLinkLable1 = Nothing
+        Me.txtDescriptionhindi.MyLinkLable2 = Nothing
+        Me.txtDescriptionhindi.Name = "txtDescriptionhindi"
+        Me.txtDescriptionhindi.ReferenceFieldDesc = Nothing
+        Me.txtDescriptionhindi.ReferenceFieldName = Nothing
+        Me.txtDescriptionhindi.ReferenceTableName = Nothing
+        Me.txtDescriptionhindi.Size = New System.Drawing.Size(280, 20)
+        Me.txtDescriptionhindi.TabIndex = 1035
         '
-        'MyLabel4
+        'lblDescriptionhindi
         '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(8, 240)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(35, 16)
-        Me.MyLabel4.TabIndex = 1034
-        Me.MyLabel4.Text = "Prefix"
+        Me.lblDescriptionhindi.FieldName = Nothing
+        Me.lblDescriptionhindi.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.lblDescriptionhindi.Location = New System.Drawing.Point(8, 61)
+        Me.lblDescriptionhindi.Name = "lblDescriptionhindi"
+        Me.lblDescriptionhindi.Size = New System.Drawing.Size(93, 18)
+        Me.lblDescriptionhindi.TabIndex = 1036
+        Me.lblDescriptionhindi.Text = "Description Hindi"
+        '
+        'txtCode
+        '
+        Me.txtCode.FieldName = Nothing
+        Me.txtCode.Location = New System.Drawing.Point(102, 6)
+        Me.txtCode.MendatroryField = False
+        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
+        Me.txtCode.MyLinkLable2 = Nothing
+        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyReadOnly = False
+        Me.txtCode.Name = "txtCode"
+        Me.txtCode.Size = New System.Drawing.Size(262, 21)
+        Me.txtCode.TabIndex = 0
+        Me.txtCode.Value = ""
         '
         'frmMilkRejectType
         '
@@ -580,6 +619,8 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkExcludeHead, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIncludeInDBT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
@@ -605,8 +646,8 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDescriptionhindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDescriptionhindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -615,7 +656,6 @@ Partial Class frmMilkRejectType
     Friend WithEvents rdmenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents File As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents lblAdvanceCode As common.Controls.MyLabel
     Friend WithEvents rdbtnreset As Telerik.WinControls.UI.RadButton
     Friend WithEvents lblDescription As common.Controls.MyLabel
@@ -647,5 +687,8 @@ Partial Class frmMilkRejectType
     Friend WithEvents chkExcludeHead As RadCheckBox
     Friend WithEvents txtPrefix As common.MyNumBox
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents lblDescriptionhindi As common.Controls.MyLabel
+    Friend WithEvents txtDescriptionhindi As common.Controls.MyTextBox
+    Friend WithEvents txtCode As common.UserControls.txtNavigator
 End Class
 

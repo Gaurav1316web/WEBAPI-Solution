@@ -2151,7 +2151,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
 ,TabSaving.Item_Desc as SavingDesc,"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) + TSPL_TRANSFER_TO_SAVING_DETAIL.Amount as [SavingAmount],TSPL_TRANSFER_TO_SAVING_DETAIL.Amount "
+            BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) + ISNULL(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0) as [SavingAmount],TSPL_TRANSFER_TO_SAVING_DETAIL.Amount "
         Else
             BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) as [SavingAmount]"
         End If

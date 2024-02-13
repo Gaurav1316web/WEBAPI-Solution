@@ -375,7 +375,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
     End Sub
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-        Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [DATE], '1'as [S NO], '1' as [NO], 'gadota' as [BMC Name]," &
+        Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [DATE], '1'as [S NO], '1' as [NO.], 'gadota' as [BMC Name]," &
                " '1000' as [R.NO.], '1-1' as [DCS], '7' as [FAT], '9' as [SNF], '27' as [CLR],'0.125' as [ACIDITY],'' as [REMARKS]"
         transportSql.ExporttoExcel(qry, Me)
     End Sub
