@@ -123,7 +123,7 @@
     </Reference>
     <Reference Include="XpertERPEngine, Version=7.1.1.56, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\XpertERPEngine.dll</HintPath>
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine, Version=7.1.1.56, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

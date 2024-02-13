@@ -8920,6 +8920,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDemand_Sheet
                         frm = New frmDemand_Sheet()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDCSDEmandBooking
+                        frm = New frmDCSDemandBooking()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCashIndentBookingMobApp
                         frm = New frmCashIndentBookingMobApp
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9607,7 +9610,7 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
-                        ''---------------MIS------------------
+                        '---------------MIS------------------
                     Case clsUserMgtCode.MISitemGroups
                         frm = New frmMISItemGroup
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

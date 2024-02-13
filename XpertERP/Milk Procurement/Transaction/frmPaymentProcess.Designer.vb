@@ -22,20 +22,22 @@ Partial Class FrmPaymentProcess
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition25 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition26 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition27 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition28 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition29 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition30 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition31 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition32 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition33 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition34 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition35 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition36 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.dtpDate = New common.Controls.MyDateTimePicker()
+        Me.lblDocDate = New common.Controls.MyLabel()
         Me.chkAll = New common.Controls.MyCheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.chkSkipPreviousDocumentOfAssetLost = New common.Controls.MyCheckBox()
@@ -74,9 +76,7 @@ Partial Class FrmPaymentProcess
         Me.lblPending = New common.usLock()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblDocNo = New common.Controls.MyLabel()
-        Me.lblDocDate = New common.Controls.MyLabel()
         Me.fndDocNo = New common.UserControls.txtNavigator()
-        Me.dtpDate = New common.Controls.MyDateTimePicker()
         Me.gv = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -122,6 +122,8 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAll, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         CType(Me.chkSkipPreviousDocumentOfAssetLost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -154,8 +156,6 @@ Partial Class FrmPaymentProcess
         CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -267,6 +267,45 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Size = New System.Drawing.Size(924, 425)
         Me.SplitContainer2.SplitterDistance = 160
         Me.SplitContainer2.TabIndex = 265
+        '
+        'dtpDate
+        '
+        Me.dtpDate.CalculationExpression = Nothing
+        Me.dtpDate.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        Me.dtpDate.FieldCode = Nothing
+        Me.dtpDate.FieldDesc = Nothing
+        Me.dtpDate.FieldMaxLength = 0
+        Me.dtpDate.FieldName = Nothing
+        Me.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpDate.isCalculatedField = False
+        Me.dtpDate.IsSourceFromTable = False
+        Me.dtpDate.IsSourceFromValueList = False
+        Me.dtpDate.IsUnique = False
+        Me.dtpDate.Location = New System.Drawing.Point(487, 4)
+        Me.dtpDate.MendatroryField = False
+        Me.dtpDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpDate.MyLinkLable1 = Me.lblDocDate
+        Me.dtpDate.MyLinkLable2 = Nothing
+        Me.dtpDate.Name = "dtpDate"
+        Me.dtpDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpDate.ReferenceFieldDesc = Nothing
+        Me.dtpDate.ReferenceFieldName = Nothing
+        Me.dtpDate.ReferenceTableName = Nothing
+        Me.dtpDate.Size = New System.Drawing.Size(147, 20)
+        Me.dtpDate.TabIndex = 259
+        Me.dtpDate.TabStop = False
+        Me.dtpDate.Text = "10/06/2011 11:51:56 AM"
+        Me.dtpDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'lblDocDate
+        '
+        Me.lblDocDate.FieldName = Nothing
+        Me.lblDocDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDocDate.Location = New System.Drawing.Point(356, 6)
+        Me.lblDocDate.Name = "lblDocDate"
+        Me.lblDocDate.Size = New System.Drawing.Size(122, 16)
+        Me.lblDocDate.TabIndex = 262
+        Me.lblDocDate.Text = "Payment Process Date"
         '
         'chkAll
         '
@@ -824,16 +863,6 @@ Partial Class FrmPaymentProcess
         Me.lblDocNo.TabIndex = 261
         Me.lblDocNo.Text = "Document"
         '
-        'lblDocDate
-        '
-        Me.lblDocDate.FieldName = Nothing
-        Me.lblDocDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocDate.Location = New System.Drawing.Point(356, 6)
-        Me.lblDocDate.Name = "lblDocDate"
-        Me.lblDocDate.Size = New System.Drawing.Size(122, 16)
-        Me.lblDocDate.TabIndex = 262
-        Me.lblDocDate.Text = "Payment Process Date"
-        '
         'fndDocNo
         '
         Me.fndDocNo.FieldName = Nothing
@@ -850,35 +879,6 @@ Partial Class FrmPaymentProcess
         Me.fndDocNo.TabIndex = 258
         Me.fndDocNo.Value = ""
         '
-        'dtpDate
-        '
-        Me.dtpDate.CalculationExpression = Nothing
-        Me.dtpDate.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
-        Me.dtpDate.FieldCode = Nothing
-        Me.dtpDate.FieldDesc = Nothing
-        Me.dtpDate.FieldMaxLength = 0
-        Me.dtpDate.FieldName = Nothing
-        Me.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpDate.isCalculatedField = False
-        Me.dtpDate.IsSourceFromTable = False
-        Me.dtpDate.IsSourceFromValueList = False
-        Me.dtpDate.IsUnique = False
-        Me.dtpDate.Location = New System.Drawing.Point(487, 4)
-        Me.dtpDate.MendatroryField = False
-        Me.dtpDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpDate.MyLinkLable1 = Me.lblDocDate
-        Me.dtpDate.MyLinkLable2 = Nothing
-        Me.dtpDate.Name = "dtpDate"
-        Me.dtpDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpDate.ReferenceFieldDesc = Nothing
-        Me.dtpDate.ReferenceFieldName = Nothing
-        Me.dtpDate.ReferenceTableName = Nothing
-        Me.dtpDate.Size = New System.Drawing.Size(147, 20)
-        Me.dtpDate.TabIndex = 259
-        Me.dtpDate.TabStop = False
-        Me.dtpDate.Text = "10/06/2011 11:51:56 AM"
-        Me.dtpDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
-        '
         'gv
         '
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
@@ -889,7 +889,7 @@ Partial Class FrmPaymentProcess
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowFilteringRow = False
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition25
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(924, 261)
@@ -943,7 +943,7 @@ Partial Class FrmPaymentProcess
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(945, 473)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -967,7 +967,7 @@ Partial Class FrmPaymentProcess
         Me.gvInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvoice.MasterTemplate.ShowFilteringRow = False
         Me.gvInvoice.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition26
+        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvInvoice.Name = "gvInvoice"
         Me.gvInvoice.ShowHeaderCellButtons = True
         Me.gvInvoice.Size = New System.Drawing.Size(924, 425)
@@ -992,7 +992,7 @@ Partial Class FrmPaymentProcess
         Me.gvMccSale.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMccSale.MasterTemplate.ShowFilteringRow = False
         Me.gvMccSale.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMccSale.MasterTemplate.ViewDefinition = TableViewDefinition27
+        Me.gvMccSale.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvMccSale.Name = "gvMccSale"
         Me.gvMccSale.ShowHeaderCellButtons = True
         Me.gvMccSale.Size = New System.Drawing.Size(924, 425)
@@ -1017,7 +1017,7 @@ Partial Class FrmPaymentProcess
         Me.GvMccSaleReturn.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvMccSaleReturn.MasterTemplate.ShowFilteringRow = False
         Me.GvMccSaleReturn.MasterTemplate.ShowHeaderCellButtons = True
-        Me.GvMccSaleReturn.MasterTemplate.ViewDefinition = TableViewDefinition28
+        Me.GvMccSaleReturn.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.GvMccSaleReturn.Name = "GvMccSaleReturn"
         Me.GvMccSaleReturn.ShowHeaderCellButtons = True
         Me.GvMccSaleReturn.Size = New System.Drawing.Size(924, 425)
@@ -1042,7 +1042,7 @@ Partial Class FrmPaymentProcess
         Me.gvItemIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemIssue.MasterTemplate.ShowFilteringRow = False
         Me.gvItemIssue.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItemIssue.MasterTemplate.ViewDefinition = TableViewDefinition29
+        Me.gvItemIssue.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvItemIssue.Name = "gvItemIssue"
         Me.gvItemIssue.ShowHeaderCellButtons = True
         Me.gvItemIssue.Size = New System.Drawing.Size(924, 425)
@@ -1067,7 +1067,7 @@ Partial Class FrmPaymentProcess
         Me.gvItemIssueReturn.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemIssueReturn.MasterTemplate.ShowFilteringRow = False
         Me.gvItemIssueReturn.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItemIssueReturn.MasterTemplate.ViewDefinition = TableViewDefinition30
+        Me.gvItemIssueReturn.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvItemIssueReturn.Name = "gvItemIssueReturn"
         Me.gvItemIssueReturn.ShowHeaderCellButtons = True
         Me.gvItemIssueReturn.Size = New System.Drawing.Size(924, 425)
@@ -1092,7 +1092,7 @@ Partial Class FrmPaymentProcess
         Me.gvDeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDeduction.MasterTemplate.ShowFilteringRow = False
         Me.gvDeduction.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition31
+        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvDeduction.Name = "gvDeduction"
         Me.gvDeduction.ShowHeaderCellButtons = True
         Me.gvDeduction.Size = New System.Drawing.Size(924, 425)
@@ -1117,7 +1117,7 @@ Partial Class FrmPaymentProcess
         Me.gvCreditNote.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCreditNote.MasterTemplate.ShowFilteringRow = False
         Me.gvCreditNote.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCreditNote.MasterTemplate.ViewDefinition = TableViewDefinition32
+        Me.gvCreditNote.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvCreditNote.Name = "gvCreditNote"
         Me.gvCreditNote.ShowHeaderCellButtons = True
         Me.gvCreditNote.Size = New System.Drawing.Size(924, 425)
@@ -1142,7 +1142,7 @@ Partial Class FrmPaymentProcess
         Me.gvAdvancePayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAdvancePayment.MasterTemplate.ShowFilteringRow = False
         Me.gvAdvancePayment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAdvancePayment.MasterTemplate.ViewDefinition = TableViewDefinition33
+        Me.gvAdvancePayment.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvAdvancePayment.Name = "gvAdvancePayment"
         Me.gvAdvancePayment.ShowHeaderCellButtons = True
         Me.gvAdvancePayment.Size = New System.Drawing.Size(818, 425)
@@ -1167,7 +1167,7 @@ Partial Class FrmPaymentProcess
         Me.gvAssetLost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAssetLost.MasterTemplate.ShowFilteringRow = False
         Me.gvAssetLost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAssetLost.MasterTemplate.ViewDefinition = TableViewDefinition34
+        Me.gvAssetLost.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvAssetLost.Name = "gvAssetLost"
         Me.gvAssetLost.ShowHeaderCellButtons = True
         Me.gvAssetLost.Size = New System.Drawing.Size(924, 425)
@@ -1192,7 +1192,7 @@ Partial Class FrmPaymentProcess
         Me.gvSaving.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaving.MasterTemplate.ShowFilteringRow = False
         Me.gvSaving.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaving.MasterTemplate.ViewDefinition = TableViewDefinition35
+        Me.gvSaving.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvSaving.Name = "gvSaving"
         Me.gvSaving.ShowHeaderCellButtons = True
         Me.gvSaving.Size = New System.Drawing.Size(924, 425)
@@ -1217,7 +1217,7 @@ Partial Class FrmPaymentProcess
         Me.gvCompulsory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCompulsory.MasterTemplate.ShowFilteringRow = False
         Me.gvCompulsory.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCompulsory.MasterTemplate.ViewDefinition = TableViewDefinition36
+        Me.gvCompulsory.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvCompulsory.Name = "gvCompulsory"
         Me.gvCompulsory.ShowHeaderCellButtons = True
         Me.gvCompulsory.Size = New System.Drawing.Size(924, 425)
@@ -1380,6 +1380,8 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAll, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
@@ -1414,8 +1416,6 @@ Partial Class FrmPaymentProcess
         CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)

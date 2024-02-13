@@ -72,6 +72,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -115,6 +116,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -132,10 +134,13 @@ Partial Class frmMilkCollectionDCSMultipleDays
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(695, 224)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
@@ -822,6 +827,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         '
         'Panel3
         '
+        Me.Panel3.Controls.Add(Me.btnReverse)
         Me.Panel3.Controls.Add(Me.btnSave)
         Me.Panel3.Controls.Add(Me.btnClose)
         Me.Panel3.Controls.Add(Me.btnHistory)
@@ -882,6 +888,17 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(299, 3)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(60, 22)
+        Me.btnReverse.TabIndex = 40
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
+        '
         'frmMilkCollectionDCSMultipleDays
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -941,6 +958,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -992,5 +1010,6 @@ Partial Class frmMilkCollectionDCSMultipleDays
     Friend WithEvents Panel2 As Panel
     Friend WithEvents txtTripNo As common.MyNumBox
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents btnReverse As RadButton
 End Class
 
