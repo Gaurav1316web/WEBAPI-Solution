@@ -70,6 +70,8 @@ Public Class FrmMCCMilkRegister
             txtToShift.Text = "E"
             btnGo.PerformClick()
         End If
+        txtFromShift.Text = "M"
+        txtToShift.Text = "E"
     End Sub
 
     Sub LoadMilkReceiveUOM()
@@ -2599,6 +2601,8 @@ Public Class FrmMCCMilkRegister
             RadButton1.Enabled = True
         End If
         chkDateShift.Checked = False
+        txtFromShift.Text = "M"
+        txtToShift.Text = "E"
         'txtMCC.arrValueMember = Nothing
         'txtRoute.arrValueMember = Nothing
         'txtVLC.arrValueMember = Nothing

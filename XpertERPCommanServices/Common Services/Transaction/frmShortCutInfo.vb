@@ -59,7 +59,7 @@ Public Class frmShortCutInfo
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
-        dr("ShortCut Key") = "Alt+E"
+        dr("ShortCut Key") = "Alt+E on grid"
         dr("Description") = "Export on grid"
         dt.Rows.Add(dr)
 
