@@ -50,6 +50,12 @@ Public Enum EnumCustomFieldType
 
 End Enum
 
+Public Enum EnumTableKeyType
+    Primary = 0
+    Foreign = 1
+    Unique = 2
+End Enum
+
 Public Enum EnumConditionType
     StartsWith = 0
     DoesNotStartsWith = 1
