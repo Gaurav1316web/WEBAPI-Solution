@@ -22,10 +22,10 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -59,6 +59,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.txtDesc = New common.Controls.MyTextBox()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gv2 = New common.UserControls.MyRadGridView()
@@ -68,7 +69,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -99,6 +100,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -111,7 +113,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -129,10 +131,13 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(269, 242)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
@@ -558,10 +563,10 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.cboFATSNFType.IsSourceFromTable = False
         Me.cboFATSNFType.IsSourceFromValueList = False
         Me.cboFATSNFType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboFATSNFType.Items.Add(RadListDataItem1)
-        Me.cboFATSNFType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboFATSNFType.Items.Add(RadListDataItem3)
+        Me.cboFATSNFType.Items.Add(RadListDataItem4)
         Me.cboFATSNFType.Location = New System.Drawing.Point(381, 48)
         Me.cboFATSNFType.MendatroryField = True
         Me.cboFATSNFType.MyLinkLable1 = Me.MyLabel1
@@ -683,6 +688,16 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         Me.txtDesc.Size = New System.Drawing.Size(174, 18)
         Me.txtDesc.TabIndex = 10
         '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
+        Me.btnAddNew.TabIndex = 24
+        '
         'Panel2
         '
         Me.Panel2.Controls.Add(Me.SplitContainer1)
@@ -724,16 +739,20 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
+        Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(354, 242)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         '
         'Panel3
         '
+        Me.Panel3.Controls.Add(Me.btnReverse)
         Me.Panel3.Controls.Add(Me.btnSave)
         Me.Panel3.Controls.Add(Me.btnClose)
         Me.Panel3.Controls.Add(Me.btnHistory)
@@ -768,7 +787,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(225, 3)
+        Me.btnHistory.Location = New System.Drawing.Point(222, 3)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(72, 22)
         Me.btnHistory.TabIndex = 39
@@ -778,7 +797,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(77, 3)
+        Me.btnDelete.Location = New System.Drawing.Point(76, 3)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(72, 22)
         Me.btnDelete.TabIndex = 1
@@ -788,21 +807,22 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(151, 3)
+        Me.btnPost.Location = New System.Drawing.Point(149, 3)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(72, 22)
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
-        'btnAddNew
+        'btnReverse
         '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
-        Me.btnAddNew.TabIndex = 24
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(295, 3)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(72, 22)
+        Me.btnReverse.TabIndex = 41
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
         '
         'frmMilkCollectionDCSMultipleDaysMerge
         '
@@ -850,6 +870,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -862,7 +883,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -909,6 +930,7 @@ Partial Class frmMilkCollectionDCSMultipleDaysMerge
     Friend WithEvents Panel2 As Panel
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents gv2 As RadGridView
+    Friend WithEvents btnReverse As RadButton
+    Friend WithEvents gv2 As common.UserControls.MyRadGridView
 End Class
 

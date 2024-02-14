@@ -6548,6 +6548,18 @@ Public Class clsCreateAllTable
             '=====================
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL REFERENCES TSPL_SD_SHIPMENT_DETAIL(PK_ID)")
+            coll.Add("GPCode", "Varchar(30) NOT NULL REFERENCES TSPL_DAIRYSALE_GATEPASS_MASTER(GPCode)")
+            coll.Add("Item_Code", "Varchar(50) NULL")
+            coll.Add("Unit_Code", "Varchar(12) NULL")
+            coll.Add("GP_Qty", "Decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("GPCode", "Varchar(30) not null  PRIMARY KEY")
             coll.Add("GPDate", "datetime not NULL")
             coll.Add("Vehicle_Id", "varchar(12) NOT NULL")
@@ -52678,6 +52690,14 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Posted_Date", "Datetime   NULL")
             coll.Add("Status", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_REJECT", coll, "unique(Against_DBT_NEFT)", True, False, "", "Document_Code", "Document_Date")
+
+            clsERPFuncationality.DropTableKey("TSPL_DBT_NEFT_REJECT", "Against_DBT_NEFT", EnumTableKeyType.Unique)
+
+            qry = clsERPFuncationality.DropTableKey("TSPL_DBT_NEFT_REJECT_DETAIL", "Against_DBT_NEFT_TR", EnumTableKeyType.Unique)
+            If clsCommon.myLen(qry) <= 0 Then
+                qry = "CREATE UNIQUE INDEX Unique_Against_DBT_NEFT_TR ON TSPL_DBT_NEFT_REJECT_DETAIL (Against_DBT_NEFT_TR) "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")

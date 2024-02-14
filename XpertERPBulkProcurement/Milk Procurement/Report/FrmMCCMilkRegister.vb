@@ -2707,7 +2707,7 @@ Public Class FrmMCCMilkRegister
                     qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, txtFromShift.Text, txtToShift.Text, clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
                     If ChkDetailWise.Checked Then
                         '============update by preeti gupta Against ticket no[BHA/15/05/19-000890]
-                        If BulkExport = 3 OrElse BulkExport = 4 OrElse BulkExport = 5 Then
+                        If BulkExport = 3 OrElse BulkExport = 4 OrElse BulkExport = 5 OrElse BulkExport = 6 Then
                             FinalQuery += "" & qry & " "
                         Else
                             FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
@@ -3409,7 +3409,7 @@ Public Class FrmMCCMilkRegister
                         If BulkExport = 4 Then
                             FinalQuery = qry
                         Else
-                            If BulkExport <> 5 AndAlso BulkExport <> 3 Then
+                            If BulkExport <> 5 AndAlso BulkExport <> 3 AndAlso BulkExport <> 6 Then
                                 FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
                             Else
                                 FinalQuery = "" & qry & ""
@@ -3629,6 +3629,21 @@ Public Class FrmMCCMilkRegister
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtPart1, clsERPFuncationality.CompanyAddresShowinHeader(), "rptMccMilkRegisterDetail", "MCC Milk Register Report", "Address.rpt", "rptMccMilkRegisterDetailTypeWise.rpt", dtPart2)
                     frmCRV = Nothing
+                    Exit Sub
+                ElseIf BulkExport = 6 Then
+                    Dim RouteWiseQry = "Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],('" + txtFromDate.Value + "'+'  To  '+'" + txtToDate.Value + "') As FromToDate,xxxFinal.*,"
+                    If chkRejection.Checked Then
+                        RouteWiseQry += "Case When xxxFinal.RejectType='' Then 'Sweet' Else xxxFinal.RejectType End As [Quality],"
+                    Else
+                        RouteWiseQry += "'Sweet'As [Quality],"
+                    End If
+                    RouteWiseQry += "TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + FinalQuery + ")xxxFinal Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'  Order By Date asc,Shift desc,[Route Code] asc"
+                    Dim dtRouteWise As DataTable = clsDBFuncationality.GetDataTable(RouteWiseQry)
+                    If dtRouteWise.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dtRouteWise, Nothing, "crptRouteWisePrintReport", "Route Wise Report")
+                        frmCRV = Nothing
+                    End If
                     Exit Sub
                 End If
 
@@ -4159,6 +4174,8 @@ Public Class FrmMCCMilkRegister
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         If chkRouteShiftWise.Checked Then
             LoadData(5)
+        ElseIf chkRouteWisePrint.Checked Then
+            LoadData(6)
         Else
             LoadData(3)
         End If
@@ -4557,5 +4574,13 @@ Public Class FrmMCCMilkRegister
         'Else
         '    RadButton1.Enabled = False
         'End If
+    End Sub
+
+    Private Sub chkRouteWisePrint_CheckedChanged(sender As Object, e As EventArgs) Handles chkRouteWisePrint.CheckedChanged
+        If chkRouteWisePrint.Checked Then
+            RadButton1.Enabled = True
+        Else
+            RadButton1.Enabled = False
+        End If
     End Sub
 End Class

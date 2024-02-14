@@ -652,7 +652,7 @@ Public Class frmOutgoingQCEntry
                             left outer join TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY on TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.document_code=tSPL_PROD_QC_CHECK_HEAD.document_code
                             left outer join TSPL_PARAMETER_RANGE_MASTER_QC on TSPL_PARAMETER_RANGE_MASTER_QC.qc_param_code=TSPL_QC_LOG_SHEET_MASTER.code
                             left outer join (select min(prod_date) as prod_date_from,max(prod_date) as prod_date_to,max(prod_entry_code) as prod_entry_code,max(batch_code) as batch_code from TSPL_SPP_PRODUCTION_ENTRY " + whr + " TSPL_SPP_PRODUCTION_ENTRY1 on TSPL_SPP_PRODUCTION_ENTRY1.prod_entry_code=TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.PROD_ENTRY_CODE 
-            where tSPL_PROD_QC_CHECK_HEAD.document_code='" + txtDocNo.Value + "' and TSPL_SPP_PRODUCTION_ENTRY1.PROD_ENTRY_CODE is not null"
+            where tSPL_PROD_QC_CHECK_HEAD.document_code='" + txtDocNo.Value + "' and TSPL_SPP_PRODUCTION_ENTRY1.PROD_ENTRY_CODE is not null order by TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)

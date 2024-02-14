@@ -24,7 +24,19 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
     Dim SettMilkCollectionFATSNFTypeHeader As Integer
 
 #End Region
+
+
+    'Private Sub SetUserMgmtNew()
+    '    If Not (MyBase.isReadFlag) Then
+    '        Throw New Exception("Permission Denied")
+
+    '    End If
+    '    btnSave.Visible = MyBase.isModifyFlag
+    '    btnPost.Visible = MyBase.isPostFlag
+    '    btnDelete.Visible = MyBase.isDeleteFlag
+    'End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'SetUserMgmtNew()
         SettShowAllMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing)) = 1)
         SettShowDCSMerge = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowDCSDetMerge, clsFixedParameterCode.ShowDCSDetMerge, Nothing))
         settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
@@ -44,6 +56,7 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
         'MyBase.SetUserMgmt(clsUserMgtCode.MilkCollectionDCS)
         LoadFATSNFType()
         txtDate.Value = clsCommon.GETSERVERDATE()
+        SetUserMgmtNew()
         AddNew()
         If SettMilkCollectionFATSNFTypeHeader = 0 Then
             txtTotEnteredFATPer.Enabled = True
@@ -56,6 +69,8 @@ Public Class frmMilkCollectionDCSMultipleDaysMerge
             txtTotEnteredFAT.Enabled = True
             txtTotEnteredSNF.Enabled = True
         End If
+
+
     End Sub
     Public Sub LoadFATSNFType()
         Dim dt As DataTable = New DataTable()
@@ -326,6 +341,14 @@ where  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS.Document_No='" + obj.Do
             PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             CancelPressed()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "SIRC"
+            frm.strCode = "SIReversAndCreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverse.Visible = True
+            End If
         End If
     End Sub
     Sub CancelPressed()
@@ -650,5 +673,30 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code='" + txtRoute.Value + "'
         UpdateAllTotal(False)
     End Sub
 
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Please note - all milk collection data of existing date will be delete " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsMilkCollectionDCSMulipleDaysMerge.ReverseAndUnpost(txtDocNo.Value) Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
+    Public Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
+    End Sub
 End Class
