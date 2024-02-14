@@ -32,13 +32,6 @@ Public Class frmDBTNEFTReject
         InitializeComponent()
     End Sub
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        clsERPFuncationality.DropTableKey("TSPL_DBT_NEFT_REJECT", "Against_DBT_NEFT", EnumTableKeyType.Unique)
-        Qry = clsERPFuncationality.DropTableKey("TSPL_DBT_NEFT_REJECT_DETAIL", "Against_DBT_NEFT_TR", EnumTableKeyType.Unique)
-        If clsCommon.myLen(Qry) <= 0 Then
-            Qry = "CREATE UNIQUE INDEX Unique_Against_DBT_NEFT_TR ON TSPL_DBT_NEFT_REJECT_DETAIL (Against_DBT_NEFT_TR) "
-            clsDBFuncationality.ExecuteNonQuery(Qry)
-        End If
-
         SetUserMgmtNew()
         Reset()
 

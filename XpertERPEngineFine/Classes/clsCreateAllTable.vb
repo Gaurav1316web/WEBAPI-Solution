@@ -52679,6 +52679,14 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Status", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_REJECT", coll, "unique(Against_DBT_NEFT)", True, False, "", "Document_Code", "Document_Date")
 
+            clsERPFuncationality.DropTableKey("TSPL_DBT_NEFT_REJECT", "Against_DBT_NEFT", EnumTableKeyType.Unique)
+
+            qry = clsERPFuncationality.DropTableKey("TSPL_DBT_NEFT_REJECT_DETAIL", "Against_DBT_NEFT_TR", EnumTableKeyType.Unique)
+            If clsCommon.myLen(qry) <= 0 Then
+                qry = "CREATE UNIQUE INDEX Unique_Against_DBT_NEFT_TR ON TSPL_DBT_NEFT_REJECT_DETAIL (Against_DBT_NEFT_TR) "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
+
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Document_Code", "varchar(30) not NULL references TSPL_DBT_NEFT_REJECT (Document_Code) ")
