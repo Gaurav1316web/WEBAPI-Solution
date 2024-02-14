@@ -1208,7 +1208,9 @@ Public Class FrmMilkTransferIn
 
 
 
+
     Private Sub FrmMilkTransferIn_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
         Panel3.Enabled = False
         MCCChamberwise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsChamberWiseTanker, clsFixedParameterCode.IsChamberWiseTanker, Nothing))
         AllowBulkProcMCCwithoutTankerDispatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowBulkProcMCCwithoutTankerDispatch, clsFixedParameterCode.AllowBulkProcMCCwithoutTankerDispatch, Nothing))
