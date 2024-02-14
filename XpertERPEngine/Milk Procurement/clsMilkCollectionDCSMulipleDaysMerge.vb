@@ -308,27 +308,22 @@ where 2=2"
         Try
             Dim obj As clsMilkCollectionDCSMulipleDaysMerge = clsMilkCollectionDCSMulipleDaysMerge.GetData(strDocNo, NavigatorType.Current, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
-                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+                Throw New Exception("No Data found to Reverse And UnPost")
             End If
 
             If Not obj.Status = ERPTransactionStatus.Approved Then
-                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
-            '            Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (
-            'select PK_Id from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where Document_No='" + strDocNo + "')"
-            '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '                Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
-            '            End If
+            For Each objtr As clsMilkCollectionDCSMulipleDaysMergeDocument In obj.ArrDoc
+                clsMilkCollectionDCSMulipleDays.ReverseAndUnpost(objtr.Against_DCS_Multiple_Days, trans, False)
+            Next
 
-            '            Dim coll As New Hashtable()
-            '            clsCommon.AddColumnsForChange(coll, "Status", 0)
-            '            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
-            '            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-            '            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
-
-
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Status", 0)
+            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

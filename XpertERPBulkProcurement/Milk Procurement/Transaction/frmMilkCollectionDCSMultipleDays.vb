@@ -1657,7 +1657,7 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
 
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
-            If clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Please note - all milk collection data of existing date will be delete " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsMilkCollectionDCSMulipleDays.ReverseAndUnpost(txtDocNo.Value) Then
                     clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)

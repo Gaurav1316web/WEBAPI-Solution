@@ -337,7 +337,7 @@ where 2=2"
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            ReverseAndUnpost(strCode, trans)
+            ReverseAndUnpost(strCode, trans, True)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -346,11 +346,10 @@ where 2=2"
         Return True
     End Function
 
-    Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal changeStatus As Boolean) As Boolean
         Try
             Dim arrAllDoc As New List(Of String)
             Dim arrShiftDetail As New List(Of clsTemp)
-
             GetRecursiveDoc(strDocNo, arrAllDoc, arrShiftDetail, trans)
             If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
                 For Each str As String In arrAllDoc
@@ -362,29 +361,30 @@ where 2=2"
                     If Not obj.Status = ERPTransactionStatus.Approved Then
                         Throw New Exception("Transaction status should be posted for reverse and unpost")
                     End If
-
-                    Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where Against_DCS_Multiple_Days='" + obj.Document_No + "'"
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        Throw New Exception("DCS Multiple Days Document No [" + strDocNo + "] is used in DCS Multiple Days Merge Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
+                    If changeStatus Then
+                        Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where Against_DCS_Multiple_Days='" + obj.Document_No + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Throw New Exception("DCS Multiple Days Document No [" + strDocNo + "] is used in DCS Multiple Days Merge Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
+                        End If
                     End If
                 Next
             End If
-
             If arrShiftDetail IsNot Nothing AndAlso arrShiftDetail.Count > 0 Then
                 For Each objSD As clsTemp In arrShiftDetail
                     clsMilkShiftUploaderHead.DeleteCollection(objSD.C_Date, " and SHIFT='" + objSD.c_Shift + "'", objSD.MCC_Code, True, trans)
                 Next
             End If
-
-            If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
-                For Each str As String In arrAllDoc
-                    Dim coll As New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "Status", 0)
-                    clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
-                    clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + str + "'", trans)
-                Next
+            If changeStatus Then
+                If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
+                    For Each str As String In arrAllDoc
+                        Dim coll As New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "Status", 0)
+                        clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+                        clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + str + "'", trans)
+                    Next
+                End If
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -420,11 +420,12 @@ where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No<>'" + clsCommon.
 )xx group by Document_No,MCC_Code,Collection_Date,Shift"
                 Dim dtInner As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtInner IsNot Nothing AndAlso dtInner.Rows.Count > 0 Then
-                    For Each drInner As DataRow In dtInner.Rows
-                        If Not arrAllDoc.Contains(clsCommon.myCstr(drInner("Document_No"))) Then
-                            GetRecursiveDoc(clsCommon.myCstr(drInner("Document_No")), arrAllDoc, arrShiftDetail, trans)
-                        End If
-                    Next
+                    Throw New Exception("Repeated MCC Milk collection MCC [" + clsCommon.myCstr(dr("MCC_Code")) + "],Date [" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Collection_Date")), "dd/MM/yyyy") + "], Shift='" + clsCommon.myCstr(dr("Shift")) + "")
+                    'For Each drInner As DataRow In dtInner.Rows
+                    '    If Not arrAllDoc.Contains(clsCommon.myCstr(drInner("Document_No"))) Then
+                    '        GetRecursiveDoc(clsCommon.myCstr(drInner("Document_No")), arrAllDoc, arrShiftDetail, trans)
+                    '    End If
+                    'Next
                 End If
             Next
         End If
