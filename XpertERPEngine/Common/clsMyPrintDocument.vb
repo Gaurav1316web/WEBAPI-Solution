@@ -104,8 +104,6 @@ Public Class CustomPrintDocument3HeaderWithLogo
 
     End Sub
     Protected Overrides Sub PrintLogo(g As Graphics, rect As Rectangle)
-        rect.Width = 10
-        rect.Height = 10
         MyBase.PrintLogo(g, rect)
     End Sub
 End Class
@@ -327,8 +325,6 @@ Public Class CustomPrintDocumentHeaderWithLogo
     End Sub
     Protected Overrides Sub PrintLogo(g As Graphics, rect As Rectangle)
         MyBase.PrintLogo(g, rect)
-        rect.Height = 10
-        rect.Width = 10
     End Sub
 End Class
 
