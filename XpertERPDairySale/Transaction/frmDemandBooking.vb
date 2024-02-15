@@ -773,6 +773,9 @@ Public Class frmDemandBooking
             Dim strPriceCode As String = String.Empty
             Dim LineNo As Integer = 1
             If (AllowToSave(Nothing)) Then
+                If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                    ResetDemandOnSave(txtDocNo.Value)
+                End If
                 Dim obj As New clsDemandBookingSale()
                 If IsRepeatOrder = 1 Then
                     obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
@@ -4170,6 +4173,24 @@ group by XYZ.Cust_Code
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+    Private Sub ResetDemandOnSave(ByVal DocNo As String)
+        Try
+            For dblrows As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colItemExist).Value), "No") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)) > 0 Then
+                    Dim StrQry As String = "select count(TSPL_BOOKING_MATSER.Document_Date) from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + DocNo + "' and TSPL_BOOKING_DETAIL.Cust_Code='" + clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) + "'"
+                    Dim count As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(StrQry))
+                    If count > 0 Then
+                        Dim status As Boolean = clsDemandBookingSale.DeleteBoothDemand(DocNo, gv1.Rows(dblrows).Cells(colCustCode).Value, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+                    End If
+
+                End If
+
+            Next
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
     End Sub
 End Class
 Public Class ItemValueClass
