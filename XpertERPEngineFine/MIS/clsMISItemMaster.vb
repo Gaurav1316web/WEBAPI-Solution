@@ -5,12 +5,13 @@ Public Class clsMISItemMaster
     Public Name As String
     Public GroupCode As String
     Public ItemUOM As String
+    Public Sno As Integer
 #End Region
 
     '----------------Code For Get Finder--------------------------------------------------------------------'
     Public Shared Function getFinder(ByVal whrcls As String, ByVal itemcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim qry As String = " select Item_Code as [Code],Item_Name as [ Item Name],Group_Code as [Group Code],Item_UOM as [UOM],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date] from TSPL_MIS_ITEM_MASTER "
+        Dim qry As String = " select Item_Code as [Code],Item_Name as [ Item Name],Group_Code as [Group Code],Item_UOM as [UOM],SNO,Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date] from TSPL_MIS_ITEM_MASTER "
         str = clsCommon.ShowSelectForm("ITEMGPFND", qry, "Code", whrcls, itemcode, "Code", isButtonClicked)
         Return str
     End Function
@@ -42,7 +43,7 @@ Public Class clsMISItemMaster
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMISItemMaster
         Dim obj As clsMISItemMaster = Nothing
-        Dim qry As String = "select Item_Code, Item_Name, Group_Code,Item_UOM from TSPL_MIS_ITEM_MASTER where 2=2"
+        Dim qry As String = "select Item_Code, Item_Name, Group_Code,Item_UOM,SNO from TSPL_MIS_ITEM_MASTER where 2=2"
         Select Case NavType
             Case NavigatorType.First
                 qry += " and Item_Code = (select MIN(Item_Code) from TSPL_MIS_ITEM_MASTER)"
@@ -63,6 +64,7 @@ Public Class clsMISItemMaster
             obj.Name = clsCommon.myCstr(dt.Rows(0)("Item_Name"))
             obj.GroupCode = clsCommon.myCstr(dt.Rows(0)("Group_Code"))
             obj.ItemUOM = clsCommon.myCstr(dt.Rows(0)("Item_UOM"))
+            obj.Sno = clsCommon.myCdbl(dt.Rows(0)("SNO"))
         End If
         Return obj
 
@@ -81,6 +83,7 @@ Public Class clsMISItemMaster
             clsCommon.AddColumnsForChange(coll, "Item_Name", obj.Name)
             clsCommon.AddColumnsForChange(coll, "Group_Code", obj.GroupCode)
             clsCommon.AddColumnsForChange(coll, "Item_UOM", obj.ItemUOM)
+            clsCommon.AddColumnsForChange(coll, "SNO", obj.Sno)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then

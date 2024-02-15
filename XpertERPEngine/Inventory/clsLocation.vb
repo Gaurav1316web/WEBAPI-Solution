@@ -470,7 +470,7 @@ Public Class clsLocation
             clsCommon.AddColumnsForChange(coll, "CMA_CML", obj.CMA_CML)
             clsCommon.AddColumnsForChange(coll, "ValidUpto", obj.ValidUpto)
             clsCommon.AddColumnsForChange(coll, "GradeType", obj.GradeType)
-            clsCommon.AddColumnsForChange(coll, "QCStartDate", obj.QC_StartDate)
+            clsCommon.AddColumnsForChange(coll, "QCStartDate", clsCommon.GetPrintDate(obj.QC_StartDate, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Manager_Name", obj.ManagerName)
             clsCommon.AddColumnsForChange(coll, "Manager_Destination", obj.ManagerDestination)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
