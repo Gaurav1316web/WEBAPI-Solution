@@ -1,0 +1,665 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{55068237-A797-487D-B78A-F022135476FE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPAdminServices</RootNamespace>
+    <AssemblyName>XpertERPAdminServices</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPAdminServices.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPAdminServices.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.ExpressionEditor2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ExpressionEditor2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
+    </Reference>
+    <Reference Include="Comm64, Version=6.4.0.30, Culture=neutral, PublicKeyToken=dd445fe4659af8f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="LinkShell">
+      <HintPath>..\XpertERP\bin\Debug\LinkShell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="msmdvbanet">
+      <HintPath>..\XpertERP\bin\Debug\msmdvbanet.dll</HintPath>
+    </Reference>
+    <Reference Include="New TallyModule">
+      <HintPath>..\XpertERP\bin\Debug\New TallyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="OrgChartGenerator">
+      <HintPath>..\XpertERP\bin\Debug\OrgChartGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="RadControlSpy, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\RadControlSpy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Aqua, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Aqua.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Breeze, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Breeze.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Desert, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Desert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2007Black, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2007Black.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2007Silver, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2007Silver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Black, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Black.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Blue, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Blue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Silver, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Silver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Dark, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2013Dark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Light, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2013Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetro, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroTouch, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroTouch.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Dark, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Dark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows7, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows7.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows8, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows8.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon, Version=2.0.6.25, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine">
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Telerik.WinControls" />
+    <Import Include="Telerik.WinControls.UI" />
+    <Import Include="XpertERPEngine" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Administrative Services\frmApprovalScreen.Designer.vb">
+      <DependentUpon>frmApprovalScreen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmApprovalScreen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmBackup.Designer.vb">
+      <DependentUpon>frmBackup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmBackup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmConfigureSynchronization.designer.vb">
+      <DependentUpon>frmConfigureSynchronization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmConfigureSynchronization.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmFiscalYearEndProcess.Designer.vb">
+      <DependentUpon>frmFiscalYearEndProcess.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmFiscalYearEndProcess.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmFixedParameters.Designer.vb">
+      <DependentUpon>frmFixedParameters.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmFixedParameters.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmLocationLogin.Designer.vb">
+      <DependentUpon>frmLocationLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmLocationLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmNotification.Designer.vb">
+      <DependentUpon>frmNotification.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmNotification.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmReplicationSetting.designer.vb">
+      <DependentUpon>frmReplicationSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmReplicationSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmScheduling.Designer.vb">
+      <DependentUpon>frmScheduling.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmScheduling.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmScreenControlDescriptionMapping.Designer.vb">
+      <DependentUpon>frmScreenControlDescriptionMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmScreenControlDescriptionMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmSendSMSEmailSetting.Designer.vb">
+      <DependentUpon>frmSendSMSEmailSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmSendSMSEmailSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmSendSMSMultipleUser.Designer.vb">
+      <DependentUpon>frmSendSMSMultipleUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmSendSMSMultipleUser.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmSettingDetails.Designer.vb">
+      <DependentUpon>frmSettingDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmSettingDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmSynchronization.Designer.vb">
+      <DependentUpon>frmSynchronization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmSynchronization.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmUserGroupMapping.Designer.vb">
+      <DependentUpon>frmUserGroupMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmUserGroupMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\frmUserGroupMaster.Designer.vb">
+      <DependentUpon>frmUserGroupMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmUserGroupMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrative Services\rptScreenSettingReport.designer.vb">
+      <DependentUpon>rptScreenSettingReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\rptScreenSettingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Report\rptActiveUser.Designer.vb">
+      <DependentUpon>rptActiveUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptActiveUser.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptDeleteHistoryReport.Designer.vb">
+      <DependentUpon>rptDeleteHistoryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptDeleteHistoryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisualReport\DashboardMilkUnion.Designer.vb">
+      <DependentUpon>DashboardMilkUnion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\DashboardMilkUnion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisualReport\RCDFDashboard.Designer.vb">
+      <DependentUpon>RCDFDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\RCDFDashboard.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XtraForms\frmCompany.Designer.vb">
+      <DependentUpon>frmCompany.vb</DependentUpon>
+    </Compile>
+    <Compile Include="XtraForms\frmCompany.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XtraForms\frmLicenceActivate.Designer.vb">
+      <DependentUpon>frmLicenceActivate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="XtraForms\frmLicenceActivate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Administrative Services\frmApprovalScreen.resx">
+      <DependentUpon>frmApprovalScreen.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmBackup.resx">
+      <DependentUpon>frmBackup.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmConfigureSynchronization.resx">
+      <DependentUpon>frmConfigureSynchronization.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmFiscalYearEndProcess.resx">
+      <DependentUpon>frmFiscalYearEndProcess.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmFixedParameters.resx">
+      <DependentUpon>frmFixedParameters.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmLocationLogin.resx">
+      <DependentUpon>frmLocationLogin.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmNotification.resx">
+      <DependentUpon>frmNotification.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmReplicationSetting.resx">
+      <DependentUpon>frmReplicationSetting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmScheduling.resx">
+      <DependentUpon>frmScheduling.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmScreenControlDescriptionMapping.resx">
+      <DependentUpon>frmScreenControlDescriptionMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmSendSMSEmailSetting.resx">
+      <DependentUpon>frmSendSMSEmailSetting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmSendSMSMultipleUser.resx">
+      <DependentUpon>frmSendSMSMultipleUser.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmSettingDetails.resx">
+      <DependentUpon>frmSettingDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmSynchronization.resx">
+      <DependentUpon>frmSynchronization.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmUserGroupMapping.resx">
+      <DependentUpon>frmUserGroupMapping.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmUserGroupMaster.resx">
+      <DependentUpon>frmUserGroupMaster.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\rptScreenSettingReport.resx">
+      <DependentUpon>rptScreenSettingReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptActiveUser.resx">
+      <DependentUpon>rptActiveUser.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptDeleteHistoryReport.resx">
+      <DependentUpon>rptDeleteHistoryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualReport\RCDFDashboard.resx">
+      <DependentUpon>RCDFDashboard.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XtraForms\frmCompany.resx">
+      <DependentUpon>frmCompany.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XtraForms\frmLicenceActivate.resx">
+      <DependentUpon>frmLicenceActivate.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\administrator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\B1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImage1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImage11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImageNew.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImageXpertERP.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImageXpertERPFMCGN.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BI1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUSINESS INTELLIGENCE.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chart-Bar-Big-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CloseBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\comService.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Detail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VPFBG111.jpg" />
+    <None Include="Resources\VPFBG21.jpg" />
+    <None Include="Resources\Utility1.png" />
+    <None Include="Resources\tax.png1.png" />
+    <None Include="Resources\search41.png" />
+    <None Include="Resources\SALE1.jpg" />
+    <None Include="Resources\RECEIVABLES1.jpg" />
+    <None Include="Resources\PURCHASE1.jpg" />
+    <None Include="Resources\PRODUCTION1.jpg" />
+    <None Include="Resources\pre21.png" />
+    <None Include="Resources\PIE1.png" />
+    <None Include="Resources\pdf1.png" />
+    <None Include="Resources\PAYMENT1.jpg" />
+    <None Include="Resources\OpenBox1.png" />
+    <None Include="Resources\open-book-vector-icon_small1.jpg" />
+    <None Include="Resources\new1.bmp" />
+    <None Include="Resources\MSE1.png" />
+    <None Include="Resources\LineArea1.png" />
+    <None Include="Resources\Line1.png" />
+    <None Include="Resources\knight-rider-shelby-mustang-500-gtr-021.jpg" />
+    <None Include="Resources\administrator1.png" />
+    <None Include="Resources\B11.png" />
+    <None Include="Resources\BackImage12.jpg" />
+    <None Include="Resources\BackImage111.jpg" />
+    <None Include="Resources\BackImageNew1.jpg" />
+    <None Include="Resources\BackImageXpertERP1.jpg" />
+    <None Include="Resources\BackImageXpertERPFMCGN1.jpg" />
+    <None Include="Resources\bg1.jpg" />
+    <None Include="Resources\BI11.jpg" />
+    <None Include="Resources\BUSINESS INTELLIGENCE1.jpg" />
+    <None Include="Resources\C51.png" />
+    <None Include="Resources\Chart-Bar-Big-icon1.png" />
+    <None Include="Resources\CloseBox1.png" />
+    <None Include="Resources\comService1.png" />
+    <None Include="Resources\Detail2.png" />
+    <None Include="Resources\Detail_Vertical1.png" />
+    <None Include="Resources\Detail11.png" />
+    <None Include="Resources\Donut1.png" />
+    <None Include="Resources\final-white21.png" />
+    <None Include="Resources\FIXED ASSET1.jpg" />
+    <None Include="Resources\Folder-Blue-Doc-icon1.png" />
+    <None Include="Resources\GENERAL LEDGERS1.jpg" />
+    <None Include="Resources\globe1.jpg" />
+    <None Include="Resources\growth-chart1.jpg" />
+    <None Include="Resources\HR AND PAYROLL1.jpg" />
+    <None Include="Resources\images1.jpg" />
+    <None Include="Resources\INVENTORY1.jpg" />
+    <None Include="Resources\kiwi_fruit-55031.jpg" />
+    <Content Include="Resources\knight-rider-shelby-mustang-500-gtr-02.jpg" />
+    <None Include="Resources\VPFBG2.jpg" />
+    <None Include="Resources\VPFBG11.jpg" />
+    <None Include="Resources\Utility.png" />
+    <None Include="Resources\tax.png.png" />
+    <None Include="Resources\search4.png" />
+    <None Include="Resources\SALE.jpg" />
+    <None Include="Resources\RECEIVABLES.jpg" />
+    <None Include="Resources\PURCHASE.jpg" />
+    <None Include="Resources\PRODUCTION.jpg" />
+    <None Include="Resources\pre2.png" />
+    <None Include="Resources\PIE.png" />
+    <None Include="Resources\pdf.png" />
+    <None Include="Resources\PAYMENT.jpg" />
+    <None Include="Resources\OpenBox.png" />
+    <None Include="Resources\open-book-vector-icon_small.jpg" />
+    <None Include="Resources\new.bmp" />
+    <None Include="Resources\MSE.png" />
+    <None Include="Resources\LineArea.png" />
+    <None Include="Resources\Line.png" />
+    <None Include="Resources\kiwi_fruit-5503.jpg" />
+    <None Include="Resources\INVENTORY.jpg" />
+    <None Include="Resources\images.jpg" />
+    <None Include="Resources\HR AND PAYROLL.jpg" />
+    <None Include="Resources\growth-chart.jpg" />
+    <None Include="Resources\globe.jpg" />
+    <None Include="Resources\GENERAL LEDGERS.jpg" />
+    <None Include="Resources\Folder-Blue-Doc-icon.png" />
+    <None Include="Resources\FIXED ASSET.jpg" />
+    <None Include="Resources\final-white2.png" />
+    <None Include="Resources\Donut.png" />
+    <None Include="Resources\Detail1.png" />
+    <Content Include="Resources\Detail_Vertical.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

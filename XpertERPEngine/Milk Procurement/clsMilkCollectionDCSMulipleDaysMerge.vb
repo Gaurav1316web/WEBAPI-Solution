@@ -203,20 +203,37 @@ where 2=2"
                 objMCC.Against_DCS_Multiple_Days_Merge = obj.Document_No
 
                 objMCC.Arr = New List(Of clsMilkCollectionMCCDetail)
+
                 For Each objDCSMD As clsMilkCollectionDCSMulipleDays In ArrDCSMD
                     For Each objDCSMDTr As clsMilkCollectionDCSMulipleDaysDetail In objDCSMD.Arr
                         If objtr.IDate = objDCSMDTr.Collection_Date Then
-                            Dim objMCCTr As New clsMilkCollectionMCCDetail
-                            objMCCTr.SNo = 1
-                            objMCCTr.MCC_Code = objDCSMD.MCC_Code
-                            objMCCTr.Milk_Type = "Good"
-                            objMCCTr.Qty = objDCSMDTr.Qty
-                            objMCCTr.FATKG = objDCSMDTr.FATKG
-                            objMCCTr.SNFKG = objDCSMDTr.SNFKG
-                            objMCCTr.FAT = objDCSMDTr.FAT
-                            objMCCTr.SNF = objDCSMDTr.SNF
-                            objMCCTr.Against_Multiple_Days_Merge_Day_Detail = objtr.PK_Id
-                            objMCC.Arr.Add(objMCCTr)
+                            Dim idx As Integer = -1
+                            For ll As Integer = 0 To objMCC.Arr.Count - 1
+                                If clsCommon.CompairString(objDCSMD.MCC_Code, objMCC.Arr(ll).MCC_Code) = CompairStringResult.Equal Then
+                                    idx = ll
+                                    Exit For
+                                End If
+                            Next
+                            If idx >= 0 Then
+                                objMCC.Arr(idx).Qty += objDCSMDTr.Qty
+                                objMCC.Arr(idx).FATKG += objDCSMDTr.FATKG
+                                objMCC.Arr(idx).SNFKG += objDCSMDTr.SNFKG
+
+                                objMCC.Arr(idx).FAT = clsCommon.myCDivide(objMCC.Arr(idx).FATKG * 100, objMCC.Arr(idx).Qty)
+                                objMCC.Arr(idx).SNF = clsCommon.myCDivide(objMCC.Arr(idx).SNFKG * 100, objMCC.Arr(idx).Qty)
+                            Else
+                                Dim objMCCTr As New clsMilkCollectionMCCDetail
+                                objMCCTr.SNo = objMCC.Arr.Count + 1
+                                objMCCTr.MCC_Code = objDCSMD.MCC_Code
+                                objMCCTr.Milk_Type = "Good"
+                                objMCCTr.Qty = objDCSMDTr.Qty
+                                objMCCTr.FATKG = objDCSMDTr.FATKG
+                                objMCCTr.SNFKG = objDCSMDTr.SNFKG
+                                objMCCTr.FAT = objDCSMDTr.FAT
+                                objMCCTr.SNF = objDCSMDTr.SNF
+                                objMCCTr.Against_Multiple_Days_Merge_Day_Detail = objtr.PK_Id
+                                objMCC.Arr.Add(objMCCTr)
+                            End If
                         End If
                     Next
                 Next
@@ -291,27 +308,22 @@ where 2=2"
         Try
             Dim obj As clsMilkCollectionDCSMulipleDaysMerge = clsMilkCollectionDCSMulipleDaysMerge.GetData(strDocNo, NavigatorType.Current, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
-                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+                Throw New Exception("No Data found to Reverse And UnPost")
             End If
 
             If Not obj.Status = ERPTransactionStatus.Approved Then
-                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
-            '            Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (
-            'select PK_Id from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where Document_No='" + strDocNo + "')"
-            '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '                Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
-            '            End If
+            For Each objtr As clsMilkCollectionDCSMulipleDaysMergeDocument In obj.ArrDoc
+                clsMilkCollectionDCSMulipleDays.ReverseAndUnpost(objtr.Against_DCS_Multiple_Days, trans, False)
+            Next
 
-            '            Dim coll As New Hashtable()
-            '            clsCommon.AddColumnsForChange(coll, "Status", 0)
-            '            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
-            '            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-            '            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
-
-
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Status", 0)
+            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

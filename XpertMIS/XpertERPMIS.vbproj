@@ -53,11 +53,11 @@
   <ItemGroup>
     <Reference Include="CgtFpAccessCSD200Dotnet, Version=2.4.0.0, Culture=neutral, PublicKeyToken=8c0485f223e60602, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\CgtFpAccessCSD200Dotnet.dll</HintPath>
+      <HintPath>..\..\XPERTERP\XpertERP\bin\Debug\CgtFpAccessCSD200Dotnet.dll</HintPath>
     </Reference>
     <Reference Include="Comm64, Version=6.4.0.30, Culture=neutral, PublicKeyToken=dd445fe4659af8f3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Comm64.dll</HintPath>
+      <HintPath>..\..\New folder (3)\Comm64.DLL</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -82,7 +82,7 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.1.271, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\XPERTERP\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -103,7 +103,7 @@
     </Reference>
     <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Telerik.WinControls.ChartView.dll</HintPath>
+      <HintPath>..\..\New folder (3)\Telerik.WinControls.ChartView.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -127,7 +127,7 @@
     </Reference>
     <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\TelerikCommon.dll</HintPath>
+      <HintPath>..\..\New folder (3)\TelerikCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon, Version=2.1.6.67, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -135,7 +135,7 @@
     </Reference>
     <Reference Include="XpertERPEngine, Version=7.1.1.56, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERP\bin\Debug\XpertERPEngine.dll</HintPath>
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine, Version=7.1.1.56, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

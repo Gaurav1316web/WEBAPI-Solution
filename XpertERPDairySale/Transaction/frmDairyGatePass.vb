@@ -66,7 +66,7 @@ Public Class frmDairyGatePass
         btnClKM.Visible = MyBase.isModifyFlag
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        'CreateTable()
+        CreateTable()
         'Dim coll As Dictionary(Of String, String)
         'coll = New Dictionary(Of String, String)()
         'coll.Add("Closing_Date", "Datetime null")
@@ -140,47 +140,47 @@ Public Class frmDairyGatePass
         End If
         '  LoadData(txtCode.Value, NavigatorType.Current)
     End Sub
-    'Private Sub CreateTable()
-    '    Dim coll As Dictionary(Of String, String)
-    '    coll = New Dictionary(Of String, String)()
-    '    coll.Add("GPCode", "Varchar(30) not null  PRIMARY KEY")
-    '    coll.Add("GPDate", "datetime not NULL")
-    '    coll.Add("Vehicle_Id", "varchar(12) NOT NULL")
-    '    coll.Add("Vehicle_Number", "varchar(50) NOT NULL")
-    '    coll.Add("Item_Type", "varchar(10) NULL")
-    '    coll.Add("Comp_Code", "VARCHAR(8)")
-    '    coll.Add("Created_By", "varchar(12) NOT NULL")
-    '    coll.Add("Created_Date", "Datetime NOT NULL")
-    '    coll.Add("Modified_By", "varchar(12) NOT NULL")
-    '    coll.Add("Modified_Date", "Datetime NOT NULL")
-    '    coll.Add("Transporter", "varchar(100) NULL")
-    '    coll.Add("Remarks", "varchar(200) NULL")
-    '    coll.Add("Comments", "varchar(200) NULL")
-    '    coll.Add("Post", "char(1)  Not NUll Default 'N'")
-    '    coll.Add("Location_Code", "varchar(12)  NULL")
-    '    coll.Add("Location_Desc", "varchar(50)  NULL")
-    '    coll.Add("Route_No", "varchar(12)  NULL")
-    '    coll.Add("TotalCAN", "float  null")
-    '    coll.Add("TotalCrate", "float  null")
-    '    coll.Add("Opening_Km", "Decimal(18,2) null")
-    '    coll.Add("Closing_Km", "Decimal(18,2) null")
-    '    coll.Add("Distance_In_Route", "Decimal(18,2) null")
-    '    coll.Add("Price_KM_In_Vehicle", "Decimal(18,2) null")
-    '    coll.Add("Toll_Amount", "Decimal(18,2) null")
-    '    coll.Add("Salesman", "varchar(100) NULL")
-    '    coll.Add("Closing_Date", "Datetime null")
-    '    coll.Add("IsTransfer", "int not null default 0")
-    '    coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
-    '    coll.Add("ShiftType", "varchar(20) NULL")
-    '    coll.Add("Loading_Slip", "varchar(20) NULL")
-    '    coll.Add("GatePass_Date", "datetime NULL")
-    '    coll.Add("Status", "char(1)  NUll")
-    '    coll.Add("Driver_Name", "varchar(100) NULL")
-    '    coll.Add("Driver_ContactNo", "varchar(15) NULL")
-    '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
-    '    AlterShipmentTable()
-    '    CreateBalancingTable()
-    'End Sub
+    Private Sub CreateTable()
+        '    Dim coll As Dictionary(Of String, String)
+        '    coll = New Dictionary(Of String, String)()
+        '    coll.Add("GPCode", "Varchar(30) not null  PRIMARY KEY")
+        '    coll.Add("GPDate", "datetime not NULL")
+        '    coll.Add("Vehicle_Id", "varchar(12) NOT NULL")
+        '    coll.Add("Vehicle_Number", "varchar(50) NOT NULL")
+        '    coll.Add("Item_Type", "varchar(10) NULL")
+        '    coll.Add("Comp_Code", "VARCHAR(8)")
+        '    coll.Add("Created_By", "varchar(12) NOT NULL")
+        '    coll.Add("Created_Date", "Datetime NOT NULL")
+        '    coll.Add("Modified_By", "varchar(12) NOT NULL")
+        '    coll.Add("Modified_Date", "Datetime NOT NULL")
+        '    coll.Add("Transporter", "varchar(100) NULL")
+        '    coll.Add("Remarks", "varchar(200) NULL")
+        '    coll.Add("Comments", "varchar(200) NULL")
+        '    coll.Add("Post", "char(1)  Not NUll Default 'N'")
+        '    coll.Add("Location_Code", "varchar(12)  NULL")
+        '    coll.Add("Location_Desc", "varchar(50)  NULL")
+        '    coll.Add("Route_No", "varchar(12)  NULL")
+        '    coll.Add("TotalCAN", "float  null")
+        '    coll.Add("TotalCrate", "float  null")
+        '    coll.Add("Opening_Km", "Decimal(18,2) null")
+        '    coll.Add("Closing_Km", "Decimal(18,2) null")
+        '    coll.Add("Distance_In_Route", "Decimal(18,2) null")
+        '    coll.Add("Price_KM_In_Vehicle", "Decimal(18,2) null")
+        '    coll.Add("Toll_Amount", "Decimal(18,2) null")
+        '    coll.Add("Salesman", "varchar(100) NULL")
+        '    coll.Add("Closing_Date", "Datetime null")
+        '    coll.Add("IsTransfer", "int not null default 0")
+        '    coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
+        '    coll.Add("ShiftType", "varchar(20) NULL")
+        '    coll.Add("Loading_Slip", "varchar(20) NULL")
+        '    coll.Add("GatePass_Date", "datetime NULL")
+        '    coll.Add("Status", "char(1)  NUll")
+        '    coll.Add("Driver_Name", "varchar(100) NULL")
+        '    coll.Add("Driver_ContactNo", "varchar(15) NULL")
+        '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
+        AlterShipmentTable()
+        CreateBalancingTable()
+    End Sub
     Private Sub AlterShipmentTable()
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)()
@@ -1140,7 +1140,7 @@ Public Class frmDairyGatePass
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
     Private Function GetAttachQry(ByVal StrCode As String) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
-        Dim Qry As String = " Select Case When CFinPouch > 0 Then ( ( Final.Crate_Qty * Final.Conversion_Factor )/ CFinPouch ) Else 0 End AS 'NoOfPouch', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) Else 0 End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr', CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then cast( ( cast(qty as int)% Column_Crate ) as int ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch', CAST( CASE WHEN qty > 0 THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt END AS decimal(18,2) ) AS CrateQtydd, CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2 FROM 
+        Dim Qry As String = " Select '" + objCommonVar.CurrentUserCode + "' as UserName, Case When CFinPouch > 0 Then ( ( Final.Crate_Qty * Final.Conversion_Factor )/ CFinPouch ) Else 0 End AS 'NoOfPouch', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) Else 0 End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr', CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then cast( ( cast(qty as int)% Column_Crate ) as int ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch', CAST( CASE WHEN qty > 0 THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt END AS decimal(18,2) ) AS CrateQtydd, CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2 FROM 
                    ( Select  max(Supply_Date)as Supply_Date,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt ,MAX(gpUnit) AS gpUnit, "
@@ -1214,9 +1214,16 @@ Public Class frmDairyGatePass
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntriesGNG", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                        'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                        'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    End If
                     'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     frmCRV = Nothing
                 End If
             End If

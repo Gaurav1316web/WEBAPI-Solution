@@ -13,6 +13,7 @@ Public Class frmGrampanchayatMaster
     Sub Reset()
         txtCode.Value = ""
         txtName.Text = ""
+        txtNameHindi.Text = ""
 
         btnSave.Text = "Save"
         btnSave.Enabled = True
@@ -64,7 +65,8 @@ Public Class frmGrampanchayatMaster
             Dim obj As New clsGrampanchayatMaster()
 
             obj.code = clsCommon.myCstr(txtCode.Value)
-            obj.name = clsCommon.myCstr(txtName.Text).Replace("'", "`")
+            obj.name = clsCommon.myCstr(txtName.Text)
+            obj.name_hindi = clsCommon.myCstr(txtNameHindi.Text)
 
             If clsGrampanchayatMaster.SaveData(obj, txtCode.Value) Then
                 clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -172,6 +174,7 @@ Public Class frmGrampanchayatMaster
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.code) > 0 Then
                 txtCode.Value = obj.code
                 txtName.Text = obj.name
+                txtNameHindi.Text = obj.name_hindi
 
                 txtCode.MyReadOnly = True
                 btnSave.Text = "Update"

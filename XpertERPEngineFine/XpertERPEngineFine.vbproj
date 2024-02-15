@@ -79,6 +79,7 @@
     <Compile Include="Classes\checkprocedure.vb" />
     <Compile Include="Classes\clsBMCDCSMobile.vb" />
     <Compile Include="Classes\clsCreateAllTable.vb" />
+    <Compile Include="Classes\clsDCSDemand.vb" />
     <Compile Include="Classes\clsDemandSheet.vb" />
     <Compile Include="Classes\clsDistributorCommission.vb" />
     <Compile Include="Classes\clsDistributorRouteTagging.vb" />

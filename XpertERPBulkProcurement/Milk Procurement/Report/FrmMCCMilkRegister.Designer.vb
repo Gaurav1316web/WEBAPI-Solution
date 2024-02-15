@@ -22,15 +22,23 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
+        Me.RadLabel21 = New common.Controls.MyLabel()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.cboMilkReceiveUOM = New common.Controls.MyComboBox()
+        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkRouteWisePrint = New System.Windows.Forms.CheckBox()
         Me.chkRouteShiftWise = New System.Windows.Forms.CheckBox()
         Me.chkDairyMilkReportPrint = New System.Windows.Forms.CheckBox()
-        Me.RadLabel21 = New common.Controls.MyLabel()
-        Me.cboMilkReceiveUOM = New common.Controls.MyComboBox()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.cboSRNAmounType = New Telerik.WinControls.UI.RadDropDownList()
@@ -39,12 +47,6 @@ Partial Class FrmMCCMilkRegister
         Me.chkOnlyRejection = New System.Windows.Forms.CheckBox()
         Me.chkShiftWise = New System.Windows.Forms.CheckBox()
         Me.chkRejection = New System.Windows.Forms.CheckBox()
-        Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
-        Me.lblLocation = New common.Controls.MyLabel()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkDateShift = New Telerik.WinControls.UI.RadCheckBox()
         Me.rbtnTotal = New System.Windows.Forms.RadioButton()
@@ -86,26 +88,27 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboMilkReceiveUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
-        CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboMilkReceiveUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboSRNAmounType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
         CType(Me.chkDateShift, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,8 +135,6 @@ Partial Class FrmMCCMilkRegister
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -199,38 +200,45 @@ Partial Class FrmMCCMilkRegister
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1050, 354)
         Me.RadPageViewPage1.Text = "Filter"
         '
-        'RadGroupBox6
+        'RadGroupBox2
         '
-        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox6.Controls.Add(Me.chkRouteShiftWise)
-        Me.RadGroupBox6.Controls.Add(Me.chkDairyMilkReportPrint)
-        Me.RadGroupBox6.HeaderText = "Print"
-        Me.RadGroupBox6.Location = New System.Drawing.Point(494, 127)
-        Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 58)
-        Me.RadGroupBox6.TabIndex = 405
-        Me.RadGroupBox6.Text = "Print"
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel16)
+        Me.RadGroupBox2.Controls.Add(Me.txtMCC)
+        Me.RadGroupBox2.Controls.Add(Me.RadLabel21)
+        Me.RadGroupBox2.Controls.Add(Me.lblLocation)
+        Me.RadGroupBox2.Controls.Add(Me.cboMilkReceiveUOM)
+        Me.RadGroupBox2.Controls.Add(Me.txtRoute)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel15)
+        Me.RadGroupBox2.Controls.Add(Me.txtVLC)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 62)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(477, 108)
+        Me.RadGroupBox2.TabIndex = 415
         '
-        'chkRouteShiftWise
+        'MyLabel16
         '
-        Me.chkRouteShiftWise.AutoSize = True
-        Me.chkRouteShiftWise.Location = New System.Drawing.Point(13, 38)
-        Me.chkRouteShiftWise.Name = "chkRouteShiftWise"
-        Me.chkRouteShiftWise.Size = New System.Drawing.Size(150, 17)
-        Me.chkRouteShiftWise.TabIndex = 394
-        Me.chkRouteShiftWise.Text = "Route Shift Wise Report"
-        Me.chkRouteShiftWise.UseVisualStyleBackColor = True
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(8, 17)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel16.TabIndex = 412
+        Me.MyLabel16.Text = "MCC"
         '
-        'chkDairyMilkReportPrint
+        'txtMCC
         '
-        Me.chkDairyMilkReportPrint.AutoSize = True
-        Me.chkDairyMilkReportPrint.Location = New System.Drawing.Point(13, 15)
-        Me.chkDairyMilkReportPrint.Name = "chkDairyMilkReportPrint"
-        Me.chkDairyMilkReportPrint.Size = New System.Drawing.Size(115, 17)
-        Me.chkDairyMilkReportPrint.TabIndex = 393
-        Me.chkDairyMilkReportPrint.Text = "Dairy Milk Report"
-        Me.chkDairyMilkReportPrint.UseVisualStyleBackColor = True
+        Me.txtMCC.arrDispalyMember = Nothing
+        Me.txtMCC.arrValueMember = Nothing
+        Me.txtMCC.Location = New System.Drawing.Point(95, 17)
+        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMCC.MyLinkLable1 = Me.MyLabel16
+        Me.txtMCC.MyLinkLable2 = Nothing
+        Me.txtMCC.MyNullText = "All"
+        Me.txtMCC.Name = "txtMCC"
+        Me.txtMCC.Size = New System.Drawing.Size(371, 19)
+        Me.txtMCC.TabIndex = 411
         '
         'RadLabel21
         '
@@ -241,6 +249,16 @@ Partial Class FrmMCCMilkRegister
         Me.RadLabel21.Size = New System.Drawing.Size(83, 16)
         Me.RadLabel21.TabIndex = 414
         Me.RadLabel21.Text = "Received UOM"
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(8, 37)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(36, 18)
+        Me.lblLocation.TabIndex = 408
+        Me.lblLocation.Text = "Route"
         '
         'cboMilkReceiveUOM
         '
@@ -267,6 +285,86 @@ Partial Class FrmMCCMilkRegister
         Me.cboMilkReceiveUOM.ReferenceTableName = Nothing
         Me.cboMilkReceiveUOM.Size = New System.Drawing.Size(371, 20)
         Me.cboMilkReceiveUOM.TabIndex = 413
+        '
+        'txtRoute
+        '
+        Me.txtRoute.arrDispalyMember = Nothing
+        Me.txtRoute.arrValueMember = Nothing
+        Me.txtRoute.Location = New System.Drawing.Point(95, 37)
+        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoute.MyLinkLable1 = Me.lblLocation
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.MyNullText = "All"
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.Size = New System.Drawing.Size(371, 19)
+        Me.txtRoute.TabIndex = 407
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(8, 57)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel15.TabIndex = 410
+        Me.MyLabel15.Text = "VLC"
+        '
+        'txtVLC
+        '
+        Me.txtVLC.arrDispalyMember = Nothing
+        Me.txtVLC.arrValueMember = Nothing
+        Me.txtVLC.Location = New System.Drawing.Point(95, 57)
+        Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVLC.MyLinkLable1 = Me.MyLabel15
+        Me.txtVLC.MyLinkLable2 = Nothing
+        Me.txtVLC.MyNullText = "All"
+        Me.txtVLC.Name = "txtVLC"
+        Me.txtVLC.Size = New System.Drawing.Size(371, 19)
+        Me.txtVLC.TabIndex = 409
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.chkRouteWisePrint)
+        Me.RadGroupBox6.Controls.Add(Me.chkRouteShiftWise)
+        Me.RadGroupBox6.Controls.Add(Me.chkDairyMilkReportPrint)
+        Me.RadGroupBox6.HeaderText = "Print"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(494, 116)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 72)
+        Me.RadGroupBox6.TabIndex = 405
+        Me.RadGroupBox6.Text = "Print"
+        '
+        'chkRouteWisePrint
+        '
+        Me.chkRouteWisePrint.AutoSize = True
+        Me.chkRouteWisePrint.Location = New System.Drawing.Point(13, 51)
+        Me.chkRouteWisePrint.Name = "chkRouteWisePrint"
+        Me.chkRouteWisePrint.Size = New System.Drawing.Size(139, 17)
+        Me.chkRouteWisePrint.TabIndex = 395
+        Me.chkRouteWisePrint.Text = "Truck Sheet Check List"
+        Me.chkRouteWisePrint.UseVisualStyleBackColor = True
+        '
+        'chkRouteShiftWise
+        '
+        Me.chkRouteShiftWise.AutoSize = True
+        Me.chkRouteShiftWise.Location = New System.Drawing.Point(13, 33)
+        Me.chkRouteShiftWise.Name = "chkRouteShiftWise"
+        Me.chkRouteShiftWise.Size = New System.Drawing.Size(150, 17)
+        Me.chkRouteShiftWise.TabIndex = 394
+        Me.chkRouteShiftWise.Text = "Route Shift Wise Report"
+        Me.chkRouteShiftWise.UseVisualStyleBackColor = True
+        '
+        'chkDairyMilkReportPrint
+        '
+        Me.chkDairyMilkReportPrint.AutoSize = True
+        Me.chkDairyMilkReportPrint.Location = New System.Drawing.Point(13, 15)
+        Me.chkDairyMilkReportPrint.Name = "chkDairyMilkReportPrint"
+        Me.chkDairyMilkReportPrint.Size = New System.Drawing.Size(115, 17)
+        Me.chkDairyMilkReportPrint.TabIndex = 393
+        Me.chkDairyMilkReportPrint.Text = "Dairy Milk Report"
+        Me.chkDairyMilkReportPrint.UseVisualStyleBackColor = True
         '
         'RadGroupBox5
         '
@@ -353,75 +451,6 @@ Partial Class FrmMCCMilkRegister
         Me.chkRejection.TabIndex = 0
         Me.chkRejection.Text = "Include Rejection"
         Me.chkRejection.UseVisualStyleBackColor = True
-        '
-        'txtMCC
-        '
-        Me.txtMCC.arrDispalyMember = Nothing
-        Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(95, 17)
-        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMCC.MyLinkLable1 = Me.MyLabel16
-        Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.MyNullText = "All"
-        Me.txtMCC.Name = "txtMCC"
-        Me.txtMCC.Size = New System.Drawing.Size(371, 19)
-        Me.txtMCC.TabIndex = 411
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(8, 17)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
-        Me.MyLabel16.TabIndex = 412
-        Me.MyLabel16.Text = "MCC"
-        '
-        'txtVLC
-        '
-        Me.txtVLC.arrDispalyMember = Nothing
-        Me.txtVLC.arrValueMember = Nothing
-        Me.txtVLC.Location = New System.Drawing.Point(95, 57)
-        Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVLC.MyLinkLable1 = Me.MyLabel15
-        Me.txtVLC.MyLinkLable2 = Nothing
-        Me.txtVLC.MyNullText = "All"
-        Me.txtVLC.Name = "txtVLC"
-        Me.txtVLC.Size = New System.Drawing.Size(371, 19)
-        Me.txtVLC.TabIndex = 409
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(8, 57)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
-        Me.MyLabel15.TabIndex = 410
-        Me.MyLabel15.Text = "VLC"
-        '
-        'txtRoute
-        '
-        Me.txtRoute.arrDispalyMember = Nothing
-        Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(95, 37)
-        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRoute.MyLinkLable1 = Me.lblLocation
-        Me.txtRoute.MyLinkLable2 = Nothing
-        Me.txtRoute.MyNullText = "All"
-        Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(371, 19)
-        Me.txtRoute.TabIndex = 407
-        '
-        'lblLocation
-        '
-        Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(8, 37)
-        Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(36, 18)
-        Me.lblLocation.TabIndex = 408
-        Me.lblLocation.Text = "Route"
         '
         'RadGroupBox7
         '
@@ -749,7 +778,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -794,7 +823,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.btnLock.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnLock.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnLock.Location = New System.Drawing.Point(593, 2)
+        Me.btnLock.Location = New System.Drawing.Point(592, 2)
         Me.btnLock.Name = "btnLock"
         Me.btnLock.Size = New System.Drawing.Size(128, 22)
         Me.btnLock.TabIndex = 163
@@ -805,7 +834,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.btnPrintMccDetails.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintMccDetails.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintMccDetails.Location = New System.Drawing.Point(497, 2)
+        Me.btnPrintMccDetails.Location = New System.Drawing.Point(495, 2)
         Me.btnPrintMccDetails.Name = "btnPrintMccDetails"
         Me.btnPrintMccDetails.Size = New System.Drawing.Size(95, 22)
         Me.btnPrintMccDetails.TabIndex = 162
@@ -815,7 +844,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(399, 2)
+        Me.RadButton1.Location = New System.Drawing.Point(398, 2)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(95, 22)
         Me.RadButton1.TabIndex = 161
@@ -825,7 +854,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.radbtnBulkExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.radbtnBulkExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Excel, Me.PDF, Me.BulkExportCSV, Me.BulkExportXls})
-        Me.radbtnBulkExp.Location = New System.Drawing.Point(297, 2)
+        Me.radbtnBulkExp.Location = New System.Drawing.Point(296, 2)
         Me.radbtnBulkExp.Name = "radbtnBulkExp"
         Me.radbtnBulkExp.Size = New System.Drawing.Size(100, 22)
         Me.radbtnBulkExp.TabIndex = 160
@@ -885,23 +914,6 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel16)
-        Me.RadGroupBox2.Controls.Add(Me.txtMCC)
-        Me.RadGroupBox2.Controls.Add(Me.RadLabel21)
-        Me.RadGroupBox2.Controls.Add(Me.lblLocation)
-        Me.RadGroupBox2.Controls.Add(Me.cboMilkReceiveUOM)
-        Me.RadGroupBox2.Controls.Add(Me.txtRoute)
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel15)
-        Me.RadGroupBox2.Controls.Add(Me.txtVLC)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 62)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(477, 108)
-        Me.RadGroupBox2.TabIndex = 415
-        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -921,11 +933,17 @@ Partial Class FrmMCCMilkRegister
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboMilkReceiveUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
-        CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboMilkReceiveUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -934,9 +952,6 @@ Partial Class FrmMCCMilkRegister
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
@@ -966,9 +981,6 @@ Partial Class FrmMCCMilkRegister
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1037,5 +1049,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents lblToDate As common.Controls.MyLabel
     Friend WithEvents lblfromDate As common.Controls.MyLabel
     Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents chkRouteWisePrint As CheckBox
 End Class
 

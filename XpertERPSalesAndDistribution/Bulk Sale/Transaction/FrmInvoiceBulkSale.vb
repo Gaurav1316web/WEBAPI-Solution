@@ -149,6 +149,7 @@ Public Class FrmInvoiceBulkSale
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         AllowFatPerInanynumberofMultipesonBulkQC = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowFatPerInanynumberofMultipesonBulkQC, clsFixedParameterCode.AllowFatPerInanynumberofMultipesonBulkQC, Nothing)) = 1, True, False))
         Reset()
+        rdbAgainstDispatchTrade.Visible = False
         UcAttachment1.Form_ID = MyBase.Form_ID
         'SetMaxlength()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
@@ -960,8 +961,10 @@ Public Class FrmInvoiceBulkSale
                         ''richa agarwal 12/01/2014
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInvoiceFatKg).Value = obj.Fat_KG
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInvoiceSNFKg).Value = obj.SNF_KG
+                        Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
+                        Dim CLR As Double = clsEkoPro.getClrOnCalculation(obj.FatPer, obj.SNFPer, corrFactor)
 
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCLR).Value = obj.CLR
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCLR).Value = CLR
                         'Sanjay 14/09/2018
                         If ShowBulkDispatchQtyInLtr = True Then
                             ''richa agarwal 8 Jan,2018 ERO/07/01/19-000457
@@ -2216,9 +2219,9 @@ Public Class FrmInvoiceBulkSale
 
         ''richa agarwal against ticket no.BM00000007184 30/06/2015
         ' Dim qry As String = "Select TSPL_INVOICE_MASTER_BULKSALE.Document_No as Code,Convert(varchar,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,103) as [Invoice Date],TSPL_INVOICE_MASTER_BULKSALE.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_INVOICE_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],case when TSPL_INVOICE_MASTER_BULKSALE.Posted=0 then 'Pending' else 'Approved' end as Status,TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst as [Invoice Against] from TSPL_INVOICE_MASTER_BULKSALE left outer Join TSPL_CUSTOMER_MASTER on TSPL_INVOICE_MASTER_BULKSALE.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_INVOICE_MASTER_BULKSALE.Location_Code =TSPL_LOCATION_MASTER.Location_Code"
-        Dim qry As String = "Select TSPL_INVOICE_MASTER_BULKSALE.Document_No as Code,Convert(varchar,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,103) as [Invoice Date],TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code,isnull(TSPL_Dispatch_BulkSale.QC_Code,'') as [FAT/SNF check No] ,Isnull(TSPL_Quality_Check_BulkSale.LoadingTanker_No,'') as [Loading No] ,Isnull(TSPL_Quality_Check_BulkSale.Weighment_No,'') as [Weighment No] ,Isnull(TSPL_Quality_Check_BulkSale.GateEntry_Document_No,'') as [Gate Entry No] ,TSPL_INVOICE_MASTER_BULKSALE.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_INVOICE_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],case when TSPL_INVOICE_MASTER_BULKSALE.Posted=0 then 'Pending' else 'Approved' end as Status,TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst as [Invoice Against] from TSPL_INVOICE_MASTER_BULKSALE left outer Join TSPL_CUSTOMER_MASTER on TSPL_INVOICE_MASTER_BULKSALE.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_INVOICE_MASTER_BULKSALE.Location_Code =TSPL_LOCATION_MASTER.Location_Code" & _
-        " left outer join TSPL_INVOICE_DETAIL_BULKSALE on TSPL_INVOICE_DETAIL_BULKSALE.Document_No =TSPL_INVOICE_MASTER_BULKSALE.Document_No " & _
-        " Left Outer Join TSPL_Dispatch_BulkSale on TSPL_Dispatch_BulkSale.Document_No=TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code " & _
+        Dim qry As String = "Select  TSPL_INVOICE_MASTER_BULKSALE.Document_No as Code,Convert(varchar,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,103) as [Invoice Date],TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code,isnull(TSPL_Dispatch_BulkSale.QC_Code,'') as [FAT/SNF check No] ,Isnull(TSPL_Quality_Check_BulkSale.LoadingTanker_No,'') as [Loading No] ,Isnull(TSPL_Quality_Check_BulkSale.Weighment_No,'') as [Weighment No] ,Isnull(TSPL_Quality_Check_BulkSale.GateEntry_Document_No,'') as [Gate Entry No] ,TSPL_INVOICE_MASTER_BULKSALE.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_INVOICE_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],case when TSPL_INVOICE_MASTER_BULKSALE.Posted=0 then 'Pending' else 'Approved' end as Status,TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst as [Invoice Against] from TSPL_INVOICE_MASTER_BULKSALE left outer Join TSPL_CUSTOMER_MASTER on TSPL_INVOICE_MASTER_BULKSALE.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_INVOICE_MASTER_BULKSALE.Location_Code =TSPL_LOCATION_MASTER.Location_Code" &
+        " left outer join TSPL_INVOICE_DETAIL_BULKSALE on TSPL_INVOICE_DETAIL_BULKSALE.Document_No =TSPL_INVOICE_MASTER_BULKSALE.Document_No " &
+        " Left Outer Join TSPL_Dispatch_BulkSale on TSPL_Dispatch_BulkSale.Document_No=TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code " &
         " Left outer join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.QC_No =TSPL_Dispatch_BulkSale.QC_Code "
         If clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyMultiChamberInBulkWeighmentEntry, clsFixedParameterCode.ApplyMultiChamberInBulkWeighmentEntry, Nothing)) = 1, True, False)) Then
             qry = "select * from (" + qry + " group by TSPL_INVOICE_MASTER_BULKSALE.Document_No ,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code,TSPL_Dispatch_BulkSale.QC_Code,TSPL_Quality_Check_BulkSale.LoadingTanker_No,TSPL_Quality_Check_BulkSale.Weighment_No,TSPL_Quality_Check_BulkSale.GateEntry_Document_No,TSPL_INVOICE_MASTER_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Alies_Name,TSPL_INVOICE_MASTER_BULKSALE.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_INVOICE_MASTER_BULKSALE.Posted,TSPL_INVOICE_MASTER_BULKSALE.InvoiceAgainst)x "
@@ -2283,7 +2286,7 @@ Public Class FrmInvoiceBulkSale
                 qry += "Select * from ("
             End If
             qry += "Select " &
-                " TSPL_Dispatch_BulkSale.document_no,TSPL_Dispatch_BulkSale.document_date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_location_master.gstno,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_ITEM_MASTER.HSN_Code,TSPL_ITEM_MASTER.Item_Desc,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Rate when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Rate when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Rate " &
+                " '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,TSPL_Dispatch_BulkSale.document_no,TSPL_Company_MASTER.Phone1,TSPL_Company_MASTER.Phone2,TSPL_Company_MASTER.Email,TSPL_Dispatch_BulkSale.document_date,TSPL_Dispatch_Detail_BulkSale.SNFRate,TSPL_Dispatch_Detail_BulkSale.FatRate,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_location_master.gstno,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_ITEM_MASTER.HSN_Code,TSPL_ITEM_MASTER.Item_Desc,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Rate when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Rate when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Rate " &
                 " when dtax4.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX4_Rate  when dtax5.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX5_Rate end as TCS_Rate " &
                 " ,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Amt when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Amt when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Amt when dtax4.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX4_Amt  when dtax5.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX5_Amt end  as TCS_Amount" &
                 " ,TSPL_INVOICE_DETAIL_BULKSALE.unit_code, case when ISNULL(tspl_company_master.Phone1,'')='(+__)__________' then '' " &
@@ -2379,7 +2382,7 @@ Public Class FrmInvoiceBulkSale
             'KwalitySalesReportViewer.funreport(dt, "rptInvoiceBulkSale", "Milk Sales Invoice")
             'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", "rptCompanyAddress.rpt")
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "Bulkdispath", "Milk Sales Dispatch", "Bulk dispath")
+            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoice", "Milk Sales Dispatch", "Bulk dispath")
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", txtDate.Value, "rptCompanyAddress.rpt")
             frmCRV = Nothing
             qry = Nothing
@@ -3180,6 +3183,7 @@ Public Class FrmInvoiceBulkSale
             End If
         Next
     End Sub
+
 
     Private Sub lblDocumentAmount_TextChanged(sender As Object, e As EventArgs) Handles lblDocumentAmount.TextChanged
         Try

@@ -472,6 +472,7 @@ Public Class clsDocType
     '--------priti 13/07/2016 ------------------
     Public Const frmDairySaleDeliveryOrder As String = "Dairy Sale Delivery Order"
     Public Const frmDemandBooking As String = "Demand Booking"
+    Public Const frmDCSDemandBooking As String = "DCS Demand Booking"
     Public Const frmDairySaleBooking As String = "Dairy Sale Booking"
     Public Const frmDairySaleGatePass As String = "Dairy Sale GatePass"
     Public Const frmDairySaleShipment As String = "Dairy Sale Shipment"
@@ -1148,6 +1149,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.frmPerformaInvoiceBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleDeliveryOrder, "", False, True)
             InsertDefaultValue(clsDocType.frmDemandBooking, "", False, True)
+            InsertDefaultValue(clsDocType.frmDCSDemandBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleGatePass, "", False, True)
             InsertDefaultValue(clsDocType.FrmDairyGatePass, "", False, False)
             InsertDefaultValue(clsDocType.frmCustomerComplain, "", False, False)

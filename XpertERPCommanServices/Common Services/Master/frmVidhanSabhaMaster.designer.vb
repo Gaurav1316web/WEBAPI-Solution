@@ -25,10 +25,12 @@ Partial Class frmVidhanSabhaMaster
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVidhanSabhaMaster))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.namehindi = New common.Controls.MyLabel()
+        Me.txtNamehindi = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtName = New common.Controls.MyTextBox()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
@@ -43,10 +45,12 @@ Partial Class frmVidhanSabhaMaster
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.namehindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNamehindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +85,8 @@ Partial Class frmVidhanSabhaMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.namehindi)
+        Me.RadGroupBox1.Controls.Add(Me.txtNamehindi)
         Me.RadGroupBox1.Controls.Add(Me.RadButton1)
         Me.RadGroupBox1.Controls.Add(Me.btnNew)
         Me.RadGroupBox1.Controls.Add(Me.txtName)
@@ -91,9 +97,50 @@ Partial Class frmVidhanSabhaMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 22)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(519, 85)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(524, 97)
         Me.RadGroupBox1.TabIndex = 12
         Me.RadGroupBox1.Text = " "
+        '
+        'namehindi
+        '
+        Me.namehindi.FieldName = Nothing
+        Me.namehindi.Location = New System.Drawing.Point(12, 73)
+        Me.namehindi.Name = "namehindi"
+        Me.namehindi.Size = New System.Drawing.Size(138, 18)
+        Me.namehindi.TabIndex = 19
+        Me.namehindi.Text = "Vidhan Sabha Name Hindi"
+        '
+        'txtNamehindi
+        '
+        Me.txtNamehindi.CalculationExpression = Nothing
+        Me.txtNamehindi.FieldCode = Nothing
+        Me.txtNamehindi.FieldDesc = Nothing
+        Me.txtNamehindi.FieldMaxLength = 0
+        Me.txtNamehindi.FieldName = Nothing
+        Me.txtNamehindi.isCalculatedField = False
+        Me.txtNamehindi.IsSourceFromTable = False
+        Me.txtNamehindi.IsSourceFromValueList = False
+        Me.txtNamehindi.IsUnique = False
+        Me.txtNamehindi.Location = New System.Drawing.Point(156, 71)
+        Me.txtNamehindi.MaxLength = 100
+        Me.txtNamehindi.MendatroryField = True
+        Me.txtNamehindi.MyLinkLable1 = Me.RadLabel2
+        Me.txtNamehindi.MyLinkLable2 = Nothing
+        Me.txtNamehindi.Name = "txtNamehindi"
+        Me.txtNamehindi.ReferenceFieldDesc = Nothing
+        Me.txtNamehindi.ReferenceFieldName = Nothing
+        Me.txtNamehindi.ReferenceTableName = Nothing
+        Me.txtNamehindi.Size = New System.Drawing.Size(347, 20)
+        Me.txtNamehindi.TabIndex = 18
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Location = New System.Drawing.Point(12, 47)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(108, 18)
+        Me.RadLabel2.TabIndex = 1
+        Me.RadLabel2.Text = "Vidhan Sabha Name"
         '
         'RadButton1
         '
@@ -107,7 +154,7 @@ Partial Class frmVidhanSabhaMaster
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(379, 22)
+        Me.btnNew.Location = New System.Drawing.Point(385, 18)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(14, 21)
         Me.btnNew.TabIndex = 0
@@ -124,7 +171,7 @@ Partial Class frmVidhanSabhaMaster
         Me.txtName.IsSourceFromTable = False
         Me.txtName.IsSourceFromValueList = False
         Me.txtName.IsUnique = False
-        Me.txtName.Location = New System.Drawing.Point(144, 45)
+        Me.txtName.Location = New System.Drawing.Point(156, 45)
         Me.txtName.MaxLength = 100
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.RadLabel2
@@ -133,22 +180,13 @@ Partial Class frmVidhanSabhaMaster
         Me.txtName.ReferenceFieldDesc = Nothing
         Me.txtName.ReferenceFieldName = Nothing
         Me.txtName.ReferenceTableName = Nothing
-        Me.txtName.Size = New System.Drawing.Size(359, 20)
+        Me.txtName.Size = New System.Drawing.Size(347, 20)
         Me.txtName.TabIndex = 2
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(12, 46)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(108, 18)
-        Me.RadLabel2.TabIndex = 1
-        Me.RadLabel2.Text = "Vidhan Sabha Name"
         '
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(144, 22)
+        Me.txtCode.Location = New System.Drawing.Point(156, 18)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -157,14 +195,14 @@ Partial Class frmVidhanSabhaMaster
         Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(235, 21)
+        Me.txtCode.Size = New System.Drawing.Size(223, 21)
         Me.txtCode.TabIndex = 1
         Me.txtCode.Value = ""
         '
         'RadLabel1
         '
         Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(12, 23)
+        Me.RadLabel1.Location = New System.Drawing.Point(12, 21)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(104, 18)
         Me.RadLabel1.TabIndex = 0
@@ -249,10 +287,12 @@ Partial Class frmVidhanSabhaMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.namehindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNamehindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
@@ -277,5 +317,7 @@ Partial Class frmVidhanSabhaMaster
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
+    Friend WithEvents namehindi As common.Controls.MyLabel
+    Friend WithEvents txtNamehindi As common.Controls.MyTextBox
 End Class
 

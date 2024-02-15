@@ -337,7 +337,7 @@ where 2=2"
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            ReverseAndUnpost(strCode, trans)
+            ReverseAndUnpost(strCode, trans, True)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -346,37 +346,96 @@ where 2=2"
         Return True
     End Function
 
-    Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal changeStatus As Boolean) As Boolean
         Try
-            Dim obj As clsMilkCollectionDCSMulipleDays = clsMilkCollectionDCSMulipleDays.GetData(strDocNo, NavigatorType.Current, trans)
-            If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
-                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+            Dim arrAllDoc As New List(Of String)
+            Dim arrShiftDetail As New List(Of clsTemp)
+            GetRecursiveDoc(strDocNo, arrAllDoc, arrShiftDetail, trans)
+            If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
+                For Each str As String In arrAllDoc
+                    Dim obj As clsMilkCollectionDCSMulipleDays = clsMilkCollectionDCSMulipleDays.GetData(strDocNo, NavigatorType.Current, trans)
+                    If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
+                        Throw New Exception("No Data found to reverse And unpost")
+                    End If
+
+                    If Not obj.Status = ERPTransactionStatus.Approved Then
+                        Throw New Exception("Transaction status should be posted for reverse and unpost")
+                    End If
+                    If changeStatus Then
+                        Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DOCS where Against_DCS_Multiple_Days='" + obj.Document_No + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Throw New Exception("DCS Multiple Days Document No [" + strDocNo + "] is used in DCS Multiple Days Merge Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
+                        End If
+                    End If
+                Next
             End If
-
-            If Not obj.Status = ERPTransactionStatus.Approved Then
-                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+            If arrShiftDetail IsNot Nothing AndAlso arrShiftDetail.Count > 0 Then
+                For Each objSD As clsTemp In arrShiftDetail
+                    clsMilkShiftUploaderHead.DeleteCollection(objSD.C_Date, " and SHIFT='" + objSD.c_Shift + "'", objSD.MCC_Code, True, trans)
+                Next
             End If
-
-            '            Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (
-            'select PK_Id from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where Document_No='" + strDocNo + "')"
-            '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '                Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
-            '            End If
-
-            '            Dim coll As New Hashtable()
-            '            clsCommon.AddColumnsForChange(coll, "Status", 0)
-            '            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
-            '            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-            '            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
-
-
+            If changeStatus Then
+                If arrAllDoc IsNot Nothing AndAlso arrAllDoc.Count > 0 Then
+                    For Each str As String In arrAllDoc
+                        Dim coll As New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "Status", 0)
+                        clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+                        clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + str + "'", trans)
+                    Next
+                End If
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
 
+    Private Shared Sub GetRecursiveDoc(strDocNo As String, ByRef arrAllDoc As List(Of String), ByRef arrShiftDetail As List(Of clsTemp), trans As SqlTransaction)
+        If Not arrAllDoc.Contains(strDocNo) Then
+            arrAllDoc.Add(strDocNo)
+        End If
+
+        Dim qry As String = "select Document_No,MCC_Code,Collection_Date,Shift from (
+select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Shift 
+from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL  
+left outer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No
+where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No='" + strDocNo + "'
+)xx group by Document_No,MCC_Code,Collection_Date,Shift"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For Each dr As DataRow In dt.Rows
+                Dim obj As New clsTemp
+                obj.MCC_Code = clsCommon.myCstr(dr("MCC_Code"))
+                obj.C_Date = clsCommon.myCDate(dr("Collection_Date"))
+                obj.c_Shift = clsCommon.myCstr(dr("Shift"))
+                arrShiftDetail.Add(obj)
+
+                qry = "select Document_No,MCC_Code,Collection_Date,Shift from ( 
+select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Shift 
+from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL  
+left outer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS on TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No
+where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Document_No<>'" + clsCommon.myCstr(dr("Document_No")) + "' and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code='" + clsCommon.myCstr(dr("MCC_Code")) + "' and  TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Collection_Date")), "dd/MMM/yyyy") + "' and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Shift='" + clsCommon.myCstr(dr("Shift")) + "'
+)xx group by Document_No,MCC_Code,Collection_Date,Shift"
+                Dim dtInner As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dtInner IsNot Nothing AndAlso dtInner.Rows.Count > 0 Then
+                    Throw New Exception("Repeated MCC Milk collection MCC [" + clsCommon.myCstr(dr("MCC_Code")) + "],Date [" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Collection_Date")), "dd/MM/yyyy") + "], Shift='" + clsCommon.myCstr(dr("Shift")) + "")
+                    'For Each drInner As DataRow In dtInner.Rows
+                    '    If Not arrAllDoc.Contains(clsCommon.myCstr(drInner("Document_No"))) Then
+                    '        GetRecursiveDoc(clsCommon.myCstr(drInner("Document_No")), arrAllDoc, arrShiftDetail, trans)
+                    '    End If
+                    'Next
+                End If
+            Next
+        End If
+    End Sub
+
+    Class clsTemp
+        Public MCC_Code As String
+        Public C_Date As Date
+        Public c_Shift As String
+    End Class
 End Class
 
 Public Class clsMilkCollectionDCSMulipleDaysDetail

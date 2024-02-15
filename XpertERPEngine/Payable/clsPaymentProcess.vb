@@ -1659,7 +1659,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
     End Function
 
     '========================================
-    Public Shared Function PaymentProcessDrCrPrint(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String) As Boolean
+    Public Shared Function PaymentProcessDrCrPrint(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String, ByVal strMCC_Code As String) As Boolean
         Try
             Dim sQuery As String = ""
             Dim dtDebit As New DataTable
@@ -1733,7 +1733,7 @@ select TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description 
 ,sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount from TSPL_PAYMENT_PROCESS_COMPULSORY
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No"
 
-     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                 sQuery += " left outer join ( select Code, 0 as Sequence_No,Description,0 as Is_Transfer_To_Saving    from TSPL_DCS_ADDITION_DEDUCTION 
                     union 
                     select  Code ,Sequence_No, Description,Is_Transfer_To_Saving    from TSPL_DEDUCTION_MASTER
@@ -1846,7 +1846,7 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc
 
             Dim dtAdvice As DataTable = Nothing
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
-                Dim ssql = "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(payamt) as Amount ,max(Payable_Amount) as Payable_Amount
+                Dim ssql = "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount,sum(Payable_Amount1)Amt
 ,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
 from (
 select  '' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code as GRPColumn,TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],
@@ -1854,19 +1854,40 @@ TSPL_COMPANY_MASTER.Comp_Name
 ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address
 ,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME
 ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Location_MASTER.Location_Code,TSPL_Location_MASTER.Location_Desc,  TSPL_Fiscal_Year_Master.Fiscal_Name
-,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,TSPL_Vendor_MASTER.Bank_Code as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No, Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount,isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0) as payamt from TSPL_PAYMENT_PROCESS_DETAIL 
+,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,TSPL_Vendor_MASTER.Bank_Code as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No, (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))  as Payable_Amount ,
+Round(isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0),0)-Round (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0),0)  as Payable_Amount1   from TSPL_PAYMENT_PROCESS_DETAIL 
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='UDP'
 left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
 left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
 left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current 
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+
  left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Loc_Segment_Code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code and  TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC' 
 left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)  and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code=TSPL_Location_MASTER.Location_Code  
-where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "'),103) and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<=convert(date,('" + CycleToDate + "'),103)    and TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount>0 
- )xxx group by Bank_Code,Branch_Name 
- 
- )xxxx order by GRPColumn "
+where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "'),103) and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<=convert(date,('" + CycleToDate + "'),103)    and  TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code='" + strMCC_Code + "' And TSPL_MCC_MASTER.MCC_Code='" + strMCC_Code + "'
+ )xxx group by Bank_Code,Branch_Name )xxxx order by GRPColumn "
+                '                Dim ssql = "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(payamt) as Amount ,max(Payable_Amount) as Payable_Amount
+                ',max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
+                'from (
+                'select  '' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code as GRPColumn,TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],
+                'TSPL_COMPANY_MASTER.Comp_Name
+                ',TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address
+                ',case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME
+                ',TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Location_MASTER.Location_Code,TSPL_Location_MASTER.Location_Desc,  TSPL_Fiscal_Year_Master.Fiscal_Name
+                ',TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,TSPL_Vendor_MASTER.Bank_Code as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No, Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount,isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0) as payamt from TSPL_PAYMENT_PROCESS_DETAIL 
+                'left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+                'left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='UDP'
+                'left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+                'left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
+                'left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current 
+                'left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+                ' left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Loc_Segment_Code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code and  TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC' 
+                'left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)  and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code=TSPL_Location_MASTER.Location_Code  
+                'where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "'),103) and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<=convert(date,('" + CycleToDate + "'),103)    and TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount>0 
+                ' )xxx group by Bank_Code,Branch_Name 
+
+                ' )xxxx order by GRPColumn "
                 dtAdvice = clsDBFuncationality.GetDataTable(ssql)
             End If
 
@@ -2131,7 +2152,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
 ,TabSaving.Item_Desc as SavingDesc,"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) + TSPL_TRANSFER_TO_SAVING_DETAIL.Amount as [SavingAmount],TSPL_TRANSFER_TO_SAVING_DETAIL.Amount "
+            BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) + ISNULL(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0) as [SavingAmount],TSPL_TRANSFER_TO_SAVING_DETAIL.Amount "
         Else
             BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) as [SavingAmount]"
         End If
@@ -3549,13 +3570,13 @@ Public Class clsPaymentProcessDeduction
 
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT Area_Location_Code FROM TSPL_PAYMENT_PROCESS_HEAD")
-            Dim AreaLocationCode As String = ""
+            'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT Area_Location_Code FROM TSPL_PAYMENT_PROCESS_HEAD")
+            'Dim AreaLocationCode As String = ""
 
-            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                ' Assuming you want the first value in the DataTable
-                AreaLocationCode = clsCommon.myCstr(dt1.Rows(0)("Area_Location_Code"))
-            End If
+            'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+            '    ' Assuming you want the first value in the DataTable
+            '    AreaLocationCode = clsCommon.myCstr(dt1.Rows(0)("Area_Location_Code"))
+            'End If
             'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("Select  Area_Location_Code from tspl_mcc_master")
             'Dim lst As New List(Of String)
             'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
@@ -3571,8 +3592,7 @@ from TSPL_PAYMENT_PROCESS_DEDUCTION
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_no=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_no
 
-where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'and  TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" & AreaLocationCode & "' 
-order by cast(TSPL_PAYMENT_PROCESS_DEDUCTION.SLNO as int)"
+where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_PAYMENT_PROCESS_DEDUCTION.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3659,31 +3679,10 @@ Public Class clsPaymentProcessCreditNote
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Try
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT Area_Location_Code FROM TSPL_PAYMENT_PROCESS_HEAD")
-            Dim AreaLocationCode1 As String = ""
-
-            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                ' Assuming you want the first value in the DataTable
-                AreaLocationCode1 = clsCommon.myCstr(dt1.Rows(0)("Area_Location_Code"))
-            End If
-
-
-            'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("Select  Area_Location_Code from tspl_mcc_master")
-            'Dim lst As New List(Of String)
-            'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-
-            '    For Each dr As DataRow In dt1.Rows
-            '        lst.Add(clsCommon.myCstr(dr("Area_Location_Code")))
-            '    Next
-            'End If
-            'Dim AreaLocationCode1 As String = clsCommon.GetMulcallString(lst)
             Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.* 
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
-left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected=TSPL_VLC_MASTER_HEAD.MCC
-
-where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' and  TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" & AreaLocationCode1 & "'  
-order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
+where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)

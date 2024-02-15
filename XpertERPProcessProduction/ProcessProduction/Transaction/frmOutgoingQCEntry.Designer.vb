@@ -23,12 +23,18 @@ Partial Class frmOutgoingQCEntry
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmOutgoingQCEntry))
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.rbtnUD = New common.Controls.MyRadioButton()
+        Me.txtAccept = New System.Windows.Forms.Label()
+        Me.QCEnddate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.QcStartdata = New common.Controls.MyDateTimePicker()
         Me.UsLock1 = New common.usLock()
+        Me.rbtnUD = New common.Controls.MyRadioButton()
         Me.rbtnRej = New common.Controls.MyRadioButton()
         Me.rbtnApp = New common.Controls.MyRadioButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
@@ -40,7 +46,6 @@ Partial Class frmOutgoingQCEntry
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtDocNo = New common.UserControls.txtNavigator()
-        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.docDate = New common.Controls.MyDateTimePicker()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
@@ -50,7 +55,9 @@ Partial Class frmOutgoingQCEntry
         Me.txtlocation = New common.UserControls.txtFinder()
         Me.lblBMC = New common.Controls.MyLabel()
         Me.lblRoute = New common.Controls.MyLabel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.brnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -60,6 +67,11 @@ Partial Class frmOutgoingQCEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.QCEnddate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.QcStartdata, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnUD, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnRej, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnApp, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,7 +82,6 @@ Partial Class frmOutgoingQCEntry
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.docDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
@@ -80,7 +91,9 @@ Partial Class frmOutgoingQCEntry
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.brnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -100,12 +113,14 @@ Partial Class frmOutgoingQCEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.brnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
-        Me.SplitContainer1.Size = New System.Drawing.Size(973, 450)
-        Me.SplitContainer1.SplitterDistance = 409
+        Me.SplitContainer1.Size = New System.Drawing.Size(1030, 472)
+        Me.SplitContainer1.SplitterDistance = 428
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -115,12 +130,17 @@ Partial Class frmOutgoingQCEntry
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(973, 409)
+        Me.RadPageView1.Size = New System.Drawing.Size(1030, 428)
         Me.RadPageView1.TabIndex = 12
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtAccept)
+        Me.RadPageViewPage1.Controls.Add(Me.QCEnddate)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
+        Me.RadPageViewPage1.Controls.Add(Me.QcStartdata)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnUD)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnRej)
@@ -146,8 +166,118 @@ Partial Class frmOutgoingQCEntry
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(90.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(952, 361)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1009, 380)
         Me.RadPageViewPage1.Text = "QC Production"
+        '
+        'txtAccept
+        '
+        Me.txtAccept.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtAccept.AutoSize = True
+        Me.txtAccept.BackColor = System.Drawing.Color.Yellow
+        Me.txtAccept.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAccept.Location = New System.Drawing.Point(856, 39)
+        Me.txtAccept.MaximumSize = New System.Drawing.Size(107, 20)
+        Me.txtAccept.MinimumSize = New System.Drawing.Size(107, 20)
+        Me.txtAccept.Name = "txtAccept"
+        Me.txtAccept.Size = New System.Drawing.Size(107, 20)
+        Me.txtAccept.TabIndex = 1478
+        Me.txtAccept.Text = "Pending"
+        Me.txtAccept.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'QCEnddate
+        '
+        Me.QCEnddate.CalculationExpression = Nothing
+        Me.QCEnddate.CustomFormat = "dd/MM/yyyy"
+        Me.QCEnddate.FieldCode = Nothing
+        Me.QCEnddate.FieldDesc = Nothing
+        Me.QCEnddate.FieldMaxLength = 0
+        Me.QCEnddate.FieldName = Nothing
+        Me.QCEnddate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.QCEnddate.isCalculatedField = False
+        Me.QCEnddate.IsSourceFromTable = False
+        Me.QCEnddate.IsSourceFromValueList = False
+        Me.QCEnddate.IsUnique = False
+        Me.QCEnddate.Location = New System.Drawing.Point(761, 40)
+        Me.QCEnddate.MendatroryField = False
+        Me.QCEnddate.MyLinkLable1 = Me.MyLabel3
+        Me.QCEnddate.MyLinkLable2 = Nothing
+        Me.QCEnddate.Name = "QCEnddate"
+        Me.QCEnddate.ReferenceFieldDesc = Nothing
+        Me.QCEnddate.ReferenceFieldName = Nothing
+        Me.QCEnddate.ReferenceTableName = Nothing
+        Me.QCEnddate.Size = New System.Drawing.Size(82, 20)
+        Me.QCEnddate.TabIndex = 1477
+        Me.QCEnddate.TabStop = False
+        Me.QCEnddate.Text = "24/02/2015"
+        Me.QCEnddate.Value = New Date(2015, 2, 24, 17, 7, 15, 425)
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(394, 17)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel3.TabIndex = 453
+        Me.MyLabel3.Text = "Date"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(686, 40)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(69, 18)
+        Me.MyLabel7.TabIndex = 1476
+        Me.MyLabel7.Text = "QC end date"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(518, 40)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(74, 18)
+        Me.MyLabel6.TabIndex = 1475
+        Me.MyLabel6.Text = "QC Start date"
+        '
+        'QcStartdata
+        '
+        Me.QcStartdata.CalculationExpression = Nothing
+        Me.QcStartdata.CustomFormat = "dd/MM/yyyy"
+        Me.QcStartdata.FieldCode = Nothing
+        Me.QcStartdata.FieldDesc = Nothing
+        Me.QcStartdata.FieldMaxLength = 0
+        Me.QcStartdata.FieldName = Nothing
+        Me.QcStartdata.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.QcStartdata.isCalculatedField = False
+        Me.QcStartdata.IsSourceFromTable = False
+        Me.QcStartdata.IsSourceFromValueList = False
+        Me.QcStartdata.IsUnique = False
+        Me.QcStartdata.Location = New System.Drawing.Point(598, 40)
+        Me.QcStartdata.MendatroryField = False
+        Me.QcStartdata.MyLinkLable1 = Me.MyLabel3
+        Me.QcStartdata.MyLinkLable2 = Nothing
+        Me.QcStartdata.Name = "QcStartdata"
+        Me.QcStartdata.ReferenceFieldDesc = Nothing
+        Me.QcStartdata.ReferenceFieldName = Nothing
+        Me.QcStartdata.ReferenceTableName = Nothing
+        Me.QcStartdata.Size = New System.Drawing.Size(82, 20)
+        Me.QcStartdata.TabIndex = 1474
+        Me.QcStartdata.TabStop = False
+        Me.QcStartdata.Text = "24/02/2015"
+        Me.QcStartdata.Value = New Date(2015, 2, 24, 17, 7, 15, 425)
+        '
+        'UsLock1
+        '
+        Me.UsLock1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(856, 11)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(107, 20)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 1473
         '
         'rbtnUD
         '
@@ -160,23 +290,13 @@ Partial Class frmOutgoingQCEntry
         Me.rbtnUD.Text = "Under Deviation"
         Me.rbtnUD.Visible = False
         '
-        'UsLock1
-        '
-        Me.UsLock1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(775, 13)
-        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(107, 20)
-        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 1473
-        '
         'rbtnRej
         '
         Me.rbtnRej.Location = New System.Drawing.Point(598, 13)
         Me.rbtnRej.MyLinkLable1 = Nothing
         Me.rbtnRej.MyLinkLable2 = Nothing
         Me.rbtnRej.Name = "rbtnRej"
+        Me.rbtnRej.ReadOnly = True
         Me.rbtnRej.Size = New System.Drawing.Size(63, 18)
         Me.rbtnRej.TabIndex = 1471
         Me.rbtnRej.Text = "Rejected"
@@ -187,6 +307,7 @@ Partial Class frmOutgoingQCEntry
         Me.rbtnApp.MyLinkLable1 = Nothing
         Me.rbtnApp.MyLinkLable2 = Nothing
         Me.rbtnApp.Name = "rbtnApp"
+        Me.rbtnApp.ReadOnly = True
         Me.rbtnApp.Size = New System.Drawing.Size(67, 18)
         Me.rbtnApp.TabIndex = 1472
         Me.rbtnApp.Text = "Accepted"
@@ -320,16 +441,6 @@ Partial Class frmOutgoingQCEntry
         Me.txtDocNo.TabIndex = 452
         Me.txtDocNo.Value = ""
         '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(394, 17)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(30, 16)
-        Me.MyLabel3.TabIndex = 453
-        Me.MyLabel3.Text = "Date"
-        '
         'docDate
         '
         Me.docDate.CalculationExpression = Nothing
@@ -369,7 +480,7 @@ Partial Class frmOutgoingQCEntry
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 177)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(949, 201)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1006, 220)
         Me.RadGroupBox2.TabIndex = 36
         Me.RadGroupBox2.Text = "Production Detail for QC"
         '
@@ -388,12 +499,12 @@ Partial Class frmOutgoingQCEntry
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(929, 171)
+        Me.gv1.Size = New System.Drawing.Size(986, 190)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -493,21 +604,42 @@ Partial Class frmOutgoingQCEntry
         Me.lblRoute.TabIndex = 392
         Me.lblRoute.Text = "FG Code"
         '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(305, 11)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(71, 22)
+        Me.btnReverse.TabIndex = 440
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(161, 8)
+        Me.btnPrint.Location = New System.Drawing.Point(232, 11)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(71, 22)
         Me.btnPrint.TabIndex = 438
         Me.btnPrint.Text = "Print"
         '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btndelete.Location = New System.Drawing.Point(86, 11)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(71, 22)
+        Me.btndelete.TabIndex = 439
+        Me.btndelete.Text = "Delete"
+        '
         'brnSave
         '
         Me.brnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.brnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.brnSave.Location = New System.Drawing.Point(13, 8)
+        Me.brnSave.Location = New System.Drawing.Point(13, 11)
         Me.brnSave.Name = "brnSave"
         Me.brnSave.Size = New System.Drawing.Size(71, 22)
         Me.brnSave.TabIndex = 437
@@ -517,7 +649,7 @@ Partial Class frmOutgoingQCEntry
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(879, 8)
+        Me.btnClose.Location = New System.Drawing.Point(936, 11)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(84, 22)
         Me.btnClose.TabIndex = 436
@@ -527,7 +659,7 @@ Partial Class frmOutgoingQCEntry
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(87, 8)
+        Me.btnPost.Location = New System.Drawing.Point(159, 11)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(71, 22)
         Me.btnPost.TabIndex = 435
@@ -537,7 +669,7 @@ Partial Class frmOutgoingQCEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(973, 450)
+        Me.ClientSize = New System.Drawing.Size(1030, 472)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmOutgoingQCEntry"
         '
@@ -552,6 +684,11 @@ Partial Class frmOutgoingQCEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.QCEnddate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.QcStartdata, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnUD, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnRej, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnApp, System.ComponentModel.ISupportInitialize).EndInit()
@@ -562,7 +699,6 @@ Partial Class frmOutgoingQCEntry
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.docDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
@@ -572,7 +708,9 @@ Partial Class frmOutgoingQCEntry
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.brnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -611,4 +749,11 @@ Partial Class frmOutgoingQCEntry
     Friend WithEvents rbtnApp As common.Controls.MyRadioButton
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents btndelete As RadButton
+    Friend WithEvents btnReverse As RadButton
+    Friend WithEvents QcStartdata As common.Controls.MyDateTimePicker
+    Friend WithEvents QCEnddate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents txtAccept As Label
 End Class

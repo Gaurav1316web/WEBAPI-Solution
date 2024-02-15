@@ -80,8 +80,20 @@ Public Class frmBulkProcurementUploader
     Public ChkBoxColumn As GridViewCheckBoxColumn = Nothing
 #End Region
 
-    Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load       
-             AllowJobWorkonGateEntryBulkProc = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowJobWorkonGateEntryBulkProc, clsFixedParameterCode.AllowJobWorkonGateEntryBulkProc, Nothing))
+
+    Private Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        'btnPost.Visible = MyBase.isPostFlag
+        'btnDelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
+    Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
+        AllowJobWorkonGateEntryBulkProc = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowJobWorkonGateEntryBulkProc, clsFixedParameterCode.AllowJobWorkonGateEntryBulkProc, Nothing))
         isdipmarkingmendatory = IIf(clsFixedParameter.GetData(clsFixedParameterType.DipMarkingMendatory, clsFixedParameterCode.DipMarkingMendatory, Nothing) = "1", True, False) 'added by stuti on 24/11/2016
         AddNew()
         btnSave.Enabled = False

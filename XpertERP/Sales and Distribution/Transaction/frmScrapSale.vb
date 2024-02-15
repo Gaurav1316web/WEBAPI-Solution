@@ -181,7 +181,6 @@ Public Class frmScrapSale
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
-
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
@@ -198,7 +197,6 @@ Public Class frmScrapSale
             rmiImport.Enabled = False
             rmiExport.Enabled = False
         End If
-
     End Sub
 
 

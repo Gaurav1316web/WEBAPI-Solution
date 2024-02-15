@@ -88,6 +88,8 @@ Public Class frmMilkCollectionDCSMultipleDays
             txtTotEnteredFAT.Enabled = True
             txtTotEnteredSNF.Enabled = True
         End If
+
+        SetUserMgmtNew()
     End Sub
     Public Sub LoadFATSNFType()
         Dim dt As DataTable = New DataTable()
@@ -175,6 +177,7 @@ Public Class frmMilkCollectionDCSMultipleDays
         gv1.Rows(0).Cells(colMilkType).Value = "Good"
         txtDate.Enabled = True
         txtMCC.Focus()
+
     End Sub
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
@@ -664,7 +667,7 @@ Public Class frmMilkCollectionDCSMultipleDays
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
         End Try
     End Sub
@@ -918,6 +921,14 @@ Public Class frmMilkCollectionDCSMultipleDays
             PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             CancelPressed()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "SIRC"
+            frm.strCode = "SIReversAndCreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverse.Visible = True
+            End If
         End If
     End Sub
     Sub CancelPressed()
@@ -927,7 +938,7 @@ Public Class frmMilkCollectionDCSMultipleDays
         RefeshSNO()
     End Sub
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -961,7 +972,7 @@ Public Class frmMilkCollectionDCSMultipleDays
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
@@ -1441,7 +1452,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Successfully Imported.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Imported.", Me.Text)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -1644,4 +1655,30 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
         End If
     End Sub
 
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Please note - all milk collection data of existing date will be delete " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsMilkCollectionDCSMulipleDays.ReverseAndUnpost(txtDocNo.Value) Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Public Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
+    End Sub
 End Class

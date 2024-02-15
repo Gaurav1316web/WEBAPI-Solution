@@ -39,6 +39,7 @@ Public Class frmDemandBooking
     Const colIsItemUpdate As String = "colIsItemUpdate"
     Const colBookingCreatedFor3Days As String = "colBookingCreatedFor3Days"
     Const colLineNo As String = "COLLNO"
+    Const colbtncol As String = "colbtncol"
     Const colCustCode As String = "colCustCode"
     Const colCustName As String = "colCustName"
     Const colShiftName As String = "colShiftName"
@@ -203,6 +204,14 @@ Public Class frmDemandBooking
         gv1.Rows.AddNew()
         Dim TAX_PAID As New GridViewComboBoxColumn
         Dim BOOK_RATE_UOM As New GridViewTextBoxColumn
+        Dim RepobtnCol As GridViewCommandColumn = New GridViewCommandColumn()
+        RepobtnCol.HeaderText = "Details "
+        RepobtnCol.Name = colbtncol
+        RepobtnCol.ReadOnly = False
+        RepobtnCol.Width = 150
+        RepobtnCol.DefaultText = "Reset ..."
+        RepobtnCol.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        gv1.MasterTemplate.Columns.Add(RepobtnCol)
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
         repoLineNo.FormatString = ""
@@ -213,6 +222,7 @@ Public Class frmDemandBooking
         repoLineNo.IsPinned = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoLineNo)
+
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
         repoCustCode.HeaderText = "Code"
@@ -382,6 +392,7 @@ Public Class frmDemandBooking
         repoAmt.IsPinned = True
         repoAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAmt)
+
         gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -452,6 +463,7 @@ Public Class frmDemandBooking
                 Dim view As New ColumnGroupsViewDefinition()
                 view.ColumnGroups.Add(New GridViewColumnGroup("Booth"))
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colbtncol).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colLineNo).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colCustCode).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colCustName).Name)
@@ -463,7 +475,7 @@ Public Class frmDemandBooking
                 Dim TempColGroupCount As Integer = 1
                 Dim obj As ItemValueClass = New ItemValueClass()
                 Dim i As Integer = 1
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
+                For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
                         If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -606,7 +618,7 @@ Public Class frmDemandBooking
             If Not isInsideLoadData Then
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
-                    If e.Column.Index >= 7 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
+                    If e.Column.Index >= 8 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
                         'If isLoadData = False AndAlso (clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0) Then
                         If isLoadData = False Then
                             ''UpdateItemQtyAfterSave(gv1.CurrentRow.Index, gv1.CurrentColumn.Index)
@@ -825,7 +837,7 @@ Public Class frmDemandBooking
                             End If
                         End If
                         Dim k As Integer = 1
-                        For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
+                        For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
                             If obj1 IsNot Nothing Then
@@ -858,7 +870,18 @@ Public Class frmDemandBooking
                                         objTr.Vehicle_Code = clsCommon.myCstr(txtVehicleNo.Value)
                                         If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
                                             If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
-                                                objTr.TotalCrates_ItemWise = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                                If IsRepeatOrder = 1 Then
+                                                    If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                                                        If clsCommon.CompairString(objTr.Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(objTr.Cust_Code) + "' and IsReorder=1")) = CompairStringResult.Equal Then
+                                                            objTr.TotalCrates_ItemWise = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                                        End If
+                                                    Else
+                                                        objTr.TotalCrates_ItemWise = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                                    End If
+                                                Else
+                                                    objTr.TotalCrates_ItemWise = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+
+                                                End If
                                             Else
                                                 Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
                                                 If ItemCrateType = 1 Then
@@ -880,7 +903,17 @@ Public Class frmDemandBooking
                                             Dim ItemConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
                                             If CrateConvFactor_Ltr > 0 And ItemConvFactor_Ltr > 0 Then
                                                 Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor_Ltr
-                                                objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
+                                                If IsRepeatOrder = 1 Then
+                                                    If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                                                        If clsCommon.CompairString(objTr.Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(objTr.Cust_Code) + "' and IsReorder=1")) = CompairStringResult.Equal Then
+                                                            objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
+                                                        End If
+                                                    Else
+                                                        objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
+                                                    End If
+                                                Else
+                                                    objTr.TotalLtr_ItemWise = (DispatchQty / CrateConvFactor_Ltr)
+                                                End If
                                             End If
                                         End If
                                         qry = "select Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,Zone_Code,TSPL_CUSTOMER_MASTER.Route_No,Number,TSPL_ROUTE_MASTER.Route_Desc,tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER left outer join " &
@@ -1060,7 +1093,7 @@ Public Class frmDemandBooking
                         For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), objTr.ShiftType) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
-                                For columns = 7 To gv1.Columns.Count - 7
+                                For columns = 8 To gv1.Columns.Count - 7
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.ShiftType, "Morning") = CompairStringResult.Equal Then
@@ -1417,7 +1450,7 @@ Public Class frmDemandBooking
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "' ")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
+                For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
                         If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -1489,6 +1522,7 @@ Public Class frmDemandBooking
                         RadGroupBox3.Enabled = False
                     End If
                     If flagE Then
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
@@ -1498,6 +1532,7 @@ Public Class frmDemandBooking
                         gv1.Rows.AddNew()
                     End If
                     If flagM Then
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
@@ -1553,7 +1588,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 Throw New Exception(ex.Message)
                             End Try
                             Try
-                                For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
+                                For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                                     If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code).ToUpper, "POUCH") = CompairStringResult.Equal Then
                                         gv1.Rows(n).Cells(dblcolumns).Style.DrawFill = True
@@ -1691,7 +1726,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     End If
                 End If
             Next
-            For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
+            For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 If obj1 IsNot Nothing Then
                     If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
@@ -1896,7 +1931,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
+                For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -2024,7 +2059,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         Try
             Dim TotalQty As Double = 0
             'For dbrows1 As Integer = 0 To gv1.Rows.Count - 1
-            For dblcolumns As Integer = 7 To gv1.Columns.Count - 1
+            For dblcolumns As Integer = 8 To gv1.Columns.Count - 1
                 TotalQty = 0
                 For dbrows As Integer = 0 To gv1.Rows.Count - 2
                     TotalQty += clsCommon.myCdbl(gv1.Rows(dbrows).Cells(dblcolumns).Value)
@@ -3254,7 +3289,7 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
     End Sub
     Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
         Try
-            If e.Column.Index >= 7 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
+            If e.Column.Index >= 8 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
                 ' If isLoadData = False Then
                 If (chkEveningGatepassTruckSheetGenerated.Checked OrElse chkEveningPosted.Checked) And clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colShiftName).Value), "Evening ") = CompairStringResult.Equal Then
                     gv1.CurrentRow.Cells(e.ColumnIndex).ReadOnly = True
@@ -3264,7 +3299,7 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
                 End If
                 e.CellElement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             End If
-            If e.Column.Index >= 7 AndAlso gv1.Rows.Count > 0 Then
+            If e.Column.Index >= 8 AndAlso gv1.Rows.Count > 0 Then
                 If e.Column.IsCurrent Then
                     e.CellElement.DrawFill = True
                     e.CellElement.BackColor = Color.LightGreen
@@ -4083,7 +4118,7 @@ group by XYZ.Cust_Code
                     For dblrow As Integer = 0 To gv1.Rows.Count - 2
                         If clsCommon.CompairString(gv1.Rows(dblrow).Cells(colCustCode).Value, clsCommon.myCstr(dr.Item("Cust_Code"))) = CompairStringResult.Equal Then
                             Dim k As Integer = 1
-                            For dblcolumns As Integer = 7 To gv1.Columns.Count - 7
+                            For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                                 Dim obj1 As ItemValueClass = Nothing
                                 Try
                                     obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -4104,6 +4139,33 @@ group by XYZ.Cust_Code
                         End If
                     Next
                 Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub gv1_CellClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellClick
+        If e.Column Is gv1.Columns(colbtncol) Then
+            Try
+                If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                    If common.clsCommon.MyMessageBoxShow(Me, "Do You Want to Reset Demand for Booth  " + clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value) + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                        DeleteBoothDemand(txtDocNo.Value, gv1.CurrentRow.Cells(colCustCode).Value, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+
+                    End If
+                Else
+                    Throw New Exception("Document not Found!")
+                End If
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        End If
+    End Sub
+    Public Sub DeleteBoothDemand(ByVal DocNo As String, ByVal cust_code As String, ByVal ShiftType As String)
+        Try
+            If clsDemandBookingSale.DeleteBoothDemand(DocNo, cust_code, ShiftType) Then
+                clsCommon.MyMessageBoxShow(Me, "Demand Reset for Booth No :" + clsCommon.myCstr(cust_code), Me.Text)
+                LoadData(DocNo, NavigatorType.Current)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

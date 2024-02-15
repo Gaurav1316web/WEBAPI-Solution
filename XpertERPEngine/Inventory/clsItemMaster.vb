@@ -13,6 +13,7 @@ Public Class clsItemMaster
     Public RAL As Boolean = False
     Public Is_Rate_Change_OnDairyDispatch As Integer = 0
     Public Is_QC_SNF_Based As Integer = 0
+    Public Is_AllowQC_ON_Production As Integer = 0
     Public Cust_Account As String = Nothing
     Public Cust_Account_Name As String = Nothing
     Public Part_No As String = Nothing
@@ -31,6 +32,7 @@ Public Class clsItemMaster
     Public item_category As String = ""
     Public Sub_item_category As String = ""
     Public TypeOfItm As String = ""
+    Public DcsSeqNo As Double = 0
     Public Item_Type As String = ""
     Public Morning As Boolean = False
     Public IsTaxable As Boolean = False
@@ -1453,6 +1455,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Active", IIf(obj.Active, 1, 0))
             clsCommon.AddColumnsForChange(coll, "AlternativeItem", obj.AlternativeItem)
             clsCommon.AddColumnsForChange(coll, "Sku_Seq", clsCommon.myCdbl(obj.Sku_Seq))
+            clsCommon.AddColumnsForChange(coll, "DcsSeqNo", clsCommon.myCdbl(obj.DcsSeqNo))
             clsCommon.AddColumnsForChange(coll, "Is_DisplayDemand", clsCommon.myCdbl(obj.Is_DisplayDemand))
             clsCommon.AddColumnsForChange(coll, "Is_ExcludeAPP", clsCommon.myCdbl(obj.Is_ExcludeAPP))
             clsCommon.AddColumnsForChange(coll, "ItemSpecification", obj.ItemSpecification)
@@ -1477,6 +1480,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "RAL", IIf(obj.RAL, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Rate_Change_OnDairyDispatch", obj.Is_Rate_Change_OnDairyDispatch)
             clsCommon.AddColumnsForChange(coll, "Is_QC_SNF_Based", obj.Is_QC_SNF_Based)
+            clsCommon.AddColumnsForChange(coll, "Is_AllowQC_ON_Production", obj.Is_AllowQC_ON_Production)
             clsCommon.AddColumnsForChange(coll, "AllowSRNWithoutShortReject", obj.AllowSRNWithoutShortReject)
             clsCommon.AddColumnsForChange(coll, "Is_Ambient", IIf(obj.Is_Ambient, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Tax_Exempted", obj.Tax_Exempted)
@@ -1707,6 +1711,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Weight_UOM = clsCommon.myCstr(dt.Rows(0)("Weight_UOM"))
                 obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                 obj.Sku_Seq = clsCommon.myCdbl(dt.Rows(0)("Sku_Seq"))
+                obj.DcsSeqNo = clsCommon.myCdbl(dt.Rows(0)("DcsSeqNo"))
                 obj.Is_DisplayDemand = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_DisplayDemand")) = 1, True, False)
                 obj.Is_ExcludeAPP = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_ExcludeAPP")) = 1, True, False)
                 obj.BuyBackType = clsCommon.myCdbl(dt.Rows(0)("BuyBackType"))
@@ -1728,6 +1733,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
 
                 obj.HSNCode = clsCommon.myCstr(dt.Rows(0)("HSN_Code"))
                 obj.FG_for_CF = clsCommon.myCdbl(dt.Rows(0)("FG_for_CF"))
+                obj.Is_AllowQC_ON_Production = clsCommon.myCdbl(dt.Rows(0)("Is_AllowQC_ON_Production"))
                 obj.BomBuildQty = clsCommon.myCdbl(dt.Rows(0)("BomBuildQty"))
                 obj.NIR_QC = (clsCommon.myCdbl(dt.Rows(0)("NIR_QC")) = 1)
                 obj.Cust_Account = clsCommon.myCstr(dt.Rows(0)("Cust_Account"))

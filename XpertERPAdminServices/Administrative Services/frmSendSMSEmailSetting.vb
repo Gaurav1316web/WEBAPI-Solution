@@ -64,6 +64,7 @@ Public Class FrmSendSMSEmailSetting
     End Sub
 
     Private Sub FrmSendSMSEmailSetting_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         isLoadData = True
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update Trasnaction")
