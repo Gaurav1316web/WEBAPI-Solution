@@ -53,10 +53,11 @@ Public Class frmMISItemMaster
             obj.Name = txtName.Text
             obj.GroupCode = txtGPCode.Text
             obj.ItemUOM = txtUOM.Text
+            obj.SNO = txtSeqNo.Value
 
             If (obj.SaveData(obj, isNewEntry)) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                LoadData(obj.Code, NavigatorType.Current)
+                '' LoadData(obj.Code, NavigatorType.Current)
                 'Else
                 '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
             End If
@@ -90,6 +91,7 @@ Public Class frmMISItemMaster
             txtName.Text = obj.Name
             txtGPCode.Text = obj.GroupCode
             txtUOM.Text = obj.ItemUOM
+            txtSeqNo.Value = obj.Sno
         End If
 
     End Sub
@@ -105,6 +107,7 @@ Public Class frmMISItemMaster
         txtName.Text = ""
         txtGPCode.Text = ""
         txtUOM.Text = ""
+        txtSeqNo.Value = "0"
         btnSave.Text = "Save"
         btnSave.Enabled = True
         btnDelete.Enabled = True

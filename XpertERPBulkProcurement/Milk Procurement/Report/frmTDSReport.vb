@@ -133,7 +133,7 @@ Public Class frmTDSReport
         End If
         Qry += "cast(VLC_CODE_Uploader as int) As [DCS Code], VSP_NAME As [Society Name],Milk_Qty As [Milk Quantity],
                     (Milk_Amount+Credit_Note_Amount) As [Milk Amount + OverHead],Isnull(TSPL_REMITTANCE.Actual_TDS_Base,0)+ Isnull(TabCNTDS.Actual_TDS_Base,0) as [Actual Amount], Isnull(TDS_Amount,0) As [TDS Amount],
-                    TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Regn_No,Case When TSPL_COMPANY_MASTER.Phone1 Is Null Then TSPL_COMPANY_MASTER.Phone2 Else TSPL_COMPANY_MASTER.Phone1 End As [Comp Contact No]
+                    TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Regn_No,Case When TSPL_COMPANY_MASTER.Phone1 Is Null Then TSPL_COMPANY_MASTER.Phone2 Else TSPL_COMPANY_MASTER.Phone1 End As [Comp Contact No],TSPL_COMPANY_MASTER.logo_img
 from TSPL_PAYMENT_PROCESS_DETAIL 
 left outer join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 Left Outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
