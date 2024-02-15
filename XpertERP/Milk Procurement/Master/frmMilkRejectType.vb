@@ -45,6 +45,7 @@ Public Class frmMilkRejectType
             Dim obj As New clsMilkRejectType()
             obj.Code = txtCode.Value
             obj.Description = txtDescription.Text
+            obj.Descriptionhindi = txtDescriptionhindi.Text
             obj.Item_Code = txtItem.Value
             obj.Applicable_On = 0
             If rbtnRate.IsChecked Then
@@ -82,6 +83,7 @@ Public Class frmMilkRejectType
             rdbtndelete.Enabled = True
             txtCode.Value = obj.Code
             txtDescription.Text = obj.Description
+            txtDescriptionhindi.Text = obj.Descriptionhindi
             If obj.Applicable_On = 1 Then
                 rbtnRate.IsChecked = True
             ElseIf obj.Applicable_On = 2 Then
@@ -187,6 +189,7 @@ Public Class frmMilkRejectType
         txtCode.Value = Nothing
         txtCode.Focus()
         txtDescription.Text = ""
+        txtDescriptionhindi.Text = ""
         txtItem.Value = ""
         lblItem.Text = ""
         btnsave.Text = "Save"

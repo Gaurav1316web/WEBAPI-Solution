@@ -5983,6 +5983,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmBulkSaleAcknowledgementUploader
                         frm = New frmBulkSaleAcknowledgementUploader()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.BulkSaleFreightMaster
+                        frm = New frmBulkSaleFreightMaster()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9558,6 +9561,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.AuditTrailBulkSale
                         frm = New rptAuditTrailReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.BulkSaleAcknowledgementUploaderReport
+                        frm = New rptBulkSaleAcknowledgementUploaderReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.AuditTrailCSASale
                         frm = New rptAuditTrailReport

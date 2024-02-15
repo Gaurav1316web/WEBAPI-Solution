@@ -13,6 +13,7 @@ Public Class frmPanchayatSamitiMaster
     Sub Reset()
         txtCode.Value = ""
         txtName.Text = ""
+        txtNamehindi.Text = ""
 
         btnSave.Text = "Save"
         btnSave.Enabled = True
@@ -65,6 +66,7 @@ Public Class frmPanchayatSamitiMaster
 
             obj.code = clsCommon.myCstr(txtCode.Value)
             obj.name = clsCommon.myCstr(txtName.Text).Replace("'", "`")
+            obj.name_hindi = clsCommon.myCstr(txtNamehindi.Text)
 
             If clsPanchayatSamitiMaster.SaveData(obj, txtCode.Value) Then
                 clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -172,6 +174,7 @@ Public Class frmPanchayatSamitiMaster
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.code) > 0 Then
                 txtCode.Value = obj.code
                 txtName.Text = obj.name
+                txtNamehindi.Text = obj.name_hindi
 
                 txtCode.MyReadOnly = True
                 btnSave.Text = "Update"
@@ -257,4 +260,5 @@ Public Class frmPanchayatSamitiMaster
         End If
         Me.Controls.Remove(gv)
     End Sub
+
 End Class

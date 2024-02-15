@@ -2447,6 +2447,7 @@ Public Class FrmReceipttNew
 #End Region
 
     Private Sub SetUserMgmtNew()
+
         Me.Form_ID = clsUserMgtCode.ReceiptEntry
         MyBase.SetUserMgmt(clsUserMgtCode.ReceiptEntry)
         If Not (MyBase.isReadFlag) Then

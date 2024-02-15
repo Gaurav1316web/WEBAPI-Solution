@@ -6,6 +6,7 @@ Public Class clsRevenueVillageMaster
 #Region "Variables"
     Public code As String = Nothing
     Public name As String = Nothing
+    Public Revenue_Village_Name_Hindi As String = Nothing
 #End Region
     '----------------Code For Get Finder--------------------------------------------------------------------'
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
@@ -33,6 +34,7 @@ Public Class clsRevenueVillageMaster
             Dim qry As String = "SELECT Count(*) FROM TSPL_REVENUE_VILLAGE_MASTER where REVENUE_VILLAGE_CODE= '" & obj.code & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
             clsCommon.AddColumnsForChange(coll, "REVENUE_VILLAGE_NAME", obj.name)
+            clsCommon.AddColumnsForChange(coll, "REVENUE_VILLAGE_NAME_HINDI", obj.Revenue_Village_Name_Hindi, False, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
 
@@ -74,6 +76,7 @@ Public Class clsRevenueVillageMaster
                 obj = New clsRevenueVillageMaster()
                 obj.code = clsCommon.myCstr(dt.Rows(0)("REVENUE_VILLAGE_CODE"))
                 obj.name = clsCommon.myCstr(dt.Rows(0)("REVENUE_VILLAGE_NAME"))
+                obj.Revenue_Village_Name_Hindi = clsCommon.myCstr(dt.Rows(0)("Revenue_Village_Name_Hindi"))
             End If
             Return obj
         Catch ex As Exception

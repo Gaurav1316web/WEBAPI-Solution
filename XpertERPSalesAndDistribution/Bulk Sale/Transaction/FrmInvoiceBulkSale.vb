@@ -961,8 +961,10 @@ Public Class FrmInvoiceBulkSale
                         ''richa agarwal 12/01/2014
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInvoiceFatKg).Value = obj.Fat_KG
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInvoiceSNFKg).Value = obj.SNF_KG
+                        Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
+                        Dim CLR As Double = clsEkoPro.getClrOnCalculation(obj.FatPer, obj.SNFPer, corrFactor)
 
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCLR).Value = obj.CLR
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCLR).Value = CLR
                         'Sanjay 14/09/2018
                         If ShowBulkDispatchQtyInLtr = True Then
                             ''richa agarwal 8 Jan,2018 ERO/07/01/19-000457

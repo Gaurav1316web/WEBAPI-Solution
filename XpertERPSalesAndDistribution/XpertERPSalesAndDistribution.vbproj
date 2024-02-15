@@ -328,6 +328,12 @@
     <Compile Include="AppCode\DAL\DALPrice.vb" />
     <Compile Include="AppCode\DAL\DALPriceComponant.vb" />
     <Compile Include="AppCode\DAL\DALScheme.vb" />
+    <Compile Include="Bulk Sale\Master\frmBulkSaleFreightMaster.Designer.vb">
+      <DependentUpon>frmBulkSaleFreightMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\frmBulkSaleFreightMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Bulk Sale\Master\frmBulkSalePriceChart.Designer.vb">
       <DependentUpon>frmBulkSalePriceChart.vb</DependentUpon>
     </Compile>
@@ -388,6 +394,12 @@
     <Compile Include="Bulk Sale\Report\RptBulkMultipleDispatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bulk Sale\Report\rptBulkSaleAcknowledgementUploaderReport.Designer.vb">
+      <DependentUpon>rptBulkSaleAcknowledgementUploaderReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Report\rptBulkSaleAcknowledgementUploaderReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Bulk Sale\Report\RptBulkSaleRegister.Designer.vb">
       <DependentUpon>RptBulkSaleRegister.vb</DependentUpon>
     </Compile>
@@ -410,6 +422,12 @@
       <DependentUpon>frmBulkSaleAcknowledgement.vb</DependentUpon>
     </Compile>
     <Compile Include="Bulk Sale\Transaction\frmBulkSaleAcknowledgement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmBulkSaleFreightCalculation.Designer.vb">
+      <DependentUpon>frmBulkSaleFreightCalculation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmBulkSaleFreightCalculation.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Bulk Sale\Transaction\FrmBulkSaleReturn.Designer.vb">
@@ -1909,6 +1927,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Bulk Sale\Master\frmBulkSaleFreightMaster.resx">
+      <DependentUpon>frmBulkSaleFreightMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Master\frmBulkSalePriceChart.resx">
       <DependentUpon>frmBulkSalePriceChart.vb</DependentUpon>
     </EmbeddedResource>
@@ -1938,6 +1959,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Report\RptBulkMultipleDispatch.resx">
       <DependentUpon>RptBulkMultipleDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Report\rptBulkSaleAcknowledgementUploaderReport.resx">
+      <DependentUpon>rptBulkSaleAcknowledgementUploaderReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Report\RptBulkSaleRegister.resx">
       <DependentUpon>RptBulkSaleRegister.vb</DependentUpon>

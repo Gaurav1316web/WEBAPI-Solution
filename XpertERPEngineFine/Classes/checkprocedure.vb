@@ -1951,6 +1951,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmBulkCreditLimitApproval, "Bulk Credit Limit Approval", "1.23.01.03", clsUserMgtCode.SubModuleBSSetup, 27)
         InsertDefaultValue(clsUserMgtCode.FrmBulkTransactionApproval, "Bulk Transaction Approval", "1.23.01.04", clsUserMgtCode.SubModuleBSSetup, 27)
         InsertDefaultValue(clsUserMgtCode.TankerMasterSale, "Tanker Master Sale", "1.23.01.05", clsUserMgtCode.SubModuleBSSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, "Bulk Sale Frieight Master", "1.23.01.06", clsUserMgtCode.SubModuleBSSetup, 27)
+
         ''transaction
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkSaleTransaction, "Transaction", "1.23.02", clsUserMgtCode.ModuleBulkSale, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.FrmSalesOrderBS, "Bulk Sales Order", "1.23.02.01", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
@@ -1978,6 +1980,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryBulkSAle, "Sale Return Gate Entry Bulk Sale", "1.23.02.16", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBulkSaleAcknowledgement, "Bulk Sale Acknowledgement", "1.23.02.17", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBulkSaleAcknowledgementUploader, "Bulk Sale Acknowledgement Uploader", "1.23.02.18", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBulkSaleFreightCalculation, "Bulk Sale Acknowledgement Uploader", "1.23.02.19", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
 
         ''Report
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkSaleReport, "Report", "1.23.03", clsUserMgtCode.ModuleBulkSale, "SM", 30)
@@ -1985,6 +1988,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptBulkSaleRegister, "Bulk Sale Register", "1.23.03.02", clsUserMgtCode.SubModuleBulkSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptBulkMultipleDispatch, "Bulk Dispatch Print Statement", "1.23.03.03", clsUserMgtCode.SubModuleBulkSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailBulkSale, "Bulk Sale Audit Trail Report", "1.23.03.04", clsUserMgtCode.SubModuleBulkSaleReport, 37)
+        InsertDefaultValue(clsUserMgtCode.BulkSaleAcknowledgementUploaderReport, "Bulk Sale Acknowledgement Uploader Report", "1.23.03.05", clsUserMgtCode.SubModuleBulkSaleReport, 37)
 
         ''========================================
 

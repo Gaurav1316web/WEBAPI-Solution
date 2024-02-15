@@ -32,7 +32,6 @@ Public Class frmDBTNEFTReject
         InitializeComponent()
     End Sub
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
         SetUserMgmtNew()
         Reset()
 
@@ -317,20 +316,34 @@ where TSPL_DBT_NEFT_REJECT_SUCESS.Document_Code='" & txtDocumentNo.Value & "'
         Try
             'loadBlankGrid()
             gvItem.DataSource = Nothing
-            txtDPTNEFT.Value = clsDBTNEFT.getFinder(" isnull(TSPL_DBT_NEFT.Status,0)=1 and not exists(select 1 from TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT=TSPL_DBT_NEFT.Document_Code )", txtDPTNEFT.Value, isButtonClicked)
+            txtDPTNEFT.Value = clsDBTNEFT.getFinder(" isnull(TSPL_DBT_NEFT.Status,0)=1 ", txtDPTNEFT.Value, isButtonClicked)
             If clsCommon.myLen(txtDPTNEFT.Value) > 0 Then
                 Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(txtDPTNEFT.Value, NavigatorType.Current)
                 If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
-                    Dim qry As String = "Select CAST(0 as bit) as colSelect ,TSPL_DBT_NEFT_DETAIL.SNo,TSPL_DBT_NEFT_DETAIL.PK_Id as AgainstMPIncetive,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code ,TSPL_DBT_NEFT_DETAIL.Rem_Account_No AS 
-                [REMITTER ACCOUNT NO.],TSPL_DBT_NEFT_DETAIL.Rem_Name AS [REMITTER NAME],TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code AS [Society]
-                ,TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code AS [MP Uploader Code]
-                ,TSPL_DBT_NEFT_DETAIL.Amount AS AMOUNT,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No AS [IFSC CODE]
-                ,TSPL_DBT_NEFT_DETAIL.MP_Account_No AS [BENEFICERY ACCOUNT  NO.],TSPL_DBT_NEFT_DETAIL.MP_Name AS [BENEFICERY NAME]
-                ,TSPL_DBT_NEFT_DETAIL.[Transaction] AS [TRANSACTION DESC CREDIT],'' AS Remarks
-                    from TSPL_DBT_NEFT_DETAIL 
-                    Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
-                    left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-                    where TSPL_DBT_NEFT_DETAIL.Document_Code='" & txtDPTNEFT.Value & "'  ORDER BY TSPL_DBT_NEFT_DETAIL.SNo "
+                    '    Dim qry As String = "Select CAST(0 as bit) as colSelect ,TSPL_DBT_NEFT_DETAIL.SNo,TSPL_DBT_NEFT_DETAIL.PK_Id as AgainstMPIncetive,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code ,TSPL_DBT_NEFT_DETAIL.Rem_Account_No AS 
+                    '[REMITTER ACCOUNT NO.],TSPL_DBT_NEFT_DETAIL.Rem_Name AS [REMITTER NAME],TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code AS [Society]
+                    ',TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code AS [MP Uploader Code]
+                    ',TSPL_DBT_NEFT_DETAIL.Amount AS AMOUNT,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No AS [IFSC CODE]
+                    ',TSPL_DBT_NEFT_DETAIL.MP_Account_No AS [BENEFICERY ACCOUNT  NO.],TSPL_DBT_NEFT_DETAIL.MP_Name AS [BENEFICERY NAME]
+                    ',TSPL_DBT_NEFT_DETAIL.[Transaction] AS [TRANSACTION DESC CREDIT],'' AS Remarks
+                    '    from TSPL_DBT_NEFT_DETAIL 
+                    '    Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
+                    '    left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+                    '    where TSPL_DBT_NEFT_DETAIL.Document_Code='" & txtDPTNEFT.Value & "'  ORDER BY TSPL_DBT_NEFT_DETAIL.SNo "
+
+                    Qry = "Select CAST(0 as bit) as colSelect,ROW_NUMBER() over (order by max(xx.SNo) )  as SNo,xx.PK_Id as AgainstMPIncetive,max(TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code) as  MP_Code,max(xx.Rem_Account_No) AS 
+[REMITTER ACCOUNT NO.],max(xx.Rem_Name) AS [REMITTER NAME],max(xx.VLC_Uploader_Code) AS [Society],max(xx.MP_Uploader_Code) AS [MP Uploader Code],max(xx.Amount) AS AMOUNT,max(xx.MP_IFSC_No) AS [IFSC CODE],max(xx.MP_Account_No) AS [BENEFICERY ACCOUNT  NO.],max(xx.MP_Name) AS [BENEFICERY NAME],max(xx.[Transaction]) AS [TRANSACTION DESC CREDIT],'' AS Remarks from (
+select TSPL_DBT_NEFT_DETAIL.SNo,TSPL_DBT_NEFT_DETAIL.PK_Id,TSPL_DBT_NEFT_DETAIL.Rem_Account_No,TSPL_DBT_NEFT_DETAIL.Rem_Name ,TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code  ,TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code ,TSPL_DBT_NEFT_DETAIL.Amount,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No ,TSPL_DBT_NEFT_DETAIL.MP_Account_No ,TSPL_DBT_NEFT_DETAIL.MP_Name,TSPL_DBT_NEFT_DETAIL.[Transaction],1 as RI ,TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR  
+from TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDPTNEFT.Value + "'
+union all
+select 0 as  SNo,TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR as PK_Id,'' as Rem_Account_No,'' as Rem_Name ,'' as VLC_Uploader_Code,'' as MP_Uploader_Code ,0 as Amount,'' as MP_IFSC_No,'' as MP_Account_No ,'' as MP_Name,'' as [Transaction],-1 as RI ,0 as Against_MP_Incentive_TR 
+from TSPL_DBT_NEFT_REJECT_DETAIL 
+left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code= TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code
+where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT='" + txtDPTNEFT.Value + "' and TSPL_DBT_NEFT_REJECT.Document_Code not in ('" + txtDocumentNo.Value + "')
+)xx 
+Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xx.Against_MP_Incentive_TR   
+left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+group by xx.PK_Id having sum(RI)>0"
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

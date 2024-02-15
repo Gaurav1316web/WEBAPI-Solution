@@ -37,7 +37,18 @@ Public Class frmBulkPurchaseUploader
             End If
         End If
     End Sub
+
+    Private Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSaveAndPost.Visible = MyBase.isModifyFlag
+        btnSaveAndPost.Visible = MyBase.isPostFlag
+        'btnDelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
     Private Sub frmBulkPurchaseUploader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
         AllowJobWorkonGateEntryBulkProc = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowJobWorkonGateEntryBulkProc, clsFixedParameterCode.AllowJobWorkonGateEntryBulkProc, Nothing))
         Gv1.Visible = True
         btnMergeAndRecreate.Visible = False
