@@ -3080,7 +3080,7 @@ where TSPL_SD_SALE_INVOICE_head.Document_Code ='" & strDocNo & "'"
                 strMCCMaterial += " IM.Avg_Cost as [COGS],CogsAccount.Cost_Of_Goods_Sold,CogsAccount.Cost_Of_Goods_Sold_Description,  "
             End If
 
-            strMCCMaterial += " case when len([Form Type])>0 then [Form Type] else   _Type end  as [Form Type],[Trans Type],[Location Code],isnull(Sub_Location_code,'')Sub_Location_code,[Location Name],Loc.State as [Location State],GSTState.GST_STATE_Code as [GST State Code],loc.GSTNO as [Dispatch Location GSTIN No], (CASE WHEN [Invoice Type]='T' THEN 'Tax' when [Invoice Type]='R' then 'Retail' when [Invoice Type]='N' then 'None' else [Invoice Type] end) as [Invoice Type],[Document No],"
+            strMCCMaterial += " case when len([Form Type])>0 then [Form Type] else   _Type end  as [Form Type],[Trans Type],[Location Code],[Location Name],Loc.State as [Location State],GSTState.GST_STATE_Code as [GST State Code],loc.GSTNO as [Dispatch Location GSTIN No], (CASE WHEN [Invoice Type]='T' THEN 'Tax' when [Invoice Type]='R' then 'Retail' when [Invoice Type]='N' then 'None' else [Invoice Type] end) as [Invoice Type],[Document No],"
             If EnableGSTRelatedfields = 0 Then
                 strMCCMaterial += "  [Document_date],"
             Else
