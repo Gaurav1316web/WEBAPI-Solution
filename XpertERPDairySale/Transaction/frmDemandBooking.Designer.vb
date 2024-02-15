@@ -22,8 +22,8 @@ Partial Class frmDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.rgbDemandHead = New Telerik.WinControls.UI.RadGroupBox()
@@ -44,6 +44,7 @@ Partial Class frmDemandBooking
         Me.lblTotalCrate = New common.Controls.MyLabel()
         Me.lblLitre = New common.Controls.MyLabel()
         Me.lblTotalLitre = New common.Controls.MyLabel()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.rgbProduct = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblPTotCount = New common.Controls.MyLabel()
         Me.txtPCount = New common.Controls.MyLabel()
@@ -109,7 +110,6 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -133,6 +133,7 @@ Partial Class frmDemandBooking
         CType(Me.lblTotalCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLitre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalLitre, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbProduct, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbProduct.SuspendLayout()
         CType(Me.lblPTotCount, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -192,7 +193,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -490,6 +490,16 @@ Partial Class frmDemandBooking
         Me.lblTotalLitre.Size = New System.Drawing.Size(156, 20)
         Me.lblTotalLitre.TabIndex = 142
         Me.lblTotalLitre.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(393, 19)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
+        Me.btnAddNew.TabIndex = 51
         '
         'rgbProduct
         '
@@ -1048,7 +1058,7 @@ Partial Class frmDemandBooking
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
@@ -1075,7 +1085,7 @@ Partial Class frmDemandBooking
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1296,16 +1306,6 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(393, 19)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
-        Me.btnAddNew.TabIndex = 51
-        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1346,6 +1346,7 @@ Partial Class frmDemandBooking
         CType(Me.lblTotalCrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLitre, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalLitre, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbProduct, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbProduct.ResumeLayout(False)
         Me.rgbProduct.PerformLayout()
@@ -1409,7 +1410,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
