@@ -43,31 +43,9 @@ Public Class clsDemandBookingSale
     Public Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim ShiftType As String = ""
+            Dim isBoothReset As Boolean = False
             If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
-                '                Dim lstCust As List(Of String) = New List(Of String)
-                '                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                '                    For Each item As clsDemandBookingSaleDetail In obj.Arr
-                '                        If lstCust.Contains(item.Cust_Code) Then
-                '                            Continue For
-                '                        End If
-                '                        lstCust.Add(item.Cust_Code)
-                '                        Dim StrQry As String = "select top 1 TSPL_BOOKING_MATSER.Document_No from TSPL_BOOKING_MATSER
-                'left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
-                'where 2=2 "
-                '                        If clsCommon.CompairString(obj.ShiftType, "Morning") = CompairStringResult.Equal Then
-                '                            StrQry += " and TSPL_BOOKING_MATSER.GatePass_Type ='AM'"
-                '                        ElseIf clsCommon.CompairString(obj.ShiftType, "Evening") = CompairStringResult.Equal Then
-                '                            StrQry += " and TSPL_BOOKING_MATSER.GatePass_Type ='PM'"
-                '                        End If
-                '                        StrQry += " and Convert(date,TSPL_BOOKING_MATSER.Document_Date,103)='" + clsCommon.GetPrintDate(obj.Document_Date) + "' and TSPL_BOOKING_DETAIL.Cust_Code='" + item.Cust_Code + "'"
-                '                        Dim BMDOC As String = clsDBFuncationality.getSingleValue(StrQry, trans)
-                '                        If clsCommon.myLen(BMDOC) > 0 Then
-                '                            If Not isNewEntry Then
-                '                                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, BMDOC, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
-                '                            End If
-                '                        End If
-                '                    Next
-                '                End If
+
 
                 Dim dtshift As DataTable = clsDBFuncationality.GetDataTable("select distinct ShiftType from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & obj.Document_No & "' and (IsGatePassGenerated='N' and IsTruckSheetGenerated ='N')", trans)
                 If dtshift IsNot Nothing AndAlso dtshift.Rows.Count = 1 Then
@@ -967,26 +945,29 @@ Public Class clsDemandBookingSaleDetail
                         Continue For
                     End If
                 End If
-                Dim coll As New Hashtable()
-                obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "")
-                clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
-                clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
-                clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
-                clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
-                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-                clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
-                clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-                clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Rate)
-                clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
-                clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
-                clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
-                clsCommon.AddColumnsForChange(coll, "IsItemUpdate", obj.IsItemUpdate)
-                clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
-                clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
-                clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
-                clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
-                clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                If obj.Qty > 0 Then
+                    Dim coll As New Hashtable()
+                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "")
+                    clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
+                    clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
+                    clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
+                    clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
+                    clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                    clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Rate)
+                    clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
+                    clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
+                    clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
+                    clsCommon.AddColumnsForChange(coll, "IsItemUpdate", obj.IsItemUpdate)
+                    clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
+                    clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
+                    clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
+                    clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
+                    clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                End If
+
             Next
         End If
         Return True
@@ -1141,3 +1122,9 @@ Public Module clsDemandBookingImport
     End Function
 
 End Module
+
+Public Class clsDemandBookingDetailQtyZero
+    Public Cust_Code As String = Nothing
+    Public Qty As Double = 0
+
+End Class
