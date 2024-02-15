@@ -19,8 +19,8 @@ Public Class ClsOutgoingQcEntry
     Public Arr_Prod As List(Of clsProductionEntry) = Nothing
     Public Template_Status As String = Nothing
     Public Posting_Date As Date
-    Public QC_Start_date As Date
-    Public QC_end_date As Date
+    Public QC_Start_date As DateTime?
+    Public QC_end_date As DateTime
 
 #End Region
     Public Shared Function SaveData(ByVal obj As ClsOutgoingQcEntry, ByVal isNewEntry As Boolean) As Boolean
@@ -54,8 +54,8 @@ Public Class ClsOutgoingQcEntry
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Location_code", obj.bill_to_location)
             clsCommon.AddColumnsForChange(coll, "QC_Status", obj.Template_Status)
-            clsCommon.AddColumnsForChange(coll, "QC_Start_Date", obj.QC_Start_date)
-            clsCommon.AddColumnsForChange(coll, "QC_END_Date", obj.QC_end_date)
+            clsCommon.AddColumnsForChange(coll, "QC_Start_Date", clsCommon.GetPrintDate(obj.QC_Start_date, "dd/MMM/yyyy hh:mm:ss tt "))
+            clsCommon.AddColumnsForChange(coll, "QC_END_Date", clsCommon.GetPrintDate(obj.QC_end_date, "dd/MMM/yyyy hh:mm:ss tt "))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
