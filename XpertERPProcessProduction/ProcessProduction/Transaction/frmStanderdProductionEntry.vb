@@ -2103,7 +2103,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                             from TSPL_MF_BOM_HEAD  
                             LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE  
                             left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='BAG' 
-                            WHERE  TSPL_ITEM_MASTER.FG_for_CF=1 and TSPL_MF_BOM_HEAD.POSTED='1'   and GETDATE() BETWEEN TSPL_MF_BOM_HEAD.START_DATE AND TSPL_MF_BOM_HEAD.END_DATE
+                            WHERE  TSPL_ITEM_MASTER.FG_for_CF=1 and TSPL_MF_BOM_HEAD.POSTED='1'   and CONVERT(DATE,GETDATE(),103) >= TSPL_MF_BOM_HEAD.START_DATE AND CONVERT(DATE,GETDATE(),103)<= TSPL_MF_BOM_HEAD.END_DATE
                             AND LOCATION_CODE='" + txtLocation.Value + "'
                             )xyyx "
 
