@@ -454,10 +454,11 @@ Public Class BulkProcurementUploader
 
     Private Function AllowToSave() As Boolean
         For ii As Integer = 0 To gv1.RowCount - 1
-            'If gv1.Rows(ii).Cells(colIsValidated).Value = False Then
-            '    Return False
-            '    Exit For
-            'End If
+            If gv1.Rows(ii).Cells(colIsValidated).Value = False Then
+                clsCommon.MyMessageBoxShow(Me, "No Validated Rows found to save", Me.Text)
+                Return False
+                Exit For
+            End If
         Next
 
         Return True
@@ -497,6 +498,10 @@ Public Class BulkProcurementUploader
             Dim ValidateStatus As String = String.Empty
             If gv1.Rows.Count <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "There are no row is grid please select a sheet to import", Me.Text)
+            End If
+            If ValidatedCount = gv1.Rows.Count Then
+                clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
+                Exit Sub
             End If
             ValidatedCount = 0
             Dim strCellValue
@@ -1182,6 +1187,7 @@ Public Class BulkProcurementUploader
                 Next
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 clsCommon.ProgressBarPercentHide()
+                btnSave.Enabled = False
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -1356,7 +1362,7 @@ Public Class BulkProcurementUploader
     Private Sub btnSelectSheet_Click(sender As Object, e As EventArgs) Handles btnSelectSheet.Click
         gv1.Columns.Clear()
         gv1.DataSource = Nothing
-
+        btnSave.Enabled = True
         Dim arr As New List(Of String)
         arr.Add("Challan No")
         arr.Add("MCC Code")

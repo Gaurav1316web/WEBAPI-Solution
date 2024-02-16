@@ -94,6 +94,9 @@ Public Class frmBulkSaleAcknowledgementUploader
     Private Function AllowToSave() As Boolean
         For ii As Integer = 0 To gv1.RowCount - 1
             If Gv1.Rows(ii).Cells(colIsValidated).Value = False Then
+
+                clsCommon.MyMessageBoxShow(Me, "No Validated Rows found to save", Me.Text)
+
                 Return False
                 Exit For
             End If
@@ -260,6 +263,7 @@ Public Class frmBulkSaleAcknowledgementUploader
                 Next
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 clsCommon.ProgressBarPercentHide()
+                btnSave.Enabled = False
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -503,7 +507,7 @@ Public Class frmBulkSaleAcknowledgementUploader
     Private Sub btnSelectSheet_Click(sender As Object, e As EventArgs) Handles btnSelectSheet.Click
         Gv1.Columns.Clear()
         Gv1.DataSource = Nothing
-
+        btnSave.Enabled = True
         Dim arr As New List(Of String)
         arr.Add("Customer")
         arr.Add("Tanker No")
