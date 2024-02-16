@@ -22,7 +22,7 @@ Partial Class frmBulkPurchaseUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -38,6 +38,7 @@ Partial Class frmBulkPurchaseUploader
         Me.btnValidate = New Telerik.WinControls.UI.RadButton()
         Me.btnExportFormat = New Telerik.WinControls.UI.RadButton()
         Me.btnSelectSheet = New Telerik.WinControls.UI.RadButton()
+        Me.btReset = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -59,6 +60,7 @@ Partial Class frmBulkPurchaseUploader
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportFormat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -77,6 +79,7 @@ Partial Class frmBulkPurchaseUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnMergeAndRecreate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnMergeAndRecreateTrade)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -85,7 +88,7 @@ Partial Class frmBulkPurchaseUploader
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnValidate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExportFormat)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelectSheet)
-        Me.SplitContainer1.Size = New System.Drawing.Size(739, 472)
+        Me.SplitContainer1.Size = New System.Drawing.Size(886, 472)
         Me.SplitContainer1.SplitterDistance = 435
         Me.SplitContainer1.TabIndex = 0
         '
@@ -105,7 +108,7 @@ Partial Class frmBulkPurchaseUploader
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.Gv1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(739, 435)
+        Me.SplitContainer2.Size = New System.Drawing.Size(886, 435)
         Me.SplitContainer2.SplitterDistance = 42
         Me.SplitContainer2.TabIndex = 3
         '
@@ -156,9 +159,12 @@ Partial Class frmBulkPurchaseUploader
         '
         '
         '
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.Gv1.Name = "Gv1"
-        Me.Gv1.Size = New System.Drawing.Size(739, 389)
+        Me.Gv1.ShowHeaderCellButtons = True
+        Me.Gv1.Size = New System.Drawing.Size(886, 389)
         Me.Gv1.TabIndex = 2
         Me.Gv1.Visible = False
         '
@@ -166,7 +172,7 @@ Partial Class frmBulkPurchaseUploader
         '
         Me.btnMergeAndRecreate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnMergeAndRecreate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMergeAndRecreate.Location = New System.Drawing.Point(433, 9)
+        Me.btnMergeAndRecreate.Location = New System.Drawing.Point(536, 9)
         Me.btnMergeAndRecreate.Name = "btnMergeAndRecreate"
         Me.btnMergeAndRecreate.Size = New System.Drawing.Size(231, 18)
         Me.btnMergeAndRecreate.TabIndex = 14
@@ -176,7 +182,7 @@ Partial Class frmBulkPurchaseUploader
         '
         Me.btnMergeAndRecreateTrade.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnMergeAndRecreateTrade.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMergeAndRecreateTrade.Location = New System.Drawing.Point(433, 9)
+        Me.btnMergeAndRecreateTrade.Location = New System.Drawing.Point(536, 9)
         Me.btnMergeAndRecreateTrade.Name = "btnMergeAndRecreateTrade"
         Me.btnMergeAndRecreateTrade.Size = New System.Drawing.Size(231, 18)
         Me.btnMergeAndRecreateTrade.TabIndex = 14
@@ -186,7 +192,7 @@ Partial Class frmBulkPurchaseUploader
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(670, 9)
+        Me.btnClose.Location = New System.Drawing.Point(817, 9)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(66, 18)
         Me.btnClose.TabIndex = 13
@@ -242,11 +248,21 @@ Partial Class frmBulkPurchaseUploader
         Me.btnSelectSheet.TabIndex = 8
         Me.btnSelectSheet.Text = "Select Sheet"
         '
+        'btReset
+        '
+        Me.btReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btReset.Location = New System.Drawing.Point(433, 9)
+        Me.btReset.Name = "btReset"
+        Me.btReset.Size = New System.Drawing.Size(83, 18)
+        Me.btReset.TabIndex = 20
+        Me.btReset.Text = "Reset"
+        '
         'frmBulkPurchaseUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(739, 472)
+        Me.ClientSize = New System.Drawing.Size(886, 472)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmBulkPurchaseUploader"
         '
@@ -276,6 +292,7 @@ Partial Class frmBulkPurchaseUploader
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExportFormat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -295,4 +312,5 @@ Partial Class frmBulkPurchaseUploader
     Friend WithEvents rdbAgainstBulkSaleTrade As Telerik.WinControls.UI.RadRadioButton
     Friend WithEvents btnMergeAndRecreate As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnMergeAndRecreateTrade As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btReset As RadButton
 End Class
