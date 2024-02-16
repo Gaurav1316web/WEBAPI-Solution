@@ -121,8 +121,8 @@ Public Class frmOutgoingQCEntry
 
             If txtprodCode.arrValueMember IsNot Nothing AndAlso txtprodCode.arrValueMember.Count > 0 Then
                 whrD = " Where TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE in (" + clsCommon.GetMulcallString(txtprodCode.arrValueMember) + ") "
-                '  Else
-                ' whrD = " Where TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE in (" + clsCommon.GetMulcallString(txtprodCode.arrValueMember) + ")) "
+            Else
+                whrD = " Where TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE in (" + clsCommon.GetMulcallString(txtprodCode.arrValueMember) + ") "
             End If
             strQry = " select  Row_Number() Over (Order By (SELECT 1) Asc) as [S No],TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Unit_Code,TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.QC_Code ,TSPL_QC_LOG_SHEET_MASTER.Description AS qc_Param_name,TSPL_PARAMETER_RANGE_MASTER_QC.upper_range ,TSPL_PARAMETER_RANGE_MASTER_QC.Lower_range,TSPL_PARAMETER_RANGE_MASTER_QC.Description ,TSPL_QC_LOG_SHEET_MASTER.Nature
                         from TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER 
@@ -150,7 +150,7 @@ Public Class frmOutgoingQCEntry
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colNature).Value = clsCommon.myCstr(dr("Nature"))
                 Next
             Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No QC Parameter Mapped ", Me.Text)
             End If
             ' End If
         Catch ex As Exception
@@ -581,31 +581,6 @@ Public Class frmOutgoingQCEntry
         End Try
         Return True
     End Function
-    'Private Sub btntemplate_Click(sender As Object, e As EventArgs)
-    '    Try
-    '        Dim arrIcode As New List(Of String)
-    '        arrIcode = New List(Of String)
-
-    '        For Each grow As GridViewRowInfo In gv1.Rows
-    '            Dim Productcode As String = clsCommon.myCstr(grow.Cells(colProductCode).Value)
-    '            If clsCommon.myLen(Productcode) > 0 Then
-    '                If Not arrIcode.Contains(Productcode) Then
-    '                    arrIcode.Add(Productcode)
-    '                End If
-    '            End If
-    '        Next
-    '        If arrIcode Is Nothing OrElse arrIcode.Count <= 0 Then
-    '            Throw New Exception("No record found.")
-    '        End If
-    '        'Dim frm As New frmQCTemplateEntry()
-    '        ' clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.ReceiptEntry, CustRoute)
-
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '    End Try
-    'End Sub
-    'Public Shared Function ShowMultipleSelectForm(strActiveDateFilterColumn As String, isShowRadioButtons As Boolean, ReportID As String, strQry As String, strValueMember As String, strDisplayMember As String, arrValueMember As ArrayList, ByRef arrDisplayMember As ArrayList) As ArrayList
-    '("Document_Date", True, "AssetSc@u", qry, "DocumentNo", "", Nothing, Nothing)
     Private Sub txtprodCode__My_Click(sender As Object, e As EventArgs) Handles txtprodCode._My_Click
         Dim qry As String = "select tspl_spp_production_entry_detail.PROD_ENTRY_CODE as Code ,PROD_DATE as Date,tspl_spp_production_entry.Shift_Code  from tspl_spp_production_entry
                                 left outer join tspl_spp_production_entry_detail on tspl_spp_production_entry_detail.prod_entry_code=tspl_spp_production_entry.prod_entry_code
@@ -615,21 +590,14 @@ Public Class frmOutgoingQCEntry
         txtprodCode.arrValueMember = clsCommon.ShowMultipleSelectForm("PDMulSel", qry, "Code", "Date", txtprodCode.arrValueMember, txtprodCode.arrDispalyMember)
         If txtprodCode.arrValueMember IsNot Nothing AndAlso txtprodCode.arrValueMember.Count > 0 Then
             For jj As Integer = 0 To txtprodCode.arrDispalyMember.Count - 1
-                'If clsCommon.myCBool(gvHead.Rows(jj).Cells(colHSelect).Value) Then
-                '    If clsCommon.CompairString(strCode, clsCommon.myCstr(gvHead.Rows(jj).Cells(colHVendorCode).Value)) <> CompairStringResult.Equal Then
-                '        arrVendor.Add(clsCommon.myCstr(gvHead.Rows(jj).Cells(colHVendorCode).Value))
-                '    End If
-                'End If If txtprodCode.arrValueMember IsNot Nothing AndAlso txtprodCode.arrValueMember.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.GetPrintDate(txtprodCode.arrDispalyMember(0)), clsCommon.GetPrintDate(txtprodCode.arrDispalyMember(jj))) <> CompairStringResult.Equal Then
                     clsCommon.MyMessageBoxShow(Me, " Production should be of same date ")
                     Exit Sub
                 End If
             Next
+            LoadGridData()
         End If
-
-        LoadGridData()
     End Sub
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim whr As String
@@ -652,7 +620,7 @@ Public Class frmOutgoingQCEntry
                             left outer join TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY on TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.document_code=tSPL_PROD_QC_CHECK_HEAD.document_code
                             left outer join TSPL_PARAMETER_RANGE_MASTER_QC on TSPL_PARAMETER_RANGE_MASTER_QC.qc_param_code=TSPL_QC_LOG_SHEET_MASTER.code
                             left outer join (select min(prod_date) as prod_date_from,max(prod_date) as prod_date_to,max(prod_entry_code) as prod_entry_code,max(batch_code) as batch_code from TSPL_SPP_PRODUCTION_ENTRY " + whr + " TSPL_SPP_PRODUCTION_ENTRY1 on TSPL_SPP_PRODUCTION_ENTRY1.prod_entry_code=TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.PROD_ENTRY_CODE 
-            where tSPL_PROD_QC_CHECK_HEAD.document_code='" + txtDocNo.Value + "' and TSPL_SPP_PRODUCTION_ENTRY1.PROD_ENTRY_CODE is not null"
+            where tSPL_PROD_QC_CHECK_HEAD.document_code='" + txtDocNo.Value + "' and TSPL_SPP_PRODUCTION_ENTRY1.PROD_ENTRY_CODE is not null order by TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)

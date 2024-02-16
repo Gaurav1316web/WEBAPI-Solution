@@ -454,10 +454,11 @@ Public Class BulkProcurementUploader
 
     Private Function AllowToSave() As Boolean
         For ii As Integer = 0 To gv1.RowCount - 1
-            'If gv1.Rows(ii).Cells(colIsValidated).Value = False Then
-            '    Return False
-            '    Exit For
-            'End If
+            If gv1.Rows(ii).Cells(colIsValidated).Value = False Then
+                clsCommon.MyMessageBoxShow(Me, "No Validated Rows found to save", Me.Text)
+                Return False
+                Exit For
+            End If
         Next
 
         Return True
@@ -497,6 +498,10 @@ Public Class BulkProcurementUploader
             Dim ValidateStatus As String = String.Empty
             If gv1.Rows.Count <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "There are no row is grid please select a sheet to import", Me.Text)
+            End If
+            If ValidatedCount = gv1.Rows.Count Then
+                clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
+                Exit Sub
             End If
             ValidatedCount = 0
             Dim strCellValue
@@ -727,15 +732,15 @@ Public Class BulkProcurementUploader
                 Dim FATPer As Double = clsCommon.myCdbl(gv1.Rows(i).Cells("FATPer").Value)
                 Dim SNFPer As Double = clsCommon.myCdbl(gv1.Rows(i).Cells("SNFPer").Value)
                 If FATPer > 0 Then
-                    gv1.Rows(i).Cells("FAT Rate").Value = Math.Round(Rate * FatW / FATPer, 4)
+                    gv1.Rows(i).Cells("FAT Rate").Value = Math.Round(Rate * FatW / FATPer, 2)
                     gv1.Rows(i).Cells("FATKG").Value = netWeight * FATPer / 100
-                    gv1.Rows(i).Cells("FAT Rate").Value = Math.Round(Rate * FatW / FATR, 4)
+                    gv1.Rows(i).Cells("FAT Rate").Value = Math.Round(Rate * FatW / FATR, 2)
                     gv1.Rows(i).Cells("FATPer").Value = Math.Round(FATPer, 2)
                 End If
                 If SNFPer > 0 Then
-                    gv1.Rows(i).Cells("SNF Rate").Value = Math.Round(Rate * SNFW / SNFPer, 4)
+                    gv1.Rows(i).Cells("SNF Rate").Value = Math.Round(Rate * SNFW / SNFPer, 2)
                     gv1.Rows(i).Cells("SNFKG").Value = netWeight * SNFPer / 100
-                    gv1.Rows(i).Cells("SNF Rate").Value = Math.Round(Rate * SNFW / SNFR, 4)
+                    gv1.Rows(i).Cells("SNF Rate").Value = Math.Round(Rate * SNFW / SNFR, 2)
                     gv1.Rows(i).Cells("SNFPer").Value = Math.Round(SNFPer, 2)
                 End If
                 gv1.Rows(i).Cells("Amount").Value = Math.Round((gv1.Rows(i).Cells("Fat Rate").Value * gv1.Rows(i).Cells("FatKG").Value) + (gv1.Rows(i).Cells("SNF Rate").Value * gv1.Rows(i).Cells("SNFKG").Value), 2)
@@ -923,7 +928,7 @@ Public Class BulkProcurementUploader
                     obj.SNF_Rate = clsCommon.myCdbl(grow.Cells("FATKG").Value)
                     obj.FAT_Value = obj.FAT_Kg * obj.FAT_Rate
                     obj.SNF_Value = obj.SNF_Kg * obj.snf_rate
-
+                    obj.Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
                     Dim lineNo As Integer = 1
 
                     obj.Arr = New List(Of clsWeighmentChemberNoDetails)
@@ -1162,6 +1167,7 @@ Public Class BulkProcurementUploader
                     obj.km_reading_receipt = 0
                     obj.Receipt_Control_FAT = 0
                     obj.Receipt_Control_SNF = 0
+                    obj.Document_Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
                     obj.PriceCode = clsCommon.myCstr(grow.Cells("Price Chart").Value)
                     obj.Modified_By = objCommonVar.CurrentUserCode
                     obj.Modified_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
@@ -1181,6 +1187,7 @@ Public Class BulkProcurementUploader
                 Next
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 clsCommon.ProgressBarPercentHide()
+                btnSave.Enabled = False
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -1355,7 +1362,7 @@ Public Class BulkProcurementUploader
     Private Sub btnSelectSheet_Click(sender As Object, e As EventArgs) Handles btnSelectSheet.Click
         gv1.Columns.Clear()
         gv1.DataSource = Nothing
-
+        btnSave.Enabled = True
         Dim arr As New List(Of String)
         arr.Add("Challan No")
         arr.Add("MCC Code")

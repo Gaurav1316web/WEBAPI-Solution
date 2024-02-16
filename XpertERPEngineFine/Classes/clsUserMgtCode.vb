@@ -675,6 +675,7 @@ Public Class clsUserMgtCode
     Public Const VendorRegistration As String = "VEN-REG"
     Public Const DispatchChecklist As String = "D-CHKLST"
     Public Const TankerMasterSale As String = "TNK-MST-SALE"
+    Public Const BulkSaleFreightMaster As String = "BK-S-FR_MST"
     Public Const rptDailyWiseMilkCost As String = "MILK-COST"
     Public Const rptCapexRegister As String = "CAP-REG"
     'Public Const SRNReturnListCancellation As String = "SRN-RT-CAN"
@@ -1744,6 +1745,7 @@ Public Class clsUserMgtCode
     Public Const FrmDispatchBulkSale As String = "DISPATCH-BS"
     Public Const frmBulkSaleAcknowledgement As String = "BLK-SL-ACK"
     Public Const frmBulkSaleAcknowledgementUploader As String = "BLkSL-AC-UP"
+    Public Const frmBulkSaleFreightCalculation As String = "BkSL-FR-CL"
     Public Const FrmBulkSaleSettings As String = "SALE-SET-NEW"
     Public Const FrmInvoiceBulkSale As String = "INVOICE-BS"
     Public Const FrmCreateAutoInvoiceBS As String = "AUTO-IN-BS"
@@ -2562,6 +2564,11 @@ Public Class clsUserMgtCode
     Public Const SubModuleMISSetUp As String = "SMMIS"
     Public Const MISitemGroups As String = "MISITEM-GRP"
     Public Const MISitemMaster As String = "MISITEM-MST"
+
+    ''=================Transaction==========
+    Public Const SubModuleMISTransaction As String = "SMMIST"
+    Public Const frmDailyMilkProducts As String = "DLY-MLK-PROD"
+
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean
         Dim qry As String = "select PROGRAM_NAME from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "' "

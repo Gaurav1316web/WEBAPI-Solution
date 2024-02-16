@@ -204,6 +204,8 @@ Public Class frmDemandHistory
                 view.ColumnGroups.Add(New GridViewColumnGroup(""))
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colSLNo).Name)
+                'view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colHistBy).Name)
+                'view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colHistOn).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colHistVer).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colDemandNo).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colDocumentNo).Name)
@@ -254,6 +256,8 @@ Public Class frmDemandHistory
     Private Sub LoadGridData(ByVal frmdate As Date, ByVal Shift As String, ByVal BoothCode As String)
         Try
             Dim lstobj As List(Of clsDemandHistoryMaster)
+            gv1.DataSource = Nothing
+            gv1.Visible = False
             Dim shiftType As String = ""
             If clsCommon.CompairString(Shift, "Morning") = CompairStringResult.Equal Then
                 shiftType = "AM"

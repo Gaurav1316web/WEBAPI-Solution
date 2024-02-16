@@ -537,7 +537,7 @@ Partial Class frmEmployee_Master
         Me.RadPageView1.Controls.Add(Me.pageOthers)
         Me.RadPageView1.Location = New System.Drawing.Point(5, 35)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.General
+        Me.RadPageView1.SelectedPage = Me.pageOthers
         Me.RadPageView1.Size = New System.Drawing.Size(866, 460)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4251,7 +4251,7 @@ Partial Class frmEmployee_Master
         Me.txtaccno.IsSourceFromValueList = False
         Me.txtaccno.IsUnique = False
         Me.txtaccno.Location = New System.Drawing.Point(470, 189)
-        Me.txtaccno.MaxLength = 16
+        Me.txtaccno.MaxLength = 50
         Me.txtaccno.MendatroryField = False
         Me.txtaccno.MyLinkLable1 = Me.MyLabel11
         Me.txtaccno.MyLinkLable2 = Nothing

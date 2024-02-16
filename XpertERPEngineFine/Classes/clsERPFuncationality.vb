@@ -2790,6 +2790,38 @@ WHERE     (TC.TABLE_NAME = '" + strTableName + "') and COLUMN_NAME='" + strColum
         Return RetValue
     End Function
 
+    Public Shared Function DropTableKey(ByVal strTableName As String, ByVal strColumnName As String, ByVal Key As EnumTableKeyType) As Boolean
+        Try
+            Dim strKey As String = GetTableKey(strTableName, strColumnName, Key)
+            If clsCommon.myLen(strKey) > 0 Then
+                clsDBFuncationality.ExecuteNonQuery("alter table " + strTableName + " drop constraint " & strKey & "")
+            End If
+        Catch ex As Exception
+        End Try
+        Return True
+    End Function
+    Public Shared Function GetTableKey(ByVal strTableName As String, ByVal strColumnName As String, ByVal Key As EnumTableKeyType) As String
+        Dim RetValue As String = ""
+        Try
+            Dim qry As String = "SELECT   A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B  
+WHERE A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='" + strTableName + "' and b.COLUMN_NAME='" + strColumnName + "' "
+            Select Case Key
+
+                Case EnumTableKeyType.Primary
+                    qry += " AND  CONSTRAINT_TYPE = 'PRIMARY KEY' "
+                Case EnumTableKeyType.Foreign
+                    qry += " AND  CONSTRAINT_TYPE = 'FOREIGN KEY' "
+                Case EnumTableKeyType.Unique
+                    qry += " AND  CONSTRAINT_TYPE = 'UNIQUE' "
+                Case Else
+                    Throw New Exception("Wrong Key Type")
+            End Select
+            RetValue = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+        Catch ex As Exception
+        End Try
+        Return RetValue
+    End Function
+
     Public Shared Function ReportingMailIdandPhone(ByVal user_Code As String, ByRef arrMobileNo As List(Of String), ByVal trans As SqlTransaction) As List(Of String)
         Dim dt As New DataTable()
         Dim StrParent As String = ""
