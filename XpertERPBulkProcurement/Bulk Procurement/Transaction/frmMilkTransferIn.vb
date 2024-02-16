@@ -1257,9 +1257,9 @@ Public Class FrmMilkTransferIn
             End If
 
 
-            If clsCommon.myLen(fndDispatchChallanNo.Value) <= 0 Then
-                Throw New Exception("Please select dispatch challan ")
-            End If
+            'If clsCommon.myLen(fndDispatchChallanNo.Value) <= 0 Then
+            '    Throw New Exception("Please select dispatch challan ")
+            'End If
             '=============Update by preeti Gupta against Ticket No[KDI/13/06/18-000363]
             If clsCommon.GetDateWithStartTime(dtpRcptDateAndTime.Value) < clsCommon.GetDateWithStartTime(dtpDispatchDateAndTime.Value) Then
                 Throw New Exception("Receipt date can't be smaller than dispatch date ")

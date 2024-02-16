@@ -342,6 +342,8 @@ Public Class clsWeighment
             clsCommon.AddColumnsForChange(coll, "Qty_In_Kg", obj.Qty_In_Kg)
             clsCommon.AddColumnsForChange(coll, "snf_Per", obj.snf_Per)
             clsCommon.AddColumnsForChange(coll, "fat_per", obj.fat_per)
+            clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+
             If obj.status <> 0 Then
                 clsCommon.AddColumnsForChange(coll, "status", obj.status)
             End If

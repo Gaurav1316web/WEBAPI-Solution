@@ -8,12 +8,16 @@ Public Class clsGatePassDairySale
     Public Sampling As Integer = 0
     Public Document_No As String = Nothing
     Public Document_Date As String = Nothing
+    'Public Document_Date As DateTime? = Nothing
     Public Customer_Code As String = Nothing
     Public Location_Code As String = Nothing
     Public Delivery_Code As String = Nothing
-    Public Delivery_Date As Date?
+    Public Against_Demand As String = Nothing
+    Public ShiftType As String = Nothing
+    Public Delivery_Date As Date? = Nothing
     Public Vehicle_Capacity As Double = 0
     Public Vehicle_Code As String = Nothing
+
     Public Road_Permit_No As String = Nothing
     Public Transporter_Name As String = Nothing
     Public Freight As String = Nothing
@@ -82,10 +86,12 @@ Public Class clsGatePassDairySale
             clsCommon.AddColumnsForChange(coll, "Delivery_Code", obj.Delivery_Code, True)
 
             If obj.Delivery_Date IsNot Nothing Then
+
                 clsCommon.AddColumnsForChange(coll, "Delivery_Date", clsCommon.GetPrintDate(obj.Delivery_Date, "dd/MMM/yyyy hh:mm tt"))
             End If
 
-
+            clsCommon.AddColumnsForChange(coll, "Against_Demand", obj.Against_Demand, True)
+            clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Capacity", obj.Vehicle_Capacity)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code, True)
             clsCommon.AddColumnsForChange(coll, "Road_Permit_No", obj.Road_Permit_No)
@@ -132,19 +138,19 @@ Public Class clsGatePassDairySale
     End Function
     Public Shared Function GetData(ByVal strDocNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsGatePassDairySale
         Dim obj As clsGatePassDairySale = Nothing
-        Dim qry = "SELECT  TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No, TSPL_GATEPASS_MASTER_DAIRYSALE.Document_Date, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Status, TSPL_GATEPASS_MASTER_DAIRYSALE.Customer_Code, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Location_Code, TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Date, TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Capacity, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code, TSPL_GATEPASS_MASTER_DAIRYSALE.Road_Permit_No, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Transporter_Name, TSPL_GATEPASS_MASTER_DAIRYSALE.Freight, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Freight_Amount, TSPL_GATEPASS_MASTER_DAIRYSALE.Posted, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Comments,TSPL_GATEPASS_MASTER_DAIRYSALE.Total_Amt, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Posting_Date,TSPL_GATEPASS_MASTER_DAIRYSALE.OnHold, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Short_Close,TSPL_GATEPASS_MASTER_DAIRYSALE.Approval_Reqd, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Price_code,TSPL_GATEPASS_MASTER_DAIRYSALE.Is_Approved, " & _
-                      "TSPL_GATEPASS_MASTER_DAIRYSALE.CreditApproval_Reqd,TSPL_GATEPASS_MASTER_DAIRYSALE.Is_Credit_Approved " & _
-                      ",TSPL_GATEPASS_MASTER_DAIRYSALE.Route_No " & _
+        Dim qry = "SELECT  TSPL_GATEPASS_MASTER_DAIRYSALE.Against_Demand,TSPL_GATEPASS_MASTER_DAIRYSALE.ShiftType,TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No, TSPL_GATEPASS_MASTER_DAIRYSALE.Document_Date, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Status, TSPL_GATEPASS_MASTER_DAIRYSALE.Customer_Code, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Location_Code, TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Date, TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Capacity, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code, TSPL_GATEPASS_MASTER_DAIRYSALE.Road_Permit_No, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Transporter_Name, TSPL_GATEPASS_MASTER_DAIRYSALE.Freight, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Freight_Amount, TSPL_GATEPASS_MASTER_DAIRYSALE.Posted, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Comments,TSPL_GATEPASS_MASTER_DAIRYSALE.Total_Amt, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Posting_Date,TSPL_GATEPASS_MASTER_DAIRYSALE.OnHold, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Short_Close,TSPL_GATEPASS_MASTER_DAIRYSALE.Approval_Reqd, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.Price_code,TSPL_GATEPASS_MASTER_DAIRYSALE.Is_Approved, " &
+                      "TSPL_GATEPASS_MASTER_DAIRYSALE.CreditApproval_Reqd,TSPL_GATEPASS_MASTER_DAIRYSALE.Is_Credit_Approved " &
+                      ",TSPL_GATEPASS_MASTER_DAIRYSALE.Route_No " &
                       "FROM TSPL_GATEPASS_MASTER_DAIRYSALE where 2=2 "
         Dim whrCls As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -170,6 +176,9 @@ Public Class clsGatePassDairySale
             obj.Customer_Code = clsCommon.myCstr(dt.Rows(0)("Customer_Code"))
             obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
             obj.Delivery_Code = clsCommon.myCstr(dt.Rows(0)("Delivery_Code"))
+            obj.Against_Demand = clsCommon.myCstr(dt.Rows(0)("Against_Demand"))
+            obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))
+
             obj.Delivery_Date = clsCommon.myCDate(dt.Rows(0)("Delivery_Date"))
             obj.Vehicle_Capacity = clsCommon.myCdbl(dt.Rows(0)("Vehicle_Capacity"))
             obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(0)("Vehicle_Code"))
@@ -193,12 +202,13 @@ Public Class clsGatePassDairySale
             obj.Route_No = clsCommon.myCstr(dt.Rows(0)("Route_No"))
             obj.CreditApproval_Reqd = clsCommon.myCstr(dt.Rows(0)("CreditApproval_Reqd"))
             obj.Is_Credit_Approved = clsCommon.myCdbl(dt.Rows(0)("Is_Credit_Approved"))
-            qry = "SELECT TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Code as 'Scheme Code',TSPL_GATEPASS_DETAIL_DAIRYSALE.OrgUnit_code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Balance_Qty,TSPL_GATEPASS_DETAIL_DAIRYSALE.DOQty,TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No, " & _
-                "TSPL_GATEPASS_DETAIL_DAIRYSALE.Line_No, TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Item, " & _
-                "TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code, TSPL_GATEPASS_DETAIL_DAIRYSALE.Qty, TSPL_GATEPASS_DETAIL_DAIRYSALE.Rate, " & _
-                "TSPL_GATEPASS_DETAIL_DAIRYSALE.Amount,tspl_item_master.Item_Desc,TSPL_GATEPASS_DETAIL_DAIRYSALE.MRP,TSPL_GATEPASS_DETAIL_DAIRYSALE.Conv_Factor " & _
-                ",TSPL_GATEPASS_DETAIL_DAIRYSALE.Price_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Price_Date,TSPL_GATEPASS_DETAIL_DAIRYSALE.OrgRate,isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Type,'') as 'Scheme Type',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Qty,'') as 'Scheme Item Qty',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Item_UOm,'') as 'Scheme Item UOM',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Item_Code,'') as 'Scheme Item Code',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Code,'') as 'Scheme Code',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item,'0') as 'FOC' FROM TSPL_GATEPASS_DETAIL_DAIRYSALE left outer join tspl_item_master on  " & _
-                "TSPL_GATEPASS_DETAIL_DAIRYSALE.item_code=tspl_item_master.item_code where  Document_No='" & obj.Document_No & "' order by TSPL_GATEPASS_DETAIL_DAIRYSALE.Line_No "
+            qry = "SELECT TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Code as 'Scheme Code',TSPL_GATEPASS_DETAIL_DAIRYSALE.OrgUnit_code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Balance_Qty,TSPL_GATEPASS_DETAIL_DAIRYSALE.DOQty,TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No, " &
+                "TSPL_GATEPASS_DETAIL_DAIRYSALE.Line_No, TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Item, " &
+                "TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code, TSPL_GATEPASS_DETAIL_DAIRYSALE.Qty, TSPL_GATEPASS_DETAIL_DAIRYSALE.Rate, " &
+                "TSPL_GATEPASS_DETAIL_DAIRYSALE.Amount,tspl_item_master.Item_Desc,TSPL_GATEPASS_DETAIL_DAIRYSALE.MRP,TSPL_GATEPASS_DETAIL_DAIRYSALE.Conv_Factor " &
+                ",TSPL_GATEPASS_DETAIL_DAIRYSALE.Price_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Price_Date,TSPL_GATEPASS_DETAIL_DAIRYSALE.OrgRate,isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Type,'') as 'Scheme Type',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Qty,'') as 'Scheme Item Qty',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Item_UOm,'') as 'Scheme Item UOM',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Item_Code,'') as 'Scheme Item Code',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.Scheme_Code,'') as 'Scheme Code',isnull(TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item,'0') as 'FOC' FROM TSPL_GATEPASS_DETAIL_DAIRYSALE 
+                  left outer join tspl_item_master on  " &
+                "TSPL_GATEPASS_DETAIL_DAIRYSALE.item_code=tspl_item_master.item_code where  TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No='" & obj.Document_No & "' order by TSPL_GATEPASS_DETAIL_DAIRYSALE.Line_No "
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -206,6 +216,8 @@ Public Class clsGatePassDairySale
                 Dim objTr As clsGatePassDairySaleDetail
                 For Each dr As DataRow In dt.Rows
                     objTr = New clsGatePassDairySaleDetail
+                    'obj.Against_Demand = clsCommon.myCstr(dt.Rows(0)("Against_Demand"))
+                    'obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))
                     objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
@@ -272,6 +284,8 @@ Public Class clsGatePassDairySale
             Dim objTr As clsGatePassDairySaleDetail
             For Each dr As DataRow In dt.Rows
                 objTr = New clsGatePassDairySaleDetail
+                obj.Against_Demand = clsCommon.myCstr(dt.Rows(0)("Against_Demand"))
+                obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))
                 objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                 objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
                 objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
@@ -420,8 +434,6 @@ Public Class clsGatePassDairySaleDetail
     Public DOQty As Double = 0
     Public OrgUnit_code As String = ""
     Public Sampling As Integer = 0
-
-
     Public Scheme_Type As String = Nothing
     Public Scheme_Item_Code As String = Nothing
     Public Scheme_Qty As Double = 0
@@ -468,6 +480,7 @@ Public Class clsGatePassDairySaleDetail
                 clsCommon.AddColumnsForChange(coll, "Scheme_Item", obj.Scheme_Item)
                 clsCommon.AddColumnsForChange(coll, "FOC_Item", obj.FOC_Item)
                 clsCommon.AddColumnsForChange(coll, "Scheme_Code", obj.Scheme_Code)
+
 
 
                 Dim DOCdateCurrent As Date? = Nothing

@@ -323,6 +323,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntry.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntries.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNew.rpt" />
@@ -1240,6 +1241,7 @@
     <None Include="Crystal Reports\Inventory Report\transferpreprintedLOoldfrt.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingTruckSheet.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crpJobworkEstimate.rpt" />
