@@ -1057,7 +1057,7 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As String)
             _currCompanyName = Value
-            clsCommon.CurrentCompanyName = Value
+            'clsCommon.CurrentCompanyName = Value
         End Set
     End Property
 

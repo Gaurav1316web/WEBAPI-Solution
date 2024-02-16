@@ -102,6 +102,11 @@ Public Class clsDCSDemand
                     objTr = New clsDCSDemandDetail
                     objTr.VLC_Uploader = clsCommon.myCstr(dr("VLC_Uploader"))
                     objTr.CreditType = clsCommon.myCstr(dr("CreditType"))
+                    objTr.OutStandingAmt = clsCommon.myCstr(dr("OutStandingAmt"))
+                    If dt.Rows(0)("LastMilkDate") IsNot DBNull.Value Then
+                        objTr.LastMilkDate = clsCommon.myCstr(dr("LastMilkDate"))
+
+                    End If
                     objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
@@ -216,6 +221,8 @@ Public Class clsDCSDemandDetail
     Public Line_No As Double = 0
     Public VLC_Uploader As String = ""
     Public CreditType As String = ""
+    Public OutStandingAmt As Double = 0
+    Public LastMilkDate As Date? = Nothing
     Public Item_Code As String = ""
     Public Qty As Double = 0
     Public Unit_code As String = ""
@@ -231,6 +238,13 @@ Public Class clsDCSDemandDetail
                 clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
                 clsCommon.AddColumnsForChange(coll, "VLC_Uploader", obj.VLC_Uploader)
                 clsCommon.AddColumnsForChange(coll, "CreditType", obj.CreditType)
+                clsCommon.AddColumnsForChange(coll, "OutStandingAmt", obj.OutStandingAmt)
+                If obj.LastMilkDate IsNot Nothing Then
+                    clsCommon.AddColumnsForChange(coll, "LastMilkDate", clsCommon.GetPrintDate(obj.LastMilkDate, "dd/MMM/yyyy "), True)
+                Else
+                    clsCommon.AddColumnsForChange(coll, "LastMilkDate", Nothing, True)
+                End If
+
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
