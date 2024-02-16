@@ -6,7 +6,6 @@ Public Class objCommonVar
     Private Shared _currUserName As String = ""
     Private Shared _currCompanyCode As String = ""
     Private Shared _currCompanyName As String = ""
-    Private Shared _currCompanyLogo As Image = Nothing
     Private Shared _currDatabase As String = ""
     Private Shared _currLocationCode As String = ""
     Private Shared _currLocationName As String = ""
@@ -1059,16 +1058,6 @@ Public Class objCommonVar
         Set(ByVal Value As String)
             _currCompanyName = Value
             clsCommon.CurrentCompanyName = Value
-        End Set
-    End Property
-
-    Public Shared Property CurrentCompanyLogo() As Image
-        Get
-            Return _currCompanyLogo
-        End Get
-        Set(ByVal Value As Image)
-            _currCompanyLogo = Value
-            clsCommon.CurrentCompanyLogo = Value
         End Set
     End Property
 

@@ -53,12 +53,14 @@ Public Class frmBulkPurchaseUploader
         Gv1.Visible = True
         btnMergeAndRecreate.Visible = False
         btnMergeAndRecreateTrade.Visible = False
+        btnSaveAndPost.Enabled = True
     End Sub
 
     Private Sub btnSelectSheet_Click(sender As Object, e As EventArgs) Handles btnSelectSheet.Click
         'Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         Gv1.DataSource = Nothing
+        btnSaveAndPost.Enabled = True
         If rdbAgainstBulkprocurement.IsChecked Then
             If transportSql.importExcel(Gv1, "Party Code / Vendor Code", "Gate_Entry_DATE", "Location code", "TankerNo.", "Item code", "GROSS WEIGHT", "DIP Value", "TARE WEIGHT", "Net_MILK QTY.", "PM00001(FAT %)", "PM00002(SNF %)", "PM00003(CLR)", "PM14-151(RM VALUE)", "PM14-1510(Acidity (B.B))", "PM14-1511(Temprature ° C)", "PM14-1512(Alcohol)", "PM14-1513(ACI 8.5% SNF)", "PM14-1515(Taste)", "PM14-1516(Chenna %)", "PM14-1517(B.R. Reading)", "PM14-1518(Detergent)", "PM14-1519(Acidity (A.B))", "PM14-152(FFA%)", "PM14-1520(Adultration)", "PM14-1521(Flavour)", "PM14-153(PROTEIN)", "PM14-154(NA+ PPM)", "PM14-155(K PPM)", "PM14-156(MILK ASH %)", "PM14-157(SUGAR)", "PM14-158(MALTOSE)", "PM14-159(GLUCOSE)", "Silo No", "SRN Price Chart Code", "FAT Ratio", "SNF Ratio", "FAT Weightage", "SNF Weightage", "Purchase_Rate", "Purchase_Amount", "FAT Qty.", "SNF Qty", "Fat Value", "SNF Value", "Vendor Invoice No", "IsJobWork", "JobWork Location") Then
                 If Gv1.Columns.Count > 0 Then
@@ -2308,7 +2310,7 @@ Public Class frmBulkPurchaseUploader
                     trans.Commit()
                     clsCommon.MyMessageBoxShow("Saved Successfully")
                 Else
-                    Throw New Exception("No Validated Rows found to save")
+                    clsCommon.MyMessageBoxShow(Me, "No Validated Rows found to save", Me.Text)
                 End If
             ElseIf rdbAgainstBulkSale.IsChecked Then
                 If ValidatedCount > 0 Then
@@ -2598,6 +2600,7 @@ Public Class frmBulkPurchaseUploader
                     trans.Commit()
                     'trans.Rollback()
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    btnSaveAndPost.Enabled = False
                 Else
                     Throw New Exception("No Validated Rows found to save")
                 End If
@@ -4083,5 +4086,19 @@ Public Class frmBulkPurchaseUploader
 
     Private Sub rdbAgainstBulkSaleTrade_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbAgainstBulkSaleTrade.ToggleStateChanged
         btnMergeAndRecreateTrade.Visible = False
+    End Sub
+
+    Private Sub btReset_Click(sender As Object, e As EventArgs) Handles btReset.Click
+        Reset()
+    End Sub
+    Sub Reset()
+        btnSaveAndPost.Enabled = True
+        Gv1.DataSource = Nothing
+        Gv1.Rows.Clear()
+        Gv1.Columns.Clear()
+        LoadBlankGrid()
+        Gv1.Rows.AddNew()
+        btnValidate.Enabled = True
+
     End Sub
 End Class

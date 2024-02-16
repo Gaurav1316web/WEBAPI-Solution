@@ -339,6 +339,9 @@ Public Class frmDCSDemandBooking
                                 Dim objTr As New clsDCSDemandDetail()
                                 objTr.Line_No = LineNo
                                 objTr.VLC_Uploader = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colDCSCode).Value)
+                                objTr.CreditType = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCreditType).Value)
+                                objTr.OutStandingAmt = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colOutstanding).Value)
+                                objTr.LastMilkDate = clsCommon.GetPrintDate(gv1.Rows(dblrows).Cells(colLastMilkdate).Value, "dd/MMM/yyyy hh:mm tt")
                                 If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
                                     objTr.Item_Code = clsCommon.myCstr(obj1.itemCode)
                                     objTr.Unit_code = clsCommon.myCstr(obj1.Unit_code)
@@ -400,9 +403,12 @@ Public Class frmDCSDemandBooking
                             'gv1.Rows(dblrows).Cells(colLineNo).Value = LineNo
                             'gv1.Rows(dblrows).Cells(colDCSCode).Value = objTr.VLC_Uploader
                             'gv1.Rows(dblrows).Cells(colDCSName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name from TSPL_VLC_master_Head where VLC_Code_VLC_Uploader='" + objTr.VLC_Uploader + "'"))
+                            gv1.Rows(dblrows).Cells(colDCSName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name from TSPL_VLC_master_Head where VLC_Code_VLC_Uploader='" + objTr.VLC_Uploader + "'"))
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colDCSCode).Value), objTr.VLC_Uploader) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
                                 gv1.Rows(dblrows).Cells(colCreditType).Value = objTr.CreditType
+                                gv1.Rows(dblrows).Cells(colOutstanding).Value = objTr.OutStandingAmt
+                                gv1.Rows(dblrows).Cells(colLastMilkdate).Value = objTr.LastMilkDate
                                 For columns = 6 To gv1.Columns.Count - 1
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
@@ -624,6 +630,7 @@ Public Class frmDCSDemandBooking
                         gv1.Rows(dbrow).Cells(colLineNo).Value = dbrow + 1
                         gv1.Rows(dbrow).Cells(colDCSCode).Value = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
                         gv1.Rows(dbrow).Cells(colDCSName).Value = clsCommon.myCstr(dr("VLC_Name"))
+                        gv1.Rows(dbrow).Cells(colOutstanding).Value = GetOutStandingBal(clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")), clsCommon.GetPrintDate(txtDate.Value))
                         dbrow += 1
                         gv1.Rows.AddNew()
                     Next
@@ -658,6 +665,8 @@ Public Class frmDCSDemandBooking
         coll.Add("Line_No", "integer not null")
         coll.Add("VLC_Uploader", "Varchar(30) Not null")
         coll.Add("CreditType", "Varchar(30) Not null")
+        coll.Add("OutStandingAmt", "decimal(18,2) null")
+        coll.Add("LastMilkDate", "Datetime NULL")
         coll.Add("Item_Code", "Varchar(50) null references TSPL_Item_MASTER(Item_Code)")
         coll.Add("Qty", "decimal(18,2) null")
         coll.Add("Unit_code", "Varchar(12) null")
@@ -691,4 +700,27 @@ Public Class frmDCSDemandBooking
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Public Function GetOutStandingBal(ByVal VendorNo As String, ByVal dtDoc As DateTime) As Decimal
+        Dim OSBal As Decimal = 0
+        Try
+            Dim strcustomerfilter As String = String.Empty
+            strcustomerfilter = "'" + VendorNo + "'"
+            'Dim qry = ""
+            Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
+                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(dtDoc.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, Nothing, False) & "   " &
+                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(dtDoc, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & VendorNo & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                    ") XXX GROUP BY ACode ORDER BY ACode"
+            Dim dblBal As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
+            OSBal = dblBal
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+        Return OSBal
+    End Function
 End Class

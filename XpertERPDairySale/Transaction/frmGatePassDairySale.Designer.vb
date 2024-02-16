@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmGatePassDairySale
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,18 +20,28 @@ Partial Class frmGatePassDairySale
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtmultiBooking = New common.UserControls.txtMultiSelectFinder()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.fndDemand = New common.UserControls.txtFinder()
+        Me.RadLabel18 = New common.Controls.MyLabel()
+        Me.lblDODate = New common.Controls.MyLabel()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.ddlPTSShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.lblVehicleNo = New common.Controls.MyTextBox()
+        Me.txtmultiBooking = New common.UserControls.txtMultiSelectFinder()
+        Me.RadLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
         Me.lblRouteNo = New common.Controls.MyLabel()
         Me.TxtRouteNo = New common.UserControls.txtFinder()
-        Me.MyLabel6 = New common.Controls.MyLabel()
         Me.txtLorryNo = New common.UserControls.txtFinder()
-        Me.RadLabel5 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
         Me.lblTaxGrp = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
@@ -52,10 +62,8 @@ Partial Class frmGatePassDairySale
         Me.RadLabel8 = New common.Controls.MyLabel()
         Me.txtVehicleCapacity = New common.Controls.MyTextBox()
         Me.txtLorryNo1 = New common.Controls.MyTextBox()
-        Me.lblDODate = New common.Controls.MyLabel()
         Me.lblLocationName = New common.Controls.MyLabel()
         Me.RadLabel14 = New common.Controls.MyLabel()
-        Me.RadLabel18 = New common.Controls.MyLabel()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
@@ -104,10 +112,14 @@ Partial Class frmGatePassDairySale
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDODate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlPTSShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblVehicleNo.SuspendLayout()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxGrp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -127,10 +139,8 @@ Partial Class frmGatePassDairySale
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVehicleCapacity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLorryNo1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDODate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
@@ -202,18 +212,21 @@ Partial Class frmGatePassDairySale
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1025, 469)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.txtmultiBooking)
+        Me.RadPageViewPage1.Controls.Add(Me.Label2)
+        Me.RadPageViewPage1.Controls.Add(Me.fndDemand)
+        Me.RadPageViewPage1.Controls.Add(Me.Label1)
+        Me.RadPageViewPage1.Controls.Add(Me.ddlPTSShift)
         Me.RadPageViewPage1.Controls.Add(Me.lblVehicleNo)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel5)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.lblRouteNo)
         Me.RadPageViewPage1.Controls.Add(Me.TxtRouteNo)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.txtLorryNo)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.lblTaxGrp)
@@ -232,7 +245,6 @@ Partial Class frmGatePassDairySale
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel29)
         Me.RadPageViewPage1.Controls.Add(Me.ddlStatus)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel8)
-        Me.RadPageViewPage1.Controls.Add(Me.RadLabel5)
         Me.RadPageViewPage1.Controls.Add(Me.txtVehicleCapacity)
         Me.RadPageViewPage1.Controls.Add(Me.txtLorryNo1)
         Me.RadPageViewPage1.Controls.Add(Me.lblDODate)
@@ -258,22 +270,91 @@ Partial Class frmGatePassDairySale
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1004, 423)
         Me.RadPageViewPage1.Text = "Delivery Note"
         '
-        'txtmultiBooking
+        'Label2
         '
-        Me.txtmultiBooking.arrDispalyMember = Nothing
-        Me.txtmultiBooking.arrValueMember = Nothing
-        Me.txtmultiBooking.Location = New System.Drawing.Point(615, 3)
-        Me.txtmultiBooking.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtmultiBooking.MyLinkLable1 = Nothing
-        Me.txtmultiBooking.MyLinkLable2 = Nothing
-        Me.txtmultiBooking.MyNullText = "All"
-        Me.txtmultiBooking.Name = "txtmultiBooking"
-        Me.txtmultiBooking.Size = New System.Drawing.Size(258, 20)
-        Me.txtmultiBooking.TabIndex = 1456
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(543, 5)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(62, 14)
+        Me.Label2.TabIndex = 439
+        Me.Label2.Text = "Demand No"
+        '
+        'fndDemand
+        '
+        Me.fndDemand.CalculationExpression = Nothing
+        Me.fndDemand.FieldCode = Nothing
+        Me.fndDemand.FieldDesc = Nothing
+        Me.fndDemand.FieldMaxLength = 0
+        Me.fndDemand.FieldName = Nothing
+        Me.fndDemand.isCalculatedField = False
+        Me.fndDemand.IsSourceFromTable = False
+        Me.fndDemand.IsSourceFromValueList = False
+        Me.fndDemand.IsUnique = False
+        Me.fndDemand.Location = New System.Drawing.Point(615, 1)
+        Me.fndDemand.MendatroryField = True
+        Me.fndDemand.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndDemand.MyLinkLable1 = Me.RadLabel18
+        Me.fndDemand.MyLinkLable2 = Me.lblDODate
+        Me.fndDemand.MyReadOnly = False
+        Me.fndDemand.MyShowMasterFormButton = False
+        Me.fndDemand.Name = "fndDemand"
+        Me.fndDemand.ReferenceFieldDesc = Nothing
+        Me.fndDemand.ReferenceFieldName = Nothing
+        Me.fndDemand.ReferenceTableName = Nothing
+        Me.fndDemand.Size = New System.Drawing.Size(143, 19)
+        Me.fndDemand.TabIndex = 438
+        Me.fndDemand.Value = ""
+        '
+        'RadLabel18
+        '
+        Me.RadLabel18.FieldName = Nothing
+        Me.RadLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel18.Location = New System.Drawing.Point(546, 92)
+        Me.RadLabel18.Name = "RadLabel18"
+        Me.RadLabel18.Size = New System.Drawing.Size(65, 16)
+        Me.RadLabel18.TabIndex = 36
+        Me.RadLabel18.Text = "Booking No"
+        '
+        'lblDODate
+        '
+        Me.lblDODate.AutoSize = False
+        Me.lblDODate.BorderVisible = True
+        Me.lblDODate.FieldName = Nothing
+        Me.lblDODate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDODate.Location = New System.Drawing.Point(764, 2)
+        Me.lblDODate.Name = "lblDODate"
+        Me.lblDODate.Size = New System.Drawing.Size(109, 18)
+        Me.lblDODate.TabIndex = 54
+        Me.lblDODate.TextWrap = False
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(733, 25)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(29, 14)
+        Me.Label1.TabIndex = 437
+        Me.Label1.Text = "Shift"
+        '
+        'ddlPTSShift
+        '
+        Me.ddlPTSShift.AutoCompleteDisplayMember = Nothing
+        Me.ddlPTSShift.AutoCompleteValueMember = Nothing
+        Me.ddlPTSShift.DropDownAnimationEnabled = True
+        Me.ddlPTSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem1.Text = "Morning"
+        RadListDataItem2.Text = "Evening"
+        Me.ddlPTSShift.Items.Add(RadListDataItem1)
+        Me.ddlPTSShift.Items.Add(RadListDataItem2)
+        Me.ddlPTSShift.Location = New System.Drawing.Point(768, 23)
+        Me.ddlPTSShift.Name = "ddlPTSShift"
+        Me.ddlPTSShift.Size = New System.Drawing.Size(74, 20)
+        Me.ddlPTSShift.TabIndex = 436
         '
         'lblVehicleNo
         '
         Me.lblVehicleNo.CalculationExpression = Nothing
+        Me.lblVehicleNo.Controls.Add(Me.txtmultiBooking)
         Me.lblVehicleNo.FieldCode = Nothing
         Me.lblVehicleNo.FieldDesc = Nothing
         Me.lblVehicleNo.FieldMaxLength = 0
@@ -283,7 +364,7 @@ Partial Class frmGatePassDairySale
         Me.lblVehicleNo.IsSourceFromTable = False
         Me.lblVehicleNo.IsSourceFromValueList = False
         Me.lblVehicleNo.IsUnique = False
-        Me.lblVehicleNo.Location = New System.Drawing.Point(736, 24)
+        Me.lblVehicleNo.Location = New System.Drawing.Point(736, 46)
         Me.lblVehicleNo.MaxLength = 200
         Me.lblVehicleNo.MendatroryField = False
         Me.lblVehicleNo.MyLinkLable1 = Nothing
@@ -292,8 +373,41 @@ Partial Class frmGatePassDairySale
         Me.lblVehicleNo.ReferenceFieldDesc = Nothing
         Me.lblVehicleNo.ReferenceFieldName = Nothing
         Me.lblVehicleNo.ReferenceTableName = Nothing
-        Me.lblVehicleNo.Size = New System.Drawing.Size(178, 18)
+        Me.lblVehicleNo.Size = New System.Drawing.Size(234, 18)
         Me.lblVehicleNo.TabIndex = 149
+        '
+        'txtmultiBooking
+        '
+        Me.txtmultiBooking.arrDispalyMember = Nothing
+        Me.txtmultiBooking.arrValueMember = Nothing
+        Me.txtmultiBooking.Location = New System.Drawing.Point(-125, -4)
+        Me.txtmultiBooking.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtmultiBooking.MyLinkLable1 = Nothing
+        Me.txtmultiBooking.MyLinkLable2 = Nothing
+        Me.txtmultiBooking.MyNullText = "All"
+        Me.txtmultiBooking.Name = "txtmultiBooking"
+        Me.txtmultiBooking.Size = New System.Drawing.Size(258, 20)
+        Me.txtmultiBooking.TabIndex = 1456
+        '
+        'RadLabel5
+        '
+        Me.RadLabel5.FieldName = Nothing
+        Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel5.Location = New System.Drawing.Point(544, 49)
+        Me.RadLabel5.Name = "RadLabel5"
+        Me.RadLabel5.Size = New System.Drawing.Size(61, 16)
+        Me.RadLabel5.TabIndex = 34
+        Me.RadLabel5.Text = "Vehicle No"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(544, 26)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(54, 16)
+        Me.MyLabel6.TabIndex = 138
+        Me.MyLabel6.Text = "Route No"
         '
         'lblRouteNo
         '
@@ -303,9 +417,8 @@ Partial Class frmGatePassDairySale
         Me.lblRouteNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRouteNo.Location = New System.Drawing.Point(736, 47)
         Me.lblRouteNo.Name = "lblRouteNo"
-        Me.lblRouteNo.Size = New System.Drawing.Size(178, 18)
+        Me.lblRouteNo.Size = New System.Drawing.Size(234, 18)
         Me.lblRouteNo.TabIndex = 140
-        Me.lblRouteNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRouteNo.TextWrap = False
         '
         'TxtRouteNo
@@ -319,7 +432,7 @@ Partial Class frmGatePassDairySale
         Me.TxtRouteNo.IsSourceFromTable = False
         Me.TxtRouteNo.IsSourceFromValueList = False
         Me.TxtRouteNo.IsUnique = False
-        Me.TxtRouteNo.Location = New System.Drawing.Point(616, 46)
+        Me.TxtRouteNo.Location = New System.Drawing.Point(616, 23)
         Me.TxtRouteNo.MendatroryField = False
         Me.TxtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtRouteNo.MyLinkLable1 = Me.MyLabel6
@@ -334,16 +447,6 @@ Partial Class frmGatePassDairySale
         Me.TxtRouteNo.TabIndex = 139
         Me.TxtRouteNo.Value = ""
         '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(545, 48)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(54, 16)
-        Me.MyLabel6.TabIndex = 138
-        Me.MyLabel6.Text = "Route No"
-        '
         'txtLorryNo
         '
         Me.txtLorryNo.CalculationExpression = Nothing
@@ -355,7 +458,7 @@ Partial Class frmGatePassDairySale
         Me.txtLorryNo.IsSourceFromTable = False
         Me.txtLorryNo.IsSourceFromValueList = False
         Me.txtLorryNo.IsUnique = False
-        Me.txtLorryNo.Location = New System.Drawing.Point(616, 24)
+        Me.txtLorryNo.Location = New System.Drawing.Point(617, 46)
         Me.txtLorryNo.MendatroryField = False
         Me.txtLorryNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLorryNo.MyLinkLable1 = Me.RadLabel5
@@ -369,16 +472,6 @@ Partial Class frmGatePassDairySale
         Me.txtLorryNo.Size = New System.Drawing.Size(105, 19)
         Me.txtLorryNo.TabIndex = 136
         Me.txtLorryNo.Value = ""
-        '
-        'RadLabel5
-        '
-        Me.RadLabel5.FieldName = Nothing
-        Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel5.Location = New System.Drawing.Point(544, 25)
-        Me.RadLabel5.Name = "RadLabel5"
-        Me.RadLabel5.Size = New System.Drawing.Size(61, 16)
-        Me.RadLabel5.TabIndex = 34
-        Me.RadLabel5.Text = "Vehicle No"
         '
         'UsLock1
         '
@@ -449,7 +542,7 @@ Partial Class frmGatePassDairySale
         Me.txtCreditLimit.TabIndex = 132
         Me.txtCreditLimit.Text = "0"
         Me.txtCreditLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCreditLimit.Value = 0.0R
+        Me.txtCreditLimit.Value = 0R
         Me.txtCreditLimit.Visible = False
         '
         'lblPriceCode
@@ -594,7 +687,7 @@ Partial Class frmGatePassDairySale
         '
         Me.RadLabel29.FieldName = Nothing
         Me.RadLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel29.Location = New System.Drawing.Point(810, 95)
+        Me.RadLabel29.Location = New System.Drawing.Point(843, 93)
         Me.RadLabel29.Name = "RadLabel29"
         Me.RadLabel29.Size = New System.Drawing.Size(38, 16)
         Me.RadLabel29.TabIndex = 43
@@ -606,6 +699,7 @@ Partial Class frmGatePassDairySale
         Me.ddlStatus.AutoCompleteDisplayMember = Nothing
         Me.ddlStatus.AutoCompleteValueMember = Nothing
         Me.ddlStatus.CalculationExpression = Nothing
+        Me.ddlStatus.DropDownAnimationEnabled = True
         Me.ddlStatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlStatus.FieldCode = Nothing
         Me.ddlStatus.FieldDesc = Nothing
@@ -688,19 +782,6 @@ Partial Class frmGatePassDairySale
         Me.txtLorryNo1.TabIndex = 5
         Me.txtLorryNo1.Visible = False
         '
-        'lblDODate
-        '
-        Me.lblDODate.AutoSize = False
-        Me.lblDODate.BorderVisible = True
-        Me.lblDODate.FieldName = Nothing
-        Me.lblDODate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDODate.Location = New System.Drawing.Point(764, 2)
-        Me.lblDODate.Name = "lblDODate"
-        Me.lblDODate.Size = New System.Drawing.Size(109, 18)
-        Me.lblDODate.TabIndex = 54
-        Me.lblDODate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblDODate.TextWrap = False
-        '
         'lblLocationName
         '
         Me.lblLocationName.AutoSize = False
@@ -711,7 +792,6 @@ Partial Class frmGatePassDairySale
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(287, 18)
         Me.lblLocationName.TabIndex = 55
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocationName.TextWrap = False
         '
         'RadLabel14
@@ -723,16 +803,6 @@ Partial Class frmGatePassDairySale
         Me.RadLabel14.Size = New System.Drawing.Size(55, 16)
         Me.RadLabel14.TabIndex = 47
         Me.RadLabel14.Text = "Comment"
-        '
-        'RadLabel18
-        '
-        Me.RadLabel18.FieldName = Nothing
-        Me.RadLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel18.Location = New System.Drawing.Point(544, 3)
-        Me.RadLabel18.Name = "RadLabel18"
-        Me.RadLabel18.Size = New System.Drawing.Size(65, 16)
-        Me.RadLabel18.TabIndex = 36
-        Me.RadLabel18.Text = "Booking No"
         '
         'RadLabel15
         '
@@ -755,10 +825,10 @@ Partial Class frmGatePassDairySale
         Me.RadGroupBox2.Controls.Add(Me.txtTransporterName)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 100)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 121)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(999, 320)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(999, 299)
         Me.RadGroupBox2.TabIndex = 27
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -776,18 +846,19 @@ Partial Class frmGatePassDairySale
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(979, 290)
+        Me.gv1.Size = New System.Drawing.Size(979, 269)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'MyLabel1
         '
@@ -805,6 +876,7 @@ Partial Class frmGatePassDairySale
         Me.ddlFreight.AutoCompleteDisplayMember = Nothing
         Me.ddlFreight.AutoCompleteValueMember = Nothing
         Me.ddlFreight.CalculationExpression = Nothing
+        Me.ddlFreight.DropDownAnimationEnabled = True
         Me.ddlFreight.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlFreight.FieldCode = Nothing
         Me.ddlFreight.FieldDesc = Nothing
@@ -862,7 +934,7 @@ Partial Class frmGatePassDairySale
         Me.txtFreightAmt.TabIndex = 129
         Me.txtFreightAmt.Text = "0"
         Me.txtFreightAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFreightAmt.Value = 0.0R
+        Me.txtFreightAmt.Value = 0R
         Me.txtFreightAmt.Visible = False
         '
         'MyLabel2
@@ -911,7 +983,6 @@ Partial Class frmGatePassDairySale
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(287, 18)
         Me.lblCustomerName.TabIndex = 56
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustomerName.TextWrap = False
         '
         'RadLabel2
@@ -946,7 +1017,7 @@ Partial Class frmGatePassDairySale
         Me.txtComment.IsSourceFromTable = False
         Me.txtComment.IsSourceFromValueList = False
         Me.txtComment.IsUnique = False
-        Me.txtComment.Location = New System.Drawing.Point(616, 70)
+        Me.txtComment.Location = New System.Drawing.Point(616, 68)
         Me.txtComment.MaxLength = 200
         Me.txtComment.MendatroryField = False
         Me.txtComment.MyLinkLable1 = Me.RadLabel14
@@ -955,7 +1026,7 @@ Partial Class frmGatePassDairySale
         Me.txtComment.ReferenceFieldDesc = Nothing
         Me.txtComment.ReferenceFieldName = Nothing
         Me.txtComment.ReferenceTableName = Nothing
-        Me.txtComment.Size = New System.Drawing.Size(299, 18)
+        Me.txtComment.Size = New System.Drawing.Size(232, 18)
         Me.txtComment.TabIndex = 12
         '
         'fndCustomerNo
@@ -995,7 +1066,7 @@ Partial Class frmGatePassDairySale
         Me.fndDeliveryNo.IsSourceFromTable = False
         Me.fndDeliveryNo.IsSourceFromValueList = False
         Me.fndDeliveryNo.IsUnique = False
-        Me.fndDeliveryNo.Location = New System.Drawing.Point(615, 3)
+        Me.fndDeliveryNo.Location = New System.Drawing.Point(616, 90)
         Me.fndDeliveryNo.MendatroryField = True
         Me.fndDeliveryNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndDeliveryNo.MyLinkLable1 = Me.RadLabel18
@@ -1021,7 +1092,7 @@ Partial Class frmGatePassDairySale
         Me.fndLocation.IsSourceFromTable = False
         Me.fndLocation.IsSourceFromValueList = False
         Me.fndLocation.IsUnique = False
-        Me.fndLocation.Location = New System.Drawing.Point(98, 49)
+        Me.fndLocation.Location = New System.Drawing.Point(98, 48)
         Me.fndLocation.MendatroryField = False
         Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndLocation.MyLinkLable1 = Me.RadLabel15
@@ -1092,8 +1163,6 @@ Partial Class frmGatePassDairySale
         '
         'BtnPrintDetail
         '
-        Me.BtnPrintDetail.AccessibleDescription = "Detail"
-        Me.BtnPrintDetail.AccessibleName = "Detail"
         Me.BtnPrintDetail.Name = "BtnPrintDetail"
         Me.BtnPrintDetail.Text = "Detail"
         '
@@ -1127,22 +1196,16 @@ Partial Class frmGatePassDairySale
         '
         'BtnPreview
         '
-        Me.BtnPreview.AccessibleDescription = "Preview"
-        Me.BtnPreview.AccessibleName = "Preview"
         Me.BtnPreview.Name = "BtnPreview"
         Me.BtnPreview.Text = "Preview"
         '
         'BtnSend
         '
-        Me.BtnSend.AccessibleDescription = "Send Mail/Sms"
-        Me.BtnSend.AccessibleName = "Send Mail/Sms"
         Me.BtnSend.Name = "BtnSend"
         Me.BtnSend.Text = "Send Mail/Sms"
         '
         'BtnSendForApproval
         '
-        Me.BtnSendForApproval.AccessibleDescription = "Send Mail For Approval"
-        Me.BtnSendForApproval.AccessibleName = "Send Mail For Approval"
         Me.BtnSendForApproval.Name = "BtnSendForApproval"
         Me.BtnSendForApproval.Text = "Send Mail For Approval"
         '
@@ -1200,16 +1263,12 @@ Partial Class frmGatePassDairySale
         '
         'EmailSmsSetting
         '
-        Me.EmailSmsSetting.AccessibleDescription = "Email/SMS Setting"
-        Me.EmailSmsSetting.AccessibleName = "Email/SMS Setting"
         Me.EmailSmsSetting.Name = "EmailSmsSetting"
         Me.EmailSmsSetting.Text = "Email/SMS Setting"
         Me.EmailSmsSetting.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem4.AccessibleName = "Delete Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         '
@@ -1229,27 +1288,20 @@ Partial Class frmGatePassDairySale
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1025, 20)
         Me.RadMenu1.TabIndex = 6
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.EmailSmsSetting, Me.EmailSettingCreditApproval})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'EmailSettingCreditApproval
         '
-        Me.EmailSettingCreditApproval.AccessibleDescription = "Email setting for Credit Approval"
-        Me.EmailSettingCreditApproval.AccessibleName = "Email setting for Credit Approval"
         Me.EmailSettingCreditApproval.Name = "EmailSettingCreditApproval"
         Me.EmailSettingCreditApproval.Text = "Email setting for Credit Approval"
         Me.EmailSettingCreditApproval.Visibility = Telerik.WinControls.ElementVisibility.Hidden
@@ -1269,6 +1321,7 @@ Partial Class frmGatePassDairySale
         Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
         Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
         Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
         Me.RadMenuItem2.Location = New System.Drawing.Point(150, 573)
         Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
@@ -1280,6 +1333,9 @@ Partial Class frmGatePassDairySale
         Me.RadMenuItem2.TabIndex = 5
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'frmGatePassDairySale
         '
@@ -1302,10 +1358,15 @@ Partial Class frmGatePassDairySale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDODate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlPTSShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.lblVehicleNo.ResumeLayout(False)
+        Me.lblVehicleNo.PerformLayout()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTaxGrp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1325,10 +1386,8 @@ Partial Class frmGatePassDairySale
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVehicleCapacity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLorryNo1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDODate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
@@ -1441,5 +1500,9 @@ Partial Class frmGatePassDairySale
     Friend WithEvents BtnPrintDetail As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents BtnPrintSummry As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents txtmultiBooking As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents ddlPTSShift As RadDropDownList
+    Friend WithEvents Label1 As Label
+    Friend WithEvents fndDemand As common.UserControls.txtFinder
+    Friend WithEvents Label2 As Label
 End Class
 

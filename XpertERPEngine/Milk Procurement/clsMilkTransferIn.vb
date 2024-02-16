@@ -434,10 +434,13 @@ Public Class clsMilkTransferIn
                     SnfValue = (objW.Net_Weight * SNFQcPer / 100) * objD.SNF_RATE
                     rcptAmount = FatValue + SnfValue
                 Else
+                    If objW IsNot Nothing Then
+                        FatValue = objW.FAT_Value
+                        SnfValue = objW.SNF_Value
+                        rcptAmount = objW.Amount
 
-                    FatValue = objW.FAT_Value
-                    SnfValue = objW.SNF_Value
-                    rcptAmount = objW.Amount
+                    End If
+
                 End If
                 strItemType = clsItemMaster.GetItemType(objW.Item_Code, trans)
                 If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then

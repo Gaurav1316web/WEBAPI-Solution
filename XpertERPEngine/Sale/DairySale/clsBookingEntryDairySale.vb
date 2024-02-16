@@ -149,7 +149,7 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "AgainstGatePass", obj.AgainstGatePass)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy HH:mm:ss"))
 
             clsCommon.AddColumnsForChange(coll, "Is_Taxable", obj.Is_Taxable)
             clsCommon.AddColumnsForChange(coll, "TRANSACTION_TYPE", obj.TRANSACTION_TYPE)
@@ -239,8 +239,10 @@ Public Class clsBookingEntryDairySale
 
             isSaved = isSaved AndAlso clsBookingDetailDairySale.SaveData(obj.Document_No, Arr, trans, isNewEntry, obj.Document_Date)
             isSaved = isSaved AndAlso clsBookingDetailDairySalePaymentMode.saveData(obj.arrBookingDetailDairySalePaymentMode, obj.Document_No, obj.Document_Date, trans)
+            If isNewEntry Then
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
 
-
+            End If
             Return isSaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -526,6 +528,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.Total_Outstanding = clsCommon.myCdbl(dt.Rows(0)("Total_Outstanding"))
             obj.GatePass_Type = clsCommon.myCstr(dt.Rows(0)("GatePass_Type"))
             obj.Created_By = clsCommon.myCstr(dt.Rows(0)("Created_By"))
+            obj.Arr = clsBookingDetailDairySale.getData(obj.Document_No, Trans)
             obj.arrBookingDetailDairySalePaymentMode = clsBookingDetailDairySalePaymentMode.getData(obj.Document_No, Trans)
         End If
         Return obj
@@ -1604,7 +1607,39 @@ Public Class clsBookingDetailDairySale
         Return True
         Arr = Nothing
     End Function
-
+    Public Shared Function getData(ByVal strQCNo As String, ByVal trans As SqlTransaction) As List(Of clsBookingDetailDairySale)
+        Try
+            Dim arrObj As List(Of clsBookingDetailDairySale) = Nothing
+            Dim obj As clsBookingDetailDairySale = Nothing
+            Dim qry As String = "Select * from TSPL_BOOKING_DETAIL where Document_No='" & strQCNo & "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                arrObj = New List(Of clsBookingDetailDairySale)
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    obj = New clsBookingDetailDairySale()
+                    obj.Document_No = clsCommon.myCstr(dt.Rows(i)("Document_No"))
+                    obj.Cust_Code = clsCommon.myCstr(dt.Rows(i)("Cust_Code"))
+                    obj.Booking_Qty = 0
+                    obj.Against_DemandBooking_No = clsCommon.myCstr(dt.Rows(i)("Against_DemandBooking_No"))
+                    obj.Against_DemandBooking_TR_Code = clsCommon.myCstr(dt.Rows(i)("Against_DemandBooking_TR_Code"))
+                    obj.Line_No = clsCommon.myCdbl(dt.Rows(i)("Line_No"))
+                    obj.Item_Code = clsCommon.myCstr(dt.Rows(i)("Item_Code"))
+                    obj.Total_Qty = 0
+                    obj.Unit_code = clsCommon.myCstr(dt.Rows(i)("Unit_code"))
+                    obj.Item_Price_ID = clsCommon.myCdbl(dt.Rows(i)("Item_Price_ID"))
+                    obj.Item_Rate = clsCommon.myCdbl(dt.Rows(i)("Item_Rate"))
+                    obj.Loc_Code = clsCommon.myCstr(dt.Rows(i)("Loc_Code"))
+                    obj.Amount_with_Tax = clsCommon.myCdbl(dt.Rows(i)("Amount_with_Tax"))
+                    obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(i)("Vehicle_Code"))
+                    obj.Route_No = clsCommon.myCstr(dt.Rows(i)("Route_No"))
+                    arrObj.Add(obj)
+                Next
+            End If
+            Return arrObj
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
 End Class
 
 Public Class clsBookingDetailDairySalePaymentMode

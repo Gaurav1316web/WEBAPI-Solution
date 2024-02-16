@@ -268,7 +268,7 @@ Public Class frmMCCMaterialSaleUploader
             If AllowPlandDeptMCCLocation Then
                 qry = "select Location  as [BILL TO LOCATION],Sub_Location_code as [SUB LOCATION], MCCSaleDate as [DATE], Customer as [CUSTOMER NO], '' as [CUSTOMER NAME], VLCCode as [VLC CODE], '' as [VLC NAME], Item_code as [ITEM CODE], '' as [ITEM NAME], Qty as [QTY],UOM AS UOM, rate as [RATE], Amount as [AMOUNT],'' as [Taxable],'' as [Cash Sale] from Temp_table_MCC_Material_Sale_uploader"
             Else
-                qry = "  Select Case Location  As [BILL To LOCATION], MCCSaleDate As [DATE], Customer As [CUSTOMER NO], '' as [CUSTOMER NAME], VLCCode as [VLC CODE], '' as [VLC NAME], Item_code as [ITEM CODE], '' as [ITEM NAME], Qty as [QTY],UOM AS UOM, rate as [RATE], Amount as [AMOUNT],'' as [Taxable],'' as [Cash Sale] from Temp_table_MCC_Material_Sale_uploader"
+                qry = "  Select  Location  As [BILL To LOCATION], MCCSaleDate As [DATE], Customer As [CUSTOMER NO], '' as [CUSTOMER NAME], VLCCode as [VLC CODE], '' as [VLC NAME], Item_code as [ITEM CODE], '' as [ITEM NAME], Qty as [QTY],UOM AS UOM, rate as [RATE], Amount as [AMOUNT],'' as [Taxable],'' as [Cash Sale] from Temp_table_MCC_Material_Sale_uploader"
             End If
         End If
         ListImpExpColumnsMandatory = New List(Of String)({"BILL TO LOCATION"})
@@ -593,7 +593,7 @@ Public Class frmMCCMaterialSaleUploader
                     clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
                     btnSaveAndPost.Enabled = False
                 Else
-                    Throw New Exception("No Validated Rows found to save")
+                    clsCommon.MyMessageBoxShow(Me, "No Validated Rows found to save", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -992,5 +992,6 @@ Public Class frmMCCMaterialSaleUploader
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
+        btnSaveAndPost.Enabled = True
     End Sub
 End Class
