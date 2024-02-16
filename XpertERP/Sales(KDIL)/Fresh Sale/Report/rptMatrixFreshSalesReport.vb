@@ -2758,7 +2758,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
         Try
             Dim MilkProductBoth As String = Nothing
             Dim Qry As String = Nothing
-            Qry = "select xx.*
+            Qry = " select xfinal.*,case when (select top 1 posted from TSPL_DEMAND_BOOKING_MASTER where Route_No in( xfinal.route_no) and ShiftType= xfinal.ShiftType and convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "') =1 then 'Approved' else 'Pending' end as DocStatus
+from (select xx.*
  ,case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull((select sum(ItemNetAmount) as netamt  from TSPL_DEMAND_BOOKING_MASTER left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ddlPTSShift.Text + "'  and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "')"
             If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
                 Qry += "and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
@@ -2972,7 +2973,7 @@ where 2=2 "
 group by TSPL_BOOKING_DETAIL.Cust_Code,TSPL_BOOKING_MATSER.TCSAmount,TSPL_BOOKING_MATSER.Against_DemandBooking_No
 ) XYZ
 group by XYZ.Cust_Code
-) as prevtcs on xx.Cust_Code=prevtcs.Cust_Code "
+) as prevtcs on xx.Cust_Code=prevtcs.Cust_Code) xfinal "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Dim frmCRV As New frmCrystalReportViewer()
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingTruckSheet", "Demand Booking Truck Sheet")
