@@ -469,7 +469,10 @@ Public Class MDI
             If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertERPEngineFine")
             End If
-
+            strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPMIS.dll").FileVersion
+            If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
+                Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertERPMIS")
+            End If
             '--Check Apps Version
             If File.Exists(Application.StartupPath + "\XpertSMSApp.exe") Then
                 strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertSMSApp.exe").FileVersion
