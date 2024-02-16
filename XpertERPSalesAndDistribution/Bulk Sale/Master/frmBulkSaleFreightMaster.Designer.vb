@@ -1,7 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmBulkSaleFreightMaster
     Inherits FrmMainTranScreen
-
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -23,72 +22,170 @@ Partial Class frmBulkSaleFreightMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.txtCustomer = New common.UserControls.txtFinder()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.btnValidate = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnExportFormat = New Telerik.WinControls.UI.RadButton()
-        Me.btnSelectSheet = New Telerik.WinControls.UI.RadButton()
-        Me.RadGridView1 = New common.UserControls.MyRadGridView()
-        Me.Panel1.SuspendLayout()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Gv1.SuspendLayout()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.lblStatus = New common.usLock()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtStartDate = New common.Controls.MyDateTimePicker()
+        Me.lblCustomerName = New common.Controls.MyLabel()
+        Me.txtCustomer = New common.UserControls.txtFinder()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtdate = New common.Controls.MyDateTimePicker()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.txtDocumentNo = New common.UserControls.txtNavigator()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnReverseUnpost = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmimport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExportFormat, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'Panel1
+        'SplitContainer1
         '
-        Me.Panel1.Controls.Add(Me.btnGo)
-        Me.Panel1.Controls.Add(Me.txtCustomer)
-        Me.Panel1.Controls.Add(Me.txtToDate)
-        Me.Panel1.Controls.Add(Me.MyLabel4)
-        Me.Panel1.Controls.Add(Me.MyLabel2)
-        Me.Panel1.Controls.Add(Me.txtFromDate)
-        Me.Panel1.Controls.Add(Me.MyLabel3)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel1.Location = New System.Drawing.Point(0, 0)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1031, 95)
-        Me.Panel1.TabIndex = 0
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'btnGo
+        'SplitContainer1.Panel1
         '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(340, 41)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(76, 18)
-        Me.btnGo.TabIndex = 411
-        Me.btnGo.Text = ">>>"
+        Me.SplitContainer1.Panel1.Controls.Add(Me.SplitContainer2)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseUnpost)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
+        Me.SplitContainer1.Size = New System.Drawing.Size(996, 489)
+        Me.SplitContainer1.SplitterDistance = 452
+        Me.SplitContainer1.TabIndex = 1
+        '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.IsSplitterFixed = True
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblStatus)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel3)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtStartDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblCustomerName)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtCustomer)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel6)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel2)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtdate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblCode)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocumentNo)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
+        Me.SplitContainer2.Size = New System.Drawing.Size(996, 452)
+        Me.SplitContainer2.SplitterDistance = 98
+        Me.SplitContainer2.TabIndex = 0
+        '
+        'lblStatus
+        '
+        Me.lblStatus.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.lblStatus.Location = New System.Drawing.Point(529, 9)
+        Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStatus.Name = "lblStatus"
+        Me.lblStatus.Size = New System.Drawing.Size(147, 19)
+        Me.lblStatus.Status = common.ERPTransactionStatus.Pending
+        Me.lblStatus.TabIndex = 17
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(7, 54)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel3.TabIndex = 7
+        Me.MyLabel3.Text = "Start Date"
+        '
+        'txtStartDate
+        '
+        Me.txtStartDate.CalculationExpression = Nothing
+        Me.txtStartDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtStartDate.FieldCode = Nothing
+        Me.txtStartDate.FieldDesc = Nothing
+        Me.txtStartDate.FieldMaxLength = 0
+        Me.txtStartDate.FieldName = Nothing
+        Me.txtStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtStartDate.isCalculatedField = False
+        Me.txtStartDate.IsSourceFromTable = False
+        Me.txtStartDate.IsSourceFromValueList = False
+        Me.txtStartDate.IsUnique = False
+        Me.txtStartDate.Location = New System.Drawing.Point(94, 52)
+        Me.txtStartDate.MendatroryField = True
+        Me.txtStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtStartDate.MyLinkLable1 = Me.MyLabel3
+        Me.txtStartDate.MyLinkLable2 = Nothing
+        Me.txtStartDate.Name = "txtStartDate"
+        Me.txtStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtStartDate.ReferenceFieldDesc = Nothing
+        Me.txtStartDate.ReferenceFieldName = Nothing
+        Me.txtStartDate.ReferenceTableName = Nothing
+        Me.txtStartDate.Size = New System.Drawing.Size(87, 20)
+        Me.txtStartDate.TabIndex = 2
+        Me.txtStartDate.TabStop = False
+        Me.txtStartDate.Text = "10/06/2011"
+        Me.txtStartDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'lblCustomerName
+        '
+        Me.lblCustomerName.AutoSize = False
+        Me.lblCustomerName.BorderVisible = True
+        Me.lblCustomerName.FieldName = Nothing
+        Me.lblCustomerName.Location = New System.Drawing.Point(311, 30)
+        Me.lblCustomerName.Name = "lblCustomerName"
+        Me.lblCustomerName.Size = New System.Drawing.Size(188, 19)
+        Me.lblCustomerName.TabIndex = 13
         '
         'txtCustomer
         '
@@ -101,7 +198,7 @@ Partial Class frmBulkSaleFreightMaster
         Me.txtCustomer.IsSourceFromTable = False
         Me.txtCustomer.IsSourceFromValueList = False
         Me.txtCustomer.IsUnique = False
-        Me.txtCustomer.Location = New System.Drawing.Point(89, 42)
+        Me.txtCustomer.Location = New System.Drawing.Point(94, 30)
         Me.txtCustomer.MendatroryField = True
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Nothing
@@ -112,266 +209,272 @@ Partial Class frmBulkSaleFreightMaster
         Me.txtCustomer.ReferenceFieldDesc = Nothing
         Me.txtCustomer.ReferenceFieldName = Nothing
         Me.txtCustomer.ReferenceTableName = Nothing
-        Me.txtCustomer.Size = New System.Drawing.Size(189, 19)
-        Me.txtCustomer.TabIndex = 410
+        Me.txtCustomer.Size = New System.Drawing.Size(212, 19)
+        Me.txtCustomer.TabIndex = 1
         Me.txtCustomer.Value = ""
         '
-        'txtToDate
+        'MyLabel6
         '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(243, 13)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Me.MyLabel4
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(87, 20)
-        Me.txtToDate.TabIndex = 408
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "28/06/2012"
-        Me.txtToDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(184, 14)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
-        Me.MyLabel4.TabIndex = 409
-        Me.MyLabel4.Text = "To Date"
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel6.Location = New System.Drawing.Point(7, 31)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel6.TabIndex = 8
+        Me.MyLabel6.Text = "Customer"
         '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(12, 43)
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel2.Location = New System.Drawing.Point(373, 9)
         Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(55, 18)
-        Me.MyLabel2.TabIndex = 407
-        Me.MyLabel2.Text = "Customer"
+        Me.MyLabel2.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel2.TabIndex = 11
+        Me.MyLabel2.Text = "Date"
         '
-        'txtFromDate
+        'txtdate
         '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(88, 13)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Me.MyLabel3
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(86, 20)
-        Me.txtFromDate.TabIndex = 405
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "28/06/2012"
-        Me.txtFromDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
+        Me.txtdate.CalculationExpression = Nothing
+        Me.txtdate.CustomFormat = "dd/MM/yyyy"
+        Me.txtdate.FieldCode = Nothing
+        Me.txtdate.FieldDesc = Nothing
+        Me.txtdate.FieldMaxLength = 0
+        Me.txtdate.FieldName = Nothing
+        Me.txtdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtdate.isCalculatedField = False
+        Me.txtdate.IsSourceFromTable = False
+        Me.txtdate.IsSourceFromValueList = False
+        Me.txtdate.IsUnique = False
+        Me.txtdate.Location = New System.Drawing.Point(409, 8)
+        Me.txtdate.MendatroryField = True
+        Me.txtdate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtdate.MyLinkLable1 = Me.MyLabel2
+        Me.txtdate.MyLinkLable2 = Nothing
+        Me.txtdate.Name = "txtdate"
+        Me.txtdate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtdate.ReferenceFieldDesc = Nothing
+        Me.txtdate.ReferenceFieldName = Nothing
+        Me.txtdate.ReferenceTableName = Nothing
+        Me.txtdate.Size = New System.Drawing.Size(90, 18)
+        Me.txtdate.TabIndex = 0
+        Me.txtdate.TabStop = False
+        Me.txtdate.Text = "13/06/2011"
+        Me.txtdate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'MyLabel3
+        'btnAddNew
         '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(12, 14)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(59, 18)
-        Me.MyLabel3.TabIndex = 406
-        Me.MyLabel3.Text = "From Date"
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(350, 8)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(21, 19)
+        Me.btnAddNew.TabIndex = 10
         '
-        'Gv1
+        'lblCode
         '
-        Me.Gv1.Controls.Add(Me.RadGridView1)
-        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv1.Location = New System.Drawing.Point(0, 95)
+        Me.lblCode.FieldName = Nothing
+        Me.lblCode.Location = New System.Drawing.Point(7, 8)
+        Me.lblCode.Name = "lblCode"
+        Me.lblCode.Size = New System.Drawing.Size(77, 18)
+        Me.lblCode.TabIndex = 9
+        Me.lblCode.Text = "Document No"
         '
+        'txtDocumentNo
         '
+        Me.txtDocumentNo.FieldName = Nothing
+        Me.txtDocumentNo.Location = New System.Drawing.Point(94, 7)
+        Me.txtDocumentNo.MendatroryField = False
+        Me.txtDocumentNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtDocumentNo.MyLinkLable1 = Me.lblCode
+        Me.txtDocumentNo.MyLinkLable2 = Nothing
+        Me.txtDocumentNo.MyMaxLength = 32767
+        Me.txtDocumentNo.MyReadOnly = False
+        Me.txtDocumentNo.Name = "txtDocumentNo"
+        Me.txtDocumentNo.Size = New System.Drawing.Size(256, 20)
+        Me.txtDocumentNo.TabIndex = 16
+        Me.txtDocumentNo.Value = ""
         '
-        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.Gv1.Name = "Gv1"
-        Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1031, 319)
-        Me.Gv1.TabIndex = 1
+        'gv1
         '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Gv1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Panel1)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnValidate)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btReset)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExportFormat)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelectSheet)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1031, 456)
-        Me.SplitContainer1.SplitterDistance = 414
-        Me.SplitContainer1.TabIndex = 3
-        '
-        'btnValidate
-        '
-        Me.btnValidate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnValidate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnValidate.Location = New System.Drawing.Point(346, 11)
-        Me.btnValidate.Name = "btnValidate"
-        Me.btnValidate.Size = New System.Drawing.Size(83, 18)
-        Me.btnValidate.TabIndex = 21
-        Me.btnValidate.Text = "Validate"
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(943, 11)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(66, 18)
-        Me.btnClose.TabIndex = 20
-        Me.btnClose.Text = "Close"
-        '
-        'btReset
-        '
-        Me.btReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btReset.Location = New System.Drawing.Point(259, 11)
-        Me.btReset.Name = "btReset"
-        Me.btReset.Size = New System.Drawing.Size(83, 18)
-        Me.btReset.TabIndex = 19
-        Me.btReset.Text = "Reset"
-        '
-        'btnSave
-        '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(172, 11)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(83, 18)
-        Me.btnSave.TabIndex = 18
-        Me.btnSave.Text = "Save"
-        '
-        'btnExportFormat
-        '
-        Me.btnExportFormat.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExportFormat.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExportFormat.Location = New System.Drawing.Point(85, 11)
-        Me.btnExportFormat.Name = "btnExportFormat"
-        Me.btnExportFormat.Size = New System.Drawing.Size(83, 18)
-        Me.btnExportFormat.TabIndex = 17
-        Me.btnExportFormat.Text = "Export Format"
-        '
-        'btnSelectSheet
-        '
-        Me.btnSelectSheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSelectSheet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSelectSheet.Location = New System.Drawing.Point(9, 11)
-        Me.btnSelectSheet.Name = "btnSelectSheet"
-        Me.btnSelectSheet.Size = New System.Drawing.Size(72, 18)
-        Me.btnSelectSheet.TabIndex = 16
-        Me.btnSelectSheet.Text = "Select Sheet"
-        '
-        'RadGridView1
-        '
-        Me.RadGridView1.Location = New System.Drawing.Point(-19, -136)
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
         '
         '
-        Me.RadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.RadGridView1.Name = "RadGridView1"
-        Me.RadGridView1.Size = New System.Drawing.Size(240, 150)
-        Me.RadGridView1.TabIndex = 1
+        Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(996, 350)
+        Me.gv1.TabIndex = 0
+        Me.gv1.TabStop = False
+        '
+        'btnReverseUnpost
+        '
+        Me.btnReverseUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverseUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverseUnpost.Location = New System.Drawing.Point(220, 6)
+        Me.btnReverseUnpost.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnReverseUnpost.Name = "btnReverseUnpost"
+        Me.btnReverseUnpost.Size = New System.Drawing.Size(122, 20)
+        Me.btnReverseUnpost.TabIndex = 11
+        Me.btnReverseUnpost.Text = "Reverse and Unpost"
+        Me.btnReverseUnpost.Visible = False
+        '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPost.Location = New System.Drawing.Point(149, 6)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(69, 20)
+        Me.btnPost.TabIndex = 4
+        Me.btnPost.Text = "Post"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(924, 6)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(69, 20)
+        Me.btnclose.TabIndex = 3
+        Me.btnclose.Text = "Close"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Location = New System.Drawing.Point(78, 6)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(69, 20)
+        Me.btndelete.TabIndex = 1
+        Me.btndelete.Text = "Delete"
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Location = New System.Drawing.Point(7, 6)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(69, 20)
+        Me.btnsave.TabIndex = 0
+        Me.btnsave.Text = "Save"
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExport, Me.rmimport, Me.RadMenuItem4, Me.RadMenuItem5, Me.RadMenuItem1, Me.RadMenuItem2})
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "Setting"
+        '
+        'rmExport
+        '
+        Me.rmExport.Name = "rmExport"
+        Me.rmExport.Text = "Export Grid"
+        '
+        'rmimport
+        '
+        Me.rmimport.Name = "rmimport"
+        Me.rmimport.Text = "Import Grid"
+        '
+        'RadMenuItem4
+        '
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Export"
+        '
+        'RadMenuItem5
+        '
+        Me.RadMenuItem5.Name = "RadMenuItem5"
+        Me.RadMenuItem5.Text = "Import"
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Save Layout"
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Text = "Delete Layout"
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(996, 20)
+        Me.RadMenu1.TabIndex = 12
         '
         'frmBulkSaleFreightMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1031, 456)
+        Me.ClientSize = New System.Drawing.Size(996, 509)
         Me.Controls.Add(Me.SplitContainer1)
+        Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmBulkSaleFreightMaster"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "Bulk Sale Acknowledgement Uploader"
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Gv1.ResumeLayout(False)
-        Me.Gv1.PerformLayout()
+        Me.Text = "Bulk Sale Freight Master"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExportFormat, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.PerformLayout()
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtStartDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Panel1 As Panel
-
-    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtdate As common.Controls.MyDateTimePicker
+    Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
+    Friend WithEvents lblCode As common.Controls.MyLabel
+    Friend WithEvents txtDocumentNo As common.UserControls.txtNavigator
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents lblCustomerName As common.Controls.MyLabel
     Friend WithEvents txtCustomer As common.UserControls.txtFinder
-    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel4 As common.Controls.MyLabel
-    Friend WithEvents btnValidate As RadButton
-    Friend WithEvents btnClose As RadButton
-    Friend WithEvents btReset As RadButton
-    Friend WithEvents btnSave As RadButton
-    Friend WithEvents btnExportFormat As RadButton
-    Friend WithEvents btnSelectSheet As RadButton
-    Friend WithEvents btnGo As RadButton
-    Friend WithEvents RadGridView1 As RadGridView
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents rmimport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents rmExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtStartDate As common.Controls.MyDateTimePicker
+    Friend WithEvents btnPost As RadButton
+    Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents RadMenuItem1 As RadMenuItem
+    Friend WithEvents RadMenuItem2 As RadMenuItem
+    Friend WithEvents RadMenuItem4 As RadMenuItem
+    Friend WithEvents RadMenuItem5 As RadMenuItem
+    Friend WithEvents btnReverseUnpost As RadButton
+    Friend WithEvents lblStatus As common.usLock
 End Class
 

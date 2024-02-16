@@ -4746,7 +4746,7 @@ Public Class rptDairyTruckSheetReport
         Try
             PrintInvoive()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4767,8 +4767,8 @@ Public Class rptDairyTruckSheetReport
                 whrcls += " And  Main_Final.cust_Code In (" + clsCommon.GetMulcallString(txtInvMultiCust.arrValueMember) + ")"
             End If
 
-            If clsCommon.myLen(fndItemCodeInv.Value) > 0 Then
-                whrcls += " And Main_Final.Structure_Code = '" + fndItemCodeInv.Value + "'"
+            If txtMultItemCodeInv.arrValueMember.Count > 0 Then
+                whrcls += " And Main_Final.Structure_Code IN (" + clsCommon.GetMulcallString(txtMultItemCodeInv.arrValueMember) + ")"
             End If
 
             If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
@@ -4780,23 +4780,18 @@ Public Class rptDairyTruckSheetReport
                 myMessages.blankValue("No data found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Private Sub fndItemCodeInv__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndItemCodeInv._MYValidating
+
+    Private Sub txtMultItemCodeInv__My_Click(sender As Object, e As EventArgs) Handles txtMultItemCodeInv._My_Click
         Try
-            Dim whrcls As String = "TSPL_ITEM_MASTER.IsTaxable=0 Group By TSPL_STRUCTURE_MASTER.Structure_Code,TSPL_STRUCTURE_MASTER.Structure_Descq"
-            Dim qry As String = "Select TSPL_STRUCTURE_MASTER.Structure_Code As [Structure Code],TSPL_STRUCTURE_MASTER.Structure_Descq As [Description] from TSPL_STRUCTURE_MASTER
-                                 Inner Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Structure_Code=TSPL_STRUCTURE_MASTER.Structure_Code "
-            fndItemCodeInv.Value = clsCommon.ShowSelectForm("IStructure", qry, "Structure Code", whrcls, fndItemCodeInv.Value, "", isButtonClicked)
-            If clsCommon.myLen(fndItemCodeInv.Value) > 0 Then
-                lblItemNameInv.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Structure_Descq from TSPL_STRUCTURE_MASTER where Structure_Code = '" + fndItemCodeInv.Value + "' "))
-            Else
-                lblItemNameInv.Text = ""
-            End If
+            Dim strQry As String = "Select TSPL_STRUCTURE_MASTER.Structure_Code As [Structure Code],TSPL_STRUCTURE_MASTER.Structure_Descq As [Description] from TSPL_STRUCTURE_MASTER
+                                 Inner Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Structure_Code=TSPL_STRUCTURE_MASTER.Structure_Code Where TSPL_ITEM_MASTER.IsTaxable=0 Group By TSPL_STRUCTURE_MASTER.Structure_Code,TSPL_STRUCTURE_MASTER.Structure_Descq "
+            txtMultItemCodeInv.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultItemCodeInv", strQry, "Structure Code", "Description", txtMultItemCodeInv.arrValueMember, txtMultItemCodeInv.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
