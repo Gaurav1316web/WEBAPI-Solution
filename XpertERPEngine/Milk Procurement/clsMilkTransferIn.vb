@@ -438,10 +438,7 @@ Public Class clsMilkTransferIn
                         FatValue = objW.FAT_Value
                         SnfValue = objW.SNF_Value
                         rcptAmount = objW.Amount
-                    Else
-                        FatValue = objW.FAT_Value
-                        SnfValue = objW.SNF_Value
-                        rcptAmount = obj.Document_Amount
+
                     End If
 
                 End If
