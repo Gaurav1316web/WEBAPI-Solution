@@ -127,7 +127,7 @@ Partial Class FrmMilkVSPPayment
         Me.fndArea.IsSourceFromTable = False
         Me.fndArea.IsSourceFromValueList = False
         Me.fndArea.IsUnique = False
-        Me.fndArea.Location = New System.Drawing.Point(507, 31)
+        Me.fndArea.Location = New System.Drawing.Point(81, 23)
         Me.fndArea.MendatroryField = True
         Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndArea.MyLinkLable1 = Nothing
@@ -138,7 +138,7 @@ Partial Class FrmMilkVSPPayment
         Me.fndArea.ReferenceFieldDesc = Nothing
         Me.fndArea.ReferenceFieldName = Nothing
         Me.fndArea.ReferenceTableName = Nothing
-        Me.fndArea.Size = New System.Drawing.Size(160, 19)
+        Me.fndArea.Size = New System.Drawing.Size(169, 19)
         Me.fndArea.TabIndex = 1075
         Me.fndArea.Value = ""
         '
@@ -146,7 +146,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.Area.FieldName = Nothing
         Me.Area.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Area.Location = New System.Drawing.Point(457, 32)
+        Me.Area.Location = New System.Drawing.Point(13, 24)
         Me.Area.Name = "Area"
         Me.Area.Size = New System.Drawing.Size(30, 16)
         Me.Area.TabIndex = 626
@@ -165,7 +165,7 @@ Partial Class FrmMilkVSPPayment
         Me.txtFiscalYear.IsSourceFromTable = False
         Me.txtFiscalYear.IsSourceFromValueList = False
         Me.txtFiscalYear.IsUnique = False
-        Me.txtFiscalYear.Location = New System.Drawing.Point(289, 117)
+        Me.txtFiscalYear.Location = New System.Drawing.Point(289, 134)
         Me.txtFiscalYear.MendatroryField = False
         Me.txtFiscalYear.MyLinkLable1 = Nothing
         Me.txtFiscalYear.MyLinkLable2 = Nothing
@@ -181,7 +181,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(222, 119)
+        Me.MyLabel6.Location = New System.Drawing.Point(222, 136)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel6.TabIndex = 623
@@ -200,7 +200,7 @@ Partial Class FrmMilkVSPPayment
         Me.txtPaymentCycleNo.IsSourceFromTable = False
         Me.txtPaymentCycleNo.IsSourceFromValueList = False
         Me.txtPaymentCycleNo.IsUnique = False
-        Me.txtPaymentCycleNo.Location = New System.Drawing.Point(81, 117)
+        Me.txtPaymentCycleNo.Location = New System.Drawing.Point(81, 134)
         Me.txtPaymentCycleNo.MendatroryField = False
         Me.txtPaymentCycleNo.MyLinkLable1 = Nothing
         Me.txtPaymentCycleNo.MyLinkLable2 = Nothing
@@ -216,7 +216,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(13, 119)
+        Me.MyLabel7.Location = New System.Drawing.Point(13, 136)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(34, 16)
         Me.MyLabel7.TabIndex = 621
@@ -241,7 +241,7 @@ Partial Class FrmMilkVSPPayment
         '
         'SplitContainer1
         '
-        Me.SplitContainer1.Location = New System.Drawing.Point(81, 31)
+        Me.SplitContainer1.Location = New System.Drawing.Point(81, 47)
         Me.SplitContainer1.Name = "SplitContainer1"
         '
         'SplitContainer1.Panel1
@@ -297,7 +297,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.lblTankerNo.FieldName = Nothing
         Me.lblTankerNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTankerNo.Location = New System.Drawing.Point(13, 32)
+        Me.lblTankerNo.Location = New System.Drawing.Point(13, 48)
         Me.lblTankerNo.Name = "lblTankerNo"
         Me.lblTankerNo.Size = New System.Drawing.Size(32, 16)
         Me.lblTankerNo.TabIndex = 10
@@ -321,7 +321,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(13, 95)
+        Me.MyLabel4.Location = New System.Drawing.Point(13, 112)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel4.TabIndex = 7
@@ -331,7 +331,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(204, 54)
+        Me.MyLabel5.Location = New System.Drawing.Point(204, 71)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(31, 16)
         Me.MyLabel5.TabIndex = 12
@@ -343,7 +343,7 @@ Partial Class FrmMilkVSPPayment
         Me.lblPaymentType.BorderVisible = True
         Me.lblPaymentType.FieldName = Nothing
         Me.lblPaymentType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPaymentType.Location = New System.Drawing.Point(252, 51)
+        Me.lblPaymentType.Location = New System.Drawing.Point(252, 68)
         Me.lblPaymentType.Name = "lblPaymentType"
         Me.lblPaymentType.Size = New System.Drawing.Size(180, 19)
         Me.lblPaymentType.TabIndex = 11
@@ -352,7 +352,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.txtVSP.arrDispalyMember = Nothing
         Me.txtVSP.arrValueMember = Nothing
-        Me.txtVSP.Location = New System.Drawing.Point(81, 95)
+        Me.txtVSP.Location = New System.Drawing.Point(81, 112)
         Me.txtVSP.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVSP.MyLinkLable1 = Me.MyLabel4
         Me.txtVSP.MyLinkLable2 = Nothing
@@ -365,7 +365,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(204, 75)
+        Me.MyLabel3.Location = New System.Drawing.Point(204, 92)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(46, 16)
         Me.MyLabel3.TabIndex = 5
@@ -375,7 +375,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(13, 75)
+        Me.MyLabel2.Location = New System.Drawing.Point(13, 92)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(60, 16)
         Me.MyLabel2.TabIndex = 8
@@ -395,7 +395,7 @@ Partial Class FrmMilkVSPPayment
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(252, 74)
+        Me.txtToDate.Location = New System.Drawing.Point(252, 91)
         Me.txtToDate.MendatroryField = True
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Me.MyLabel3
@@ -426,7 +426,7 @@ Partial Class FrmMilkVSPPayment
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(81, 74)
+        Me.txtFromDate.Location = New System.Drawing.Point(81, 91)
         Me.txtFromDate.MendatroryField = True
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Me.MyLabel2
@@ -446,7 +446,7 @@ Partial Class FrmMilkVSPPayment
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(13, 54)
+        Me.MyLabel1.Location = New System.Drawing.Point(13, 71)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(38, 16)
         Me.MyLabel1.TabIndex = 9
@@ -466,7 +466,7 @@ Partial Class FrmMilkVSPPayment
         Me.txtMonth.IsSourceFromTable = False
         Me.txtMonth.IsSourceFromValueList = False
         Me.txtMonth.IsUnique = False
-        Me.txtMonth.Location = New System.Drawing.Point(81, 53)
+        Me.txtMonth.Location = New System.Drawing.Point(81, 70)
         Me.txtMonth.MendatroryField = True
         Me.txtMonth.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtMonth.MyLinkLable1 = Me.MyLabel1
