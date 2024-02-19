@@ -1324,21 +1324,23 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
         dt = clsDBFuncationality.GetDataTable(legerMainQuery)
 
 
-        Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PAYMENT_PROCESS_head where convert(date,From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,To_Date,103)<=convert(date,('" + dtpLedgerToDate.Value + "'),103)"))
+        'Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PAYMENT_PROCESS_head where convert(date,From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,To_Date,103)<=convert(date,('" + dtpLedgerToDate.Value + "'),103)"))
+
         sQuery = "SELECT ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition,SUM(ZZ.Amount) AS Amount
                  FROM(
                 select  Final.VSP_Uploader_Code, Final.VSP_Code ,'' as Vendor_NAME,Final.Item_Desc as Addition, sum(Amount) as [Amount]  from (
                 select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_head.trans_type,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
                 case when isnull(TSPL_MULTIPLE_DEDUCTION_head.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
                 ,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
-                from TSPL_PAYMENT_PROCESS_CREDIT_NOTE   
+                from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
+                left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No 
                 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
                 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
                 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
                 left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
                 left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
                 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
-                where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in ('" + strDocNo + "') 
+                where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
                 ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc 
                 union all
                 SELECT TT.VSP_Uploader_Code,TT.VSP_Code,TT.Vendor_NAME,coalesce (mapping.mmDescription, TT.Addition) AS Addition
@@ -1347,11 +1349,12 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
                 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Addition,
                 TSPL_DCS_ADDITION_DEDUCTION.Code,
                 (TSPL_VENDOR_INVOICE_HEAD.Document_Total) as [Amount]  from TSPL_PAYMENT_PROCESS_SAVING 
+                left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No 
                 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
                 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
                 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
                 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
-                where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in  ('" + strDocNo + "') 
+                where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
                 )TT
                 left join
                 (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
@@ -1360,24 +1363,26 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
                  WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code
                 union all
                 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME
-                 ,'Milk Purchase Expense' as Addition,Balance_Amt as Amount from 
-                 TSPL_PAYMENT_PROCESS_DETAIL INNER JOIN
-                 TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No
-                 =TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
-                 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
-                 where Document_Type='C' and RefDocType='Milk_HE'  
-                 and Balance_Amt<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in ('" + strDocNo + "')
+                 ,'Milk Purchase Expense' as Addition,Balance_Amt as Amount 
+from  TSPL_PAYMENT_PROCESS_DETAIL 
+INNER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No =TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
+where Document_Type='C' and RefDocType='Milk_HE'  
+                 and Balance_Amt<>0 AND convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103)
                 union all
                 SELECT TT.VSP_Uploader_Code,TT.VSP_Code,TT.Vendor_NAME,coalesce (mapping.mmDescription, TT.Addition) AS Addition
                 ,TT.Amount FROM (
                 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME
                 ,TSPL_DCS_ADDITION_DEDUCTION.Description as Addition,TSPL_DCS_ADDITION_DEDUCTION.Code,
                 (TSPL_VENDOR_INVOICE_HEAD.Document_Total) as [Amount] 
-                from TSPL_PAYMENT_PROCESS_COMPULSORY left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No 
-                left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
-                left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
-                left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
-                where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in ('" + strDocNo + "') 
+                from TSPL_PAYMENT_PROCESS_COMPULSORY 
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No 
+left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
+left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
+where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
                  )TT
                 left join
                 (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
