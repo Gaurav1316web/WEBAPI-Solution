@@ -183,7 +183,8 @@ Public Class FrmPaymentProcess
         chkSkipPreviousDocumentOfAdvancePayment.Visible = isConsiderAdvancePayment
         RadPageView1.SelectedPage = RadPageViewPage1
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
-
+        Label1.Visible = AreaWiseBilling
+        fndArea.Visible = AreaWiseBilling
         Reset()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D To Delete ")
@@ -195,10 +196,8 @@ Public Class FrmPaymentProcess
         txtMCC.Visible = SettShowMCCFinder
         lblMCC.Visible = SettShowMCCFinder
         lblMCC2.Visible = SettShowMCCFinder
-        'If chkArea.Visible = True AndAlso chkArea.Checked Then
-        '    fndArea.Enabled = True
-        'End If
-        fndArea.Visible = True
+
+
 
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         mfndMcc.Visible = False

@@ -779,7 +779,15 @@ Public Class FrmQuickEntry1
                                 obj.Receipt_Date = dtDocDate.Value
                                 obj.Receipt_Post_Date = dtDocDate.Value
                                 obj.Bank_Code = clsCommon.myCstr(fndBankCode.Value)
-                                obj.Receipt_Type = "O"
+                                If chkSecurity.Checked Then
+                                    obj.Receipt_Type = "P"
+                                    obj.SecurityDeposit = "Y"
+                                    obj.SecurityDepositType = "S"
+                                Else
+                                    obj.Receipt_Type = "O"
+                                    obj.SecurityDeposit = "N"
+                                End If
+
                                 obj.Payment_Code = clsCommon.myCstr(row.Cells("gvPaymentMode").Value)
                                 obj.Location_GL_Code = clsCommon.myCstr(row.Cells("gvLocation").Value)
                                 obj.CFormRecd = IIf(row.Cells("gvCForm").Value, "1", "0")
@@ -813,7 +821,7 @@ Public Class FrmQuickEntry1
                                 obj.FIFO_Balance = clsCommon.myCdbl(row.Cells("gvAmount").Value)
                                 obj.RECEIVED_AMOUNT_BASE_CURRENCY = clsCommon.myCdbl(row.Cells("gvAmount").Value)
                                 obj.IsSalesmanType = "N"
-                                obj.SecurityDeposit = "N"
+
                                 obj.IsRecoCleared = "N"
                                 obj.IsChkReverse = "N"
                                 obj.ConvRate = 1
@@ -962,7 +970,13 @@ Public Class FrmQuickEntry1
                                 obj.Payment_Date = dtDocDate.Value
                                 obj.Payment_Post_Date = dtDocDate.Value
                                 obj.Bank_Code = clsCommon.myCstr(fndBankCode.Value)
-                                obj.Payment_Type = "OA"
+                                If chkSecurity.Checked Then
+                                    obj.Payment_Type = "RC"
+                                    obj.Is_Security = 1
+                                Else
+                                    obj.Payment_Type = "OA"
+                                End If
+
                                 obj.Vendor_Code = clsCommon.myCstr(row.Cells("gvSourceCode").Value)
                                 obj.Vendor_Name = clsCommon.myCstr(row.Cells("gvSourcename").Value)
                                 obj.Location_GL_Code = clsCommon.myCstr(row.Cells("gvlocation").Value)
@@ -1624,6 +1638,7 @@ Public Class FrmQuickEntry1
 
     Public Sub funReset()
         chkPrintCheque.Checked = False
+        chkSecurity.Checked = False
         txtEntryNo.Value = ""
         dtDocDate.Value = System.DateTime.Now.Date
         fndBankCode.Value = ""

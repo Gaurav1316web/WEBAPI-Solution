@@ -3184,6 +3184,35 @@ Public Class FrmInvoiceBulkSale
         Next
     End Sub
 
+    Private Sub btnPrintJV_Click(sender As Object, e As EventArgs) Handles btnPrintJV.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim Qry As String = "Select ROW_NUMBER() Over (Order By (Select 1)) As [S.No.],xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.CINNo,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.Pan_No,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2  from(Select (xxx.Account_code)[Account Code], Max(xxx.Account_Desc)[Account Description],	Sum(xxx.Amount)Amount,	Sum(xxx.Debit)Debit,	Sum(xxx.Credit)Credit,	Max(xxx.Description)Description,	Max(xxx.Reference)Reference,	Max(xxx.Posting_Date)Posting_Date from
+                                    (select TSPL_JOURNAL_DETAILS.Account_code,TSPL_JOURNAL_DETAILS.Account_Desc,TSPL_JOURNAL_DETAILS.Amount,Case When TSPL_JOURNAL_DETAILS.Amount>0 Then TSPL_JOURNAL_DETAILS.Amount Else 0 End As [Debit],Case When TSPL_JOURNAL_DETAILS.Amount<0 Then TSPL_JOURNAL_DETAILS.Amount Else 0 End As [Credit],TSPL_JOURNAL_DETAILS.Description,TSPL_JOURNAL_DETAILS.Reference,TSPL_JOURNAL_master.Posting_Date from TSPL_JOURNAL_master 
+                                    Left Outer Join  TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Voucher_No = TSPL_JOURNAL_master.Voucher_No where Source_Doc_No IN (Select Dispatch_Code from TSPL_INVOICE_DETAIL_BulKSALE where Document_No='" + txtDocNo.Value + "') Union All 
+                                    select TSPL_JOURNAL_DETAILS.Account_code,TSPL_JOURNAL_DETAILS.Account_Desc,TSPL_JOURNAL_DETAILS.Amount,Case When TSPL_JOURNAL_DETAILS.Amount>0 Then TSPL_JOURNAL_DETAILS.Amount Else 0 End As [Debit],Case When TSPL_JOURNAL_DETAILS.Amount<0 Then TSPL_JOURNAL_DETAILS.Amount Else 0 End As [Credit],TSPL_JOURNAL_DETAILS.Description,TSPL_JOURNAL_DETAILS.Reference,TSPL_JOURNAL_master.Posting_Date from TSPL_JOURNAL_master 
+                                    Left Outer Join  TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Voucher_No = TSPL_JOURNAL_master.Voucher_No Left Outer Join TSPL_Customer_Invoice_HEAD On TSPL_Customer_Invoice_HEAD.Document_No=TSPL_JOURNAL_master.Source_Doc_No where TSPL_Customer_Invoice_HEAD.Against_Sale_No = '" + txtDocNo.Value + "') AS xxx Group By xxx.Account_code )xxxfinal
+                                    Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.Amount<>0"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptBulkSaleInvAndDispatchJV", "Journal Voucher", "")
+                    'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", txtDate.Value, "rptCompanyAddress.rpt")
+                    frmCRV = Nothing
+                    Qry = Nothing
+                    dt = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Data not found to print", Me.Text)
+                    Qry = Nothing
+                    dt = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data not found to print", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
     Private Sub lblDocumentAmount_TextChanged(sender As Object, e As EventArgs) Handles lblDocumentAmount.TextChanged
         Try
@@ -3194,7 +3223,7 @@ Public Class FrmInvoiceBulkSale
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

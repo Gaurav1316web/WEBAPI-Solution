@@ -75,6 +75,7 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
+    <Compile Include="Sales Distribution\clsBulkSaleFreightMaster.vb" />
     <Compile Include="BulkProcurement\clsOwnBMCGainLossRate.vb" />
     <Compile Include="Classes\checkprocedure.vb" />
     <Compile Include="Classes\clsBMCDCSMobile.vb" />

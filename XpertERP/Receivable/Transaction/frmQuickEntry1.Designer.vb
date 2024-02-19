@@ -37,6 +37,7 @@ Partial Class FrmQuickEntry1
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkPrintCheque = New System.Windows.Forms.CheckBox()
         Me.txtLocation = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtBankName = New common.Controls.MyTextBox()
@@ -55,7 +56,7 @@ Partial Class FrmQuickEntry1
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkPrintCheque = New System.Windows.Forms.CheckBox()
+        Me.chkSecurity = New System.Windows.Forms.CheckBox()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -135,7 +136,7 @@ Partial Class FrmQuickEntry1
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 379)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(681, 34)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(787, 34)
         Me.RadGroupBox1.TabIndex = 1
         '
         'btnUnSelect
@@ -160,7 +161,7 @@ Partial Class FrmQuickEntry1
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(605, 6)
+        Me.btnClose.Location = New System.Drawing.Point(711, 6)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 4
@@ -207,6 +208,7 @@ Partial Class FrmQuickEntry1
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkSecurity)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkPrintCheque)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
@@ -225,9 +227,19 @@ Partial Class FrmQuickEntry1
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.MasterTemplate)
-        Me.SplitContainer1.Size = New System.Drawing.Size(681, 359)
+        Me.SplitContainer1.Size = New System.Drawing.Size(787, 359)
         Me.SplitContainer1.SplitterDistance = 86
         Me.SplitContainer1.TabIndex = 0
+        '
+        'chkPrintCheque
+        '
+        Me.chkPrintCheque.AutoSize = True
+        Me.chkPrintCheque.Location = New System.Drawing.Point(583, 11)
+        Me.chkPrintCheque.Name = "chkPrintCheque"
+        Me.chkPrintCheque.Size = New System.Drawing.Size(93, 17)
+        Me.chkPrintCheque.TabIndex = 103
+        Me.chkPrintCheque.Text = "Print Cheque"
+        Me.chkPrintCheque.UseVisualStyleBackColor = True
         '
         'txtLocation
         '
@@ -439,7 +451,7 @@ Partial Class FrmQuickEntry1
         Me.MasterTemplate.Name = "MasterTemplate"
         Me.MasterTemplate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.MasterTemplate.ShowHeaderCellButtons = True
-        Me.MasterTemplate.Size = New System.Drawing.Size(681, 269)
+        Me.MasterTemplate.Size = New System.Drawing.Size(787, 269)
         Me.MasterTemplate.TabIndex = 0
         Me.MasterTemplate.TabStop = False
         '
@@ -448,7 +460,7 @@ Partial Class FrmQuickEntry1
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem4})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(681, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(787, 20)
         Me.RadMenu1.TabIndex = 2
         '
         'RadMenuItem3
@@ -483,21 +495,21 @@ Partial Class FrmQuickEntry1
         Me.rmiExport.Name = "rmiExport"
         Me.rmiExport.Text = "Export Blank Sheet"
         '
-        'chkPrintCheque
+        'chkSecurity
         '
-        Me.chkPrintCheque.AutoSize = True
-        Me.chkPrintCheque.Location = New System.Drawing.Point(583, 11)
-        Me.chkPrintCheque.Name = "chkPrintCheque"
-        Me.chkPrintCheque.Size = New System.Drawing.Size(93, 17)
-        Me.chkPrintCheque.TabIndex = 103
-        Me.chkPrintCheque.Text = "Print Cheque"
-        Me.chkPrintCheque.UseVisualStyleBackColor = True
+        Me.chkSecurity.AutoSize = True
+        Me.chkSecurity.Location = New System.Drawing.Point(677, 11)
+        Me.chkSecurity.Name = "chkSecurity"
+        Me.chkSecurity.Size = New System.Drawing.Size(66, 17)
+        Me.chkSecurity.TabIndex = 104
+        Me.chkSecurity.Text = "Security"
+        Me.chkSecurity.UseVisualStyleBackColor = True
         '
         'FrmQuickEntry1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(681, 413)
+        Me.ClientSize = New System.Drawing.Size(787, 413)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Controls.Add(Me.RadGroupBox1)
@@ -570,5 +582,6 @@ Partial Class FrmQuickEntry1
     Friend WithEvents rmiExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnUnSelect As Telerik.WinControls.UI.RadButton
     Friend WithEvents chkPrintCheque As CheckBox
+    Friend WithEvents chkSecurity As CheckBox
 End Class
 

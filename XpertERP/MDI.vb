@@ -370,7 +370,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.68") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.69") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -469,7 +469,10 @@ Public Class MDI
             If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertERPEngineFine")
             End If
-
+            strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPMIS.dll").FileVersion
+            If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
+                Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertERPMIS")
+            End If
             '--Check Apps Version
             If File.Exists(Application.StartupPath + "\XpertSMSApp.exe") Then
                 strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertSMSApp.exe").FileVersion
