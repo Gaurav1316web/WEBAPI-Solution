@@ -48,9 +48,16 @@ Public Class FrmERPStatusTrackingReport
             Label1.Text = "ERP Status At Milk Unions"
             rdbERPStatusMilkUnion.Visible = True
             rdbMilkProcurement.Visible = True
+            rdbDBTStatus.Visible = True
+            txtFinYr.Visible = False
+            MyLabel1.Visible = False
             txtDate.Visible = False
             RadLabel3.Visible = False
             txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+            rdbDBTStatus.Location = New System.Drawing.Point(292, 4)
+            MyLabel1.Location = New System.Drawing.Point(414, 5)
+            txtFinYr.Location = New System.Drawing.Point(489, 5)
+
         End If
         chkDBT.Checked = False
         chkDBT.Visible = False
@@ -148,6 +155,45 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                         query += ",(select COUNT(PurchaseOrder_No) from [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where Status=1 and convert(date, PurchaseOrder_Date , 103)=convert(date ,'" + frmDate + "' , 103)) as [Purchase Order]"
 
                     Next
+                ElseIf rdbDBTStatus.Checked Then
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                    If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                        gv1.DataSource = Nothing
+                        Exit Sub
+                    End If
+
+                    Dim frmDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,Start_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Name='" + txtFinYr.Value + "'"))
+                    Dim toDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,End_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Name='" + txtFinYr.Value + "'"))
+
+                    Dim dtr As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                    query = ""
+                    Dim status As String = ""
+                    If rbtnTransactionPosted.Checked Then
+
+                        status = "AND Status = 1"
+                    Else
+                        status = ""
+                    End If
+                    For ii As Integer = 0 To dtr.Rows.Count - 1
+                        If ii > 0 Then
+                            query += " UNION ALL "
+                        End If
+                        query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dtr.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 4 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As April"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 5 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As May"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 6 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As June"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 7 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As July"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 8 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As August"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 9 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As September"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 10 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As October"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 11 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As November"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 12 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As December"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 1 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As January"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 2 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As February"
+                        query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 3 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As March"
+                    Next
+
                 Else
                     Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
                     If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
@@ -204,7 +250,7 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                 SetGridFormat(gv1)
                 ReStoreGridLayout()
                 If objCommonVar.RCDFCFP = False Then
-                    If rdbMilkProcurement.Checked = False Then
+                    If rdbMilkProcurement.Checked = False AndAlso rdbDBTStatus.Checked = False Then
                         GridFormate()
                     End If
                 End If
@@ -431,7 +477,14 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
             txtDate.Visible = True
             RadLabel3.Visible = True
             Label1.Text = "Milk Procurement"
+            RadLabel3.Location = New System.Drawing.Point(292, 4)
+            rdbDBTStatus.Location = New System.Drawing.Point(425, 5)
+            MyLabel1.Location = New System.Drawing.Point(500, 5)
+            txtFinYr.Location = New System.Drawing.Point(574, 3)
         Else
+            rdbDBTStatus.Location = New System.Drawing.Point(292, 4)
+            MyLabel1.Location = New System.Drawing.Point(392, 5)
+            txtFinYr.Location = New System.Drawing.Point(478, 5)
             txtDate.Visible = False
             RadLabel3.Visible = False
             Label1.Text = "ERP Status At Milk Unions"
@@ -605,5 +658,20 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
 
     End Sub
 
-
+    Private Sub rdbDBTStatus_CheckedChanged(sender As Object, e As EventArgs) Handles rdbDBTStatus.CheckedChanged
+        If rdbDBTStatus.Checked Then
+            txtFinYr.Visible = True
+            MyLabel1.Visible = True
+            Label1.Text = "DBT Status Report At Milk Unions"
+            txtFinYr.Value = clsDBFuncationality.getSingleValue("select Fiscal_Code as Code from TSPL_Fiscal_Year_Master WHERE Is_Current_Year = 1")
+        Else
+            txtFinYr.Visible = False
+            MyLabel1.Visible = False
+            Label1.Text = "ERP Status At Milk Unions"
+        End If
+    End Sub
+    Private Sub txtFinYr__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtFinYr._MYValidating
+        Dim qry As String = "select Fiscal_Code as Code,Fiscal_Name as Name from TSPL_Fiscal_Year_Master"
+        txtFinYr.Value = clsCommon.ShowSelectForm("fndFinancialYearMaster", qry, "Code", "", txtFinYr.Value, "Code", isButtonClicked)
+    End Sub
 End Class

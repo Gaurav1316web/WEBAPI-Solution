@@ -2480,7 +2480,10 @@ Public Class clsCustomerMaster
 							 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_head.Document_Code
                              where (TSPL_SD_SHIPMENT_head.Document_Code  not in (select TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code from TSPL_SD_SALE_INVOICE_DETAIL )
 							 or  TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in (select Against_Sale_No from TSPL_Customer_Invoice_Head)) "
-                strtempBaseQry += " and  TSPL_SD_SHIPMENT_head.Customer_Code  in(" & strCustomer & ")"
+                If clsCommon.myLen(strCustomer) > 0 Then
+                    strtempBaseQry += " and  TSPL_SD_SHIPMENT_head.Customer_Code  in(" & strCustomer & ")"
+
+                End If
                 strtempBaseQry += "    and (CONVERT(DATE, TSPL_SD_SHIPMENT_head.Document_Date ,103)) <'" + strfromdate + "'  " + Environment.NewLine
                 If Docwise = False Then
                     ''richa aagwral changes done on 11 Aug,2016 against ticket no BM00000009448
