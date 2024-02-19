@@ -92,7 +92,7 @@ Public Class rptBMCTankerTesting
                 TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No , TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as Qty
                 ,Case When TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty >0 Then cast(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg * 100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as decimal(18,2)) Else 0 End as FAT
                 ,Case When TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty>0 Then cast(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg*100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as decimal(18,2))  Else 0 End as SNF,'' as CLR,
-                TSPL_MILK_COLLECTION_MCC_DETAIL.Temp , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF  ,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR,TSPL_MILK_COLLECTION_MCC.Route_Code as Route ,TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_Qty as Corr_Qty,  TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_SNF , '' as Corr_CLR
+                TSPL_MILK_COLLECTION_MCC_DETAIL.Temp , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF  ,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR,TSPL_MILK_COLLECTION_MCC.Route_Code as Route ,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as Corr_Qty,  TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as Correction_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as Correction_SNF , '' as Corr_CLR
                 FROM TSPL_MILK_COLLECTION_MCC_DETAIL 
                 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No =TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  
                 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code  
@@ -194,6 +194,7 @@ Public Class rptBMCTankerTesting
         Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Trans)
         Dim CLR As Decimal
         Dim Corr_CLR As Decimal
+        Dim RetestingCLR As Decimal
         For ii As Integer = 0 To dt.Rows.Count - 1
             If dt.Rows(ii)("FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("SNF") IsNot DBNull.Value Then
                 CLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("FAT"), dt.Rows(ii)("SNF"), corrFactor)
@@ -203,9 +204,14 @@ Public Class rptBMCTankerTesting
                 Corr_CLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("Correction_FAT"), dt.Rows(ii)("Correction_SNF"), corrFactor)
                 gv1.Rows(ii).Cells("Corr_CLR").Value = Corr_CLR
             End If
+            If dt.Rows(ii)("Retesting_FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("Retesting_SNF") IsNot DBNull.Value Then
+                RetestingCLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("Retesting_FAT"), dt.Rows(ii)("Retesting_SNF"), corrFactor)
+                gv1.Rows(ii).Cells("Retesting_CLR").Value = RetestingCLR
+            End If
         Next
         gv1.Columns("Corr_CLR").FormatString = "{0:n2}"
         gv1.Columns("CLR").FormatString = "{0:n2}"
+        gv1.Columns("Retesting_CLR").FormatString = "{0:n2}"
         View()
     End Sub
 

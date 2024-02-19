@@ -2953,8 +2953,14 @@ select
 	  from(
  select TSPL_BOOKING_MATSER.TCSAmount,TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_DETAIL.Cust_Code from TSPL_BOOKING_MATSER
 left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
-where TSPL_BOOKING_MATSER.GatePass_Type='" + ddlPTSShift.Text + "' and  (CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "') 
-group by TSPL_BOOKING_DETAIL.Cust_Code,TSPL_BOOKING_MATSER.TCSAmount,TSPL_BOOKING_MATSER.Against_DemandBooking_No) XYZ
+where 2=2"
+             If clsCommon.CompairString(ddlPTSShift.Text, "Morning") = CompairStringResult.Equal Then
+                Qry += " and TSPL_BOOKING_MATSER.GatePass_Type='AM' and  (CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "') "
+            ElseIf clsCommon.CompairString(ddlPTSShift.Text, "Evening") = CompairStringResult.Equal Then
+                Qry += " and TSPL_BOOKING_MATSER.GatePass_Type='PM' and  (CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtPTSDateFrom.Value) + "') "
+            End If
+
+            Qry += " group by TSPL_BOOKING_DETAIL.Cust_Code,TSPL_BOOKING_MATSER.TCSAmount,TSPL_BOOKING_MATSER.Against_DemandBooking_No) XYZ
 group by XYZ.Cust_Code
   )  as tcs on xx.Cust_Code=tcs.Cust_Code
 left join (

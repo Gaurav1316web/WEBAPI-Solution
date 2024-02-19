@@ -2504,6 +2504,8 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewSKR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessUDP", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 Else
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 End If
