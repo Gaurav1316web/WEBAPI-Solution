@@ -484,8 +484,7 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
         Else
             rdbDBTStatus.Location = New System.Drawing.Point(292, 4)
             MyLabel1.Location = New System.Drawing.Point(392, 5)
-            txtFinYr.Location = New System.Drawing.Point(478
-                    , 5)
+            txtFinYr.Location = New System.Drawing.Point(478, 5)
             txtDate.Visible = False
             RadLabel3.Visible = False
             Label1.Text = "ERP Status At Milk Unions"
