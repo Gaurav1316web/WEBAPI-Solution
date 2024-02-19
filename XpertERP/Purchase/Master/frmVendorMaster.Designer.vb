@@ -79,6 +79,7 @@ Partial Class frmVendorMaster
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.radScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.InActiveCF = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtPhone2 = New common.Controls.MyTextBox()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.txtPhone1 = New common.Controls.MyTextBox()
@@ -271,7 +272,6 @@ Partial Class frmVendorMaster
         Me.txtCategoryStructureCode = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -299,6 +299,7 @@ Partial Class frmVendorMaster
         Me.ToolTipvendor = New System.Windows.Forms.ToolTip(Me.components)
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.vendorgrpbox.SuspendLayout()
         CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -335,6 +336,7 @@ Partial Class frmVendorMaster
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.radScrollablePanel1.PanelContainer.SuspendLayout()
         Me.radScrollablePanel1.SuspendLayout()
+        CType(Me.InActiveCF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1063,10 +1065,10 @@ Partial Class frmVendorMaster
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.radScrollablePanel1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(58.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(54.0!, 22.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(964, 340)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(964, 344)
         Me.RadPageViewPage1.Text = "Address"
         '
         'radScrollablePanel1
@@ -1078,6 +1080,7 @@ Partial Class frmVendorMaster
         'radScrollablePanel1.PanelContainer
         '
         Me.radScrollablePanel1.PanelContainer.BackColor = System.Drawing.Color.Transparent
+        Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.InActiveCF)
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.txtPhone2)
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.txtPhone1)
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.txt_ssino)
@@ -1127,9 +1130,18 @@ Partial Class frmVendorMaster
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.MyLabel1)
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.txtCountry)
         Me.radScrollablePanel1.PanelContainer.Controls.Add(Me.txtvndrtype)
-        Me.radScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(945, 338)
-        Me.radScrollablePanel1.Size = New System.Drawing.Size(964, 340)
+        Me.radScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(945, 342)
+        Me.radScrollablePanel1.Size = New System.Drawing.Size(964, 344)
         Me.radScrollablePanel1.TabIndex = 7355
+        '
+        'InActiveCF
+        '
+        Me.InActiveCF.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.InActiveCF.Location = New System.Drawing.Point(697, 3)
+        Me.InActiveCF.Name = "InActiveCF"
+        Me.InActiveCF.Size = New System.Drawing.Size(95, 16)
+        Me.InActiveCF.TabIndex = 7356
+        Me.InActiveCF.Text = "InActive for CF"
         '
         'txtPhone2
         '
@@ -2040,7 +2052,7 @@ Partial Class frmVendorMaster
         Me.RadPageViewPage2.Controls.Add(Me.txtContactEmail)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel13)
         Me.RadPageViewPage2.Controls.Add(Me.txtContactName)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(94.0!, 26.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(90.0!, 22.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(964, 340)
@@ -2214,7 +2226,7 @@ Partial Class frmVendorMaster
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.RadScrollablePanel2)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(57.0!, 26.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(53.0!, 22.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(964, 340)
@@ -3501,7 +3513,7 @@ Partial Class frmVendorMaster
         Me.RadPageViewPage5.Controls.Add(Me.ChkIsTDSApp)
         Me.RadPageViewPage5.Controls.Add(Me.GrpTDS)
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(91.0!, 26.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(87.0!, 22.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(964, 340)
@@ -3781,8 +3793,8 @@ Partial Class frmVendorMaster
         'GrpTDS
         '
         Me.GrpTDS.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.GrpTDS.Controls.Add(Me.LblBranchName)
         Me.GrpTDS.Controls.Add(Me.RadLabel6)
+        Me.GrpTDS.Controls.Add(Me.LblBranchName)
         Me.GrpTDS.Controls.Add(Me.lblNatureOfDed)
         Me.GrpTDS.Controls.Add(Me.txttdsstate)
         Me.GrpTDS.Controls.Add(Me.lblStateName)
@@ -4042,12 +4054,12 @@ Partial Class frmVendorMaster
         Me.RadGroupBox1.Controls.Add(Me.RadLabel40)
         Me.RadGroupBox1.Controls.Add(Me.txtRemarks1)
         Me.RadGroupBox1.Controls.Add(Me.txtAddInfo1)
-        Me.RadGroupBox1.Controls.Add(Me.txtAddInfo2)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel19)
-        Me.RadGroupBox1.Controls.Add(Me.txtRemarks2)
+        Me.RadGroupBox1.Controls.Add(Me.txtAddInfo2)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel17)
-        Me.RadGroupBox1.Controls.Add(Me.txtAddInfo3)
+        Me.RadGroupBox1.Controls.Add(Me.txtRemarks2)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel4)
+        Me.RadGroupBox1.Controls.Add(Me.txtAddInfo3)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel1)
         Me.RadGroupBox1.HeaderText = "Additional Information"
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, -1)
@@ -4300,7 +4312,7 @@ Partial Class frmVendorMaster
         '
         Me.RadPageViewPage3.Controls.Add(Me.gvCategory)
         Me.RadPageViewPage3.Controls.Add(Me.Panel1)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(111.0!, 26.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(107.0!, 22.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(964, 340)
@@ -4381,24 +4393,16 @@ Partial Class frmVendorMaster
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(964, 340)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(964, 340)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(69.0!, 22.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(964, 340)
@@ -4421,7 +4425,7 @@ Partial Class frmVendorMaster
         Me.RadPageViewPage7.Controls.Add(Me.rbtnForeign)
         Me.RadPageViewPage7.Controls.Add(Me.rbtnDomestic)
         Me.RadPageViewPage7.Controls.Add(Me.RadGroupBox6)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(39.0!, 26.0!)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(35.0!, 22.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(964, 340)
@@ -4746,6 +4750,14 @@ Partial Class frmVendorMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "Show History"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(964, 340)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'frmVendorMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4798,6 +4810,7 @@ Partial Class frmVendorMaster
         Me.radScrollablePanel1.PanelContainer.PerformLayout()
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.radScrollablePanel1.ResumeLayout(False)
+        CType(Me.InActiveCF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5279,5 +5292,6 @@ Partial Class frmVendorMaster
     Friend WithEvents txtPhone2 As common.Controls.MyTextBox
     Friend WithEvents txtContPhone As common.Controls.MyTextBox
     Friend WithEvents chkProvisional As RadCheckBox
+    Friend WithEvents InActiveCF As RadCheckBox
 End Class
 

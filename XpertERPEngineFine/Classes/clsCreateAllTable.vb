@@ -13474,6 +13474,7 @@ Public Class clsCreateAllTable
             coll.Add("Tin_No", "varchar(50) NULL")
             coll.Add("Lst_No", "varchar(50) NULL")
             coll.Add("Status", "char(1)  NOT NULL")
+            coll.Add("In_Active_CF", "char(1)  NULL")
             coll.Add("OnHold", "char(1)  NOT NULL")
             coll.Add("Remarks1", "varchar(200) NULL")
             coll.Add("Remarks2", "varchar(200) NULL")
@@ -13569,7 +13570,7 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
-
+            'clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN In_Active_CF char(1)  NOT NULL")
             coll = New Dictionary(Of String, String)()
             coll.Add("Transpoter_Id", "varchar(12) NOT NULL References TSPL_VENDOR_MASTER(Vendor_Code)")
             coll.Add("Tanker_Id", "Varchar(30) NOT NULL")

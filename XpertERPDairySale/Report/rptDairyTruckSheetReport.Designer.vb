@@ -39,8 +39,7 @@ Partial Class rptDairyTruckSheetReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.lblItemNameInv = New common.Controls.MyLabel()
-        Me.fndItemCodeInv = New common.UserControls.txtFinder()
+        Me.txtMultItemCodeInv = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel28 = New common.Controls.MyLabel()
         Me.btnPrintInvoice = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel26 = New common.Controls.MyLabel()
@@ -151,7 +150,6 @@ Partial Class rptDairyTruckSheetReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
-        CType(Me.lblItemNameInv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -302,8 +300,7 @@ Partial Class rptDairyTruckSheetReport
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.lblItemNameInv)
-        Me.RadGroupBox2.Controls.Add(Me.fndItemCodeInv)
+        Me.RadGroupBox2.Controls.Add(Me.txtMultItemCodeInv)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel28)
         Me.RadGroupBox2.Controls.Add(Me.btnPrintInvoice)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel26)
@@ -320,42 +317,18 @@ Partial Class rptDairyTruckSheetReport
         Me.RadGroupBox2.TabIndex = 1396
         Me.RadGroupBox2.Text = "Print Invoice"
         '
-        'lblItemNameInv
+        'txtMultItemCodeInv
         '
-        Me.lblItemNameInv.AutoSize = False
-        Me.lblItemNameInv.BorderVisible = True
-        Me.lblItemNameInv.FieldName = Nothing
-        Me.lblItemNameInv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemNameInv.Location = New System.Drawing.Point(229, 61)
-        Me.lblItemNameInv.Name = "lblItemNameInv"
-        Me.lblItemNameInv.Size = New System.Drawing.Size(192, 21)
-        Me.lblItemNameInv.TabIndex = 422
-        '
-        'fndItemCodeInv
-        '
-        Me.fndItemCodeInv.CalculationExpression = Nothing
-        Me.fndItemCodeInv.FieldCode = Nothing
-        Me.fndItemCodeInv.FieldDesc = Nothing
-        Me.fndItemCodeInv.FieldMaxLength = 0
-        Me.fndItemCodeInv.FieldName = Nothing
-        Me.fndItemCodeInv.isCalculatedField = False
-        Me.fndItemCodeInv.IsSourceFromTable = False
-        Me.fndItemCodeInv.IsSourceFromValueList = False
-        Me.fndItemCodeInv.IsUnique = False
-        Me.fndItemCodeInv.Location = New System.Drawing.Point(88, 61)
-        Me.fndItemCodeInv.MendatroryField = True
-        Me.fndItemCodeInv.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndItemCodeInv.MyLinkLable1 = Me.lblItemNameInv
-        Me.fndItemCodeInv.MyLinkLable2 = Me.MyLabel28
-        Me.fndItemCodeInv.MyReadOnly = False
-        Me.fndItemCodeInv.MyShowMasterFormButton = False
-        Me.fndItemCodeInv.Name = "fndItemCodeInv"
-        Me.fndItemCodeInv.ReferenceFieldDesc = Nothing
-        Me.fndItemCodeInv.ReferenceFieldName = Nothing
-        Me.fndItemCodeInv.ReferenceTableName = Nothing
-        Me.fndItemCodeInv.Size = New System.Drawing.Size(141, 21)
-        Me.fndItemCodeInv.TabIndex = 421
-        Me.fndItemCodeInv.Value = ""
+        Me.txtMultItemCodeInv.arrDispalyMember = Nothing
+        Me.txtMultItemCodeInv.arrValueMember = Nothing
+        Me.txtMultItemCodeInv.Location = New System.Drawing.Point(88, 61)
+        Me.txtMultItemCodeInv.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultItemCodeInv.MyLinkLable1 = Nothing
+        Me.txtMultItemCodeInv.MyLinkLable2 = Nothing
+        Me.txtMultItemCodeInv.MyNullText = "All"
+        Me.txtMultItemCodeInv.Name = "txtMultItemCodeInv"
+        Me.txtMultItemCodeInv.Size = New System.Drawing.Size(333, 19)
+        Me.txtMultItemCodeInv.TabIndex = 424
         '
         'MyLabel28
         '
@@ -1746,7 +1719,6 @@ Partial Class rptDairyTruckSheetReport
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
-        CType(Me.lblItemNameInv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1951,8 +1923,7 @@ Partial Class rptDairyTruckSheetReport
     Friend WithEvents txtInvToDate As RadDateTimePicker
     Friend WithEvents txtInvFromDate As RadDateTimePicker
     Friend WithEvents btnPrintInvoice As RadButton
-    Friend WithEvents lblItemNameInv As common.Controls.MyLabel
-    Friend WithEvents fndItemCodeInv As common.UserControls.txtFinder
     Friend WithEvents MyLabel28 As common.Controls.MyLabel
+    Friend WithEvents txtMultItemCodeInv As common.UserControls.txtMultiSelectFinder
 End Class
 

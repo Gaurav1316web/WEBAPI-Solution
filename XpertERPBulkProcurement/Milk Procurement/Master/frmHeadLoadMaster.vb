@@ -148,7 +148,7 @@ Public Class frmHeadLoadMaster
         Try
 
             Dim obj As clsGridLayout = New clsGridLayout()
-            obj = CType(obj.GetData(Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+            obj = CType(obj.GetData(MyBase.Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
             If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
                 Dim ii As Integer
                 For ii = 0 To gv1.Columns.Count - 1 Step ii + 1

@@ -394,6 +394,7 @@ Public Class clsDocType
     Public Const MilkCollectionDCSMuliple As String = "Milk Collection DCS Multiple"
     Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
+    Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
     Public Const TTMMASTER As String = "TTM Master"
@@ -889,6 +890,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POAsset, False, True)
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POTrading, False, True)
 
+            InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)
