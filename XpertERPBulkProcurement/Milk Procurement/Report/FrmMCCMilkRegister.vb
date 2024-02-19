@@ -1,9 +1,6 @@
 ﻿'' work doen against ticket no. MIL/30/01/19-000035
-Imports CrystalDecisions.CrystalReports.Engine
-Imports CrystalDecisions.Shared
-Imports CrystalDecisions.Windows.Forms
-Imports common
 Imports System.IO
+Imports common
 
 Public Class FrmMCCMilkRegister
     Inherits FrmMainTranScreen
@@ -66,12 +63,12 @@ Public Class FrmMCCMilkRegister
             Dim arr As New ArrayList
             arr.Add(FilterMCCCode)
             txtMCC.arrValueMember = arr
-            txtFromShift.Text = "M"
-            txtToShift.Text = "E"
+            txtFromShift.SelectedValue = "M"
+            txtToShift.SelectedValue = "E"
             btnGo.PerformClick()
         End If
-        txtFromShift.Text = "M"
-        txtToShift.Text = "E"
+        txtFromShift.SelectedValue = "M"
+        txtToShift.SelectedValue = "E"
     End Sub
 
     Sub LoadMilkReceiveUOM()
@@ -137,17 +134,17 @@ Public Class FrmMCCMilkRegister
 
         Dim dr As DataRow = dt.NewRow
         dr("Code") = "M"
-        dr("Shift") = "Morning"
+        dr("Shift") = "M"
         dt.Rows.Add(dr)
 
         dr = dt.NewRow
         dr("Code") = "E"
-        dr("Shift") = "Evening"
+        dr("Shift") = "E"
         dt.Rows.Add(dr)
 
         txtFromShift.DataSource = dt
         txtFromShift.ValueMember = "Code"
-        'cbgShift.DisplayMember = "Shift"
+        txtFromShift.DisplayMember = "Shift"
     End Sub
 
     Sub LoadSRNAmountType()
@@ -186,17 +183,17 @@ Public Class FrmMCCMilkRegister
 
         Dim dr As DataRow = dt.NewRow
         dr("Code") = "M"
-        dr("Shift") = "Morning"
+        dr("Shift") = "M"
         dt.Rows.Add(dr)
 
         dr = dt.NewRow
         dr("Code") = "E"
-        dr("Shift") = "Evening"
+        dr("Shift") = "E"
         dt.Rows.Add(dr)
 
         txtToShift.DataSource = dt
         txtToShift.ValueMember = "Code"
-        'cbgShift.DisplayMember = "Shift"
+        txtToShift.DisplayMember = "Shift"
     End Sub
 
     Sub FormatGrid()
@@ -2601,8 +2598,8 @@ Public Class FrmMCCMilkRegister
             RadButton1.Enabled = True
         End If
         chkDateShift.Checked = False
-        txtFromShift.Text = "M"
-        txtToShift.Text = "E"
+        txtFromShift.SelectedValue = "M"
+        txtToShift.SelectedValue = "E"
         'txtMCC.arrValueMember = Nothing
         'txtRoute.arrValueMember = Nothing
         'txtVLC.arrValueMember = Nothing
@@ -2704,7 +2701,7 @@ Public Class FrmMCCMilkRegister
                     End If
                 End If
                 If chkRejection.Checked = False AndAlso chkShiftWise.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                    qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, txtFromShift.Text, txtToShift.Text, clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
+                    qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
                     If ChkDetailWise.Checked Then
                         '============update by preeti gupta Against ticket no[BHA/15/05/19-000890]
                         If BulkExport = 3 OrElse BulkExport = 4 OrElse BulkExport = 5 OrElse BulkExport = 6 Then
@@ -3218,10 +3215,10 @@ Public Class FrmMCCMilkRegister
                     '" left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code " &
                     '" where 2 = 2 "
                     'strSRNQuery += " and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as date) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
-                    'If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    'If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
                     '    strSRNQuery += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='M' then 3 else 2 end  )"
                     'End If
-                    'If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    'If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
                     '    strSRNQuery += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
                     'End If
                     'If clsCommon.CompairString(clsCommon.myCstr(cboSRNAmounType.SelectedValue), "Zero") = CompairStringResult.Equal Then
@@ -3278,7 +3275,7 @@ Public Class FrmMCCMilkRegister
                     '    End If
                     'End If
                     Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
-                    strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, txtFromShift.Text, txtToShift.Text, clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer)
+                    strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer)
                     'strRejectionQuery = "  Select TSPL_MCC_MASTER.MCC_Type as [MCC Type],case when TSPL_MCC_MASTER.is_Mcc=1 then 'MCC' else 'BMCC' end [Chilling Center] ,TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_SRN_DETAIL.EMP_Amount,TSPL_MILK_SRN_DETAIL.TIP_Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,Case When TSPL_MILK_REJECT_DETAIL.FAT < 5 Then TSPL_MILK_REJECT_DETAIL.FAT Else 0 End [Cow FAT(%)], " & _
                     '" Case When TSPL_MILK_REJECT_DETAIL.FAT < 5 Then TSPL_MILK_REJECT_DETAIL.SNF Else 0 End [Cow SNF(%)], " & _
                     '" Case When TSPL_MILK_REJECT_DETAIL.FAT > 5 Then TSPL_MILK_REJECT_DETAIL.FAT Else 0 End [Buffalo FAT(%)], " & _
@@ -3326,10 +3323,10 @@ Public Class FrmMCCMilkRegister
                     '    strRejectionQuery += " and Against_Reject_No <> ''"
                     'End If
                     'strRejectionQuery += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
-                    'If clsCommon.CompairString(txtFromShift.Text, " E") = CompairStringResult.Equal Then
+                    'If clsCommon.CompairString(txtFromShift.SelectedValue, " E") = CompairStringResult.Equal Then
                     '    strRejectionQuery += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='M' then 3 else 2 end  )"
                     'End If
-                    'If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    'If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
                     '    strRejectionQuery += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='E' then 3 else 2 end  )"
                     'End If
                     'If clsCommon.myLen(cboMilkReceiveUOM.SelectedValue) > 0 Then
@@ -3375,7 +3372,7 @@ Public Class FrmMCCMilkRegister
                     '    End If
                     'End If
                     'Dim SetCowFatPer As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
-                    strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, txtFromShift.Text, txtToShift.Text, StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), SetCowFatPer)
+                    strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), SetCowFatPer)
 
                     If chkOnlyRejection.Checked = True Then
                         qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
@@ -3649,8 +3646,8 @@ Public Class FrmMCCMilkRegister
 
                 Dim ffinalQry As String
                 If ChkDetailWise.Checked AndAlso chkRouteShiftWise.Checked AndAlso BulkExport = 5 Then
-                    ffinalQry = "Select ROW_NUMBER() Over (Order By Convert(int,xxxxFinal.[Route Code])) AS [SNo.],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as [To Date],xxxxFinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,Logo_Img2 
-                            from(Select Convert(int,xxxx.[Route Code])[Route Code],Max(xxxx.[Route Name])[Route Name],(xxxx.[Vlc Uploader Code])[Vlc Uploader Code],Max(xxxx.[VSP Name])[VSP Name],"
+                    ffinalQry = "Select ROW_NUMBER() Over (Order By Convert(varchar,xxxxFinal.[Route Code])) AS [SNo.],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as [To Date],xxxxFinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,Logo_Img2 
+                            from(Select Convert(varchar,xxxx.[Route Code])[Route Code],Max(xxxx.[Route Name])[Route Name],(xxxx.[Vlc Uploader Code])[Vlc Uploader Code],Max(xxxx.[VSP Name])[VSP Name],"
                     If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count = 1 Then
                         ffinalQry += " Max(xxxx.[MCC Name])[MCC Name],"
                     Else
@@ -3662,7 +3659,7 @@ Public Class FrmMCCMilkRegister
                             Case When Max(xxfinal.Shift)='Morning' Then Sum(xxFinal.[Milk Weight(KG)]) Else 0 End As [Milk Weight Mrng],Case When Max(xxfinal.Shift)='Evening' Then Sum(xxFinal.[Milk Weight(KG)]) Else 0 End As [Milk Weight Evng],
                             (Sum(xxFinal.[Milk Weight(KG)])+Sum(xxFinal.[Milk Weight(KG)])) As [Total Milk],(Round((Sum(xxFinal.[Milk Weight(KG)])+Sum(xxFinal.[Milk Weight(KG)]))/(Convert(int,(DATEDIFF(DAY,'01/Dec/2023','10/Dec/2023')))+Convert(int,'1')),0)) As [Average] from 
                             (" + FinalQuery + ") xxfinal Group By xxFinal.[Route Code],xxfinal.[Vlc Uploader Code],xxfinal.Shift) xxxx Group By xxxx.[Route Code],xxxx.[Vlc Uploader Code] ) xxxxFinal 
-                           Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' order by Convert(int,xxxxFinal.[Route Code])"
+                           Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' order by Convert(varchar,xxxxFinal.[Route Code])"
                     dt = clsDBFuncationality.GetDataTable(ffinalQry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
@@ -3696,10 +3693,10 @@ Public Class FrmMCCMilkRegister
                     And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT 
                     left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code 
                     where 2 = 2  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as date) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
-                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
                     BaseQry1 += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='M' then 3 else 2 end  )"
                 End If
-                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
                     BaseQry1 += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
                 End If
                 If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
@@ -3734,10 +3731,10 @@ Public Class FrmMCCMilkRegister
                     where 2=2 "
                 BaseQry1 += " and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "'"
 
-                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
                     BaseQry1 += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='M' then 3 else 2 end  )"
                 End If
-                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
                     BaseQry1 += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='E' then 3 else 2 end  )"
                 End If
                 If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
