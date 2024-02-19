@@ -3296,7 +3296,11 @@ Public Class clsPSShipmentHead
             If clsCommon.myLen(strDairyGAtePassCount) > 0 Then
                 Throw New Exception("You cannot cancelled this document because Dairy GAte Pass (" + clsCommon.myCstr(strDairyGAtePassCount) + ") has been created.")
             End If
+            Dim strGatepassdoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select * from TSPL_SD_SHIPMENT_DETAIL left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID where TSPL_SD_SHIPMENT_DETAIL.PK_ID in (select top 1 PK_ID from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "')", trans))
+            If clsCommon.myLen(strGatepassdoc) > 0 Then
+                Throw New Exception("Shipment cannot be reverse because its GatePass has been generated.")
 
+            End If
             ''Qry = "select distinct DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL where Shipment_Code='" + strCode + "'"
             Qry = " select distinct TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL  inner join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE where TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code='" & strCode & "' and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
