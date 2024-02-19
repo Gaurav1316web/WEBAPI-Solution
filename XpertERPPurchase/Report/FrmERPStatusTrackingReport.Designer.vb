@@ -22,7 +22,7 @@ Partial Class FrmERPStatusTrackingReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
@@ -35,19 +35,22 @@ Partial Class FrmERPStatusTrackingReport
         Me.rdbMilkProcurement = New System.Windows.Forms.RadioButton()
         Me.rdbERPStatusMilkUnion = New System.Windows.Forms.RadioButton()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtFinYr = New common.UserControls.txtFinder()
+        Me.rdbDBTStatus = New System.Windows.Forms.RadioButton()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label1 = New common.Controls.MyLabel()
         Me.chkDBT = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rbtnTranasctionAll = New System.Windows.Forms.RadioButton()
+        Me.rbtnTransactionPosted = New System.Windows.Forms.RadioButton()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RMIALL = New Telerik.WinControls.UI.RadMenuItem()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.RadLabel3 = New common.Controls.MyLabel()
-        Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rbtnTranasctionAll = New System.Windows.Forms.RadioButton()
-        Me.rbtnTransactionPosted = New System.Windows.Forms.RadioButton()
-        Me.Label1 = New common.Controls.MyLabel()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -61,12 +64,13 @@ Partial Class FrmERPStatusTrackingReport
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkDBT, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel1.SuspendLayout()
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
         CType(Me.Label1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDBT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,7 +93,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnreset)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnReport)
-        Me.SplitContainer2.Size = New System.Drawing.Size(514, 284)
+        Me.SplitContainer2.Size = New System.Drawing.Size(703, 284)
         Me.SplitContainer2.SplitterDistance = 254
         Me.SplitContainer2.TabIndex = 1
         '
@@ -104,10 +108,10 @@ Partial Class FrmERPStatusTrackingReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(514, 254)
+        Me.gv1.Size = New System.Drawing.Size(703, 254)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -152,7 +156,7 @@ Partial Class FrmERPStatusTrackingReport
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(439, 3)
+        Me.btnclose.Location = New System.Drawing.Point(628, 3)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(70, 19)
         Me.btnclose.TabIndex = 1
@@ -200,6 +204,9 @@ Partial Class FrmERPStatusTrackingReport
         '
         'SplitContainer3.Panel1
         '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.txtFinYr)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.rdbDBTStatus)
         Me.SplitContainer3.Panel1.Controls.Add(Me.rdbERPStatusMilkUnion)
         Me.SplitContainer3.Panel1.Controls.Add(Me.txtDate)
         Me.SplitContainer3.Panel1.Controls.Add(Me.rdbMilkProcurement)
@@ -209,67 +216,55 @@ Partial Class FrmERPStatusTrackingReport
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer2)
         Me.SplitContainer3.Panel2.Controls.Add(Me.Panel1)
-        Me.SplitContainer3.Size = New System.Drawing.Size(514, 371)
+        Me.SplitContainer3.Size = New System.Drawing.Size(703, 371)
         Me.SplitContainer3.SplitterDistance = 25
         Me.SplitContainer3.TabIndex = 1
         '
-        'RadMenu1
+        'MyLabel1
         '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(514, 20)
-        Me.RadMenu1.TabIndex = 0
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Location = New System.Drawing.Point(500, 5)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(75, 18)
+        Me.MyLabel1.TabIndex = 317
+        Me.MyLabel1.Text = "Financial Year"
         '
-        'chkDBT
+        'txtFinYr
         '
-        Me.chkDBT.Location = New System.Drawing.Point(292, 3)
-        Me.chkDBT.Name = "chkDBT"
-        Me.chkDBT.Size = New System.Drawing.Size(74, 18)
-        Me.chkDBT.TabIndex = 0
-        Me.chkDBT.Text = "DBTReport"
+        Me.txtFinYr.CalculationExpression = Nothing
+        Me.txtFinYr.FieldCode = Nothing
+        Me.txtFinYr.FieldDesc = Nothing
+        Me.txtFinYr.FieldMaxLength = 0
+        Me.txtFinYr.FieldName = Nothing
+        Me.txtFinYr.isCalculatedField = False
+        Me.txtFinYr.IsSourceFromTable = False
+        Me.txtFinYr.IsSourceFromValueList = False
+        Me.txtFinYr.IsUnique = False
+        Me.txtFinYr.Location = New System.Drawing.Point(574, 3)
+        Me.txtFinYr.MendatroryField = False
+        Me.txtFinYr.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFinYr.MyLinkLable1 = Nothing
+        Me.txtFinYr.MyLinkLable2 = Nothing
+        Me.txtFinYr.MyReadOnly = False
+        Me.txtFinYr.MyShowMasterFormButton = False
+        Me.txtFinYr.Name = "txtFinYr"
+        Me.txtFinYr.ReferenceFieldDesc = Nothing
+        Me.txtFinYr.ReferenceFieldName = Nothing
+        Me.txtFinYr.ReferenceTableName = Nothing
+        Me.txtFinYr.Size = New System.Drawing.Size(119, 19)
+        Me.txtFinYr.TabIndex = 316
+        Me.txtFinYr.Value = ""
         '
-        'RadMenuItem1
+        'rdbDBTStatus
         '
-        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem4, Me.RMIALL})
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Settings"
-        '
-        'RadMenuItem2
-        '
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Text = "Save Layout"
-        '
-        'RadMenuItem4
-        '
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Delete Layout"
-        '
-        'RMIALL
-        '
-        Me.RMIALL.Name = "RMIALL"
-        Me.RMIALL.Text = "ALL"
-        '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.Label1)
-        Me.Panel1.Controls.Add(Me.chkDBT)
-        Me.Panel1.Controls.Add(Me.rbtnTranasctionAll)
-        Me.Panel1.Controls.Add(Me.rbtnTransactionPosted)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel1.Location = New System.Drawing.Point(0, 0)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(514, 58)
-        Me.Panel1.TabIndex = 11
-        '
-        'RadLabel3
-        '
-        Me.RadLabel3.FieldName = Nothing
-        Me.RadLabel3.Location = New System.Drawing.Point(292, 4)
-        Me.RadLabel3.Name = "RadLabel3"
-        Me.RadLabel3.Size = New System.Drawing.Size(30, 18)
-        Me.RadLabel3.TabIndex = 10
-        Me.RadLabel3.Text = "Date"
+        Me.rdbDBTStatus.AutoSize = True
+        Me.rdbDBTStatus.Location = New System.Drawing.Point(414, 5)
+        Me.rdbDBTStatus.Name = "rdbDBTStatus"
+        Me.rdbDBTStatus.Size = New System.Drawing.Size(80, 17)
+        Me.rdbDBTStatus.TabIndex = 11
+        Me.rdbDBTStatus.TabStop = True
+        Me.rdbDBTStatus.Text = "DBT Status"
+        Me.rdbDBTStatus.UseVisualStyleBackColor = True
         '
         'txtDate
         '
@@ -300,10 +295,47 @@ Partial Class FrmERPStatusTrackingReport
         Me.txtDate.Text = "17-12-2011"
         Me.txtDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
-        'RadMenuItem3
+        'RadLabel3
         '
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = ""
+        Me.RadLabel3.FieldName = Nothing
+        Me.RadLabel3.Location = New System.Drawing.Point(292, 4)
+        Me.RadLabel3.Name = "RadLabel3"
+        Me.RadLabel3.Size = New System.Drawing.Size(30, 18)
+        Me.RadLabel3.TabIndex = 10
+        Me.RadLabel3.Text = "Date"
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.Label1)
+        Me.Panel1.Controls.Add(Me.chkDBT)
+        Me.Panel1.Controls.Add(Me.rbtnTranasctionAll)
+        Me.Panel1.Controls.Add(Me.rbtnTransactionPosted)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(703, 58)
+        Me.Panel1.TabIndex = 11
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = False
+        Me.Label1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Label1.FieldName = Nothing
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
+        Me.Label1.Location = New System.Drawing.Point(0, 35)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(703, 23)
+        Me.Label1.TabIndex = 12
+        Me.Label1.Text = "Report Name"
+        Me.Label1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'chkDBT
+        '
+        Me.chkDBT.Location = New System.Drawing.Point(292, 3)
+        Me.chkDBT.Name = "chkDBT"
+        Me.chkDBT.Size = New System.Drawing.Size(74, 18)
+        Me.chkDBT.TabIndex = 0
+        Me.chkDBT.Text = "DBTReport"
         '
         'rbtnTranasctionAll
         '
@@ -327,24 +359,45 @@ Partial Class FrmERPStatusTrackingReport
         Me.rbtnTransactionPosted.Text = "Posted Transaction"
         Me.rbtnTransactionPosted.UseVisualStyleBackColor = True
         '
-        'Label1
+        'RadMenu1
         '
-        Me.Label1.AutoSize = False
-        Me.Label1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Label1.FieldName = Nothing
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(0, 35)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(514, 23)
-        Me.Label1.TabIndex = 12
-        Me.Label1.Text = "Report Name"
-        Me.Label1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(703, 20)
+        Me.RadMenu1.TabIndex = 0
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem4, Me.RMIALL})
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Settings"
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Text = "Save Layout"
+        '
+        'RadMenuItem4
+        '
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Delete Layout"
+        '
+        'RMIALL
+        '
+        Me.RMIALL.Name = "RMIALL"
+        Me.RMIALL.Text = "ALL"
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = ""
         '
         'FrmERPStatusTrackingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(514, 391)
+        Me.ClientSize = New System.Drawing.Size(703, 391)
         Me.Controls.Add(Me.SplitContainer3)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmERPStatusTrackingReport"
@@ -368,13 +421,14 @@ Partial Class FrmERPStatusTrackingReport
         Me.SplitContainer3.Panel1.PerformLayout()
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkDBT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Label1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDBT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -405,5 +459,8 @@ Partial Class FrmERPStatusTrackingReport
     Friend WithEvents rbtnTransactionPosted As RadioButton
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label1 As common.Controls.MyLabel
+    Friend WithEvents rdbDBTStatus As RadioButton
+    Friend WithEvents txtFinYr As common.UserControls.txtFinder
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
 End Class
 

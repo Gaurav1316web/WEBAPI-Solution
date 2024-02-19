@@ -166,13 +166,13 @@ Public Class rptSalesLedgerReport
             End If
 
 
-            Dim qry As String = "SELECT distinct TSPL_SD_SHIPMENT_DETAIL.Structure_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' as Item_Description,TSPL_ITEM_MASTER.Sku_Seq
+            Dim qry As String = "SELECT distinct TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' as Item_Description,TSPL_ITEM_MASTER.Sku_Seq
             FROM TSPL_SD_SHIPMENT_DETAIL 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-            where TSPL_SD_SHIPMENT_HEAD.Document_Date >=Convert(date,'" & txtFromDate.Value & "',103) 
-            and TSPL_SD_SHIPMENT_HEAD.Document_Date <= Convert(date,'" & txtToDate.Value & "',103) "
+            where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
+            and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) "
 
 
             If txtZone.arrValueMember IsNot Nothing Then
