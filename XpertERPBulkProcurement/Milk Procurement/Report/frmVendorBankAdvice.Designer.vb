@@ -30,7 +30,7 @@ Partial Class frmVendorBankAdvice
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Area = New common.Controls.MyLabel()
+        Me.lblArea = New common.Controls.MyLabel()
         Me.fndArea = New common.UserControls.txtFinder()
         Me.ChkIFSCCode = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
@@ -76,7 +76,7 @@ Partial Class frmVendorBankAdvice
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.Area, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -172,7 +172,7 @@ Partial Class frmVendorBankAdvice
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.Area)
+        Me.RadPageViewPage1.Controls.Add(Me.lblArea)
         Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.ChkIFSCCode)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
@@ -195,15 +195,15 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage1.Size = New System.Drawing.Size(794, 278)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'Area
+        'lblArea
         '
-        Me.Area.FieldName = Nothing
-        Me.Area.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Area.Location = New System.Drawing.Point(448, 4)
-        Me.Area.Name = "Area"
-        Me.Area.Size = New System.Drawing.Size(30, 16)
-        Me.Area.TabIndex = 1077
-        Me.Area.Text = "Area"
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(15, 4)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(30, 16)
+        Me.lblArea.TabIndex = 1077
+        Me.lblArea.Text = "Area"
         '
         'fndArea
         '
@@ -216,7 +216,7 @@ Partial Class frmVendorBankAdvice
         Me.fndArea.IsSourceFromTable = False
         Me.fndArea.IsSourceFromValueList = False
         Me.fndArea.IsUnique = False
-        Me.fndArea.Location = New System.Drawing.Point(491, 3)
+        Me.fndArea.Location = New System.Drawing.Point(95, 3)
         Me.fndArea.MendatroryField = True
         Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndArea.MyLinkLable1 = Nothing
@@ -227,14 +227,14 @@ Partial Class frmVendorBankAdvice
         Me.fndArea.ReferenceFieldDesc = Nothing
         Me.fndArea.ReferenceFieldName = Nothing
         Me.fndArea.ReferenceTableName = Nothing
-        Me.fndArea.Size = New System.Drawing.Size(160, 19)
+        Me.fndArea.Size = New System.Drawing.Size(330, 18)
         Me.fndArea.TabIndex = 1076
         Me.fndArea.Value = ""
         '
         'ChkIFSCCode
         '
         Me.ChkIFSCCode.AutoSize = True
-        Me.ChkIFSCCode.Location = New System.Drawing.Point(424, 107)
+        Me.ChkIFSCCode.Location = New System.Drawing.Point(424, 131)
         Me.ChkIFSCCode.Name = "ChkIFSCCode"
         Me.ChkIFSCCode.Size = New System.Drawing.Size(78, 17)
         Me.ChkIFSCCode.TabIndex = 448
@@ -249,7 +249,7 @@ Partial Class frmVendorBankAdvice
         Me.RadGroupBox2.Controls.Add(Me.rbtnSavingBankWiseSummary)
         Me.RadGroupBox2.Controls.Add(Me.rbtnSavingCompulsory)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(18, 170)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(18, 194)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(506, 28)
@@ -309,7 +309,7 @@ Partial Class frmVendorBankAdvice
         Me.txtbankgroupname.IsSourceFromTable = False
         Me.txtbankgroupname.IsSourceFromValueList = False
         Me.txtbankgroupname.IsUnique = False
-        Me.txtbankgroupname.Location = New System.Drawing.Point(248, 76)
+        Me.txtbankgroupname.Location = New System.Drawing.Point(248, 100)
         Me.txtbankgroupname.MaxLength = 49
         Me.txtbankgroupname.MendatroryField = False
         Me.txtbankgroupname.MyLinkLable1 = Nothing
@@ -334,7 +334,7 @@ Partial Class frmVendorBankAdvice
         Me.txtBankGroup.IsSourceFromTable = False
         Me.txtBankGroup.IsSourceFromValueList = False
         Me.txtBankGroup.IsUnique = False
-        Me.txtBankGroup.Location = New System.Drawing.Point(95, 75)
+        Me.txtBankGroup.Location = New System.Drawing.Point(95, 99)
         Me.txtBankGroup.MendatroryField = True
         Me.txtBankGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBankGroup.MyLinkLable1 = Me.lblBankGroup
@@ -353,7 +353,7 @@ Partial Class frmVendorBankAdvice
         '
         Me.lblBankGroup.FieldName = Nothing
         Me.lblBankGroup.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBankGroup.Location = New System.Drawing.Point(15, 75)
+        Me.lblBankGroup.Location = New System.Drawing.Point(15, 99)
         Me.lblBankGroup.Name = "lblBankGroup"
         Me.lblBankGroup.Size = New System.Drawing.Size(67, 16)
         Me.lblBankGroup.TabIndex = 441
@@ -367,7 +367,7 @@ Partial Class frmVendorBankAdvice
         Me.RadGroupBox1.Controls.Add(Me.rbtnBankWiseSummary)
         Me.RadGroupBox1.Controls.Add(Me.rbtnBankAdvice)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(17, 134)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(17, 158)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(506, 28)
@@ -419,7 +419,7 @@ Partial Class frmVendorBankAdvice
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(15, 3)
+        Me.MyLabel4.Location = New System.Drawing.Point(15, 27)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel4.TabIndex = 438
@@ -436,7 +436,7 @@ Partial Class frmVendorBankAdvice
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(95, 3)
+        Me.txtMCC.Location = New System.Drawing.Point(95, 27)
         Me.txtMCC.MendatroryField = True
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Nothing
@@ -462,7 +462,7 @@ Partial Class frmVendorBankAdvice
         Me.txtPaymentCycleTo.IsSourceFromTable = False
         Me.txtPaymentCycleTo.IsSourceFromValueList = False
         Me.txtPaymentCycleTo.IsUnique = False
-        Me.txtPaymentCycleTo.Location = New System.Drawing.Point(279, 51)
+        Me.txtPaymentCycleTo.Location = New System.Drawing.Point(279, 75)
         Me.txtPaymentCycleTo.MendatroryField = True
         Me.txtPaymentCycleTo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPaymentCycleTo.MyLinkLable1 = Nothing
@@ -480,7 +480,7 @@ Partial Class frmVendorBankAdvice
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Location = New System.Drawing.Point(248, 51)
+        Me.MyLabel3.Location = New System.Drawing.Point(248, 75)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(19, 18)
         Me.MyLabel3.TabIndex = 435
@@ -489,7 +489,7 @@ Partial Class frmVendorBankAdvice
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(15, 51)
+        Me.MyLabel2.Location = New System.Drawing.Point(15, 75)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(79, 18)
         Me.MyLabel2.TabIndex = 434
@@ -506,7 +506,7 @@ Partial Class frmVendorBankAdvice
         Me.txtPaymentCycleFrom.IsSourceFromTable = False
         Me.txtPaymentCycleFrom.IsSourceFromValueList = False
         Me.txtPaymentCycleFrom.IsUnique = False
-        Me.txtPaymentCycleFrom.Location = New System.Drawing.Point(95, 51)
+        Me.txtPaymentCycleFrom.Location = New System.Drawing.Point(95, 75)
         Me.txtPaymentCycleFrom.MendatroryField = True
         Me.txtPaymentCycleFrom.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPaymentCycleFrom.MyLinkLable1 = Nothing
@@ -532,7 +532,7 @@ Partial Class frmVendorBankAdvice
         Me.txtFiscalYear.IsSourceFromTable = False
         Me.txtFiscalYear.IsSourceFromValueList = False
         Me.txtFiscalYear.IsUnique = False
-        Me.txtFiscalYear.Location = New System.Drawing.Point(95, 27)
+        Me.txtFiscalYear.Location = New System.Drawing.Point(95, 51)
         Me.txtFiscalYear.MendatroryField = False
         Me.txtFiscalYear.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtFiscalYear.MyLinkLable1 = Me.RadLabel1
@@ -559,7 +559,7 @@ Partial Class frmVendorBankAdvice
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(15, 27)
+        Me.MyLabel1.Location = New System.Drawing.Point(15, 51)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(58, 18)
         Me.MyLabel1.TabIndex = 431
@@ -573,7 +573,7 @@ Partial Class frmVendorBankAdvice
         Me.RadGroupBox3.Controls.Add(Me.ToDate)
         Me.RadGroupBox3.Controls.Add(Me.fromDate)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(17, 101)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(17, 125)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(392, 28)
@@ -729,7 +729,7 @@ Partial Class frmVendorBankAdvice
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.Area, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -814,6 +814,6 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents ChkIFSCCode As CheckBox
     Friend WithEvents fndArea As common.UserControls.txtFinder
-    Friend WithEvents Area As common.Controls.MyLabel
+    Friend WithEvents lblArea As common.Controls.MyLabel
 End Class
 

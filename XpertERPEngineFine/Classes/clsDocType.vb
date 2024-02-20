@@ -890,6 +890,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POAsset, False, True)
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POTrading, False, True)
 
+            InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)

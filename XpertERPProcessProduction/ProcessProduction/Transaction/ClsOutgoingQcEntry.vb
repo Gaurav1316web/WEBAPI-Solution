@@ -40,10 +40,6 @@ Public Class ClsOutgoingQcEntry
         Dim coll As New Hashtable()
         Try
             If isNewEntry Then
-                ' obj.document_code = clsCommon.myCstr(clsERPFuncationality.GetNextCode(trans, obj.document_date, clsDocType.QualityCheckForSRN, clsDocTransactionType.IncomingQualityCheck, obj.bill_to_location))
-                'Else
-                'obj.document_code = clsCommon.myCstr(clsERPFuncationality.GetNextCode(trans, obj.document_date, clsDocType.frmOutgoingQCEntry, clsDocTransactionType.ProductionQC, obj.bill_to_location))
-                'obj.document_code = clsERPFuncationality.GetNextCode(trans, obj.document_date, clsDocType.QCOutgoingEntry, "", "")
                 obj.document_code = clsERPFuncationality.GetNextCode(trans, obj.document_date, clsDocType.OutgoingProduction, "", "")
             End If
 
