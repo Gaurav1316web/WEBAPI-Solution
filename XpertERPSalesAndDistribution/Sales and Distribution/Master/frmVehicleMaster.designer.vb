@@ -56,6 +56,8 @@ Partial Class frmVehicleMaster
         Me.RadMenuItem_Close = New Telerik.WinControls.UI.RadMenuItem()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtDriverName = New common.Controls.MyTextBox()
+        Me.lblDriverName = New common.Controls.MyLabel()
         Me.txtOneColumnCrate = New common.MyNumBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
@@ -139,8 +141,6 @@ Partial Class frmVehicleMaster
         Me.rbtnratekm = New common.Controls.MyCheckBox()
         Me.rbtKmrange = New common.Controls.MyCheckBox()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.txtDriverName = New common.Controls.MyTextBox()
-        Me.lblDriverName = New common.Controls.MyLabel()
         CType(Me.rlblVehicleID, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblModel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlbltype, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -161,6 +161,8 @@ Partial Class frmVehicleMaster
         CType(Me.rtxtvehicle_Chechis_No, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtOneColumnCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -246,8 +248,6 @@ Partial Class frmVehicleMaster
         CType(Me.rbtnratekm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtKmrange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -369,7 +369,6 @@ Partial Class frmVehicleMaster
         Me.rtxtDescription.MyLinkLable1 = Me.rlblDescription
         Me.rtxtDescription.MyLinkLable2 = Nothing
         Me.rtxtDescription.Name = "rtxtDescription"
-        Me.rtxtDescription.ReadOnly = True
         Me.rtxtDescription.ReferenceFieldDesc = Nothing
         Me.rtxtDescription.ReferenceFieldName = Nothing
         Me.rtxtDescription.ReferenceTableName = Nothing
@@ -598,6 +597,40 @@ Partial Class frmVehicleMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(771, 369)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.ThemeName = "ControlDefault"
+        '
+        'txtDriverName
+        '
+        Me.txtDriverName.CalculationExpression = Nothing
+        Me.txtDriverName.FieldCode = Nothing
+        Me.txtDriverName.FieldDesc = Nothing
+        Me.txtDriverName.FieldMaxLength = 0
+        Me.txtDriverName.FieldName = Nothing
+        Me.txtDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDriverName.isCalculatedField = False
+        Me.txtDriverName.IsSourceFromTable = False
+        Me.txtDriverName.IsSourceFromValueList = False
+        Me.txtDriverName.IsUnique = False
+        Me.txtDriverName.Location = New System.Drawing.Point(519, 339)
+        Me.txtDriverName.MaxLength = 11
+        Me.txtDriverName.MendatroryField = False
+        Me.txtDriverName.MyLinkLable1 = Me.lblDriverName
+        Me.txtDriverName.MyLinkLable2 = Nothing
+        Me.txtDriverName.Name = "txtDriverName"
+        Me.txtDriverName.ReferenceFieldDesc = Nothing
+        Me.txtDriverName.ReferenceFieldName = Nothing
+        Me.txtDriverName.ReferenceTableName = Nothing
+        Me.txtDriverName.Size = New System.Drawing.Size(200, 18)
+        Me.txtDriverName.TabIndex = 63
+        '
+        'lblDriverName
+        '
+        Me.lblDriverName.FieldName = Nothing
+        Me.lblDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDriverName.Location = New System.Drawing.Point(373, 340)
+        Me.lblDriverName.Name = "lblDriverName"
+        Me.lblDriverName.Size = New System.Drawing.Size(70, 16)
+        Me.lblDriverName.TabIndex = 64
+        Me.lblDriverName.Text = "Driver Name"
         '
         'txtOneColumnCrate
         '
@@ -2056,40 +2089,6 @@ Partial Class frmVehicleMaster
         Me.btnHistory.TabIndex = 37
         Me.btnHistory.Text = "&History"
         '
-        'txtDriverName
-        '
-        Me.txtDriverName.CalculationExpression = Nothing
-        Me.txtDriverName.FieldCode = Nothing
-        Me.txtDriverName.FieldDesc = Nothing
-        Me.txtDriverName.FieldMaxLength = 0
-        Me.txtDriverName.FieldName = Nothing
-        Me.txtDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDriverName.isCalculatedField = False
-        Me.txtDriverName.IsSourceFromTable = False
-        Me.txtDriverName.IsSourceFromValueList = False
-        Me.txtDriverName.IsUnique = False
-        Me.txtDriverName.Location = New System.Drawing.Point(519, 339)
-        Me.txtDriverName.MaxLength = 11
-        Me.txtDriverName.MendatroryField = False
-        Me.txtDriverName.MyLinkLable1 = Me.lblDriverName
-        Me.txtDriverName.MyLinkLable2 = Nothing
-        Me.txtDriverName.Name = "txtDriverName"
-        Me.txtDriverName.ReferenceFieldDesc = Nothing
-        Me.txtDriverName.ReferenceFieldName = Nothing
-        Me.txtDriverName.ReferenceTableName = Nothing
-        Me.txtDriverName.Size = New System.Drawing.Size(200, 18)
-        Me.txtDriverName.TabIndex = 63
-        '
-        'lblDriverName
-        '
-        Me.lblDriverName.FieldName = Nothing
-        Me.lblDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDriverName.Location = New System.Drawing.Point(373, 340)
-        Me.lblDriverName.Name = "lblDriverName"
-        Me.lblDriverName.Size = New System.Drawing.Size(70, 16)
-        Me.lblDriverName.TabIndex = 64
-        Me.lblDriverName.Text = "Driver Name"
-        '
         'frmVehicleMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2124,6 +2123,8 @@ Partial Class frmVehicleMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDriverName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtOneColumnCrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2215,8 +2216,6 @@ Partial Class frmVehicleMaster
         CType(Me.rbtnratekm, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtKmrange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDriverName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

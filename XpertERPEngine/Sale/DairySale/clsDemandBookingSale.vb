@@ -896,6 +896,11 @@ where 2=2 "
 
 
             End If
+            Dim strCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select count( DOCUMENT_CODE) from TSPL_SD_SHIPMENT_BOOKING_DETAIL Where Booking_TR_Code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + strCode + "') ", trans))
+
+            If strCount > 0 Then
+                Throw New Exception("Demand cannot be reverse because its Dispatch has generated.")
+            End If
 
             Dim dtBooking As DataTable = clsDBFuncationality.GetDataTable("select Document_no from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" & strCode & "'", trans)
             If dtBooking IsNot Nothing AndAlso dtBooking.Rows.Count > 0 Then
