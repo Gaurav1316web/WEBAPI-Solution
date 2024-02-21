@@ -436,7 +436,8 @@ Public Class frmCorrectionforWrongEntry
                 End If
 
 
-                If clsStanderdProductionEntry.UnpostData(txtCode.Value, Me.Form_ID) Then
+                If clsStanderdProductionEntry.UnpostData(txtCode.Value, clsUserMgtCode.frmStanderdProductionEntry) Then
+                    'If clsStanderdProductionEntry.UnpostData(txtCode.Value, Me.Form_ID) Then
                     '------------------
                     Dim obj As New clsCancelLog
                     obj.Program_Code = Me.Form_ID

@@ -1350,6 +1350,7 @@
     <None Include="Crystal Reports\Milk Procurement\MCCShiftReport%28RouteWise%29.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MCCShiftReport%28RouteWise%29RateAndAmount.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MilkRGPChallan.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\Milkshiftprintsec.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPIncentiveEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPIncentiveEntryMCCWise.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPNEFTUploaderBank.rpt" />

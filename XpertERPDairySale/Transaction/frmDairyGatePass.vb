@@ -64,6 +64,8 @@ Public Class frmDairyGatePass
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnClKM.Visible = MyBase.isModifyFlag
+        btnPrint2.Visible = MyBase.isPrintFlag
+        btnGPCancel.Visible = MyBase.isCancel_Flag
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         CreateTable()
@@ -553,7 +555,7 @@ Public Class frmDairyGatePass
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
-            btnPost.Visible = True
+            btnPost.Enabled = True
             btnSave.Enabled = True
             btnPost.Enabled = True
             isInsideLoadData = True
