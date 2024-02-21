@@ -175,6 +175,7 @@ Public Class frmTransferDCC
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrintNew.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else

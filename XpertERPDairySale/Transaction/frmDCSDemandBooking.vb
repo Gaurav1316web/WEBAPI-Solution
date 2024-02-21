@@ -31,7 +31,7 @@ Public Class frmDCSDemandBooking
             Exit Sub
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        'btnPost.Visible = MyBase.isPostFlag
+        btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         If MyBase.isReverse Then
             btnreverse.Enabled = True
@@ -41,6 +41,7 @@ Public Class frmDCSDemandBooking
     End Sub
     Private Sub frmDCSDemandBooking_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
+        SetUserMgmtNew()
         CreateTable()
         AddNew()
     End Sub

@@ -108,6 +108,7 @@ Public Class FrmGateEntrySale
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Dim obj As clsGateEntrySale = clsGateEntrySale.GetData(strCode, arrLoc, NavTyep)

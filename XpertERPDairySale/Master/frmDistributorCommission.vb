@@ -14,9 +14,27 @@ Public Class frmDistributorCommission
     Private isCellValueChangedOpen As Boolean = False
     Private isInsideLoadData As Boolean = False
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        'btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnImport.Visible = MyBase.isExport
+        'If btnSave.Visible = True Then
+        '    btnImport.Enabled = True
+        'Else
+        '    btnImport.Enabled = False
+        'End If
+    End Sub
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
+        SetUserMgmtNew()
         AddNew()
     End Sub
     Sub LoadBlankGrid()
