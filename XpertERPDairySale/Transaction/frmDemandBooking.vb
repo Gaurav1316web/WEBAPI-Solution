@@ -2,12 +2,15 @@
 Imports System.Data.SqlClient
 Imports System.IO
 Imports common
+Imports XpertERPEngine
+
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim gvFullMode As Boolean = False
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
+    Dim EnableResetDemand As Boolean = False
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
     Dim SingleUserParticularDairyBookingEdit As Boolean = False
@@ -74,6 +77,7 @@ Public Class frmDemandBooking
             gv1.EnterKeyMode = RadGridViewEnterKeyMode.EnterMovesToNextRow
             blnPageLoad = True
             EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+            EnableResetDemand = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableResetDemand, clsFixedParameterCode.EnableResetDemand, Nothing)) = 1, True, False)
             SettSeprateDemandForMorningEveningShift = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, Nothing)) = 1)
             ChangeVehicleOnDairySaleBooking = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeVehicleOnDairySaleBooking, clsFixedParameterCode.ChangeVehicleOnDairySaleBooking, Nothing)) = 0, False, True)
             ShowItemLocationWiseonBooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemLocationWiseonDairyBooking, clsFixedParameterCode.ShowItemLocationWiseonDairyBooking, Nothing))
@@ -208,11 +212,17 @@ Public Class frmDemandBooking
         Dim TAX_PAID As New GridViewComboBoxColumn
         Dim BOOK_RATE_UOM As New GridViewTextBoxColumn
         Dim RepobtnCol As GridViewCommandColumn = New GridViewCommandColumn()
-        RepobtnCol.HeaderText = "Details "
+        RepobtnCol.HeaderText = "Action "
         RepobtnCol.Name = colbtncol
         RepobtnCol.ReadOnly = False
         RepobtnCol.Width = 150
         RepobtnCol.DefaultText = "Reset ..."
+        If EnableResetDemand Then
+            RepobtnCol.IsVisible = True
+        Else
+            RepobtnCol.IsVisible = False
+        End If
+
         RepobtnCol.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(RepobtnCol)
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()

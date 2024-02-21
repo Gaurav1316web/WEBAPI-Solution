@@ -29,6 +29,7 @@ Public Class frmTransferToSaving
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        RadMenu1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -615,7 +616,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
         Try
-            Dim Sql As String = " select ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
+            'Dim Sql As String = " select ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
+            Dim Sql As String = " select ''  as [Vlc Uploder Code], '' as [Vendor Name], 0.00 as Amount"
             transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -635,12 +637,14 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
 
             Dim dtError As New DataTable
             dtError.Columns.Add("Vlc Uploder Code", GetType(String))
-            dtError.Columns.Add("Deduction Code", GetType(String))
+            'dtError.Columns.Add("Deduction Code", GetType(String))
+            dtError.Columns.Add("Vendor Name", GetType(String))
             dtError.Columns.Add("Amount", GetType(String))
             dtError.Columns.Add("Error", GetType(String))
 
             Dim qry As String = ""
-            If transportSql.importExcel(gv, "Vlc Uploder Code", "Deduction Code", "Amount") Then
+            'If transportSql.importExcel(gv, "Vlc Uploder Code", "Deduction Code", "Amount") Then
+            If transportSql.importExcel(gv, "Vlc Uploder Code", "Vendor Name", "Amount") Then
                 Dim arr As New List(Of clsTransferToSavingDetail)
 
                 Try
@@ -653,15 +657,16 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
                             Dim objTr As New clsTransferToSavingDetail()
                             If clsCommon.myLen(grow.Cells("Vlc Uploder Code").Value) <= 0 Then
                                 Throw New Exception("Vlc Uploder Code cannot be blank at line no " + clsCommon.myCstr(count) + " ")
-                            ElseIf clsCommon.myLen(grow.Cells("Deduction Code").Value) <= 0 Then
-                                Throw New Exception("Deduction Code cannot be blank at line no " + clsCommon.myCstr(count) + "")
+                                'ElseIf clsCommon.myLen(grow.Cells("Deduction Code").Value) <= 0 Then
+                                'ElseIf clsCommon.myLen(grow.Cells("Vendor Name").Value) <= 0 Then
+                                'Throw New Exception("Vendor Name cannot be blank at line no " + clsCommon.myCstr(count) + "")
                             ElseIf clsCommon.myCdbl(grow.Cells("Amount").Value) <= 0 Then
-                                Throw New Exception("Deduction Code cannot be blank at line no " + clsCommon.myCstr(count) + "")
+                                Throw New Exception("Amount cannot be blank at line no " + clsCommon.myCstr(count) + "")
                             End If
                             objTr.VLCUploderCode = clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)
                             qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VENDOR_MASTER.Vendor_Name 
-from TSPL_VLC_MASTER_HEAD 
-inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + objTr.VLCUploderCode + "'"
+                                    from TSPL_VLC_MASTER_HEAD 
+                                    inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + objTr.VLCUploderCode + "'"
                             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
                             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
                                 Throw New Exception("Invalid Vlc Uploder Code at line no " + clsCommon.myCstr(count) + "")
@@ -676,7 +681,8 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
                         Catch ex As Exception
                             Dim dr As DataRow = dtError.NewRow()
                             dr("Vlc Uploder Code") = clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)
-                            dr("Deduction Code") = clsCommon.myCstr(grow.Cells("Deduction Code").Value)
+                            'dr("Deduction Code") = clsCommon.myCstr(grow.Cells("Deduction Code").Value)
+                            dr("Vendor Name") = clsCommon.myCstr(grow.Cells("Vendor Name").Value)
                             dr("Amount") = clsCommon.myCstr(grow.Cells("Amount").Value)
                             dr("Error") = "Error At Row No [" + clsCommon.myCstr(count) + "] " + ex.Message
                             dtError.Rows.Add(dr)
@@ -693,7 +699,7 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
                     If dtError.Rows.Count > 0 Then
                         Dim ff As New FrmFreeGrid
                         ff.ReportID = "MULPROD"
-                        ff.Text = "Multiple Deduction Fill Errors"
+                        ff.Text = "Transfer To Saving Fill Errors"
                         ff.dt = dtError
                         ff.ShowDialog()
                     ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
