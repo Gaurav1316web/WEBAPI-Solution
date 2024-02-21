@@ -7473,9 +7473,12 @@ Public Class frmPurchaseOrder
         Dim qry As String = ""
         Dim whrCls As String = ""
         whrCls = " TSPL_VENDOR_MASTER.Status='N' and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
+        If objCommonVar.RCDFCFP = True Then
+            whrCls += " and TSPL_VENDOR_MASTER.in_active_cf IS NULL OR TSPL_VENDOR_MASTER.in_active_cf = 'N'"
+        End If
         ''richa agarwal 24/12/2014
         If chkIsMerchantTrade.Checked Then
-            whrCls += "  and  TSPL_VENDOR_MASTER.CURRENCY_CODE<>(select isnull(BaseCurrencyCode,'')  from TSPL_COMPANY_MASTER where Comp_Code ='" & objCommonVar.CurrentCompanyCode & "' )"
+            whrCls += "  And  TSPL_VENDOR_MASTER.CURRENCY_CODE<>(Select isnull(BaseCurrencyCode,'')  from TSPL_COMPANY_MASTER where Comp_Code ='" & objCommonVar.CurrentCompanyCode & "' )"
         End If
         ''-------------------------
         '' Anubhooti 12-Mar-2015 (Fetch Alies Name On Vendor Finder)

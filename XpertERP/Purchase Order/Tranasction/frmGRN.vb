@@ -5102,6 +5102,9 @@ Public Class frmGRN
         Else
             whrCls = " tspl_vendor_master.Status='N'  and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
         End If
+        If objCommonVar.RCDFCFP = True Then
+            whrCls += " and TSPL_VENDOR_MASTER.in_active_cf IS NULL OR TSPL_VENDOR_MASTER.in_active_cf = 'N'"
+        End If
         Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],Terms_Code as [Term Code] ,Terms_Code_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description] from TSPL_VENDOR_MASTER"
         txtVendorNo.Value = clsCommon.ShowSelectForm("POVendorrFNDD", qry, "Code", whrCls, txtVendorNo.Value, "Code", isButtonClicked)
         ''lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'"))
