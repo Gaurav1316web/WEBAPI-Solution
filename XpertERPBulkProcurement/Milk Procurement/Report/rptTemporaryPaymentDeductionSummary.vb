@@ -869,7 +869,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                 doc.Margins.Left = 50
                 doc.Margins.Right = 50
                 doc.HeaderHeight = 90
-                doc.Landscape = True
+                doc.Landscape = False
                 doc.AssociatedObject = Gv1
 
                 'doc.DocumentName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptTemporaryPaymentDeductionSummary & "'"))
