@@ -361,6 +361,7 @@ Public Class FrmMPMaster
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        RadMenu1.Visible = MyBase.isExport
     End Sub
     Function allowToSave() As Boolean
         Try
@@ -2708,4 +2709,6 @@ Public Class FrmMPMaster
             e.Handled = True
         End If
     End Sub
+
+
 End Class

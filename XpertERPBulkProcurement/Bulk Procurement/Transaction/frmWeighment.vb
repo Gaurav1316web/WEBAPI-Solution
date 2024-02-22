@@ -221,6 +221,7 @@ Public Class FrmWeighment
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnPost.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else

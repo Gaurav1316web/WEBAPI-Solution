@@ -1309,6 +1309,7 @@ Public Class clsFixedParameterType
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
     Public Const EnableLocation = "EnableLocation"
+    Public Const EnableResetDemand = "EnableResetDemand"
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "VSP Milk Not Sold"
@@ -2755,6 +2756,7 @@ Public Class clsFixedParameterCode
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
     Public Const EnableLocation = "EnableLocation"
+    Public Const EnableResetDemand = "EnableResetDemand"
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "Pick All BMC"
@@ -4473,6 +4475,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EnableResetDemand, clsFixedParameterCode.EnableResetDemand, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, "0", "0:Off, 1:On;")
@@ -6508,6 +6511,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRouteMasterDS, clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.EnableResetDemand, clsFixedParameterCode.EnableResetDemand, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, EnumControlType.CheckBox)
 
