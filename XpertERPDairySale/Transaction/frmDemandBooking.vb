@@ -3581,6 +3581,8 @@ where
                 If clsCommon.myLen(txtCustomerNo.Value) > 0 Then
                     qry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + txtCustomerNo.Value + "'"
                 End If
+            Else
+                qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0"
             End If
             qry += "  union all
   select 
