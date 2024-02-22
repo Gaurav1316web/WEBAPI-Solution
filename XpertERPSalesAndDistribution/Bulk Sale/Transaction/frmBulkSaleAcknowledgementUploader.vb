@@ -43,10 +43,27 @@ Public Class frmBulkSaleAcknowledgementUploader
     Public ChkBoxColumn As GridViewCheckBoxColumn = Nothing
     Dim arrBulkProParameter As New Dictionary(Of String, clsfrmParameterMaster)
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
+    End Sub
     Private Sub frmBulkSaleAcknowledgementUploader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Reset()
         btnSave.Enabled = True
         btnValidate.Enabled = True
+        SetUserMgmtNew()
     End Sub
     Private Sub txtCustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCustomer._MYValidating
         Dim qry As String = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name from TSPL_CUSTOMER_MASTER"
