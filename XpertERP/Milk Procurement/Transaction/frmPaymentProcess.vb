@@ -3551,6 +3551,11 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnProcess.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnExport.Visible = MyBase.isExport
+        RadMenu1.Visible = MyBase.isExport
+
     End Sub
 
     Function AllowToSave() As Boolean

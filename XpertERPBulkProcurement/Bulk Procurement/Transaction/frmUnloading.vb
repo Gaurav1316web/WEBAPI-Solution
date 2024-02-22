@@ -710,6 +710,7 @@ Public Class FrmUnloading
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
     End Sub
     Sub LoadGateEntryData(ByVal strGateEntryNo As String)
         Dim strUnNo As String = clsDBFuncationality.getSingleValue("select unloading_No from TSPL_MILK_UNLOADING where gate_entry_no='" & strGateEntryNo & "'")

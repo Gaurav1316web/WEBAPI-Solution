@@ -37,6 +37,7 @@ Public Class FrmDBTPayment
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
+        btnGenerateBill.Visible = MyBase.isPostFlag
     End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click

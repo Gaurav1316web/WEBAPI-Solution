@@ -349,6 +349,7 @@ Public Class frmShipmentDairy
             Export_Head.Enabled = False
         End If
         btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         btnPrintsvl.Visible = MyBase.isPrintFlag
