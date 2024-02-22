@@ -64,6 +64,8 @@ Public Class frmMilkCollectionMCC
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnBlankSheetUploder.Visible = MyBase.isExport
+        btnBlankSheetImportUploder.Visible = MyBase.isExport
+
         btnPost.Visible = MyBase.isPostFlag
         If btnSave.Visible = True Then
             btnBlankSheetImportUploder.Enabled = True
