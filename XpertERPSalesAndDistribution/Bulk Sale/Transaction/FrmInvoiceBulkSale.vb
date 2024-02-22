@@ -175,6 +175,12 @@ Public Class FrmInvoiceBulkSale
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        RadMenu1.Visible = MyBase.isExport
+        If MyBase.isReverse Then
+            btnDeleteInvoiceafterPost.Enabled = True
+        Else
+            btnDeleteInvoiceafterPost.Enabled = False
+        End If
     End Sub
 
     Private Sub btnclose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnclose.Click

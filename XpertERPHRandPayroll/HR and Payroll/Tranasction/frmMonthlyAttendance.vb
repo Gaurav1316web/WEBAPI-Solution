@@ -313,6 +313,11 @@ Public Class frmMonthlyAttendance
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
     End Sub
 
     Private Sub ShowLeaveCode()

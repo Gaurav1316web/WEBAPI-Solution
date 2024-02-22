@@ -310,6 +310,7 @@ Public Class frmPayHeadDefinitions
         btndelete.Visible = MyBase.isDeleteFlag
         '' Anubhooti 24-July-2014 BM00000003183
         RadMenuItem3.Enabled = MyBase.isModifyFlag
+        RadMenu2.Visible = MyBase.isExport
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnnew.Click

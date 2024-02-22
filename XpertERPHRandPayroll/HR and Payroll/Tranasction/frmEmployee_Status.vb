@@ -297,6 +297,7 @@ Public Class frmEmployee_Status
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadMenu2.Visible = MyBase.isExport
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click

@@ -141,6 +141,7 @@ Public Class frmAdjustmentVoucher
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadMenu2.Visible = MyBase.isExport
     End Sub
 
 

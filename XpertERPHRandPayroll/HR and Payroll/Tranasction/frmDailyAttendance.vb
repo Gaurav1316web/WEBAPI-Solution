@@ -133,6 +133,7 @@ Public Class frmDailyAttendance
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadMenu2.Visible = MyBase.isExport
     End Sub
 
     Private Sub txtCode__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
