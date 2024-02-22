@@ -328,6 +328,8 @@ Public Class frmPurchaseInvoice
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnprintjvl.Visible = MyBase.isPrintFlag
+        btnPrintInv.Visible = MyBase.isPrintFlag
+
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else

@@ -25,7 +25,13 @@ Public Class frmDemand_Sheet
             Exit Sub
         End If
         btnSave.Visible = MyBase.isModifyFlag
+        btnExport.Visible = MyBase.isExport
         'btnPost.Visible = MyBase.isPostFlag
+        'If btnSave.Visible = True Then
+        '    btnExport.Enabled = True
+        'Else
+        '    btnExport.Enabled = False
+        'End If
         'If MyBase.isReverse Then
         '    btnreverse.Enabled = True
         'Else

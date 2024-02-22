@@ -21,7 +21,19 @@ Public Class frmDistributorRouteTagging
     Dim AllowFinishGoodAsBatchItem As Boolean = False
     Const colCode As String = "colCode"
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnsave.Visible = MyBase.isModifyFlag
+        btnpost.Visible = MyBase.isPostFlag
+        btndelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnImport.Visible = MyBase.isExport
+    End Sub
     Private Sub frmDistributeRateTagging_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
         LoadBlankGrid()
         UsLock1.Status = ERPTransactionStatus.Pending
         txtStartDate.Value = clsCommon.GETSERVERDATE()
