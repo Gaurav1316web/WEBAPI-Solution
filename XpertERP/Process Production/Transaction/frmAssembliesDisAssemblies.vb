@@ -60,23 +60,23 @@ Public Class frmAssembDis
             btnPost.Visible = MyBase.isPostFlag
             btndelete.Visible = MyBase.isDeleteFlag
             btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        RadMenu1.Visible = MyBase.isExport
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmAssemblies)
+        'If Not (MyBase.isReadFlag) Then
+        '    Throw New Exception("Permission Denied")
 
-            'MyBase.SetUserMgmt(clsUserMgtCode.frmAssemblies)
-            'If Not (MyBase.isReadFlag) Then
-            '    Throw New Exception("Permission Denied")
-
-            'End If
-            'btnsave.Visible = MyBase.isModifyFlag
-            'btnPost.Visible = MyBase.isPostFlag
-            'btndelete.Visible = MyBase.isDeleteFlag
-            'btnPrint.Visible = MyBase.isPrintFlag
-            'If btnsave.Visible = True Then
-            '    RadMenuItem1.Enabled = True
-            '    RadMenuItem2.Enabled = True
-            'Else
-            '    RadMenuItem1.Enabled = False
-            '    RadMenuItem2.Enabled = False
-            'End If
+        'End If
+        'btnsave.Visible = MyBase.isModifyFlag
+        'btnPost.Visible = MyBase.isPostFlag
+        'btndelete.Visible = MyBase.isDeleteFlag
+        'btnPrint.Visible = MyBase.isPrintFlag
+        'If btnsave.Visible = True Then
+        '    RadMenuItem1.Enabled = True
+        '    RadMenuItem2.Enabled = True
+        'Else
+        '    RadMenuItem1.Enabled = False
+        '    RadMenuItem2.Enabled = False
+        'End If
     End Sub
     ' Ticket No : ERO/09/10/19-001043 Main item qty allow to decimal point 
     Function fillgridcombobox() As DataTable

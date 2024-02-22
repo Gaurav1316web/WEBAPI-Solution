@@ -55,14 +55,14 @@ Public Class FrmPendingRequistion
         If clsCommon.myLen(VendorName) > 0 Then
             Me.Text = Me.Text + " For " + VendorName
         End If
-        Dim qry As String = " select CAST(0 as bit) as Sel,code,ICode,max(IName) as IName" + Environment.NewLine & _
-                ",max(Unit)as Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName" + Environment.NewLine & _
-                ",SUM(Qty* case when RI=1 then 1 else 0 end) as RequitionQty" + Environment.NewLine & _
-                ",SUM(Qty* case when RI=-1 then 1 else 0 end) as POQty" + Environment.NewLine & _
-                ",SUM(Unapproved) as UnapprovedQty" + Environment.NewLine & _
-                ",sum(POCloseQty) as POCloseQty" + Environment.NewLine + _
-                ",SUM((Qty *RI)- Unapproved + POCloseQty) as PedningQty ,MAX(Rate) as Rate,max(TransDate) as TransDate,max(final.Vendor) as Vendor,MAX(TSPL_VENDOR_MASTER.Vendor_Name) as VendorName,MAX(Specification) as Specification,MAX(Remarks) as Remarks,max(Capacity) as Capacity,max(Make) as Make,max(Model) as Model  " + Environment.NewLine & _
-                " from (" + Environment.NewLine & _
+        Dim qry As String = " select CAST(0 as bit) as Sel,code,ICode,max(IName) as IName" + Environment.NewLine &
+                ",max(Unit)as Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName" + Environment.NewLine &
+                ",SUM(Qty* case when RI=1 then 1 else 0 end) as RequitionQty" + Environment.NewLine &
+                ",SUM(Qty* case when RI=-1 then 1 else 0 end) as POQty" + Environment.NewLine &
+                ",SUM(Unapproved) as UnapprovedQty" + Environment.NewLine &
+                ",sum(POCloseQty) as POCloseQty" + Environment.NewLine +
+                ",SUM((Qty *RI)- Unapproved + POCloseQty) as PedningQty ,MAX(Rate) as Rate,max(TransDate) as TransDate,max(final.Vendor) as Vendor,MAX(TSPL_VENDOR_MASTER.Vendor_Name) as VendorName,MAX(Specification) as Specification,MAX(final.Remarks) as Remarks,max(Capacity) as Capacity,max(Make) as Make,max(Model) as Model  " + Environment.NewLine &
+                " from (" + Environment.NewLine &
                 " select TSPL_REQUISITION_DETAIL.Requisition_Id as Code,TSPL_REQUISITION_DETAIL.Vendor_Code as Vendor,TSPL_REQUISITION_DETAIL.Item_Code as ICode,TSPL_REQUISITION_DETAIL.Item_Desc as IName,TSPL_REQUISITION_DETAIL.Requisition_Qty as Qty,0 as Unapproved,TSPL_REQUISITION_DETAIL.Unit_Code as Unit,TSPL_REQUISITION_DETAIL.Location as Location,1 as RI,TSPL_REQUISITION_DETAIL.Item_Cost as Rate,1 as Chk,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as TransDate,TSPL_REQUISITION_DETAIL.Specification,TSPL_REQUISITION_DETAIL.Remarks,TSPL_REQUISITION_DETAIL.Capacity,TSPL_REQUISITION_DETAIL.Make,TSPL_REQUISITION_DETAIL.Model,0 as POCloseQty from TSPL_REQUISITION_DETAIL left outer join TSPL_REQUISITION_HEAD on TSPL_REQUISITION_HEAD.Requisition_Id=TSPL_REQUISITION_DETAIL.Requisition_Id where TSPL_REQUISITION_DETAIL.Status='N' and TSPL_REQUISITION_HEAD.Status=1 and TSPL_REQUISITION_HEAD.Is_internal='N' and TSPL_REQUISITION_HEAD.close_yn='N' "
         If clsCommon.myLen(VendorCode) > 0 Then
             qry += " and (len(ISNULL(TSPL_REQUISITION_DETAIL.Vendor_Code,''))=0 or TSPL_REQUISITION_DETAIL.Vendor_Code='" + VendorCode + "')" + Environment.NewLine

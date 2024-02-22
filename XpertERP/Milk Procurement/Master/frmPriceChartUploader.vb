@@ -68,6 +68,7 @@ Public Class FrmPriceChartUploader
             Exit Sub
         End If
         BtnPost.Visible = MyBase.isPostFlag
+        btnexcel.Visible = MyBase.isExport
     End Sub
 
     Private Sub FrmPriceChartUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

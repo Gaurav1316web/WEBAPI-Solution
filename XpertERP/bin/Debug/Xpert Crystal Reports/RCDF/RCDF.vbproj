@@ -340,6 +340,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceTNK.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer_Challan.rpt" />
@@ -1350,6 +1351,7 @@
     <None Include="Crystal Reports\Milk Procurement\MCCShiftReport%28RouteWise%29.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MCCShiftReport%28RouteWise%29RateAndAmount.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MilkRGPChallan.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\Milkshiftprintsec.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPIncentiveEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPIncentiveEntryMCCWise.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPNEFTUploaderBank.rpt" />

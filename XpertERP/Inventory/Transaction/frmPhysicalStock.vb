@@ -172,6 +172,20 @@ Public Class FrmPhysicalStock
         btnsave.Visible = MyBase.isModifyFlag
         btnpost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnimport.Visible = MyBase.isExport
+        btnexport.Visible = MyBase.isExport
+        If btnsave.Visible = True Then
+            btnimport.Enabled = True
+            btnexport.Enabled = True
+        Else
+            btnimport.Enabled = False
+            btnexport.Enabled = False
+        End If
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
     End Sub
 
     Sub LoadBlankGrid()

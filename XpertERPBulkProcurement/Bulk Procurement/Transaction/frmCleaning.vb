@@ -416,6 +416,7 @@ Public Class FrmCleaning
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnPost.Visible = MyBase.isPostFlag
     End Sub
     Sub LoadGateEntryData(ByVal strGateEntryNo As String)
         Dim strDocNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_Cleaning where gate_entry_no='" & strGateEntryNo & "'")

@@ -75,6 +75,8 @@ Public Class frmPriceMasterPlan
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadMenu1.Visible = MyBase.isExport
+        RadMenuItem1.Enabled = MyBase.isModifyFlag
     End Sub
 
     Sub Reset()

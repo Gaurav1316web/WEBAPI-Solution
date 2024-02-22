@@ -41,6 +41,16 @@ Public Class frmGazeReading
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        If btnsave.Visible = True Then
+            btnExport.Enabled = True
+            btnImport.Enabled = True
+        Else
+            btnExport.Enabled = False
+            btnImport.Enabled = False
+        End If
+        btnExport.Visible = MyBase.isExport
+        btnImport.Visible = MyBase.isExport
+
     End Sub
     Sub Reset()
         txtCode.Value = ""

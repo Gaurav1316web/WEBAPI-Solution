@@ -287,6 +287,7 @@ Public Class frmMapPayHeadsToSalaStructure
         btnsave.Visible = MyBase.isModifyFlag
         'btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadMenu1.Visible = MyBase.isExport
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnnew.Click

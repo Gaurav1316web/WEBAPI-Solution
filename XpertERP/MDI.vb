@@ -2893,6 +2893,7 @@ Public Class MDI
     End Sub
     Public Sub ShowForm(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal isOpenInMDI As Boolean, ByVal strDocNo As String, Optional ByVal IFTrueShowFormElseShowDialog As Boolean = True, Optional ByVal IsAllowModificationByApprovalUser As Boolean = False)
         GC.Collect()
+        Dim strProgramCodeToOpen As String = strProgramCode
         If Not strProgramCode Is Nothing Then
             If setCountertoblockforOpenForm(strProgramCode) = True Then
                 If IsOriginalName = True Then
@@ -2931,10 +2932,10 @@ Public Class MDI
                     End If
 
                     If clsCommon.myLen(dt.Rows(0)("Program_Code_Original")) > 0 Then
-                        strProgramCode = clsCommon.myCstr(dt.Rows(0)("Program_Code_Original"))
+                        strProgramCodeToOpen = clsCommon.myCstr(dt.Rows(0)("Program_Code_Original"))
                     End If
                 End If
-                Select Case strProgramCode
+                Select Case strProgramCodeToOpen
 
                     Case clsUserMgtCode.FrmCompanyMaster
                         frm = New FrmCompanyMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
@@ -8229,6 +8230,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmPaymentProcess
                         frm = New FrmPaymentProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBankAdvise
+                        frm = New frmBankAdvise
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmTDSReport
                         frm = New frmTDSReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9274,6 +9278,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.RCDFDashboard
                         frm = New RCDFDashboard
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.Complainfeedback
+                        frm = New RptComplainfeedback
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DashboardMilkUnion
                         frm = New DashboardMilkUnion

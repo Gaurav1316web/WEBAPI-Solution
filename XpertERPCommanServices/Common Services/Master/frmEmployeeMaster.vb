@@ -70,6 +70,7 @@ Public Class frmEmployeeMaster
         '--------------------------------------------------
         'btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadMenu1.Visible = MyBase.isExport
     End Sub
 
     Private Sub frmEmployeeMaster_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
