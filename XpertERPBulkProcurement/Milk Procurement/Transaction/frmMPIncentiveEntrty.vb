@@ -420,6 +420,7 @@ Public Class frmMPIncentiveEntrty
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
+        RadMenu1.Visible = MyBase.isExport
     End Sub
     Sub Reset()
         loadBlankGrid()

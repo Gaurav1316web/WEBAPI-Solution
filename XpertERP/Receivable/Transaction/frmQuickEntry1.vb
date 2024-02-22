@@ -290,6 +290,7 @@ Public Class FrmQuickEntry1
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If btnSave.Visible = True Then
             rmiExport.Enabled = True
             rmiImport.Enabled = True

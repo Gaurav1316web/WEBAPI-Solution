@@ -1384,6 +1384,12 @@ Public Class frmStanderdProductionEntry
 
                     End If
                 Next
+                If obj.ArrBatchItem Is Nothing OrElse obj.ArrBatchItem.Count <= 0 Then
+                    Throw New Exception("No Production item found")
+                End If
+                If obj.ArrBatchItem.Count > 1 Then
+                    Throw New Exception("You can produce only one item Production")
+                End If
                 Dim obj2 As New clsStanderdProductionEntryConsumption
                 For Each grow As GridViewRowInfo In gvConsumption.Rows
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colItemCode).Value)) > 0 Then

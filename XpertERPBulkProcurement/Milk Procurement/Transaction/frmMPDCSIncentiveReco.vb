@@ -816,6 +816,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
+        RadMenu1.Visible = MyBase.isExport
     End Sub
     Sub Reset()
         loadBlankGrid()
