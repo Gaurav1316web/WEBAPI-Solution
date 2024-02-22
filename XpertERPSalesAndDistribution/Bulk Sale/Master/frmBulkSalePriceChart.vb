@@ -41,6 +41,7 @@ Public Class FrmBulkSalePriceChart
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If btnsave.Visible = True Then
             RmExport.Enabled = True
             RmImport.Enabled = True

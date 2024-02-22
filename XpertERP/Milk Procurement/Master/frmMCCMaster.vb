@@ -512,6 +512,8 @@ Public Class FrmMCCMaster
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        RadMenu1.Visible = MyBase.isExport
+
     End Sub
     Function allowToSave() As Boolean
         Try

@@ -316,6 +316,9 @@ Public Class FrmPaymentNew
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        btnprint.Visible = MyBase.isPrintFlag
+        RadMenu1.Visible = MyBase.isExport
+
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else

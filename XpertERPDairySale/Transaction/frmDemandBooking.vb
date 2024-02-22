@@ -2,12 +2,15 @@
 Imports System.Data.SqlClient
 Imports System.IO
 Imports common
+Imports XpertERPEngine
+
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim gvFullMode As Boolean = False
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
+    Dim EnableResetDemand As Boolean = False
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
     Dim SingleUserParticularDairyBookingEdit As Boolean = False
@@ -74,6 +77,7 @@ Public Class frmDemandBooking
             gv1.EnterKeyMode = RadGridViewEnterKeyMode.EnterMovesToNextRow
             blnPageLoad = True
             EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+            EnableResetDemand = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableResetDemand, clsFixedParameterCode.EnableResetDemand, Nothing)) = 1, True, False)
             SettSeprateDemandForMorningEveningShift = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, Nothing)) = 1)
             ChangeVehicleOnDairySaleBooking = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeVehicleOnDairySaleBooking, clsFixedParameterCode.ChangeVehicleOnDairySaleBooking, Nothing)) = 0, False, True)
             ShowItemLocationWiseonBooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemLocationWiseonDairyBooking, clsFixedParameterCode.ShowItemLocationWiseonDairyBooking, Nothing))
@@ -173,6 +177,9 @@ Public Class frmDemandBooking
         btnSave.Visible = MyBase.isModifyFlag
         'btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        RadMenu1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnreverse.Enabled = True
         Else
@@ -205,11 +212,17 @@ Public Class frmDemandBooking
         Dim TAX_PAID As New GridViewComboBoxColumn
         Dim BOOK_RATE_UOM As New GridViewTextBoxColumn
         Dim RepobtnCol As GridViewCommandColumn = New GridViewCommandColumn()
-        RepobtnCol.HeaderText = "Details "
+        RepobtnCol.HeaderText = "Action "
         RepobtnCol.Name = colbtncol
         RepobtnCol.ReadOnly = False
         RepobtnCol.Width = 150
         RepobtnCol.DefaultText = "Reset ..."
+        If EnableResetDemand Then
+            RepobtnCol.IsVisible = True
+        Else
+            RepobtnCol.IsVisible = False
+        End If
+
         RepobtnCol.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(RepobtnCol)
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -946,8 +959,10 @@ Public Class frmDemandBooking
                 If IsRepeatOrder = 1 Then
                     Dim isSave As Boolean = False
                     If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
-                        isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code, obj.ShiftType, isNewEntry)
-                        If isSave Then
+
+                        'isSave = obj.SaveData(obj, False)
+                        'isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code, obj.ShiftType, isNewEntry)
+                        If (obj.SaveData(obj, False)) = True Then
                             clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(obj.ShiftType) + " Demand Data Saved Successfully", Me.Text)
                         Else
                             clsCommon.MyMessageBoxShow(Me, "Somthing Went Worng", Me.Text)
@@ -1446,37 +1461,40 @@ Public Class frmDemandBooking
     End Sub
     Private Sub SetRouteColumns()
         Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "' ")
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
-                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
-                    If obj1 IsNot Nothing Then
-                        If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
-                            If clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 0 Then
-                                gv1.Columns(dblcolumns).IsVisible = True
-                                dblcolumns += 1
-                                gv1.Columns(dblcolumns).IsVisible = False
-                                dblcolumns += 1
-                                gv1.Columns(dblcolumns).IsVisible = True
-                            ElseIf clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 1 Then
-                                gv1.Columns(dblcolumns).IsVisible = True
-                                gv1.Columns(dblcolumns).Width = 100
-                                dblcolumns += 1
-                                gv1.Columns(dblcolumns).IsVisible = False
-                                dblcolumns += 1
-                                gv1.Columns(dblcolumns).IsVisible = False
-                            ElseIf clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 2 Then
-                                gv1.Columns(dblcolumns).IsVisible = False
-                                dblcolumns += 1
-                                gv1.Columns(dblcolumns).IsVisible = True
-                                gv1.Columns(dblcolumns).Width = 100
-                                dblcolumns += 1
-                                gv1.Columns(dblcolumns).IsVisible = False
+            If rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "' ")
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
+                        Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
+                        If obj1 IsNot Nothing Then
+                            If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
+                                If clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 0 Then
+                                    gv1.Columns(dblcolumns).IsVisible = True
+                                    dblcolumns += 1
+                                    gv1.Columns(dblcolumns).IsVisible = False
+                                    dblcolumns += 1
+                                    gv1.Columns(dblcolumns).IsVisible = True
+                                ElseIf clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 1 Then
+                                    gv1.Columns(dblcolumns).IsVisible = True
+                                    gv1.Columns(dblcolumns).Width = 100
+                                    dblcolumns += 1
+                                    gv1.Columns(dblcolumns).IsVisible = False
+                                    dblcolumns += 1
+                                    gv1.Columns(dblcolumns).IsVisible = False
+                                ElseIf clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 2 Then
+                                    gv1.Columns(dblcolumns).IsVisible = False
+                                    dblcolumns += 1
+                                    gv1.Columns(dblcolumns).IsVisible = True
+                                    gv1.Columns(dblcolumns).Width = 100
+                                    dblcolumns += 1
+                                    gv1.Columns(dblcolumns).IsVisible = False
+                                End If
                             End If
                         End If
-                    End If
-                Next
+                    Next
+                End If
             End If
+
         Catch ex As Exception
         End Try
     End Sub
@@ -1724,6 +1742,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     End If
                 End If
             Next
+            Dim k As Integer = 1
             For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 If obj1 IsNot Nothing Then
@@ -1752,7 +1771,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 gv1.Columns(colCrate).IsVisible = False
                                 gv1.Columns(colLitre).IsVisible = False
                             End If
-                        Else
+                        ElseIf rdbnFreshAmbientBoth.IsChecked Then
+
                             gv1.Columns(dblcolumns).IsVisible = True
                             gv1.Columns(colPAmt).IsVisible = True
                             gv1.Columns(colPCount).IsVisible = True
@@ -1762,6 +1782,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                         End If
                     End If
                 End If
+                k = k + 1
             Next
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 GatePass_TruckSheet_Button()
@@ -2252,12 +2273,12 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         Dim IsPost As Boolean = False
         Try
             'Dim custCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where route_no='" + txtRouteNo.Value + "' and IsDistributor='Y'"))
-            Dim StrQry As String = "select  x.Cust_Code 
+            Dim StrQry As String = "select  top 1 x.Cust_Code 
 from(
-select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,count(distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No) as NoOfRoute,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
+select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
 from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
-where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code =TSPL_DISTRIBUTOR_ROUTE.Code) and TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='509'
+where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "'
  Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
 ) X"
             Dim custCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(StrQry))
@@ -3399,8 +3420,9 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
                 Dim strCustomerCode As String = ""
                 ' Dim strCustomer = clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value)
                 Dim strCustomer = clsCommon.myCstr(gv1.Rows(jj).Cells(colCustName).Value).ToLower()
+                Dim strCustCode = clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value).ToLower()
                 gv1.ClearSelection()
-                If strCustomer.Contains(txtcustomersearch.Text.ToLower()) Then
+                If strCustomer.Contains(txtcustomersearch.Text.ToLower()) OrElse strCustCode.Contains(txtcustomersearch.Text.ToLower()) Then
                     gv1.Rows(jj).Cells(colCustCode).IsSelected = True
                     gv1.Rows(jj).IsCurrent = True
                     gv1.Columns(colCustCode).IsCurrent = True

@@ -1919,6 +1919,8 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
 
             Qry = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_reverse=1 where document_code='" + strCode + "' and trans_code='" + clsCommon.myCstr(clsUserMgtCode.frmSNShipment) + "' and is_reverse=0"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            Qry = " update TSPL_SD_SHIPMENT_HEAD set is_create_auto_invoice=0 where Document_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
             trans.Commit()
         Catch ex As Exception

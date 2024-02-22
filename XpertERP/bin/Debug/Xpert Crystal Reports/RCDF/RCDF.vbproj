@@ -1324,6 +1324,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewRJS.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewSKR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewTNK.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessUDP.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMobileAppMilkCollectionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMPWiseMilkCollectionAtPoolingPoint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMultpleDeductionNewGNG.rpt" />
@@ -1349,6 +1350,7 @@
     <None Include="Crystal Reports\Milk Procurement\MCCShiftReport%28RouteWise%29.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MCCShiftReport%28RouteWise%29RateAndAmount.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MilkRGPChallan.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\Milkshiftprintsec.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPIncentiveEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPIncentiveEntryMCCWise.rpt" />
     <None Include="Crystal Reports\Milk Procurement\MPNEFTUploaderBank.rpt" />

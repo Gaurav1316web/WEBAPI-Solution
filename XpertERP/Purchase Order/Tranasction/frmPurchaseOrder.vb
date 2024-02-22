@@ -560,53 +560,17 @@ Public Class frmPurchaseOrder
         If clsCommon.CompairString(objCommonVar.CurrentIndustryType, "D") <> CompairStringResult.Equal Then
             chkBlanket.Visible = False
         End If
-        If clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing) = "1" Then
-            Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject FROM TSPL_PURCHASE_ORDER_HEAD ORDER BY PurchaseOrder_Date DESC"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt.Rows.Count > 0 Then
-                txtComment.Text = clsCommon.myCstr(dt.Rows(i)("Comments"))
-                txtCmt1.Text = clsCommon.myCstr(dt.Rows(i)("Comment1"))
-                txtCmt2.Text = clsCommon.myCstr(dt.Rows(i)("Comment2"))
-                txtCmt3.Text = clsCommon.myCstr(dt.Rows(i)("Comment3"))
-                txtCmt4.Text = clsCommon.myCstr(dt.Rows(i)("Comment4"))
-                txtCmt5.Text = clsCommon.myCstr(dt.Rows(i)("Comment5"))
-                txtCmt6.Text = clsCommon.myCstr(dt.Rows(i)("Comment6"))
-                txtCmt7.Text = clsCommon.myCstr(dt.Rows(i)("Comment7"))
-                txtCmt8.Text = clsCommon.myCstr(dt.Rows(i)("Comment8"))
-                txtCmt9.Text = clsCommon.myCstr(dt.Rows(i)("Comment9"))
-                txtCmt10.Text = clsCommon.myCstr(dt.Rows(i)("Comment10"))
-                txtCmt11.Text = clsCommon.myCstr(dt.Rows(i)("Comment11"))
-                txtCmt12.Text = clsCommon.myCstr(dt.Rows(i)("Comment12"))
-                txtCmt13.Text = clsCommon.myCstr(dt.Rows(i)("Comment13"))
-                'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14"))
-                txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject"))
-                txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject"))
-            End If
-        Else
-            txtFreight.Text = ""
-            txtComment.Text = ""
-            txtCmt1.Text = ""
-            txtCmt2.Text = ""
-            txtCmt3.Text = ""
-            txtCmt4.Text = ""
-            txtCmt5.Text = ""
-            txtCmt6.Text = ""
-            txtCmt7.Text = ""
-            txtCmt8.Text = ""
-            txtCmt9.Text = ""
-            txtCmt10.Text = ""
-            txtCmt11.Text = ""
-            txtCmt12.Text = ""
-            txtCmt13.Text = ""
-            'txtCmt14.Text = ""
-            'RTComment.Text = ""
-            txtSubject.Text = ""
-            txtContentSubject.Text = ""
-            txtPaymentTerm.Text = ""
-            txtInsuranceTerms.Text = ""
-            txtPackingForward.Text = ""
-            txtInsurance.Text = ""
-        End If
+        'If clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing) = "1" Then
+        '    Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject,* FROM TSPL_PURCHASE_ORDER_HEAD ORDER BY PurchaseOrder_Date DESC"
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '    If dt.Rows.Count > 0 Then
+        '        txtComment.Text = clsCommon.myCstr(dt.Rows(i)("Comments")) txtCmt1.Text = clsCommon.myCstr(dt.Rows(i)("Comment1")) txtCmt2.Text = clsCommon.myCstr(dt.Rows(i)("Comment2"))  txtCmt3.Text = clsCommon.myCstr(dt.Rows(i)("Comment3")) txtCmt4.Text = clsCommon.myCstr(dt.Rows(i)("Comment4")) txtCmt5.Text = clsCommon.myCstr(dt.Rows(i)("Comment5")) txtCmt6.Text = clsCommon.myCstr(dt.Rows(i)("Comment6"))  txtCmt7.Text = clsCommon.myCstr(dt.Rows(i)("Comment7")) txtCmt8.Text = clsCommon.myCstr(dt.Rows(i)("Comment8")) txtCmt9.Text = clsCommon.myCstr(dt.Rows(i)("Comment9")) txtCmt10.Text = clsCommon.myCstr(dt.Rows(i)("Comment10")) txtCmt11.Text = clsCommon.myCstr(dt.Rows(i)("Comment11")) txtCmt12.Text = clsCommon.myCstr(dt.Rows(i)("Comment12")) txtCmt13.Text = clsCommon.myCstr(dt.Rows(i)("Comment13"))'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14")) txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject")) txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject")) End If
+        'Else
+        '    txtFreight.Text = "" txtComment.Text = ""  txtCmt1.Text = ""  txtCmt2.Text = ""  txtCmt3.Text = "" txtCmt4.Text = ""  txtCmt5.Text = ""
+        '     txtCmt6.Text = ""  txtCmt7.Text = ""  txtCmt8.Text = ""  txtCmt9.Text = ""  txtCmt10.Text = "" txtCmt11.Text = ""  txtCmt12.Text = ""
+        '   txtCmt13.Text = ""  'txtCmt14.Text = "" 'RTComment.Text = ""  txtSubject.Text = ""  txtContentSubject.Text = ""  txtPaymentTerm.Text = ""
+        '    txtInsuranceTerms.Text = "" txtPackingForward.Text = ""  txtInsurance.Text = ""
+        '   End If
     End Sub
 
     Public Sub SetUserMgmtNew()
@@ -938,7 +902,28 @@ Public Class frmPurchaseOrder
         lblAmtAfterTax.Text = ""
         MyLabel7.Text = ""
         txtKindAttentation.Text = ""
-        If clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing) = "1" Then
+        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing)) = 1 Then
+            Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject,Comment1,Comment2,Comment3,Comment4,Comment5,Comment6,Comment7,Comment8,Comment9,Comment10,Comment11,Comment12,Comment13,Subject,Content_Subject FROM TSPL_PURCHASE_ORDER_HEAD ORDER BY PurchaseOrder_Date DESC"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                txtComment.Text = clsCommon.myCstr(dt.Rows(i)("Comments"))
+                txtCmt1.Text = clsCommon.myCstr(dt.Rows(i)("Comment1"))
+                txtCmt2.Text = clsCommon.myCstr(dt.Rows(i)("Comment2"))
+                txtCmt3.Text = clsCommon.myCstr(dt.Rows(i)("Comment3"))
+                txtCmt4.Text = clsCommon.myCstr(dt.Rows(i)("Comment4"))
+                txtCmt5.Text = clsCommon.myCstr(dt.Rows(i)("Comment5"))
+                txtCmt6.Text = clsCommon.myCstr(dt.Rows(i)("Comment6"))
+                txtCmt7.Text = clsCommon.myCstr(dt.Rows(i)("Comment7"))
+                txtCmt8.Text = clsCommon.myCstr(dt.Rows(i)("Comment8"))
+                txtCmt9.Text = clsCommon.myCstr(dt.Rows(i)("Comment9"))
+                txtCmt10.Text = clsCommon.myCstr(dt.Rows(i)("Comment10"))
+                txtCmt11.Text = clsCommon.myCstr(dt.Rows(i)("Comment11"))
+                txtCmt12.Text = clsCommon.myCstr(dt.Rows(i)("Comment12"))
+                txtCmt13.Text = clsCommon.myCstr(dt.Rows(i)("Comment13"))
+                'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14"))
+                txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject"))
+                txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject"))
+            End If
         Else
             txtFreight.Text = ""
             txtComment.Text = ""
@@ -7488,9 +7473,12 @@ Public Class frmPurchaseOrder
         Dim qry As String = ""
         Dim whrCls As String = ""
         whrCls = " TSPL_VENDOR_MASTER.Status='N' and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
+        If objCommonVar.RCDFCFP = True Then
+            whrCls += " and TSPL_VENDOR_MASTER.in_active_cf IS NULL OR TSPL_VENDOR_MASTER.in_active_cf = 'N'"
+        End If
         ''richa agarwal 24/12/2014
         If chkIsMerchantTrade.Checked Then
-            whrCls += "  and  TSPL_VENDOR_MASTER.CURRENCY_CODE<>(select isnull(BaseCurrencyCode,'')  from TSPL_COMPANY_MASTER where Comp_Code ='" & objCommonVar.CurrentCompanyCode & "' )"
+            whrCls += "  And  TSPL_VENDOR_MASTER.CURRENCY_CODE<>(Select isnull(BaseCurrencyCode,'')  from TSPL_COMPANY_MASTER where Comp_Code ='" & objCommonVar.CurrentCompanyCode & "' )"
         End If
         ''-------------------------
         '' Anubhooti 12-Mar-2015 (Fetch Alies Name On Vendor Finder)
