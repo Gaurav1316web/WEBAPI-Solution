@@ -37,11 +37,11 @@ Public Class frmBulkSaleFreightCalculation
         'coll.Add("Modified_Date", "datetime NOT NULL")
         'coll.Add("Posted_By", "varchar(12) NULL")
         'coll.Add("Posted_Date", "datetime NULL")
-        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_MASTER", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
+        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_HEAD", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
 
         'coll = New Dictionary(Of String, String)()
         'coll.Add("SNo", "integer null")
-        'coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_MASTER(Document_Code)")
+        'coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_CALC_HEAD(Document_Code)")
         'coll.Add("Tender_Qty", "decimal (18,2) NULL")
         'coll.Add("Rate", "decimal(18, 2) NULL")
         'coll.Add("Pro_Rate", "decimal(18, 2) NULL")
@@ -50,7 +50,7 @@ Public Class frmBulkSaleFreightCalculation
         'coll.Add("GPS_KM", "decimal(18,2) NULL")
         'coll.Add("Payable_Amount", "decimal (18,2) NULL")
 
-        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", "Document_Date", True)
+        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", True)
 
         SetUserMgmtNew()
         LoadBlankGrid()
