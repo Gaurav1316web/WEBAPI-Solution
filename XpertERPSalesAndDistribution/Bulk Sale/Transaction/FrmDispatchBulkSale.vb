@@ -193,6 +193,7 @@ Public Class FrmDispatchBulkSale
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        RadMenu1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else

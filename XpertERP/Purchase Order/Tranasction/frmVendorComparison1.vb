@@ -15,6 +15,7 @@ Public Class FrmVendorComparison1
             Throw New Exception("Permission Denied")
         End If
         btnSave.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
     End Sub
 
     Private Sub txtRFQNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRFQNo._MYValidating

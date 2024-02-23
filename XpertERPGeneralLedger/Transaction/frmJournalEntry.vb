@@ -717,6 +717,8 @@ Public Class frmJournalEntry
         btnAuth.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnAuth.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        RadMenu2.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnUnpostTransaction.Enabled = True
         Else

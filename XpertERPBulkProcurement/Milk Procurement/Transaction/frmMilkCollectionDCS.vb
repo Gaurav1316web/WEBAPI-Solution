@@ -60,6 +60,7 @@ Public Class frmMilkCollectionDCS
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnExport.Visible = MyBase.isExport
+        btnImport.Visible = MyBase.isExport
         If btnSave.Visible = True Then
             btnImport.Enabled = True
             btnExport.Enabled = True
@@ -2014,6 +2015,10 @@ where TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK
     Private Sub btnCreateDCS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateDCS.Click
         Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value
         clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSP_VLCMaster, DocNo)
+    End Sub
+
+    Private Sub txtTotPendingFATPer_Click(sender As Object, e As EventArgs) Handles txtTotPendingFATPer.Click
+
     End Sub
     'Private Sub btnViewBalance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewBalance.Click
     '    Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value
