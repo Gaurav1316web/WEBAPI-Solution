@@ -69,7 +69,7 @@ Public Class frmAdjustmentStore
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         RadButton1.Visible = MyBase.isPrintFlag
-
+        RadMenu1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else

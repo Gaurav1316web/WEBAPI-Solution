@@ -40,6 +40,7 @@ Public Class frmReverseTransaction
         btn_save.Visible = MyBase.isModifyFlag
         btn_post.Visible = MyBase.isPostFlag
         btn_delete.Visible = MyBase.isDeleteFlag
+        btnprint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverseTransaction.Enabled = True
         Else

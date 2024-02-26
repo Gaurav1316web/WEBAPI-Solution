@@ -714,7 +714,7 @@ Public Class frmJournalEntry
 
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        btnAuth.Visible = MyBase.isPostFlag
+        ' btnAuth.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnAuth.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
